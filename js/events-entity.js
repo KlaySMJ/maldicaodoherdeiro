@@ -4,18 +4,18 @@
   Jogo.eventos.push(
     {
       id: "a_viuva_do_moleiro", titulo: "A viúva do moleiro", tipo: "encontro", peso: 2,
-      imagem: "assets/eventos-pessoas/viuva-do-moleiro.svg", imagemAlt: "Uma viúva segura um saco de farinha diante de uma roda de moinho parada",
+      imagem: "assets/eventos-pessoas/viuva-do-moleiro.png", imagemAlt: "Uma viúva segura um saco de farinha diante de uma roda de moinho parada",
       texto: "A viúva de um moleiro chega à praça com as contas da última colheita. Diz que os guardas levaram mais sacos do que o combinado; o capitão afirma que ela escondeu parte da farinha.",
       informacoes: "Os dois têm testemunhas. Nenhuma delas parece querer ser a primeira a falar.",
       opcoes: [
         { id: "ouvir_viuva", texto: "Pagar a diferença enquanto as contas são revistas. · 3 gold", requisitos: { goldMin: 3 }, efeitos: { gold: -3, honra: 2, habitantes: 1 }, resultado: "A viúva aceita o pagamento, mas deixa as contas com você. O capitão não agradece; na manhã seguinte, traz os livros que faltavam." },
         { id: "cobrar_capitao", texto: "Exigir que o capitão prove a acusação.", efeitos: { honra: 3, gold: -1 }, resultado: "O capitão encontra recibos incompletos. Um gold cobre o saco ausente; a viúva continua sem confiar nele, mas volta para casa." },
-        { id: "apoiar_guarda", texto: "Manter a palavra dos guardas.", efeitos: { gold: 2, honra: -3, habitantes: -1 }, resultado: "O capitão recebe o saco e a viúva parte com a filha. A farinha fica no celeiro; ninguém na praça chama aquilo de justiça." }
+        { id: "apoiar_guarda", texto: "Manter a palavra dos guardas.", efeitos: { gold: 2, honra: -3, habitantes: -2 }, resultado: "O capitão recebe o saco e a viúva parte com a filha. A farinha fica no celeiro; ninguém na praça chama aquilo de justiça." }
       ]
     },
     {
       id: "mensageiro_sem_carta", titulo: "O mensageiro sem carta", tipo: "encontro", peso: 2,
-      imagem: "assets/eventos-pessoas/mensageiro-sem-carta.svg", imagemAlt: "Um mensageiro cansado estende uma mão vazia junto à estrada",
+      imagem: "assets/eventos-pessoas/mensageiro-sem-carta.png", imagemAlt: "Um mensageiro cansado estende uma mão vazia junto à estrada",
       texto: "Um mensageiro chega a pé, com o cavalo mancando atrás. Afirma que perdeu a carta selada que carregava para o castelo. A estrada está cheia de lama e de versões diferentes.",
       informacoes: "Ele pede descanso antes que alguém descubra o extravio.",
       opcoes: [
@@ -27,95 +27,93 @@
     {
       id: "entidade_x_chegada", titulo: "Uma presença no caminho", tipo: "especial", peso: 0.8, especial: true,
       entidadeXInicio: true, requisitos: { rodadaMin: 8 },
-      imagem: "assets/eventos-entidade/presenca-no-caminho.svg", imagemAlt: "Uma figura alta e sem rosto diante de um caminho estreito",
+      imagem: "assets/eventos-entidade/presenca-no-caminho.png", imagemAlt: "Uma figura alta e sem rosto diante de um caminho estreito",
       texto: "Uma figura espera onde a estrada cruza o bosque. Não há pegadas ao redor dela. Quando você se aproxima, pergunta pelo nome que recebeu ao nascer, embora ninguém na vila o conheça.",
-      informacoes: "A figura promete desafios. A partir desta noite, você a verá de novo, esteja pronto ou não.",
+      informacoes: "A figura promete desafios, mas não diz quando voltará.",
       opcoes: [
         { id: "ouvir_entidade", texto: "Escutar o primeiro desafio.", efeitos: { hp: -2 }, flags: { entidade_x_tier1: true }, resultado: "Ela pede apenas que você se lembre da conversa. Depois desaparece. No caminho de volta, uma segunda silhueta o espera entre as árvores." }
       ]
     },
     {
       id: "entidade_x_espelho", titulo: "O rosto emprestado", tipo: "especial", peso: 1, especial: true, entidadeX: true,
-      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_tier2"] },
-      imagem: "assets/eventos-entidade/rosto-emprestado.svg", imagemAlt: "Um espelho rachado reflete uma figura de rosto vazio",
+      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_espelho_visto"] },
+      imagem: "assets/eventos-entidade/rosto-emprestado.png", imagemAlt: "Um espelho rachado reflete uma figura de rosto vazio",
       texto: "A figura segura um espelho com seu rosto, mas com olhos que não são seus. Pergunta se você reconheceria um herdeiro que tivesse feito todas as escolhas ao contrário.",
       informacoes: "A Entidade observa sua resposta em silêncio.",
       opcoes: [
-        { id: "guardar_espelho", texto: "Quebrar o espelho e guardar um fragmento.", efeitos: { ataque: 1, honra: 1, hp: -3 }, flags: { entidade_x_tier2: true }, resultado: "O vidro corta seu polegar. No reflexo partido, a figura sorri com a sua boca." },
-        { id: "recusar_espelho", texto: "Recusar o desafio e afastar-se.", flags: { entidade_x_tier2: true }, testeSorte: { chance: 78, fatalidadeAleatoria: true,
-          sucesso: { efeitos: { honra: -2, hp: -4 }, flags: { entidade_x_tier2: true }, resultado: "A figura inclina a cabeça, irritada. Você volta à estrada com o ouvido zunindo." },
-          falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier2: true }, resultado: "A figura toca seu reflexo. Seu corpo cai na lama antes que os guardas consigam alcançá-lo." } } }
+        { id: "guardar_espelho", texto: "Virar o espelho para a parede.", efeitos: { ataque: 1, honra: 1, hp: -3 }, flags: { entidade_x_tier2: true, entidade_x_espelho_visto: true }, resultado: "O vidro corta seu polegar. No reflexo partido, a figura sorri com a sua boca." },
+        { id: "recusar_espelho", texto: "Deixar o espelho onde está.", flags: { entidade_x_tier2: true, entidade_x_espelho_visto: true }, testeSorte: { chance: 78, fatalidadeAleatoria: true,
+          sucesso: { efeitos: { honra: -2, hp: -4 }, flags: { entidade_x_tier2: true, entidade_x_espelho_visto: true }, resultado: "A figura inclina a cabeça, irritada. Você volta à estrada com o ouvido zunindo." },
+          falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier2: true, entidade_x_espelho_visto: true }, resultado: "A figura toca seu reflexo. Seu corpo cai na lama antes que os guardas consigam alcançá-lo." } } }
       ]
     },
     {
       id: "entidade_x_balanca", titulo: "A balança sem pratos", tipo: "especial", peso: 1, especial: true, entidadeX: true,
-      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_tier2"] },
-      imagem: "assets/eventos-entidade/balanca-sem-pratos.svg", imagemAlt: "Uma balança antiga sustenta uma mão aberta de cada lado",
+      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_balanca_vista"] },
+      imagem: "assets/eventos-entidade/balanca-sem-pratos.png", imagemAlt: "Uma balança antiga sustenta uma mão aberta de cada lado",
       texto: "A figura oferece uma balança sem pratos. Diz que pode pesar sua promessa ou a fome da vila, mas só uma das duas coisas poderá continuar leve.",
       informacoes: "O desafio não explica o que será cobrado.",
       opcoes: [
-        { id: "pesar_promessa", texto: "Colocar sua promessa na balança.", efeitos: { honra: 2, gold: -2, hp: -2 }, flags: { entidade_x_tier2: true }, resultado: "A balança afunda até a terra. A figura guarda o peso invisível e promete voltar com uma pergunta mais difícil." },
-        { id: "recusar_balanca", texto: "Recusar o desafio e pedir que ela se revele.", flags: { entidade_x_tier2: true }, testeSorte: { chance: 78, fatalidadeAleatoria: true,
-          sucesso: { efeitos: { honra: -2, hp: -4 }, flags: { entidade_x_tier2: true }, resultado: "A Entidade se irrita com sua pergunta. A voz dela acompanha você por todo o caminho de volta." },
-          falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier2: true }, resultado: "A mão da figura fecha-se. Seus homens encontram apenas a capa caída no barro." } } }
+        { id: "pesar_promessa", texto: "Pousar a mão sobre a madeira.", efeitos: { honra: 2, gold: -2, hp: -2 }, flags: { entidade_x_tier2: true, entidade_x_balanca_vista: true }, resultado: "A balança afunda até a terra. A figura guarda o peso invisível e promete voltar com uma pergunta mais difícil." },
+        { id: "recusar_balanca", texto: "Aguardar que o prato se mova.", flags: { entidade_x_tier2: true, entidade_x_balanca_vista: true }, testeSorte: { chance: 78, fatalidadeAleatoria: true,
+          sucesso: { efeitos: { honra: -2, hp: -4 }, flags: { entidade_x_tier2: true, entidade_x_balanca_vista: true }, resultado: "A Entidade se irrita com sua pergunta. A voz dela acompanha você por todo o caminho de volta." },
+          falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier2: true, entidade_x_balanca_vista: true }, resultado: "A mão da figura fecha-se. Seus homens encontram apenas a capa caída no barro." } } }
       ]
     },
     {
       id: "entidade_x_porta", titulo: "A porta que não estava ali", tipo: "especial", peso: 1, especial: true, entidadeX: true,
-      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_tier2"] },
-      imagem: "assets/eventos-entidade/porta-no-bosque.svg", imagemAlt: "Uma porta estreita aparece sozinha entre árvores retorcidas",
+      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_porta_vista"] },
+      imagem: "assets/eventos-entidade/porta-no-bosque.png", imagemAlt: "Uma porta estreita aparece sozinha entre árvores retorcidas",
       texto: "Uma porta surge entre duas árvores. Do outro lado, alguém chama você pelo título de seu predecessor. A Entidade pergunta se deseja entrar para ouvir o que ele teria dito.",
       informacoes: "O caminho atrás de você continua visível, mas parece mais distante.",
       opcoes: [
-        { id: "espiar_porta", texto: "Olhar pela fresta sem atravessar.", efeitos: { hp: -5, honra: 1 }, flags: { entidade_x_tier2: true }, resultado: "Do outro lado, o velho senhor está de costas. Quando você pisca, a porta dá para o mesmo bosque." },
-        { id: "recusar_porta", texto: "Recusar o convite e fechar a porta.", flags: { entidade_x_tier2: true }, testeSorte: { chance: 78, fatalidadeAleatoria: true,
-          sucesso: { efeitos: { honra: -2, hp: -4 }, flags: { entidade_x_tier2: true }, resultado: "A Entidade demonstra irritação. A porta se fecha, mas seus passos continuam atrás de você." },
-          falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier2: true }, resultado: "A porta bate sozinha. A floresta fica vazia, e seus guardas voltam sem você." } } }
+        { id: "espiar_porta", texto: "Olhar pela fresta sem atravessar.", efeitos: { hp: -5, honra: 1 }, flags: { entidade_x_tier2: true, entidade_x_porta_vista: true }, resultado: "Do outro lado, o velho senhor está de costas. Quando você pisca, a porta dá para o mesmo bosque." },
+        { id: "recusar_porta", texto: "Voltar pelo caminho de onde veio.", flags: { entidade_x_tier2: true, entidade_x_porta_vista: true }, testeSorte: { chance: 78, fatalidadeAleatoria: true,
+          sucesso: { efeitos: { honra: -2, hp: -4 }, flags: { entidade_x_tier2: true, entidade_x_porta_vista: true }, resultado: "A Entidade demonstra irritação. A porta se fecha, mas seus passos continuam atrás de você." },
+          falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier2: true, entidade_x_porta_vista: true }, resultado: "A porta bate sozinha. A floresta fica vazia, e seus guardas voltam sem você." } } }
       ]
     },
     {
       id: "entidade_x_nome", titulo: "O nome guardado", tipo: "especial", peso: 1, especial: true, entidadeX: true,
-      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier2"], flagsAusentes: ["entidade_x_resolvida"] },
-      imagem: "assets/eventos-entidade/nome-guardado.svg", imagemAlt: "Um pergaminho sem letras repousa nas mãos de uma figura encapuzada",
-      texto: "A figura estende um pergaminho sem letras. Diz que escreveu nele seu verdadeiro nome e que pode entregá-lo, se você deixar de resistir ao que vem depois.",
-      informacoes: "Pela primeira vez, a Entidade parece esperar uma resposta definitiva.",
+      entidadeXAparicoesMin: 4,
+      requisitos: { rodadaMin: 8, flags: ["entidade_x_espelho_visto", "entidade_x_balanca_vista", "entidade_x_porta_vista"], flagsAusentes: ["entidade_x_nome_visto", "entidade_x_resolvida"] },
+      imagem: "assets/eventos-entidade/nome-guardado.png", imagemAlt: "Um pergaminho sem letras repousa nas mãos de uma figura encapuzada",
+      texto: "A figura estende um pergaminho sem letras. Diz que há um nome guardado ali, embora o papel esteja vazio. A tinta não aparece, mesmo quando você o inclina contra a luz.",
+      informacoes: "A figura espera enquanto o papel permanece entre vocês.",
       opcoes: [
-        { id: "resistir_nome", texto: "Recusar o nome e resistir à Entidade.", testeSorte: { chance: 62,
-          sucesso: { efeitos: { honra: 6, hp: -8 }, entidadeXResistiu: true, resultado: "O papel se desfaz entre seus dedos. A figura recua, incapaz de sustentar a própria forma." },
-          falha: { efeitos: { honra: -8, hp: -12 }, entidadeXCeder: true, resultado: "Você tenta manter os olhos erguidos, mas acaba pronunciando o nome. A figura o aceita como seu." } } },
-        { id: "aceitar_nome", texto: "Aceitar o nome que ela oferece.", efeitos: { honra: -6 }, entidadeXCeder: true, resultado: "O nome entra em sua boca como água fria. A figura desaparece antes de explicar o preço." },
-        { id: "recusar_nome", texto: "Recusar a resposta e fugir.", flags: { entidade_x_tier3: true }, testeSorte: { chance: 72, fatalidadeAleatoria: true,
-          sucesso: { efeitos: { honra: -3, hp: -5 }, flags: { entidade_x_tier3: true }, resultado: "A Entidade deixa você partir, furiosa. A figura agora aparece nos sonhos dos guardas também." },
-          falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier3: true }, resultado: "A sombra atravessa o caminho. Seus guardas ouvem seu grito, mas não encontram quem o soltou." } } }
+        { id: "ler_nome", texto: "Inclinar o papel contra a luz.", efeitos: { honra: 1, hp: -2 }, flags: { entidade_x_nome_visto: true }, resultado: "Por um instante, uma linha escura atravessa o papel. Quando você pisca, ela desaparece. A figura recolhe o pergaminho." },
+        { id: "devolver_nome", texto: "Devolver o papel sem abri-lo.", efeitos: { honra: 1 }, flags: { entidade_x_nome_visto: true }, resultado: "A figura aceita o pergaminho. O espaço vazio entre vocês parece maior do que antes." }
       ]
     },
     {
       id: "entidade_x_sino", titulo: "O sino de dentro da terra", tipo: "especial", peso: 1, especial: true, entidadeX: true,
-      requisitos: { rodadaMin: 8, flags: ["entidade_x_tier2"], flagsAusentes: ["entidade_x_resolvida"] },
-      imagem: "assets/eventos-entidade/sino-enterrado.svg", imagemAlt: "Um sino enterrado toca sob o chão diante de uma figura imóvel",
-      texto: "O som de um sino vem debaixo da estrada. A Entidade pede que você escolha quem deve ouvi-lo: você ou o povo que ainda confia em seu nome.",
-      informacoes: "O toque faz os dentes vibrarem. A figura aguarda sua decisão.",
+      entidadeXAparicoesMin: 5,
+      requisitos: { rodadaMin: 8, flags: ["entidade_x_nome_visto"], flagsAusentes: ["entidade_x_resolvida"] },
+      imagem: "assets/eventos-entidade/sino-enterrado.png", imagemAlt: "Um sino enterrado toca sob o chão diante de uma figura imóvel",
+      texto: "O som de um sino vem debaixo da estrada. A figura não repete o pedido, mas cada badalada parece mover algo sob a vila.",
+      informacoes: "O toque faz os dentes vibrarem. A estrada não mostra de onde vem o som.",
       opcoes: [
-        { id: "ouvir_sino", texto: "Ouvir o sino no lugar do povo.", testeSorte: { chance: 58,
+        { id: "ouvir_sino", texto: "Permanecer na estrada até o último toque.", testeSorte: { chance: 58,
           sucesso: { efeitos: { honra: 5, hp: -10, escudo: 1 }, entidadeXResistiu: true, resultado: "O sino toca dentro de seu peito e se parte. A Entidade recua, e o silêncio retorna à estrada." },
           falha: { efeitos: { honra: -8, hp: -14 }, entidadeXCeder: true, resultado: "O som atravessa você. Quando cessa, a figura segura sua sombra como uma coleira." } } },
-        { id: "entregar_povo", texto: "Deixar que a vila ouça por você.", efeitos: { habitantes: -5, honra: -5 }, entidadeXCeder: true, resultado: "Cinco moradores ouvem o toque e caminham para o bosque. A Entidade toma o lugar que eles deixaram." },
-        { id: "fugir_sino", texto: "Recusar o desafio e fugir do som.", flags: { entidade_x_tier3: true }, testeSorte: { chance: 72, fatalidadeAleatoria: true,
+        { id: "entregar_povo", texto: "Abrir os portões quando o sino tocar.", efeitos: { habitantes: -5, honra: -5 }, entidadeXCeder: true, resultado: "Cinco moradores ouvem o toque e caminham para o bosque. A Entidade toma o lugar que eles deixaram." },
+        { id: "fugir_sino", texto: "Voltar à vila antes do último toque.", flags: { entidade_x_tier3: true }, testeSorte: { chance: 72, fatalidadeAleatoria: true,
           sucesso: { efeitos: { hp: -5, honra: -3 }, flags: { entidade_x_tier3: true }, resultado: "Você escapa, mas a Entidade bate o sino uma vez, irritada. O som segue você até o portão." },
           falha: { efeitos: { hp: -999 }, flags: { entidade_x_tier3: true }, resultado: "A estrada se abre sob seus pés. O sino toca uma vez, e então tudo fica quieto." } } }
       ]
     },
     {
       id: "entidade_x_ultima_prova", titulo: "A última pergunta", tipo: "especial", peso: 1, especial: true, entidadeX: true,
+      entidadeXAparicoesMin: 6,
       requisitos: { rodadaMin: 8, flags: ["entidade_x_tier3"], flagsAusentes: ["entidade_x_resolvida"] },
-      imagem: "assets/eventos-entidade/ultima-pergunta.svg", imagemAlt: "Uma figura sem rosto oferece a mão diante de uma estrada vazia",
+      imagem: "assets/eventos-entidade/ultima-pergunta.png", imagemAlt: "Uma figura sem rosto oferece a mão diante de uma estrada vazia",
       texto: "A Entidade surge pela última vez no caminho. Não há enigma, promessa ou máscara. Ela oferece a mão e espera que você escolha o que fazer com ela.",
       informacoes: "Você sente que esta resposta encerrará o encontro.",
       opcoes: [
-        { id: "resistir_ultima", texto: "Afastar a mão e resistir.", testeSorte: { chance: 68,
+        { id: "resistir_ultima", texto: "Deixar a mão oferecida suspensa.", testeSorte: { chance: 68,
           sucesso: { efeitos: { honra: 8, hp: -10 }, entidadeXResistiu: true, resultado: "A mão se desfaz em poeira escura. A Entidade some da estrada e não encontrará mais este herdeiro." },
           falha: { efeitos: { honra: -10, hp: -15 }, entidadeXCeder: true, resultado: "Sua mão se fecha sobre a dela. A Entidade sorri sem rosto e leva o que prometeu guardar." } } },
-        { id: "seguir_entidade", texto: "Tomar a mão e seguir com ela.", efeitos: { honra: -8 }, entidadeXCeder: true, resultado: "A estrada termina num lugar que não existe no mapa. Você retorna sozinho, com uma marca nova na pele." }
+        { id: "seguir_entidade", texto: "Encostar a palma na dela.", efeitos: { honra: -8 }, entidadeXCeder: true, resultado: "A estrada termina num lugar que não existe no mapa. Você retorna sozinho, com uma marca nova na pele." }
       ]
     }
   );

@@ -7,7 +7,7 @@
   const evento = (id, titulo, rodada, peso, imagem, texto, informacoes, opcoes, requisitos = {}) => ({
     id, titulo, tipo: "letal", letal: true, peso,
     requisitos: { rodadaMin: rodada, ...requisitos },
-    imagem: `assets/eventos-letais/${imagem}.svg`,
+    imagem: `assets/eventos-letais/${imagem}.png`,
     imagemAlt: `${titulo}, ilustração em traços brancos sobre preto`, texto, informacoes, opcoes
   });
   Jogo.eventos.push(
@@ -101,13 +101,21 @@
     evento("dados_do_velho", "O jogo de dados do velho cego", 7, 1, "dados",
       "Um velho de olhos leitosos senta na praça com três dados de osso. Ele ouve as moedas na bolsa de cada passante e convida você a jogar.", "Ele não vê, mas nunca perde. Quem aposta, paga.", [
         op("ouro", "Apostar 5 gold.", {}, "", { requisitos: { goldMin: 5 }, testeSorte: risco(50,
-          { efeitos: { gold: 5 }, resultado: "Os dados rolam, e o velho sorri. Ele paga dez moedas e pede revanche." },
+          { efeitos: { gold: 5 }, flags: { dados_revanche_disponivel: true }, resultado: "Os dados rolam, e o velho sorri. Ele paga dez moedas e pede revanche." },
           { efeitos: { gold: -5 }, resultado: "Os dados rolam, e o velho sorri mais ainda. Recolhe as moedas sem tocá-las." }), flags: marca("dados_decididos") }),
         op("sangue", "Apostar o sangue.", {}, "", { testeSorte: risco(45,
           { efeitos: { ataque: 2, honra: 2 }, resultado: "Algo em seu braço esquenta. O velho murmura que vai se lembrar de você." },
           { efeitos: { hp: -32 }, resultado: "Um corte aparece na sua coxa, fundo e limpo. O velho sorri em silêncio." }), flags: marca("dados_decididos") }),
         op("quebrar", "Quebrar os dados.", { honra: -2, hp: -2 }, "Os dados racham com um som seco. O velho gira o rosto na sua direção, e a vila inteira sente.", { flags: marca("dados_decididos") })
       ], { flagsAusentes: ["dados_decididos"] }),
+    Object.assign(evento("revanche_dados", "A revanche do velho cego", 7, 1, "dados",
+      "O velho está na praça outra vez, os três dados de osso alinhados diante dele. Ele reconhece o som das moedas na sua bolsa e empurra os dados para perto.",
+      "Desta vez, a aposta é de 10 gold. Você pode deixar a mesa sem jogar.", [
+        op("apostar_dez", "Apostar 10 gold.", {}, "", { requisitos: { goldMin: 10 }, testeSorte: risco(50,
+          { efeitos: { gold: 10 }, flags: { dados_revanche_disponivel: false, dados_revanche_concluida: true }, resultado: "Os dados param no mesmo número. O velho paga vinte moedas e recolhe os ossos." },
+          { efeitos: { gold: -10 }, flags: { dados_revanche_disponivel: false, dados_revanche_concluida: true }, resultado: "O velho recolhe as dez moedas sem tocá-las. Os dados ficam sobre a mesa, imóveis." }) }),
+        op("deixar_mesa", "Afastar os dados e seguir viagem.", {}, "O velho guarda os dados no bolso. Não pede uma terceira partida.", { flags: { dados_revanche_disponivel: false, dados_revanche_concluida: true } })
+      ], { flags: ["dados_revanche_disponivel"], flagsAusentes: ["dados_revanche_concluida"] }), { forcarSorteioQuandoElegivel: true }),
     evento("coluna_de_fumaca", "A coluna de fumaça", 10, 1.5, "fumaca",
       "Uma coluna de fumaça sobe do vale ao norte, onde ficam as plantações de duas famílias. Um mensageiro diz que é um ataque, mas não sabe de quem.", "Pode ser saque. Pode ser incêndio. Pode ser isca.", [
         op("cavalgar", "Cavalgar até lá, com poucos homens.", {}, "", { testeSorte: risco(50,

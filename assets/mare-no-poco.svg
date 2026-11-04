@@ -1,10 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path fill="#000" stroke="none" d="M0 0h360v480H0z"/>
-  <path d="M52 170h256l-23 229H75Z" fill="#000"/>
-  <path d="M44 168h272m-247 25 13 185m176-185-13 185M94 231q86-24 172 0m-166 31q80-19 160 0" stroke-width="2"/>
-  <path d="M122 151V82h116v69M108 82h144M134 83 99 47m127 36 35-36"/>
-  <path d="M158 211q17-30 34 0l-8 25h-18Zm48 39q18-30 36 0l-8 25h-18Z" fill="#000"/>
-  <path d="m166 221 7-2m39 41 7-2m-52 0 8 4m39 20 8 4" stroke-width="2"/>
-  <path d="M175 286q10 8 20 0m34 23q10 8 20 0M93 342q87-20 174 0" stroke-width="2"/>
-  <path d="M78 420q100-17 204 0m-153-21v21m104-21v21" stroke-width="2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-labelledby="title desc"><title id="title">Maré no poço</title><desc id="desc">Ilustração simples em tinta marfim sobre fundo preto.</desc><rect width="360" height="480" fill="#000"/><g fill="none" stroke="#f3efdf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M105 192 H255 L240 344 H120 Z"/><path d="M91 192 L112 132 H248 L269 192"/><path d="M128 223 Q155 208 180 223 Q205 238 232 223 M128 260 Q155 245 180 260 Q205 275 232 260"/><path d="M145 149 V192 M215 149 V192"/><path d="M160 365 H200" stroke="#b39a64" stroke-width="3"/></g></svg>

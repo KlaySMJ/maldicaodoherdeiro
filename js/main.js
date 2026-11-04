@@ -13,6 +13,13 @@
     Jogo.ui.fim(run, salvo);
   }
 
+  function ativarEventoEspecialDebug(categoria) {
+    if (Jogo.engine.debugAtivarEventoEspecial(run, categoria)) {
+      Jogo.save.gravarRun(run);
+      mostrarJogo();
+    }
+  }
+
   function carregar() {
     // O save pode ter mudado desde a abertura do menu. Recupera todos os campos
     // no clique; usa a sessão em memória somente se não houver um save legível.
@@ -36,6 +43,7 @@
     switch (acao) {
       case "iniciar":
         if (run?.status === "ativa" && !await Jogo.ui.confirmarNovaRun()) return;
+        if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
         iniciar();
         break;
       case "novo-herdeiro": iniciar(); break;
@@ -56,6 +64,10 @@
           else { Jogo.save.gravarRun(run); mostrarJogo(); }
         }
         break;
+      case "debug-especial-entidade": ativarEventoEspecialDebug("entidade"); break;
+      case "debug-especial-abissal": ativarEventoEspecialDebug("abissal"); break;
+      case "debug-especial-zodiaco": ativarEventoEspecialDebug("zodiaco"); break;
+      case "debug-especial-norte": ativarEventoEspecialDebug("norte"); break;
       case "continuar":
         if (Jogo.engine.avancar(run)) {
           if (run.status === "encerrada") mostrarFim();

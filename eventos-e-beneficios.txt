@@ -1,6 +1,6 @@
 A MALDIÇÃO DO HERDEIRO — EVENTOS E BENEFÍCIOS
 
-Catálogo atual: 222 definições de evento. Fontes: js/events.js, js/events-specials.js, js/events-cult.js, js/events-lethal.js e js/events-foundations.js. “O último habitante” é uma transição da engine e não entra no sorteio.
+Catálogo atual: 223 definições de evento. Fontes: js/events.js, js/events-specials.js, js/events-cult.js, js/events-lethal.js e js/events-foundations.js. “O último habitante” é uma transição da engine e não entra no sorteio.
 
 Documento de consulta do autor; não é exibido ao jogador.
 
@@ -14,13 +14,14 @@ COMO LER
 
 - Entre 20 e 49 habitantes não há renda. Abaixo de 20: −1 gold por rodada, sem dívida.
 
-- Todos começam com 0 Honra e 50 habitantes. Corajoso recebe +1 Ataque; Avarento começa com 10 gold; Doente começa com 70/70 Vida e 4 Escudo, e seu máximo permanece em 70. Valores comuns: 100 Vida, 5 Escudo, 2 Ataque e 5 gold.
+- Todos começam com 0 Honra e 50 habitantes. Corajoso recebe +1 Ataque; Avarento começa com 10 gold; Doente começa com 70/70 Vida e 4 Escudo, e sua Vida máxima pode crescer com melhorias permanentes. Valores comuns: 100 Vida, 5 Escudo, 2 Ataque e 5 gold.
 
-- Honra visual: alta em +30; baixa em −30. Em +90 e −90, o herdeiro muda para versões extremas do retrato. Escolhas especiais também aparecem em +50/−50; novas decisões aparecem em +90/−90. Os botões de teste somam ou subtraem 30 sem avançar a rodada.
+- Honra visual: alta em +30; baixa em −30. Em +90 e −90, o contorno da carta fica duplo; o retrato permanece o de honra alta ou baixa. Escolhas especiais também aparecem em +50/−50; novas decisões aparecem em +90/−90. Os botões de teste somam ou subtraem 30 sem avançar a rodada.
 
 - As últimas dez cartas são evitadas. Com poucas elegíveis, a mais antiga é liberada primeiro.
+- O sorteio também reduz repetição entre runs: cartas comuns vistas nas duas crônicas anteriores ficam fora enquanto houver outras comuns elegíveis. Cartas da Entidade respeitam intervalo mínimo de 20 rodadas e concorrem com os demais eventos.
 - A ordem das opções elegíveis é embaralhada ao abrir cada carta e salva; mercador e cartas especiais com pools mantêm suas regras próprias. Eventos letais não entram nas cinco primeiras rodadas e cada um só aparece uma vez na run.
-- Estações duram 25 rodadas cada: primavera, verão, outono e inverno. Traços sorteados: Corajoso (+1 Ataque), Avarento (começa com 10 gold) e Doente (70/70 Vida, máximo 70 e 4 Escudo). Todos começam com honra 0 e 50 habitantes.
+- Estações duram 25 rodadas cada: primavera, verão, outono e inverno. Traços sorteados: Corajoso (+1 Ataque), Avarento (começa com 10 gold) e Doente (70/70 Vida, máximo inicial 70 e 4 Escudo). Todos começam com honra 0 e 50 habitantes.
 - Companheiros: Cão de guarda (−2 dano de batalha), Corvo da estrada (+1 gold em recompensas positivas), Gato do celeiro (+1 HP ao iniciar a rodada). Construções na run: Ponte (+1 gold na renda), Moinho (+1 HP/rodada), Capela (+1 Escudo), Forja (arma custa −2 gold) e Muralha (−2 dano de batalha).
 - O legado salva até 20 memórias de runs anteriores: id, rodada final, honra final, tipo e causa do encerramento.
 
@@ -6925,13 +6926,13 @@ ADENDO — EVENTOS ESPECIAIS 130–155
 - O Viajante do Norte fica elegível imediatamente após A primeira geada ou O inverno longo, com peso 3. A resposta E02 ativa o ciclo divino. A cada 40 rodadas desde a ativação ou a última carta divina, uma das cartas ainda não vistas pode surgir com peso 1,5; bênçãos recebem peso 3 com honra ≥30 e maldições, com honra ≤−30. O efeito ativo é mostrado na interface, dura cinco ou dez rodadas e aplica modificadores de atributo, alterações por rodada, redução de dano, redução de ganhos de gold ou revelação de informações das escolhas.
 - Bênçãos: Thor (+3 Ataque por 10 rodadas; ou +5 com custo de 10 HP); Odin revela honra por 10 rodadas, ou honra e habitantes por 10 rodadas pagando 6 gold; Freya concede +5 habitantes ao longo de 10 rodadas, ou +10 pagando 3 gold; Týr reduz dano de batalha em 5, ou em 8 pagando 6 HP; Njord concede +1 gold por rodada, ou +2 pagando 2 gold; Iðunn recupera 2 HP por rodada, ou 4 pagando 3 gold. Recusar qualquer uma concede +2 Honra.
 - Maldições: Loki retira 1 gold por rodada por 10 rodadas, ou por 5 após tributo de 2 gold; Hel tira 2 HP por rodada por 10 rodadas, ou por 5 após tributo de 3 gold; Skadi reduz Escudo em 3 por 10 rodadas, ou por 5 após tributo de 3 gold; Surtr retira 1 habitante a cada duas rodadas por 10 rodadas, ou por 5 após perder 6 HP; Höðr reduz Ataque em 3 por 10 rodadas, ou por 5 após tributo de 2 gold; Rán reduz ganhos de gold em 2 (mínimo zero) por 10 rodadas, ou por 5 após tributo de 3 gold. Honra ≥50 permite desafiar e evitar o efeito, pagando os custos individuais de HP.
-- Artes próprias para todas as 26 cartas: `assets/eventos-especiais/mercador-vermelho.svg`, `viajante-norte.svg`, doze `zodiaco-*.svg` e doze `norte-*.svg`.
+- Artes próprias para todas as 26 cartas: `assets/eventos-especiais/mercador-vermelho.png`, `viajante-norte.png`, doze `zodiaco-*.png` e doze `norte-*.png`.
 
 ==============================================================================
 156. O ÚLTIMO HABITANTE [ultimo_habitante]
 Tipo: transição chamada pela engine; não sorteada.
 Requisitos: habitantes em 0, honra ≤ −30, herdeiro vivo.
-Imagem: assets/eventos-culto/ultimo.svg.
+Imagem: assets/eventos-culto/ultimo.png.
 - Encerrar: derrota por falta de povo; registra rodada, honra e motivo no legado.
 - Aceitar: −5 Honra, +50 seguidores, concede a Adaga cerimonial e a flag de legado culto_conhecido.
 
@@ -7024,6 +7025,7 @@ As probabilidades ficam ocultas antes da escolha; o desfecho é sorteado uma vez
 
 173. O JOGO DE DADOS DO VELHO CEGO [dados_do_velho], rodada ≥7, peso 1, única vez.
 - Apostar 5 gold: 50%; sucesso +5 gold líquidos; falha −5 gold.
+- Se vencer a aposta, a revanche aparece na rodada seguinte: apostar 10 gold; sucesso +10 líquidos; falha −10; também é possível sair da mesa.
 - Apostar sangue: 45%; sucesso +2 Ataque, +2 Honra; falha −32 HP.
 - Quebrar dados: −2 Honra, −2 HP.
 

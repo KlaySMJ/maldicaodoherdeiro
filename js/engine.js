@@ -45,9 +45,9 @@
     };
   }
 
-  function opcoes(evento, run) {
+  function opcoes(evento, run, usarOpcoesSorteadas = true) {
     const catalogo = evento.poolOpcoes || evento.opcoes;
-    const selecionadas = run.opcoesSorteadas?.length
+    const selecionadas = usarOpcoesSorteadas && run.opcoesSorteadas?.length
       ? run.opcoesSorteadas.map(id => catalogo.find(opcao => opcao.id === id)).filter(Boolean) : catalogo;
     return selecionadas.filter(opcao => cumpre(opcao.requisitos, run, "escolha")
       && (!opcao.recompensaItemGenerico || Jogo.itens.some(item => item.generico
@@ -67,6 +67,7 @@
     const abissalAtivo = run.flags.abissal_1 === true && run.flags.abissal_5 !== true;
     if (evento.entidadeXInicio && (entidadeAtiva || run.flags.entidade_x_imune || abissalAtivo || run.rodada < 8)) return false;
     if (evento.entidadeX && !entidadeAtiva) return false;
+    if (evento.entidadeXAparicoesMin && (run.marcos.entidadeXAparicoes || 0) < evento.entidadeXAparicoesMin) return false;
     if (evento.abissal && entidadeAtiva) return false;
     if (evento.abissal && !run.flags.entidades_maiores_liberadas) return false;
     const anteriorId = run.eventosRecentes.at(-1);
@@ -92,6 +93,11 @@
     const regra = evento.pesos?.find(regra => cumpre(regra.requisitos, run));
     const base = Math.max(0, regra?.valor ?? evento.peso ?? 1);
     return evento.abissal && temItem(run, "martelo_dos_afogados") ? base * 2 : base;
+  }
+
+  function eventoComum(evento) {
+    return Boolean(evento && !evento.especial && !evento.entidadeX && !evento.entidadeXInicio
+      && !evento.abissal && !evento.divino && !evento.zodiaco && evento.tipo !== "culto");
   }
 
   function batalhaAjustada(run, batalha) {
@@ -139,7 +145,8 @@
     let candidatos = pools(run).eventos.filter(evento => eventoDisponivel(evento, run, aleatorio)
       && cumpre(evento.requisitos, run)
       && !(evento.conselheiro && (run.conselhosRecentes || []).includes(evento.id))
-      && opcoes(evento, run).length > 0 && peso(evento, run) > 0);
+      // O sorteio roda antes de registrar a nova carta. Ignore os IDs da carta anterior.
+      && opcoes(evento, run, false).length > 0 && peso(evento, run) > 0);
     const eventosProgramados = candidatos.filter(evento => evento.forcarSorteioQuandoElegivel);
     if (eventosProgramados.length) candidatos = eventosProgramados;
     const anuaisDevidos = candidatos.filter(evento => Number.isSafeInteger(evento.intervaloRodadas)
@@ -152,12 +159,15 @@
       if (chegou) candidatos = [chegadaEntidade];
     }
     if (run.flags.entidade_x_ativa) {
-      const intervalo = 3;
+      const intervalo = 20;
       const ultima = run.marcos.entidadeXUltimoEvento ?? run.rodada;
-      if (run.rodada - ultima >= intervalo) {
-        const encontrosEntidade = candidatos.filter(evento => evento.entidadeX);
-        if (encontrosEntidade.length) candidatos = encontrosEntidade;
-      } else candidatos = candidatos.filter(evento => !evento.entidadeX);
+      if (run.rodada - ultima < intervalo) candidatos = candidatos.filter(evento => !evento.entidadeX);
+    }
+    const eventosRecentesRuns = run.legadoDaRun?.eventosRecentesRuns || [];
+    const repetidosEntreRuns = new Set(eventosRecentesRuns.flatMap(registro => registro.eventos || []));
+    const comunsNovos = candidatos.filter(evento => eventoComum(evento) && !repetidosEntreRuns.has(evento.id));
+    if (comunsNovos.length) {
+      candidatos = candidatos.filter(evento => !eventoComum(evento) || !repetidosEntreRuns.has(evento.id));
     }
     // Espaça as últimas cartas. Com uma pool pequena, libera primeiro a mais antiga.
     const recentes = [...run.eventosRecentes];
@@ -181,14 +191,13 @@
     return escolhido;
   }
 
-  function aplicarEfeitos(run, efeitos = {}, multiplicadores = {}) {
+  function aplicarEfeitos(run, efeitos = {}, multiplicadores = {}, contexto = {}) {
     if (Number.isSafeInteger(efeitos.seguidores) && run.cultoAtivo) {
       const multiplicadorSeguidores = temItem(run, "afogados_abencoados") && run.atributos.honra <= -90 ? 2 : 1;
       run.seguidoresCulto = Math.max(0, run.seguidoresCulto + efeitos.seguidores * multiplicadorSeguidores);
     }
     if (Number.isSafeInteger(efeitos.hpMax)) {
-      const limiteInicial = run.traco === "doente" ? 70 : Infinity;
-      run.hpMax = Math.min(limiteInicial, Math.max(1, run.hpMax + efeitos.hpMax));
+      run.hpMax = Math.max(1, run.hpMax + efeitos.hpMax);
     }
     for (const atributo of Jogo.atributos) {
       if (atributo === "honra" && temItem(run, "espada_da_verdade")) { run.atributos.honra = 0; continue; }
@@ -197,7 +206,10 @@
       if (atributo === "gold" && efeito > 0 && run.efeitoDivino?.reducaoGanhoGold) {
         efeito = Math.max(0, efeito - run.efeitoDivino.reducaoGanhoGold);
       }
-      const valor = Math.floor((antes + efeito) * (multiplicadores[atributo] ?? 1));
+      let valor = Math.floor((antes + efeito) * (multiplicadores[atributo] ?? 1));
+      if (atributo === "habitantes" && contexto.protecaoCeleiro && valor < antes) {
+        valor = antes - Math.floor((antes - valor) / 2);
+      }
       run.atributos[atributo] = atributo === "honra" ? valor
         : atributo === "hp" ? Math.min(run.hpMax, Math.max(0, valor)) : Math.max(0, valor);
     }
@@ -239,6 +251,7 @@
     run.aguardaDecisaoCulto = false;
     run.marcos.cultoAdesao = run.rodada;
     run.marcos.culto_entrada_rodada = run.rodada;
+    run.opcoesSorteadas = [];
     Jogo.legado.conceder(run, { flags: ["culto_conhecido"] });
     concederItem(run, "adaga_cerimonial");
     run.flags.ultimo_habitante_visto = true;
@@ -252,6 +265,7 @@
   function encerrarSemCulto(run) {
     if (run?.status !== "ativa" || run.fase !== "resultado" || !run.aguardaDecisaoCulto) return false;
     run.aguardaDecisaoCulto = false;
+    run.opcoesSorteadas = [];
     run.flags.ultimo_habitante_visto = true;
     run.eventoId = "ultimo_habitante";
     run.ultimoResultado.escolha = "Encerrar a linhagem.";
@@ -307,22 +321,31 @@
     const escudoUsado = run.atributos.escudo + bonusEscudo;
     const danoAnulado = lancaAtiva || preparados.bloquearDanoProximaBatalha || (preparados.bacamarteBatalhas || 0) > 0;
     const reducaoDivina = run.efeitoDivino?.reducaoDano || 0;
-    const reducaoCompanheiros = (temItem(run, "cao_companheiro") ? 2 : 0) + (run.construcoes?.includes("muralha") ? 2 : 0);
-    const dano = danoAnulado ? 0 : Math.max(0, danoBase - escudoUsado - reducaoDivina - reducaoCompanheiros);
+    const reducaoPassiva = (temItem(run, "cao_companheiro") ? 2 : 0)
+      + (run.construcoes?.includes("muralha") ? 2 : 0)
+      + (run.construcoes?.includes("torre_vigia") ? 3 : 0);
+    const dano = danoAnulado ? 0 : Math.max(0, danoBase - escudoUsado - reducaoDivina - reducaoPassiva);
     let efeitos = aplicarBonusDeRecompensa(run, desfecho.efeitos || {});
+    if (danoAnulado && efeitos.hp < 0) efeitos = { ...efeitos, hp: 0 };
     let explosaoBacamarte = false;
     if (lancaAtiva && efeitos.honra < 0) efeitos = { ...efeitos, honra: 0 };
     let texto = desfecho.resultado;
     if (lancaAtiva) {
       run.lancaHeroiBatalhas -= 1;
       texto += " A presença da Lança do Herói encerra o confronto sem ferimentos.";
-    } else if (adagaAtiva && venceu) texto += " A Adaga amaldiçoada garante a vitória, mas você recebe o dano de uma derrota.";
+    } else if (adagaAtiva && venceu) texto += danoAnulado
+      ? " A Adaga amaldiçoada garante a vitória; a proteção ativa também anula o dano da derrota."
+      : " A Adaga amaldiçoada garante a vitória, mas você recebe o dano de uma derrota.";
     if (preparados.bacamarteBatalhas > 0) {
       preparados.bacamarteBatalhas -= 1;
       texto += " A pólvora do bacamarte impede que você sofra dano.";
       if (preparados.bacamarteBatalhas === 0) {
-        explosaoBacamarte = true;
-        texto += " A última carga explode na sua mão: você perde 15 de Vida.";
+        if (lancaAtiva || preparados.bloquearDanoProximaBatalha) {
+          texto += " A última carga explode, mas a proteção ativa também impede esse ferimento.";
+        } else {
+          explosaoBacamarte = true;
+          texto += " A última carga explode na sua mão: você perde 15 de Vida.";
+        }
       }
     }
     if (run.flags.cinto_vento_ativo) {
@@ -334,7 +357,11 @@
       aplicarEfeitos(run, { ...efeitos, hp: 0 });
       if (curaDeVitoria !== 0) aplicarEfeitos(run, { hp: curaDeVitoria });
       aplicarEfeitos(run, { hp: -dano });
-    } else aplicarEfeitos(run, { ...efeitos, hp: (efeitos.hp || 0) - dano });
+    } else {
+      const hpDoDesfecho = efeitos.hp || 0;
+      const hpDoDesfechoSemDanoBloqueado = danoAnulado && hpDoDesfecho < 0 ? 0 : hpDoDesfecho;
+      aplicarEfeitos(run, { ...efeitos, hp: hpDoDesfechoSemDanoBloqueado - dano });
+    }
     if (explosaoBacamarte) aplicarEfeitos(run, { hp: -15 });
     run.efeitosPreparados = {
       ...run.efeitosPreparados,
@@ -347,7 +374,9 @@
     if (bonusEscudo) texto += ` O elixir aumenta seu escudo em ${bonusEscudo} nesta batalha.`;
     if (preparados.bloquearDanoProximaBatalha) texto += " O amuleto anula o dano desta batalha.";
     if (!venceu && batalha.penalidadeFalha) {
-      aplicarEfeitos(run, batalha.penalidadeFalha.efeitos, batalha.penalidadeFalha.multiplicadores);
+      const efeitosFalha = { ...(batalha.penalidadeFalha.efeitos || {}) };
+      if (danoAnulado && efeitosFalha.hp < 0) efeitosFalha.hp = 0;
+      aplicarEfeitos(run, efeitosFalha, batalha.penalidadeFalha.multiplicadores);
       texto += ` ${batalha.penalidadeFalha.texto || ""}`;
     }
     return { texto: texto.trim(), combate: {
@@ -378,7 +407,7 @@
   function resolverOpcao(run, evento, opcao, gasto = 0) {
     run.inventarioAberto = false;
     run.avisoInventario = null;
-    const antes = { ...run.atributos };
+    const antes = { ...run.atributos, hpMax: run.hpMax };
     run.atributos.gold -= gasto;
     let efeitosEscolha = opcao.efeitos || {};
     let resultado = { texto: opcao.resultado || "", combate: null };
@@ -395,7 +424,8 @@
     }
     if (opcao.combate && evento.batalha) resultado = resolverCombate(run, evento.batalha);
     const efeitosOpcao = aplicarBonusDeRecompensa(run, efeitosEscolha);
-    aplicarEfeitos(run, efeitosOpcao, opcao.multiplicadores);
+    const protecaoCeleiro = evento.protecaoCeleiro && run.construcoes?.includes("celeiro");
+    aplicarEfeitos(run, efeitosOpcao, opcao.multiplicadores, { protecaoCeleiro });
     for (const [atributo, valor] of Object.entries(opcao.definir || {})) {
       if (!Jogo.atributos.includes(atributo) || !Number.isSafeInteger(valor)) continue;
       run.atributos[atributo] = atributo === "honra" ? (temItem(run, "espada_da_verdade") ? 0 : valor) : Math.max(0, valor);
@@ -481,19 +511,39 @@
       Jogo.legado.conceder(run, { itens: ["espada_da_verdade"] });
     }
     run.eventosRecentes = [...run.eventosRecentes, evento.id].slice(-Jogo.config.memoriaEventos);
+    if (eventoComum(evento)) {
+      run.eventosComunsRun ||= [];
+      if (!run.eventosComunsRun.includes(evento.id)) run.eventosComunsRun.push(evento.id);
+    }
     if (evento.conselheiro) run.conselhosRecentes = [...(run.conselhosRecentes || []), evento.id].slice(-5);
     // A renda usa a população após a decisão e só é aplicada nesta resolução.
     const rendaBase = rendaDaVila(run.atributos.habitantes) + (run.construcoes.includes("ponte") && run.atributos.habitantes >= 20 ? 1 : 0);
-    const renda = rendaBase > 0 && run.rodada % Jogo.config.economia.intervaloRenda !== 0 ? 0 : rendaBase;
+    const rendaRegular = rendaBase > 0 && run.rodada % Jogo.config.economia.intervaloRenda !== 0 ? 0 : rendaBase;
+    const rendaMercado = run.construcoes.includes("mercado_coberto") && run.rodada % 5 === 0 ? 1 : 0;
+    const rendaPraca = run.construcoes.includes("praca_forca") && run.rodada % 6 === 0 ? 1 : 0;
+    const renda = rendaRegular + rendaMercado + rendaPraca;
     const saldoAntesDaRenda = run.atributos.gold;
     aplicarEfeitos(run, { gold: renda });
+    if (rendaMercado) resultado.texto += " O Mercado coberto rende 1 Gold.";
+    if (rendaPraca) resultado.texto += " A Praça da Forca rende 1 Gold.";
+    if (run.construcoes.includes("praca_forca") && run.rodada % 10 === 0) {
+      if (!temItem(run, "espada_da_verdade")) {
+        aplicarEfeitos(run, { honra: -1 });
+        resultado.texto += " A Praça da Forca reduz sua Honra em 1.";
+      }
+      if (run.cultoAtivo) {
+        aplicarEfeitos(run, { seguidores: 2 });
+        resultado.texto += ` A Praça da Forca atrai ${temItem(run, "afogados_abencoados") && run.atributos.honra <= -90 ? 4 : 2} Seguidores para o culto.`;
+      }
+    }
     Jogo.legado.conceder(run, opcao.desbloqueia);
     Jogo.legado.avaliar(run);
     run.fase = "resultado";
     run.ultimoResultado = {
       ...resultado, escolha: opcao.texto,
       economia: { renda, variacaoRenda: run.atributos.gold - saldoAntesDaRenda, gasto },
-      alteracoes: Object.fromEntries(Jogo.atributos.map(id => [id, run.atributos[id] - antes[id]]))
+      alteracoes: Object.fromEntries([...Jogo.atributos, "hpMax"].map(id => [id,
+        id === "hpMax" ? run.hpMax - antes.hpMax : run.atributos[id] - antes[id]]))
     };
     if (!run.cultoAtivo && run.atributos.hp > 0 && run.atributos.habitantes <= 0 && run.atributos.honra <= -30) {
       aguardarDecisaoCulto(run);
@@ -509,7 +559,13 @@
   }
 
   function escolher(run, opcaoId) {
-    if (run.status !== "ativa" || run.fase !== "escolha") return false;
+    if (run?.status !== "ativa") return false;
+    if (run.aguardaDecisaoCulto && run.fase === "resultado") {
+      if (opcaoId === "juntar") return juntarCulto(run);
+      if (opcaoId === "encerrar") return encerrarSemCulto(run);
+      return false;
+    }
+    if (run.fase !== "escolha") return false;
     const evento = Jogo.eventos.find(evento => evento.id === run.eventoId);
     const opcao = evento && opcoes(evento, run).find(opcao => opcao.id === opcaoId);
     return opcao ? resolverOpcao(run, evento, opcao) : false;
@@ -683,13 +739,81 @@
     return true;
   }
 
+  function debugAtivarEventoEspecial(run, categoria) {
+    if (run?.status !== "ativa" || run.aguardaDecisaoCulto) return false;
+    const limparFlags = predicado => {
+      for (const id of Object.keys(run.flags)) if (predicado(id)) delete run.flags[id];
+    };
+    const eventosEntidade = Jogo.eventos.filter(evento => evento.entidadeX || evento.entidadeXInicio);
+    const eventosAbissais = Jogo.eventos.filter(evento => evento.abissal);
+    let evento = null;
+
+    if (categoria === "entidade") {
+      evento = Jogo.eventos.find(candidato => candidato.id === "entidade_x_chegada");
+      if (!evento) return false;
+      run.rodada = Math.max(8, run.rodada);
+      run.estacao = Jogo.estacaoDaRodada(run.rodada);
+      limparFlags(id => id.startsWith("entidade_x_") || id.startsWith("abissal_")
+        || id === "mare_selada" || id === "palavras_lembradas" || id === "senhor_do_abismo"
+        || eventosEntidade.some(candidato => id === `especial_${candidato.id}`)
+        || eventosAbissais.some(candidato => id === `especial_${candidato.id}`));
+      delete run.marcos.entidadeXAparicoes;
+      delete run.marcos.entidadeXUltimoEvento;
+      delete run.marcos.entidadeXRecusaFatalId;
+    } else if (categoria === "abissal") {
+      evento = Jogo.eventos.find(candidato => candidato.id === "sonhos_umidos");
+      if (!evento) return false;
+      run.rodada = Math.max(8, run.rodada);
+      run.estacao = Jogo.estacaoDaRodada(run.rodada);
+      limparFlags(id => id.startsWith("entidade_x_") || id.startsWith("abissal_")
+        || id === "mare_selada" || id === "palavras_lembradas" || id === "senhor_do_abismo"
+        || eventosEntidade.some(candidato => id === `especial_${candidato.id}`)
+        || eventosAbissais.some(candidato => id === `especial_${candidato.id}`));
+      run.flags.entidades_maiores_liberadas = true;
+    } else if (categoria === "zodiaco") {
+      const eventos = Jogo.eventos.filter(candidato => candidato.zodiaco);
+      if (!eventos.length) return false;
+      evento = eventos.find(candidato => !run.flags[`especial_${candidato.id}`] && !run.flags[`${candidato.id}_visto`]);
+      if (!evento) {
+        for (const candidato of eventos) {
+          delete run.flags[`especial_${candidato.id}`];
+          delete run.flags[`${candidato.id}_visto`];
+        }
+        evento = eventos[0];
+      }
+      run.flags.ano_novo_ativo = true;
+      delete run.flags.ano_novo_recusado;
+      run.marcos.anoNovoBase = run.rodada;
+      run.janelaZodiaco = { marco: 0, eventoId: evento.id };
+    } else if (categoria === "norte") {
+      const eventos = Jogo.eventos.filter(candidato => candidato.divino);
+      if (!eventos.length) return false;
+      evento = eventos.find(candidato => !run.flags[`especial_${candidato.id}`]);
+      if (!evento) {
+        for (const candidato of eventos) delete run.flags[`especial_${candidato.id}`];
+        evento = eventos[0];
+      }
+      run.flags.bencao_norte_ativa = true;
+      delete run.flags.bencao_norte_recusada;
+      run.marcos.norteAtivado = run.rodada;
+    } else return false;
+
+    run.fase = "escolha";
+    run.ultimoResultado = null;
+    run.aguardaDecisaoCulto = false;
+    run.inventarioAberto = false;
+    run.avisoInventario = null;
+    return registrarSorteio(run, evento);
+  }
+
   function avancar(run) {
     if (run.status !== "ativa" || run.fase !== "resultado") return false;
     const proximaRodada = run.rodada + 1;
     const antesDoEfeito = { ...run.atributos };
     run.rodada = proximaRodada;
     run.estacao = Jogo.estacaoDaRodada(run.rodada);
-    aplicarEfeitos(run, { hp: (temItem(run, "gato_companheiro") ? 1 : 0) + (run.construcoes.includes("moinho") ? 1 : 0) });
+    const curaEnfermaria = run.construcoes.includes("enfermaria_ervateira") && run.atributos.hp < 60 ? 1 : 0;
+    aplicarEfeitos(run, { hp: (temItem(run, "gato_companheiro") ? 1 : 0) + (run.construcoes.includes("moinho") ? 1 : 0) + curaEnfermaria });
     if (run.cultoAtivo && run.cultoRendaPorRodada > 0) {
       const dobro = temItem(run, "afogados_abencoados") && run.atributos.honra <= -90 ? 2 : 1;
       run.seguidoresCulto += run.cultoRendaPorRodada * dobro;
@@ -711,7 +835,10 @@
     if (motivo) { encerrar(run, "derrota", motivo); return true; }
     prepararJanelaZodiaco(run, proximaRodada);
     const evento = sortear(run);
-    if (!evento) return false;
+    if (!evento) {
+      encerrar(run, "vitoria", "A crônica chegou ao fim: não há mais acontecimentos elegíveis.");
+      return true;
+    }
     run.eventoId = evento.id;
     registrarSorteio(run, evento);
     run.fase = "escolha";
@@ -750,7 +877,9 @@
       modificadoresAplicados,
       porRodada: definicao.porRodada || null,
       reducaoDano: definicao.reducaoDano || 0,
-      reducaoGanhoGold: definicao.reducaoGanhoGold || 0
+      reducaoGanhoGold: definicao.reducaoGanhoGold || 0,
+      revelarHonraRodadas: definicao.revelarHonraRodadas || 0,
+      revelarHabitantesRodadas: definicao.revelarHabitantesRodadas || 0
     };
   }
 
@@ -788,11 +917,15 @@
     run.eventoId = evento.id;
     if (evento.entidadeXInicio) {
       run.flags = { ...run.flags, entidade_x_ativa: true };
+      run.marcos.entidadeXAparicoes = (run.marcos.entidadeXAparicoes || 0) + 1;
       run.marcos.entidadeXUltimoEvento = run.rodada;
       const recusasArriscadas = Jogo.eventos.filter(carta => carta.entidadeX
         && carta.opcoes?.some(opcao => opcao.testeSorte?.fatalidadeAleatoria));
       run.marcos.entidadeXRecusaFatalId = recusasArriscadas[Math.floor(Math.random() * recusasArriscadas.length)]?.id || null;
-    } else if (evento.entidadeX) run.marcos.entidadeXUltimoEvento = run.rodada;
+    } else if (evento.entidadeX) {
+      run.marcos.entidadeXAparicoes = (run.marcos.entidadeXAparicoes || 0) + 1;
+      run.marcos.entidadeXUltimoEvento = run.rodada;
+    }
     run.ofertaMercador = null;
     run.opcoesSorteadas = [];
     if (evento.poolOpcoes) {
@@ -828,5 +961,5 @@
     return true;
   }
 
-  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, usarItem, podeUsarItem, concederItem, sortearItemGenerico, batalhaAjustada, juntarCulto, encerrarSemCulto, ofertaMercador, precoMercadoria, podePagar, rendaDaVila, testarHonra, debugDiminuirHabitantes, avancar, registrarSorteio, encerrar, motivoDerrota };
+  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, usarItem, podeUsarItem, concederItem, sortearItemGenerico, batalhaAjustada, juntarCulto, encerrarSemCulto, ofertaMercador, precoMercadoria, podePagar, rendaDaVila, testarHonra, debugDiminuirHabitantes, debugAtivarEventoEspecial, avancar, registrarSorteio, encerrar, motivoDerrota };
 })();

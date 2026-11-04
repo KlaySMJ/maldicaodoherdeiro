@@ -66,7 +66,7 @@ Itens são classificados por raridade e cor: Comum (branco), Raro (azul), Épico
 
 O inventário fica disponível em um painel expansível durante a run e mantém o registro dos itens conquistados, com raridade, descrição do efeito e estado: disponível na mochila, efeito permanente aplicado ou sem unidades disponíveis. Usar um consumível não apaga seu registro. Ao aderir ao culto, o herdeiro recebe uma Adaga cerimonial de pacto: uma vez por run, sacrifica 10 habitantes ou seguidores para ganhar +10 Ataque. Ganhar habitantes durante a run acrescenta de 1 a 5 seguidores aleatórios; a cada dez rodadas após a adesão, chegam mais cinco. Cada ponto de honra ganho causa a saída de dois a quatro seguidores, informada em destaque no resultado da decisão.
 
-O catálogo também contém 36 equipamentos genéricos permanentes: 13 comuns, 14 raros e 9 épicos. Eles aparecem no achado da forja com pesos de raridade 10:4:1; cada peça só pode ser recebida uma vez por run. Equipamentos de Ataque encarecem Arma melhor em 2 gold, os de Escudo encarecem Escudo melhor, e os de Vida aumentam Vida máxima e atual pelo mesmo valor. Corajoso e Avarento começam com máximo 100; o Doente começa e permanece com máximo 70. Curas respeitam o limite de cada herdeiro.
+O catálogo também contém 36 equipamentos genéricos permanentes: 13 comuns, 14 raros e 9 épicos. Eles aparecem no achado da forja com pesos de raridade 10:4:1; cada peça só pode ser recebida uma vez por run. Equipamentos de Ataque encarecem Arma melhor em 2 gold, os de Escudo encarecem Escudo melhor, e os de Vida aumentam Vida máxima e atual pelo mesmo valor. Corajoso e Avarento começam com máximo 100; o Doente começa com máximo 70, que pode aumentar com melhorias permanentes. Curas respeitam o limite atual de cada herdeiro.
 
 Relíquias e pactos chegam pelo embrulho sem brasão. Entre os efeitos estão vitórias com dano de derrota, conversão de soldados em habitantes, cargas de proteção para batalhas, aumento da chance de eventos abissais e bônus especiais para o culto. O Escudo da fé permite reutilizar consumíveis com dez rodadas de intervalo, exceto itens de uso único por run. A Espada da verdade só entra no legado depois de 200 rodadas consecutivas com honra entre −30 e +30; a Lança do Herói exige +100 de honra e evita dez batalhas.
 
@@ -74,7 +74,7 @@ O jogo se ajusta à largura e à altura disponíveis, sem rolagem da página. No
 
 As molduras do herdeiro e do evento mantêm a proporção 3:4 e o mesmo tamanho. As ilustrações não são esticadas nem recortadas. O ajuste reduz primeiro as artes e os espaços, compactando o texto apenas quando necessário. Frases decorativas deixam de aparecer nos modos compactos; no resultado, a consequência ocupa o lugar da descrição e dos detalhes do evento que o jogador já leu. Os atributos e as escolhas continuam visíveis. A honra usa um contorno azul ou vermelho por fora do retrato, e os números de batalha seguem em texto corrido.
 
-Cada traço tem sete retratos simples: três fases de honra baixa, uma neutra e três de honra alta. As mudanças seguem os limites de honra −90, −50, −30, 0, +30, +50 e +90. A herdeira Corajosa é representada por uma mulher; os três personagens têm rostos e roupas próprios. O cabeçalho da carta explica o traço: Corajosa começa com +1 Ataque, Avarento com 10 Gold, e Doente com 70 Vida e 4 Escudo. A Vida máxima do Doente permanece em 70. A transição entre retratos dura 520ms, com deslocamento leve e troca de opacidade. Com movimento reduzido, a troca é imediata. As temporadas mudam a cada 25 rodadas e são mostradas no cabeçalho; quatro cartas só aparecem na estação correspondente.
+O retrato volta aos três SVGs clássicos: neutro, honra alta e honra baixa. A honra extrema mantém o contorno duplo da carta. O cabeçalho explica o traço: Corajosa começa com +1 Ataque, Avarento com 10 Gold, e Doente com 70 Vida e 4 Escudo. O Doente começa com 70 de Vida máxima, que pode aumentar com melhorias permanentes. As temporadas mudam a cada 25 rodadas e são mostradas no cabeçalho; quatro cartas só aparecem na estação correspondente.
 
 As cartas especiais do culto e os doze novos eventos letais têm ilustrações SVG próprias. A memória da run anterior fica no legado separado e pode aparecer em cartas sobre o túmulo ou uma criança que reconta a crônica.
 
@@ -103,7 +103,7 @@ Requisitos aceitam `honra: "alta"`, `"baixa"` ou `"nao_baixa"`, limites como `hp
 
 Ao avançar, o sorteio avalia a rodada de destino, permitindo um evento já na sua rodada mínima. Os requisitos de honra da carta são avaliados no sorteio; as respostas são reavaliadas a cada alteração de honra. Usar os controles de teste numa carta já aberta não invalida seu salvamento; rodada, flags e demais requisitos continuam sendo validados ao carregar.
 
-Um evento pode ter `pesos: [{ requisitos: { honra: "baixa" }, valor: 5 }]`; a primeira regra satisfeita substitui o peso base. Isso aumenta a incidência de desordem com honra baixa. O intervalo de repetição fica em `Jogo.config.memoriaEventos`; `run.eventosRecentes` guarda as últimas cartas resolvidas.
+Um evento pode ter `pesos: [{ requisitos: { honra: "baixa" }, valor: 5 }]`; a primeira regra satisfeita substitui o peso base. Isso aumenta a incidência de desordem com honra baixa. O intervalo de repetição dentro da run fica em `Jogo.config.memoriaEventos`; `run.eventosRecentes` guarda as últimas cartas resolvidas. O legado também guarda as cartas comuns das duas runs anteriores, mesmo se foram substituídas antes do fim, e as evita quando há outras opções elegíveis.
 
 As cartas `especial: true` recebem a marca `especial_<id>` quando sorteadas e saem da pool pelo restante da run. A cadeia abissal depende também das flags `abissal_1` a `abissal_5`, concedidas por qualquer resposta do estágio correspondente. `pacto: true` exige que `pacto_feito` ainda esteja ausente; uma opção de pacto grava essa marca ao ser escolhida. Recusar não grava pacto. `definir` define atributos diretamente; `efeitoContinuo.revelarHonraRodadas` mantém a prévia de honra durante o prazo salvo na run.
 
@@ -111,7 +111,7 @@ Eventos de comércio também aceitam `mercadorias`, com `id`, `texto`, `preco`, 
 
 ## Legado
 
-`localStorage.run_atual` contém a run; `localStorage.legado` contém somente conteúdo liberado e objetivos concluídos. Apagar a run não apaga o legado.
+`localStorage.run_atual` contém a run; `localStorage.legado` contém conteúdo liberado, objetivos concluídos e a rotação de cartas comuns entre runs. Apagar a run não apaga o legado.
 
 As conquistas são registradas em `run.conquistas` quando obtidas, mas só são transferidas para a chave `legado` no encerramento de qualquer run. A run usa `legadoDaRun`, uma fotografia dos desbloqueios existentes no seu início. Assim, um desbloqueio só entra no sorteio em runs seguintes.
 

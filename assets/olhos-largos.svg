@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path fill="#000" stroke="none" d="M0 0h360v480H0z"/>
-  <path d="M32 355q50-24 100 0t100 0 96 0M42 393q47-20 94 0t94 0 88 0" stroke-width="2"/>
-  <circle cx="180" cy="137" r="50" stroke-width="2"/>
-  <path d="M46 257q18-31 38 0v76H46Zm69-52q19-32 39 0v129h-39Zm112 11q19-32 39 0v118h-39Zm51 42q18-30 37 0v76h-37Z" fill="#000"/>
-  <ellipse cx="65" cy="242" rx="8" ry="12"/><ellipse cx="134" cy="190" rx="9" ry="15"/><ellipse cx="246" cy="202" rx="9" ry="15"/><ellipse cx="295" cy="245" rx="8" ry="12"/>
-  <circle cx="65" cy="242" r="3" fill="#fff" stroke="none"/><circle cx="134" cy="190" r="3" fill="#fff" stroke="none"/><circle cx="246" cy="202" r="3" fill="#fff" stroke="none"/><circle cx="295" cy="245" r="3" fill="#fff" stroke="none"/>
-  <path d="M58 333v25m69-27v25m111-20v25m50-28v25M115 420h130" stroke-width="2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-labelledby="title desc"><title id="title">Olhos largos</title><desc id="desc">Ilustração simples em tinta marfim sobre fundo preto.</desc><rect width="360" height="480" fill="#000"/><g fill="none" stroke="#f3efdf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M73 190 Q118 145 163 190 Q118 235 73 190 Z M197 190 Q242 145 287 190 Q242 235 197 190 Z"/><circle cx="118" cy="190" r="13"/><circle cx="242" cy="190" r="13"/><path d="M73 278 Q118 233 163 278 Q118 323 73 278 Z M197 278 Q242 233 287 278 Q242 323 197 278 Z" stroke-width="3"/><circle cx="118" cy="278" r="9"/><circle cx="242" cy="278" r="9"/></g></svg>

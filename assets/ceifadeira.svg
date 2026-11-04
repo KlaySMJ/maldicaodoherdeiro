@@ -1,11 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path fill="#000" stroke="none" d="M0 0h360v480H0z"/>
-  <path d="M50 385h260M72 412h216m-195-28v30m173-30v30" stroke-width="2"/>
-  <path d="M102 395q5-54 28-86l18-40q-16-44 2-82 16-34 51-34 39 0 55 39 15 37-5 77l28 64q14 24 16 62Z" fill="#000"/>
-  <path d="M146 185q19-47 62-42 32 3 43 38m-95 14q39-20 77-2m-70 29q29 8 58-1" stroke-width="2"/>
-  <path d="M164 201q10-9 18 1m33 0q10-9 18 1m-35 11-4 20 14 1m-25 18q19 11 36-2" stroke-width="2"/>
-  <path d="M119 347q62 28 125-1m-100-40 25 25 31-28m-61 78 41-28 39 28"/>
-  <path d="M54 302q38-20 68-4m112-5q40-15 71 8" stroke-width="2"/>
-  <path d="M279 296q35-6 45-33 6-19-7-27-16-8-27 11-11 22-24 29"/><path d="m301 254 16 9m-33 32 4 35m-14-28 20 1" stroke-width="2"/>
-  <path d="M127 132q36-28 73-20m-47 8q-21-16-28-33m101 35q19-17 30-34" stroke-width="2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-labelledby="title desc"><title id="title">Ceifadeira</title><desc id="desc">Ilustração simples em tinta marfim sobre fundo preto.</desc><rect width="360" height="480" fill="#000"/><g fill="none" stroke="#f3efdf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M104 324 Q161 286 226 214 Q263 171 271 129 Q288 172 260 228 Q211 318 104 324 Z"/><path d="M128 341 L244 224 M119 330 L131 343 M139 319 L151 331 M159 307 L171 319"/><path d="M81 354 H279" stroke-width="2"/></g></svg>

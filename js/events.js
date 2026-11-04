@@ -8,7 +8,7 @@
   Jogo.eventos = [
     {
       id: "caixas_suspeitas", titulo: "Caixas suspeitas", tipo: "encontro", peso: 3,
-      imagem: "assets/caixas.svg", imagemAlt: "Caixotes de madeira diante do portão do vilarejo, desenhados em branco sobre preto",
+      imagem: "assets/caixas.png", imagemAlt: "Caixotes de madeira diante do portão do vilarejo, desenhados em branco sobre preto",
       texto: "Uma carroça chega ao portão. O mercador oferece mantimentos, mas um cheiro estranho escapa das caixas. O povo aguarda sua palavra.",
       informacoes: "O mercador pede passagem. Ninguém sabe de onde vieram os mantimentos.",
       opcoes: [
@@ -20,7 +20,7 @@
     },
     {
       id: "viajantes", titulo: "À procura de um lar", tipo: "encontro", peso: 3,
-      imagem: "assets/vila.svg", imagemAlt: "Casas e uma estrada sob as muralhas do castelo",
+      imagem: "assets/vila.png", imagemAlt: "Casas e uma estrada sob as muralhas do castelo",
       texto: "Cinco viajantes chegam da estrada do norte. Perderam a colheita e procuram um lugar onde possam recomeçar.",
       informacoes: "Os viajantes pedem abrigo e um pedaço de terra para cultivar.",
       opcoes: [
@@ -31,7 +31,7 @@
     },
     {
       id: "ferreiro", titulo: "O fogo da forja", tipo: "encontro", peso: 2,
-      imagem: "assets/forja.svg", imagemAlt: "Uma espada sobre a bigorna da forja",
+      imagem: "assets/forja.png", imagemAlt: "Uma espada sobre a bigorna da forja",
       texto: "O ferreiro recuperou o aço de uma antiga armadura. Há material para reforçar uma peça de seu equipamento.",
       informacoes: "O aço pode melhorar seu ataque ou seu escudo.",
       opcoes: [
@@ -42,7 +42,7 @@
     },
     {
       id: "geada", titulo: "A primeira geada", tipo: "mandatorio", peso: 1,
-      imagem: "assets/geada.svg", imagemAlt: "Um campo de trigo sob o inverno",
+      imagem: "assets/geada.png", imagemAlt: "Um campo de trigo sob o inverno",
       texto: "O frio chega antes da colheita. Na noite em que você ajuda a proteger os campos, o gelo toma a terra e a febre toma seu corpo.",
       informacoes: "O inverno não espera uma decisão. Há coisas que nem um senhor pode impedir.",
       opcoes: [
@@ -52,7 +52,7 @@
     {
       id: "celeiro", titulo: "Sombras no celeiro", tipo: "desordem", peso: 1,
       pesos: [{ requisitos: { honra: "baixa" }, valor: 5 }],
-      imagem: "assets/caixas.svg", imagemAlt: "Estoques de alimentos junto a um portão de pedra",
+      imagem: "assets/caixas.png", imagemAlt: "Estoques de alimentos junto a um portão de pedra",
       texto: "O estoque de grãos está diminuindo. Na praça, dois vizinhos se acusam de roubo. Seus guardas esperam uma ordem.",
       informacoes: "Há comida desaparecida e nenhuma prova contra os acusados.",
       opcoes: [
@@ -63,7 +63,7 @@
     },
     {
       id: "mercador", titulo: "O mercador da estrada", tipo: "mercador", peso: 1,
-      imagem: "assets/caixas.svg", imagemAlt: "Caixotes de mercadorias diante do portão do vilarejo, desenhados em branco sobre preto",
+      imagem: "assets/caixas.png", imagemAlt: "Caixotes de mercadorias diante do portão do vilarejo, desenhados em branco sobre preto",
       texto: "O mercador abre seus caixotes na praça. Há remédios, armas e escudos para quem ainda tem moedas.",
       informacoes: "Compre um produto ou siga viagem. Cada compra encarece só aquele produto em 2 gold.",
       mercadorias: [
@@ -77,7 +77,7 @@
     },
     {
       id: "saqueadores", titulo: "Saqueadores à vista", tipo: "batalha", peso: 2,
-      imagem: "assets/batalha.svg", imagemAlt: "Espadas diante de uma torre vigiada por estandartes",
+      imagem: "assets/batalha.png", imagemAlt: "Espadas diante de uma torre vigiada por estandartes",
       texto: "Uma coluna armada desce a colina. O vigia reconhece as bandeiras: saqueadores. Entre eles e as casas, apenas você e seus homens.",
       informacoes: "O ataque precisa alcançar a defesa inimiga. Seu escudo reduz o dano recebido, sem se desgastar.",
       batalha: {
@@ -94,7 +94,7 @@
     },
     {
       id: "ervateira", titulo: "As mãos da ervateira", tipo: "encontro", peso: 2,
-      imagem: "assets/ervas.svg", imagemAlt: "Ervas e um pilão de remédios, desenhados em branco sobre preto",
+      imagem: "assets/ervas.png", imagemAlt: "Ervas e um pilão de remédios, desenhados em branco sobre preto",
       texto: "Uma mulher chega com ervas e uma agulha torta. Trata feridas há quarenta invernos; seus pacientes ainda discutem os métodos.",
       informacoes: "Ela aceita moedas pelo tratamento ou ajuda para colher mais ervas.",
       opcoes: [
@@ -106,7 +106,7 @@
     {
       id: "ponte_partida", titulo: "A ponte partida", tipo: "encontro", peso: 2,
       requisitos: { flagsAusentes: ["ponte_reparada"] },
-      imagem: "assets/ponte.svg", imagemAlt: "Uma ponte de madeira partida sobre um rio",
+      imagem: "assets/ponte.png", imagemAlt: "Uma ponte de madeira partida sobre um rio",
       texto: "A ponte do moinho cedeu. Do outro lado, carroças esperam; deste, o carpinteiro calcula quantas tábuas ainda podem ser chamadas de tábuas.",
       informacoes: "Reabrir a estrada pode trazer gente e comércio mais adiante.",
       opcoes: [
@@ -118,7 +118,7 @@
     {
       id: "caravana_da_ponte", titulo: "Rodas sobre o rio", tipo: "encontro", peso: 3,
       requisitos: { flags: ["ponte_reparada"], flagsAusentes: ["caravana_recebida"] },
-      imagem: "assets/caixas.svg", imagemAlt: "Caixotes de uma caravana diante do portão",
+      imagem: "assets/caixas.png", imagemAlt: "Caixotes de uma caravana diante do portão",
       texto: "Uma caravana cruza a ponte reparada. A condutora oferece pagamento por um lugar no pátio; algumas famílias procuram algo mais permanente.",
       informacoes: "A ponte trouxe a primeira oportunidade de comércio. A caravana partirá de manhã.",
       opcoes: [
@@ -130,7 +130,7 @@
     {
       id: "poco_turvo", titulo: "O fundo do poço", tipo: "encontro", peso: 2,
       requisitos: { flagsAusentes: ["poco_decidido"] },
-      imagem: "assets/poco.svg", imagemAlt: "Poço de pedra e um balde gasto na praça",
+      imagem: "assets/poco.png", imagemAlt: "Poço de pedra e um balde gasto na praça",
       texto: "A água do poço tem gosto de ferro. Um pedreiro oferece limpar o fundo; na praça, alguém garante que sempre teve esse gosto.",
       informacoes: "Uma corda e algumas pedras podem custar menos que uma vila doente.",
       opcoes: [
@@ -142,7 +142,7 @@
     {
       id: "febre_do_poco", titulo: "As portas fechadas", tipo: "desordem", peso: 4,
       requisitos: { flags: ["poco_contaminado"], flagsAusentes: ["febre_resolvida"] },
-      imagem: "assets/poco.svg", imagemAlt: "O poço de água contaminada no centro do povoado",
+      imagem: "assets/poco.png", imagemAlt: "O poço de água contaminada no centro do povoado",
       texto: "A água turva cobrou sua parte. Panos molhados cobrem as janelas, e a curandeira pede mãos e remédios antes que a febre tome a rua.",
       informacoes: "O problema deixado no poço voltou às casas. Ainda há gente que pode ser salva.",
       opcoes: [
@@ -153,7 +153,7 @@
     },
     {
       id: "contrabandista", titulo: "O caminho sem guarda", tipo: "encontro", peso: 1,
-      imagem: "assets/caixas.svg", imagemAlt: "Caixas fechadas junto à entrada da vila",
+      imagem: "assets/caixas.png", imagemAlt: "Caixas fechadas junto à entrada da vila",
       texto: "Um viajante oferece moedas para atravessar sem abrir os sacos. Diz que transporta sal. Seu burro parece o único a acreditar.",
       informacoes: "Ele paga pela discrição. Inspecionar a carga também exige seus homens.",
       opcoes: [
@@ -164,7 +164,7 @@
     },
     {
       id: "milicia", titulo: "Escudos de celeiro", tipo: "encontro", peso: 2,
-      imagem: "assets/forja.svg", imagemAlt: "Lâmina e bigorna de uma oficina simples",
+      imagem: "assets/forja.png", imagemAlt: "Lâmina e bigorna de uma oficina simples",
       texto: "Os moradores ensaiam uma defesa com tampas de barril. Um veterano oferece instrução; metade da turma segura o escudo ao contrário.",
       informacoes: "O treino pode melhorar seu equipamento ou devolver braços ao trabalho da vila.",
       opcoes: [
@@ -175,7 +175,7 @@
     },
     {
       id: "enchente", titulo: "O rio dentro de casa", tipo: "mandatorio", peso: 1,
-      imagem: "assets/vila.svg", imagemAlt: "Casas nas terras baixas do vilarejo",
+      imagem: "assets/vila.png", imagemAlt: "Casas nas terras baixas do vilarejo",
       texto: "O rio sobe durante a noite. Você ajuda a tirar crianças e sacos de farinha das casas; a corrente não distingue um do outro.",
       informacoes: "A água já entrou. O que resta é salvar quem ainda pode sair.",
       opcoes: [
@@ -184,7 +184,7 @@
     },
     {
       id: "pedreira", titulo: "Pedra e pão", tipo: "encontro", peso: 2,
-      imagem: "assets/forja.svg", imagemAlt: "Ferramentas de ferro usadas pelos trabalhadores",
+      imagem: "assets/forja.png", imagemAlt: "Ferramentas de ferro usadas pelos trabalhadores",
       texto: "A velha pedreira ainda guarda pedra boa. Os trabalhadores pedem comida antes de entrar; o comprador quer a carga antes do próximo frio.",
       informacoes: "A obra pode render moedas, atrair trabalhadores ou esperar uma estação melhor.",
       opcoes: [
@@ -196,7 +196,7 @@
     {
       id: "desertores", titulo: "Soldados sem bandeira", tipo: "batalha", peso: 1,
       requisitos: { rodadaMin: 6 },
-      imagem: "assets/batalha.svg", imagemAlt: "Espadas e uma torre sob estandartes",
+      imagem: "assets/batalha.png", imagemAlt: "Espadas e uma torre sob estandartes",
       texto: "Soldados sem senhor acampam perto do moinho. Pedem um tributo para ir embora. Os sacos de farinha já estão junto aos seus cavalos.",
       informacoes: "Eles têm treino e equipamento. A farinha e as moedas do moinho estão com eles.",
       batalha: {
@@ -213,7 +213,7 @@
     },
     {
       id: "javalis", titulo: "Os donos da plantação", tipo: "batalha", peso: 2,
-      imagem: "assets/geada.svg", imagemAlt: "Espigas de uma plantação no campo",
+      imagem: "assets/geada.png", imagemAlt: "Espigas de uma plantação no campo",
       texto: "Javalis entraram na plantação. O maior dorme sobre o espantalho. Os lavradores esperam que alguém lhe explique a propriedade da terra.",
       informacoes: "Salvar a colheita permite vender o excedente e manter os lavradores na vila.",
       batalha: {
@@ -230,7 +230,7 @@
     },
     {
       id: "colheita", titulo: "Uma noite sem fome", tipo: "encontro", peso: 2,
-      imagem: "assets/geada.svg", imagemAlt: "Espigas maduras desenhadas em branco sobre preto",
+      imagem: "assets/geada.png", imagemAlt: "Espigas maduras desenhadas em branco sobre preto",
       texto: "Pela primeira vez, sobrou grão. O celeireiro traz as contas; do lado de fora, alguém ensaia uma música que só lembra pela metade.",
       informacoes: "O excedente pode virar moedas, comida para os moradores ou um breve descanso.",
       opcoes: [
@@ -242,7 +242,7 @@
     {
       id: "orfao", titulo: "Uma criança no portão", tipo: "encontro", peso: 2,
       requisitos: { flagsAusentes: ["orfao_decidido"] },
-      imagem: "assets/vila.svg", imagemAlt: "O portão e as casas do vilarejo em traços brancos sobre preto",
+      imagem: "assets/vila.png", imagemAlt: "O portão e as casas do vilarejo em traços brancos sobre preto",
       texto: "Um menino sujo de cinzas espera no portão com uma trouxa menor que ele. Diz que veio da vila queimada ao sul e que conheceu seu pai. Os guardas fingem não ouvir.",
       informacoes: "Ninguém pode confirmar a história do menino.",
       opcoes: [
@@ -255,7 +255,7 @@
     {
       id: "orfao_cresce", titulo: "O menino e a espada", tipo: "encontro", peso: 3,
       requisitos: { flags: ["orfao_acolhido"], flagsAusentes: ["orfao_resolvido"], rodadaMin: 8 },
-      imagem: "assets/forja.svg", imagemAlt: "Espada de treino junto à bigorna do ferreiro",
+      imagem: "assets/forja.png", imagemAlt: "Espada de treino junto à bigorna do ferreiro",
       texto: "O menino cresceu, e seu galho de árvore virou espada de treino. Ele pede que você o ensine, e que ninguém conte à cozinheira.",
       informacoes: "A vila acompanha o que você fizer com o garoto que acolheu.",
       opcoes: [
@@ -267,7 +267,7 @@
     {
       id: "testamento", titulo: "A vontade do velho senhor", tipo: "mandatorio", peso: 1,
       requisitos: { rodadaMin: 5, flagsAusentes: ["testamento_lido"] },
-      imagem: "assets/caixas.svg", imagemAlt: "Um cofre entre os bens guardados pelo antigo senhor",
+      imagem: "assets/caixas.png", imagemAlt: "Um cofre entre os bens guardados pelo antigo senhor",
       texto: "Numa noite de chuva, você encontra o cofre do seu predecessor atrás de uma tapeçaria. Dentro há moedas contadas e uma carta que pede perdão a pessoas que você nunca conheceu.",
       informacoes: "Há heranças que chegam sem pedir licença.",
       opcoes: [
@@ -277,7 +277,7 @@
     {
       id: "banquete", titulo: "A mesa do povo", tipo: "encontro", peso: 2,
       requisitos: { honra: "alta" },
-      imagem: "assets/vila.svg", imagemAlt: "As casas do povoado reunidas ao redor da praça",
+      imagem: "assets/vila.png", imagemAlt: "As casas do povoado reunidas ao redor da praça",
       texto: "Os moradores arrastam mesas para a praça sem pedir permissão. Há pão, sopa rala e um violeiro que só sabe uma música. Guardaram o lugar da cabeceira para você.",
       informacoes: "O povo oferece a refeição; o que você faz com ela é decisão sua.",
       opcoes: [
@@ -290,7 +290,7 @@
     {
       id: "taverna", titulo: "A taverna sem dono", tipo: "desordem", peso: 1,
       pesos: [{ requisitos: { honra: "baixa" }, valor: 5 }],
-      imagem: "assets/vila.svg", imagemAlt: "Casas de madeira junto à praça da vila",
+      imagem: "assets/vila.png", imagemAlt: "Casas de madeira junto à praça da vila",
       texto: "Uma briga começou por causa de uma canção e acabou quando a mesa quebrou. Agora três homens se acusam, e o dono da taverna chora em cima do balcão.",
       informacoes: "A vila observa quem o senhor decide proteger.",
       opcoes: [
@@ -302,7 +302,7 @@
     },
     {
       id: "peregrino", titulo: "O peregrino das relíquias", tipo: "encontro", peso: 2,
-      imagem: "assets/ervas.svg", imagemAlt: "Pequenos embrulhos e ervas de um viajante da estrada",
+      imagem: "assets/ervas.png", imagemAlt: "Pequenos embrulhos e ervas de um viajante da estrada",
       texto: "Um peregrino de sandálias gastas oferece um dente de santo embrulhado em pano. Jura que traz bênçãos para quem o tocar. O pano cheira a estábulo.",
       informacoes: "Ninguém sabe se a relíquia é verdadeira. A fé do povo vale tanto quanto a verdade, ou mais.",
       opcoes: [
@@ -314,7 +314,7 @@
     {
       id: "barao", titulo: "O cobrador do barão", tipo: "batalha", peso: 2,
       requisitos: { rodadaMin: 4 },
-      imagem: "assets/batalha.svg", imagemAlt: "Espadas e estandartes dos homens do barão",
+      imagem: "assets/batalha.png", imagemAlt: "Espadas e estandartes dos homens do barão",
       texto: "Um cavaleiro de armadura cinza exige tributo em nome de um barão que ninguém conhece. Seus homens esperam atrás, em formação mais limpa do que a de qualquer guarda seu.",
       informacoes: "O cavaleiro exige o tributo. A vila aguarda a sua palavra.",
       batalha: {
@@ -337,7 +337,7 @@
     {
       id: "pedagio_revolta", titulo: "O preço da ponte", tipo: "desordem", peso: 4,
       requisitos: { flags: ["ponte_com_pedagio"], flagsAusentes: ["pedagio_resolvido"] },
-      imagem: "assets/ponte.svg", imagemAlt: "A passagem da ponte sob protestos dos viajantes",
+      imagem: "assets/ponte.png", imagemAlt: "A passagem da ponte sob protestos dos viajantes",
       texto: "Os viajantes reclamam do pedágio. Alguém queimou a cancela durante a noite, e a fumaça ainda sobe sobre o rio. Os guardas procuram culpados; o povo procura desculpas.",
       informacoes: "A ponte que você cobrou voltou a cobrar de você.",
       opcoes: [
@@ -406,7 +406,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante moinho parado"
     },
     {
@@ -476,7 +476,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante farinha nova"
     },
     {
@@ -530,7 +530,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o bardo de uma canção só"
     },
     {
@@ -596,7 +596,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a canção que corre"
     },
     {
@@ -640,7 +640,7 @@
           "resultado": "A multa enche o cofre, mas duas famílias acusadas partem. O gado aparece dias depois, no mesmo vale de sempre."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante gado perdido"
     },
     {
@@ -688,7 +688,7 @@
           "texto": "Três pastores desistem da vila."
         }
       },
-      "imagem": "assets/batalha.svg",
+      "imagem": "assets/batalha.png",
       "imagemAlt": "Cena da vila durante lobos na neve"
     },
     {
@@ -755,7 +755,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a fuga do prisioneiro"
     },
     {
@@ -811,7 +811,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o prisioneiro volta"
     },
     {
@@ -865,7 +865,7 @@
           "resultado": "Um jovem cozinheiro devolve o que sobrou e pede perdão. Ele passa a vigiar o cofre do lado de dentro."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o cofre vazio"
     },
     {
@@ -911,7 +911,7 @@
           "resultado": "A cerimônia ocorre sem alegria. Os jovens se casam, e ninguém dança."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante casamento na praça"
     },
     {
@@ -919,6 +919,7 @@
       "titulo": "A seca",
       "tipo": "mandatorio",
       "peso": 1,
+      "protecaoCeleiro": true,
       "texto": "As nuvens passam sem parar. Os poços descem, e os campos racham. À noite, você divide sua água com quem não tem.",
       "informacoes": "A seca não negocia. Resta decidir como atravessá-la.",
       "opcoes": [
@@ -933,7 +934,7 @@
           "resultado": "A água dura até a chuva. Três famílias partem em busca de terras mais úmidas; o resto fica, mais magro e mais unido."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a seca"
     },
     {
@@ -988,7 +989,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o padre sem igreja"
     },
     {
@@ -1052,7 +1053,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a capela"
     },
     {
@@ -1115,7 +1116,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o menino vai embora"
     },
     {
@@ -1172,7 +1173,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante cinzas da praga"
     },
     {
@@ -1230,7 +1231,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante os que ficaram de pé"
     },
     {
@@ -1285,7 +1286,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a carta do velho senhor"
     },
     {
@@ -1349,7 +1350,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o rosto do velho senhor"
     },
     {
@@ -1371,7 +1372,7 @@
           "resultado": "As chamas cedem ao amanhecer. Duas famílias, sem teto, seguem para o sul."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o celeiro em chamas"
     },
     {
@@ -1423,7 +1424,7 @@
           "texto": "O resgate leva 3 gold e dois ajudantes desistem de seguir viagem."
         }
       },
-      "imagem": "assets/batalha.svg",
+      "imagem": "assets/batalha.png",
       "imagemAlt": "Cena da vila durante ladrões na estrada"
     },
     {
@@ -1467,7 +1468,7 @@
           "resultado": "Os bastões voltam aos fornos. Um jovem desistiu de ficar e tira a vila da lista dos seus planos."
         }
       ],
-      "imagem": "assets/forja.svg",
+      "imagem": "assets/forja.png",
       "imagemAlt": "Cena da vila durante o torneio da aldeia"
     },
     {
@@ -1524,7 +1525,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o arauto do rei"
     },
     {
@@ -1566,7 +1567,7 @@
           "resultado": "Ele era apenas um cartógrafo em dificuldade. Seu mapa leva dois colonos até a vila."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o espião de sotaque estranho"
     },
     {
@@ -1608,7 +1609,7 @@
           "resultado": "A mulher desaparece antes do julgamento. Três moradores, que a conheciam, partem para protegê-la."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a bruxa da floresta"
     },
     {
@@ -1654,7 +1655,7 @@
           "resultado": "Você olha o reflexo por um tempo. O mercador sorri e anuncia que a vila é uma boa praça."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a feira da colheita"
     },
     {
@@ -1708,7 +1709,7 @@
           "resultado": "A multa é paga com o único boi da família. A praça se esvazia mais cedo do que o habitual."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o julgamento na praça"
     },
     {
@@ -1750,7 +1751,7 @@
           "resultado": "O pregador vira mártir em uma tarde. Três famílias o seguem para fora da vila."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o pregador furioso"
     },
     {
@@ -1812,7 +1813,7 @@
           "resultado": "O servo trabalha de olhos baixos. Três moradores partem à noite, sem bater a porta."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o mercador de gente"
     },
     {
@@ -1877,7 +1878,7 @@
           "texto": "Quatro lavradores deixam as terras."
         }
       },
-      "imagem": "assets/batalha.svg",
+      "imagem": "assets/batalha.png",
       "imagemAlt": "Cena da vila durante a fera da floresta"
     },
     {
@@ -1937,7 +1938,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a mina esquecida"
     },
     {
@@ -1971,7 +1972,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o desabamento"
     },
     {
@@ -2014,7 +2015,7 @@
           "resultado": "Os irmãos partem em direções opostas. A casa vira armazém, e ninguém a chama de lar."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante os irmãos rivais"
     },
     {
@@ -2053,7 +2054,7 @@
           "resultado": "Ela carrega as panelas de volta pela estrada. O cachorro olha para trás."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a estalajadeira"
     },
     {
@@ -2099,7 +2100,7 @@
           "resultado": "Os ratos fogem e os grãos também. Três famílias seguem os ratos para fora da vila."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante ratos no celeiro"
     },
     {
@@ -2128,7 +2129,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o corpo no céu"
     },
     {
@@ -2194,7 +2195,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o profeta do cometa"
     },
     {
@@ -2234,7 +2235,7 @@
           "resultado": "A noite é fria e o guarda dorme em paz. Pela manhã, todos já sabem quem fez a ronda."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o guarda cansado"
     },
     {
@@ -2288,7 +2289,7 @@
           "resultado": "As queixas são justas: pouca comida, nenhuma folga. Você ajusta o que pode, e duas famílias de guardas decidem ficar."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante guardas desertando"
     },
     {
@@ -2345,7 +2346,7 @@
           "resultado": "Duas lavadeiras, expulsas, levam o rumor para outras vilas. Ele chega lá antes delas."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante rumores da lavanderia"
     },
     {
@@ -2393,7 +2394,7 @@
           "resultado": "Ele estende a mão e promete voltar. O povo observa e sente o peso dessa palavra."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o cavaleiro errante"
     },
     {
@@ -2456,7 +2457,7 @@
           "texto": "A derrota custa respeito e a bolsa da aposta."
         }
       },
-      "imagem": "assets/batalha.svg",
+      "imagem": "assets/batalha.png",
       "imagemAlt": "Cena da vila durante o duelo de honra"
     },
     {
@@ -2505,7 +2506,7 @@
           "resultado": "O coletor falha em provar. Ele parte irritado, deixando uma cicatriz verbal e nenhuma conta."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o coletor de impostos"
     },
     {
@@ -2562,7 +2563,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante retirantes da guerra"
     },
     {
@@ -2608,7 +2609,7 @@
           "resultado": "Os parentes saem de mãos vazias. Dois deles juram que o cavalo ainda terá dono."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a herança disputada"
     },
     {
@@ -2651,7 +2652,7 @@
           "resultado": "O silêncio é incômodo. Alguns acordam tarde, outros cedo, e todos reclamam."
         }
       ],
-      "imagem": "assets/forja.svg",
+      "imagem": "assets/forja.png",
       "imagemAlt": "Cena da vila durante o sino rachado"
     },
     {
@@ -2691,7 +2692,7 @@
           "resultado": "Ele sai pela estrada sem reclamar. Os moradores observam se você vai olhar para trás."
         }
       ],
-      "imagem": "assets/forja.svg",
+      "imagem": "assets/forja.png",
       "imagemAlt": "Cena da vila durante o velho soldado"
     },
     {
@@ -2699,6 +2700,7 @@
       "titulo": "Pão contado",
       "tipo": "desordem",
       "peso": 1,
+      "protecaoCeleiro": true,
       "pesos": [
         {
           "requisitos": {
@@ -2746,7 +2748,7 @@
           "resultado": "Você enche o cofre e esvazia a praça. Três famílias deixam a vila de barriga cheia e olhar duro."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante pão contado"
     },
     {
@@ -2787,7 +2789,7 @@
           "resultado": "As velas são acesas mesmo assim, longe dos olhos do senhor. Um morador parte na manhã seguinte."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a noite dos mortos"
     },
     {
@@ -2833,7 +2835,7 @@
           "resultado": "O nobre aceita, relutante, e acaba feliz. A viúva traz uma família inteira ao altar."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o nobre falido"
     },
     {
@@ -2858,7 +2860,7 @@
           "resultado": "Na manhã, os telhados voltam a ser cobertos por braços. Duas famílias, sem casa, partem."
         }
       ],
-      "imagem": "assets/geada.svg",
+      "imagem": "assets/geada.png",
       "imagemAlt": "Cena da vila durante a tempestade"
     },
     {
@@ -2905,7 +2907,7 @@
           "resultado": "Seu cofre pesa. A vila, vazia, ecoa seus passos."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante os homens do senhor"
     },
     {
@@ -2969,7 +2971,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o culto do poço"
     },
     {
@@ -3021,7 +3023,7 @@
           "texto": "Oito moradores morrem ou fogem no saque; o cofre perde 3 gold."
         }
       },
-      "imagem": "assets/batalha.svg",
+      "imagem": "assets/batalha.png",
       "imagemAlt": "Cena da vila durante o portão aberto"
     },
     {
@@ -3063,7 +3065,7 @@
           "resultado": "Ela deixa a medalha sobre a mesa. Os guardas olham para o chão, e o senhor, para a medalha."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a viúva do soldado"
     },
     {
@@ -3105,7 +3107,7 @@
           "resultado": "O rapaz parte sem se queixar. Pela estrada, tosse mais do que deveria."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o aprendiz de boticário"
     },
     {
@@ -3146,7 +3148,7 @@
           "resultado": "As ovelhas partem balindo. Nenhuma cerca é mastigada, e ninguém sente falta delas."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante pastores de passagem"
     },
     {
@@ -3191,7 +3193,7 @@
           "resultado": "Ninguém mais toca em um cavalo alheio. Quatro famílias deixam a vila antes do amanhecer."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o ladrão de cavalos"
     },
     {
@@ -3235,7 +3237,7 @@
           "resultado": "O oleiro paga, mas a fumaça sobe com mais ressentimento que o normal."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o forno do oleiro"
     },
     {
@@ -3275,7 +3277,7 @@
           "resultado": "As crianças voltam sozinhas. Os pais não esquecem a noite, e duas famílias partem com os pequenos."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante crianças na floresta"
     },
     {
@@ -3319,7 +3321,7 @@
           "resultado": "A faixa é entregue, e duas famílias que a cultivavam partem junto com ela."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a pedra do limite"
     },
     {
@@ -3354,7 +3356,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o sonho do velho senhor"
     },
     {
@@ -3400,7 +3402,7 @@
           "resultado": "As moedas circulam. Algumas famílias descobrem de onde vieram e partem sem fazer barulho."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante moedas falsas"
     },
     {
@@ -3439,7 +3441,7 @@
           "resultado": "Os carvoeiros parecem entender e vão embora. O bosque agradece em folhas."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante os carvoeiros"
     },
     {
@@ -3483,7 +3485,7 @@
           "resultado": "A lista é dobrada e devolvida ao bolso. Dois dos presentes saem da vila na manhã seguinte."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o contador de mortos"
     },
     {
@@ -3522,7 +3524,7 @@
           "resultado": "O vigia volta à torre. Na noite seguinte, não desce mais para avisar."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o vigia da torre"
     },
     {
@@ -3565,7 +3567,7 @@
           "resultado": "As abelhas ficam. A cozinheira passa a cozinhar fora."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o enxame"
     },
     {
@@ -3607,7 +3609,7 @@
           "resultado": "A lagoa vira lugar de encontro e silêncio. Três famílias se instalam à margem, sem fazer barulho."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a lagoa proibida"
     },
     {
@@ -3672,7 +3674,7 @@
           "texto": "Cinco de seus homens não voltam, e a vila ouve a notícia sem querer."
         }
       },
-      "imagem": "assets/batalha.svg",
+      "imagem": "assets/batalha.png",
       "imagemAlt": "Cena da vila durante o vizinho pede ajuda"
     },
     {
@@ -3740,7 +3742,7 @@
           "texto": "Doze moradores morrem ou fogem; o saque leva 5 gold."
         }
       },
-      "imagem": "assets/batalha.svg",
+      "imagem": "assets/batalha.png",
       "imagemAlt": "Cena da vila durante a volta do barão"
     },
     {
@@ -3801,7 +3803,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante o primo distante"
     },
     {
@@ -3826,7 +3828,7 @@
           "resultado": "Vocês atravessam os meses. Quatro moradores não chegam ao degelo, e sua barba, sim."
         }
       ],
-      "imagem": "assets/geada.svg",
+      "imagem": "assets/geada.png",
       "imagemAlt": "Cena da vila durante o inverno longo"
     },
     {
@@ -3879,7 +3881,7 @@
           "resultado": "O bispo parte sem desconfiar. Dois moradores que viram a farsa partem logo depois."
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante a visita do bispo"
     },
     {
@@ -3914,7 +3916,7 @@
           }
         }
       ],
-      "imagem": "assets/vila.svg",
+      "imagem": "assets/vila.png",
       "imagemAlt": "Cena da vila durante aquele que vem depois"
     }
   ]);
@@ -3974,7 +3976,7 @@
           "resultado": "A mulher afunda sem protestar. O rio volta a correr, e os moradores demoram a se afastar da margem."
         }
       ],
-      "imagem": "assets/dama-da-agua.svg",
+      "imagem": "assets/dama-da-agua.png",
       "imagemAlt": "A dama do lago emerge entre ondas e juncos",
       "pacto": true
     },
@@ -4034,7 +4036,7 @@
           "resultado": "O corvo sai pela janela rindo. Por semanas, você ouve pássaros demais nos telhados."
         }
       ],
-      "imagem": "assets/corvo.svg",
+      "imagem": "assets/corvo.png",
       "imagemAlt": "Corvo de perfil com tapa-olho e uma runa sob as asas",
       "pacto": true
     },
@@ -4102,7 +4104,7 @@
           "resultado": "O mercador faz uma mesura exagerada e parte. Os cães ladram até o anoitecer, para a estrada vazia."
         }
       ],
-      "imagem": "assets/mercador-sem-sombra.svg",
+      "imagem": "assets/mercador-sem-sombra.png",
       "imagemAlt": "Mercador encapuzado diante de uma balança e sem sombra",
       "pacto": true
     },
@@ -4163,7 +4165,7 @@
           "resultado": "O machado se parte duas vezes antes de morder. Quando cai, a árvore sangra seiva escura. Quatro famílias deixam a vila antes do pôr do sol."
         }
       ],
-      "imagem": "assets/arvore-que-pede.svg",
+      "imagem": "assets/arvore-que-pede.png",
       "imagemAlt": "Árvore antiga com um rosto entalhado e uma mão oferecendo",
       "pacto": true
     },
@@ -4212,7 +4214,7 @@
           "resultado": "A clareira guarda uma pedra coberta de musgo. Você toca nela e volta dois dias depois, mais velho e mais firme."
         }
       ],
-      "imagem": "assets/cervo-branco.svg",
+      "imagem": "assets/cervo-branco.png",
       "imagemAlt": "Cervo branco parado na orla de uma floresta"
     },
     {
@@ -4261,7 +4263,7 @@
           "resultado": "Ela sorri sem alegria. Na manhã seguinte, oito casas têm cortinas fechadas. A vila nunca mais pergunta nada ao senhor."
         }
       ],
-      "imagem": "assets/ceifadeira.svg",
+      "imagem": "assets/ceifadeira.png",
       "imagemAlt": "Figura encapuzada da ceifadeira sentada à mesa"
     },
     {
@@ -4314,7 +4316,7 @@
           "resultado": "Os cacos valem algo para um vidraceiro, mas a vila ouve o barulho e entende que o senhor quebrou algo importante."
         }
       ],
-      "imagem": "assets/espelho-do-antecessor.svg",
+      "imagem": "assets/espelho-do-antecessor.png",
       "imagemAlt": "Espelho antigo refletindo a silhueta de um antecessor"
     },
     {
@@ -4370,7 +4372,7 @@
           "resultado": "As velhas se entreolham e voltam a fiar. Quando você olha de novo, a praça está vazia e o carvalho carrega três fitas coloridas."
         }
       ],
-      "imagem": "assets/fiandeiras.svg",
+      "imagem": "assets/fiandeiras.png",
       "imagemAlt": "Três fiandeiras trabalhando em um único fio",
       "pacto": true
     },
@@ -4450,7 +4452,7 @@
           "resultado": "O papel grita ao ser rasgado, e sua mão queima. A vila acorda com o som e olha para o senhor, sem saber o que viu."
         }
       ],
-      "imagem": "assets/contrato-vermelho.svg",
+      "imagem": "assets/contrato-vermelho.png",
       "imagemAlt": "Contrato selado repousando sobre uma mesa",
       "pacto": true
     },
@@ -4501,7 +4503,7 @@
           "resultado": "O cavaleiro não responde. Passa pelo portão, atravessa a vila e some ao norte, sem tocar em ninguém, deixando um vazio atrás."
         }
       ],
-      "imagem": "assets/cavaleiro-de-osso.svg",
+      "imagem": "assets/cavaleiro-de-osso.png",
       "imagemAlt": "Cavaleiro de ossos com elmo e espada enferrujada",
       "batalha": {
         "defesa": 7,
@@ -4572,7 +4574,7 @@
           "resultado": "Ela bebe devagar. Antes de partir, toca seu escudo. Ele passa a pesar menos e a proteger mais."
         }
       ],
-      "imagem": "assets/santa-sem-nome.svg",
+      "imagem": "assets/santa-sem-nome.png",
       "imagemAlt": "Pequena estátua de uma santa sem rosto"
     },
     {
@@ -4624,7 +4626,7 @@
           "resultado": "O lobo recua sem lutar, mas uma dentada profunda em seu braço fica como lembrete. Pelos próximos dias, você ouve uivos que parecem rir."
         }
       ],
-      "imagem": "assets/lobo-pactuario.svg",
+      "imagem": "assets/lobo-pactuario.png",
       "imagemAlt": "Lobo olhando para trás sob uma lua estreita",
       "pacto": true
     },
@@ -4673,7 +4675,7 @@
           "resultado": "A pena vale uma fortuna a um colecionador. O anjo acorda ao ver a mão, não protesta, e parte sem olhar para trás."
         }
       ],
-      "imagem": "assets/anjo-cansado.svg",
+      "imagem": "assets/anjo-cansado.png",
       "imagemAlt": "Anjo cansado sentado com as asas baixas"
     },
     {
@@ -4738,7 +4740,7 @@
           "resultado": "A voz cala. As moedas são repartidas, e oito pessoas que nunca tinham tido uma passam a olhar para você de outro jeito."
         }
       ],
-      "imagem": "assets/sussurro-do-ouro.svg",
+      "imagem": "assets/sussurro-do-ouro.png",
       "imagemAlt": "Cofre aberto com moedas e um rosto sussurrante",
       "pacto": true
     },
@@ -4812,7 +4814,7 @@
           "resultado": "As pedras voltam ao lugar com esforço da vila inteira. O pastor chora de alívio, e os cães, desde então, evitam a colina."
         }
       ],
-      "imagem": "assets/rei-sob-a-colina.svg",
+      "imagem": "assets/rei-sob-a-colina.png",
       "imagemAlt": "Rei antigo sentado em um salão subterrâneo",
       "pacto": true
     },
@@ -4859,7 +4861,7 @@
           "resultado": "A mão se fecha sobre a moeda e some. De manhã, a moeda está no parapeito, mais velha, com o seu rosto gravado."
         }
       ],
-      "imagem": "assets/mao-na-janela.svg",
+      "imagem": "assets/mao-na-janela.png",
       "imagemAlt": "Mão pálida surgindo de uma janela entreaberta"
     },
     {
@@ -4936,7 +4938,7 @@
           "resultado": "O relojoeiro ajusta uma engrenagem e parte. Os relógios da vila passam a marcar horas diferentes por uma semana."
         }
       ],
-      "imagem": "assets/relojoeiro.svg",
+      "imagem": "assets/relojoeiro.png",
       "imagemAlt": "Relojoeiro curvado sobre um relógio aberto",
       "pacto": true
     },
@@ -4986,7 +4988,7 @@
           "resultado": "As noites se tornam quietas, e os dias, mais obedientes. Três famílias, que perceberam, partem à noite."
         }
       ],
-      "imagem": "assets/colheita-de-sombras.svg",
+      "imagem": "assets/colheita-de-sombras.png",
       "imagemAlt": "Espantalho projetando sombras compridas sobre o campo"
     },
     {
@@ -5032,7 +5034,7 @@
           "resultado": "O som cessa depois de três noites. Duas famílias que o ouviam melhor que as outras partem, e os cães nunca mais se aproximam do lago."
         }
       ],
-      "imagem": "assets/sino-antigo.svg",
+      "imagem": "assets/sino-antigo.png",
       "imagemAlt": "Sino antigo pendurado em uma viga rachada"
     },
     {
@@ -5119,7 +5121,7 @@
           }
         }
       ],
-      "imagem": "assets/primeiro-herdeiro.svg",
+      "imagem": "assets/primeiro-herdeiro.png",
       "imagemAlt": "Primeiro herdeiro usando uma coroa antiga",
       "pacto": true
     }
@@ -5130,7 +5132,7 @@
     {
       id: "sonhos_umidos", titulo: "O canto das marés secas", tipo: "especial", peso: 0.3, especial: true, abissal: true,
       requisitos: { rodadaMin: 8, flagsAusentes: ["abissal_1"] },
-      imagem: "assets/canto-das-mares.svg", imagemAlt: "Ondas concêntricas e uma sombra indistinta sob a água",
+      imagem: "assets/canto-das-mares.png", imagemAlt: "Ondas concêntricas e uma sombra indistinta sob a água",
       texto: "Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água. A vila está a dias de qualquer mar.",
       informacoes: "Ninguém sabe explicar o sal. Os cães recusam-se a entrar no salão.",
       opcoes: [
@@ -5143,7 +5145,7 @@
     {
       id: "mare_no_poco", titulo: "A maré no poço", tipo: "especial", peso: 0.4, especial: true, abissal: true,
       requisitos: { rodadaMin: 11, flags: ["abissal_1"], flagsAusentes: ["abissal_2"] },
-      imagem: "assets/mare-no-poco.svg", imagemAlt: "Balde de poço com peixes pálidos e símbolos na água",
+      imagem: "assets/mare-no-poco.png", imagemAlt: "Balde de poço com peixes pálidos e símbolos na água",
       texto: "A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira. As crianças brincam com eles, e as mães não conseguem impedir.",
       informacoes: "A água salgada não se mistura com o rio. Circula dentro das paredes.",
       opcoes: [
@@ -5156,7 +5158,7 @@
     {
       id: "olhos_largos", titulo: "Os de olhos largos", tipo: "especial", peso: 0.5, especial: true, abissal: true,
       requisitos: { rodadaMin: 14, flags: ["abissal_2"], flagsAusentes: ["abissal_3"] },
-      imagem: "assets/olhos-largos.svg", imagemAlt: "Silhuetas de moradores de olhos abertos junto à lagoa",
+      imagem: "assets/olhos-largos.png", imagemAlt: "Silhuetas de moradores de olhos abertos junto à lagoa",
       texto: "Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio. Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou.",
       informacoes: "Não parecem perigosos. Parecem felizes, o que é pior.",
       opcoes: [
@@ -5169,7 +5171,7 @@
     {
       id: "torre_na_lagoa", titulo: "A torre na lagoa", tipo: "especial", peso: 0.5, especial: true, abissal: true,
       requisitos: { rodadaMin: 17, flags: ["abissal_3"], flagsAusentes: ["abissal_4"] },
-      imagem: "assets/torre-na-lagoa.svg", imagemAlt: "Torre escura e sem janelas emergindo da lagoa",
+      imagem: "assets/torre-na-lagoa.png", imagemAlt: "Torre escura e sem janelas emergindo da lagoa",
       texto: "Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha. A porta está aberta.",
       informacoes: "Cada pessoa que olha por muito tempo para a torre sai do transe sem lembrar o que viu.",
       opcoes: [
@@ -5182,7 +5184,7 @@
     {
       id: "aquele_que_acorda", titulo: "Aquele que acorda", tipo: "especial", peso: 0.6, especial: true, abissal: true,
       requisitos: { rodadaMin: 20, flags: ["abissal_4"], flagsAusentes: ["abissal_5"] },
-      imagem: "assets/aquele-que-acorda.svg", imagemAlt: "Um único olho sugerido dentro de uma coluna de escuridão",
+      imagem: "assets/aquele-que-acorda.png", imagemAlt: "Um único olho sugerido dentro de uma coluna de escuridão",
       texto: "A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Algo imenso abre um olho.",
       informacoes: "Não é uma batalha. Não é uma negociação. É um momento em que a vila inteira espera o que o senhor fará com o que sabe.",
       opcoes: [
@@ -5198,7 +5200,7 @@
   Jogo.eventos.push(
     {
       id: "bau_estrada", titulo: "O baú à beira da estrada", tipo: "achado", peso: 2,
-      imagem: "assets/bau-estrada.svg", imagemAlt: "Baú de madeira meio enterrado na lama",
+      imagem: "assets/bau-estrada.png", imagemAlt: "Baú de madeira meio enterrado na lama",
       texto: "Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada, mas três objetos foram embrulhados em panos secos. Seus homens esperam que você escolha apenas um.",
       informacoes: "O que ficar para trás poderá ser encontrado por outra pessoa.",
       opcoes: [
@@ -5209,7 +5211,7 @@
     },
     {
       id: "bau_mimico", titulo: "Um baú entre as raízes", tipo: "achado", peso: 1,
-      imagem: "assets/bau-mimico.svg", imagemAlt: "Baú estreito preso entre duas raízes",
+      imagem: "assets/bau-mimico.png", imagemAlt: "Baú estreito preso entre duas raízes",
       texto: "Um baú estreito está preso entre duas raízes. A madeira está úmida, e um frasco e um pequeno pote podem ser vistos pela fresta da tampa.",
       informacoes: "Os dois objetos parecem ao alcance da mão.",
       opcoes: [
@@ -5271,7 +5273,7 @@
     {
       id: "bruxa_fio_da_vida", titulo: "A bruxa e o fio da vida", tipo: "encontro", peso: 3,
       requisitos: { flagsAusentes: ["bruxa_fio_da_vida_resolvida"] },
-      imagem: "assets/ervas.svg", imagemAlt: "Ervas medicinais arrumadas junto a um pilão",
+      imagem: "assets/ervas.png", imagemAlt: "Ervas medicinais arrumadas junto a um pilão",
       texto: "A bruxa retorna com um feixe de raízes frescas. Diz que pode fechar suas feridas ou ensinar a vila a reconhecer as plantas.",
       informacoes: "Ela não pede ouro pelo conhecimento, só que ninguém chame tudo de mato.",
       opcoes: [
@@ -5283,7 +5285,7 @@
     {
       id: "bruxa_frutos_negros", titulo: "Frutos negros na soleira", tipo: "encontro", peso: 3,
       requisitos: { flagsAusentes: ["bruxa_frutos_resolvido"] },
-      imagem: "assets/vila.svg", imagemAlt: "Um pequeno cesto deixado diante de uma porta",
+      imagem: "assets/vila.png", imagemAlt: "Um pequeno cesto deixado diante de uma porta",
       texto: "Um cesto de frutos escuros aparece diante do salão. A bruxa espera no caminho e garante que são seguros, desde que ninguém os cozinhe em ferro.",
       informacoes: "O cheiro é doce. O aviso sobre a panela parece específico demais.",
       opcoes: [
@@ -5295,7 +5297,7 @@
     {
       id: "bruxa_vela", titulo: "A vela que não apaga", tipo: "encontro", peso: 3,
       requisitos: { flagsAusentes: ["bruxa_vela_resolvida"] },
-      imagem: "assets/ervas.svg", imagemAlt: "Uma vela curta entre folhas secas e pequenos frascos",
+      imagem: "assets/ervas.png", imagemAlt: "Uma vela curta entre folhas secas e pequenos frascos",
       texto: "A bruxa acende uma vela no pátio. O vento a dobra, mas não a apaga. Ela oferece a chama para proteger sua próxima batalha.",
       informacoes: "A vela cheira a cera, fumaça e alguma coisa que você prefere não nomear.",
       opcoes: [
@@ -5307,7 +5309,7 @@
     {
       id: "bruxa_fonte", titulo: "Água para a bruxa", tipo: "encontro", peso: 3,
       requisitos: { flagsAusentes: ["bruxa_fonte_resolvida"] },
-      imagem: "assets/poco.svg", imagemAlt: "Um poço de pedra com um balde de madeira",
+      imagem: "assets/poco.png", imagemAlt: "Um poço de pedra com um balde de madeira",
       texto: "A bruxa encontra o poço quase seco e pede ajuda para descer um balde. Diz que precisa de água limpa para uma cura, não para um feitiço.",
       informacoes: "O poço é fundo, e a corda foi remendada muitas vezes.",
       opcoes: [
@@ -5320,7 +5322,7 @@
       id: "mao_do_rei", titulo: "A mão do Rei", tipo: "encontro", peso: 0.1,
       forcarSorteioQuandoElegivel: true,
       requisitos: { flags: ["menino_adotado_com_honra"], flagsAusentes: ["mao_do_rei_resolvida"], rodadasDesde: { menino_adotado: 40 } },
-      imagem: "assets/vila.svg", imagemAlt: "O jovem herdeiro e o menino diante do salão do conselho",
+      imagem: "assets/vila.png", imagemAlt: "O jovem herdeiro e o menino diante do salão do conselho",
       texto: "Quarenta rodadas se passaram desde que o menino ganhou um lugar à sua mesa. Os moradores já procuram por ele antes de levar certos problemas ao salão.",
       informacoes: "O nome do cargo é antigo. O trabalho, não.",
       opcoes: [
@@ -5330,7 +5332,7 @@
     {
       id: "conselheiro_menino_armazem", titulo: "Conselho: Contas do armazém", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
       requisitos: { flags: ["menino_conselheiro"] },
-      imagem: "assets/vila.svg", imagemAlt: "Sacos de grãos organizados junto à porta do celeiro",
+      imagem: "assets/vila.png", imagemAlt: "Sacos de grãos organizados junto à porta do celeiro",
       texto: "O jovem conselheiro percebe que os sacos do armazém foram contados duas vezes e propõe repartir o excedente antes que estrague.",
       informacoes: "Ele já sabe quais famílias precisam mais. Você confirma a lista.",
       opcoes: [{ id: "repartir", texto: "Seguir o conselho.", efeitos: { habitantes: 5, honra: 3, gold: -2 }, resultado: "Os grãos chegam às casas antes da chuva. Cinco pessoas que pensavam partir decidem ficar." }]
@@ -5338,7 +5340,7 @@
     {
       id: "conselheiro_menino_ponte", titulo: "Conselho: A ponte e a estrada", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
       requisitos: { flags: ["menino_conselheiro"] },
-      imagem: "assets/ponte.svg", imagemAlt: "A ponte de madeira sobre o rio da vila",
+      imagem: "assets/ponte.png", imagemAlt: "A ponte de madeira sobre o rio da vila",
       texto: "O menino ouve os carroceiros antes de falar. Sugere consertar as tábuas soltas antes que uma roda quebre no meio da travessia.",
       informacoes: "A obra é pequena; o desvio que ela evita, não.",
       opcoes: [{ id: "reparar", texto: "Pagar o reparo · 2 gold", requisitos: { goldMin: 2 }, efeitos: { gold: -2, habitantes: 3, honra: 2 }, resultado: "A ponte volta a receber carroças. Três viajantes escolhem ficar depois de uma travessia tranquila." }, { id: "esperar", texto: "Aguardar a próxima estação.", efeitos: { honra: 1 }, resultado: "O menino aceita a decisão e anota quais tábuas cederam primeiro. A lista será útil quando houver moedas." }]
@@ -5346,7 +5348,7 @@
     {
       id: "conselheiro_menino_guardas", titulo: "Conselho: Treinar sem ferir", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
       requisitos: { flags: ["menino_conselheiro"] },
-      imagem: "assets/forja.svg", imagemAlt: "Uma espada e um escudo de treino junto à forja",
+      imagem: "assets/forja.png", imagemAlt: "Uma espada e um escudo de treino junto à forja",
       texto: "O jovem conselheiro observa os guardas treinarem e aponta que os mais novos nunca praticam com escudos do mesmo tamanho.",
       informacoes: "O armeiro já separou madeira para fazer os ajustes.",
       opcoes: [{ id: "ajustar", texto: "Preparar equipamento para os guardas.", efeitos: { ataque: 1, escudo: 1, honra: 2 }, resultado: "O treino fica mais seguro e mais justo. O armeiro diz que o menino enxerga detalhes que adultos preferem ignorar." }]
@@ -5390,7 +5392,7 @@
   const criarCartaConselheiro = (carta, positiva) => ({
     id: carta.id, titulo: carta.titulo, tipo: "encontro", peso: 0.4, conselheiro: true,
     ...(positiva ? {} : { requisitos: { flagsAusentes: ["menino_conselheiro"] } }),
-    imagem: "assets/vila.svg", imagemAlt: "Moradores reunidos no salão do conselho",
+    imagem: "assets/vila.png", imagemAlt: "Moradores reunidos no salão do conselho",
     texto: carta.texto,
     informacoes: positiva ? "O conselho parece sensato. A decisão continua sendo sua." : "O conselho parece apressado. Você pode segui-lo ou recusar.",
     opcoes: [
@@ -5402,8 +5404,8 @@
   Jogo.eventos.push(...conselhosNegativos.map(carta => criarCartaConselheiro(carta, false)));
   Jogo.eventos.push(
     {
-      id: "equipamento_sem_dono", titulo: "Uma peça à espera", tipo: "achado", peso: 0.8,
-      imagem: "assets/forja.svg", imagemAlt: "Uma arma e um escudo deixados junto à forja",
+      id: "equipamento_sem_dono", titulo: "Uma peça à espera", tipo: "achado", peso: 1,
+      imagem: "assets/forja.png", imagemAlt: "Uma arma e um escudo deixados junto à forja",
       texto: "Entre ferramentas esquecidas, há uma peça que ainda pode servir. O ferreiro limpa a ferrugem e espera sua decisão.",
       informacoes: "Equipamentos recebidos melhoram seus atributos imediatamente e permanecem nesta run.",
       opcoes: [
@@ -5412,8 +5414,8 @@
       ]
     },
     {
-      id: "reliquia_sem_dono", titulo: "Uma relíquia sem brasão", tipo: "achado", peso: 0.25,
-      imagem: "assets/bau-estrada.svg", imagemAlt: "Um embrulho antigo retirado de um baú",
+      id: "reliquia_sem_dono", titulo: "Uma relíquia sem brasão", tipo: "achado", peso: 0.3,
+      imagem: "assets/bau-estrada.png", imagemAlt: "Um embrulho antigo retirado de um baú",
       texto: "Um embrulho lacrado é encontrado sob as tábuas do salão. O selo não pertence a nenhuma família conhecida.",
       informacoes: "O conteúdo pode ser uma dádiva, um pacto ou apenas mais um peso para carregar.",
       opcoes: [
@@ -5424,7 +5426,7 @@
     {
       id: "correu_mais_rapido_que_a_luz", titulo: "Correu mais rápido que a luz", tipo: "achado", peso: 0,
       requisitos: { flags: ["cinto_vento_ativo"] },
-      imagem: "assets/vila.svg", imagemAlt: "Um caminho vazio junto às muralhas",
+      imagem: "assets/vila.png", imagemAlt: "Um caminho vazio junto às muralhas",
       texto: "Você correu por toda a estrada antes de encontrar qualquer batalha. Quando para, o cinto já não está mais em sua cintura.",
       informacoes: "A força durou menos que a corrida.",
       opcoes: [{ id: "seguir", texto: "Continuar sem o cinto.", flags: { cinto_vento_ativo: false }, resultado: "O vento leva o último sinal do cinto pela estrada." }]

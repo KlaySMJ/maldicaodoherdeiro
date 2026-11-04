@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path fill="#000" stroke="none" d="M0 0h360v480H0z"/>
-  <path d="M129 180q-31-30-26-74-39-31-29-70m61 132q-27-45-7-92-16-31-8-58m101 162q33-28 29-73 38-30 26-70m-60 137q28-42 9-90 17-31 9-58"/>
-  <path d="M121 184q-23 20-24 55-2 54 39 77l26 69h51l26-70q40-27 37-78-3-34-26-53-25-23-65-13-37-7-64 13Z" fill="#000"/>
-  <path d="M126 214q22-19 43-8m28 0q21-11 43 8m-57 13-5 24 18 1m-28 20q20 14 39-1m-67 61 27 37m53-37-27 37m-38-2h52" stroke-width="2"/>
-  <path d="M137 302q-38 19-47 58m133-58q40 18 50 58m-144-86q-12 16-9 32m117-33q12 15 8 31"/>
-  <path d="M98 384v39m-10-39v36m183-36v39m10-39v36M75 421h46m120 0h47" stroke-width="2"/>
-  <path d="m41 454 22-15 21 15m191 0 20-15 22 15" stroke-width="2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-labelledby="title desc"><title id="title">Cervo branco</title><desc id="desc">Ilustração simples em tinta marfim sobre fundo preto.</desc><rect width="360" height="480" fill="#000"/><g fill="none" stroke="#f3efdf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M135 182 Q180 154 225 182 L233 238 Q218 276 180 291 Q142 276 127 238 Z"/><path d="M144 182 Q119 144 129 105 Q153 120 158 157 M216 182 Q241 144 231 105 Q207 120 202 157 M129 123 L101 110 M231 123 L259 110 M143 144 L117 135 M217 144 L243 135"/><path d="M152 214 H167 M193 214 H208 M170 244 L180 250 L190 244"/><path d="M153 292 L180 328 L207 292" stroke="#b39a64" stroke-width="3"/></g></svg>

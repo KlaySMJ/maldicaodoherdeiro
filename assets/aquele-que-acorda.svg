@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path fill="#000" stroke="none" d="M0 0h360v480H0z"/>
-  <path d="M50 83 84 97m-17 40 39-9m185-61-30 24m33 34-40 8m-92-93v39m-34 376q7-69 19-133l-27-82 43-74 43 74-26 82q12 64 18 133" fill="#000"/>
-  <path d="M111 294q69-45 138 0m-117-31q48-34 96 0m-75-30q27-23 54 0" stroke-width="2"/>
-  <path d="M142 177q18-17 38 0t38 0"/>
-  <path d="M151 177q14-21 29 0-15 21-29 0Z" fill="#000" stroke-width="2"/>
-  <ellipse cx="180" cy="177" rx="5" ry="9" fill="#fff" stroke="none"/>
-  <path d="M60 361q42-23 84 0t84 0 72 0M43 397q52-20 104 0t104 0 66 0M52 433h256" stroke-width="2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-labelledby="title desc"><title id="title">Aquele que acorda</title><desc id="desc">Ilustração simples em tinta marfim sobre fundo preto.</desc><rect width="360" height="480" fill="#000"/><g fill="none" stroke="#f3efdf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M81 240 Q180 151 279 240 Q180 329 81 240 Z"/><circle cx="180" cy="240" r="38"/><circle cx="180" cy="240" r="13" stroke="#b39a64" stroke-width="3"/><path d="M180 201 V279 M141 240 H219" stroke-width="2"/></g></svg>

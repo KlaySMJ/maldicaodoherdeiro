@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path fill="#000" stroke="none" d="M0 0h360v480H0z"/>
-  <path d="M180 436V229m0 65q-62-9-91-67m92 32q52-16 79-71m-83 111q-53 16-82 63m85-44q57 5 92 53"/>
-  <path d="M177 268q-43-26-34-65-50-4-36-49-25-26 5-53 2-42 45-46 33-38 63-2 48-6 51 37 39 14 19 52 23 34-10 55-4 43-49 44-11 30-54 27Z" fill="#000"/>
-  <path d="M159 175q23-28 47 0m-45 18q23 34 47 0m-25-20v20m-63-88q31-26 55-12m68-13q36 3 43 34m-139 16q20 7 32 27m82 3q-25 7-39 26m-25 82 17 37m-34 19 18 20m49-21-26 22" stroke-width="2"/>
-  <path d="M91 433q42-26 89-15t94 15m-224 26q59-27 119-11t130 9" stroke-width="2"/>
-  <path d="m59 357-24 25m267-12 26 18M80 411l-28 5m239-10 34 7" stroke-width="2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-labelledby="title desc"><title id="title">Árvore que pede</title><desc id="desc">Ilustração simples em tinta marfim sobre fundo preto.</desc><rect width="360" height="480" fill="#000"/><g fill="none" stroke="#f3efdf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M180 337 V194 M180 238 Q142 202 110 212 M180 264 Q218 226 250 233 M180 215 Q181 174 180 145"/><path d="M110 212 Q91 191 101 168 Q125 164 137 185 Q137 205 110 212 Z M250 233 Q270 212 263 190 Q238 185 225 206 Q225 225 250 233 Z M180 145 Q155 128 160 106 Q181 98 197 118 Q198 137 180 145 Z"/><path d="M128 357 H232" stroke="#b39a64" stroke-width="3"/></g></svg>

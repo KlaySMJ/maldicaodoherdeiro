@@ -50,6 +50,7 @@
         efeitosPreparados: { bloquearDanoProximaBatalha: false, bonusAtaqueProximaBatalha: 0, bonusEscudoProximaBatalha: 0, bonusGoldProximaRecompensa: 0, bacamarteBatalhas: 0, escudoFeCooldown: 0 },
         lancaHeroiBatalhas: 0,
         eventosRecentes: [],
+        eventosComunsRun: [],
         conselhosRecentes: [],
         honraNeutraSequencia: 0,
         marcos: {},

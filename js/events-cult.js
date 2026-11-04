@@ -4,7 +4,7 @@
   const make = (id, title, type, weight, min, image, text, info, options, extra = {}) => {
     const { requisitos: requisitosExtra, ...propriedades } = extra;
     return {
-      id, titulo: title, tipo: type, peso: weight, imagem: `assets/eventos-culto/${image}.svg`,
+      id, titulo: title, tipo: type, peso: weight, imagem: `assets/eventos-culto/${image}.png`,
       imagemAlt: `${title}, desenho em traços brancos sobre preto`, texto: text, informacoes: info,
       requisitos: { rodadaMin: 1, flags: ["culto_ativo"], flagsAusentes: [`${id}_visto`], rodadasDesde: { cultoAdesao: min }, ...(requisitosExtra || {}) },
       opcoes: options, oncePerRun: true, ...propriedades
@@ -12,7 +12,7 @@
   };
   const transicao = {
     id: "ultimo_habitante", titulo: "O último habitante", tipo: "especial", peso: 0, disparadoPelaEngine: true,
-    imagem: "assets/eventos-culto/ultimo.svg", imagemAlt: "Uma chama pequena diante de uma cadeira de pedra num salão vazio",
+    imagem: "assets/eventos-culto/ultimo.png", imagemAlt: "Uma chama pequena diante de uma cadeira de pedra num salão vazio",
     texto: "As casas estão vazias e as portas, abertas. Uma chama arde no salão, e vozes repetem seu nome. Uma cadeira de pedra espera à beira do fogo.",
     informacoes: "Você pode encerrar aqui a linhagem ou aceitar o que o espera.",
     opcoes: [

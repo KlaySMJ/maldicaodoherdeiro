@@ -1,10 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path fill="#000" stroke="none" d="M0 0h360v480H0z"/>
-  <circle cx="181" cy="207" r="111"/><circle cx="181" cy="207" r="82" stroke-width="2"/>
-  <path d="M181 108v19m0 160v19m-99-99h19m160 0h19m-169-70 14 14m113 113 14 14m0-141-14 14m-113 113-14 14" stroke-width="2"/>
-  <path d="M179 135v75l48 31m-46-34 57-42m-57 42-51 39"/>
-  <circle cx="140" cy="185" r="20"/><circle cx="229" cy="174" r="17"/><circle cx="218" cy="250" r="24"/>
-  <path d="M140 159v-11m0 84v-11m-26-36h-11m84 0h-11m-54-18 8-8m60 60 8 8m0-68-8 8m-60 60-8 8M229 151v-9m0 64v-9m-22-23h-9m71 0h-9" stroke-width="2"/>
-  <path d="M58 383q62-18 123 0t121 0m-271 31h296m-251 23h207"/>
-  <path d="M164 96V63m33 33V63m-48 0h63" stroke-width="2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-labelledby="title desc"><title id="title">Relojoeiro</title><desc id="desc">Ilustração simples em tinta marfim sobre fundo preto.</desc><rect width="360" height="480" fill="#000"/><g fill="none" stroke="#f3efdf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="172" cy="228" r="76"/><circle cx="172" cy="228" r="58" stroke="#b39a64" stroke-width="2"/><path d="M172 186 V230 L204 248 M155 139 H189 M155 317 H189"/><path d="M266 154 L287 154 L287 175 L266 175 Z M276 154 V175 M266 164 H287" stroke-width="3"/></g></svg>

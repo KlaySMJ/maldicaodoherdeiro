@@ -65,7 +65,10 @@
       && flags(valor.flags) && ids(valor.objetivosConcluidos)
       && (valor.memorias === undefined || (Array.isArray(valor.memorias) && valor.memorias.every(registro => objeto(registro)
         && typeof registro.id === "string" && inteiro(registro.rodada) && inteiro(registro.honra)
-        && typeof registro.tipo === "string" && typeof registro.motivo === "string")));
+        && typeof registro.tipo === "string" && typeof registro.motivo === "string")))
+      && (valor.eventosRecentesRuns === undefined || (Array.isArray(valor.eventosRecentesRuns)
+        && valor.eventosRecentesRuns.length <= 2 && valor.eventosRecentesRuns.every(registro => objeto(registro)
+          && typeof registro.id === "string" && ids(registro.eventos) && registro.eventos.length <= 300)));
   }
 
   function runValida(run) {
@@ -86,8 +89,11 @@
       || run.atributos.habitantes !== 0 || run.atributos.honra > -30 || run.atributos.hp <= 0)) return false;
     if (!Jogo.atributos.every(id => inteiro(run.atributos[id]) && (id === "honra" || run.atributos[id] >= 0))) return false;
     if (!objeto(run.marcos) || !Object.entries(run.marcos).every(([id, rodada]) => id.length > 0
-      && inteiro(rodada) && rodada >= 1 && rodada <= run.rodada)) return false;
+      && (id === "entidadeXRecusaFatalId"
+        ? rodada === null || Jogo.eventos.some(evento => evento.id === rodada && evento.entidadeX)
+        : inteiro(rodada) && rodada >= 1 && rodada <= run.rodada))) return false;
     if (!ids(run.inventario) || !ids(run.itensConquistados) || !flags(run.flags) || !legadoValido(run.legadoDaRun) || !legadoValido(run.conquistas)) return false;
+    if (!ids(run.eventosComunsRun) || run.eventosComunsRun.length > 300) return false;
     if (run.ofertaMercador !== null && typeof run.ofertaMercador !== "string") return false;
     if (!objeto(run.efeitosPreparados)
       || typeof run.efeitosPreparados.bloquearDanoProximaBatalha !== "boolean"
@@ -111,6 +117,7 @@
       const resultado = run.ultimoResultado;
       if (!objeto(resultado) || typeof resultado.texto !== "string" || typeof resultado.escolha !== "string") return false;
       if (!objeto(resultado.alteracoes) || !Jogo.atributos.every(id => inteiro(resultado.alteracoes[id]))) return false;
+      if (Object.hasOwn(resultado.alteracoes, "hpMax") && !inteiro(resultado.alteracoes.hpMax)) return false;
       if (resultado.economia !== undefined && (!objeto(resultado.economia)
         || !inteiro(resultado.economia.renda) || !inteiro(resultado.economia.variacaoRenda)
         || !inteiro(resultado.economia.gasto) || resultado.economia.gasto < 0)) return false;
@@ -147,13 +154,27 @@
       }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "comprasMercador")) dados.comprasMercador = {};
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "hpMax")) dados.hpMax = Math.max(Jogo.config.hpMaxInicial, dados.atributos?.hp || 0);
-      if (objeto(dados) && dados.versao === Jogo.config.versao && dados.traco === "doente" && dados.hpMax > 70) {
-        dados.hpMax = 70;
-        dados.atributos.hp = Math.min(dados.atributos.hp, dados.hpMax);
+      if (objeto(dados) && dados.versao === Jogo.config.versao && dados.traco === "doente") {
+        const adquiridos = new Set([...(dados.itensConquistados || []), ...(dados.inventario || [])]);
+        const bonusDeItens = Jogo.itens.reduce((total, item) => total
+          + (adquiridos.has(item.id) ? item.aoReceber?.hpMax || 0 : 0), 0);
+        const bonusDoCajado = dados.flags?.usou_cajado_da_dor ? 20 : 0;
+        // Saves feitos antes desta correção podem ter registrado os itens, mas
+        // a regra antiga impedia que eles elevassem o máximo acima de 70.
+        dados.hpMax = Math.max(dados.hpMax, 70 + bonusDeItens + bonusDoCajado);
       }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "honraNeutraSequencia")) dados.honraNeutraSequencia = 0;
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "lancaHeroiBatalhas")) dados.lancaHeroiBatalhas = 0;
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "eventosRecentes")) dados.eventosRecentes = [];
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "eventosComunsRun")) {
+        dados.eventosComunsRun = (dados.eventosRecentes || []).filter(id => Jogo.eventos.some(evento => evento.id === id
+          && !evento.especial && !evento.entidadeX && !evento.entidadeXInicio && !evento.abissal && !evento.divino && !evento.zodiaco && evento.tipo !== "culto"));
+      }
+      if (objeto(dados) && dados.versao === Jogo.config.versao) {
+        for (const legado of [dados.legadoDaRun, dados.conquistas]) {
+          if (objeto(legado) && !Object.hasOwn(legado, "eventosRecentesRuns")) legado.eventosRecentesRuns = [];
+        }
+      }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "conselhosRecentes")) {
         dados.conselhosRecentes = (dados.eventosRecentes || [])
           .filter(id => Jogo.eventos.some(evento => evento.id === id && evento.conselheiro)).slice(-5);
@@ -175,6 +196,21 @@
         dados.itensConquistados = Array.isArray(dados.inventario) ? [...new Set(dados.inventario)] : [];
       }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "marcos")) dados.marcos = {};
+      if (objeto(dados) && dados.versao === Jogo.config.versao && objeto(dados.marcos) && !Object.hasOwn(dados.marcos, "entidadeXAparicoes")) {
+        const flagsEntidade = dados.flags || {};
+        const entidadeAtiva = flagsEntidade.entidade_x_ativa === true
+          || Jogo.eventos.some(evento => (evento.entidadeX || evento.entidadeXInicio) && evento.id === dados.eventoId);
+        if (entidadeAtiva) {
+          let aparicoes = 1;
+          for (const flag of ["entidade_x_espelho_visto", "entidade_x_balanca_vista", "entidade_x_porta_vista", "entidade_x_nome_visto"]) {
+            if (flagsEntidade[flag] === true) aparicoes += 1;
+          }
+          if (flagsEntidade.entidade_x_tier2) aparicoes = Math.max(aparicoes, 2);
+          if (flagsEntidade.entidade_x_nome_visto) aparicoes = Math.max(aparicoes, 5);
+          if (flagsEntidade.entidade_x_tier3) aparicoes = Math.max(aparicoes, 6);
+          dados.marcos.entidadeXAparicoes = aparicoes;
+        }
+      }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "traco")) dados.traco = "corajoso";
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "estacao")) dados.estacao = Jogo.estacaoDaRodada(dados.rodada || 1);
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "construcoes")) dados.construcoes = [];
@@ -198,6 +234,7 @@
   function finalizar(run) {
     // Mantém as conquistas desta sessão utilizáveis mesmo sem armazenamento.
     // Elas só entram aqui depois do encerramento, nunca durante uma run ativa.
+    Jogo.legado.registrarRun(run);
     legadoDaSessao = Jogo.legado.mesclar(legadoDaSessao,
       Jogo.legado.mesclar(run.legadoDaRun, run.conquistas));
     // Primeiro deixa um registro recuperável. A união é idempotente: recarregar
@@ -211,8 +248,18 @@
     return apagarRun();
   }
 
+  function registrarRotacaoRun(run) {
+    const eventos = Array.isArray(run?.eventosComunsRun) ? run.eventosComunsRun : [];
+    if (!run?.id || !eventos.length) return true;
+    const rotacao = { versao: 1, eventosRecentesRuns: [{ id: run.id, eventos }] };
+    legadoDaSessao = Jogo.legado.mesclar(legadoDaSessao, rotacao);
+    const anterior = ler(CHAVE_LEGADO);
+    if (anterior === LEITURA_INDISPONIVEL) return false;
+    return gravar(CHAVE_LEGADO, Jogo.legado.mesclar(anterior, rotacao));
+  }
+
   Jogo.save = {
-    lerLegado, lerRun, runValida, apagarRun, finalizar,
+    lerLegado, lerRun, runValida, apagarRun, finalizar, registrarRotacaoRun,
     gravarRun: run => gravar(CHAVE_RUN, run)
   };
 })();

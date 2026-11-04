@@ -7,6 +7,7 @@
   --secundaria: #bfbfbf;
   --azul: #77b6ff;
   --vermelho: #ff8585;
+  --entidade: #c7a6ff;
   --branco: #fff;
   --preto: #000;
   --borda: 2px solid var(--tinta);
@@ -67,13 +68,32 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 /* A altura das artes é ajustada ao espaço real disponível; o texto não é cortado. */
 .cronica { --altura-cartas: min(46dvh, 420px); --fator-texto: 1; max-width: 1200px; height: 100%; margin: 0 auto; display: flex; flex-direction: column; }
 .titulo-run { display: flex; align-items: center; gap: 24px; padding: 14px 4px; flex-shrink: 0; }
+.titulo-run-identificacao { min-width: 0; }
+.titulo-run-linha { position: relative; display: flex; align-items: center; gap: 8px; }
 .titulo-run h1 { font-size: 25px; }
 .titulo-run p { color: var(--secundaria); margin-top: 3px; font-size: 13px; }
+.construcoes-resumo summary { display: flex; min-width: 36px; height: 36px; align-items: center; justify-content: center; gap: 6px; padding: 0 8px; border: 1px solid var(--secundaria); color: var(--secundaria); cursor: pointer; list-style: none; font-size: 12px; white-space: nowrap; }
+.construcoes-resumo summary::-webkit-details-marker { display: none; }
+.construcoes-resumo summary:hover { background: var(--tinta); color: var(--papel); }
+.construcoes-resumo summary:focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
+.construcoes-resumo summary svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.construcoes-resumo summary span { color: inherit; font-variant-numeric: tabular-nums; }
+.construcoes-resumo-painel { position: absolute; z-index: 50; top: calc(100% + 6px); left: 0; width: min(300px, calc(100vw - 32px)); max-height: min(60dvh, 340px); overflow-y: auto; padding: 12px; border: 1px solid var(--secundaria); background: var(--papel); color: var(--tinta); }
+.construcoes-resumo-painel h2 { font-size: 18px; }
+.construcoes-resumo-painel p { margin-top: 8px; font-size: 14px; }
+.construcoes-resumo-painel ul { margin: 8px 0 0; padding: 0; list-style: none; }
+.construcoes-resumo-painel li { display: grid; gap: 2px; padding: 8px 0; border-top: 1px solid #555; line-height: 1.35; }
+.construcoes-resumo-painel li strong { font-size: 14px; }
+.construcoes-resumo-painel li span { color: var(--secundaria); font-size: 13px; }
 .recursos-vila { display: flex; align-items: center; gap: 28px; margin-left: auto; }
 .recurso-contador { display: flex; align-items: center; gap: 12px; }
 .recurso-contador dt { font-size: 13px; max-width: 100px; line-height: 1.2; color: var(--secundaria); }
 .recurso-contador dd { font-size: 28px; line-height: 1; }
 .efeito-divino-status { flex: 0 0 auto; align-self: center; padding: 6px 10px; border: 1px solid var(--secundaria); color: var(--secundaria); font-size: 12px; }
+.info-hover { position: relative; display: inline-flex; width: 16px; height: 16px; align-items: center; justify-content: center; margin-left: 3px; border: 1px solid currentColor; border-radius: 50%; color: var(--secundaria); cursor: help; font: 11px/1 Arial, sans-serif; vertical-align: middle; }
+.info-hover:focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
+.info-hover::after { position: absolute; z-index: 80; top: calc(100% + 8px); right: -8px; width: min(300px, calc(100vw - 32px)); padding: 9px 11px; border: 1px solid var(--secundaria); background: var(--papel); color: var(--tinta); content: attr(data-tooltip); font: 13px/1.4 var(--fonte); white-space: normal; opacity: 0; visibility: hidden; pointer-events: none; }
+.info-hover:hover::after, .info-hover:focus-visible::after { opacity: 1; visibility: visible; }
 .culto-contador dd { color: var(--ferrugem, #8b2e24); }
 .acoes-item { display: flex; flex-wrap: wrap; gap: 6px; }
 .decisao-culto { margin: 14px 0; padding: 12px; border: 1px solid var(--ferrugem, #8b2e24); }
@@ -83,10 +103,16 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .testes-debug dd { flex-wrap: wrap; justify-content: center; }
 .controle-honra { min-width: 34px; min-height: 28px; padding: 3px 5px; border: 1px solid var(--secundaria); background: var(--papel); font-size: 12px; }
 .controle-honra:hover { color: var(--papel); background: var(--tinta); }
+.debug-eventos { position: relative; }
+.debug-eventos summary { display: flex; align-items: center; cursor: pointer; list-style: none; white-space: nowrap; }
+.debug-eventos summary::-webkit-details-marker { display: none; }
+.debug-eventos summary::after { content: "⌄"; margin-left: 5px; }
+.debug-eventos-opcoes { position: absolute; z-index: 30; top: calc(100% + 5px); right: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; width: min(260px, 78vw); padding: 7px; border: 1px solid var(--secundaria); background: var(--papel); box-shadow: 0 8px 24px #000; }
+.debug-eventos-opcoes .controle-honra { min-height: 34px; }
 .aviso-culto { margin: 12px 0; padding: 0; border: 0; color: var(--ferrugem, #8b2e24); font-weight: 600; animation: tremor 180ms steps(2, end) infinite; }
 .mesa { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, .95fr) minmax(0, 1fr); gap: var(--espaco); align-items: start; padding: 6px 6px 14px; }
 .coluna-herdeiro, .coluna-evento, .evento-detalhes { display: contents; }
-.carta { position: relative; width: min(100%, calc(var(--altura-cartas) * .75)); aspect-ratio: 3 / 4; justify-self: center; border: 0; background: var(--papel); overflow: hidden; }
+.carta { position: relative; width: min(100%, calc(var(--altura-cartas) * .75)); aspect-ratio: 3 / 4; justify-self: center; border: 1px solid var(--secundaria); background: var(--papel); overflow: hidden; }
 .carta-herdeiro { grid-column: 1; grid-row: 1; }
 .carta-evento { grid-column: 3; grid-row: 1; }
 .herdeiro-detalhes { grid-column: 1; grid-row: 2 / span 2; }
@@ -97,12 +123,15 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .retrato-area { position: absolute; inset: 0; overflow: hidden; }
 .retrato { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .retrato-atual { z-index: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .retrato-area:not(.troca-retrato) .retrato-atual { transform-origin: 50% 68%; animation: retrato-respirar 5.5s ease-in-out infinite; }
+}
 .troca-retrato .retrato-atual { opacity: 0; }
 .troca-retrato.em-transicao .retrato-anterior { animation: retrato-sair 520ms ease both; }
 .troca-retrato.em-transicao .retrato-atual { animation: retrato-entrar 520ms ease both; }
+@keyframes retrato-respirar { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-1px) scale(1.008); } }
 @keyframes retrato-sair { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-12px); } }
 @keyframes retrato-entrar { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
-.carta-legenda { margin-top: 12px; color: var(--secundaria); font-size: 13px; font-style: italic; }
 .atributos { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-top: 12px; }
 .atributo { min-width: 0; }
 .atributo dt { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--secundaria); }
@@ -119,6 +148,8 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .coluna-escolhas { grid-column: 2; grid-row: 1 / span 3; align-self: center; padding: 8px 0; }
 .coluna-escolhas > h2 { font-size: 20px; margin-bottom: 16px; }
 .escolhas { display: grid; gap: 10px; }
+.cronica--obras-vila .coluna-escolhas > .escolhas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.cronica--obras-vila .escolha { min-height: 44px; padding: 6px 8px; font-size: 13px; }
 .escolha { display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; min-height: 52px; width: 100%; background: var(--papel); border: var(--borda); padding: 10px 12px; line-height: 1.35; font-size: calc(16px * var(--fator-texto)); }
 .escolha:not(:disabled):hover { background: var(--tinta); color: var(--papel); }
 .escolha > span:last-child { flex-shrink: 0; }
@@ -156,6 +187,9 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .imagem-evento { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .evento-texto { grid-column: 3; grid-row: 2; }
 .evento-texto h2 { margin-bottom: 8px; font-size: calc(22px * var(--fator-texto)); }
+.evento-titulo { align-items: baseline; margin-bottom: 8px; }
+.evento-titulo h2 { margin: 0; }
+.evento-titulo .marca-entidade { color: var(--entidade); }
 .evento-texto p { font-size: calc(16px * var(--fator-texto)); line-height: 1.45; }
 .informacoes { grid-column: 3; grid-row: 3; color: var(--secundaria); }
 .informacoes p { font-size: calc(14px * var(--fator-texto)); line-height: 1.4; }
@@ -207,7 +241,7 @@ body[data-tela="intro"] .cabecalho { display: none; }
   .mesa { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 6px 6px 12px; }
   .carta-evento { grid-column: 2; grid-row: 1; }
   .herdeiro-detalhes { grid-column: 1 / -1; grid-row: 2; }
-  .carta-titulo, .carta-legenda, .coluna-escolhas > .nota { display: none; }
+  .carta-titulo, .coluna-escolhas > .nota { display: none; }
   .atributos { margin-top: 0; justify-content: space-around; gap: 8px; }
   .evento-texto { grid-column: 1 / -1; grid-row: 3; }
   .informacoes { grid-column: 1 / -1; grid-row: 4; }
@@ -225,6 +259,7 @@ body[data-tela="intro"] .cabecalho { display: none; }
   .marca img { width: 21px; }
   h1 { font-size: 26px; }
   .titulo-run { display: grid; grid-template-columns: 1fr auto; gap: 6px 8px; padding: 8px 4px; }
+  .construcoes-resumo summary { min-width: 44px; height: 44px; }
   .titulo-run h1 { font-size: 19px; }
   .titulo-run p { font-size: 11px; }
   .titulo-run .botao { font-size: 12px; padding: 0; min-height: 36px; text-align: right; max-width: 68px; }
@@ -271,7 +306,7 @@ body[data-tela="intro"] .cabecalho { display: none; }
   .cabecalho { height: 44px; }
   .titulo-run { padding-top: 8px; padding-bottom: 8px; }
   .cronica { --altura-cartas: 28dvh; }
-  .carta-legenda, .coluna-escolhas > .nota { display: none; }
+  .coluna-escolhas > .nota { display: none; }
   .fim { padding: 6px 0; }
   .fim-selo { display: none; }
   .fim h1 { font-size: 25px; }
@@ -306,7 +341,7 @@ body[data-tela="intro"] .cabecalho { display: none; }
   .carta-herdeiro { grid-column: 1; grid-row: 1; }
   .carta-evento { grid-column: 2; grid-row: 1; }
   .herdeiro-detalhes { grid-column: 1 / span 2; grid-row: 2; }
-  .carta-titulo, .carta-legenda, .coluna-escolhas > h2, .coluna-escolhas > .nota { display: none; }
+  .carta-titulo, .coluna-escolhas > h2, .coluna-escolhas > .nota { display: none; }
   .atributos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; gap: 4px; }
   .atributo dt { font-size: 11px; gap: 3px; flex-direction: column; align-items: flex-start; }
   .atributo dt svg { width: 12px; height: 12px; }

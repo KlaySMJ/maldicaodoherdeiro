@@ -8,13 +8,16 @@
   const memoriasSeguras = valor => Array.isArray(valor) ? valor.filter(registro => registro && typeof registro === "object"
     && typeof registro.id === "string" && Number.isSafeInteger(registro.rodada) && Number.isSafeInteger(registro.honra)
     && typeof registro.tipo === "string" && typeof registro.motivo === "string").slice(-20) : [];
+  const rotacoesSeguras = valor => Array.isArray(valor) ? valor.filter(registro => registro && typeof registro === "object"
+    && typeof registro.id === "string" && Array.isArray(registro.eventos))
+    .map(registro => ({ id: registro.id, eventos: listaIds(registro.eventos).slice(0, 300) })).slice(-2) : [];
 
   // A lista inicial ficará vazia até os objetivos serem definidos pelo autor.
   // Formato: { id, condicao(run), desbloqueia: { eventos: [], itens: [], flags: [] } }.
   Jogo.objetivosLegado = [];
 
   function vazio() {
-    return { versao: 1, eventos: [], itens: [], flags: {}, objetivosConcluidos: [], memorias: [] };
+    return { versao: 1, eventos: [], itens: [], flags: {}, objetivosConcluidos: [], memorias: [], eventosRecentesRuns: [] };
   }
 
   function normalizar(dados) {
@@ -22,7 +25,7 @@
     return {
       versao: 1, eventos: listaIds(dados.eventos), itens: listaIds(dados.itens),
       flags: flagsSeguras(dados.flags), objetivosConcluidos: listaIds(dados.objetivosConcluidos),
-      memorias: memoriasSeguras(dados.memorias)
+      memorias: memoriasSeguras(dados.memorias), eventosRecentesRuns: rotacoesSeguras(dados.eventosRecentesRuns)
     };
   }
 
@@ -36,7 +39,9 @@
       flags: { ...a.flags, ...b.flags },
       objetivosConcluidos: listaIds([...a.objetivosConcluidos, ...b.objetivosConcluidos]),
       memorias: memoriasSeguras([...a.memorias, ...b.memorias].filter((registro, indice, lista) =>
-        lista.findIndex(candidato => candidato.id === registro.id) === indice)).slice(-20)
+        lista.findIndex(candidato => candidato.id === registro.id) === indice)).slice(-20),
+      eventosRecentesRuns: rotacoesSeguras([...a.eventosRecentesRuns, ...b.eventosRecentesRuns]
+        .filter((registro, indice, lista) => lista.findIndex(candidato => candidato.id === registro.id) === indice))
     };
   }
 
@@ -58,6 +63,14 @@
     }
   }
 
+  function registrarRun(run) {
+    const eventos = listaIds(run.eventosComunsRun);
+    if (!eventos.length || !run.id) return;
+    run.conquistas = mesclar(run.conquistas, {
+      versao: 1, eventosRecentesRuns: [{ id: run.id, eventos }]
+    });
+  }
+
   function disponivel(conteudo, tipo, legado) {
     if (conteudo.requerDesbloqueio) {
       const id = conteudo.requerDesbloqueio;
@@ -67,5 +80,5 @@
     return !conteudo.bloqueado || legado[tipo].includes(conteudo.id);
   }
 
-  Jogo.legado = { vazio, normalizar, mesclar, conceder, avaliar, disponivel };
+  Jogo.legado = { vazio, normalizar, mesclar, conceder, avaliar, registrarRun, disponivel };
 })();
