@@ -50,8 +50,23 @@
           mostrarJogo();
         }
         break;
+      case "habitantes-menos":
+        if (Jogo.engine.debugDiminuirHabitantes(run)) {
+          if (run.status === "encerrada") mostrarFim();
+          else { Jogo.save.gravarRun(run); mostrarJogo(); }
+        }
+        break;
       case "continuar":
-        if (Jogo.engine.avancar(run)) { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+        if (Jogo.engine.avancar(run)) {
+          if (run.status === "encerrada") mostrarFim();
+          else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+        }
+        break;
+      case "juntar-culto":
+        if (Jogo.engine.juntarCulto(run)) { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+        break;
+      case "encerrar-culto":
+        if (Jogo.engine.encerrarSemCulto(run)) mostrarFim();
         break;
       case "menu":
         if (run?.status === "encerrada") run = null;
@@ -66,13 +81,20 @@
     if (!botao || botao.disabled || ocupado) return;
     ocupado = true;
     try {
+      const itemSacrificio = botao.dataset.itemSacrificio;
+      const itemUsadoId = itemSacrificio ? "adaga_cerimonial" : botao.dataset.usarItem;
+      if (run && itemUsadoId && Jogo.engine.usarItem(run, itemUsadoId, itemSacrificio)) {
+        const item = Jogo.itens.find(candidato => candidato.id === itemUsadoId);
+        run.inventarioAberto = true;
+        run.avisoInventario = item ? `${item.nome}: ${item.descricao}` : "Item usado.";
+        if (run.status === "encerrada") mostrarFim();
+        else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+        return;
+      }
       const resolvida = run && (botao.dataset.mercadoria
         ? Jogo.engine.comprar(run, botao.dataset.mercadoria)
         : botao.dataset.opcao && Jogo.engine.escolher(run, botao.dataset.opcao));
-      if (run && botao.dataset.usarItem && Jogo.engine.usarItem(run, botao.dataset.usarItem)) {
-        Jogo.save.gravarRun(run);
-        Jogo.ui.jogo(run);
-      } else if (resolvida) {
+      if (resolvida) {
         if (run.status === "encerrada") mostrarFim();
         else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
       } else if (botao.dataset.acao) await acionar(botao.dataset.acao);

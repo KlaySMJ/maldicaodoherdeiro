@@ -5,20 +5,24 @@
     ? [...new Set(valor.filter(id => typeof id === "string" && id.length > 0))] : [];
   const flagsSeguras = valor => valor && typeof valor === "object" && !Array.isArray(valor)
     ? Object.fromEntries(Object.entries(valor).filter(([id, ativa]) => id.length > 0 && ativa === true)) : {};
+  const memoriasSeguras = valor => Array.isArray(valor) ? valor.filter(registro => registro && typeof registro === "object"
+    && typeof registro.id === "string" && Number.isSafeInteger(registro.rodada) && Number.isSafeInteger(registro.honra)
+    && typeof registro.tipo === "string" && typeof registro.motivo === "string").slice(-20) : [];
 
   // A lista inicial ficará vazia até os objetivos serem definidos pelo autor.
   // Formato: { id, condicao(run), desbloqueia: { eventos: [], itens: [], flags: [] } }.
   Jogo.objetivosLegado = [];
 
   function vazio() {
-    return { versao: 1, eventos: [], itens: [], flags: {}, objetivosConcluidos: [] };
+    return { versao: 1, eventos: [], itens: [], flags: {}, objetivosConcluidos: [], memorias: [] };
   }
 
   function normalizar(dados) {
     if (!dados || typeof dados !== "object" || Array.isArray(dados) || dados.versao !== 1) return vazio();
     return {
       versao: 1, eventos: listaIds(dados.eventos), itens: listaIds(dados.itens),
-      flags: flagsSeguras(dados.flags), objetivosConcluidos: listaIds(dados.objetivosConcluidos)
+      flags: flagsSeguras(dados.flags), objetivosConcluidos: listaIds(dados.objetivosConcluidos),
+      memorias: memoriasSeguras(dados.memorias)
     };
   }
 
@@ -30,7 +34,9 @@
       eventos: listaIds([...a.eventos, ...b.eventos]),
       itens: listaIds([...a.itens, ...b.itens]),
       flags: { ...a.flags, ...b.flags },
-      objetivosConcluidos: listaIds([...a.objetivosConcluidos, ...b.objetivosConcluidos])
+      objetivosConcluidos: listaIds([...a.objetivosConcluidos, ...b.objetivosConcluidos]),
+      memorias: memoriasSeguras([...a.memorias, ...b.memorias].filter((registro, indice, lista) =>
+        lista.findIndex(candidato => candidato.id === registro.id) === indice)).slice(-20)
     };
   }
 

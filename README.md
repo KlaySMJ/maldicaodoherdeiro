@@ -6,30 +6,33 @@ MVP de um jogo de escolhas em fantasia medieval. HTML, CSS e JavaScript puros, s
 
 Abra `index.html` diretamente no navegador. Clique em **Iniciar** no menu e, na introdução animada, clique em **Iniciar** quando quiser entrar no jogo. A introdução não termina automaticamente. **Continuar** avança para outra carta. **Voltar ao início** permite retomar com **Carregar**.
 
-A run é salva ao começar, a cada decisão e ao avançar. Recarregar depois de uma decisão mostra seu resultado, sem aplicar os efeitos novamente. A derrota acontece ao chegar a zero de HP ou habitantes. O fim oferece outro herdeiro com atributos reiniciados.
+A run é salva ao começar, a cada decisão e ao avançar. Recarregar depois de uma decisão mostra seu resultado, sem aplicar os efeitos novamente. Sem honra negativa suficiente, chegar a zero habitantes encerra a run. Com honra de −30 ou menos, surge a escolha de encerrar ou juntar-se ao culto. Ao aderir, recebe 50 seguidores; perde se eles chegarem a zero.
 
 **Carregar** relê a run salva no momento do clique, preservando rodada, atributos, evento, flags e resultado pendente. Se o armazenamento estiver inacessível, a sessão em memória ainda pode ser retomada.
 
 ## Regras definidas
 
-- Início: HP 100, ESCUDO 5, ATAQUE 2, HONRA 0, 50 habitantes e 5 gold.
+- Início: todos têm HONRA 0 e 50 habitantes. O traço sorteado ajusta outros valores: Corajoso começa com ATAQUE 3; Avarento com 10 gold; Doente com 70/70 Vida e ESCUDO 4. Os demais valores começam em Vida 100, ESCUDO 5, ATAQUE 2 e 5 gold.
 - Renda nas rodadas 3, 6, 9…: 1 gold por grupo completo de 50 habitantes. Entre 20 e 49, não há ganho. Abaixo de 20, perde-se 1 gold **a cada rodada**, com saldo mínimo zero. A população considerada é a que resta após a decisão; a renda é aplicada uma vez, ao mostrar o resultado.
-- O visual muda em +30 ou mais (honra alta, azul) e −30 ou menos (honra baixa, vermelha); fica neutro de −29 a +29. A borda e o número acompanham a faixa.
+- O visual muda em +30 ou mais (honra alta, azul) e −30 ou menos (honra baixa, vermelha); fica neutro de −29 a +29. Em +90 e −90, aparecem retratos extremos e novas opções. A borda e o número acompanham a faixa.
 - As respostas especiais exigem +50 ou mais para honra alta, ou −50 ou menos para honra baixa. Opções com `nao_baixa` são bloqueadas em −50 ou menos. Os pesos e requisitos de estado dos eventos continuam usando a faixa visual de ±30.
 - As respostas não antecipam suas mudanças de honra. A exceção é o pacto do corvo: por cinco rodadas, as opções mostram apenas a variação de honra antes da decisão.
 - Batalha: ATAQUE maior ou igual à defesa inimiga vence. O dano de cada desfecho vem do evento; o recebido é `Math.max(0, dano - escudo)`. O escudo não é consumido.
+- A cada dez rodadas completas, a defesa de inimigos aumenta em 1 e o dano em caso de vitória ou derrota aumenta em 2. A carta mostra os valores ajustados antes da decisão.
 - Um ataque malsucedido também aplica `batalha.penalidadeFalha`, definida por evento. No exemplo, além do dano mitigado, a vila perde 12 habitantes. Outro evento pode definir perda adicional de HP ou outros efeitos.
 - Não há condição de vitória definida nesta fase. `Jogo.engine.encerrar(run, "vitoria", motivo)` usa o mesmo encerramento para uma futura condição de vitória.
 
-O visual da interface usa fundo preto com textos, bordas e desenhos brancos. O herdeiro usa o desenho SVG original e duas novas variações desse mesmo personagem conforme a honra, com indicações azul e vermelha. O catálogo tem 127 eventos, incluindo cadeias de consequências, cartas especiais raras e algumas cartas com quatro respostas. Os valores continuam sujeitos a balanceamento. Nenhum recurso externo é necessário.
+O visual da interface usa fundo preto com textos, bordas e desenhos brancos. Cada run sorteia um traço (Corajoso, Avarento ou Doente), que ajusta os atributos iniciais e o retrato; as ilustrações acompanham as faixas de honra. A estação muda a cada 25 rodadas, com cartas sazonais. O catálogo contém 222 definições, incluindo 12 escolhas letais bloqueadas antes da rodada 6 e eventos próprios do culto; uma definição é a transição do último habitante e só é disparada pela engine. As opções visíveis são embaralhadas ao abrir cada carta e a ordem fica salva ao carregar. Nenhum recurso externo é necessário.
 
-O gold fica no topo, junto aos recursos da vila, separado de Vida, Escudo, Ataque e Honra. Os botões **Testar honra: +30 / −30** mudam somente a honra e salvam a alteração, sem avançar a rodada, aplicar renda ou repetir a decisão. A mudança de retrato e as opções disponíveis são atualizadas imediatamente.
+Os companheiros são passivos: o cão reduz 2 de dano em batalhas, o corvo acrescenta 1 gold às recompensas positivas e o gato recupera 1 HP por rodada. Construções duram até o fim da run: ponte (+1 gold em cada renda), moinho (+1 HP por rodada), capela (+1 Escudo), forja (−2 gold no preço da arma) e muralha (−2 dano em batalha). O legado registra a rodada, honra final e causa do fim de cada herdeiro; cartas de memória podem reapresentar o registro à geração seguinte.
+
+O gold fica no topo, junto aos recursos da vila, separado de Vida, Escudo, Ataque e Honra. Os controles de debug **Hab. −50** e **Honra +30 / −30** alteram esses valores sem avançar a rodada ou aplicar renda; a interface e as opções disponíveis são atualizadas imediatamente.
 
 ## Eventos e recompensas
 
 O catálogo inclui encontros com ervateira, pedreira e milícia, colheita, enchente, contrabando e caçadas a javalis. As recompensas variam entre gold, cura, ataque, escudo e novos habitantes; vitórias também podem recuperar recursos. Os desertores só entram no sorteio a partir da rodada 6.
 
-As sequências da própria run incluem a ponte e sua caravana, o poço e a febre, o órfão acolhido e seu treinamento (a partir da rodada 8), além da revolta contra o pedágio da ponte. As etapas dessas sequências deixam de aparecer quando resolvidas. São flags da run, sem novos objetivos de legado.
+As sequências da própria run incluem a ponte e sua caravana, o poço e a febre, o órfão acolhido e seu treinamento (a partir da rodada 8), além da revolta contra o pedágio da ponte. Se o órfão for acolhido com honra ≥50, a nomeação como conselheiro aparece após 40 rodadas; então as cartas negativas do conselheiro deixam de ser sorteadas. O conselheiro tem 15 cartas positivas e 15 negativas, mais três cartas especiais positivas do menino. Depois de um conselho, cinco outros conselhos precisam aparecer antes que ele possa voltar; essa sequência é salva na run. A bruxa tem peso maior no sorteio e quatro encontros adicionais. As etapas dessas sequências deixam de aparecer quando resolvidas. São flags da run, sem novos objetivos de legado.
 
 O testamento pode ser sorteado a partir da rodada 5, uma vez por run. Lê-lo concede 6 gold, reduz a honra em 3 e registra `vontade_lembrada` em `run.conquistas`; essa flag só entra no legado no encerramento, inclusive em derrota. Não concede moedas automaticamente a outros herdeiros.
 
@@ -39,7 +42,9 @@ As novas cadeias acompanham o moinho e a farinha, o bardo e sua canção, o pris
 
 As cartas 101–120 são especiais, pesam 0,3 no sorteio (o Primeiro Herdeiro, 0,2) e só podem aparecer uma vez por run, mesmo se recusadas. Pactos são exclusivos: aceitar um pacto marca `pacto_feito` e impede outros pactos nessa run. O Corvo revela somente a variação de honra das opções durante as cinco rodadas seguintes. O Relojoeiro pode definir a honra do herdeiro como zero. O Espelho, o Primeiro Herdeiro, alguns pactos e três desfechos da cadeia abissal concedem flags de legado, gravadas ao encerrar a run.
 
-O sorteio evita as últimas cinco cartas, mantendo os pesos por honra entre as elegíveis. Se restarem poucas cartas, libera a mais antiga primeiro para continuar o jogo. O histórico é salvo; carregar não reinicia esse intervalo. O catálogo completo de escolhas e consequências está em `eventos-e-beneficios.txt`.
+As cartas 130–155 abrem duas cadeias raras. O Mercador de vermelho surge com 25% de chance logo após uma visita de mercador; seus diálogos mostram a resposta correta e duas alternativas em ordem aleatória. Aceitá-lo corretamente agenda uma carta do zodíaco a cada 50 rodadas, elegível durante uma janela de 10 rodadas. O Viajante do Norte pode surgir depois da Geada ou do Inverno Longo; se acolhido, libera um evento divino no máximo a cada 40 rodadas. As doze cartas do zodíaco e as doze cartas divinas têm arte própria. Os efeitos divinos duram de cinco a dez rodadas, aparecem no indicador da run e podem modificar atributos, ganhos de gold, população, cura, dano de batalha ou informação das escolhas. As cartas não identificam a bênção ou maldição antes da decisão.
+
+O sorteio evita as últimas dez cartas, mantendo os pesos por honra entre as elegíveis. Se restarem poucas cartas, libera a mais antiga primeiro para continuar o jogo. O histórico é salvo; carregar não reinicia esse intervalo. O catálogo completo de escolhas e consequências está em `eventos-e-beneficios.txt`.
 
 ## Gold e mercador
 
@@ -57,20 +62,28 @@ Os itens aleatórios iniciais incluem o Amuleto de última guarda (anula o dano 
 
 Saldo e contadores `comprasMercador` são salvos junto à run. Ao carregar, compras e renda não são repetidas. Saves da versão anterior recebem 5 gold e preços iniciais, preservando rodada, atributos, evento e resultado. Cada novo herdeiro começa com 5 gold e preços iniciais; moedas e compras não passam para o legado.
 
+Itens são classificados por raridade e cor: Comum (branco), Raro (azul), Épico (roxo), Lendário (laranja) e Pacto (vermelho). Acima de 90 de honra, o ferreiro pode oferecer o Selo dos guardiões (+3 Ataque, +4 Escudo e +25 Vida). Com −90 ou menos, algumas entidades oferecem o Dente do Abismo (+5 Ataque, +5 Escudo e +30 Vida), que cobra 15 de Honra e 5 habitantes.
+
+O inventário fica disponível em um painel expansível durante a run e mantém o registro dos itens conquistados, com raridade, descrição do efeito e estado: disponível na mochila, efeito permanente aplicado ou sem unidades disponíveis. Usar um consumível não apaga seu registro. Ao aderir ao culto, o herdeiro recebe uma Adaga cerimonial de pacto: uma vez por run, sacrifica 10 habitantes ou seguidores para ganhar +10 Ataque. Ganhar habitantes durante a run acrescenta de 1 a 5 seguidores aleatórios; a cada dez rodadas após a adesão, chegam mais cinco. Cada ponto de honra ganho causa a saída de dois a quatro seguidores, informada em destaque no resultado da decisão.
+
+O catálogo também contém 36 equipamentos genéricos permanentes: 13 comuns, 14 raros e 9 épicos. Eles aparecem no achado da forja com pesos de raridade 10:4:1; cada peça só pode ser recebida uma vez por run. Equipamentos de Ataque encarecem Arma melhor em 2 gold, os de Escudo encarecem Escudo melhor, e os de Vida aumentam Vida máxima e atual pelo mesmo valor. Corajoso e Avarento começam com máximo 100; o Doente começa e permanece com máximo 70. Curas respeitam o limite de cada herdeiro.
+
+Relíquias e pactos chegam pelo embrulho sem brasão. Entre os efeitos estão vitórias com dano de derrota, conversão de soldados em habitantes, cargas de proteção para batalhas, aumento da chance de eventos abissais e bônus especiais para o culto. O Escudo da fé permite reutilizar consumíveis com dez rodadas de intervalo, exceto itens de uso único por run. A Espada da verdade só entra no legado depois de 200 rodadas consecutivas com honra entre −30 e +30; a Lança do Herói exige +100 de honra e evita dez batalhas.
+
 O jogo se ajusta à largura e à altura disponíveis, sem rolagem da página. No desktop, cartas, informações e escolhas usam três colunas. Em telas estreitas, as duas artes ficam lado a lado, com atributos, narrativa e respostas logo abaixo. Em telas baixas na horizontal, os blocos usam quatro colunas. O tamanho das artes é calculado novamente ao mudar a tela, escolher uma resposta, redimensionar a janela ou mostrar um aviso de salvamento.
 
 As molduras do herdeiro e do evento mantêm a proporção 3:4 e o mesmo tamanho. As ilustrações não são esticadas nem recortadas. O ajuste reduz primeiro as artes e os espaços, compactando o texto apenas quando necessário. Frases decorativas deixam de aparecer nos modos compactos; no resultado, a consequência ocupa o lugar da descrição e dos detalhes do evento que o jogador já leu. Os atributos e as escolhas continuam visíveis. A honra usa um contorno azul ou vermelho por fora do retrato, e os números de batalha seguem em texto corrido.
 
-O mesmo herdeiro tem três retratos SVG 3:4: o desenho original neutro, honra alta e honra baixa, todos em traços brancos sobre preto. As variações preservam o rosto e a roupa base. Na alta, a postura é firme e aberta, o manto está cuidado e há um selo do povo; a mão fica aberta e vazia. Na baixa, a expressão endurece, o manto fica remendado e rasgado e a mão segura o punho da arma embainhada. A transição entre faixas dura 520ms, com deslocamento leve e troca de opacidade. Ela só acontece quando uma run em andamento troca de faixa, inclusive ao voltar ao neutro; não se repete a cada decisão nem ao carregar um save. Com movimento reduzido, a troca é imediata. Os limites ficam separados em `js/state.js`; os caminhos dos retratos ficam em `js/ui.js`.
+Cada traço tem sete retratos simples: três fases de honra baixa, uma neutra e três de honra alta. As mudanças seguem os limites de honra −90, −50, −30, 0, +30, +50 e +90. A herdeira Corajosa é representada por uma mulher; os três personagens têm rostos e roupas próprios. O cabeçalho da carta explica o traço: Corajosa começa com +1 Ataque, Avarento com 10 Gold, e Doente com 70 Vida e 4 Escudo. A Vida máxima do Doente permanece em 70. A transição entre retratos dura 520ms, com deslocamento leve e troca de opacidade. Com movimento reduzido, a troca é imediata. As temporadas mudam a cada 25 rodadas e são mostradas no cabeçalho; quatro cartas só aparecem na estação correspondente.
 
-Arquivos atuais: `assets/herdeiro.svg`, `assets/herdeiro-honra-alta.svg` e `assets/herdeiro-honra-baixa.svg`. Os PNGs e seus prompts anteriores foram preservados, mas não são usados na interface. Ponte, poço e ervateira também têm desenhos SVG próprios no mesmo estilo das artes anteriores. Cada uma das cinco cartas da cadeia abissal usa uma ilustração própria, com a presença sugerida por formas e sinais, sem mostrar a entidade por inteiro.
+As cartas especiais do culto e os doze novos eventos letais têm ilustrações SVG próprias. A memória da run anterior fica no legado separado e pode aparecer em cartas sobre o túmulo ou uma criança que reconta a crônica.
 
 ## Organização
 
 | Arquivo | Responsabilidade |
 | --- | --- |
 | `js/state.js` | Valores iniciais, faixas de honra e criação da run |
-| `js/events.js` | Catálogo de eventos, requisitos, efeitos, pesos e batalhas |
+| `js/events.js`, `js/events-specials.js`, `js/events-lethal.js`, `js/events-cult.js`, `js/events-foundations.js` | Catálogo de eventos, requisitos, efeitos, pesos, batalhas, estações, culto e cadeias especiais |
 | `js/items.js` | Catálogo e efeitos dos itens utilizáveis |
 | `js/legacy.js` | Objetivos vazios, concessões e união do legado |
 | `js/engine.js` | Pools, requisitos, sorteio, resolução e encerramento |

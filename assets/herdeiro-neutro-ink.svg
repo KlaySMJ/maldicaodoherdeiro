@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" fill="none" role="img" aria-labelledby="titulo descricao">
+  <title id="titulo">O herdeiro, retrato neutro em Medieval Ink Fantasy</title>
+  <desc id="descricao">Jovem senhor de expressão pensativa, com manto simples, uma mão no broche e a outra junto à espada. Gravura em tinta branca sobre negro com pequenos acentos de ocre e ferrugem.</desc>
+  <defs>
+    <pattern id="hachura" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+      <path d="M0 0v9" stroke="#f3eee4" stroke-width="1.3" opacity=".76"/>
+    </pattern>
+    <pattern id="hachura-cruzada" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M0 10 10 0M-2 2 2-2M8 12l4-4" stroke="#f3eee4" stroke-width=".75" opacity=".58"/>
+    </pattern>
+    <clipPath id="manto-corte">
+      <path d="M111 249q-37 17-52 71L38 443q67 22 143 10l-16-154-54-50Z"/>
+    </clipPath>
+  </defs>
+
+  <path fill="#000" d="M0 0h360v480H0z"/>
+  <g stroke="#f3eee4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Silhueta e cabelo -->
+    <path d="M123 129q-13-45 11-72 18-29 55-25 45-2 58 35 13 33-2 68l-11 48q-17 31-48 39-31-10-48-40l-11-53Z" fill="#050505" stroke-width="3.3"/>
+    <path d="M120 119q-8-48 20-72 14-17 34-18-9 12-8 23 25-32 58-12 27 17 28 48 1 19-8 40l-9-7q4-25-8-41-23 12-46-1-15 18-38 20l-8 38-12-18Z" fill="#090909" stroke-width="3"/>
+    <path d="M128 93q14-32 35-40m-16 8q18-21 40-19m-17 22q30-29 52-8m-36 15q32-15 50 4m-89 15q22-8 33-28" stroke-width="1.2"/>
+    <path d="M128 113q10-15 20-24m89 6q8 13 7 29m-96 42q7 11 15 15m59 3q-8 10-17 14" stroke-width="1.2"/>
+
+    <!-- Rosto: sobrancelhas e olhar cansado, sem inclinação heroica -->
+    <path d="m139 130 23-5m39-1 22 6m-80 17 21-2m39-1 20 4" stroke-width="2.1"/>
+    <path d="M151 147q8-5 15 0m37 0q8-5 15 1m-51 4v6m43-6 1 6m-24 0-5 24 13 1m-24 13q15 7 30-1M163 204q17 5 33-1" stroke-width="1.9"/>
+    <circle cx="158" cy="150" r="1.5" fill="#f3eee4" stroke="none"/><circle cx="208" cy="150" r="1.5" fill="#f3eee4" stroke="none"/>
+    <path d="m170 141 8-2m31 3 7 2m-52 34 8 1m41 1 7-1m-37 31 7 3m14 0 8-4" stroke-width="1"/>
+
+    <!-- Gola e túnica -->
+    <path d="M137 207q19 20 42 25 25-3 46-25l22 26-38 58-32-1-45-53 5-30Z" fill="#121212" stroke-width="3"/>
+    <path d="m153 219 27 29 25-30m-45 29-21 39m62-39 22 40m-43-18v112m-30-94q28 13 59 0" stroke-width="2"/>
+    <path d="M161 258q20 14 39 0m-35 13q16 9 31 0" stroke="#c59652" stroke-width="2.2"/>
+
+    <!-- Manto pesado, caído num ombro e preso por um broche gasto -->
+    <path d="M111 249q-37 17-52 71L38 443q67 22 143 10l-16-154-54-50Z" fill="#101010" stroke-width="3.4"/>
+    <path d="M111 253q-30 30-38 88l-20 91q42 15 83 13l-10-131Z" fill="url(#hachura)" stroke-width="1.2"/>
+    <path d="M58 370q28-65 50-83m-61 116q26-45 44-56m-49 81q25-34 43-40m-39 65q27-23 49-23" stroke-width="1.1"/>
+    <path d="M107 255q-18 52-24 111m-7 44q22-29 35-35m-40 56q30-19 55-18" stroke="#9d5547" stroke-width="1.7"/>
+    <path d="M117 247q17 25 47 38l-9 18q-34-12-58-37z" fill="#101010" stroke-width="2.3"/>
+    <path d="M157 278q12-9 22 1l-2 17q-10 9-20-1z" fill="#c59652" stroke-width="2.2"/>
+    <path d="m163 282 7 9m0-10-7 9" stroke="#000" stroke-width="1.4"/>
+
+    <!-- Braço dobrado e mão tocando o fecho: gesto contido -->
+    <path d="M211 258q20-11 34 4l22 34-23 47-20-11 13-34-30-18Z" fill="#080808" stroke-width="3"/>
+    <path d="m237 337 10-27q4-8 10-4l5 4 3-12q2-6 7-3l5 6 2-8q3-5 7 0l6 12q3 11-4 21l-21 23q-12 8-25-1Z" fill="#080808" stroke-width="2.6"/>
+    <path d="m258 310 6 10m7-14 4 12m7-11 2 9m-28 28q12 2 23-8" stroke-width="1.3"/>
+    <path d="m225 267 16 15m-8-22 16 17m-24-5 18 16" stroke-width="1.1"/>
+
+    <!-- Outro braço repousa sem tensão sobre a espada -->
+    <path d="M76 288q-20 15-28 50l-13 48q8 21 25 23l24-53 23-52-16-22Z" fill="#090909" stroke-width="3"/>
+    <path d="m44 377 20 8m-23 4 20 8m-13-58 20 15m-14-28 20 16" stroke-width="1.2"/>
+    <path d="M49 400q12 9 24 1l16-18q5-9-2-12-5-2-10 5l-8 7 3-16q0-8-6-8-6 1-7 9l-7 17q-8 6-3 15Z" fill="#080808" stroke-width="2.5"/>
+    <path d="m56 387 12-10m-10 17 13-10" stroke-width="1.2"/>
+
+    <!-- Espada simples, bainha e cinto -->
+    <path d="m82 392 13 7 65-117-10-6z" fill="#d7d0c3" stroke-width="2.1"/>
+    <path d="m87 394 8 5m55-117 10 6m-51 93 49-89" stroke="#000" stroke-width="1.3"/>
+    <path d="m74 387 28 16m-24-25-9 15m29 1 8-15m-34 28 20 11" stroke="#c59652" stroke-width="2.5"/>
+    <path d="M79 410q55 32 127 12m-118 1q54 30 119 12" stroke-width="4"/>
+    <path d="M160 419v17h21v-17m-16 1v14m12-14v14" fill="#111" stroke="#c59652" stroke-width="1.8"/>
+
+    <!-- Hachuras de sombra e roupa -->
+    <g clip-path="url(#manto-corte)" stroke="url(#hachura-cruzada)" stroke-width="1.1" opacity=".8">
+      <path d="M43 291h137v165H43z" fill="url(#hachura-cruzada)"/>
+    </g>
+    <path d="M230 252q36 29 52 87m-38-73q28 31 38 67m-34-49q22 28 29 53m-127-8h35m-31 17h28m-26 17h25m-23 17h21m-19 17h18" stroke-width="1.1"/>
+    <path d="M32 451q55 17 120 11m44 1q55-2 132-14" stroke="#f3eee4" stroke-width="1.5"/>
+  </g>
+
+  <path d="M157 286q10-8 20 1l-2 9q-9 8-18-1z" fill="#c59652"/>
+  <path d="M163 288l7 6m-6 0 6-6" stroke="#000" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M83 394q7 4 13 2" stroke="#9d5547" stroke-width="2" stroke-linecap="round"/>
+</svg>

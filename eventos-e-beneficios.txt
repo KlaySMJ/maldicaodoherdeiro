@@ -1,6 +1,6 @@
 A MALDIÇÃO DO HERDEIRO — EVENTOS E BENEFÍCIOS
 
-Catálogo atual: 127 eventos. Fonte: js/events.js.
+Catálogo atual: 222 definições de evento. Fontes: js/events.js, js/events-specials.js, js/events-cult.js, js/events-lethal.js e js/events-foundations.js. “O último habitante” é uma transição da engine e não entra no sorteio.
 
 Documento de consulta do autor; não é exibido ao jogador.
 
@@ -14,11 +14,15 @@ COMO LER
 
 - Entre 20 e 49 habitantes não há renda. Abaixo de 20: −1 gold por rodada, sem dívida.
 
-- O herdeiro começa com 100 HP, 5 Escudo, 2 Ataque, 0 Honra, 50 habitantes e 5 gold. Não há teto de HP configurado.
+- Todos começam com 0 Honra e 50 habitantes. Corajoso recebe +1 Ataque; Avarento começa com 10 gold; Doente começa com 70/70 Vida e 4 Escudo, e seu máximo permanece em 70. Valores comuns: 100 Vida, 5 Escudo, 2 Ataque e 5 gold.
 
-- Honra visual: alta em +30; baixa em −30. Respostas especiais usam +50 ou −50. Os botões de teste somam ou subtraem 30 sem avançar a rodada.
+- Honra visual: alta em +30; baixa em −30. Em +90 e −90, o herdeiro muda para versões extremas do retrato. Escolhas especiais também aparecem em +50/−50; novas decisões aparecem em +90/−90. Os botões de teste somam ou subtraem 30 sem avançar a rodada.
 
-- As últimas cinco cartas são evitadas. Com poucas elegíveis, a mais antiga é liberada primeiro.
+- As últimas dez cartas são evitadas. Com poucas elegíveis, a mais antiga é liberada primeiro.
+- A ordem das opções elegíveis é embaralhada ao abrir cada carta e salva; mercador e cartas especiais com pools mantêm suas regras próprias. Eventos letais não entram nas cinco primeiras rodadas e cada um só aparece uma vez na run.
+- Estações duram 25 rodadas cada: primavera, verão, outono e inverno. Traços sorteados: Corajoso (+1 Ataque), Avarento (começa com 10 gold) e Doente (70/70 Vida, máximo 70 e 4 Escudo). Todos começam com honra 0 e 50 habitantes.
+- Companheiros: Cão de guarda (−2 dano de batalha), Corvo da estrada (+1 gold em recompensas positivas), Gato do celeiro (+1 HP ao iniciar a rodada). Construções na run: Ponte (+1 gold na renda), Moinho (+1 HP/rodada), Capela (+1 Escudo), Forja (arma custa −2 gold) e Muralha (−2 dano de batalha).
+- O legado salva até 20 memórias de runs anteriores: id, rodada final, honra final, tipo e causa do encerramento.
 
 - Marcas da run não são herdadas. A cadeia abissal 121–125 é ordenada por flags da run; três desfechos do último evento gravam flags de legado. Testamento, memória e eventos especiais podem conceder flags persistentes; são gravadas somente ao terminar a run. Objetivos de legado continuam vazios; nenhum evento entrega atributos automaticamente ao próximo herdeiro. sucessor_pressentido libera O Primeiro Herdeiro em runs futuras.
 
@@ -6892,3 +6896,142 @@ ITENS ADICIONADOS DA PROPOSTA
 - Poção de cura grande: consumível encontrado nos baús; recupera 25 HP ao usar.
 - Pote de moedas velhas: consumível encontrado nos baús; concede 5 gold ao usar.
 - Faca de caça: equipamento concedido pelo Baú à beira da estrada; soma 1 Ataque imediatamente e incrementa em uma compra o contador de Arma melhor (+2 gold na próxima oferta).
+
+==============================================================================
+ADENDO — BRUXA E CONSELHEIRO
+
+- A Bruxa da floresta agora tem peso 5 no sorteio. Quatro encontros adicionais, cada um no máximo uma vez por run: A bruxa e o fio da vida; Frutos negros na soleira; A vela que não apaga; Água para a bruxa. Os resultados podem recuperar HP, ajudar habitantes, melhorar o Escudo ou conceder Poção de cura grande e Amuleto de última guarda.
+- Acolher o órfão com honra ≥50 grava a rodada da adoção. Quarenta rodadas depois, A mão do Rei é priorizada no sorteio; aceitar a nomeação ativa menino_conselheiro. Os conselhos negativos deixam de ser elegíveis.
+- Conselheiro positivo (15 cartas; seguir o conselho): Fechar as contas (+4 gold); Ouvir o moinho (+2 habitantes, +2 gold); Repouso antes da marcha (+12 HP); A lâmina no lugar (+1 Ataque); Cobrir a torre (+1 Escudo); Pão antes da estrada (+3 habitantes, +2 Honra, −1 gold); Trocar sementes (+3 gold, +1 habitante); Uma ronda curta (+1 Ataque, +1 Honra); Limpar o poço (+2 habitantes, +2 Honra); Esperar pelo preço (+5 gold); A porta lateral (+1 Escudo, +1 habitante); Dividir a lenha (+3 Honra, +5 HP); Reabrir a oficina (+1 Ataque, +2 gold); Uma mesa comprida (+4 habitantes, +2 Honra); Remendar antes da geada (+8 HP, +1 Escudo). Recusar não altera atributos.
+- Conselheiro negativo (15 cartas; seguir o conselho): Vender a farinha cedo (+4 gold, −4 habitantes); Aumentar a ronda (−3 habitantes, −2 gold); Treino até a exaustão (−10 HP); Reforçar o lado errado (−1 Escudo, −2 gold); Cobrar duas vezes (+5 gold, −4 Honra, −2 habitantes); Fechar a enfermaria (−8 HP, −3 Honra); Acusar sem prova (−3 habitantes, −4 Honra); Comprar aço molhado (−4 gold, −1 Ataque); Taxar o poço (+4 gold, −3 habitantes, −3 Honra); Cortar o descanso (−1 Ataque, −5 HP); Arma sem teste (−3 gold, −1 Ataque); Mandar os viajantes embora (−4 habitantes, −2 Honra); Vender as ferramentas (+3 gold, −2 habitantes); Uma punição pública (−5 Honra, −2 habitantes); Ignorar a rachadura (−1 Escudo, −2 habitantes). Recusar concede +1 Honra.
+- Após a nomeação, o menino também pode trazer três cartas especiais positivas: Contas do armazém (+5 habitantes, +3 Honra, −2 gold); A ponte e a estrada (reparo por 2 gold ou +1 Honra); Treinar sem ferir (+1 Ataque, +1 Escudo, +2 Honra).
+
+==============================================================================
+ADENDO — ITENS GENÉRICOS E RELÍQUIAS
+
+- O equipamento sem dono concede um equipamento genérico ainda não recebido nesta run. O sorteio usa peso por raridade: comum 10, raro 4, épico 1; escolhe uma peça aleatória da raridade sorteada. Equipamentos de Ataque e Escudo encarecem separadamente a próxima compra equivalente em 2 gold.
+- Vida máxima começa em 100 para Corajoso e Avarento e em 70 para Doente; o máximo do Doente não aumenta. Os itens de Vida genéricos aumentam o máximo e curam o mesmo valor, respeitando o limite de cada traço. As 36 peças da proposta I63–I98 foram adicionadas ao catálogo.
+- A relíquia sem brasão pode conceder uma relíquia ou pacto especial elegível, sem repetir uma peça já recebida na run. Inclui a Adaga amaldiçoada (vence batalhas comuns e recebe o dano do desfecho de derrota), Tomo do esquecimento (+10 habitantes, −10 Honra, −10 HP durante batalha), Cajado da dor (metade da Vida atual em troca de +20 Vida máxima), Fazedora de viúvas (+10 Ataque, −10 Escudo), Escudo do dragão (+10 Escudo, −10 Ataque), Martelo dos afogados (dobra o peso dos cinco eventos abissais), Bacamarte (anula dano em três batalhas e depois causa −15 HP), Honra dos caídos (+5 seguidores a cada cinco rodadas com Honra ≤−50) e Afogados abençoados (dobra os seguidores recebidos com Honra ≤−90).
+- Relíquias lendárias: Escudo da fé reutiliza itens consumíveis com dez rodadas de recarga, exceto os marcados como uso único por run; Espada da verdade trava a Honra em zero e só é desbloqueada no legado após 200 rodadas consecutivas entre −30 e +30; Lança do Herói exige +100 de Honra e evita dez batalhas; Amuleto de gigantes concede +40 Vida máxima e custa 40 Vida atual; Cinto dos ventos dá +100 Ataque na próxima batalha ou se perde no evento “Correu mais rápido que a luz”.
+- O Tomo só pode ser usado durante um evento de batalha. O Cinto só aumenta Ataque para uma batalha; a Lança consome uma carga por batalha. A Adaga amaldiçoada preserva as derrotas forçadas por eventos.
+- A cada dez rodadas completas, todas as batalhas ganham +1 de defesa inimiga e +2 de dano nos desfechos de vitória e derrota. A interface mostra a dificuldade escalada antes da escolha.
+- Eventos adicionados: Equipamento sem dono (escolher item genérico ou deixar) e Relíquia sem brasão (aceitar item especial elegível ou guardar); Correu mais rápido que a luz surge se um evento sem batalha vier antes do próximo combate após ativar o Cinto.
+
+==============================================================================
+ADENDO — EVENTOS ESPECIAIS 130–155
+
+- O Mercador de vermelho só pode entrar na pool logo após um evento do tipo mercador, com chance de 25%. A cada visita, a engine sorteia duas respostas erradas entre as que podem ser pagas e mostra junto a resposta correta, em ordem embaralhada. Acertar D02 ativa o Ano Novo e grava a rodada-base; as outras respostas encerram a chance nessa run.
+- A partir de 50 rodadas após a rodada-base, abre-se uma janela de 10 rodadas a cada 50. No início de cada janela, um animal ainda não visto é escolhido aleatoriamente; sua carta compete com os demais eventos com peso 2. Se não sair durante a janela, volta a poder ser sorteado no marco seguinte. Os animais são Boi, Tigre, Coelho, Dragão, Cavalo, Galo, Cão, Porco, Rato, Serpente, Macaco e Cabra; cada carta tem três respostas e só pode ser resolvida uma vez por run.
+- O Viajante do Norte fica elegível imediatamente após A primeira geada ou O inverno longo, com peso 3. A resposta E02 ativa o ciclo divino. A cada 40 rodadas desde a ativação ou a última carta divina, uma das cartas ainda não vistas pode surgir com peso 1,5; bênçãos recebem peso 3 com honra ≥30 e maldições, com honra ≤−30. O efeito ativo é mostrado na interface, dura cinco ou dez rodadas e aplica modificadores de atributo, alterações por rodada, redução de dano, redução de ganhos de gold ou revelação de informações das escolhas.
+- Bênçãos: Thor (+3 Ataque por 10 rodadas; ou +5 com custo de 10 HP); Odin revela honra por 10 rodadas, ou honra e habitantes por 10 rodadas pagando 6 gold; Freya concede +5 habitantes ao longo de 10 rodadas, ou +10 pagando 3 gold; Týr reduz dano de batalha em 5, ou em 8 pagando 6 HP; Njord concede +1 gold por rodada, ou +2 pagando 2 gold; Iðunn recupera 2 HP por rodada, ou 4 pagando 3 gold. Recusar qualquer uma concede +2 Honra.
+- Maldições: Loki retira 1 gold por rodada por 10 rodadas, ou por 5 após tributo de 2 gold; Hel tira 2 HP por rodada por 10 rodadas, ou por 5 após tributo de 3 gold; Skadi reduz Escudo em 3 por 10 rodadas, ou por 5 após tributo de 3 gold; Surtr retira 1 habitante a cada duas rodadas por 10 rodadas, ou por 5 após perder 6 HP; Höðr reduz Ataque em 3 por 10 rodadas, ou por 5 após tributo de 2 gold; Rán reduz ganhos de gold em 2 (mínimo zero) por 10 rodadas, ou por 5 após tributo de 3 gold. Honra ≥50 permite desafiar e evitar o efeito, pagando os custos individuais de HP.
+- Artes próprias para todas as 26 cartas: `assets/eventos-especiais/mercador-vermelho.svg`, `viajante-norte.svg`, doze `zodiaco-*.svg` e doze `norte-*.svg`.
+
+==============================================================================
+156. O ÚLTIMO HABITANTE [ultimo_habitante]
+Tipo: transição chamada pela engine; não sorteada.
+Requisitos: habitantes em 0, honra ≤ −30, herdeiro vivo.
+Imagem: assets/eventos-culto/ultimo.svg.
+- Encerrar: derrota por falta de povo; registra rodada, honra e motivo no legado.
+- Aceitar: −5 Honra, +50 seguidores, concede a Adaga cerimonial e a flag de legado culto_conhecido.
+
+157. A PRIMEIRA CHAMA [primeira_chama] — especial, peso 3, após 2 rodadas no culto.
+- Mandamento de ferro: +10 seguidores, −4 Honra.
+- Dividir pão e culpa: +5 seguidores, +2 Honra; a debandada por honra também se aplica.
+- Silenciar quem duvida (Honra ≤ −50): +1 Ataque, −3 seguidores, −6 Honra.
+
+158. O PROFETA RIVAL [profeta_rival] — desordem, peso 4, após 5 rodadas no culto.
+- Desafiá-lo: +10 seguidores, −8 HP, −3 Honra.
+- Pagar (5 gold): −5 gold, −3 seguidores.
+- Deixá-lo pregar: +2 Honra e −12 seguidores, além da debandada por honra.
+
+159. O QUE DUVIDA [seguidor_duvida] — especial, peso 3, após 4 rodadas no culto.
+- Deixá-lo partir: +2 Honra, −1 seguidor, além da debandada por honra.
+- Prendê-lo: −3 Honra.
+- Fazer dele um exemplo (Honra ≤ −50): +7 seguidores líquidos, −6 Honra.
+
+160. O TEMPLO DE OSSOS [templo_de_ossos] — especial, peso 2, após 8 rodadas e com 30 seguidores.
+- Construir com pedreiros (8 gold): −8 gold; templo dá +1 seguidor por rodada.
+- Construir com sangue: −12 seguidores, −6 Honra; templo dá +2 seguidores por rodada.
+- Adiar: −2 seguidores.
+
+161. A FOGUEIRA DA CONFISSÃO [fogueira_confissao] — especial, peso 1, após 10 rodadas no culto.
+- Confessar: +6 Honra, −20 seguidores, além da debandada por honra.
+- Queimar o livro: +8 Honra, converte seguidores em habitantes, dissolve o culto e grava culto_renegado no legado.
+- Manter a chama: +5 seguidores, −3 Honra.
+
+162. O CAÇADOR DE HEREGES [cacador_de_hereges] — batalha, peso 2, após 6 rodadas no culto.
+- Defender os fiéis: defesa 5; vitória causa 16 de dano antes do escudo e dá +12 seguidores, +6 gold, −3 Honra. Falha causa 24 de dano e perde mais 15 seguidores.
+- Esconder os fiéis: −6 seguidores, −2 Honra.
+- Entregar o líder dissidente (Honra ≤ −50): +4 gold, −4 seguidores, −5 Honra.
+
+==============================================================================
+163–174. EVENTOS LETAIS [js/events-lethal.js]
+As probabilidades ficam ocultas antes da escolha; o desfecho é sorteado uma vez ao resolver a opção.
+
+163. A TRAVESSIA DO GELO [travessia_do_gelo], rodada ≥6, peso 1,5, única vez.
+- Corda: 60%; sucesso +8 habitantes, +3 Honra; falha −30 HP, −2 habitantes.
+- Voluntário: +2 habitantes líquidos, −2 Honra.
+- Esperar/testar boi: −5 habitantes, −1 Honra.
+- Fileira de tábuas (Honra ≥50): 80%; sucesso +8 habitantes, +4 Honra; falha −15 HP.
+
+164. A CASA EM CHAMAS [casa_em_chamas], rodada ≥6, peso 1,5, única vez.
+- Entrar pela janela: 55%; sucesso +3 habitantes, +4 Honra, −8 HP; falha −35 HP.
+- Derrubar parede: +1 habitante líquido, −14 HP.
+- Isolar o fogo: −3 habitantes, −2 Honra.
+
+165. A TAÇA DO CONVIDADO [taca_do_convidado], rodada ≥7, peso 1,5, única vez.
+- Beber primeiro: 50%; sucesso +4 Honra, +6 gold; falha −30 HP.
+- Mandar servo provar: −4 Honra.
+- Derrubar taça: −3 Honra, vizinho_ofendido.
+- Pedir ao nobre que beba (Honra ≤−30): +4 gold, −2 Honra, vizinho_ofendido.
+
+166. O CAVALO DESEMBESTADO [cavalo_desembestado], rodada ≥6, peso 1,5, única vez.
+- Atirar-se: +3 Honra, −22 HP.
+- Gritar: 60%; sucesso +1 Honra; falha −1 habitante, −4 Honra.
+- Abater o animal: −5 gold, −1 Honra.
+
+167. A FERA NO CELEIRO [fera_no_celeiro], rodada ≥7, peso 1,5, única vez.
+- Entrar com tocha: 55%; sucesso +6 gold, +3 Honra; falha −28 HP.
+- Enviar guardas: +2 gold, −3 habitantes, −2 Honra.
+- Queimar celeiro: −8 gold, −2 habitantes.
+
+168. O RIO QUE MUDOU DE COR [rio_cor_estranha], rodada ≥8, peso 1,5, única vez.
+- Beber diante de todos: 50%; sucesso +5 Honra, +3 habitantes; falha −25 HP, −4 habitantes.
+- Buscar outro rio: +2 Honra, −6 HP, −2 habitantes.
+- Proibir uso: −3 habitantes, −2 Honra.
+
+169. O CONVITE DO VIZINHO [convite_do_vizinho], rodada ≥8, peso 1,5, única vez.
+- Ir sozinho: 60%; sucesso +10 gold, +3 Honra; falha −30 HP.
+- Ir escoltado: +4 gold, −6 HP, −1 Honra.
+- Recusar: −3 Honra, vizinho_ofendido.
+
+170. O DESFILADEIRO [desfiladeiro], rodada ≥9, peso 1,5, única vez.
+- Trilha curta: 55%; sucesso +8 gold, +2 Honra; falha −28 HP, −4 gold.
+- Trilha longa: −8 HP, −2 gold.
+- Guia (4 gold exigidos): 80%; sucesso +2 gold líquidos; falha −8 gold líquidos, −30 HP.
+
+171. A ESCOLHA DO PÃO [escolha_do_pao], rodada ≥8, peso 1,5; requer pelo menos 20 habitantes ou seguidores.
+- Sortear: −5 habitantes.
+- Crianças e idosos: −4 habitantes, −10 HP, +4 Honra.
+- Guarda e trabalhadores: −6 habitantes, −5 Honra, +1 Escudo.
+- Pedir ajuda (Honra ≥30, vizinho sem ofensa): −2 habitantes, −3 gold, +2 Honra.
+
+172. O CIRURGIÃO-BARBEIRO [cirurgiao_barbeiro], peso 2; só aparece com HP ≤50, única vez.
+- Sangria: 50%; sucesso +22 HP; falha −15 HP.
+- Cauterizar: 60%; sucesso +30 HP; falha −25 HP.
+- Descansar: +8 HP, −1 gold.
+
+173. O JOGO DE DADOS DO VELHO CEGO [dados_do_velho], rodada ≥7, peso 1, única vez.
+- Apostar 5 gold: 50%; sucesso +5 gold líquidos; falha −5 gold.
+- Apostar sangue: 45%; sucesso +2 Ataque, +2 Honra; falha −32 HP.
+- Quebrar dados: −2 Honra, −2 HP.
+
+174. A COLUNA DE FUMAÇA [coluna_de_fumaca], rodada ≥10, peso 1,5, única vez.
+- Cavalgar com poucos homens: 50%; sucesso +4 habitantes, +3 Honra, −6 HP; falha −3 habitantes, −28 HP.
+- Mandar batedor: −2 habitantes, −1 Honra.
+- Fechar portões: −4 habitantes, −3 Honra.
+
+==============================================================================
+EVENTOS DE FUNDAÇÃO, ESTAÇÕES E MEMÓRIA
+Companhia da vila: escolhe um companheiro passivo; construção: forja (−2 gold em armas) ou muralha (−2 dano em batalha). A carta da marca do herdeiro contém uma opção para cada traço. Primavera, verão, outono e inverno têm cartas próprias. Túmulo e criança só aparecem quando o legado contém uma run encerrada anterior.

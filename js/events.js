@@ -316,8 +316,12 @@
       requisitos: { rodadaMin: 4 },
       imagem: "assets/batalha.svg", imagemAlt: "Espadas e estandartes dos homens do barão",
       texto: "Um cavaleiro de armadura cinza exige tributo em nome de um barão que ninguém conhece. Seus homens esperam atrás, em formação mais limpa do que a de qualquer guarda seu.",
-      informacoes: "A armadura é boa, e as ameaças também. Se não pagar, é preciso lutar ou negociar.",
+      informacoes: "O cavaleiro exige o tributo. A vila aguarda a sua palavra.",
       batalha: {
+        forcarDerrota: true,
+        encerrarAoFalhar: true,
+        motivoFim: "A crônica do herdeiro termina diante do cobrador. No livro da vila, alguém deixou uma nota sobre a dívida que ficou.",
+        mostrarLeitura: false,
         defesa: 4,
         vitoria: { dano: 14, efeitos: { gold: 6, habitantes: 2, honra: 3 }, resultado: "O cavaleiro cai da sela. Os homens do barão recuam levando-o, deixando 6 gold e dois desertores que pedem para ficar." },
         derrota: { dano: 22, efeitos: {}, resultado: "Você é desarmado antes de entender o golpe. O cavaleiro leva o que quer e deixa um aviso na porta." },
@@ -326,7 +330,8 @@
       opcoes: [
         { id: "combater", texto: "Recusar o tributo e lutar.", combate: true },
         { id: "pagar", texto: "Pagar o tributo · 6 gold", requisitos: { goldMin: 6 }, efeitos: { gold: -6, honra: -1 }, resultado: "O cavaleiro conta as moedas duas vezes e sorri. Você entende que ele voltará, e que o povo também entendeu." },
-        { id: "negociar", texto: "Falar em nome do povo · 3 gold", requisitos: { honra: "alta", goldMin: 3 }, efeitos: { honra: 2, hp: -3, gold: -3 }, resultado: "O cavaleiro ouve até o fim, ofendido. No fim aceita metade do tributo, mas não sem acertar o seu ombro com a manopla." }
+        { id: "negociar", texto: "Falar em nome do povo · 3 gold", requisitos: { honra: "alta", goldMin: 3 }, efeitos: { honra: 2, hp: -3, gold: -3 }, resultado: "O cavaleiro ouve até o fim, ofendido. No fim aceita metade do tributo, mas não sem acertar o seu ombro com a manopla." },
+        { id: "recusar", texto: "Recusar e deixar uma nota aos que virão.", requisitos: { honraMax: 49 }, resultado: "O cobrador parte com os homens. No livro da vila, alguém registra o que restou da dívida.", encerramento: { tipo: "derrota", motivo: "A crônica do herdeiro termina diante do cobrador. No livro da vila, alguém deixou uma nota sobre a dívida que ficou." } }
       ]
     },
     {
@@ -954,7 +959,8 @@
           "resultado": "O padre varre o chão e acende duas velas. Três famílias passam a frequentar.",
           "flags": {
             "padre_decidido": true,
-            "padre_aceito": true
+            "padre_aceito": true,
+            "capela_erguida": true
           }
         },
         {
@@ -1012,7 +1018,8 @@
           },
           "resultado": "Você carrega pedras até cair de sono. A capela ergue-se torta e bela, e cinco famílias pedem para ficar.",
           "flags": {
-            "capela_decidida": true
+            "capela_decidida": true,
+            "capela_erguida": true
           }
         },
         {
@@ -1028,7 +1035,8 @@
           },
           "resultado": "A capela fica reta e fria. Quatro viajantes ficam por causa do sino.",
           "flags": {
-            "capela_decidida": true
+            "capela_decidida": true,
+            "capela_erguida": true
           }
         },
         {
@@ -2746,6 +2754,7 @@
       "titulo": "A noite dos mortos",
       "tipo": "encontro",
       "peso": 2,
+      "intervaloRodadas": 50,
       "texto": "Uma vez por ano, os moradores acendem velas no cemitério e deixam pão nas lápides. Ninguém lembra por quê, apenas como.",
       "informacoes": "Os mortos também fazem parte da vila.",
       "opcoes": [
@@ -4001,7 +4010,8 @@
           },
           "efeitoContinuo": {
             "revelarHonraRodadas": 5
-          }
+          },
+          "itens": ["amuleto_ultima_guarda"]
         },
         {
           "id": "segredo",
@@ -4774,7 +4784,8 @@
             "escudo": 1,
             "hp": -6
           },
-          "resultado": "O rei fala por três noites. Você sai da colina com um mapa mental de erros que ainda não cometeu."
+          "resultado": "O rei fala por três noites. Você sai da colina com um mapa mental de erros que ainda não cometeu.",
+          "itens": ["oleo_de_lamina"]
         },
         {
           "id": "ouro",
@@ -5117,7 +5128,7 @@
   // Cadeia abissal: as marcas garantem a ordem sem regras especiais na engine.
   Jogo.eventos.push(...[
     {
-      id: "sonhos_umidos", titulo: "O canto das marés secas", tipo: "especial", peso: 0.3, especial: true,
+      id: "sonhos_umidos", titulo: "O canto das marés secas", tipo: "especial", peso: 0.3, especial: true, abissal: true,
       requisitos: { rodadaMin: 8, flagsAusentes: ["abissal_1"] },
       imagem: "assets/canto-das-mares.svg", imagemAlt: "Ondas concêntricas e uma sombra indistinta sob a água",
       texto: "Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água. A vila está a dias de qualquer mar.",
@@ -5130,7 +5141,7 @@
       ]
     },
     {
-      id: "mare_no_poco", titulo: "A maré no poço", tipo: "especial", peso: 0.4, especial: true,
+      id: "mare_no_poco", titulo: "A maré no poço", tipo: "especial", peso: 0.4, especial: true, abissal: true,
       requisitos: { rodadaMin: 11, flags: ["abissal_1"], flagsAusentes: ["abissal_2"] },
       imagem: "assets/mare-no-poco.svg", imagemAlt: "Balde de poço com peixes pálidos e símbolos na água",
       texto: "A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira. As crianças brincam com eles, e as mães não conseguem impedir.",
@@ -5143,7 +5154,7 @@
       ]
     },
     {
-      id: "olhos_largos", titulo: "Os de olhos largos", tipo: "especial", peso: 0.5, especial: true,
+      id: "olhos_largos", titulo: "Os de olhos largos", tipo: "especial", peso: 0.5, especial: true, abissal: true,
       requisitos: { rodadaMin: 14, flags: ["abissal_2"], flagsAusentes: ["abissal_3"] },
       imagem: "assets/olhos-largos.svg", imagemAlt: "Silhuetas de moradores de olhos abertos junto à lagoa",
       texto: "Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio. Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou.",
@@ -5156,7 +5167,7 @@
       ]
     },
     {
-      id: "torre_na_lagoa", titulo: "A torre na lagoa", tipo: "especial", peso: 0.5, especial: true,
+      id: "torre_na_lagoa", titulo: "A torre na lagoa", tipo: "especial", peso: 0.5, especial: true, abissal: true,
       requisitos: { rodadaMin: 17, flags: ["abissal_3"], flagsAusentes: ["abissal_4"] },
       imagem: "assets/torre-na-lagoa.svg", imagemAlt: "Torre escura e sem janelas emergindo da lagoa",
       texto: "Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha. A porta está aberta.",
@@ -5169,7 +5180,7 @@
       ]
     },
     {
-      id: "aquele_que_acorda", titulo: "Aquele que acorda", tipo: "especial", peso: 0.6, especial: true,
+      id: "aquele_que_acorda", titulo: "Aquele que acorda", tipo: "especial", peso: 0.6, especial: true, abissal: true,
       requisitos: { rodadaMin: 20, flags: ["abissal_4"], flagsAusentes: ["abissal_5"] },
       imagem: "assets/aquele-que-acorda.svg", imagemAlt: "Um único olho sugerido dentro de uma coluna de escuridão",
       texto: "A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Algo imenso abre um olho.",
@@ -5206,6 +5217,217 @@
         { id: "pote", texto: "Alcançar o pote de moedas no fundo.", itens: ["pote_de_moedas_velhas"], armadilha: { chance: 1 / 6, danoHp: 10, perderItem: true }, resultado: "Seus dedos encontram metal frio na escuridão. Você puxa o pote para fora." },
         { id: "deixar", texto: "Seguir sem mexer no baú.", resultado: "Você deixa os objetos onde estão e retoma a estrada." }
       ]
+    }
+  );
+
+  // Honra extrema abre decisões novas em cenas já conhecidas.
+  const opcoesPorHonra = {
+    ferreiro: [
+      { id: "selo_guardioes", texto: "Aceitar o Selo dos guardiões.", requisitos: { honraMin: 91 }, itens: ["selo_do_povo"], resultado: "O ferreiro reconhece a confiança do povo e grava seu selo no aço. A peça reforça seu corpo e seu equipamento." }
+    ],
+    corvo: [
+      { id: "pacto_dente", texto: "Aceitar a oferta do corvo.", requisitos: { honraMax: -90 }, itens: ["dente_do_abismo"], flags: { pacto_feito: true, pacto_dente: true }, resultado: "O corvo deixa cair um dente negro na sua palma. Uma voz promete força; o preço se faz sentir antes que a ave desapareça." }
+    ],
+    mercador_sem_sombra: [
+      { id: "pacto_dente", texto: "Aceitar a oferta sem sombra.", requisitos: { honraMax: -90 }, itens: ["dente_do_abismo"], flags: { pacto_feito: true, pacto_dente: true }, resultado: "O mercador entrega um dente negro. Uma voz promete força; o preço se faz sentir antes que a carroça desapareça." }
+    ],
+    lobo_pactuario: [
+      { id: "pacto_dente", texto: "Aceitar a oferta da matilha.", requisitos: { honraMax: -90 }, itens: ["dente_do_abismo"], flags: { pacto_feito: true, pacto_dente: true }, resultado: "O lobo deixa um dente negro aos seus pés. Uma voz promete força; o preço se faz sentir antes que a matilha desapareça." }
+    ],
+    rei_sob_a_colina: [
+      { id: "pacto_dente", texto: "Aceitar a oferta do rei sob a colina.", requisitos: { honraMax: -90 }, itens: ["dente_do_abismo"], flags: { pacto_feito: true, pacto_dente: true }, resultado: "O rei entrega um dente negro retirado de sua coroa. Uma voz promete força; o preço se faz sentir quando a pedra se fecha." }
+    ],
+    sussurro_do_ouro: [
+      { id: "pacto_dente", texto: "Aceitar a oferta que vem do cofre.", requisitos: { honraMax: -90 }, itens: ["dente_do_abismo"], flags: { pacto_feito: true, pacto_dente: true }, resultado: "Entre as moedas, aparece um dente negro. Uma voz promete força; o preço se faz sentir quando o cofre se cala." }
+    ],
+    viajantes: [
+      { id: "dar_sementes", texto: "Confiar-lhes sementes e um começo sem dívida.", requisitos: { honraMin: 90 }, efeitos: { habitantes: 5, honra: 5 }, resultado: "Você entrega sementes do celeiro e dispensa qualquer pagamento. Os viajantes plantam junto às casas; o povo vê que a confiança também pode ser herdada." },
+      { id: "cobrar_entrada", texto: "Cobrar pela entrada e tomar parte da carga.", requisitos: { honraMax: -90 }, efeitos: { habitantes: -3, honra: -6, gold: 4 }, resultado: "Os guardas recolhem as ferramentas e as últimas moedas dos viajantes. Três deles partem a pé; os demais entram sem erguer os olhos." }
+    ],
+    caravana_da_ponte: [
+      { id: "abrigo_sem_pedagio", texto: "Oferecer abrigo e dividir a carga sem cobrar passagem.", requisitos: { honraMin: 90 }, efeitos: { habitantes: 5, honra: 4, gold: -2 }, flags: { caravana_recebida: true }, resultado: "Você paga o abrigo com as próprias moedas e reparte a carga entre as famílias. A condutora leva a história pela estrada." }
+    ],
+    noite_dos_mortos: [
+      { id: "lembrar_nomes", texto: "Ouvir cada nome e ficar até a última vela.", requisitos: { honraMin: 90 }, efeitos: { honra: 5, hp: -3 }, resultado: "A vigília atravessa a noite. Ao amanhecer, cada família sabe que seus mortos foram lembrados pelo senhor.", flags: { mortos_ouvidos: true } },
+      { id: "tomar_oferendas", texto: "Recolher o pão das lápides para o cofre.", requisitos: { honraMax: -90 }, efeitos: { gold: 4, honra: -6, habitantes: -2 }, resultado: "Seus homens levam o pão antes que as velas se apaguem. Duas casas fecham as janelas e não voltam a abrir para o castelo." }
+    ]
+  };
+  for (const [eventoId, opcoes] of Object.entries(opcoesPorHonra)) {
+    const evento = Jogo.eventos.find(carta => carta.id === eventoId);
+    if (evento) evento.opcoes.push(...opcoes);
+  }
+
+  const cartaOrfao = Jogo.eventos.find(evento => evento.id === "orfao");
+  if (cartaOrfao) {
+    for (const opcao of cartaOrfao.opcoes.filter(item => item.flags?.orfao_acolhido)) {
+      opcao.marcoRodada = { id: "menino_adotado", honraMin: 50, flag: "menino_adotado_com_honra" };
+    }
+  }
+
+  const cartaBruxa = Jogo.eventos.find(evento => evento.id === "bruxa");
+  if (cartaBruxa) cartaBruxa.peso = 5;
+
+  Jogo.eventos.push(
+    {
+      id: "bruxa_fio_da_vida", titulo: "A bruxa e o fio da vida", tipo: "encontro", peso: 3,
+      requisitos: { flagsAusentes: ["bruxa_fio_da_vida_resolvida"] },
+      imagem: "assets/ervas.svg", imagemAlt: "Ervas medicinais arrumadas junto a um pilão",
+      texto: "A bruxa retorna com um feixe de raízes frescas. Diz que pode fechar suas feridas ou ensinar a vila a reconhecer as plantas.",
+      informacoes: "Ela não pede ouro pelo conhecimento, só que ninguém chame tudo de mato.",
+      opcoes: [
+        { id: "tratar", texto: "Pedir que cuide das suas feridas · 2 gold", requisitos: { goldMin: 2 }, efeitos: { hp: 20, gold: -2, honra: 1 }, flags: { bruxa_fio_da_vida_resolvida: true }, resultado: "A bruxa prepara um emplastro ardido. A febre cede, e ela deixa uma parte das raízes para a vila." },
+        { id: "ensinar", texto: "Ensinar as famílias a colher as raízes.", efeitos: { habitantes: 3, honra: 3 }, flags: { bruxa_fio_da_vida_resolvida: true }, resultado: "Três famílias aprendem a distinguir remédio de erva daninha. A bruxa corrige a pronúncia de todos, inclusive a sua." },
+        { id: "guardar", texto: "Guardar as raízes para outra ocasião.", efeitos: { hp: 6 }, flags: { bruxa_fio_da_vida_resolvida: true }, resultado: "Você guarda algumas folhas no bolso. A bruxa avisa que elas duram menos que uma promessa." }
+      ]
+    },
+    {
+      id: "bruxa_frutos_negros", titulo: "Frutos negros na soleira", tipo: "encontro", peso: 3,
+      requisitos: { flagsAusentes: ["bruxa_frutos_resolvido"] },
+      imagem: "assets/vila.svg", imagemAlt: "Um pequeno cesto deixado diante de uma porta",
+      texto: "Um cesto de frutos escuros aparece diante do salão. A bruxa espera no caminho e garante que são seguros, desde que ninguém os cozinhe em ferro.",
+      informacoes: "O cheiro é doce. O aviso sobre a panela parece específico demais.",
+      opcoes: [
+        { id: "provar", texto: "Provar um dos frutos.", efeitos: { hp: 14, honra: 1 }, flags: { bruxa_frutos_resolvido: true }, resultado: "A língua fica roxa até o jantar, mas suas forças voltam. A bruxa ri como quem já sabia." },
+        { id: "repartir", texto: "Repartir o cesto entre as casas.", efeitos: { habitantes: 4, honra: 3 }, flags: { bruxa_frutos_resolvido: true }, resultado: "O povo come os frutos crus. Quatro viajantes que estavam de passagem decidem esperar a próxima colheita." },
+        { id: "frasco", texto: "Pedir que a bruxa prepare um tônico.", itens: ["pocao_cura_grande"], flags: { bruxa_frutos_resolvido: true }, resultado: "Ela mói os frutos num frasco e manda que você não pergunte pela cor. O tônico fica guardado para quando precisar." }
+      ]
+    },
+    {
+      id: "bruxa_vela", titulo: "A vela que não apaga", tipo: "encontro", peso: 3,
+      requisitos: { flagsAusentes: ["bruxa_vela_resolvida"] },
+      imagem: "assets/ervas.svg", imagemAlt: "Uma vela curta entre folhas secas e pequenos frascos",
+      texto: "A bruxa acende uma vela no pátio. O vento a dobra, mas não a apaga. Ela oferece a chama para proteger sua próxima batalha.",
+      informacoes: "A vela cheira a cera, fumaça e alguma coisa que você prefere não nomear.",
+      opcoes: [
+        { id: "aceitar", texto: "Aceitar a proteção da vela.", itens: ["amuleto_ultima_guarda"], efeitos: { honra: 1 }, flags: { bruxa_vela_resolvida: true }, resultado: "A bruxa apaga a vela entre os dedos e recolhe a fumaça num pequeno amuleto." },
+        { id: "estudar", texto: "Pedir que ensine o preparo aos guardas.", efeitos: { escudo: 1, honra: 2 }, flags: { bruxa_vela_resolvida: true }, resultado: "Os guardas passam a cobrir melhor as frestas das armaduras. A bruxa chama isso de feitiço; o armeiro chama de ajuste." },
+        { id: "recusar", texto: "Agradecer e deixar a vela no pátio.", efeitos: { honra: 1 }, flags: { bruxa_vela_resolvida: true }, resultado: "A chama continua acesa até o amanhecer. A bruxa leva o resto da cera para a floresta." }
+      ]
+    },
+    {
+      id: "bruxa_fonte", titulo: "Água para a bruxa", tipo: "encontro", peso: 3,
+      requisitos: { flagsAusentes: ["bruxa_fonte_resolvida"] },
+      imagem: "assets/poco.svg", imagemAlt: "Um poço de pedra com um balde de madeira",
+      texto: "A bruxa encontra o poço quase seco e pede ajuda para descer um balde. Diz que precisa de água limpa para uma cura, não para um feitiço.",
+      informacoes: "O poço é fundo, e a corda foi remendada muitas vezes.",
+      opcoes: [
+        { id: "descer", texto: "Descer com a bruxa até a água.", efeitos: { hp: -4, honra: 3, habitantes: 2 }, flags: { bruxa_fonte_resolvida: true }, resultado: "Você volta com as mãos feridas e água suficiente. A bruxa trata dois doentes; as famílias ficam para agradecer." },
+        { id: "corda", texto: "Dar uma corda nova à bruxa · 2 gold", requisitos: { goldMin: 2 }, efeitos: { gold: -2, hp: 15 }, flags: { bruxa_fonte_resolvida: true }, resultado: "Com a corda nova, ela alcança a água sem descer. O primeiro gole tem gosto de ferrugem; a cura, ao menos, funciona." },
+        { id: "mandar", texto: "Mandá-la buscar água na floresta.", efeitos: { honra: -1 }, flags: { bruxa_fonte_resolvida: true }, resultado: "Ela vai sem discutir. Na manhã seguinte, o poço amanhece cheio e ninguém sabe explicar por quê." }
+      ]
+    },
+    {
+      id: "mao_do_rei", titulo: "A mão do Rei", tipo: "encontro", peso: 0.1,
+      forcarSorteioQuandoElegivel: true,
+      requisitos: { flags: ["menino_adotado_com_honra"], flagsAusentes: ["mao_do_rei_resolvida"], rodadasDesde: { menino_adotado: 40 } },
+      imagem: "assets/vila.svg", imagemAlt: "O jovem herdeiro e o menino diante do salão do conselho",
+      texto: "Quarenta rodadas se passaram desde que o menino ganhou um lugar à sua mesa. Os moradores já procuram por ele antes de levar certos problemas ao salão.",
+      informacoes: "O nome do cargo é antigo. O trabalho, não.",
+      opcoes: [
+        { id: "nomear", texto: "Nomeá-lo conselheiro da vila.", efeitos: { honra: 5 }, flags: { menino_conselheiro: true, mao_do_rei_resolvida: true }, resultado: "Diante do povo, você entrega ao menino o selo do conselho. A partir de hoje, ele terá voz ao seu lado — e não esquecerá quem lhe deu lugar." }
+      ]
+    },
+    {
+      id: "conselheiro_menino_armazem", titulo: "Conselho: Contas do armazém", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
+      requisitos: { flags: ["menino_conselheiro"] },
+      imagem: "assets/vila.svg", imagemAlt: "Sacos de grãos organizados junto à porta do celeiro",
+      texto: "O jovem conselheiro percebe que os sacos do armazém foram contados duas vezes e propõe repartir o excedente antes que estrague.",
+      informacoes: "Ele já sabe quais famílias precisam mais. Você confirma a lista.",
+      opcoes: [{ id: "repartir", texto: "Seguir o conselho.", efeitos: { habitantes: 5, honra: 3, gold: -2 }, resultado: "Os grãos chegam às casas antes da chuva. Cinco pessoas que pensavam partir decidem ficar." }]
+    },
+    {
+      id: "conselheiro_menino_ponte", titulo: "Conselho: A ponte e a estrada", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
+      requisitos: { flags: ["menino_conselheiro"] },
+      imagem: "assets/ponte.svg", imagemAlt: "A ponte de madeira sobre o rio da vila",
+      texto: "O menino ouve os carroceiros antes de falar. Sugere consertar as tábuas soltas antes que uma roda quebre no meio da travessia.",
+      informacoes: "A obra é pequena; o desvio que ela evita, não.",
+      opcoes: [{ id: "reparar", texto: "Pagar o reparo · 2 gold", requisitos: { goldMin: 2 }, efeitos: { gold: -2, habitantes: 3, honra: 2 }, resultado: "A ponte volta a receber carroças. Três viajantes escolhem ficar depois de uma travessia tranquila." }, { id: "esperar", texto: "Aguardar a próxima estação.", efeitos: { honra: 1 }, resultado: "O menino aceita a decisão e anota quais tábuas cederam primeiro. A lista será útil quando houver moedas." }]
+    },
+    {
+      id: "conselheiro_menino_guardas", titulo: "Conselho: Treinar sem ferir", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
+      requisitos: { flags: ["menino_conselheiro"] },
+      imagem: "assets/forja.svg", imagemAlt: "Uma espada e um escudo de treino junto à forja",
+      texto: "O jovem conselheiro observa os guardas treinarem e aponta que os mais novos nunca praticam com escudos do mesmo tamanho.",
+      informacoes: "O armeiro já separou madeira para fazer os ajustes.",
+      opcoes: [{ id: "ajustar", texto: "Preparar equipamento para os guardas.", efeitos: { ataque: 1, escudo: 1, honra: 2 }, resultado: "O treino fica mais seguro e mais justo. O armeiro diz que o menino enxerga detalhes que adultos preferem ignorar." }]
+    }
+  );
+
+  const conselhosPositivos = [
+    { id: "conselho_positivo_01", titulo: "Conselho: Fechar as contas", texto: "O conselheiro nota uma taxa esquecida nas contas da ponte e sugere cobrá-la uma única vez, sem pesar sobre as famílias.", efeitos: { gold: 4 }, resultado: "A cobrança cobre os reparos do portão e ainda deixa algumas moedas no cofre." },
+    { id: "conselho_positivo_02", titulo: "Conselho: Ouvir o moinho", texto: "O conselheiro recomenda perguntar ao moleiro antes de comprar farinha. O moinho pode suprir parte do estoque.", efeitos: { habitantes: 2, gold: 2 }, resultado: "O moleiro oferece trabalho e farinha. Duas pessoas que ajudavam na colheita ficam na vila." },
+    { id: "conselho_positivo_03", titulo: "Conselho: Repouso antes da marcha", texto: "O conselheiro percebe que você mal consegue segurar a espada e pede uma noite de repouso antes da patrulha.", efeitos: { hp: 12 }, resultado: "Você dorme uma noite inteira. O conselheiro assume a vigília e não reclama do frio." },
+    { id: "conselho_positivo_04", titulo: "Conselho: A lâmina no lugar", texto: "O conselheiro sugere que o ferreiro lime a rebarba da sua espada antes do próximo combate.", efeitos: { ataque: 1 }, resultado: "O ferreiro melhora o fio sem pedir pagamento. O conselheiro anotou a dívida para quando houver trabalho." },
+    { id: "conselho_positivo_05", titulo: "Conselho: Cobrir a torre", texto: "O conselheiro vê água entrando na torre e recomenda reforçar o escudo usado pelo vigia.", efeitos: { escudo: 1 }, resultado: "Uma chapa reaproveitada cobre a madeira. O vigia diz que dormirá melhor; você espera que seja verdade." },
+    { id: "conselho_positivo_06", titulo: "Conselho: Pão antes da estrada", texto: "O conselheiro pede para separar pão aos viajantes que chegam depois do anoitecer.", efeitos: { habitantes: 3, honra: 2, gold: -1 }, resultado: "Três viajantes aceitam ficar depois de comer e dormir sob um teto." },
+    { id: "conselho_positivo_07", titulo: "Conselho: Trocar sementes", texto: "O conselheiro propõe trocar sementes excedentes por ferramentas, antes que a umidade estrague ambas.", efeitos: { gold: 3, habitantes: 1 }, resultado: "A troca rende algumas moedas e um lavrador decide trabalhar as terras vazias." },
+    { id: "conselho_positivo_08", titulo: "Conselho: Uma ronda curta", texto: "O conselheiro sugere uma ronda menor, mas regular, para que os guardas não abandonem os campos.", efeitos: { ataque: 1, honra: 1 }, resultado: "Os guardas aprendem os caminhos e param de se perder entre a torre e o celeiro." },
+    { id: "conselho_positivo_09", titulo: "Conselho: Limpar o poço", texto: "O conselheiro nota que basta retirar o lodo da borda para a água voltar a correr melhor.", efeitos: { habitantes: 2, honra: 2 }, resultado: "Duas famílias desistem de partir quando a água fica mais limpa." },
+    { id: "conselho_positivo_10", titulo: "Conselho: Esperar pelo preço", texto: "O conselheiro aconselha esperar até a feira acabar antes de vender o couro.", efeitos: { gold: 5 }, resultado: "Um comprador tardio paga mais pelo couro. O conselheiro diz que paciência também cabe no cofre." },
+    { id: "conselho_positivo_11", titulo: "Conselho: A porta lateral", texto: "O conselheiro encontra uma porta lateral que pode ser reforçada com madeira reaproveitada.", efeitos: { escudo: 1, habitantes: 1 }, resultado: "A porta resiste ao primeiro teste e uma família que ajudou na obra fica na vila." },
+    { id: "conselho_positivo_12", titulo: "Conselho: Dividir a lenha", texto: "O conselheiro percebe que as casas mais distantes recebem menos lenha e sugere mudar a rota dos carroceiros.", efeitos: { honra: 3, hp: 5 }, resultado: "A divisão fica mais justa. O trabalho ao lado do povo também aquece você." },
+    { id: "conselho_positivo_13", titulo: "Conselho: Reabrir a oficina", texto: "O conselheiro convence um artesão aposentado a abrir a oficina por mais uma estação.", efeitos: { ataque: 1, gold: 2 }, resultado: "O artesão afia ferramentas e vende algumas peças. O cofre recebe o que sobrou da primeira semana." },
+    { id: "conselho_positivo_14", titulo: "Conselho: Uma mesa comprida", texto: "O conselheiro sugere reunir as famílias novas com as antigas para dividir tarefas da colheita.", efeitos: { habitantes: 4, honra: 2 }, resultado: "Quatro trabalhadores ficam, e a colheita termina antes das primeiras chuvas." },
+    { id: "conselho_positivo_15", titulo: "Conselho: Remendar antes da geada", texto: "O conselheiro pede para remendar as janelas do salão antes que o frio chegue.", efeitos: { hp: 8, escudo: 1 }, resultado: "O salão fica menos gelado e as tábuas sob o escudo param de ceder." }
+  ];
+  const conselhosNegativos = [
+    { id: "conselho_negativo_01", titulo: "Conselho: Vender a farinha cedo", texto: "O conselheiro insiste em vender toda a farinha antes da colheita, embora os celeiros ainda estejam baixos.", efeitos: { gold: 4, habitantes: -4 }, resultado: "As moedas chegam, mas quatro famílias partem quando descobrem que não haverá pão suficiente." },
+    { id: "conselho_negativo_02", titulo: "Conselho: Aumentar a ronda", texto: "O conselheiro quer dobrar a ronda noturna e retirar braços dos campos para isso.", efeitos: { habitantes: -3, gold: -2 }, resultado: "Os guardas dormem durante o dia. Três lavradores deixam a vila e o cofre paga as tochas." },
+    { id: "conselho_negativo_03", titulo: "Conselho: Treino até a exaustão", texto: "O conselheiro manda repetir o treino mesmo quando seu braço já treme.", efeitos: { hp: -10 }, resultado: "Você termina a sessão com o ombro dolorido e a espada ainda no mesmo lugar." },
+    { id: "conselho_negativo_04", titulo: "Conselho: Reforçar o lado errado", texto: "O conselheiro recomenda reforçar a parte mais bonita do escudo, não a que recebe os golpes.", efeitos: { escudo: -1, gold: -2 }, resultado: "A chapa reluz um pouco mais. O ferreiro aponta a rachadura que ficou sem cobertura." },
+    { id: "conselho_negativo_05", titulo: "Conselho: Cobrar duas vezes", texto: "O conselheiro sugere cobrar novamente dos viajantes que já pagaram pela ponte.", efeitos: { gold: 5, honra: -4, habitantes: -2 }, resultado: "O cofre ganha moedas. Dois carroceiros anunciam que não voltarão, e os moradores ouvem a discussão." },
+    { id: "conselho_negativo_06", titulo: "Conselho: Fechar a enfermaria", texto: "O conselheiro diz que os doentes custam mais do que produzem e recomenda fechar a enfermaria.", efeitos: { hp: -8, honra: -3 }, resultado: "A enfermaria esvazia. A febre não lê os registros e continua passando de casa em casa." },
+    { id: "conselho_negativo_07", titulo: "Conselho: Acusar sem prova", texto: "O conselheiro escolhe um suspeito para o roubo sem esperar pelos guardas.", efeitos: { habitantes: -3, honra: -4 }, resultado: "O acusado foge antes do julgamento. Três parentes seguem pela estrada." },
+    { id: "conselho_negativo_08", titulo: "Conselho: Comprar aço molhado", texto: "O conselheiro encontrou aço barato e recomenda comprá-lo antes que alguém pergunte de onde veio.", efeitos: { gold: -4, ataque: -1 }, resultado: "O aço se parte na primeira dobra. O ferreiro cobra para retirar os pedaços da forja." },
+    { id: "conselho_negativo_09", titulo: "Conselho: Taxar o poço", texto: "O conselheiro propõe cobrar por balde de água para aumentar a renda do salão.", efeitos: { gold: 4, habitantes: -3, honra: -3 }, resultado: "A renda dura pouco. Três moradores passam a buscar água em outra aldeia." },
+    { id: "conselho_negativo_10", titulo: "Conselho: Cortar o descanso", texto: "O conselheiro quer que os guardas patrulhem sem revezamento até o próximo pagamento.", efeitos: { ataque: -1, hp: -5 }, resultado: "A patrulha continua, mas ninguém percebe o portão destrancado até o amanhecer." },
+    { id: "conselho_negativo_11", titulo: "Conselho: Arma sem teste", texto: "O conselheiro traz uma arma de um vendedor e recomenda entregá-la aos guardas sem testar o fio.", efeitos: { gold: -3, ataque: -1 }, resultado: "A lâmina entorta no primeiro golpe. O vendedor já está longe da estrada." },
+    { id: "conselho_negativo_12", titulo: "Conselho: Mandar os viajantes embora", texto: "O conselheiro sugere fechar o portão para todos os viajantes, inclusive os que buscam abrigo.", efeitos: { habitantes: -4, honra: -2 }, resultado: "Quatro pessoas seguem para outra vila. O conselheiro anota que o portão ficou mais quieto." },
+    { id: "conselho_negativo_13", titulo: "Conselho: Vender as ferramentas", texto: "O conselheiro propõe vender ferramentas de reserva para pagar uma dívida pequena.", efeitos: { gold: 3, habitantes: -2 }, resultado: "A dívida é paga. Dois lavradores não conseguem trabalhar e partem antes da próxima feira." },
+    { id: "conselho_negativo_14", titulo: "Conselho: Uma punição pública", texto: "O conselheiro recomenda castigar o primeiro morador que reclamar dos impostos.", efeitos: { honra: -5, habitantes: -2 }, resultado: "A praça se cala. Duas famílias deixam a vila sem esperar outra ordem." },
+    { id: "conselho_negativo_15", titulo: "Conselho: Ignorar a rachadura", texto: "O conselheiro diz que a rachadura na muralha pode esperar até depois da próxima chuva.", efeitos: { escudo: -1, habitantes: -2 }, resultado: "A parede cede durante a noite. Duas famílias levam o que conseguem carregar." }
+  ];
+  const criarCartaConselheiro = (carta, positiva) => ({
+    id: carta.id, titulo: carta.titulo, tipo: "encontro", peso: 0.4, conselheiro: true,
+    ...(positiva ? {} : { requisitos: { flagsAusentes: ["menino_conselheiro"] } }),
+    imagem: "assets/vila.svg", imagemAlt: "Moradores reunidos no salão do conselho",
+    texto: carta.texto,
+    informacoes: positiva ? "O conselho parece sensato. A decisão continua sendo sua." : "O conselho parece apressado. Você pode segui-lo ou recusar.",
+    opcoes: [
+      { id: "seguir", texto: "Seguir o conselho.", efeitos: carta.efeitos, resultado: carta.resultado },
+      { id: "recusar", texto: "Agradecer e decidir por conta própria.", efeitos: positiva ? {} : { honra: 1 }, resultado: positiva ? "Você guarda a ideia para outra ocasião e decide por conta própria." : "Você recusa a proposta. O conselheiro fica contrariado, mas a vila evita o prejuízo." }
+    ]
+  });
+  Jogo.eventos.push(...conselhosPositivos.map(carta => criarCartaConselheiro(carta, true)));
+  Jogo.eventos.push(...conselhosNegativos.map(carta => criarCartaConselheiro(carta, false)));
+  Jogo.eventos.push(
+    {
+      id: "equipamento_sem_dono", titulo: "Uma peça à espera", tipo: "achado", peso: 0.8,
+      imagem: "assets/forja.svg", imagemAlt: "Uma arma e um escudo deixados junto à forja",
+      texto: "Entre ferramentas esquecidas, há uma peça que ainda pode servir. O ferreiro limpa a ferrugem e espera sua decisão.",
+      informacoes: "Equipamentos recebidos melhoram seus atributos imediatamente e permanecem nesta run.",
+      opcoes: [
+        { id: "ficar", texto: "Escolher um equipamento comum, raro ou épico.", recompensaItemGenerico: true, resultado: "Você escolhe um dos objetos que ainda pode ser aproveitado." },
+        { id: "deixar", texto: "Deixar a peça para a próxima pessoa.", resultado: "O ferreiro guarda o achado numa prateleira seca." }
+      ]
+    },
+    {
+      id: "reliquia_sem_dono", titulo: "Uma relíquia sem brasão", tipo: "achado", peso: 0.25,
+      imagem: "assets/bau-estrada.svg", imagemAlt: "Um embrulho antigo retirado de um baú",
+      texto: "Um embrulho lacrado é encontrado sob as tábuas do salão. O selo não pertence a nenhuma família conhecida.",
+      informacoes: "O conteúdo pode ser uma dádiva, um pacto ou apenas mais um peso para carregar.",
+      opcoes: [
+        { id: "abrir", texto: "Abrir o embrulho.", recompensaItemEspecial: true, resultado: "Você rompe o selo e aceita o que foi guardado ali." },
+        { id: "guardar", texto: "Devolver o embrulho ao esconderijo.", resultado: "O selo permanece intacto sob as tábuas." }
+      ]
+    },
+    {
+      id: "correu_mais_rapido_que_a_luz", titulo: "Correu mais rápido que a luz", tipo: "achado", peso: 0,
+      requisitos: { flags: ["cinto_vento_ativo"] },
+      imagem: "assets/vila.svg", imagemAlt: "Um caminho vazio junto às muralhas",
+      texto: "Você correu por toda a estrada antes de encontrar qualquer batalha. Quando para, o cinto já não está mais em sua cintura.",
+      informacoes: "A força durou menos que a corrida.",
+      opcoes: [{ id: "seguir", texto: "Continuar sem o cinto.", flags: { cinto_vento_ativo: false }, resultado: "O vento leva o último sinal do cinto pela estrada." }]
     }
   );
 })();

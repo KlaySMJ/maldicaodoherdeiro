@@ -73,10 +73,17 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .recurso-contador { display: flex; align-items: center; gap: 12px; }
 .recurso-contador dt { font-size: 13px; max-width: 100px; line-height: 1.2; color: var(--secundaria); }
 .recurso-contador dd { font-size: 28px; line-height: 1; }
+.efeito-divino-status { flex: 0 0 auto; align-self: center; padding: 6px 10px; border: 1px solid var(--secundaria); color: var(--secundaria); font-size: 12px; }
+.culto-contador dd { color: var(--ferrugem, #8b2e24); }
+.acoes-item { display: flex; flex-wrap: wrap; gap: 6px; }
+.decisao-culto { margin: 14px 0; padding: 12px; border: 1px solid var(--ferrugem, #8b2e24); }
+.decisao-culto h3, .decisao-culto p { margin: 0 0 8px; }
 .testes-honra dt { font-size: 11px; color: var(--secundaria); text-align: center; }
 .testes-honra dd { display: flex; gap: 4px; margin-top: 2px; }
+.testes-debug dd { flex-wrap: wrap; justify-content: center; }
 .controle-honra { min-width: 34px; min-height: 28px; padding: 3px 5px; border: 1px solid var(--secundaria); background: var(--papel); font-size: 12px; }
 .controle-honra:hover { color: var(--papel); background: var(--tinta); }
+.aviso-culto { margin: 12px 0; padding: 0; border: 0; color: var(--ferrugem, #8b2e24); font-weight: 600; animation: tremor 180ms steps(2, end) infinite; }
 .mesa { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, .95fr) minmax(0, 1fr); gap: var(--espaco); align-items: start; padding: 6px 6px 14px; }
 .coluna-herdeiro, .coluna-evento, .evento-detalhes { display: contents; }
 .carta { position: relative; width: min(100%, calc(var(--altura-cartas) * .75)); aspect-ratio: 3 / 4; justify-self: center; border: 0; background: var(--papel); overflow: hidden; }
@@ -86,6 +93,7 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .carta-titulo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 10px; }
 .carta-titulo h2 { font-size: 20px; }
 .carta-titulo span { color: var(--secundaria); font-size: 13px; }
+.descricao-traco { margin-top: 3px; color: var(--secundaria); font-size: 12px; }
 .retrato-area { position: absolute; inset: 0; overflow: hidden; }
 .retrato { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .retrato-atual { z-index: 1; }
@@ -102,8 +110,12 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .atributo dd { font-size: 24px; line-height: 1.2; margin-top: 4px; overflow-wrap: anywhere; }
 .carta-herdeiro.honra-alta { border-color: var(--azul); outline: 2px solid var(--azul); outline-offset: 4px; }
 .carta-herdeiro.honra-baixa { border-color: var(--vermelho); outline: 2px solid var(--vermelho); outline-offset: 4px; }
+.carta-herdeiro.honra-altissima { border-color: var(--azul); outline: 4px double var(--azul); outline-offset: 4px; }
+.carta-herdeiro.honra-baixissima { border-color: var(--vermelho); outline: 4px double var(--vermelho); outline-offset: 4px; }
 .atributo.honra-alta, .atributo.honra-alta dt { color: var(--azul); }
 .atributo.honra-baixa, .atributo.honra-baixa dt { color: var(--vermelho); }
+.atributo.honra-altissima, .atributo.honra-altissima dt { color: var(--azul); }
+.atributo.honra-baixissima, .atributo.honra-baixissima dt { color: var(--vermelho); }
 .coluna-escolhas { grid-column: 2; grid-row: 1 / span 3; align-self: center; padding: 8px 0; }
 .coluna-escolhas > h2 { font-size: 20px; margin-bottom: 16px; }
 .escolhas { display: grid; gap: 10px; }
@@ -117,15 +129,29 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .mercadorias { margin-bottom: 10px; }
 .mercadoria .preco { font-size: .9em; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .inventario { margin-top: 12px; border-top: 1px solid var(--branco); padding-top: 8px; font-size: calc(13px * var(--fator-texto)); }
-.inventario h3 { margin: 0 0 5px; font-size: calc(15px * var(--fator-texto)); font-weight: 400; }
+.inventario summary { display: flex; justify-content: space-between; gap: 8px; cursor: pointer; font-size: calc(15px * var(--fator-texto)); }
+.inventario summary span { color: var(--secundaria); font-size: .82em; }
 .inventario p { margin: 3px 0; color: var(--secundaria); }
-.inventario ul { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.inventario ul { display: grid; gap: 4px; max-height: 24vh; overflow-y: auto; margin: 8px 0 0; padding: 0; list-style: none; }
 .inventario li { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cronica.inventario-aberto .mesa { display: grid; overflow: visible; }
+.cronica.inventario-aberto .coluna-escolhas { display: block; width: auto; margin: 0; }
+.cronica.inventario-aberto .coluna-escolhas > :not(.inventario) { display: none; }
+.cronica.inventario-aberto .inventario { margin: 0; padding: 0; border: 0; }
+.cronica.inventario-aberto .inventario summary { padding-bottom: 10px; border-bottom: 1px solid var(--branco); }
+.cronica.inventario-aberto .inventario ul { max-height: min(48dvh, 520px); padding: 8px 4px; }
 .item-descricao { display: grid; gap: 1px; }
 .item-descricao strong { font-weight: 400; }
-.item-descricao small { color: var(--secundaria); line-height: 1.25; }
+.item-descricao > small { color: var(--secundaria); line-height: 1.25; }
+.nome-raridade { font-size: .84em; font-weight: 400; white-space: nowrap; }
+.raridade-comum { color: #fff; text-shadow: 0 1px 2px #25231f, 0 0 3px #25231f; }
+.raridade-raro { color: #1d4c82; }
+.raridade-epico { color: #5e347d; }
+.raridade-lendario { color: #874300; }
+.raridade-pacto { color: #8b2028; }
 .usar-item { min-height: 28px; padding: 3px 8px; font-size: .9em; }
 .efeitos-preparados { font-style: italic; }
+.aviso-inventario { margin: 8px 0; padding-left: 8px; border-left: 2px solid var(--branco); color: var(--branco) !important; }
 .resultado .movimento-gold { font-size: calc(13px * var(--fator-texto)); color: var(--secundaria); }
 .imagem-evento { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .evento-texto { grid-column: 3; grid-row: 2; }
