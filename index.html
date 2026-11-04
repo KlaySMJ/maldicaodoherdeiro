@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Cada herdeiro faz suas escolhas. O povo lembra. Um jogo de fantasia medieval para o navegador.">
+  <title>A maldição do Herdeiro</title>
+  <link rel="icon" href="assets/selo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preload" href="assets/herdeiro.svg" as="image">
+  <link rel="preload" href="assets/herdeiro-honra-alta.svg" as="image">
+  <link rel="preload" href="assets/herdeiro-honra-baixa.svg" as="image">
+  <script defer src="js/state.js"></script>
+  <script defer src="js/events.js"></script>
+  <script defer src="js/items.js"></script>
+  <script defer src="js/legacy.js"></script>
+  <script defer src="js/engine.js"></script>
+  <script defer src="js/save.js"></script>
+  <script defer src="js/ui.js"></script>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div class="livro">
+    <header class="cabecalho">
+      <a class="marca" href="index.html" aria-label="A maldição do Herdeiro — início"><img src="assets/selo.svg" width="32" height="36" alt="">A maldição do Herdeiro</a>
+    </header>
+    <main id="app" tabindex="-1"><p class="carregando">Abrindo as crônicas…</p></main>
+    <noscript>Ative o JavaScript do navegador para jogar.</noscript>
+  </div>
+  <p id="aviso-save" class="aviso-save" role="status" hidden></p>
+</body>
+</html>
