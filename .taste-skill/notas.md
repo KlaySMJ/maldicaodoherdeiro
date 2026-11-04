@@ -108,4 +108,8 @@ Testes: 16 cenários automatizados da engine aprovados. No Edge real, foram apro
 
 Integradas as 73 cartas da proposta ao catálogo, mantendo efeitos, resultados, pesos, requisitos, flags de run e cadeias. As três batalhas com escolhas alternativas preservam a mitigação pelo escudo e suas penalidades de falha. “Farinha nova”, “Mercador de gente” e “Rumores da lavanderia” têm quatro opções; a interface mostra essas respostas em duas colunas no celular estreito.
 
-As opções designadas na proposta agora concedem `senhor_compreendido`, `vontade_ouvida` e `sucessor_pressentido` como flags persistentes ao terminar qualquer run. O último evento não cria “O Primeiro Herdeiro”, pois o conteúdo não veio no arquivo. O TXT autoral foi regenerado para listar 100 eventos e 279 opções.
+As opções designadas na proposta concedem `senhor_compreendido`, `vontade_ouvida` e `sucessor_pressentido` como flags persistentes ao terminar qualquer run. A etapa seguinte, “O Primeiro Herdeiro”, foi integrada na proposta 101–120 e usa `sucessor_pressentido` como requisito. O TXT autoral foi regenerado para listar o catálogo atualizado.
+
+## Eventos especiais 101–120
+
+Incluídas as 20 cartas especiais da proposta. A engine registra `especial_<id>` no momento do sorteio, inclusive se o jogador recusar; eventos de pacto saem da pool após `pacto_feito`. O Relojoeiro define HONRA como zero. O pacto do Corvo revela a variação de honra das opções nas cinco rodadas seguintes; esse prazo fica salvo na run e saves antigos recebem zero. “O Primeiro Herdeiro” exige a flag de legado `sucessor_pressentido` do evento 100. Opções propostas no Espelho e no Primeiro Herdeiro gravam suas flags persistentes no encerramento. A cadeia abissal 121–125 usa marcas da run para manter a ordem. Os achados 126–127 concedem itens; o baú mímico esconde sua armadilha até a resolução. O catálogo e o TXT passam a listar 127 eventos.

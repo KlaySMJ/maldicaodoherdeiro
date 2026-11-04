@@ -26,7 +26,10 @@
         atributos: { ...Jogo.config.iniciais },
         inventario: [],
         comprasMercador: {},
+        ofertaMercador: null,
+        efeitosPreparados: { bloquearDanoProximaBatalha: false, bonusAtaqueProximaBatalha: 0, bonusEscudoProximaBatalha: 0, bonusGoldProximaRecompensa: 0 },
         eventosRecentes: [],
+        honraReveladaAteRodada: 0,
         flags: {},
         // A fotografia do legado impede que novidades entrem na run em andamento.
         legadoDaRun: Jogo.legado.normalizar(legado),

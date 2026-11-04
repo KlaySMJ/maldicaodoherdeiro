@@ -16,12 +16,12 @@ A run é salva ao começar, a cada decisão e ao avançar. Recarregar depois de 
 - Renda nas rodadas 3, 6, 9…: 1 gold por grupo completo de 50 habitantes. Entre 20 e 49, não há ganho. Abaixo de 20, perde-se 1 gold **a cada rodada**, com saldo mínimo zero. A população considerada é a que resta após a decisão; a renda é aplicada uma vez, ao mostrar o resultado.
 - O visual muda em +30 ou mais (honra alta, azul) e −30 ou menos (honra baixa, vermelha); fica neutro de −29 a +29. A borda e o número acompanham a faixa.
 - As respostas especiais exigem +50 ou mais para honra alta, ou −50 ou menos para honra baixa. Opções com `nao_baixa` são bloqueadas em −50 ou menos. Os pesos e requisitos de estado dos eventos continuam usando a faixa visual de ±30.
-- As respostas não antecipam suas mudanças de honra. As consequências aparecem depois da decisão.
+- As respostas não antecipam suas mudanças de honra. A exceção é o pacto do corvo: por cinco rodadas, as opções mostram apenas a variação de honra antes da decisão.
 - Batalha: ATAQUE maior ou igual à defesa inimiga vence. O dano de cada desfecho vem do evento; o recebido é `Math.max(0, dano - escudo)`. O escudo não é consumido.
 - Um ataque malsucedido também aplica `batalha.penalidadeFalha`, definida por evento. No exemplo, além do dano mitigado, a vila perde 12 habitantes. Outro evento pode definir perda adicional de HP ou outros efeitos.
 - Não há condição de vitória definida nesta fase. `Jogo.engine.encerrar(run, "vitoria", motivo)` usa o mesmo encerramento para uma futura condição de vitória.
 
-O visual da interface usa fundo preto com textos, bordas e desenhos brancos. O herdeiro usa o desenho SVG original e duas novas variações desse mesmo personagem conforme a honra, com indicações azul e vermelha. O catálogo tem 100 eventos, incluindo cadeias de consequências e quatro eventos com quatro respostas. Os valores continuam sujeitos a balanceamento. Nenhum recurso externo é necessário.
+O visual da interface usa fundo preto com textos, bordas e desenhos brancos. O herdeiro usa o desenho SVG original e duas novas variações desse mesmo personagem conforme a honra, com indicações azul e vermelha. O catálogo tem 127 eventos, incluindo cadeias de consequências, cartas especiais raras e algumas cartas com quatro respostas. Os valores continuam sujeitos a balanceamento. Nenhum recurso externo é necessário.
 
 O gold fica no topo, junto aos recursos da vila, separado de Vida, Escudo, Ataque e Honra. Os botões **Testar honra: +30 / −30** mudam somente a honra e salvam a alteração, sem avançar a rodada, aplicar renda ou repetir a decisão. A mudança de retrato e as opções disponíveis são atualizadas imediatamente.
 
@@ -35,13 +35,15 @@ O testamento pode ser sorteado a partir da rodada 5, uma vez por run. Lê-lo con
 
 O banquete exige honra ≥30 para entrar no sorteio, e sua resposta especial exige ≥50. Em celulares baixos, cartas com quatro respostas as mostram em duas colunas. A taverna tem peso maior em honra ≤−30 e uma resposta exclusiva em ≤−50. O barão aparece a partir da rodada 4: negociar exige honra ≥50 e 3 gold, custa 3 gold e 3 HP diretos. Seus combates usam defesa 4 e as mesmas regras de mitigação e penalidade de falha dos demais eventos.
 
-As novas cadeias acompanham o moinho e a farinha, o bardo e sua canção, o prisioneiro, o padre e a capela, a praga, a mina, o cometa e o poço. Outras cartas entram a partir de rodadas específicas, incluindo batalhas contra a fera, invasores e o retorno do barão. As escolhas de três eventos registram `senhor_compreendido`, `vontade_ouvida` e `sucessor_pressentido` no legado ao fim da run. `sucessor_pressentido` fica disponível para uma futura carta “O Primeiro Herdeiro”, ainda sem conteúdo nesta proposta.
+As novas cadeias acompanham o moinho e a farinha, o bardo e sua canção, o prisioneiro, o padre e a capela, a praga, a mina, o cometa e o poço. Outras cartas entram a partir de rodadas específicas, incluindo batalhas contra a fera, invasores e o retorno do barão. As escolhas de três eventos registram `senhor_compreendido`, `vontade_ouvida` e `sucessor_pressentido` no legado ao fim da run. `sucessor_pressentido`, vindo do evento 100, libera “O Primeiro Herdeiro” a partir da rodada 18.
+
+As cartas 101–120 são especiais, pesam 0,3 no sorteio (o Primeiro Herdeiro, 0,2) e só podem aparecer uma vez por run, mesmo se recusadas. Pactos são exclusivos: aceitar um pacto marca `pacto_feito` e impede outros pactos nessa run. O Corvo revela somente a variação de honra das opções durante as cinco rodadas seguintes. O Relojoeiro pode definir a honra do herdeiro como zero. O Espelho, o Primeiro Herdeiro, alguns pactos e três desfechos da cadeia abissal concedem flags de legado, gravadas ao encerrar a run.
 
 O sorteio evita as últimas cinco cartas, mantendo os pesos por honra entre as elegíveis. Se restarem poucas cartas, libera a mais antiga primeiro para continuar o jogo. O histórico é salvo; carregar não reinicia esse intervalo. O catálogo completo de escolhas e consequências está em `eventos-e-beneficios.txt`.
 
 ## Gold e mercador
 
-O mercador entra no sorteio de eventos e pode aparecer ocasionalmente. Cada visita permite comprar um produto ou seguir sem comprar. As melhorias são aplicadas imediatamente, e a visita termina como qualquer decisão. Ofertas sem saldo suficiente ficam desativadas.
+O mercador entra no sorteio de eventos e pode aparecer ocasionalmente. Cada visita oferece os três produtos regulares e um item utilitário aleatório, salvo junto à run para não mudar ao recarregar. Os produtos regulares aplicam seus aprimoramentos imediatamente; o item aleatório vai para o inventário e pode ser usado em outra rodada. Comprar encerra a visita. Ofertas sem saldo suficiente ficam desativadas.
 
 | Produto | Efeito | Preço inicial |
 | --- | --- | --- |
@@ -51,6 +53,8 @@ O mercador entra no sorteio de eventos e pode aparecer ocasionalmente. Cada visi
 
 Cada compra aumenta em 2 gold o preço **daquele produto**, nas próximas visitas da mesma run. Os contadores são independentes: comprar uma poção não encarece armas nem escudos. A compra é paga antes da renda da rodada; moedas que ainda serão recebidas não podem financiar a oferta. O resultado discrimina compra, renda ou manutenção e variação final do saldo.
 
+Os itens aleatórios iniciais incluem o Amuleto de última guarda (anula o dano da próxima batalha), o Óleo de lâmina (+2 Ataque na próxima batalha), a Moeda sussurrante (+1 gold na próxima recompensa positiva em gold) e o Elixir do escudo (+3 Escudo na próxima batalha). O baú da estrada pode conceder uma Poção de cura grande (+25 HP), uma Faca de caça (+1 Ataque permanente) ou um Pote de moedas velhas (+5 gold ao usar). Usar um item consome uma unidade e não avança a rodada. Cada item vendido tem seu próprio preço; o Elixir começa em 7 gold e sobe 2 gold por compra bem-sucedida. Os itens encontrados não têm preço. Itens de run podem ser concedidos por escolhas com `itens: ["id_item"]`. Equipamentos com `aoReceber` aplicam o bônus diretamente aos atributos; ao encontrar uma arma, a próxima compra de Arma melhor fica 2 gold mais cara.
+
 Saldo e contadores `comprasMercador` são salvos junto à run. Ao carregar, compras e renda não são repetidas. Saves da versão anterior recebem 5 gold e preços iniciais, preservando rodada, atributos, evento e resultado. Cada novo herdeiro começa com 5 gold e preços iniciais; moedas e compras não passam para o legado.
 
 O jogo se ajusta à largura e à altura disponíveis, sem rolagem da página. No desktop, cartas, informações e escolhas usam três colunas. Em telas estreitas, as duas artes ficam lado a lado, com atributos, narrativa e respostas logo abaixo. Em telas baixas na horizontal, os blocos usam quatro colunas. O tamanho das artes é calculado novamente ao mudar a tela, escolher uma resposta, redimensionar a janela ou mostrar um aviso de salvamento.
@@ -59,7 +63,7 @@ As molduras do herdeiro e do evento mantêm a proporção 3:4 e o mesmo tamanho.
 
 O mesmo herdeiro tem três retratos SVG 3:4: o desenho original neutro, honra alta e honra baixa, todos em traços brancos sobre preto. As variações preservam o rosto e a roupa base. Na alta, a postura é firme e aberta, o manto está cuidado e há um selo do povo; a mão fica aberta e vazia. Na baixa, a expressão endurece, o manto fica remendado e rasgado e a mão segura o punho da arma embainhada. A transição entre faixas dura 520ms, com deslocamento leve e troca de opacidade. Ela só acontece quando uma run em andamento troca de faixa, inclusive ao voltar ao neutro; não se repete a cada decisão nem ao carregar um save. Com movimento reduzido, a troca é imediata. Os limites ficam separados em `js/state.js`; os caminhos dos retratos ficam em `js/ui.js`.
 
-Arquivos atuais: `assets/herdeiro.svg`, `assets/herdeiro-honra-alta.svg` e `assets/herdeiro-honra-baixa.svg`. Os PNGs e seus prompts anteriores foram preservados, mas não são usados na interface. Ponte, poço e ervateira também têm desenhos SVG próprios no mesmo estilo das artes anteriores.
+Arquivos atuais: `assets/herdeiro.svg`, `assets/herdeiro-honra-alta.svg` e `assets/herdeiro-honra-baixa.svg`. Os PNGs e seus prompts anteriores foram preservados, mas não são usados na interface. Ponte, poço e ervateira também têm desenhos SVG próprios no mesmo estilo das artes anteriores. Cada uma das cinco cartas da cadeia abissal usa uma ilustração própria, com a presença sugerida por formas e sinais, sem mostrar a entidade por inteiro.
 
 ## Organização
 
@@ -67,7 +71,7 @@ Arquivos atuais: `assets/herdeiro.svg`, `assets/herdeiro-honra-alta.svg` e `asse
 | --- | --- |
 | `js/state.js` | Valores iniciais, faixas de honra e criação da run |
 | `js/events.js` | Catálogo de eventos, requisitos, efeitos, pesos e batalhas |
-| `js/items.js` | Catálogo vazio, preparado para itens na próxima fase |
+| `js/items.js` | Catálogo e efeitos dos itens utilizáveis |
 | `js/legacy.js` | Objetivos vazios, concessões e união do legado |
 | `js/engine.js` | Pools, requisitos, sorteio, resolução e encerramento |
 | `js/save.js` | Persistência, validação e recuperação de falhas |
@@ -78,15 +82,17 @@ Os scripts comuns compartilham o namespace `window.Jogo`; não usam `fetch` nem 
 
 ## Adicionar eventos
 
-Cada evento tem `id`, `titulo`, `tipo`, `peso`, `imagem`, `imagemAlt`, `texto`, `informacoes` e `opcoes`. Cada opção tem `id`, `texto`, `efeitos`, `resultado` e, opcionalmente, `requisitos`, `flags`, `multiplicadores`, `combate` e `desbloqueia`.
+Cada evento tem `id`, `titulo`, `tipo`, `peso`, `imagem`, `imagemAlt`, `texto`, `informacoes` e `opcoes`. Cada opção tem `id`, `texto`, `efeitos`, `resultado` e, opcionalmente, `requisitos`, `flags`, `multiplicadores`, `combate`, `definir`, `efeitoContinuo` e `desbloqueia`. Eventos especiais usam `tipo: "especial"`, `especial: true` e peso decimal; pactos têm `pacto: true`. A run tem ainda cartas de achado, incluindo um baú de aparência comum cuja armadilha só se revela no resultado se disparar. A chance é 1 em 6; a armadilha causa 10 de dano de HP e rouba um item aleatório da mochila, se houver. Os eventos 121–125 formam uma cadeia abissal rara: cada etapa exige a marca da etapa anterior, e toda resposta avança a cadeia. Os pesos permanecem fixos.
 
 `efeitos` soma valores a `hp`, `escudo`, `ataque`, `honra`, `habitantes` e `gold`. Depois, `multiplicadores` aplica fatores e arredonda para baixo. Todos os atributos exceto honra têm mínimo zero. A geada causa dano direto; a mitigação é aplicada somente ao dano de batalha.
 
-Requisitos aceitam `honra: "alta"`, `"baixa"` ou `"nao_baixa"`, limites como `hpMin`, `honraMax`, `ataqueMin`, `goldMin`, `rodadaMin` e `rodadaMax`, listas `flags` (da run), `flagsAusentes`, `flagsLegado` e `itens`. `flagsAusentes` impede repetir etapas já resolvidas. Eventos e opções usam o mesmo avaliador. Os dados oferecem de uma a três opções **visíveis**, com exceção autorizada do banquete, que permite quatro; o evento das caixas tem duas variantes mutuamente exclusivas para a terceira resposta. Um evento mandatório oferece uma opção.
+Requisitos aceitam `honra: "alta"`, `"baixa"` ou `"nao_baixa"`, limites como `hpMin`, `honraMax`, `ataqueMin`, `goldMin`, `rodadaMin` e `rodadaMax`, listas `flags` (da run), `flagsAusentes`, `flagsLegado` e `itens`. `flagsAusentes` impede repetir etapas já resolvidas. Eventos e opções usam o mesmo avaliador. Uma carta pode mostrar até quatro opções visíveis; o evento das caixas tem duas variantes mutuamente exclusivas para a terceira resposta. Um evento mandatório oferece uma opção.
 
 Ao avançar, o sorteio avalia a rodada de destino, permitindo um evento já na sua rodada mínima. Os requisitos de honra da carta são avaliados no sorteio; as respostas são reavaliadas a cada alteração de honra. Usar os controles de teste numa carta já aberta não invalida seu salvamento; rodada, flags e demais requisitos continuam sendo validados ao carregar.
 
 Um evento pode ter `pesos: [{ requisitos: { honra: "baixa" }, valor: 5 }]`; a primeira regra satisfeita substitui o peso base. Isso aumenta a incidência de desordem com honra baixa. O intervalo de repetição fica em `Jogo.config.memoriaEventos`; `run.eventosRecentes` guarda as últimas cartas resolvidas.
+
+As cartas `especial: true` recebem a marca `especial_<id>` quando sorteadas e saem da pool pelo restante da run. A cadeia abissal depende também das flags `abissal_1` a `abissal_5`, concedidas por qualquer resposta do estágio correspondente. `pacto: true` exige que `pacto_feito` ainda esteja ausente; uma opção de pacto grava essa marca ao ser escolhida. Recusar não grava pacto. `definir` define atributos diretamente; `efeitoContinuo.revelarHonraRodadas` mantém a prévia de honra durante o prazo salvo na run.
 
 Eventos de comércio também aceitam `mercadorias`, com `id`, `texto`, `preco`, `aumentoPreco`, `efeitos` e `resultado` por produto. Seus requisitos são opcionais. Use uma opção normal para seguir sem comprar, garantindo uma saída mesmo sem gold. Os preços, efeitos e incrementos ficam no catálogo; o intervalo de renda e as faixas de população ficam em `Jogo.config.economia`, em `js/state.js`.
 
@@ -108,7 +114,7 @@ As conquistas são registradas em `run.conquistas` quando obtidas, mas só são 
 
 A condição é checada no começo, após cada decisão e no encerramento. Uma opção pode ter `desbloqueia: { eventos: ["id_evento"], itens: ["id_item"], flags: ["id_flag"] }`. Flags da run em `opcao.flags` são diferentes de flags persistentes em `opcao.desbloqueia.flags`.
 
-No catálogo, `bloqueado: true` exige que o próprio ID esteja liberado no conjunto correspondente. `requerDesbloqueio: "id"` exige uma chave já liberada como evento, item ou flag de legado. A engine constrói ambas as pools a partir desses campos. O catálogo de itens está vazio; recompensas em atributos e gold já funcionam. Recompensas de itens, inventário e uso de itens completos ficam para uma próxima fase validada.
+No catálogo, `bloqueado: true` exige que o próprio ID esteja liberado no conjunto correspondente. `requerDesbloqueio: "id"` exige uma chave já liberada como evento, item ou flag de legado. A engine constrói ambas as pools a partir desses campos. Itens comprados e concedidos por opções ficam no inventário da run; `Jogo.engine.usarItem(run, id)` aplica o uso e consome uma unidade. Os itens podem preparar bônus para a próxima batalha ou recompensa em gold.
 
 O legado não entrega inventário nem altera os atributos iniciais. Não há lista de objetivos secretos, avisos de conquista nem registro público dos desbloqueios nesta versão.
 

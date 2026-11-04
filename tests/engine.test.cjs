@@ -507,7 +507,7 @@ test("reparar a ponte libera uma caravana, cuja recompensa não pode ser repetid
 test("todo evento oferece saídas válidas e resultados finitos para ambas as honras e combates", () => {
   for (const honra of [-50, 0, 50]) {
     const { J } = preparar();
-    assert.equal(J.eventos.length, 100);
+    assert.equal(J.eventos.length, 127);
     assert.equal(new Set(J.eventos.map(e => e.id)).size, J.eventos.length);
     for (const evento of J.eventos) {
       for (const gold of [0, 100]) {
@@ -516,6 +516,7 @@ test("todo evento oferece saídas válidas e resultados finitos para ambas as ho
         base.rodada = Math.max(1, evento.requisitos?.rodadaMin || 1);
         base.eventoId = evento.id;
         for (const flag of evento.requisitos?.flags || []) base.flags[flag] = true;
+        for (const flag of evento.requisitos?.flagsLegado || []) base.legadoDaRun.flags[flag] = true;
         const opcoes = J.engine.opcoes(evento, base);
         assert.ok(opcoes.length >= 1 && opcoes.length <= 4, evento.id);
         for (const opcao of opcoes) {

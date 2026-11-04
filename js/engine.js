@@ -35,13 +35,20 @@
     return evento.opcoes.filter(opcao => cumpre(opcao.requisitos, run, "escolha"));
   }
 
+  function eventoDisponivel(evento, run) {
+    if (evento.especial && run.flags[`especial_${evento.id}`] === true) return false;
+    if (evento.pacto && run.flags.pacto_feito === true) return false;
+    return true;
+  }
+
   function peso(evento, run) {
     const regra = evento.pesos?.find(regra => cumpre(regra.requisitos, run));
     return Math.max(0, regra?.valor ?? evento.peso ?? 1);
   }
 
   function sortear(run, aleatorio = Math.random) {
-    let candidatos = pools(run).eventos.filter(evento => cumpre(evento.requisitos, run)
+    let candidatos = pools(run).eventos.filter(evento => eventoDisponivel(evento, run)
+      && cumpre(evento.requisitos, run)
       && opcoes(evento, run).length > 0 && peso(evento, run) > 0);
     // Espaça as últimas cartas. Com uma pool pequena, libera primeiro a mais antiga.
     const recentes = [...run.eventosRecentes];
@@ -68,6 +75,14 @@
     }
   }
 
+  function aplicarBonusDeRecompensa(run, efeitos = {}) {
+    const preparados = run.efeitosPreparados || {};
+    const bonus = efeitos.gold > 0 ? preparados.bonusGoldProximaRecompensa || 0 : 0;
+    if (!bonus) return efeitos;
+    run.efeitosPreparados = { ...preparados, bonusGoldProximaRecompensa: 0 };
+    return { ...efeitos, gold: efeitos.gold + bonus };
+  }
+
   function motivoDerrota(run) {
     if (run.atributos.hp <= 0) return "O herdeiro sucumbiu. A terra espera por quem virá depois.";
     if (run.atributos.habitantes <= 0) return "A última casa ficou vazia. Sem habitantes, o vilarejo chegou ao fim.";
@@ -82,16 +97,31 @@
   }
 
   function resolverCombate(run, batalha) {
-    const venceu = run.atributos.ataque >= batalha.defesa;
+    const preparados = run.efeitosPreparados || {};
+    const bonusAtaque = preparados.bonusAtaqueProximaBatalha || 0;
+    const bonusEscudo = preparados.bonusEscudoProximaBatalha || 0;
+    const venceu = run.atributos.ataque + bonusAtaque >= batalha.defesa;
     const desfecho = venceu ? batalha.vitoria : batalha.derrota;
-    const dano = Math.max(0, desfecho.dano - run.atributos.escudo);
-    aplicarEfeitos(run, { ...desfecho.efeitos, hp: (desfecho.efeitos?.hp || 0) - dano });
+    const escudoUsado = run.atributos.escudo + bonusEscudo;
+    const dano = preparados.bloquearDanoProximaBatalha
+      ? 0 : Math.max(0, desfecho.dano - escudoUsado);
+    const efeitos = aplicarBonusDeRecompensa(run, desfecho.efeitos || {});
+    aplicarEfeitos(run, { ...efeitos, hp: (efeitos.hp || 0) - dano });
+    run.efeitosPreparados = {
+      ...run.efeitosPreparados,
+      bloquearDanoProximaBatalha: false,
+      bonusAtaqueProximaBatalha: 0,
+      bonusEscudoProximaBatalha: 0
+    };
     let texto = desfecho.resultado;
+    if (bonusAtaque) texto += ` O óleo aumenta seu ataque em ${bonusAtaque} nesta batalha.`;
+    if (bonusEscudo) texto += ` O elixir aumenta seu escudo em ${bonusEscudo} nesta batalha.`;
+    if (preparados.bloquearDanoProximaBatalha) texto += " O amuleto anula o dano desta batalha.";
     if (!venceu && batalha.penalidadeFalha) {
       aplicarEfeitos(run, batalha.penalidadeFalha.efeitos, batalha.penalidadeFalha.multiplicadores);
       texto += ` ${batalha.penalidadeFalha.texto || ""}`;
     }
-    return { texto: texto.trim(), combate: { venceu, dano, escudo: run.atributos.escudo } };
+    return { texto: texto.trim(), combate: { venceu, dano, escudo: escudoUsado, bonusAtaque, bonusEscudo, danoAnulado: Boolean(preparados.bloquearDanoProximaBatalha) } };
   }
 
   function rendaDaVila(habitantes) {
@@ -115,8 +145,25 @@
     run.atributos.gold -= gasto;
     let resultado = { texto: opcao.resultado || "", combate: null };
     if (opcao.combate && evento.batalha) resultado = resolverCombate(run, evento.batalha);
-    aplicarEfeitos(run, opcao.efeitos, opcao.multiplicadores);
+    const efeitosOpcao = aplicarBonusDeRecompensa(run, opcao.efeitos || {});
+    aplicarEfeitos(run, efeitosOpcao, opcao.multiplicadores);
+    for (const [atributo, valor] of Object.entries(opcao.definir || {})) {
+      if (!Jogo.atributos.includes(atributo) || !Number.isSafeInteger(valor)) continue;
+      run.atributos[atributo] = atributo === "honra" ? valor : Math.max(0, valor);
+    }
+    if (opcao.efeitoContinuo?.revelarHonraRodadas > 0) {
+      run.honraReveladaAteRodada = Math.max(run.honraReveladaAteRodada || 0,
+        run.rodada + Math.floor(opcao.efeitoContinuo.revelarHonraRodadas));
+    }
     run.flags = { ...run.flags, ...opcao.flags };
+    if (opcao.armadilha && Math.random() < opcao.armadilha.chance) {
+      const roubado = opcao.armadilha.perderItem && run.inventario.length
+        ? run.inventario.splice(Math.floor(Math.random() * run.inventario.length), 1)[0] : null;
+      aplicarEfeitos(run, { hp: -(opcao.armadilha.danoHp || 0) });
+      const nomeRoubado = roubado ? Jogo.itens.find(item => item.id === roubado)?.nome || "um item" : null;
+      resultado.texto += ` O baú se revela uma criatura e morde sua mão: você perde ${opcao.armadilha.danoHp || 0} HP${nomeRoubado ? ` e ele engole ${nomeRoubado}` : ""}.`;
+    }
+    for (const id of opcao.itens || []) concederItem(run, id);
     run.eventosRecentes = [...run.eventosRecentes, evento.id].slice(-Jogo.config.memoriaEventos);
     // A renda usa a população após a decisão e só é aplicada nesta resolução.
     const rendaBase = rendaDaVila(run.atributos.habitantes);
@@ -147,11 +194,59 @@
     if (run.status !== "ativa" || run.fase !== "escolha") return false;
     const evento = Jogo.eventos.find(evento => evento.id === run.eventoId);
     const mercadoria = evento?.mercadorias?.find(item => item.id === mercadoriaId);
-    if (!mercadoria || !cumpre(mercadoria.requisitos, run, "escolha") || !podePagar(run, mercadoria)) return false;
-    const preco = precoMercadoria(run, mercadoria);
-    const compras = Object.hasOwn(run.comprasMercador, mercadoria.id) ? run.comprasMercador[mercadoria.id] : 0;
-    run.comprasMercador = { ...run.comprasMercador, [mercadoria.id]: compras + 1 };
+    const item = !mercadoria && run.ofertaMercador === mercadoriaId
+      ? Jogo.itens.find(item => item.id === mercadoriaId && item.mercador) : null;
+    const oferta = mercadoria || item;
+    if (!oferta || !cumpre(oferta.requisitos, run, "escolha") || !podePagar(run, oferta)) return false;
+    const preco = precoMercadoria(run, oferta);
+    const compras = Object.hasOwn(run.comprasMercador, oferta.id) ? run.comprasMercador[oferta.id] : 0;
+    run.comprasMercador = { ...run.comprasMercador, [oferta.id]: compras + 1 };
+    if (item) {
+      run.inventario.push(item.id);
+      return resolverOpcao(run, evento, {
+        texto: `Comprar ${item.nome}.`, resultado: `${item.nome} guardado no inventário. Você poderá usá-lo quando decidir.`
+      }, preco);
+    }
     return resolverOpcao(run, evento, mercadoria, preco);
+  }
+
+  function usarItem(run, itemId) {
+    if (run?.status !== "ativa" || !Array.isArray(run.inventario)) return false;
+    const item = Jogo.itens.find(item => item.id === itemId);
+    const indice = run.inventario.indexOf(itemId);
+    if (!item || indice < 0 || !item.uso) return false;
+    run.inventario.splice(indice, 1);
+    const uso = item.uso;
+    if (uso.efeitos) aplicarEfeitos(run, uso.efeitos);
+    const preparados = run.efeitosPreparados || {};
+    run.efeitosPreparados = {
+      bloquearDanoProximaBatalha: preparados.bloquearDanoProximaBatalha || Boolean(uso.bloquearDanoProximaBatalha),
+      bonusAtaqueProximaBatalha: (preparados.bonusAtaqueProximaBatalha || 0) + (uso.bonusAtaqueProximaBatalha || 0),
+      bonusEscudoProximaBatalha: (preparados.bonusEscudoProximaBatalha || 0) + (uso.bonusEscudoProximaBatalha || 0),
+      bonusGoldProximaRecompensa: (preparados.bonusGoldProximaRecompensa || 0) + (uso.bonusGoldProximaRecompensa || 0)
+    };
+    return true;
+  }
+
+  function concederItem(run, itemId) {
+    const item = Jogo.itens.find(item => item.id === itemId);
+    if (!item) return false;
+    if (item.aoReceber) {
+      aplicarEfeitos(run, item.aoReceber);
+      if (item.encarece) {
+        const compras = run.comprasMercador[item.encarece] || 0;
+        run.comprasMercador = { ...run.comprasMercador, [item.encarece]: compras + 1 };
+      }
+      return true;
+    }
+    run.inventario.push(item.id);
+    return true;
+  }
+
+  function ofertaMercador(run, evento) {
+    if (evento?.tipo !== "mercador" || !run.ofertaMercador) return null;
+    return Jogo.itens.find(item => item.id === run.ofertaMercador && item.mercador
+      && Jogo.legado.disponivel(item, "itens", run.legadoDaRun)) || null;
   }
 
   function testarHonra(run, variacao) {
@@ -168,10 +263,23 @@
     if (!evento) return false;
     run.rodada += 1;
     run.eventoId = evento.id;
+    registrarSorteio(run, evento);
     run.fase = "escolha";
     run.ultimoResultado = null;
     return true;
   }
 
-  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, precoMercadoria, podePagar, rendaDaVila, testarHonra, avancar, encerrar, motivoDerrota };
+  function registrarSorteio(run, evento) {
+    if (!run || !evento) return false;
+    run.eventoId = evento.id;
+    run.ofertaMercador = null;
+    if (evento.tipo === "mercador") {
+      const ofertas = Jogo.itens.filter(item => item.mercador && Jogo.legado.disponivel(item, "itens", run.legadoDaRun));
+      if (ofertas.length) run.ofertaMercador = ofertas[Math.floor(Math.random() * ofertas.length)].id;
+    }
+    if (evento.especial) run.flags = { ...run.flags, [`especial_${evento.id}`]: true };
+    return true;
+  }
+
+  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, usarItem, concederItem, ofertaMercador, precoMercadoria, podePagar, rendaDaVila, testarHonra, avancar, registrarSorteio, encerrar, motivoDerrota };
 })();

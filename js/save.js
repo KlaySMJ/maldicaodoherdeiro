@@ -71,9 +71,16 @@
     if (!inteiro(run.rodada) || run.rodada < 1 || !objeto(run.atributos)) return false;
     if (!Jogo.atributos.every(id => inteiro(run.atributos[id]) && (id === "honra" || run.atributos[id] >= 0))) return false;
     if (!ids(run.inventario) || !flags(run.flags) || !legadoValido(run.legadoDaRun) || !legadoValido(run.conquistas)) return false;
+    if (run.ofertaMercador !== null && typeof run.ofertaMercador !== "string") return false;
+    if (!objeto(run.efeitosPreparados)
+      || typeof run.efeitosPreparados.bloquearDanoProximaBatalha !== "boolean"
+      || !inteiro(run.efeitosPreparados.bonusAtaqueProximaBatalha) || run.efeitosPreparados.bonusAtaqueProximaBatalha < 0
+      || !inteiro(run.efeitosPreparados.bonusEscudoProximaBatalha) || run.efeitosPreparados.bonusEscudoProximaBatalha < 0
+      || !inteiro(run.efeitosPreparados.bonusGoldProximaRecompensa) || run.efeitosPreparados.bonusGoldProximaRecompensa < 0) return false;
     if (!ids(run.eventosRecentes) || run.eventosRecentes.length > Jogo.config.memoriaEventos) return false;
     if (!objeto(run.comprasMercador) || !Object.entries(run.comprasMercador)
       .every(([id, quantidade]) => id.length > 0 && inteiro(quantidade) && quantidade >= 0)) return false;
+    if (!inteiro(run.honraReveladaAteRodada) || run.honraReveladaAteRodada < 0) return false;
     if (run.fase === "resultado") {
       const resultado = run.ultimoResultado;
       if (!objeto(resultado) || typeof resultado.texto !== "string" || typeof resultado.escolha !== "string") return false;
@@ -113,6 +120,13 @@
       }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "comprasMercador")) dados.comprasMercador = {};
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "eventosRecentes")) dados.eventosRecentes = [];
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "honraReveladaAteRodada")) dados.honraReveladaAteRodada = 0;
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "ofertaMercador")) dados.ofertaMercador = null;
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "efeitosPreparados")) {
+        dados.efeitosPreparados = { bloquearDanoProximaBatalha: false, bonusAtaqueProximaBatalha: 0, bonusEscudoProximaBatalha: 0, bonusGoldProximaRecompensa: 0 };
+      }
+      if (objeto(dados) && objeto(dados.efeitosPreparados)
+        && !Object.hasOwn(dados.efeitosPreparados, "bonusEscudoProximaBatalha")) dados.efeitosPreparados.bonusEscudoProximaBatalha = 0;
       if (!runValida(dados)) throw new Error("Run inválida");
       return dados;
     } catch (_) {

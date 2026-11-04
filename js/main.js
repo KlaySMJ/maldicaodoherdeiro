@@ -27,7 +27,7 @@
     Jogo.legado.avaliar(run);
     const evento = Jogo.engine.sortear(run);
     if (!evento) return;
-    run.eventoId = evento.id;
+    Jogo.engine.registrarSorteio(run, evento);
     Jogo.save.gravarRun(run);
     Jogo.ui.intro();
   }
@@ -69,7 +69,10 @@
       const resolvida = run && (botao.dataset.mercadoria
         ? Jogo.engine.comprar(run, botao.dataset.mercadoria)
         : botao.dataset.opcao && Jogo.engine.escolher(run, botao.dataset.opcao));
-      if (resolvida) {
+      if (run && botao.dataset.usarItem && Jogo.engine.usarItem(run, botao.dataset.usarItem)) {
+        Jogo.save.gravarRun(run);
+        Jogo.ui.jogo(run);
+      } else if (resolvida) {
         if (run.status === "encerrada") mostrarFim();
         else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
       } else if (botao.dataset.acao) await acionar(botao.dataset.acao);

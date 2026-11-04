@@ -3909,4 +3909,1303 @@
       "imagemAlt": "Cena da vila durante aquele que vem depois"
     }
   ]);
+  // Eventos especiais 101–120 fornecidos pelo autor.
+  Jogo.eventos.push(...[
+    {
+      "id": "dama_da_agua",
+      "titulo": "A dama sob a água",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 8,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "No fim da tarde, uma mulher de cabelos que se movem contra a corrente emerge até a cintura no rio. Diz que devolve tudo o que a água já levou, e que só precisa de algo que o rio ainda não tenha.",
+      "informacoes": "Ninguém na margem ousa respirar alto. A água ao redor dela está parada.",
+      "opcoes": [
+        {
+          "id": "espada",
+          "texto": "Afundar sua espada no rio.",
+          "requisitos": {
+            "ataqueMin": 3
+          },
+          "efeitos": {
+            "habitantes": 8,
+            "honra": 3,
+            "ataque": -2
+          },
+          "resultado": "A lâmina some sem som. Na manhã seguinte, oito pessoas que o rio levara em invernos antigos aparecem à margem, confusas e vivas.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_dama": true
+          }
+        },
+        {
+          "id": "lembranca",
+          "texto": "Entregar uma lembrança querida.",
+          "efeitos": {
+            "hp": 20,
+            "honra": -3
+          },
+          "resultado": "Você não sabe mais o nome da primeira pessoa que o ensinou a cavalgar. Sente-se leve, e ligeiramente menor.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_dama": true
+          }
+        },
+        {
+          "id": "recusar",
+          "texto": "Agradecer e recusar.",
+          "efeitos": {
+            "honra": 2
+          },
+          "resultado": "A mulher afunda sem protestar. O rio volta a correr, e os moradores demoram a se afastar da margem."
+        }
+      ],
+      "imagem": "assets/dama-da-agua.svg",
+      "imagemAlt": "A dama do lago emerge entre ondas e juncos",
+      "pacto": true
+    },
+    {
+      "id": "corvo",
+      "titulo": "O corvo que fala",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 6,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "Um corvo pousa na mesa do salão e cumprimenta você pelo nome, pelo nome do seu pai, e pelo nome de quem ainda não nasceu. Diz que sabe o que as pessoas pensam antes de escolher.",
+      "informacoes": "O corvo oferece ver o que a vila não vê. Cobra pelo serviço.",
+      "opcoes": [
+        {
+          "id": "aceitar",
+          "texto": "Aceitá-lo no ombro.",
+          "requisitos": {
+            "goldMin": 5
+          },
+          "efeitos": {
+            "gold": -5,
+            "honra": -2
+          },
+          "resultado": "O corvo sussurra ao seu ouvido o que cada opção custa aos outros. Você passa a escolher com os olhos abertos.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_corvo": true
+          },
+          "efeitoContinuo": {
+            "revelarHonraRodadas": 5
+          }
+        },
+        {
+          "id": "segredo",
+          "texto": "Pagar por um segredo só.",
+          "requisitos": {
+            "goldMin": 2
+          },
+          "efeitos": {
+            "gold": 8,
+            "honra": -3
+          },
+          "resultado": "O corvo conta onde um mercador esconde as moedas. Você as encontra. Ninguém pergunta como."
+        },
+        {
+          "id": "expulsar",
+          "texto": "Expulsá-lo da casa.",
+          "efeitos": {
+            "honra": 1
+          },
+          "resultado": "O corvo sai pela janela rindo. Por semanas, você ouve pássaros demais nos telhados."
+        }
+      ],
+      "imagem": "assets/corvo.svg",
+      "imagemAlt": "Corvo de perfil com tapa-olho e uma runa sob as asas",
+      "pacto": true
+    },
+    {
+      "id": "mercador_sem_sombra",
+      "titulo": "O mercador sem sombra",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 7,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "Um homem de sorriso fácil atravessa o pátio em pleno meio-dia, sem sombra. Abre a capa e mostra armaduras, armas e frascos. Diz que aceita qualquer moeda, menos as de ouro.",
+      "informacoes": "O mercador não cobra em gold. Ele cobra naquilo que você não sabe que tem.",
+      "opcoes": [
+        {
+          "id": "armadura",
+          "texto": "Comprar a armadura do silêncio.",
+          "efeitos": {
+            "escudo": 4,
+            "habitantes": -5
+          },
+          "resultado": "A armadura serve como se tivesse sido feita para você. Cinco moradores partem na mesma noite, sem se despedir, e ninguém fala disso.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_sem_sombra": true
+          }
+        },
+        {
+          "id": "lamina",
+          "texto": "Comprar a lâmina que nunca erra.",
+          "efeitos": {
+            "ataque": 3,
+            "honra": -6
+          },
+          "resultado": "A lâmina corta o que você aponta. O povo olha para ela e depois para você, calculando quem manda em quem.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_sem_sombra": true
+          }
+        },
+        {
+          "id": "sombra",
+          "texto": "Vender a própria sombra.",
+          "efeitos": {
+            "gold": 15,
+            "hp": -10,
+            "honra": -4
+          },
+          "resultado": "Ao meio-dia seguinte, você projeta um pouco menos de chão do que antes. O ouro, porém, é verdadeiro.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_sem_sombra": true
+          }
+        },
+        {
+          "id": "seguir",
+          "texto": "Deixá-lo seguir.",
+          "efeitos": {
+            "honra": 1
+          },
+          "resultado": "O mercador faz uma mesura exagerada e parte. Os cães ladram até o anoitecer, para a estrada vazia."
+        }
+      ],
+      "imagem": "assets/mercador-sem-sombra.svg",
+      "imagemAlt": "Mercador encapuzado diante de uma balança e sem sombra",
+      "pacto": true
+    },
+    {
+      "id": "arvore_que_pede",
+      "titulo": "A árvore que pede",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 5,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "No limite do bosque, um carvalho tão velho quanto a vila abriu uma fenda no tronco com o formato de uma boca. As raízes se levantaram da terra e apontam para você.",
+      "informacoes": "Os mais velhos dizem que a árvore já pediu coisas antes, e que quem negou nunca contou o resto.",
+      "opcoes": [
+        {
+          "id": "sangue",
+          "texto": "Regar as raízes com seu sangue.",
+          "efeitos": {
+            "habitantes": 6,
+            "honra": 3,
+            "hp": -12
+          },
+          "resultado": "As folhas caem de uma vez e brotam de novo em um dia. Seis famílias chegam do bosque, dizendo que sonharam com a vila.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_arvore": true
+          }
+        },
+        {
+          "id": "ouvir",
+          "texto": "Ajoelhar-se e ouvir.",
+          "requisitos": {
+            "honraMin": 50
+          },
+          "efeitos": {
+            "honra": 5,
+            "escudo": 2,
+            "habitantes": 4
+          },
+          "resultado": "A árvore não pede nada. Apenas fala, em uma língua que você entende e esquece ao despertar. Os moradores ouvem de longe, comovidos sem saber por quê.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_arvore": true
+          }
+        },
+        {
+          "id": "cortar",
+          "texto": "Mandar cortar a árvore.",
+          "efeitos": {
+            "gold": 8,
+            "honra": -6,
+            "habitantes": -4
+          },
+          "resultado": "O machado se parte duas vezes antes de morder. Quando cai, a árvore sangra seiva escura. Quatro famílias deixam a vila antes do pôr do sol."
+        }
+      ],
+      "imagem": "assets/arvore-que-pede.svg",
+      "imagemAlt": "Árvore antiga com um rosto entalhado e uma mão oferecendo",
+      "pacto": true
+    },
+    {
+      "id": "cervo_branco",
+      "titulo": "O cervo de chifres brancos",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 8
+      },
+      "texto": "Um cervo de pelagem clara e chifres que parecem osso polido cruza o campo sem pressa. Os cães não latem, e os caçadores baixam as lanças sem que ninguém ordene.",
+      "informacoes": "A lenda diz que quem o abate prospera e quem o poupa é lembrado. A lenda não diz qual é melhor.",
+      "opcoes": [
+        {
+          "id": "abater",
+          "texto": "Abatê-lo.",
+          "efeitos": {
+            "gold": 12,
+            "honra": -10
+          },
+          "resultado": "Os chifres rendem uma fortuna a um mercador distante. Na vila, os cães não se aproximam de você por muito tempo."
+        },
+        {
+          "id": "poupar",
+          "texto": "Deixá-lo passar.",
+          "efeitos": {
+            "honra": 6,
+            "habitantes": 4
+          },
+          "resultado": "O cervo olha para você uma vez e some entre as árvores. Quatro famílias do bosque pedem abrigo, dizendo que os animais as guiaram."
+        },
+        {
+          "id": "seguir",
+          "texto": "Segui-lo até a clareira.",
+          "requisitos": {
+            "honraMin": 30
+          },
+          "efeitos": {
+            "ataque": 2,
+            "escudo": 2,
+            "honra": 3,
+            "hp": -8
+          },
+          "resultado": "A clareira guarda uma pedra coberta de musgo. Você toca nela e volta dois dias depois, mais velho e mais firme."
+        }
+      ],
+      "imagem": "assets/cervo-branco.svg",
+      "imagemAlt": "Cervo branco parado na orla de uma floresta"
+    },
+    {
+      "id": "ceifadeira",
+      "titulo": "A ceifadeira à mesa",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 10
+      },
+      "texto": "Na ceia, há um prato a mais na mesa que ninguém lembra de ter posto. Uma mulher de manto cinzento senta e pede vinho, com a naturalidade de quem nunca precisou pedir.",
+      "informacoes": "Ela diz que veio só jantar. Os cães do pátio estão em silêncio.",
+      "opcoes": [
+        {
+          "id": "conversar",
+          "texto": "Servir vinho e conversar.",
+          "efeitos": {
+            "hp": 20,
+            "honra": 2,
+            "habitantes": -2
+          },
+          "resultado": "Ela fala de tudo, menos de mortes. Ao se despedir, deixa o prato limpo. Duas pessoas que dormiam nas casas vizinhas não acordam."
+        },
+        {
+          "id": "barganhar",
+          "texto": "Barganhar a vida de um moribundo.",
+          "efeitos": {
+            "habitantes": 3,
+            "honra": 4,
+            "hp": -10
+          },
+          "resultado": "Ela concorda com um aceno cansado. Você se levanta da mesa com a cabeça girando. Três vizinhos, antes à beira da morte, acordam com fome."
+        },
+        {
+          "id": "outro",
+          "texto": "Pedir que leve outro no seu lugar.",
+          "requisitos": {
+            "honraMax": -50
+          },
+          "efeitos": {
+            "hp": 25,
+            "habitantes": -8,
+            "honra": -10
+          },
+          "resultado": "Ela sorri sem alegria. Na manhã seguinte, oito casas têm cortinas fechadas. A vila nunca mais pergunta nada ao senhor."
+        }
+      ],
+      "imagem": "assets/ceifadeira.svg",
+      "imagemAlt": "Figura encapuzada da ceifadeira sentada à mesa"
+    },
+    {
+      "id": "espelho_do_antecessor",
+      "titulo": "O espelho do antecessor",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 9
+      },
+      "texto": "Atrás de uma cortina no salão, você encontra um espelho que não tinha visto. Nele, em vez de seu rosto, aparece o do senhor anterior, de costas, olhando para algo que você não vê.",
+      "informacoes": "O espelho não tem moldura e não reflete a sala.",
+      "opcoes": [
+        {
+          "id": "olhar",
+          "texto": "Olhar fixamente.",
+          "efeitos": {
+            "honra": 3,
+            "hp": -5
+          },
+          "resultado": "Ele se vira. Não diz nada. Você sai com os olhos úmidos e uma estranha certeza de que ele esperava mais.",
+          "desbloqueia": {
+            "flags": [
+              "antecessor_visto"
+            ]
+          }
+        },
+        {
+          "id": "perguntar",
+          "texto": "Perguntar o que ele faria.",
+          "requisitos": {
+            "honraMin": 30
+          },
+          "efeitos": {
+            "honra": 4,
+            "ataque": 1,
+            "escudo": 1,
+            "hp": -3
+          },
+          "resultado": "A resposta vem em forma de memória: um dia de batalha que você nunca viveu. Suas mãos passam a saber algo que a cabeça ignora."
+        },
+        {
+          "id": "quebrar",
+          "texto": "Quebrar o espelho.",
+          "efeitos": {
+            "gold": 4,
+            "honra": -4
+          },
+          "resultado": "Os cacos valem algo para um vidraceiro, mas a vila ouve o barulho e entende que o senhor quebrou algo importante."
+        }
+      ],
+      "imagem": "assets/espelho-do-antecessor.svg",
+      "imagemAlt": "Espelho antigo refletindo a silhueta de um antecessor"
+    },
+    {
+      "id": "fiandeiras",
+      "titulo": "As três fiandeiras",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 10,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "Três velhas fiam sob o carvalho da praça, e ninguém sabe quando chegaram. Os fios que enrolam são de cores que não têm nome. Uma delas ergue uma tesoura e pergunta quanto tempo você acha que ainda tem.",
+      "informacoes": "Os fios pertencem a todos os moradores. Um deles pertence a você.",
+      "opcoes": [
+        {
+          "id": "longo",
+          "texto": "Pedir um fio mais longo.",
+          "efeitos": {
+            "hp": 30,
+            "honra": -6
+          },
+          "resultado": "A tesoura corta o fio de outra pessoa para emendar ao seu. Você sente o corpo ficar mais firme. Nunca descobre de quem era.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_fiandeiras": true
+          }
+        },
+        {
+          "id": "vila",
+          "texto": "Pedir o fio da vila inteira entrelaçado ao seu.",
+          "efeitos": {
+            "habitantes": 10,
+            "hp": -15
+          },
+          "resultado": "O fio da vila se enrola ao seu. Dez novos moradores aparecem pela estrada, sem lembrar por que vieram. Seus joelhos pesam como os de um velho.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_fiandeiras": true
+          }
+        },
+        {
+          "id": "intocado",
+          "texto": "Pedir que não toquem em nenhum fio.",
+          "requisitos": {
+            "honraMin": 30
+          },
+          "efeitos": {
+            "honra": 4
+          },
+          "resultado": "As velhas se entreolham e voltam a fiar. Quando você olha de novo, a praça está vazia e o carvalho carrega três fitas coloridas."
+        }
+      ],
+      "imagem": "assets/fiandeiras.svg",
+      "imagemAlt": "Três fiandeiras trabalhando em um único fio",
+      "pacto": true
+    },
+    {
+      "id": "contrato_vermelho",
+      "titulo": "O contrato vermelho",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 8,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "Um homem muito educado deixa um pergaminho em sua mesa e desaparece pela chaminé. O papel está em branco até você tocá-lo, e então as letras surgem em vermelho, com uma caligrafia que parece a sua.",
+      "informacoes": "O contrato promete força, ouro e proteção. As cláusulas são longas. Há uma linha apagada.",
+      "opcoes": [
+        {
+          "id": "assinar",
+          "texto": "Assinar com o próprio sangue.",
+          "efeitos": {
+            "gold": 20,
+            "ataque": 2,
+            "honra": -10,
+            "hp": -12
+          },
+          "resultado": "O sangue seca em forma de selo. Seus bolsos pesam e sua mão direita nunca erra. Ninguém na vila mais olha para suas mãos.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_contrato": true
+          }
+        },
+        {
+          "id": "renegociar",
+          "texto": "Ler as cláusulas e renegociar.",
+          "requisitos": {
+            "honraMin": 30
+          },
+          "efeitos": {
+            "gold": 10,
+            "ataque": 1,
+            "honra": -4,
+            "hp": -5
+          },
+          "resultado": "Você descobre uma brecha, e o homem aparece para discutir em voz baixa. Ele sai com uma metade do que queria, e você, com a outra.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_contrato": true
+          }
+        },
+        {
+          "id": "povo",
+          "texto": "Assinar em nome do povo.",
+          "requisitos": {
+            "honraMax": -50
+          },
+          "efeitos": {
+            "ataque": 4,
+            "escudo": 4,
+            "habitantes": -10,
+            "honra": -12
+          },
+          "resultado": "As casas ficam quietas durante a noite. Pela manhã, dez delas estão vazias, com as portas abertas e o fogo ainda aceso.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_contrato": true
+          }
+        },
+        {
+          "id": "rasgar",
+          "texto": "Rasgar o contrato.",
+          "efeitos": {
+            "honra": 4,
+            "hp": -6
+          },
+          "resultado": "O papel grita ao ser rasgado, e sua mão queima. A vila acorda com o som e olha para o senhor, sem saber o que viu."
+        }
+      ],
+      "imagem": "assets/contrato-vermelho.svg",
+      "imagemAlt": "Contrato selado repousando sobre uma mesa",
+      "pacto": true
+    },
+    {
+      "id": "cavaleiro_de_osso",
+      "titulo": "O cavaleiro de osso",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 12
+      },
+      "texto": "Uma armadura enferrujada caminha pela estrada com um arco de ossos no lugar do rosto. Não fala. Planta a lança no chão diante do portão e espera.",
+      "informacoes": "O ataque precisa alcançar a defesa do cavaleiro. Seu escudo reduz o dano recebido, sem se desgastar.",
+      "opcoes": [
+        {
+          "id": "enfrentar",
+          "texto": "Enfrentá-lo.",
+          "combate": true
+        },
+        {
+          "id": "jurar",
+          "texto": "Jurar lealdade ao cavaleiro.",
+          "requisitos": {
+            "honraMin": 50,
+            "flagsAusentes": [
+              "pacto_feito"
+            ]
+          },
+          "efeitos": {
+            "ataque": 3,
+            "escudo": 3,
+            "habitantes": -8,
+            "honra": -2
+          },
+          "resultado": "O cavaleiro ergue a lança e a abaixa sobre seus ombros. Oito moradores que presenciaram seguem a armadura pela estrada, em silêncio.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_cavaleiro": true
+          }
+        },
+        {
+          "id": "passagem",
+          "texto": "Pedir passagem pacificamente.",
+          "efeitos": {
+            "honra": -3
+          },
+          "resultado": "O cavaleiro não responde. Passa pelo portão, atravessa a vila e some ao norte, sem tocar em ninguém, deixando um vazio atrás."
+        }
+      ],
+      "imagem": "assets/cavaleiro-de-osso.svg",
+      "imagemAlt": "Cavaleiro de ossos com elmo e espada enferrujada",
+      "batalha": {
+        "defesa": 7,
+        "vitoria": {
+          "dano": 22,
+          "efeitos": {
+            "honra": 6,
+            "ataque": 1,
+            "gold": 10
+          },
+          "resultado": "A armadura desmonta peça por peça. Debaixo dela, há apenas pó e uma moeda antiga. Os moradores nunca esquecem a luta."
+        },
+        "derrota": {
+          "dano": 32,
+          "efeitos": {},
+          "resultado": "Cada golpe seu encontra apenas aço oco. O cavaleiro o derruba sem raiva e vai embora pela estrada."
+        },
+        "penalidadeFalha": {
+          "efeitos": {
+            "honra": -5,
+            "habitantes": -3
+          },
+          "texto": "A vila viu o senhor cair. Três famílias partem sem esperar o amanhecer."
+        }
+      }
+    },
+    {
+      "id": "santa_sem_nome",
+      "titulo": "A santa sem nome",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 8
+      },
+      "texto": "Uma mulher descalça entra na vila pedindo apenas água. Onde pisa, o barro seca. As crianças a seguem em silêncio e os doentes se arrastam até a porta.",
+      "informacoes": "Ninguém sabe seu nome. Ela cura, mas diz que cada cura tem um dono.",
+      "opcoes": [
+        {
+          "id": "vila",
+          "texto": "Pedir cura para os doentes da vila.",
+          "efeitos": {
+            "habitantes": 8,
+            "honra": 4,
+            "hp": -8
+          },
+          "resultado": "A santa toca os doentes um a um. Ao terminar, está mais pálida e o senhor, mais cansado. Oito famílias sentem que a vila foi escolhida."
+        },
+        {
+          "id": "si",
+          "texto": "Pedir cura para si.",
+          "efeitos": {
+            "hp": 35,
+            "honra": -6
+          },
+          "resultado": "Seu corpo parece novo e a vila, desconfiada. Os doentes, nas portas, entendem que foram preteridos."
+        },
+        {
+          "id": "agua",
+          "texto": "Oferecer água e nada pedir.",
+          "requisitos": {
+            "honraMin": 50
+          },
+          "efeitos": {
+            "honra": 6,
+            "escudo": 1
+          },
+          "resultado": "Ela bebe devagar. Antes de partir, toca seu escudo. Ele passa a pesar menos e a proteger mais."
+        }
+      ],
+      "imagem": "assets/santa-sem-nome.svg",
+      "imagemAlt": "Pequena estátua de uma santa sem rosto"
+    },
+    {
+      "id": "lobo_pactuario",
+      "titulo": "O lobo que fala baixo",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 7,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "Um lobo cinzento senta no pátio e fala em voz baixa, quase um ronronar. Oferece a proteção da matilha em troca de parte do rebanho e de um lugar à mesa.",
+      "informacoes": "Atrás dele, entre as árvores, dezenas de olhos observam sem piscar.",
+      "opcoes": [
+        {
+          "id": "matilha",
+          "texto": "Aceitar o pacto da matilha.",
+          "efeitos": {
+            "ataque": 2,
+            "escudo": 2,
+            "habitantes": -5,
+            "honra": -2
+          },
+          "resultado": "A matilha passa a dormir no limite da vila. Cinco moradores somem em semanas, e ninguém acusa os lobos. Ninguém ousa.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_lobo": true
+          }
+        },
+        {
+          "id": "rebanho",
+          "texto": "Oferecer parte do rebanho, sem pacto.",
+          "efeitos": {
+            "honra": 1,
+            "gold": -3
+          },
+          "resultado": "O lobo come devagar e agradece a hospitalidade. Parte ao anoitecer, e os cães do pátio voltam a latir."
+        },
+        {
+          "id": "expulsar",
+          "texto": "Expulsá-lo com os guardas.",
+          "efeitos": {
+            "honra": 2,
+            "hp": -8
+          },
+          "resultado": "O lobo recua sem lutar, mas uma dentada profunda em seu braço fica como lembrete. Pelos próximos dias, você ouve uivos que parecem rir."
+        }
+      ],
+      "imagem": "assets/lobo-pactuario.svg",
+      "imagemAlt": "Lobo olhando para trás sob uma lua estreita",
+      "pacto": true
+    },
+    {
+      "id": "anjo_cansado",
+      "titulo": "O anjo cansado",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "honraMin": 30,
+        "rodadaMin": 12
+      },
+      "texto": "Um homem de asas encolhidas dorme na porta do celeiro, encolhido sobre palha. Tem as mãos queimadas, as penas escuras de fuligem, e chora baixinho quando acorda.",
+      "informacoes": "Ele diz que carregou a vontade de muitos e que agora só quer descansar. Não pede nada além de um canto.",
+      "opcoes": [
+        {
+          "id": "pouso",
+          "texto": "Dar-lhe pouso e silêncio.",
+          "efeitos": {
+            "honra": 6,
+            "habitantes": 8
+          },
+          "resultado": "O anjo dorme por sete dias. Ao partir, deixa uma pena sobre o travesseiro. Oito famílias, tocadas pelo rumor, chegam à vila."
+        },
+        {
+          "id": "bencao",
+          "texto": "Pedir uma bênção para o povo.",
+          "efeitos": {
+            "escudo": 4,
+            "honra": 4,
+            "hp": -8
+          },
+          "resultado": "Ele ergue as mãos queimadas e murmura. O cansaço dele passa para você, e a proteção, para a vila."
+        },
+        {
+          "id": "pena",
+          "texto": "Recolher uma pena como relíquia.",
+          "requisitos": {
+            "honraMax": -30
+          },
+          "efeitos": {
+            "gold": 20,
+            "honra": -10
+          },
+          "resultado": "A pena vale uma fortuna a um colecionador. O anjo acorda ao ver a mão, não protesta, e parte sem olhar para trás."
+        }
+      ],
+      "imagem": "assets/anjo-cansado.svg",
+      "imagemAlt": "Anjo cansado sentado com as asas baixas"
+    },
+    {
+      "id": "sussurro_do_ouro",
+      "titulo": "O sussurro no cofre",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "honraMax": -30,
+        "goldMin": 5,
+        "rodadaMin": 9,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "À noite, o cofre fala. Primeiro, parece um ranger de metal; depois, uma voz clara que conta as moedas e promete multiplicá-las.",
+      "informacoes": "A voz não ameaça. Apenas pede que você a ouça até o fim.",
+      "opcoes": [
+        {
+          "id": "ouvir",
+          "texto": "Ouvir até o fim.",
+          "efeitos": {
+            "gold": 25,
+            "honra": -8,
+            "hp": -8
+          },
+          "resultado": "As moedas dobram em uma noite. Você acorda com uma sensação de ter sido contado também.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_ouro": true
+          }
+        },
+        {
+          "id": "morador",
+          "texto": "Oferecer um morador em troca.",
+          "requisitos": {
+            "honraMax": -50
+          },
+          "efeitos": {
+            "gold": 40,
+            "habitantes": -5,
+            "honra": -12
+          },
+          "resultado": "O cofre engole cinco nomes. As portas ficam abertas durante a noite, e os cães não reconhecem seu cheiro pela manhã.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_ouro": true
+          }
+        },
+        {
+          "id": "esvaziar",
+          "texto": "Esvaziar o cofre entre o povo.",
+          "requisitos": {
+            "goldMin": 5
+          },
+          "efeitos": {
+            "habitantes": 8,
+            "honra": 6,
+            "gold": -5
+          },
+          "resultado": "A voz cala. As moedas são repartidas, e oito pessoas que nunca tinham tido uma passam a olhar para você de outro jeito."
+        }
+      ],
+      "imagem": "assets/sussurro-do-ouro.svg",
+      "imagemAlt": "Cofre aberto com moedas e um rosto sussurrante",
+      "pacto": true
+    },
+    {
+      "id": "rei_sob_a_colina",
+      "titulo": "O rei sob a colina",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 14,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "Um pastor corre até o salão afirmando que a colina se abriu. Dentro, uma fila de soldados de pedra dorme em volta de um trono, e o homem que o ocupa abre os olhos quando você entra.",
+      "informacoes": "O rei diz que esperou séculos por um senhor digno. Ou desesperado.",
+      "opcoes": [
+        {
+          "id": "exercito",
+          "texto": "Pedir o exército adormecido.",
+          "efeitos": {
+            "ataque": 4,
+            "escudo": 4,
+            "habitantes": -15,
+            "honra": -4
+          },
+          "resultado": "Os soldados de pedra marcham até as muralhas e se instalam. Quinze moradores, apavorados, partem antes do primeiro dia.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_rei": true
+          }
+        },
+        {
+          "id": "conselho",
+          "texto": "Pedir conselho e nada mais.",
+          "requisitos": {
+            "honraMin": 30
+          },
+          "efeitos": {
+            "honra": 5,
+            "ataque": 1,
+            "escudo": 1,
+            "hp": -6
+          },
+          "resultado": "O rei fala por três noites. Você sai da colina com um mapa mental de erros que ainda não cometeu."
+        },
+        {
+          "id": "ouro",
+          "texto": "Pedir o ouro do trono.",
+          "efeitos": {
+            "gold": 30,
+            "honra": -8,
+            "hp": -10
+          },
+          "resultado": "O rei não protesta. Suas moedas, porém, nunca pesaram tanto, e à noite os soldados de pedra mudam de posição.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_rei": true
+          }
+        },
+        {
+          "id": "selar",
+          "texto": "Selar a colina de novo.",
+          "efeitos": {
+            "honra": 3,
+            "habitantes": 2,
+            "hp": -6
+          },
+          "resultado": "As pedras voltam ao lugar com esforço da vila inteira. O pastor chora de alívio, e os cães, desde então, evitam a colina."
+        }
+      ],
+      "imagem": "assets/rei-sob-a-colina.svg",
+      "imagemAlt": "Rei antigo sentado em um salão subterrâneo",
+      "pacto": true
+    },
+    {
+      "id": "mao_na_janela",
+      "titulo": "A mão na janela",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 6
+      },
+      "texto": "Em plena madrugada, uma mão de dedos longos se apoia no parapeito da janela do seu quarto. Não bate, não puxa. Apenas espera.",
+      "informacoes": "O quarto está no segundo andar. A mão não tem braço visível.",
+      "opcoes": [
+        {
+          "id": "apertar",
+          "texto": "Apertar a mão.",
+          "efeitos": {
+            "hp": 10,
+            "honra": 2,
+            "habitantes": -2
+          },
+          "resultado": "A mão é fria e firme. Pela manhã, duas famílias que moravam longe do castelo não estão em casa, e as portas rangem sozinhas."
+        },
+        {
+          "id": "fechar",
+          "texto": "Fechar a janela.",
+          "efeitos": {
+            "hp": -3
+          },
+          "resultado": "A mão recua devagar. Por semanas, você dorme com a janela trancada e acorda sempre antes do amanhecer."
+        },
+        {
+          "id": "moeda",
+          "texto": "Colocar uma moeda na palma.",
+          "requisitos": {
+            "goldMin": 1
+          },
+          "efeitos": {
+            "honra": 3,
+            "gold": -1
+          },
+          "resultado": "A mão se fecha sobre a moeda e some. De manhã, a moeda está no parapeito, mais velha, com o seu rosto gravado."
+        }
+      ],
+      "imagem": "assets/mao-na-janela.svg",
+      "imagemAlt": "Mão pálida surgindo de uma janela entreaberta"
+    },
+    {
+      "id": "relojoeiro",
+      "titulo": "O relojoeiro do tempo",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 10,
+        "flagsAusentes": [
+          "pacto_feito"
+        ]
+      },
+      "texto": "Um homem de aventais cheios de engrenagens chega à vila carregando um relógio que marca horas que ninguém reconhece. Oferece consertar o que se quebrou entre as pessoas e o tempo.",
+      "informacoes": "Ele diz que pode apagar o que foi feito. Não diz o que acontece com as consequências.",
+      "opcoes": [
+        {
+          "id": "erros",
+          "texto": "Apagar seus erros.",
+          "requisitos": {
+            "honraMax": -30
+          },
+          "efeitos": {
+            "hp": -10,
+            "habitantes": -3
+          },
+          "resultado": "As engrenagens giram ao contrário. Os moradores lembram de você como alguém neutro e, por isso, ainda mais assustador. Três pessoas partem sem entender por quê.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_relojoeiro": true
+          },
+          "definir": {
+            "honra": 0
+          }
+        },
+        {
+          "id": "acertos",
+          "texto": "Apagar seus acertos.",
+          "requisitos": {
+            "honraMin": 30
+          },
+          "efeitos": {
+            "gold": 20
+          },
+          "resultado": "O relojoeiro faz um arranjo discreto. Seus feitos nobres viram boatos, e o cofre ganha um peso estranho. Os moradores lembram que você fez algo importante, mas não o quê.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_relojoeiro": true
+          },
+          "definir": {
+            "honra": 0
+          }
+        },
+        {
+          "id": "vida",
+          "texto": "Pedir mais tempo de vida.",
+          "efeitos": {
+            "hp": 25,
+            "honra": -5
+          },
+          "resultado": "O relógio acelera por um instante, e seu corpo recupera meses perdidos. Algo, em algum lugar, envelhece no seu lugar.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_relojoeiro": true
+          }
+        },
+        {
+          "id": "recusar",
+          "texto": "Recusar e deixá-lo seguir.",
+          "efeitos": {
+            "honra": 1
+          },
+          "resultado": "O relojoeiro ajusta uma engrenagem e parte. Os relógios da vila passam a marcar horas diferentes por uma semana."
+        }
+      ],
+      "imagem": "assets/relojoeiro.svg",
+      "imagemAlt": "Relojoeiro curvado sobre um relógio aberto",
+      "pacto": true
+    },
+    {
+      "id": "colheita_de_sombras",
+      "titulo": "A colheita de sombras",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 9
+      },
+      "texto": "Durante a noite, uma figura percorre as ruas com uma foice fina e corta algo no chão, atrás de cada morador adormecido. Pela manhã, ninguém lembra de ter sonhado, e as sombras parecem mais claras.",
+      "informacoes": "Os moradores acordam descansados. Também mais silenciosos.",
+      "opcoes": [
+        {
+          "id": "enfrentar",
+          "texto": "Esperar a figura e enfrentá-la.",
+          "efeitos": {
+            "honra": 4,
+            "ataque": 1,
+            "hp": -12
+          },
+          "resultado": "A foice acerta seu peito sem ferir. A figura se desfaz em fumaça escura, e as sombras dos moradores voltam ao lugar com um suspiro."
+        },
+        {
+          "id": "comprar",
+          "texto": "Comprar o que foi colhido · 5 gold",
+          "requisitos": {
+            "goldMin": 5
+          },
+          "efeitos": {
+            "habitantes": 5,
+            "honra": 2,
+            "gold": -5
+          },
+          "resultado": "A figura aceita as moedas e devolve as sombras. Cinco famílias, aliviadas, passam a dormir melhor, e a se curvar mais."
+        },
+        {
+          "id": "deixar",
+          "texto": "Deixar a colheita continuar.",
+          "efeitos": {
+            "gold": 6,
+            "honra": -4,
+            "habitantes": -3
+          },
+          "resultado": "As noites se tornam quietas, e os dias, mais obedientes. Três famílias, que perceberam, partem à noite."
+        }
+      ],
+      "imagem": "assets/colheita-de-sombras.svg",
+      "imagemAlt": "Espantalho projetando sombras compridas sobre o campo"
+    },
+    {
+      "id": "sino_antigo",
+      "titulo": "A voz do sino antigo",
+      "tipo": "especial",
+      "peso": 0.3,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 11
+      },
+      "texto": "Do fundo do lago atrás do bosque, um sino toca sem ninguém tocá-lo. As ondas pulsam em compasso com o som, e as crianças dizem que ele chama pelos nomes dos moradores.",
+      "informacoes": "Ninguém lembra de uma igreja afundada naquele lago.",
+      "opcoes": [
+        {
+          "id": "mergulhar",
+          "texto": "Mergulhar para encontrá-lo.",
+          "efeitos": {
+            "escudo": 1,
+            "honra": 5,
+            "gold": 10,
+            "hp": -14
+          },
+          "resultado": "A água é gelada e escura. Você traz uma cruz de bronze e uma sensação de ter sido visto por algo maior."
+        },
+        {
+          "id": "responder",
+          "texto": "Responder ao chamado com um sino da vila.",
+          "efeitos": {
+            "habitantes": 5,
+            "honra": 2,
+            "gold": -2
+          },
+          "resultado": "O sino da vila ressoa na mesma nota. Cinco pessoas, antes alheias, aparecem à margem sem lembrar de ter sido chamadas."
+        },
+        {
+          "id": "esperar",
+          "texto": "Tapar os ouvidos e esperar o fim.",
+          "efeitos": {
+            "honra": -2,
+            "habitantes": -2
+          },
+          "resultado": "O som cessa depois de três noites. Duas famílias que o ouviam melhor que as outras partem, e os cães nunca mais se aproximam do lago."
+        }
+      ],
+      "imagem": "assets/sino-antigo.svg",
+      "imagemAlt": "Sino antigo pendurado em uma viga rachada"
+    },
+    {
+      "id": "primeiro_herdeiro",
+      "titulo": "O primeiro herdeiro",
+      "tipo": "especial",
+      "peso": 0.2,
+      "especial": true,
+      "requisitos": {
+        "rodadaMin": 18,
+        "flagsAusentes": [
+          "pacto_feito"
+        ],
+        "flagsLegado": [
+          "sucessor_pressentido"
+        ]
+      },
+      "texto": "Em um cômodo trancado do castelo, que ninguém abria há gerações, um homem de armadura antiga se levanta de uma cadeira. Seu rosto lembra o seu, e o de todos os senhores que vieram antes. Ele diz que foi o primeiro a herdar a vontade, e que está cansado de esperar.",
+      "informacoes": "A vontade que você carrega é mais antiga do que a vila. Ele quer sabê-la inteira.",
+      "opcoes": [
+        {
+          "id": "aceitar",
+          "texto": "Aceitar a vontade completa.",
+          "requisitos": {
+            "honraMin": 30
+          },
+          "efeitos": {
+            "honra": 4,
+            "ataque": 2,
+            "escudo": 2,
+            "hp": 20,
+            "habitantes": -8
+          },
+          "resultado": "Memórias que não são suas se encaixam nas suas. Você enxerga os erros e os acertos de todos os herdeiros. Oito moradores, tocados pela aura, deixam a vila por uma estrada que só eles veem.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_primeiro": true
+          },
+          "desbloqueia": {
+            "flags": [
+              "vontade_completa"
+            ]
+          }
+        },
+        {
+          "id": "recusar",
+          "texto": "Recusar a vontade e seguir o próprio caminho.",
+          "efeitos": {
+            "honra": 6,
+            "habitantes": 4,
+            "hp": -10
+          },
+          "resultado": "O homem abaixa a cabeça e some como fumaça. Quatro famílias, que ouviram falar de um novo senhor, chegam à vila.",
+          "flags": {
+            "primeiro_recusado": true
+          },
+          "desbloqueia": {
+            "flags": [
+              "vontade_recusada"
+            ]
+          }
+        },
+        {
+          "id": "coroa",
+          "texto": "Tomar a coroa dele.",
+          "requisitos": {
+            "honraMax": -50
+          },
+          "efeitos": {
+            "ataque": 4,
+            "gold": 30,
+            "honra": -12,
+            "habitantes": -12
+          },
+          "resultado": "O primeiro herdeiro não luta. Entrega a coroa e se desfaz. Doze moradores acordam sem saber o próprio nome e deixam a vila na manhã seguinte.",
+          "flags": {
+            "pacto_feito": true,
+            "pacto_primeiro": true
+          },
+          "desbloqueia": {
+            "flags": [
+              "coroa_tomada"
+            ]
+          }
+        }
+      ],
+      "imagem": "assets/primeiro-herdeiro.svg",
+      "imagemAlt": "Primeiro herdeiro usando uma coroa antiga",
+      "pacto": true
+    }
+  ]);
+
+  // Cadeia abissal: as marcas garantem a ordem sem regras especiais na engine.
+  Jogo.eventos.push(...[
+    {
+      id: "sonhos_umidos", titulo: "O canto das marés secas", tipo: "especial", peso: 0.3, especial: true,
+      requisitos: { rodadaMin: 8, flagsAusentes: ["abissal_1"] },
+      imagem: "assets/canto-das-mares.svg", imagemAlt: "Ondas concêntricas e uma sombra indistinta sob a água",
+      texto: "Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água. A vila está a dias de qualquer mar.",
+      informacoes: "Ninguém sabe explicar o sal. Os cães recusam-se a entrar no salão.",
+      opcoes: [
+        { id: "ouvir", texto: "Reunir os moradores e ouvir os sonhos.", efeitos: { honra: 2, hp: -4 }, resultado: "Os relatos são parecidos demais. Você anota os pontos em comum, e à noite o som volta, mais claro. Passa a notar que respira no mesmo compasso.", flags: { abissal_1: true, abissal_curioso: true } },
+        { id: "proibir", texto: "Proibir conversas sobre os sonhos.", efeitos: { honra: -2, habitantes: -1 }, resultado: "O silêncio cai sobre a vila. Um morador parte, dizendo que prefere sonhar em paz do que viver calado.", flags: { abissal_1: true, abissal_resistente: true } },
+        { id: "vigilia", texto: "Pedir ao padre uma noite de vigília.", efeitos: { honra: 3, gold: -2 }, resultado: "Velas ardem até a aurora. O som não vem, mas os moradores acordam sabendo que ele esperava do outro lado do sono.", flags: { abissal_1: true, abissal_resistente: true } },
+        { id: "dormir", texto: "Dormir no meio da praça, para escutar de perto.", efeitos: { ataque: 1, honra: -5, hp: -6 }, resultado: "Você acorda com água nos pulmões, sem ter nenhuma por perto. Passa o dia tossindo uma pergunta que não consegue lembrar.", flags: { abissal_1: true, abissal_devoto: true } }
+      ]
+    },
+    {
+      id: "mare_no_poco", titulo: "A maré no poço", tipo: "especial", peso: 0.4, especial: true,
+      requisitos: { rodadaMin: 11, flags: ["abissal_1"], flagsAusentes: ["abissal_2"] },
+      imagem: "assets/mare-no-poco.svg", imagemAlt: "Balde de poço com peixes pálidos e símbolos na água",
+      texto: "A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira. As crianças brincam com eles, e as mães não conseguem impedir.",
+      informacoes: "A água salgada não se mistura com o rio. Circula dentro das paredes.",
+      opcoes: [
+        { id: "tapar", texto: "Tapar todos os poços com pedra.", efeitos: { honra: 2, gold: -5, habitantes: -3 }, resultado: "Sem água, três famílias partem em busca de rios limpos. As pedras estremecem à noite, como se alguém batesse por baixo.", flags: { abissal_2: true, abissal_resistente: true } },
+        { id: "examinar", texto: "Examinar os peixes com o boticário.", efeitos: { honra: 3, escudo: 1, hp: -6 }, resultado: "Dentro de cada peixe, uma pequena pedra com símbolos gravados. O boticário vomita e se recusa a continuar. Você leva uma das pedras ao bolso, sem saber por quê.", flags: { abissal_2: true, abissal_curioso: true } },
+        { id: "permitir", texto: "Permitir que o povo beba.", efeitos: { habitantes: 4, honra: -4 }, resultado: "A água é doce na boca dos que aceitam. Quatro viajantes, ao sentir o gosto, pedem para ficar. Seus olhos brilham um pouco além do normal.", flags: { abissal_2: true, abissal_devoto: true } },
+        { id: "observar", texto: "Deixar a água subir e observar o que vem.", requisitos: { honraMax: -30 }, efeitos: { gold: 8, honra: -5, hp: -8 }, resultado: "Uma mão sem dedos aparece na superfície, abre e fecha, e some. O mercador da estrada, interessado em peixes raros, deixa 8 gold e parte, sem fazer perguntas.", flags: { abissal_2: true, abissal_curioso: true } }
+      ]
+    },
+    {
+      id: "olhos_largos", titulo: "Os de olhos largos", tipo: "especial", peso: 0.5, especial: true,
+      requisitos: { rodadaMin: 14, flags: ["abissal_2"], flagsAusentes: ["abissal_3"] },
+      imagem: "assets/olhos-largos.svg", imagemAlt: "Silhuetas de moradores de olhos abertos junto à lagoa",
+      texto: "Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio. Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou.",
+      informacoes: "Não parecem perigosos. Parecem felizes, o que é pior.",
+      opcoes: [
+        { id: "confrontar", texto: "Confrontá-los na margem.", efeitos: { honra: 3, ataque: 1, hp: -8, habitantes: -3 }, resultado: "Os de olhos largos não resistem, apenas sorriem. Três deles se jogam na lagoa antes que você os alcance. Os outros voltam para casa, mais silenciosos.", flags: { abissal_3: true, abissal_resistente: true } },
+        { id: "juntar", texto: "Juntar-se à roda uma noite.", efeitos: { escudo: 3, habitantes: 4, honra: -6, hp: -8 }, resultado: "A roda canta, e você aprende a letra sem entender uma palavra. Ao amanhecer, quatro moradores novos aparecem à porta, pedindo por um lugar que não conhecem.", flags: { abissal_3: true, abissal_devoto: true } },
+        { id: "expulsar", texto: "Pedir ao padre que os expulse.", efeitos: { honra: -4, habitantes: -5 }, resultado: "O padre tenta, falha, e foge da vila na mesma noite. Cinco famílias o acompanham, apavoradas, sem olhar para trás.", flags: { abissal_3: true, abissal_resistente: true } },
+        { id: "decorar", texto: "Ouvir a canção até decorar.", efeitos: { honra: 2, hp: -4 }, resultado: "A canção é feita de intervalos impossíveis. Você sai com uma dor de cabeça e um nome que não é humano preso na língua.", flags: { abissal_3: true, abissal_curioso: true } }
+      ]
+    },
+    {
+      id: "torre_na_lagoa", titulo: "A torre na lagoa", tipo: "especial", peso: 0.5, especial: true,
+      requisitos: { rodadaMin: 17, flags: ["abissal_3"], flagsAusentes: ["abissal_4"] },
+      imagem: "assets/torre-na-lagoa.svg", imagemAlt: "Torre escura e sem janelas emergindo da lagoa",
+      texto: "Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha. A porta está aberta.",
+      informacoes: "Cada pessoa que olha por muito tempo para a torre sai do transe sem lembrar o que viu.",
+      opcoes: [
+        { id: "entrar", texto: "Entrar na torre.", efeitos: { ataque: 2, escudo: 2, gold: 10, hp: -15, honra: -5 }, resultado: "Nas paredes, gravuras sobre algo que dorme e outro que espera. Você carrega um punhado de moedas de metal desconhecido e uma certeza: a torre é uma porta, e não um fim.", flags: { abissal_4: true, abissal_curioso: true } },
+        { id: "afastar", texto: "Ordenar que a vila se afaste da lagoa.", efeitos: { honra: 3, habitantes: -4, gold: -2 }, resultado: "Os moradores obedecem, mas quatro famílias aproveitam para partir de vez. A torre fica visível da muralha, sem que ninguém ouse apontar para ela.", flags: { abissal_4: true, abissal_resistente: true } },
+        { id: "selar", texto: "Selar a porta com ferro e pedra.", requisitos: { goldMin: 5 }, efeitos: { honra: 4, gold: -5, hp: -8 }, resultado: "O ferro entorta ao tocar a porta, mas a pedra segura. Uma pulsação passa pelo chão. Por três dias, ninguém dorme direito.", flags: { abissal_4: true, abissal_resistente: true } },
+        { id: "guarda", texto: "Deixar a porta aberta e montar guarda.", requisitos: { honraMax: -30 }, efeitos: { gold: 12, habitantes: 3, honra: -8 }, resultado: "Peregrinos de lugares distantes aparecem, pagando para ver a torre. Três ficam. Na manhã seguinte, a lagoa já está um dedo mais cheia.", flags: { abissal_4: true, abissal_devoto: true } }
+      ]
+    },
+    {
+      id: "aquele_que_acorda", titulo: "Aquele que acorda", tipo: "especial", peso: 0.6, especial: true,
+      requisitos: { rodadaMin: 20, flags: ["abissal_4"], flagsAusentes: ["abissal_5"] },
+      imagem: "assets/aquele-que-acorda.svg", imagemAlt: "Um único olho sugerido dentro de uma coluna de escuridão",
+      texto: "A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Algo imenso abre um olho.",
+      informacoes: "Não é uma batalha. Não é uma negociação. É um momento em que a vila inteira espera o que o senhor fará com o que sabe.",
+      opcoes: [
+        { id: "selar", texto: "Selar o despertar com o próprio sangue.", requisitos: { honraMin: 30 }, efeitos: { honra: 10, habitantes: 4, hp: -35 }, resultado: "Você ergue a mão e deixa o sangue cair na pedra. O olho se fecha, devagar, como quem concede uma trégua. A coluna se apaga. Você cai de joelhos, e a vila, em silêncio, entende o preço.", flags: { abissal_5: true, abissal_selado: true }, desbloqueia: { flags: ["mare_selada"] } },
+        { id: "ler", texto: "Ler as palavras do fundo em voz alta.", requisitos: { flags: ["abissal_curioso"] }, efeitos: { ataque: 5, escudo: 5, honra: -15 }, multiplicadores: { habitantes: 0.3 }, resultado: "As palavras saem pela sua boca como se fossem sempre suas. A coisa assente. Dos moradores ajoelhados, a maioria não se levanta. Você sente a força de algo antigo no seu braço.", flags: { abissal_5: true, abissal_leitor: true }, desbloqueia: { flags: ["palavras_lembradas"] } },
+        { id: "servir", texto: "Oferecer-se como servo.", requisitos: { flags: ["abissal_devoto"] }, efeitos: { gold: 40, ataque: 6, hp: 20, honra: -20 }, multiplicadores: { habitantes: 0.5 }, resultado: "O olho se fixa em você. Você sente que sempre foi o senhor desta vila por alguém, e não por si. Metade dos moradores se junta à roda e deixa de olhar para o céu.", flags: { abissal_5: true, abissal_servo: true }, desbloqueia: { flags: ["senhor_do_abismo"] } },
+        { id: "fugir", texto: "Fugir com quem puder ser levado.", efeitos: { honra: -5, hp: -10 }, multiplicadores: { habitantes: 0.6 }, resultado: "Você puxa o máximo de gente pelas estradas, deixando os de joelhos para trás. A coluna some ao amanhecer, mas a lagoa nunca mais seca. Pelo resto da vida, você ouvirá uma respiração ao longe.", flags: { abissal_5: true, abissal_fuga: true } },
+        { id: "gritar", texto: "Gritar com a criatura até ela voltar a dormir.", requisitos: { flags: ["abissal_resistente"], honraMin: 50 }, efeitos: { honra: 8, ataque: 1, escudo: 1, hp: -25, habitantes: -8 }, resultado: "Você grita todos os nomes de quem a vila perdeu, e o olho, confuso, cede. Oito moradores, que não suportam a luz da escuridão, morrem ou partem. A criatura dorme de novo, mas lembra de você.", flags: { abissal_5: true, abissal_selado: true }, desbloqueia: { flags: ["mare_selada"] } }
+      ]
+    }
+  ]);
+
+  Jogo.eventos.push(
+    {
+      id: "bau_estrada", titulo: "O baú à beira da estrada", tipo: "achado", peso: 2,
+      imagem: "assets/bau-estrada.svg", imagemAlt: "Baú de madeira meio enterrado na lama",
+      texto: "Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada, mas três objetos foram embrulhados em panos secos. Seus homens esperam que você escolha apenas um.",
+      informacoes: "O que ficar para trás poderá ser encontrado por outra pessoa.",
+      opcoes: [
+        { id: "pocao", texto: "Levar a poção grande.", itens: ["pocao_cura_grande"], resultado: "O frasco é pesado, e o líquido vermelho-escuro se move devagar. Você o prende ao cinto." },
+        { id: "faca", texto: "Ficar com a faca de caça.", itens: ["faca_de_caca"], resultado: "A lâmina curta ainda cheira a couro. Seu braço parece mais pronto para o que vier." },
+        { id: "moedas", texto: "Pegar o pote de moedas velhas.", itens: ["pote_de_moedas_velhas"], resultado: "O pote parece pesado demais para o tamanho. Você o guarda sem abrir." }
+      ]
+    },
+    {
+      id: "bau_mimico", titulo: "Um baú entre as raízes", tipo: "achado", peso: 1,
+      imagem: "assets/bau-mimico.svg", imagemAlt: "Baú estreito preso entre duas raízes",
+      texto: "Um baú estreito está preso entre duas raízes. A madeira está úmida, e um frasco e um pequeno pote podem ser vistos pela fresta da tampa.",
+      informacoes: "Os dois objetos parecem ao alcance da mão.",
+      opcoes: [
+        { id: "frasco", texto: "Retirar o frasco pela fresta.", itens: ["pocao_cura_grande"], armadilha: { chance: 1 / 6, danoHp: 10, perderItem: true }, resultado: "O vidro se solta com um estalo. Você guarda o frasco no cinto." },
+        { id: "pote", texto: "Alcançar o pote de moedas no fundo.", itens: ["pote_de_moedas_velhas"], armadilha: { chance: 1 / 6, danoHp: 10, perderItem: true }, resultado: "Seus dedos encontram metal frio na escuridão. Você puxa o pote para fora." },
+        { id: "deixar", texto: "Seguir sem mexer no baú.", resultado: "Você deixa os objetos onde estão e retoma a estrada." }
+      ]
+    }
+  );
 })();

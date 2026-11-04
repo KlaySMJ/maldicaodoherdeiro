@@ -110,9 +110,22 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .escolha { display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; min-height: 52px; width: 100%; background: var(--papel); border: var(--borda); padding: 10px 12px; line-height: 1.35; font-size: calc(16px * var(--fator-texto)); }
 .escolha:not(:disabled):hover { background: var(--tinta); color: var(--papel); }
 .escolha > span:last-child { flex-shrink: 0; }
+.escolha-conteudo { display: grid; gap: 4px; }
+.honra-revelada { color: var(--secundaria); font-size: .78em; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.escolha:not(:disabled):hover .honra-revelada { color: inherit; }
 .coluna-escolhas > .nota { margin-top: 14px; }
 .mercadorias { margin-bottom: 10px; }
 .mercadoria .preco { font-size: .9em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.inventario { margin-top: 12px; border-top: 1px solid var(--branco); padding-top: 8px; font-size: calc(13px * var(--fator-texto)); }
+.inventario h3 { margin: 0 0 5px; font-size: calc(15px * var(--fator-texto)); font-weight: 400; }
+.inventario p { margin: 3px 0; color: var(--secundaria); }
+.inventario ul { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.inventario li { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.item-descricao { display: grid; gap: 1px; }
+.item-descricao strong { font-weight: 400; }
+.item-descricao small { color: var(--secundaria); line-height: 1.25; }
+.usar-item { min-height: 28px; padding: 3px 8px; font-size: .9em; }
+.efeitos-preparados { font-style: italic; }
 .resultado .movimento-gold { font-size: calc(13px * var(--fator-texto)); color: var(--secundaria); }
 .imagem-evento { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .evento-texto { grid-column: 3; grid-row: 2; }

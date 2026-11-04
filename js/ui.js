@@ -3,7 +3,7 @@
   const Jogo = window.Jogo;
   const app = document.getElementById("app");
   const nomes = { hp: "Vida", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold" };
-  const tipos = { encontro: "Um encontro", mandatorio: "O inevitável", desordem: "Desordem na vila", batalha: "Uma batalha", mercador: "Um mercador" };
+  const tipos = { encontro: "Um encontro", achado: "Um achado", mandatorio: "O inevitável", desordem: "Desordem na vila", batalha: "Uma batalha", mercador: "Um mercador", especial: "Um encontro especial" };
   const esc = valor => String(valor).replace(/[&<>"']/g, letra => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[letra]));
   const numero = valor => new Intl.NumberFormat("pt-BR").format(valor);
   const assinado = valor => `${valor > 0 ? "+" : ""}${numero(valor)}`;
@@ -107,9 +107,48 @@
 
   function ofertas(evento, run) {
     if (!evento.mercadorias) return "";
-    return `<div class="escolhas mercadorias" aria-label="Mercadorias à venda">${evento.mercadorias
+    const itens = [
+      ...evento.mercadorias,
+      ...(Jogo.engine.ofertaMercador(run, evento) ? [Jogo.engine.ofertaMercador(run, evento)] : [])
+    ];
+    return `<div class="escolhas mercadorias" aria-label="Mercadorias à venda">${itens
       .filter(item => Jogo.engine.cumpre(item.requisitos, run, "escolha"))
       .map(item => `<button class="escolha mercadoria" data-mercadoria="${esc(item.id)}" ${Jogo.engine.podePagar(run, item) ? "" : 'disabled title="Gold insuficiente"'}><span>${esc(item.texto)}</span><span class="preco">${numero(Jogo.engine.precoMercadoria(run, item))} gold</span></button>`).join("")}</div>`;
+  }
+
+  function inventario(run) {
+    const contagem = run.inventario.reduce((grupos, id) => {
+      grupos[id] = (grupos[id] || 0) + 1;
+      return grupos;
+    }, {});
+    const itens = Object.keys(contagem).map(id => ({ item: Jogo.itens.find(item => item.id === id), quantidade: contagem[id] }))
+      .filter(entrada => entrada.item);
+    const efeitos = run.efeitosPreparados || {};
+    const preparados = [
+      efeitos.bloquearDanoProximaBatalha ? "Amuleto: próximo dano de batalha anulado" : "",
+      efeitos.bonusAtaqueProximaBatalha ? `Óleo: +${numero(efeitos.bonusAtaqueProximaBatalha)} Ataque na próxima batalha` : "",
+      efeitos.bonusEscudoProximaBatalha ? `Elixir: +${numero(efeitos.bonusEscudoProximaBatalha)} Escudo na próxima batalha` : "",
+      efeitos.bonusGoldProximaRecompensa ? `Moeda: +${numero(efeitos.bonusGoldProximaRecompensa)} gold na próxima recompensa` : ""
+    ].filter(Boolean);
+    if (!itens.length && !preparados.length) return "";
+    return `<aside class="inventario" aria-label="Inventário"><h3>Itens</h3>
+      ${itens.length ? `<ul>${itens.map(({ item, quantidade }) => `<li><span class="item-descricao"><strong>${esc(item.nome)}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong><small>${esc(item.descricao)}</small></span><button class="botao usar-item" data-usar-item="${esc(item.id)}">Usar</button></li>`).join("")}</ul>` : ""}
+      ${preparados.length ? `<p class="efeitos-preparados">${preparados.map(esc).join(" · ")}</p>` : ""}</aside>`;
+  }
+
+  function efeitoHonraOpcao(opcao, run) {
+    if (opcao.definir?.honra !== undefined) return opcao.definir.honra - run.atributos.honra;
+    return opcao.efeitos?.honra || 0;
+  }
+
+  function honraRevelada(opcao, evento, run) {
+    if (run.rodada > run.honraReveladaAteRodada) return "";
+    if (opcao.combate && evento.batalha) {
+      const vitoria = evento.batalha.vitoria.efeitos?.honra || 0;
+      const falha = (evento.batalha.derrota.efeitos?.honra || 0) + (evento.batalha.penalidadeFalha?.efeitos?.honra || 0);
+      return `Honra na vitória ${assinado(vitoria)} · na falha ${assinado(falha)}`;
+    }
+    return `Honra ${assinado(efeitoHonraOpcao(opcao, run))}`;
   }
 
   function retrato(faixa, anterior) {
@@ -171,7 +210,11 @@
             </div>
           </div>
           <section class="coluna-escolhas" aria-label="${resolvido ? "Resultado da sua decisão" : "Sua decisão"}">
-            ${resolvido ? resultado(run) : `<h2>${evento.mercadorias ? "O mercador oferece" : "Qual é a sua palavra?"}</h2>${ofertas(evento, run)}<div class="escolhas">${escolhas.map(opcao => `<button class="escolha" data-opcao="${esc(opcao.id)}"><span>${esc(opcao.texto)}</span><span aria-hidden="true">→</span></button>`).join("")}</div>${evento.mercadorias ? "" : '<p class="nota">Uma escolha basta para mudar o destino.</p>'}`}
+            ${resolvido ? resultado(run) : `<h2>${evento.mercadorias ? "O mercador oferece" : "Qual é a sua palavra?"}</h2>${ofertas(evento, run)}<div class="escolhas">${escolhas.map(opcao => {
+              const previaHonra = honraRevelada(opcao, evento, run);
+              return `<button class="escolha" data-opcao="${esc(opcao.id)}"><span class="escolha-conteudo">${esc(opcao.texto)}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}</span><span aria-hidden="true">→</span></button>`;
+            }).join("")}</div>${evento.mercadorias ? "" : '<p class="nota">Uma escolha basta para mudar o destino.</p>'}`}
+            ${inventario(run)}
           </section>
           <div class="coluna-evento">
             <article class="carta carta-evento" aria-labelledby="titulo-evento">
