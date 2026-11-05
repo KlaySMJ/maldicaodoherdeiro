@@ -2,4 +2,5 @@
 .taste-skill/inspect-*/
 .taste-skill/qa/
 *.log
+node_modules/
 .webp-convert-*/

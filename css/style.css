@@ -136,7 +136,7 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .decisao-culto h2 { color: #a52a2a; }
 .aceitar-culto { min-height: 40px; margin-top: 8px; padding: 4px 0; border: 0; color: #a52a2a; text-decoration: underline; text-underline-offset: 4px; }
 .aceitar-culto:not(:disabled):hover { background: transparent; color: #e66a6a; }
-.cronica--decisao-culto .evento-texto, .cronica--decisao-culto .informacoes { display: none; }
+.cronica--decisao-culto .evento-texto, .cronica--decisao-culto .evento-leitura, .cronica--decisao-culto .informacoes { display: none; }
 .decisao-culto h3, .decisao-culto p { margin: 0 0 8px; }
 .testes-honra dt { font-size: 11px; color: var(--secundaria); text-align: center; }
 .testes-honra dd { display: flex; gap: 4px; margin-top: 2px; }
@@ -253,6 +253,13 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .atributo.honra-baixissima, .atributo.honra-baixissima dt { color: var(--vermelho); }
 .coluna-escolhas { grid-column: 2; grid-row: 1 / span 3; align-self: center; padding: 8px 0; }
 .coluna-escolhas > h2 { font-size: 20px; margin-bottom: 16px; }
+.evento-leitura { margin-bottom: 18px; }
+.evento-leitura-titulo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #555; }
+.evento-leitura-titulo h2 { font-size: calc(27px * var(--fator-texto)); font-weight: 600; line-height: 1.15; text-wrap: balance; }
+.evento-leitura-titulo .marca-entidade { color: var(--entidade); font-size: 13px; }
+.evento-leitura > p { font-size: calc(18px * var(--fator-texto)); line-height: 1.45; }
+.evento-leitura .batalha-leitura { margin-top: 12px; padding-top: 10px; border-top: 1px solid #555; color: var(--secundaria); font-size: calc(14px * var(--fator-texto)); line-height: 1.4; }
+.evento-leitura .batalha-leitura strong { color: var(--tinta); }
 .escolhas { display: grid; gap: 10px; }
 .cronica--obras-vila .coluna-escolhas > .escolhas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 .cronica--obras-vila .escolha { min-height: 44px; padding: 6px 8px; font-size: 13px; }
@@ -303,10 +310,19 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .evento-titulo h2 { margin: 0; }
 .evento-titulo .marca-entidade { color: var(--entidade); }
 .evento-texto p { font-size: calc(16px * var(--fator-texto)); line-height: 1.45; }
+.evento-detalhes .evento-texto { display: none; }
 .informacoes { color: var(--secundaria); }
 .informacoes p { font-size: calc(14px * var(--fator-texto)); line-height: 1.4; }
+.evento-detalhes .informacoes p { font-size: calc(13px * var(--fator-texto)); }
 .informacoes p + p { margin-top: 8px; }
+.informacoes .batalha-leitura { display: none; }
+.informacoes .batalha-leitura-lateral { display: block; }
+.informacoes .batalha-escudo-lateral { color: var(--secundaria); }
 .informacoes strong { color: var(--tinta); }
+.cronica--resultado .informacoes .batalha-leitura-lateral,
+.cronica--resultado .informacoes .batalha-escudo-lateral { display: none; }
+.batalha-resultado-lateral { margin-top: 10px; padding-top: 8px; border-top: 1px solid #555; color: var(--secundaria); font-size: calc(13px * var(--fator-texto)); line-height: 1.35; }
+.batalha-resultado-lateral strong { color: var(--tinta); }
 .resultado h2 { margin-bottom: 12px; font-size: 22px; }
 .resultado > p { font-size: calc(16px * var(--fator-texto)); line-height: 1.45; }
 .resultado .escolha-feita { font-size: calc(13px * var(--fator-texto)); color: var(--secundaria); font-style: italic; }
@@ -385,7 +401,7 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .coluna-escolhas { grid-column: 1 / -1; grid-row: 5; padding: 0; }
   .coluna-escolhas > h2 { display: none; }
   .escolha { min-height: 44px; padding: 8px 12px; }
-  .cronica--resultado .evento-texto p, .cronica--resultado .informacoes { display: none; }
+  .cronica--resultado .evento-texto p { display: none; }
   .cronica--resultado .coluna-escolhas { grid-row: 4; }
   .abertura { gap: 28px; }
 }
@@ -415,6 +431,9 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .atributo dd { font-size: 22px; margin-top: 2px; }
   .evento-texto h2 { font-size: calc(20px * var(--fator-texto)); margin-bottom: 6px; }
   .evento-texto p, .resultado > p { font-size: calc(15px * var(--fator-texto)); line-height: 1.4; }
+  .evento-leitura-titulo h2 { font-size: calc(23px * var(--fator-texto)); }
+  .evento-leitura > p { font-size: calc(16px * var(--fator-texto)); line-height: 1.4; }
+  .evento-leitura .batalha-leitura { font-size: calc(13px * var(--fator-texto)); }
   .informacoes p { font-size: calc(13px * var(--fator-texto)); }
   .escolhas { gap: 8px; }
   .cronica--quatro-escolhas .coluna-escolhas > .escolhas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -488,13 +507,16 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .evento-detalhes { grid-column: 3; grid-row: 1 / span 2; width: auto; justify-self: stretch; }
   .evento-texto h2 { font-size: calc(19px * var(--fator-texto)); margin-bottom: 6px; }
   .evento-texto p, .resultado > p { font-size: calc(14px * var(--fator-texto)); line-height: 1.35; }
+  .evento-leitura-titulo h2 { font-size: calc(21px * var(--fator-texto)); }
+  .evento-leitura > p { font-size: calc(14px * var(--fator-texto)); line-height: 1.35; }
+  .evento-leitura .batalha-leitura { font-size: calc(13px * var(--fator-texto)); line-height: 1.35; }
   .informacoes { margin-top: 10px; }
   .informacoes p { font-size: calc(13px * var(--fator-texto)); line-height: 1.35; }
   .coluna-escolhas { grid-column: 4; grid-row: 1 / span 2; padding: 0; }
   .escolha { font-size: calc(14px * var(--fator-texto)); min-height: 44px; padding: 8px 10px; }
   .cronica--resultado .evento-detalhes { grid-column: 1 / span 2; grid-row: 3; }
   .cronica--resultado .coluna-escolhas { grid-column: 3 / span 2; grid-row: 1 / span 3; }
-  .cronica--resultado .informacoes, .cronica--resultado .evento-texto p { display: none; }
+  .cronica--resultado .evento-texto p { display: none; }
   .resultado h2 { font-size: 20px; margin-bottom: 8px; }
   .resultado p + p { margin-top: 8px; }
   .resultado .botao { margin-top: 10px; }

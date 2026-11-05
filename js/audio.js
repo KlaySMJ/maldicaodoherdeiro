@@ -5,7 +5,7 @@
     menu: "assets/musica/menu-cronicas.wav",
     intro: "assets/musica/intro-chamado.wav",
     jogo: "assets/musica/jogo-entre-decisoes.wav",
-    culto: "assets/musica/culto-pacto.wav"
+    culto: "assets/musica/culto-pacto.wav",
   };
   const controle = document.getElementById("alternar-musica");
   const volume = document.getElementById("volume-musica");
@@ -22,8 +22,11 @@
     habilitada = localStorage.getItem("musica_ambiente") !== "0";
     const volumeArmazenado = localStorage.getItem("volume_musica");
     const volumeSalvo = Number(volumeArmazenado);
-    if (volumeArmazenado !== null && Number.isFinite(volumeSalvo) && volumeSalvo >= 0 && volumeSalvo <= 100) volumeAtual = volumeSalvo;
-  } catch {}
+    if (volumeArmazenado !== null && Number.isFinite(volumeSalvo) && volumeSalvo >= 0 && volumeSalvo <= 100)
+      volumeAtual = volumeSalvo;
+  } catch {
+    // A música funciona com os padrões quando o navegador bloqueia o armazenamento.
+  }
 
   function atualizarControle() {
     if (!controle) return;
@@ -65,17 +68,20 @@
     sons.add(proxima);
     const anterior = atual;
     atual = proxima;
-    proxima.play().then(() => {
-      if (!habilitada || atual !== proxima) {
-        transicionar(proxima, 0, 0.3, true);
-        return;
-      }
-      transicionar(proxima, volumeAtual / 100 * 0.5, 2.2);
-      if (anterior && anterior !== proxima) transicionar(anterior, 0, 1.8, true);
-    }).catch(() => {
-      sons.delete(proxima);
-      if (atual === proxima) atual = anterior || null;
-    });
+    proxima
+      .play()
+      .then(() => {
+        if (!habilitada || atual !== proxima) {
+          transicionar(proxima, 0, 0.3, true);
+          return;
+        }
+        transicionar(proxima, (volumeAtual / 100) * 0.5, 2.2);
+        if (anterior && anterior !== proxima) transicionar(anterior, 0, 1.8, true);
+      })
+      .catch(() => {
+        sons.delete(proxima);
+        if (atual === proxima) atual = anterior || null;
+      });
   }
 
   function definirContexto(novoContexto) {
@@ -91,7 +97,11 @@
 
   function alternar() {
     habilitada = !habilitada;
-    try { localStorage.setItem("musica_ambiente", habilitada ? "1" : "0"); } catch {}
+    try {
+      localStorage.setItem("musica_ambiente", habilitada ? "1" : "0");
+    } catch {
+      // A preferência permanece válida durante esta sessão.
+    }
     atualizarControle();
     if (habilitada) {
       desbloqueada = true;
@@ -107,11 +117,15 @@
     volumeAtual = Number(volume.value);
     volumeTexto.value = `${volumeAtual}%`;
     volumeTexto.textContent = `${volumeAtual}%`;
-    try { localStorage.setItem("volume_musica", String(volumeAtual)); } catch {}
+    try {
+      localStorage.setItem("volume_musica", String(volumeAtual));
+    } catch {
+      // O volume continua ajustado durante esta sessão.
+    }
     desbloqueada = true;
     if (!habilitada) return;
     if (!atual || atual.paused) iniciarFaixa();
-    else transicionar(atual, volumeAtual / 100 * 0.5, 0.18);
+    else transicionar(atual, (volumeAtual / 100) * 0.5, 0.18);
   });
   atualizarControle();
   Jogo.audio = { definirContexto, interagir };

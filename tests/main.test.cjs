@@ -9,31 +9,41 @@ const path = require("node:path");
 // depois que o menu já foi aberto. A apresentação é substituída por um registro.
 function preparar() {
   const dados = new Map();
-  const app = { addEventListener(tipo, funcao) { this[tipo] = funcao; } };
+  const app = {
+    addEventListener(tipo, funcao) {
+      this[tipo] = funcao;
+    },
+  };
   const tela = {};
   const window = {
     crypto: { randomUUID: () => "run-controlador" },
     dispatchEvent() {},
     localStorage: {
-      getItem: chave => dados.get(chave) ?? null,
+      getItem: (chave) => dados.get(chave) ?? null,
       setItem: (chave, valor) => dados.set(chave, valor),
-      removeItem: chave => dados.delete(chave)
-    }
+      removeItem: (chave) => dados.delete(chave),
+    },
   };
   const contexto = vm.createContext({
     window,
     document: { getElementById: () => app },
-    CustomEvent: class { constructor(tipo, opcoes) { this.detail = opcoes.detail; } }
+    CustomEvent: class {
+      constructor(tipo, opcoes) {
+        this.detail = opcoes.detail;
+      }
+    },
   });
-  const executar = nome => vm.runInContext(fs.readFileSync(path.join(__dirname, `../js/${nome}.js`), "utf8"), contexto);
+  vm.runInContext("Math.random = () => 0.25;", contexto);
+  const executar = (nome) =>
+    vm.runInContext(fs.readFileSync(path.join(__dirname, `../js/${nome}.js`), "utf8"), contexto);
   for (const nome of ["state", "events", "items", "legacy", "engine", "save"]) executar(nome);
   const J = window.Jogo;
   J.ui = {
-    menu: run => Object.assign(tela, { nome: "inicio", run }),
+    menu: (run) => Object.assign(tela, { nome: "inicio", run }),
     intro: () => Object.assign(tela, { nome: "intro" }),
-    jogo: run => Object.assign(tela, { nome: "jogo", run }),
-    fim: run => Object.assign(tela, { nome: "fim", run }),
-    confirmarNovaRun: async () => true
+    jogo: (run) => Object.assign(tela, { nome: "jogo", run }),
+    fim: (run) => Object.assign(tela, { nome: "fim", run }),
+    confirmarNovaRun: async () => true,
   };
   function novaRun(rodada = 1) {
     const run = J.estado.novo(J.legado.vazio());
@@ -94,7 +104,9 @@ test("Carregar continua a sessão em memória se o navegador não puder salvar",
   await clicar({ opcao: "verificar" });
   await clicar({ acao: "menu" });
   // Simula uma leitura indisponível; o progresso que está em memória continua utilizável.
-  window.localStorage.getItem = () => { throw new Error("Armazenamento indisponível"); };
+  window.localStorage.getItem = () => {
+    throw new Error("Armazenamento indisponível");
+  };
   await clicar({ acao: "carregar" });
   assert.equal(tela.nome, "jogo");
   assert.equal(tela.run.rodada, 3);
@@ -118,7 +130,7 @@ test("comprar pelo controlador salva o saldo, a renda e os preços sem reaplicar
   await clicar({ acao: "carregar" });
   assert.equal(tela.run.atributos.gold, 1);
   assert.equal(tela.run.atributos.hp, 80);
-  const pocao = J.eventos.find(e => e.id === "mercador").mercadorias[0];
+  const pocao = J.eventos.find((e) => e.id === "mercador").mercadorias[0];
   assert.equal(J.engine.precoMercadoria(tela.run, pocao), 7);
   await clicar({ acao: "continuar" });
   assert.equal(tela.run.rodada, 4);
@@ -134,7 +146,10 @@ test("botões de teste alteram apenas a honra e preservam rodada, saldo e result
   await clicar({ acao: "honra-mais" });
   assert.equal(tela.run.atributos.honra, 30);
   assert.equal(J.estado.faixaHonra(tela.run.atributos.honra), "alta");
-  assert.deepEqual(JSON.parse(JSON.stringify(tela.run)), { ...antes, atributos: { ...antes.atributos, honra: 30 } });
+  assert.deepEqual(JSON.parse(JSON.stringify(tela.run)), {
+    ...antes,
+    atributos: { ...antes.atributos, honra: 30 },
+  });
   await clicar({ acao: "honra-menos" });
   await clicar({ acao: "honra-menos" });
   assert.equal(tela.run.atributos.honra, -30);

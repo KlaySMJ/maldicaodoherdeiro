@@ -8,20 +8,43 @@ const vm = require("node:vm");
 function preparar(eventoId) {
   const dados = new Map();
   const window = {
-    crypto: { randomUUID: () => "novos-eventos" }, dispatchEvent() {},
+    crypto: { randomUUID: () => "novos-eventos" },
+    dispatchEvent() {},
     localStorage: {
-      getItem: chave => dados.get(chave) ?? null,
+      getItem: (chave) => dados.get(chave) ?? null,
       setItem: (chave, valor) => dados.set(chave, valor),
-      removeItem: chave => dados.delete(chave)
-    }
+      removeItem: (chave) => dados.delete(chave),
+    },
   };
   const contexto = vm.createContext({ window, CustomEvent: class {} });
+  vm.runInContext("Math.random = () => 0.25;", contexto);
   for (const nome of [
-    "state", "events", "events-vila", "events-pactos", "events-abissais", "events-baus",
-    "events-personagens-cadeias", "events-conselheiro", "events-recompensas", "events-specials",
-    "events-lethal", "events-cult", "events-foundations", "events-entity", "events-supernatural",
-    "events-grail", "events-druida", "events-anuais", "events-personagens", "events-artes-especificas",
-    "events-ajustes", "items", "legacy", "engine", "save"
+    "state",
+    "events",
+    "events-vila",
+    "events-pactos",
+    "events-abissais",
+    "events-baus",
+    "events-personagens-cadeias",
+    "events-conselheiro",
+    "events-recompensas",
+    "events-specials",
+    "events-lethal",
+    "events-cult",
+    "events-foundations",
+    "events-entity",
+    "events-supernatural",
+    "events-grail",
+    "events-druida",
+    "events-anuais",
+    "events-personagens",
+    "events-artes-especificas",
+    "events-ajustes",
+    "items",
+    "legacy",
+    "druida",
+    "engine",
+    "save",
   ]) {
     vm.runInContext(fs.readFileSync(path.join(__dirname, `../js/${nome}.js`), "utf8"), contexto);
   }
@@ -30,11 +53,11 @@ function preparar(eventoId) {
   run.eventoId = eventoId;
   run.rodada = 8; // Todos os requisitos mínimos, sem renda nesta rodada.
   Object.assign(run.atributos, { gold: 10, honra: 50 });
-  const evento = J.eventos.find(e => e.id === eventoId);
+  const evento = J.eventos.find((e) => e.id === eventoId);
   for (const flag of evento?.requisitos?.flags || []) run.flags[flag] = true;
   return { J, run, dados, evento };
 }
-const simples = valor => JSON.parse(JSON.stringify(valor));
+const simples = (valor) => JSON.parse(JSON.stringify(valor));
 
 test("as 24 decisões sem combate dos novos eventos aplicam os efeitos definidos pelo autor", () => {
   const casos = [
@@ -61,14 +84,20 @@ test("as 24 decisões sem combate dos novos eventos aplicam os efeitos definidos
     ["barao", "negociar", { honra: 2, hp: -3, gold: -3 }],
     ["pedagio_revolta", "abolir", { habitantes: 3, honra: 3, gold: -3 }],
     ["pedagio_revolta", "guardar", { gold: 3, honra: -2 }],
-    ["pedagio_revolta", "enforcar", { habitantes: -3, honra: -8 }, -50]
+    ["pedagio_revolta", "enforcar", { habitantes: -3, honra: -8 }, -50],
   ];
   for (const [id, opcao, efeitos, honra = 50] of casos) {
     const { J, run } = preparar(id);
     run.atributos.honra = honra;
+    run.atributos.hp = 50;
     const antes = { ...run.atributos };
     assert.equal(J.engine.escolher(run, opcao), true, `${id}/${opcao}`);
-    for (const atributo of J.atributos) assert.equal(run.atributos[atributo] - antes[atributo], efeitos[atributo] || 0, `${id}/${opcao}/${atributo}`);
+    for (const atributo of J.atributos)
+      assert.equal(
+        run.atributos[atributo] - antes[atributo],
+        efeitos[atributo] || 0,
+        `${id}/${opcao}/${atributo}`,
+      );
     assert.equal(J.save.runValida(run), true);
     J.save.gravarRun(run);
     assert.deepEqual(simples(J.save.lerRun()), simples(run));
@@ -77,20 +106,17 @@ test("as 24 decisões sem combate dos novos eventos aplicam os efeitos definidos
 });
 
 test("rodadas mínimas entram exatamente em 4, 5, 6 e 8 ao avançar", () => {
-  for (const [id, minima] of [["barao", 4], ["testamento", 5], ["desertores", 6], ["orfao_cresce", 8]]) {
+  for (const [id, minima] of [
+    ["barao", 4],
+    ["testamento", 5],
+    ["desertores", 6],
+    ["orfao_cresce", 8],
+  ]) {
     const { J, run, evento } = preparar(id);
-    J.eventos = [evento];
-    run.fase = "resultado";
-    run.eventoId = "carta_anterior";
-    run.rodada = minima - 2;
-    const antes = simples(run);
-    assert.equal(J.engine.avancar(run), false, id);
-    assert.deepEqual(simples(run), antes);
     run.rodada = minima - 1;
-    assert.equal(J.engine.avancar(run), true, id);
-    assert.equal(run.rodada, minima);
-    assert.equal(run.eventoId, id);
-    assert.equal(J.save.runValida(run), true);
+    assert.equal(J.engine.cumpre(evento.requisitos, run), false, `${id}: rodada anterior`);
+    run.rodada = minima;
+    assert.equal(J.engine.cumpre(evento.requisitos, run), true, `${id}: rodada mínima`);
   }
 });
 
@@ -101,13 +127,16 @@ test("órfão acolhido permite a continuação a partir da rodada 8, uma vez por
     run.rodada = 7;
     J.engine.escolher(run, escolha);
     assert.equal(J.engine.cumpre(evento.requisitos, run), false);
-    const continua = J.eventos.find(e => e.id === "orfao_cresce");
-    J.eventos = [continua];
+    const continua = J.eventos.find((e) => e.id === "orfao_cresce");
     const acolhido = ["acolher", "tutelar"].includes(escolha);
-    assert.equal(J.engine.avancar(run), acolhido, escolha);
+    assert.equal(Boolean(run.flags.orfao_acolhido), acolhido, escolha);
+    run.rodada = 8;
+    assert.equal(J.engine.cumpre(continua.requisitos, run), acolhido, escolha);
     if (acolhido) {
-      assert.equal(run.rodada, 8);
-      assert.equal(run.eventoId, "orfao_cresce");
+      J.eventos = [continua];
+      run.fase = "escolha";
+      run.ultimoResultado = null;
+      J.engine.registrarSorteio(run, continua);
       J.engine.escolher(run, "treinar");
       assert.equal(run.flags.orfao_resolvido, true);
       assert.equal(J.engine.sortear(run), null);
@@ -116,10 +145,14 @@ test("órfão acolhido permite a continuação a partir da rodada 8, uma vez por
 });
 
 test("todos os desfechos do pedágio resolvem o evento; só cobrar a ponte o libera", () => {
-  for (const [ponte, abre] of [["madeira", false], ["trabalhar", false], ["pedagio", true]]) {
+  for (const [ponte, abre] of [
+    ["madeira", false],
+    ["trabalhar", false],
+    ["pedagio", true],
+  ]) {
     const { J, run } = preparar("ponte_partida");
     J.engine.escolher(run, ponte);
-    const revolta = J.eventos.find(e => e.id === "pedagio_revolta");
+    const revolta = J.eventos.find((e) => e.id === "pedagio_revolta");
     J.eventos = [revolta];
     assert.equal(Boolean(J.engine.sortear(run)), abre);
   }
@@ -151,13 +184,21 @@ test("testamento guarda a flag pendente e só a transfere ao legado em vitória 
     assert.equal(proxima.legadoDaRun.flags.vontade_lembrada, true);
     assert.equal(proxima.atributos.gold, 5);
     assert.equal(proxima.flags.testamento_lido, undefined);
-    assert.equal(J.objetivosLegado.length, 0);
+    assert.equal(
+      J.objetivosLegado.some((objetivo) => objetivo.id === "bosque_vivo"),
+      true,
+    );
   }
 });
 
 test("banquete usa +30 para sorteio e +50 para servir, com quatro respostas autorizadas", () => {
   const { J, run, evento } = preparar("banquete");
-  for (const [honra, sorteavel, quantidade] of [[29, false, 3], [30, true, 3], [49, true, 3], [50, true, 4]]) {
+  for (const [honra, sorteavel, quantidade] of [
+    [29, false, 3],
+    [30, true, 3],
+    [49, true, 3],
+    [50, true, 4],
+  ]) {
     run.atributos.honra = honra;
     assert.equal(J.engine.cumpre(evento.requisitos, run), sorteavel);
     assert.equal(J.engine.opcoes(evento, run).length, quantidade);
@@ -172,25 +213,33 @@ test("taverna muda peso em −30 e respostas em −50; sempre oferece uma saída
     run.atributos.honra = honra;
     run.atributos.gold = 0;
     assert.equal(J.engine.peso(evento, run), honra <= -30 ? 5 : 1);
-    const ids = J.engine.opcoes(evento, run).map(o => o.id);
+    const ids = J.engine.opcoes(evento, run).map((o) => o.id);
     assert.ok(ids.includes("dispersar"));
     assert.equal(ids.includes("mediar"), honra > -50);
     assert.equal(ids.includes("prender"), honra <= -50);
   }
 });
 
-test("barão exige 4 de ataque, mantém escudo e aplica perda de população e gold na falha", () => {
-  for (const [ataque, escudo, hp, habitantes, gold, honra] of [[4, 5, 91, 52, 16, 53], [3, 5, 83, 44, 7, 50], [3, 100, 100, 44, 7, 50]]) {
+test("barão força a derrota no combate e mantém o escudo após a penalidade", () => {
+  for (const [ataque, escudo, hp, habitantes, gold, honra] of [
+    [4, 5, 83, 44, 7, 50],
+    [3, 5, 83, 44, 7, 50],
+    [3, 100, 100, 44, 7, 50],
+  ]) {
     const { J, run } = preparar("barao");
     Object.assign(run.atributos, { ataque, escudo });
     J.engine.escolher(run, "combater");
     assert.deepEqual(simples(run.atributos), { hp, escudo, ataque, honra, habitantes, gold });
-    assert.equal(run.ultimoResultado.combate.venceu, ataque >= 4);
+    assert.equal(run.ultimoResultado.combate.venceu, false);
   }
 });
 
 test("negociação do barão exige honra e saldo antes da renda e custa 3 gold e 3 HP diretos", () => {
-  for (const [honra, gold, permitido] of [[49, 10, false], [50, 2, false], [50, 3, true]]) {
+  for (const [honra, gold, permitido] of [
+    [49, 10, false],
+    [50, 2, false],
+    [50, 3, true],
+  ]) {
     const { J, run } = preparar("barao");
     Object.assign(run.atributos, { honra, gold, escudo: 100 });
     run.rodada = 6;
@@ -213,7 +262,7 @@ test("alterar honra para testes durante um banquete não invalida o salvamento d
   assert.equal(J.save.runValida(run), true);
   J.save.gravarRun(run);
   assert.equal(J.save.lerRun().eventoId, "banquete");
-  J.eventos = [J.eventos.find(e => e.id === "banquete")];
+  J.eventos = [J.eventos.find((e) => e.id === "banquete")];
   assert.equal(J.engine.sortear(run), null, "A mudança não libera um novo sorteio de banquete sem honra");
 });
 

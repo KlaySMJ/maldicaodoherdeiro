@@ -7,7 +7,12 @@ test("adaga aparece nas escolhas com 50 seguidores e o clique salva 40 seguidore
   const { J, app, culto, iniciar, clicar } = preparar();
   const run = culto();
   assert.equal(run.seguidoresCulto, 50);
-  const antes = { ataque: run.atributos.ataque, rodada: run.rodada, eventoId: run.eventoId, gold: run.atributos.gold };
+  const antes = {
+    ataque: run.atributos.ataque,
+    rodada: run.rodada,
+    eventoId: run.eventoId,
+    gold: run.atributos.gold,
+  };
   assert.equal(J.save.gravarRun(run), true);
   iniciar();
   await clicar({ acao: "carregar" });
@@ -41,7 +46,15 @@ test("adaga continua disponível no resultado e registra o bônus de Ataque", ()
 });
 
 test("sacrifícios inválidos não consomem a adaga nem alteram a run", () => {
-  for (const caso of ["poucos-seguidores", "sem-culto", "sem-item", "ja-usada", "encerrada", "alvo-invalido", "sem-alvo"]) {
+  for (const caso of [
+    "poucos-seguidores",
+    "sem-culto",
+    "sem-item",
+    "ja-usada",
+    "encerrada",
+    "alvo-invalido",
+    "sem-alvo",
+  ]) {
     const { J, culto } = preparar();
     const run = culto();
     let alvo = "culto";

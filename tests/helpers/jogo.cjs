@@ -8,47 +8,92 @@ const path = require("node:path");
 function preparar() {
   const dados = new Map();
   const app = {
-    innerHTML: "", focus() {}, querySelector: () => null,
-    addEventListener(tipo, funcao) { this[tipo] = funcao; }
+    innerHTML: "",
+    focus() {},
+    querySelector: () => null,
+    addEventListener(tipo, funcao) {
+      this[tipo] = funcao;
+    },
   };
   const window = {
     crypto: { randomUUID: () => "run-item" },
-    addEventListener() {}, dispatchEvent() {}, cancelAnimationFrame() {},
+    addEventListener() {},
+    dispatchEvent() {},
+    cancelAnimationFrame() {},
     requestAnimationFrame: () => 0,
     matchMedia: () => ({ matches: true }),
     localStorage: {
-      getItem: chave => dados.get(chave) ?? null,
+      getItem: (chave) => dados.get(chave) ?? null,
       setItem: (chave, valor) => dados.set(chave, valor),
-      removeItem: chave => dados.delete(chave)
-    }
+      removeItem: (chave) => dados.delete(chave),
+    },
   };
   const contexto = vm.createContext({
     window,
+    Image: class {
+      decode() {
+        return Promise.resolve();
+      }
+    },
     document: { getElementById: () => app, querySelector: () => null, body: { dataset: {} } },
-    CustomEvent: class { constructor(tipo, opcoes) { this.detail = opcoes.detail; } }
+    CustomEvent: class {
+      constructor(tipo, opcoes) {
+        this.detail = opcoes.detail;
+      }
+    },
   });
-  vm.runInContext("Math.random = () => 0.25;", contexto);
-  const executar = nome => vm.runInContext(fs.readFileSync(path.join(__dirname, `../../js/${nome}.js`), "utf8"), contexto);
+  contexto.__valorAleatorio = 0.25;
+  vm.runInContext("Math.random = () => __valorAleatorio;", contexto);
+  const executar = (nome) =>
+    vm.runInContext(fs.readFileSync(path.join(__dirname, `../../js/${nome}.js`), "utf8"), contexto);
   for (const nome of [
-    "state", "events", "events-vila", "events-pactos", "events-abissais", "events-baus",
-    "events-personagens-cadeias", "events-conselheiro", "events-recompensas", "events-specials",
-    "events-lethal", "events-cult", "events-foundations", "events-entity", "events-supernatural",
-    "events-grail", "events-druida", "events-anuais", "events-personagens", "events-artes-especificas",
-    "events-ajustes", "items", "legacy", "engine", "save", "ui"
-  ]) executar(nome);
+    "state",
+    "events",
+    "events-vila",
+    "events-pactos",
+    "events-abissais",
+    "events-baus",
+    "events-personagens-cadeias",
+    "events-conselheiro",
+    "events-recompensas",
+    "events-specials",
+    "events-lethal",
+    "events-cult",
+    "events-foundations",
+    "events-entity",
+    "events-supernatural",
+    "events-grail",
+    "events-druida",
+    "events-anuais",
+    "events-personagens",
+    "events-artes-especificas",
+    "events-ajustes",
+    "items",
+    "legacy",
+    "druida",
+    "engine",
+    "save",
+    "ui",
+  ])
+    executar(nome);
   const J = window.Jogo;
 
   function resultado(run) {
     run.fase = "resultado";
     run.ultimoResultado = {
-      escolha: "Decisão anterior", texto: "Assim foi feito.", combate: null,
-      alteracoes: Object.fromEntries(J.atributos.map(id => [id, 0]))
+      escolha: "Decisão anterior",
+      texto: "Assim foi feito.",
+      combate: null,
+      alteracoes: Object.fromEntries(J.atributos.map((id) => [id, 0])),
     };
   }
 
   function novaRun() {
     const run = J.estado.novo(J.legado.vazio());
-    J.engine.registrarSorteio(run, J.eventos.find(evento => evento.id === "mercador"));
+    J.engine.registrarSorteio(
+      run,
+      J.eventos.find((evento) => evento.id === "mercador"),
+    );
     return run;
   }
 
@@ -67,7 +112,18 @@ function preparar() {
   async function clicar(dataset) {
     await app.click({ target: { closest: () => ({ dataset, disabled: false }) } });
   }
-  return { J, app, novaRun, culto, resultado, clicar, iniciar: () => executar("main") };
+  return {
+    J,
+    app,
+    novaRun,
+    culto,
+    resultado,
+    clicar,
+    definirAleatorio: (valor) => {
+      contexto.__valorAleatorio = valor;
+    },
+    iniciar: () => executar("main"),
+  };
 }
 
 module.exports = { preparar };

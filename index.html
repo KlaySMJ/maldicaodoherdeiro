@@ -7,11 +7,11 @@
   <meta name="description" content="Cada herdeiro faz suas escolhas. O povo lembra. Um jogo de fantasia medieval para o navegador.">
   <title>A maldição do Herdeiro</title>
   <link rel="icon" href="assets/selo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css?v=20261105-8">
   <!-- A escrita durante o parsing preserva defer e a ordem de execução em file://. -->
   <script>
     (() => {
-      const VERSAO_SCRIPTS = "20261105-2";
+      const VERSAO_ASSETS = "20261105-15";
+      document.write(`<link rel="stylesheet" href="css/style.css?v=${VERSAO_ASSETS}">`);
       const arquivos = [
         "js/state.js",
         "js/events.js",
@@ -44,7 +44,7 @@
         "js/main.js"
       ];
       document.write(arquivos.map(arquivo =>
-        `<script defer src="${arquivo}?v=${VERSAO_SCRIPTS}"><\/script>`
+        `<script defer src="${arquivo}?v=${VERSAO_ASSETS}"><\/script>`
       ).join("\n"));
     })();
   </script>

@@ -5,14 +5,14 @@
   const animais = {
     lobo: { nome: "Lobo", singular: "o lobo", imagem: "assets/lobo-pactuario.png" },
     corvo: { nome: "Corvo", singular: "o corvo", imagem: "assets/corvo.png" },
-    cervo: { nome: "Cervo", singular: "o cervo", imagem: "assets/cervo-branco.png" }
+    cervo: { nome: "Cervo", singular: "o cervo", imagem: "assets/cervo-branco.png" },
   };
   const passivas = {
     lobo: { nome: "Lobo", descricao: "+2 Ataque em batalhas nesta rodada." },
     corvo: { nome: "Corvo", descricao: "Revela o tipo do evento e a Honra de uma opção." },
-    cervo: { nome: "Cervo", descricao: "Recupera 3 Vida ao iniciar a rodada; 4 com a Máscara do Cervo." }
+    cervo: { nome: "Cervo", descricao: "Recupera 3 Vida ao iniciar a rodada; 4 com a Máscara do Cervo." },
   };
-  const ehDruida = run => run?.traco === TRACO;
+  const ehDruida = (run) => run?.traco === TRACO;
   const temItem = (run, id) => run?.itensConquistados?.includes(id) || run?.inventario?.includes(id);
 
   function estacaoDaRodada(rodada) {
@@ -27,8 +27,13 @@
     run.corvoRevelaOpcaoId = null;
 
     const volta = ((run.rodada - 1) % 25) + 1;
-    if (run.estacao === "primavera" && volta === 1 && run.rodada > 1
-      && run.cajadoBonusAtaque < 5 && temItem(run, "cajado_de_carvalho_vivo")) {
+    if (
+      run.estacao === "primavera" &&
+      volta === 1 &&
+      run.rodada > 1 &&
+      run.cajadoBonusAtaque < 5 &&
+      temItem(run, "cajado_de_carvalho_vivo")
+    ) {
       run.cajadoBonusAtaque += 1;
       run.atributos.ataque += 1;
     }
@@ -61,8 +66,8 @@
   function registrarAno(run) {
     if (!ehDruida(run) || run.rodada % 100 !== 0 || run.druidaAnoAvaliado === run.rodada) return;
     run.druidaAnoAvaliado = run.rodada;
-    run.druidaAnosAlta = run.atributos.honra >= Jogo.config.honraAlta
-      ? Math.min(3, run.druidaAnosAlta + 1) : 0;
+    run.druidaAnosAlta =
+      run.atributos.honra >= Jogo.config.honraAlta ? Math.min(3, run.druidaAnosAlta + 1) : 0;
   }
 
   function novaRun(run) {
@@ -81,6 +86,18 @@
     return run;
   }
 
-  Jogo.druida = { traco: TRACO, animais, passivas, ehDruida, temItem, estacaoDaRodada, iniciar,
-    bonusAtaqueCombate, prepararEvento, plantarBosque, registrarAno, novaRun };
+  Jogo.druida = {
+    traco: TRACO,
+    animais,
+    passivas,
+    ehDruida,
+    temItem,
+    estacaoDaRodada,
+    iniciar,
+    bonusAtaqueCombate,
+    prepararEvento,
+    plantarBosque,
+    registrarAno,
+    novaRun,
+  };
 })();

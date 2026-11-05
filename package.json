@@ -1,0 +1,22 @@
+{
+  "name": "projetinho-de-game-talvez",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "test:watch": "node --test --watch",
+    "lint": "eslint js tests eslint.config.js",
+    "format": "prettier --write js tests eslint.config.js package.json .prettierrc.json .github/workflows/ci.yml",
+    "format:check": "prettier --check js tests eslint.config.js package.json .prettierrc.json .github/workflows/ci.yml"
+  },
+  "overrides": {
+    "minimatch": "11.0.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.14.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.14.0",
+    "prettier": "3.9.10"
+  }
+}

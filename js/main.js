@@ -46,48 +46,64 @@
     // no clique; usa a sessão em memória somente se não houver um save legível.
     const salva = Jogo.save.lerRun();
     if (salva) run = salva;
-    if (!run) { Jogo.ui.menu(null); return; }
-    if (run.status === "encerrada") mostrarFim(); else mostrarJogo();
+    if (!run) {
+      Jogo.ui.menu(null);
+      return;
+    }
+    if (run.status === "encerrada") mostrarFim();
+    else mostrarJogo();
   }
 
   function iniciar(personagem = null, pularIntro = false) {
     const legado = Jogo.save.lerLegado();
-    const tracoForcado = personagem || (window.localStorage.getItem("debug_forcar_druida") === "1" ? "druida_herdeiro" : null);
+    const tracoForcado =
+      personagem || (window.localStorage.getItem("debug_forcar_druida") === "1" ? "druida_herdeiro" : null);
     run = Jogo.estado.novo(legado, tracoForcado);
     Jogo.legado.avaliar(run);
     const evento = Jogo.engine.sortear(run);
     if (!evento) return;
     Jogo.engine.registrarSorteio(run, evento);
     Jogo.save.gravarRun(run);
-    if (pularIntro) mostrarJogo(); else Jogo.ui.intro();
+    if (pularIntro) mostrarJogo();
+    else Jogo.ui.intro();
     return true;
   }
 
   async function acionar(acao) {
     switch (acao) {
       case "iniciar":
-        if (run?.status === "ativa" && !await Jogo.ui.confirmarNovaRun()) return;
+        if (run?.status === "ativa" && !(await Jogo.ui.confirmarNovaRun())) return;
         if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
         iniciar();
         break;
       case "tutorial":
         if (run?.status === "ativa") {
           if (document.body.dataset.tela === "jogo") Jogo.ui.tutorial();
-          else { Jogo.ui.tutorial(); mostrarJogo(); }
+          else {
+            Jogo.ui.tutorial();
+            mostrarJogo();
+          }
         } else {
           Jogo.ui.tutorial();
           iniciar(null, true);
         }
         break;
-      case "novo-herdeiro": iniciar(); break;
+      case "novo-herdeiro":
+        iniciar();
+        break;
       case "debug-alternar-druida":
-        window.localStorage.setItem("debug_forcar_druida", window.localStorage.getItem("debug_forcar_druida") === "1" ? "0" : "1");
+        window.localStorage.setItem(
+          "debug_forcar_druida",
+          window.localStorage.getItem("debug_forcar_druida") === "1" ? "0" : "1",
+        );
         Jogo.ui.menu(run);
         break;
       case "carregar":
         carregar();
         break;
-      case "entrar-no-jogo": mostrarJogo(); break;
+      case "entrar-no-jogo":
+        mostrarJogo();
+        break;
       case "honra-mais":
       case "honra-menos":
         if (Jogo.engine.testarHonra(run, acao === "honra-mais" ? 30 : -30)) {
@@ -98,30 +114,65 @@
       case "habitantes-menos":
         if (Jogo.engine.debugDiminuirHabitantes(run)) {
           if (run.status === "encerrada") mostrarFim();
-          else { Jogo.save.gravarRun(run); mostrarJogo(); }
+          else {
+            Jogo.save.gravarRun(run);
+            mostrarJogo();
+          }
         }
         break;
-      case "debug-transformacoes": Jogo.ui.preverTransformacoes(run); break;
-      case "detalhes-condicao": Jogo.ui.mostrarDetalhesCondicao(run); break;
-      case "debug-especial-entidade": ativarEventoEspecialDebug("entidade"); break;
-      case "debug-especial-abissal": ativarEventoEspecialDebug("abissal"); break;
-      case "debug-especial-zodiaco": ativarEventoEspecialDebug("zodiaco"); break;
-      case "debug-especial-norte": ativarEventoEspecialDebug("norte"); break;
-      case "debug-contagio-uivos": ativarContagioDebug("uivos_no_bosque"); break;
-      case "debug-contagio-hospede": ativarContagioDebug("hospede_palido"); break;
-      case "debug-contagio-anel": ativarContagioDebug("anel_do_defunto"); break;
-      case "debug-conselheiro": ativarNovoConselheiroDebug(); break;
-      case "debug-condicao-licantropia": forcarCondicaoDebug("licantropia"); break;
-      case "debug-condicao-vampirismo": forcarCondicaoDebug("vampirismo"); break;
-      case "debug-condicao-possessao": forcarCondicaoDebug("possessao"); break;
+      case "debug-transformacoes":
+        Jogo.ui.preverTransformacoes(run);
+        break;
+      case "detalhes-condicao":
+        Jogo.ui.mostrarDetalhesCondicao(run);
+        break;
+      case "debug-especial-entidade":
+        ativarEventoEspecialDebug("entidade");
+        break;
+      case "debug-especial-abissal":
+        ativarEventoEspecialDebug("abissal");
+        break;
+      case "debug-especial-zodiaco":
+        ativarEventoEspecialDebug("zodiaco");
+        break;
+      case "debug-especial-norte":
+        ativarEventoEspecialDebug("norte");
+        break;
+      case "debug-contagio-uivos":
+        ativarContagioDebug("uivos_no_bosque");
+        break;
+      case "debug-contagio-hospede":
+        ativarContagioDebug("hospede_palido");
+        break;
+      case "debug-contagio-anel":
+        ativarContagioDebug("anel_do_defunto");
+        break;
+      case "debug-conselheiro":
+        ativarNovoConselheiroDebug();
+        break;
+      case "debug-condicao-licantropia":
+        forcarCondicaoDebug("licantropia");
+        break;
+      case "debug-condicao-vampirismo":
+        forcarCondicaoDebug("vampirismo");
+        break;
+      case "debug-condicao-possessao":
+        forcarCondicaoDebug("possessao");
+        break;
       case "continuar":
         if (Jogo.engine.avancar(run)) {
           if (run.status === "encerrada") mostrarFim();
-          else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+          else {
+            Jogo.save.gravarRun(run);
+            Jogo.ui.jogo(run);
+          }
         }
         break;
       case "juntar-culto":
-        if (Jogo.engine.juntarCulto(run)) { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+        if (Jogo.engine.juntarCulto(run)) {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run);
+        }
         break;
       case "encerrar-culto":
         if (Jogo.engine.encerrarSemCulto(run)) mostrarFim();
@@ -130,32 +181,44 @@
         if (run?.status === "encerrada") run = null;
         Jogo.ui.menu(run);
         break;
-      case "tentar-salvar": mostrarFim(); break;
+      case "tentar-salvar":
+        mostrarFim();
+        break;
     }
   }
 
-  document.getElementById("app").addEventListener("click", async evento => {
+  document.getElementById("app").addEventListener("click", async (evento) => {
     const botao = evento.target.closest("button");
     if (!botao || botao.disabled || ocupado) return;
     Jogo.audio?.interagir();
     ocupado = true;
     try {
       const itemSacrificio = botao.dataset.itemSacrificio;
-      const itemUsadoId = itemSacrificio ? botao.dataset.itemId || "adaga_cerimonial" : botao.dataset.usarItem;
+      const itemUsadoId = itemSacrificio
+        ? botao.dataset.itemId || "adaga_cerimonial"
+        : botao.dataset.usarItem;
       if (run && itemUsadoId && Jogo.engine.usarItem(run, itemUsadoId, itemSacrificio)) {
-        const item = Jogo.itens.find(candidato => candidato.id === itemUsadoId);
+        const item = Jogo.itens.find((candidato) => candidato.id === itemUsadoId);
         run.inventarioAberto = true;
         run.avisoInventario = item ? `${item.nome}: ${item.descricao}` : "Item usado.";
         if (run.status === "encerrada") mostrarFim();
-        else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+        else {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run);
+        }
         return;
       }
-      const resolvida = run && (botao.dataset.mercadoria
-        ? Jogo.engine.comprar(run, botao.dataset.mercadoria)
-        : botao.dataset.opcao && Jogo.engine.escolher(run, botao.dataset.opcao));
+      const resolvida =
+        run &&
+        (botao.dataset.mercadoria
+          ? Jogo.engine.comprar(run, botao.dataset.mercadoria)
+          : botao.dataset.opcao && Jogo.engine.escolher(run, botao.dataset.opcao));
       if (resolvida) {
         if (run.status === "encerrada") mostrarFim();
-        else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
+        else {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run);
+        }
       } else if (botao.dataset.acao) await acionar(botao.dataset.acao);
     } finally {
       ocupado = false;
