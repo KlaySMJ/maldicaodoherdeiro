@@ -82,8 +82,8 @@ function delayRoom(buffer) {
   }
 }
 
-function writeWave(file, buffer) {
-  const edge = Math.floor(sampleRate * 0.13);
+function writeWave(file, buffer, fadeSeconds = 0.13) {
+  const edge = Math.max(1, Math.floor(sampleRate * fadeSeconds));
   let peak = 0;
   for (let index = 0; index < buffer.length; index++) {
     const fade = Math.min(1, index / edge, (buffer.length - 1 - index) / edge);
@@ -113,7 +113,7 @@ function writeWave(file, buffer) {
   console.log(`${path.basename(file)} · ${(wave.length / 1048576).toFixed(2)} MB · ${(buffer.length / sampleRate).toFixed(1)} s`);
 }
 
-function makeLoop({ file, bpm, bars, root, chords, melody, voice, mood }) {
+function makeLoop({ file, bpm, bars, root, chords, melody, voice, mood, acompanhamento: acompanhamentoConfigurado }) {
   const secondsPerBeat = 60 / bpm;
   const bar = secondsPerBeat * 4;
   const seconds = bar * bars;
@@ -173,7 +173,7 @@ function makeLoop({ file, bpm, bars, root, chords, melody, voice, mood }) {
     }
   }
   if (mood === "jogo") {
-    const acompanhamento = [
+    const acompanhamento = acompanhamentoConfigurado || [
       [50, 57, 62, 65], [46, 53, 58, 62], [41, 48, 53, 57], [48, 55, 60, 64],
       [50, 57, 62, 67], [46, 53, 58, 62], [41, 48, 53, 60], [48, 55, 60, 64]
     ];
@@ -204,6 +204,26 @@ function makeLoop({ file, bpm, bars, root, chords, melody, voice, mood }) {
   writeWave(path.join(outputDir, file), buffer);
 }
 
+function sweep(buffer, start, duration, from, to, volume, harmonia = 0.2) {
+  const first = Math.floor(start * sampleRate);
+  const last = Math.min(buffer.length, first + Math.floor(duration * sampleRate));
+  let fase = 0;
+  for (let index = first; index < last; index++) {
+    const t = (index - first) / sampleRate;
+    const progresso = t / duration;
+    const hz = from * (to / from) ** progresso;
+    const envelope = Math.min(1, t / 0.012) * (1 - progresso) ** 1.5;
+    fase += (2 * Math.PI * hz) / sampleRate;
+    buffer[index] += (Math.sin(fase) + harmonia * Math.sin(fase * 2.01)) * envelope * volume;
+  }
+}
+
+function makeSfx(file, seconds, construir) {
+  const buffer = new Float32Array(Math.ceil(seconds * sampleRate));
+  construir(buffer);
+  writeWave(path.join(outputDir, file), buffer, 0.018);
+}
+
 const loops = [
   {
     file: "menu-cronicas.wav", bpm: 56, bars: 8, root: 38, mood: "menu", voice: "sino",
@@ -224,7 +244,56 @@ const loops = [
     file: "culto-pacto.wav", bpm: 58, bars: 8, root: 38, mood: "culto", voice: "cordas",
     chords: [[50, 56, 62, 65], [51, 58, 63, 66], [46, 53, 58, 61], [49, 56, 61, 65]],
     melody: [[74, 0.3, 1.3, 0.045], [68, 1.8, 1.2, 0.05], [66, 0.5, 1.0, 0.05], [63, 2.1, 1.5, 0.052], [74, 0.2, 1.5, 0.042], [68, 1.6, 1.3, 0.052], [66, 0.4, 1.2, 0.05], [63, 2.0, 1.7, 0.055]]
+  },
+  {
+    file: "primavera.wav", bpm: 68, bars: 4, root: 41, mood: "jogo", voice: "flauta",
+    chords: [[57, 64, 69, 72], [53, 60, 65, 69]],
+    melody: [[76, 0.2, 0.85, 0.052], [72, 1.35, 0.7, 0.045], [74, 2.25, 0.75, 0.05], [79, 0.8, 1.0, 0.045]],
+    acompanhamento: [[57, 64, 69, 72], [53, 60, 65, 69], [48, 55, 60, 64], [55, 62, 67, 71]]
+  },
+  {
+    file: "verao.wav", bpm: 72, bars: 4, root: 43, mood: "jogo", voice: "lyra",
+    chords: [[59, 66, 71, 74], [55, 62, 67, 71]],
+    melody: [[78, 0.15, 0.72, 0.05], [74, 1.2, 0.75, 0.048], [81, 2.1, 0.8, 0.052], [79, 0.5, 1.0, 0.046]],
+    acompanhamento: [[59, 66, 71, 74], [55, 62, 67, 71], [50, 57, 62, 66], [57, 64, 69, 73]]
+  },
+  {
+    file: "outono.wav", bpm: 59, bars: 4, root: 36, mood: "jogo", voice: "sino",
+    chords: [[52, 59, 64, 67], [48, 55, 60, 64]],
+    melody: [[71, 0.3, 1.0, 0.048], [67, 1.6, 0.85, 0.044], [69, 2.4, 0.9, 0.046], [74, 0.7, 1.1, 0.04]],
+    acompanhamento: [[52, 59, 64, 67], [48, 55, 60, 64], [43, 50, 55, 59], [50, 57, 62, 66]]
+  },
+  {
+    file: "inverno.wav", bpm: 52, bars: 4, root: 34, mood: "jogo", voice: "cordas",
+    chords: [[50, 57, 62, 65], [46, 53, 58, 62]],
+    melody: [[69, 0.25, 1.2, 0.045], [65, 1.6, 1.0, 0.042], [67, 2.5, 1.1, 0.045], [72, 0.6, 1.2, 0.04]],
+    acompanhamento: [[50, 57, 62, 65], [46, 53, 58, 62], [41, 48, 53, 57], [48, 55, 60, 64]]
+  },
+  {
+    file: "batalha.wav", bpm: 82, bars: 4, root: 35, mood: "jogo", voice: "cordas",
+    chords: [[47, 54, 59, 62], [46, 53, 58, 62]],
+    melody: [[71, 0.1, 0.55, 0.055], [74, 1.1, 0.55, 0.052], [78, 2.0, 0.55, 0.058], [74, 3.0, 0.7, 0.05]],
+    acompanhamento: [[47, 54, 59, 62], [42, 49, 54, 58], [46, 53, 58, 62], [42, 49, 54, 58]]
   }
 ];
 
 for (const loop of loops) makeLoop(loop);
+
+makeSfx("sfx-virada-carta.wav", 0.24, (buffer) => sweep(buffer, 0, 0.19, 520, 250, 0.22, 0.08));
+makeSfx("sfx-confirmacao.wav", 0.42, (buffer) => {
+  note(buffer, 72, 0.015, 0.19, 0.2, "sino");
+  note(buffer, 79, 0.14, 0.22, 0.17, "sino");
+});
+makeSfx("sfx-impacto.wav", 0.46, (buffer) => {
+  sweep(buffer, 0, 0.36, 150, 38, 0.48, 0.35);
+  note(buffer, 43, 0.01, 0.22, 0.17, "sino");
+});
+makeSfx("sfx-moedas.wav", 0.48, (buffer) => {
+  note(buffer, 88, 0.01, 0.16, 0.17, "sino");
+  note(buffer, 96, 0.12, 0.18, 0.16, "sino");
+  note(buffer, 91, 0.25, 0.18, 0.15, "sino");
+});
+makeSfx("sfx-sino-culto.wav", 1.2, (buffer) => {
+  note(buffer, 55, 0.02, 0.95, 0.2, "sino");
+  note(buffer, 62, 0.12, 0.8, 0.11, "sino");
+});

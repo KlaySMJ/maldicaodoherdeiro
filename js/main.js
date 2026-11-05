@@ -69,12 +69,12 @@
     return true;
   }
 
-  async function acionar(acao) {
+  async function acionar(acao, botao = null) {
     switch (acao) {
       case "iniciar":
         if (run?.status === "ativa" && !(await Jogo.ui.confirmarNovaRun())) return;
         if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
-        iniciar();
+        Jogo.ui.escolherHerdeiro(Jogo.save.lerLegado());
         break;
       case "tutorial":
         if (run?.status === "ativa") {
@@ -89,7 +89,28 @@
         }
         break;
       case "novo-herdeiro":
-        iniciar();
+        Jogo.ui.escolherHerdeiro(Jogo.save.lerLegado());
+        break;
+      case "selecionar-herdeiro":
+        iniciar(botao.dataset.traco);
+        break;
+      case "exportar-progresso": {
+        const arquivo = new Blob([JSON.stringify(Jogo.save.exportar(), null, 2)], {
+          type: "application/json",
+        });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(arquivo);
+        link.download = "a-maldicao-do-herdeiro-progresso.json";
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+        break;
+      }
+      case "importar-progresso":
+        if (await Jogo.ui.confirmarImportacao()) {
+          document.getElementById("importar-progresso-arquivo")?.click();
+        }
         break;
       case "debug-alternar-druida":
         window.localStorage.setItem(
@@ -191,6 +212,12 @@
     const botao = evento.target.closest("button");
     if (!botao || botao.disabled || ocupado) return;
     Jogo.audio?.interagir();
+    if (botao.dataset.opcao) {
+      const carta = Jogo.eventoPorId(run?.eventoId);
+      Jogo.audio?.sfx(carta?.batalha ? "impacto" : "confirmacao");
+    } else if (botao.dataset.mercadoria) Jogo.audio?.sfx("moedas");
+    else if (botao.dataset.acao === "continuar") Jogo.audio?.sfx("carta");
+    else if (botao.dataset.acao === "juntar-culto") Jogo.audio?.sfx("sino");
     ocupado = true;
     try {
       const itemSacrificio = botao.dataset.itemSacrificio;
@@ -219,9 +246,55 @@
           Jogo.save.gravarRun(run);
           Jogo.ui.jogo(run);
         }
-      } else if (botao.dataset.acao) await acionar(botao.dataset.acao);
+      } else if (botao.dataset.acao) await acionar(botao.dataset.acao, botao);
     } finally {
       ocupado = false;
+    }
+  });
+
+  document.getElementById("importar-progresso-arquivo")?.addEventListener("change", async (evento) => {
+    const arquivo = evento.target.files?.[0];
+    evento.target.value = "";
+    if (!arquivo) return;
+    try {
+      const conteudo = JSON.parse(await arquivo.text());
+      if (!Jogo.save.importar(conteudo)) throw new Error("O arquivo não contém um progresso válido deste jogo.");
+      run = Jogo.save.lerRun();
+      Jogo.ui.menu(run);
+    } catch (erro) {
+      window.dispatchEvent(
+        new CustomEvent("jogo:aviso", {
+          detail: erro instanceof Error ? erro.message : "Não foi possível importar o progresso.",
+        }),
+      );
+    }
+  });
+
+  document.addEventListener("keydown", (evento) => {
+    if (
+      evento.defaultPrevented ||
+      evento.repeat ||
+      evento.altKey ||
+      evento.ctrlKey ||
+      evento.metaKey ||
+      document.querySelector("dialog[open]") ||
+      evento.target.closest?.("input, textarea, select, [contenteditable='true'], button, a, summary")
+    )
+      return;
+
+    if (/^[1-4]$/.test(evento.key)) {
+      const escolha = document.querySelectorAll("#app [data-opcao]")[Number(evento.key) - 1];
+      if (!escolha || escolha.disabled || !run || run.aguardaDecisaoCulto) return;
+      evento.preventDefault();
+      escolha.click();
+      return;
+    }
+    if (evento.key === "Enter") {
+      const continuar = document.querySelector('#app [data-acao="continuar"]');
+      if (continuar && !continuar.disabled) {
+        evento.preventDefault();
+        continuar.click();
+      }
     }
   });
 

@@ -5,6 +5,7 @@
   "scripts": {
     "test": "node --test",
     "test:watch": "node --test --watch",
+    "generate:music": "node scripts/generate_music.cjs",
     "lint": "eslint js tests eslint.config.js",
     "format": "prettier --write js tests eslint.config.js package.json .prettierrc.json .github/workflows/ci.yml",
     "format:check": "prettier --check js tests eslint.config.js package.json .prettierrc.json .github/workflows/ci.yml"

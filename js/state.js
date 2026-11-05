@@ -9,6 +9,8 @@
     hpMaxInicial: 100,
     economia: { habitantesPorGold: 50, intervaloRenda: 3, habitantesParaManutencao: 20, perdaPorRodada: 1 },
     memoriaEventos: 10,
+    memoriaCronica: 12,
+    rodadasVitoria: 100,
     honraAlta: 30,
     honraBaixa: -30,
     honraExtremaAlta: 90,
@@ -99,19 +101,25 @@
   };
 
   Jogo.estado = {
+    tracosDisponiveis(legado) {
+      const pool = ["corajoso", "avarento", "doente"];
+      if (Jogo.legado.normalizar(legado).flags.druida_herdeiro === true) pool.push("druida_herdeiro");
+      if (Jogo.legado.normalizar(legado).flags.menino_cronista === true) pool.push("menino_cronista");
+      return pool;
+    },
     novo(legado, personagem = null) {
       const legadoDaRun = Jogo.legado.normalizar(legado);
-      const poolTracos = ["corajoso", "avarento", "doente"];
-      if (legadoDaRun.flags.druida_herdeiro === true) poolTracos.push("druida_herdeiro");
-      const traco =
-        personagem === "druida_herdeiro"
-          ? "druida_herdeiro"
-          : poolTracos[Math.floor(Math.random() * poolTracos.length)];
+      const poolTracos = Jogo.estado.tracosDisponiveis(legadoDaRun);
+      const conhecidos = ["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"];
+      const traco = conhecidos.includes(personagem)
+        ? personagem
+        : poolTracos[Math.floor(Math.random() * poolTracos.length)];
       const iniciaisTraco = {
         corajoso: { ...Jogo.config.iniciais, hp: 100, ataque: 3 },
         avarento: { ...Jogo.config.iniciais, gold: 10 },
         doente: { ...Jogo.config.iniciais, hp: 70, escudo: 4 },
         druida_herdeiro: { ...Jogo.config.iniciais, hp: 110, escudo: 2, ataque: 2, habitantes: 50, gold: 3 },
+        menino_cronista: { ...Jogo.config.iniciais, hp: 70, escudo: 3 },
       }[traco];
       const memoriaAnterior = legadoDaRun.memorias.at(-1);
       const derrotasMemoria = legadoDaRun.memorias.filter((memoria) => memoria.tipo === "derrota").length;
@@ -146,6 +154,7 @@
         },
         lancaHeroiBatalhas: 0,
         eventosRecentes: [],
+        historicoCronica: [],
         consequenciasAgendadas: [],
         nemesis:
           memoriaAnterior?.tipo === "derrota"

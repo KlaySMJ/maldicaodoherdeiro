@@ -1,6 +1,7 @@
 (function () {
   "use strict";
   const Jogo = window.Jogo;
+  const TRACOS_VALIDOS = ["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"];
   const CHAVE_RUN = "run_atual";
   const CHAVE_LEGADO = "legado";
   const LEITURA_INDISPONIVEL = Symbol("leitura indisponível");
@@ -94,6 +95,19 @@
               typeof registro.id === "string" &&
               ids(registro.eventos) &&
               registro.eventos.length <= 300,
+          ))) &&
+      (valor.melhoresRuns === undefined ||
+        (Array.isArray(valor.melhoresRuns) &&
+          valor.melhoresRuns.length <= 10 &&
+          valor.melhoresRuns.every(
+            (registro) =>
+              objeto(registro) &&
+              typeof registro.id === "string" &&
+              inteiro(registro.pontuacao) &&
+              inteiro(registro.rodada) &&
+              inteiro(registro.habitantes) &&
+              inteiro(registro.gold) &&
+              TRACOS_VALIDOS.includes(registro.traco),
           )))
     );
   }
@@ -105,7 +119,7 @@
       return false;
     if (!inteiro(run.rodada) || run.rodada < 1 || !objeto(run.atributos)) return false;
     if (
-      !["corajoso", "avarento", "doente", "druida_herdeiro"].includes(run.traco) ||
+      !TRACOS_VALIDOS.includes(run.traco) ||
       !Jogo.estacoes.includes(run.estacao) ||
       !ids(run.construcoes) ||
       !inteiro(run.cultoRendaPorRodada) ||
@@ -240,6 +254,21 @@
       return false;
     if (!ids(run.eventosRecentes) || run.eventosRecentes.length > Jogo.config.memoriaEventos) return false;
     if (
+      run.historicoCronica !== undefined &&
+      (!Array.isArray(run.historicoCronica) ||
+        run.historicoCronica.length > Jogo.config.memoriaCronica ||
+        run.historicoCronica.some(
+          (registro) =>
+            !objeto(registro) ||
+            !inteiro(registro.rodada) ||
+            registro.rodada < 1 ||
+            typeof registro.eventoId !== "string" ||
+            typeof registro.evento !== "string" ||
+            typeof registro.escolha !== "string" ||
+            typeof registro.desfecho !== "string",
+        )))
+      return false;
+    if (
       !ids(run.conselhosRecentes) ||
       run.conselhosRecentes.length > 5 ||
       new Set(run.conselhosRecentes).size !== run.conselhosRecentes.length
@@ -335,6 +364,7 @@
 
   function normalizarRunV2(dados) {
     if (!Object.hasOwn(dados, "comprasMercador")) dados.comprasMercador = {};
+    if (!Array.isArray(dados.historicoCronica)) dados.historicoCronica = [];
     if (!Object.hasOwn(dados, "hpMax"))
       dados.hpMax = Math.max(Jogo.config.hpMaxInicial, dados.atributos?.hp || 0);
     if (dados.traco === "doente") {
@@ -436,7 +466,7 @@
         dados.marcos.entidadeXAparicoes = aparicoes;
       }
     }
-    if (!Object.hasOwn(dados, "traco")) dados.traco = "corajoso";
+    if (!TRACOS_VALIDOS.includes(dados.traco)) dados.traco = "corajoso";
     if (!Object.hasOwn(dados, "estacao")) dados.estacao = Jogo.estacaoDaRodada(dados.rodada || 1, dados);
     if (!Object.hasOwn(dados, "previsaoCorvo")) dados.previsaoCorvo = null;
     if (!Object.hasOwn(dados, "corvoRevelaOpcaoId")) dados.corvoRevelaOpcaoId = null;
@@ -571,6 +601,56 @@
     return gravar(CHAVE_LEGADO, Jogo.legado.mesclar(anterior, rotacao));
   }
 
+  function exportar() {
+    return {
+      produto: "a-maldicao-do-herdeiro",
+      versao: 1,
+      exportadoEm: new Date().toISOString(),
+      legado: lerLegado(),
+      run: lerRun(),
+    };
+  }
+
+  function importar(arquivo) {
+    if (
+      !objeto(arquivo) ||
+      arquivo.produto !== "a-maldicao-do-herdeiro" ||
+      arquivo.versao !== 1 ||
+      !legadoValido(arquivo.legado) ||
+      !(arquivo.run === null || objeto(arquivo.run))
+    )
+      return false;
+
+    const legadoImportado = Jogo.legado.normalizar(arquivo.legado);
+    const runImportada = arquivo.run;
+    if (runImportada) {
+      migrarRun(runImportada);
+      if (!runValida(runImportada)) return false;
+    }
+
+    let legadoAnterior;
+    let runAnterior;
+    try {
+      legadoAnterior = window.localStorage.getItem(CHAVE_LEGADO);
+      runAnterior = window.localStorage.getItem(CHAVE_RUN);
+      window.localStorage.setItem(CHAVE_LEGADO, JSON.stringify(legadoImportado));
+      if (runImportada) window.localStorage.setItem(CHAVE_RUN, JSON.stringify(runImportada));
+      else window.localStorage.removeItem(CHAVE_RUN);
+      legadoDaSessao = Jogo.legado.vazio();
+      return true;
+    } catch {
+      try {
+        if (legadoAnterior === null) window.localStorage.removeItem(CHAVE_LEGADO);
+        else if (legadoAnterior !== undefined) window.localStorage.setItem(CHAVE_LEGADO, legadoAnterior);
+        if (runAnterior === null) window.localStorage.removeItem(CHAVE_RUN);
+        else if (runAnterior !== undefined) window.localStorage.setItem(CHAVE_RUN, runAnterior);
+      } catch {
+        // Mantém o aviso principal caso o navegador também bloqueie a restauração.
+      }
+      return false;
+    }
+  }
+
   Jogo.save = {
     lerLegado,
     lerRun,
@@ -578,6 +658,8 @@
     apagarRun,
     finalizar,
     registrarRotacaoRun,
+    exportar,
+    importar,
     gravarRun: (run) => gravar(CHAVE_RUN, run),
   };
 })();

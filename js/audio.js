@@ -1,53 +1,95 @@
 (function () {
   "use strict";
-  const Jogo = window.Jogo;
+  const janela = typeof window === "undefined" ? globalThis : window;
+  const documento = typeof document === "undefined" ? null : document;
+  const Jogo = (janela.Jogo = janela.Jogo || {});
   const arquivos = {
     menu: "assets/musica/menu-cronicas.wav",
     intro: "assets/musica/intro-chamado.wav",
     jogo: "assets/musica/jogo-entre-decisoes.wav",
     culto: "assets/musica/culto-pacto.wav",
+    batalha: "assets/musica/batalha.wav",
+    primavera: "assets/musica/primavera.wav",
+    verao: "assets/musica/verao.wav",
+    outono: "assets/musica/outono.wav",
+    inverno: "assets/musica/inverno.wav",
   };
-  const controle = document.getElementById("alternar-musica");
-  const volume = document.getElementById("volume-musica");
-  const volumeTexto = document.getElementById("volume-musica-valor");
+  const controle = documento?.getElementById?.("alternar-musica") || null;
+  const volume = documento?.getElementById?.("volume-musica") || null;
+  const volumeTexto = documento?.getElementById?.("volume-musica-valor") || null;
+  const volumeEfeitos = documento?.getElementById?.("volume-efeitos") || null;
+  const volumeEfeitosTexto = documento?.getElementById?.("volume-efeitos-valor") || null;
+  const armazenamento = (() => {
+    try {
+      return typeof localStorage === "undefined" ? null : localStorage;
+    } catch {
+      return null;
+    }
+  })();
   const sons = new Set();
+  const efeitosAtivos = new Set();
   const fades = new Map();
+  const efeitos = {
+    carta: "assets/musica/sfx-virada-carta.wav",
+    confirmacao: "assets/musica/sfx-confirmacao.wav",
+    impacto: "assets/musica/sfx-impacto.wav",
+    moedas: "assets/musica/sfx-moedas.wav",
+    sino: "assets/musica/sfx-sino-culto.wav",
+  };
   let contexto = "menu";
   let habilitada = true;
   let volumeAtual = 50;
+  let volumeEfeitosAtual = 65;
   let desbloqueada = false;
+  let reduzida = false;
   let atual = null;
 
   try {
-    habilitada = localStorage.getItem("musica_ambiente") !== "0";
-    const volumeArmazenado = localStorage.getItem("volume_musica");
+    habilitada = armazenamento?.getItem("musica_ambiente") !== "0";
+    const volumeArmazenado = armazenamento?.getItem("volume_musica");
     const volumeSalvo = Number(volumeArmazenado);
     if (volumeArmazenado !== null && Number.isFinite(volumeSalvo) && volumeSalvo >= 0 && volumeSalvo <= 100)
       volumeAtual = volumeSalvo;
+    const efeitosArmazenados = armazenamento?.getItem("volume_efeitos");
+    const efeitosSalvos = Number(efeitosArmazenados);
+    if (efeitosArmazenados !== null && Number.isFinite(efeitosSalvos) && efeitosSalvos >= 0 && efeitosSalvos <= 100)
+      volumeEfeitosAtual = efeitosSalvos;
   } catch {
-    // A música funciona com os padrões quando o navegador bloqueia o armazenamento.
+    // O áudio segue com os valores padrão quando o navegador bloqueia o armazenamento.
   }
 
   function atualizarControle() {
-    if (!controle) return;
-    const texto = habilitada ? "Pausar música" : "Retomar música";
-    controle.setAttribute("aria-pressed", String(habilitada));
-    controle.textContent = texto;
-    volume.value = String(volumeAtual);
-    volumeTexto.value = `${volumeAtual}%`;
-    volumeTexto.textContent = `${volumeAtual}%`;
+    if (controle) {
+      const texto = habilitada ? "Pausar música" : "Retomar música";
+      controle.setAttribute("aria-pressed", String(habilitada));
+      controle.textContent = texto;
+    }
+    if (volume) volume.value = String(volumeAtual);
+    if (volumeTexto) {
+      volumeTexto.value = `${volumeAtual}%`;
+      volumeTexto.textContent = `${volumeAtual}%`;
+    }
+    if (volumeEfeitos) volumeEfeitos.value = String(volumeEfeitosAtual);
+    if (volumeEfeitosTexto) {
+      volumeEfeitosTexto.value = `${volumeEfeitosAtual}%`;
+      volumeEfeitosTexto.textContent = `${volumeEfeitosAtual}%`;
+    }
   }
 
-  function transicionar(som, volume, segundos, pararNoFim = false) {
+  function volumeDaMusica() {
+    return (volumeAtual / 100) * 0.5 * (reduzida ? 0.35 : 1);
+  }
+
+  function transicionar(som, proximoVolume, segundos, pararNoFim = false) {
     const anterior = fades.get(som);
     if (anterior) clearInterval(anterior.timer);
     const inicio = som.volume;
     const comeco = performance.now();
     const fade = { timer: 0 };
-    fade.timer = window.setInterval(() => {
+    fade.timer = janela.setInterval(() => {
       const progresso = Math.min(1, (performance.now() - comeco) / (segundos * 1000));
       const curva = progresso * progresso * (3 - 2 * progresso);
-      som.volume = inicio + (volume - inicio) * curva;
+      som.volume = inicio + (proximoVolume - inicio) * curva;
       if (progresso < 1) return;
       clearInterval(fade.timer);
       fades.delete(som);
@@ -60,7 +102,7 @@
   }
 
   function iniciarFaixa() {
-    if (!desbloqueada || !habilitada || !arquivos[contexto]) return;
+    if (!desbloqueada || !habilitada || !arquivos[contexto] || typeof Audio === "undefined") return;
     const proxima = new Audio(arquivos[contexto]);
     proxima.loop = true;
     proxima.preload = "auto";
@@ -75,7 +117,7 @@
           transicionar(proxima, 0, 0.3, true);
           return;
         }
-        transicionar(proxima, (volumeAtual / 100) * 0.5, 2.2);
+        transicionar(proxima, volumeDaMusica(), 2.2);
         if (anterior && anterior !== proxima) transicionar(anterior, 0, 1.8, true);
       })
       .catch(() => {
@@ -90,15 +132,30 @@
     if (desbloqueada && habilitada) iniciarFaixa();
   }
 
+  function definirDucking(ativo) {
+    reduzida = Boolean(ativo);
+    if (atual && !atual.paused && habilitada) transicionar(atual, volumeDaMusica(), 0.35);
+  }
+
   function interagir() {
     desbloqueada = true;
     if (habilitada && (!atual || atual.paused)) iniciarFaixa();
   }
 
+  function tocarEfeito(nome) {
+    if (volumeEfeitosAtual === 0 || !efeitos[nome] || typeof Audio === "undefined") return;
+    const som = new Audio(efeitos[nome]);
+    som.preload = "auto";
+    som.volume = (volumeEfeitosAtual / 100) * 0.8;
+    efeitosAtivos.add(som);
+    som.addEventListener?.("ended", () => efeitosAtivos.delete(som), { once: true });
+    som.play().catch(() => efeitosAtivos.delete(som));
+  }
+
   function alternar() {
     habilitada = !habilitada;
     try {
-      localStorage.setItem("musica_ambiente", habilitada ? "1" : "0");
+      armazenamento?.setItem("musica_ambiente", habilitada ? "1" : "0");
     } catch {
       // A preferência permanece válida durante esta sessão.
     }
@@ -115,18 +172,45 @@
   controle?.addEventListener("click", alternar);
   volume?.addEventListener("input", () => {
     volumeAtual = Number(volume.value);
-    volumeTexto.value = `${volumeAtual}%`;
-    volumeTexto.textContent = `${volumeAtual}%`;
+    atualizarControle();
     try {
-      localStorage.setItem("volume_musica", String(volumeAtual));
+      armazenamento?.setItem("volume_musica", String(volumeAtual));
     } catch {
       // O volume continua ajustado durante esta sessão.
     }
     desbloqueada = true;
     if (!habilitada) return;
     if (!atual || atual.paused) iniciarFaixa();
-    else transicionar(atual, (volumeAtual / 100) * 0.5, 0.18);
+    else transicionar(atual, volumeDaMusica(), 0.18);
   });
+  volumeEfeitos?.addEventListener("input", () => {
+    volumeEfeitosAtual = Number(volumeEfeitos.value);
+    atualizarControle();
+    try {
+      armazenamento?.setItem("volume_efeitos", String(volumeEfeitosAtual));
+    } catch {
+      // O volume continua ajustado durante esta sessão.
+    }
+  });
+
+  documento?.addEventListener?.("visibilitychange", () => {
+    if (documento.visibilityState === "hidden") {
+      if (atual) {
+        const faixaPausada = atual;
+        atual = null;
+        const fade = fades.get(faixaPausada);
+        if (fade) clearInterval(fade.timer);
+        fades.delete(faixaPausada);
+        faixaPausada.pause();
+        sons.delete(faixaPausada);
+      }
+      for (const efeito of efeitosAtivos) efeito.pause();
+      efeitosAtivos.clear();
+      return;
+    }
+    if (desbloqueada && habilitada) iniciarFaixa();
+  });
+
   atualizarControle();
-  Jogo.audio = { definirContexto, interagir };
+  Jogo.audio = { definirContexto, definirDucking, interagir, sfx: tocarEfeito };
 })();

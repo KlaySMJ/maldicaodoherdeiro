@@ -301,7 +301,9 @@
 
   function batalhaAjustada(run, batalha) {
     if (batalha.semAjuste) return batalha;
-    const estagio = Math.floor(Math.max(0, run.rodada - 1) / 10);
+    const estagioBase = Math.floor(Math.max(0, run.rodada - 1) / 10);
+    const estagioTardio = Math.floor(Math.max(0, run.rodada - 30) / 20);
+    const estagio = estagioBase + estagioTardio;
     const nivelNemesis = run.eventoId === "nemesis_da_memoria" ? Math.max(1, run.nemesis?.nivel || 1) : 0;
     if (!estagio && !nivelNemesis) return batalha;
     return {
@@ -566,6 +568,7 @@
     run.ultimoResultado.escolha = "Aceitar o chamado.";
     run.ultimoResultado.alteracoes.honra -= 5;
     run.ultimoResultado.texto = `${Jogo.eventoPorId("ultimo_habitante").opcoes.find((opcao) => opcao.id === "juntar").resultado} A Adaga cerimonial é guardada no inventário.`;
+    registrarEscolhaNaCronica(run, Jogo.eventoPorId("ultimo_habitante"), { texto: "Aceitar o chamado." });
     return true;
   }
 
@@ -579,6 +582,7 @@
     run.ultimoResultado.texto = Jogo.eventoPorId("ultimo_habitante").opcoes.find(
       (opcao) => opcao.id === "encerrar",
     ).resultado;
+    registrarEscolhaNaCronica(run, Jogo.eventoPorId("ultimo_habitante"), { texto: "Encerrar a linhagem." });
     encerrar(run, "derrota", "Sem habitantes, você decide não seguir com o culto. A crônica termina.");
     return true;
   }
@@ -638,6 +642,21 @@
         },
       ],
     });
+    if (tipo === "vitoria" && run.rodada >= Jogo.config.rodadasVitoria) {
+      run.conquistas = Jogo.legado.mesclar(run.conquistas, {
+        versao: 1,
+        melhoresRuns: [
+          {
+            id: run.id,
+            pontuacao: run.rodada * 100 + run.atributos.habitantes * 5 + run.atributos.gold,
+            rodada: run.rodada,
+            habitantes: run.atributos.habitantes,
+            gold: run.atributos.gold,
+            traco: run.traco,
+          },
+        ],
+      });
+    }
   }
 
   function resolverCombate(run, batalha) {
@@ -1092,12 +1111,27 @@
     return true;
   }
 
+  function registrarEscolhaNaCronica(run, evento, opcao) {
+    if (!run || !evento || !opcao || !run.ultimoResultado) return;
+    run.historicoCronica ||= [];
+    run.historicoCronica.push({
+      rodada: run.rodada,
+      eventoId: evento.id,
+      evento: evento.titulo,
+      escolha: opcao.texto,
+      desfecho: run.ultimoResultado.texto,
+    });
+    run.historicoCronica = run.historicoCronica.slice(-Jogo.config.memoriaCronica);
+  }
+
   function resolverOpcao(run, evento, opcao, gasto = 0) {
     const contexto = prepararResolucaoOpcao(run, evento, opcao, gasto);
     aplicarEfeitosBase(contexto);
     aplicarEfeitosEspeciais(contexto);
     calcularEconomia(contexto);
-    return verificarEncerramento(contexto);
+    const resolvida = verificarEncerramento(contexto);
+    if (resolvida) registrarEscolhaNaCronica(run, evento, opcao);
+    return resolvida;
   }
 
   function escolher(run, opcaoId) {
@@ -1631,6 +1665,14 @@
 
   function avancar(run) {
     if (run.status !== "ativa" || run.fase !== "resultado") return false;
+    if (run.rodada >= Jogo.config.rodadasVitoria) {
+      encerrar(
+        run,
+        "vitoria",
+        `A vila atravessou um ano inteiro sob este herdeiro: ${Jogo.config.rodadasVitoria} rodadas de escolhas e consequências.`,
+      );
+      return true;
+    }
     const proximaRodada = run.rodada + 1;
     const antesDoEfeito = { ...run.atributos };
     run.rodada = proximaRodada;
@@ -1678,7 +1720,7 @@
     prepararJanelaZodiaco(run, proximaRodada);
     const evento = sortear(run);
     if (!evento) {
-      encerrar(run, "vitoria", "A crônica chegou ao fim: não há mais acontecimentos elegíveis.");
+      encerrar(run, "derrota", "Os acontecimentos cessaram antes de a vila completar um ano inteiro.");
       return true;
     }
     run.eventoId = evento.id;

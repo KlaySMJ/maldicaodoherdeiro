@@ -26,7 +26,7 @@
             honra: registro.honra,
             tipo: registro.tipo,
             motivo: registro.motivo,
-            ...(["corajoso", "avarento", "doente", "druida_herdeiro"].includes(registro.traco)
+            ...(["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"].includes(registro.traco)
               ? { traco: registro.traco }
               : {}),
             ...(registro.meninoAdotado === true ? { meninoAdotado: true } : {}),
@@ -46,14 +46,49 @@
           .map((registro) => ({ id: registro.id, eventos: listaIds(registro.eventos).slice(0, 300) }))
           .slice(-2)
       : [];
+  const melhoresRunsSeguras = (valor) =>
+    Array.isArray(valor)
+      ? valor
+          .filter(
+            (registro) =>
+              registro &&
+              typeof registro === "object" &&
+              typeof registro.id === "string" &&
+              Number.isSafeInteger(registro.pontuacao) &&
+              Number.isSafeInteger(registro.rodada) &&
+              Number.isSafeInteger(registro.habitantes) &&
+              Number.isSafeInteger(registro.gold) &&
+              ["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"].includes(registro.traco),
+          )
+          .map(({ id, pontuacao, rodada, habitantes, gold, traco }) => ({
+            id,
+            pontuacao,
+            rodada,
+            habitantes,
+            gold,
+            traco,
+          }))
+          .filter((registro, indice, lista) => lista.findIndex((item) => item.id === registro.id) === indice)
+          .sort((a, b) => b.pontuacao - a.pontuacao)
+          .slice(0, 10)
+      : [];
 
-  // A lista inicial ficará vazia até os objetivos serem definidos pelo autor.
-  // Formato: { id, condicao(run), desbloqueia: { eventos: [], itens: [], flags: [] } }.
+  // Formato: { id, nome, descricao, condicao(run), desbloqueia: { eventos: [], itens: [], flags: [] } }.
   Jogo.objetivosLegado = [
     {
       id: "bosque_vivo",
-      condicao: (run) => run.traco === "druida_herdeiro" && run.druidaAnosAlta >= 3,
-      desbloqueia: { itens: ["mascara_de_cervo"] },
+      nome: "O bosque que permanece",
+      descricao: "Conclua um ano de honra alta como Druida-Herdeiro.",
+      condicao: (run) => run.traco === "druida_herdeiro" && run.druidaAnosAlta >= 1,
+      desbloqueia: { itens: ["mascara_de_cervo"], eventos: ["assembleia_das_raizes"] },
+    },
+    {
+      id: "menino_cronista",
+      nome: "A memória da vila",
+      descricao: "Acolha o órfão com honra e permita que ele se torne conselheiro.",
+      condicao: (run) =>
+        run.flags?.menino_adotado_com_honra === true && run.flags?.menino_conselheiro === true,
+      desbloqueia: { flags: ["menino_cronista"] },
     },
   ];
 
@@ -66,6 +101,7 @@
       objetivosConcluidos: [],
       memorias: [],
       eventosRecentesRuns: [],
+      melhoresRuns: [],
     };
   }
 
@@ -79,6 +115,7 @@
       objetivosConcluidos: listaIds(dados.objetivosConcluidos),
       memorias: memoriasSeguras(dados.memorias),
       eventosRecentesRuns: rotacoesSeguras(dados.eventosRecentesRuns),
+      melhoresRuns: melhoresRunsSeguras(dados.melhoresRuns),
     };
   }
 
@@ -103,6 +140,7 @@
             lista.findIndex((candidato) => candidato.id === registro.id) === indice,
         ),
       ),
+      melhoresRuns: melhoresRunsSeguras([...a.melhoresRuns, ...b.melhoresRuns]),
     };
   }
 
