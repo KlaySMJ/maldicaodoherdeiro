@@ -85,7 +85,7 @@
       texto: "O povo leva você ao túmulo do herdeiro anterior. A pedra registra que ele chegou à rodada {{rodada}} com honra {{honra}}.",
       informacoes: "A causa escrita na pedra: {{motivo}}",
       opcoes: [
-        { id: "lembrar", texto: "Deixar uma moeda sobre a pedra.", efeitos: { honra: 2, gold: -1 }, resultado: "A moeda some entre as fendas. O nome continua legível." },
+        { id: "lembrar", texto: "Deixar uma moeda sobre a pedra.", efeitos: { honra: 2, gold: -1 }, consequenciaTardia: { eventoId: "eco_da_lapide", atrasoMin: 10, atrasoMax: 20 }, resultado: "A moeda some entre as fendas. O nome continua legível." },
         { id: "seguir", texto: "Voltar sem tocar no túmulo.", efeitos: { honra: -1 }, resultado: "Ninguém pergunta por que você não ficou mais tempo." }
       ]
     },
@@ -98,6 +98,67 @@
       opcoes: [
         { id: "corrigir", texto: "Contar o que realmente aconteceu.", efeitos: { honra: 2 }, resultado: "A criança escuta até o fim e acrescenta sua versão à história." },
         { id: "deixar", texto: "Deixar que a lembrança pertença ao povo.", efeitos: { honra: 1, habitantes: 1 }, resultado: "A história muda um pouco quando passa de boca em boca. O povo decide ficar." }
+      ]
+    },
+    {
+      id: "retorno_do_menino", titulo: "O menino volta pela estrada", tipo: "especial", peso: 0,
+      disparadoPelaEngine: true, consequenciaAgendada: true,
+      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O adolescente acolhido pela vila, com o traje formal de conselheiro",
+      texto: "O menino que você acolheu retorna de uma viagem com anotações sobre as famílias da estrada. Ele reconhece o selo da vila e pede para ajudar.",
+      informacoes: "Uma escolha antiga volta a produzir efeitos nesta crônica.",
+      opcoes: [
+        { id: "formar", texto: "Pagar seus estudos e formação · 3 Gold.", requisitos: { goldMin: 3 }, efeitos: { gold: -3, ataque: 1, honra: 2 }, flags: { menino_retorno_visto: true }, resultado: "O jovem usa o que aprendeu para organizar os guardas e orientar os viajantes que chegam." },
+        { id: "trabalho", texto: "Confiar a ele o cuidado dos recém-chegados.", efeitos: { habitantes: 3, honra: 1 }, flags: { menino_retorno_visto: true }, resultado: "Ele recebe as famílias pelo nome. Três viajantes decidem ficar depois de encontrar abrigo." }
+      ]
+    },
+    {
+      id: "primeiro_conselho_do_menino", titulo: "O primeiro parecer", tipo: "especial", peso: 0,
+      disparadoPelaEngine: true, consequenciaAgendada: true,
+      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O adolescente conselheiro apresenta sua primeira proposta à vila",
+      texto: "Na primeira sessão formal, o adolescente estuda os pedidos das famílias e propõe começar pelos que ficaram sem abrigo.",
+      informacoes: "A nomeação do menino agora afeta as decisões da vila.",
+      opcoes: [
+        { id: "moradia", texto: "Aprovar a ajuda para as famílias · 3 Gold.", requisitos: { goldMin: 3 }, efeitos: { gold: -3, habitantes: 4, honra: 2 }, flags: { primeiro_conselho_resolvido: true }, resultado: "As famílias recebem madeira e lugar para dormir. O conselho ganha a confiança de quem chegou por último." },
+        { id: "guardas", texto: "Usar o plano para reorganizar a guarda.", efeitos: { ataque: 1, escudo: 1, honra: 1 }, flags: { primeiro_conselho_resolvido: true }, resultado: "O plano distribui os turnos sem abandonar os campos. Os guardas agradecem ao novo conselheiro." }
+      ]
+    },
+    {
+      id: "promessa_do_ferreiro", titulo: "A conta do aprendiz", tipo: "especial", peso: 0,
+      disparadoPelaEngine: true, consequenciaAgendada: true,
+      imagem: "assets/forja.png", imagemAlt: "O ferreiro e um escudo reforçado sobre a bancada",
+      texto: "O ferreiro traz o escudo que o aprendiz ajudou a reforçar. Ele pede pagamento pelas placas de metal que usou.",
+      informacoes: "A promessa feita ao menino retorna à oficina.",
+      opcoes: [
+        { id: "pagar", texto: "Pagar as placas · 4 Gold.", requisitos: { goldMin: 4 }, efeitos: { gold: -4, escudo: 2, honra: 1 }, flags: { promessa_ferreiro_vista: true }, resultado: "O ferreiro entrega o escudo sem cobrar mais nada. O aprendiz fica para terminar o trabalho." },
+        { id: "recusar", texto: "Pedir que ele fique com o escudo.", efeitos: { honra: -2, habitantes: -1 }, flags: { promessa_ferreiro_vista: true }, resultado: "O aprendiz segue para outra oficina. O ferreiro guarda o escudo e fecha a conta." }
+      ]
+    },
+    {
+      id: "eco_da_lapide", titulo: "Uma lembrança na praça", tipo: "especial", peso: 0,
+      disparadoPelaEngine: true, consequenciaAgendada: true,
+      imagem: "assets/eventos-sistemas/tumulo.png", imagemAlt: "Uma coroa antiga diante da lápide do herdeiro anterior",
+      texto: "A moeda que você deixou no túmulo reaparece na praça. Uma criança repete a causa da morte de {{herdeiro}}: {{motivo}}",
+      informacoes: "O povo quer decidir o que fazer com a memória que voltou.",
+      opcoes: [
+        { id: "memorial", texto: "Erguer uma placa em sua memória · 2 Gold.", requisitos: { goldMin: 2 }, efeitos: { gold: -2, honra: 3, habitantes: 1 }, flags: { eco_lapide_resolvido: true }, resultado: "A placa não explica a morte, mas registra o que o herdeiro tentou proteger." },
+        { id: "guardar", texto: "Devolver a moeda ao túmulo.", efeitos: { honra: 1, hp: 5 }, flags: { eco_lapide_resolvido: true }, resultado: "O silêncio volta à praça. Por uma noite, a vila dorme sem repetir a história." }
+      ]
+    },
+    {
+      id: "nemesis_da_memoria", titulo: "A morte retorna", tipo: "batalha", peso: 0,
+      disparadoPelaEngine: true, nemesis: true,
+      imagem: "assets/eventos-sistemas/tumulo.png", imagemAlt: "Uma sombra armada emerge ao lado de uma coroa enterrada",
+      texto: "A causa que levou {{herdeiro}} aparece diante dos portões com um rosto novo. {{adocao}} ainda vive na memória da linhagem — e a sombra veio terminar o que começou: {{motivo}}",
+      informacoes: "Este inimigo carrega a memória da run anterior e fica mais forte a cada derrota registrada.",
+      batalha: {
+        defesa: 4,
+        vitoria: { dano: 12, efeitos: { ataque: 1, honra: 2 }, resultado: "Você derruba a sombra. A lembrança perde força, mas não desaparece." },
+        derrota: { dano: 20, efeitos: { honra: -2 }, resultado: "A sombra vence o primeiro confronto e recua para a estrada." },
+        penalidadeFalha: { efeitos: { habitantes: -2 }, texto: "Dois moradores fogem ao reconhecer a causa da antiga tragédia." }
+      },
+      opcoes: [
+        { id: "enfrentar", texto: "Enfrentar o inimigo da memória.", combate: true },
+        { id: "proteger", texto: "Evacuar uma família para fora dos portões.", efeitos: { hp: -5, honra: 2, habitantes: -1 }, resultado: "A sombra deixa a vila, mas leva consigo um de seus moradores. A família fica em segurança." }
       ]
     }
   );

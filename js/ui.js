@@ -2,21 +2,23 @@
   "use strict";
   const Jogo = window.Jogo;
   const app = document.getElementById("app");
-  const nomes = { hp: "Vida", hpMax: "Vida máxima", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold" };
+  const nomes = { hp: "Vida", hpMax: "Vida máxima", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold", sintonia: "Sintonia" };
   const esc = valor => String(valor).replace(/[&<>"']/g, letra => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[letra]));
   const numero = valor => new Intl.NumberFormat("pt-BR").format(valor);
   const assinado = valor => `${valor > 0 ? "+" : ""}${numero(valor)}`;
   const nomesRaridade = { comum: "Comum", raro: "Raro", epico: "Épico", lendario: "Lendário", pacto: "Pacto" };
-  const nomesTraco = { corajoso: "Corajosa", avarento: "Avarento", doente: "Doente" };
+  const nomesTraco = { corajoso: "Corajosa", avarento: "Avarento", doente: "Doente", druida_herdeiro: "Filho da Floresta" };
   const descricoesTraco = {
     corajoso: "Corajosa: começa com +1 Ataque.",
     avarento: "Avarento: começa com 10 Gold.",
-    doente: "Doente: começa com 70 Vida e 4 Escudo. Vida máxima inicial: 70."
+    doente: "Doente: começa com 70 Vida e 4 Escudo. Vida máxima inicial: 70.",
+    druida_herdeiro: "Druida-Herdeiro: começa com o Cajado de carvalho vivo, Sintonia 5 e um animal escolhido. As quatro estações seguem o ciclo de 25 rodadas."
   };
   const retratos = {
     corajoso: { arquivo: "corajoso", descricao: "Busto da herdeira corajosa" },
     avarento: { arquivo: "avarento", descricao: "Busto do herdeiro avarento" },
-    doente: { arquivo: "doente", descricao: "Busto do herdeiro doente" }
+    doente: { arquivo: "doente", descricao: "Busto do herdeiro doente" },
+    druida_herdeiro: { arquivo: "druida-herdeiro", descricao: "Druida-Herdeiro maduro, de barba grisalha e cajado do cervo" }
   };
   const fasesRetrato = {
     neutra: "com honra neutra",
@@ -40,7 +42,7 @@
     praca_forca: { nome: "Praça da Forca", bonus: "+1 Gold a cada 6 rodadas; −1 Honra a cada 10; com culto ativo, +2 Seguidores a cada 10" },
     celeiro: { nome: "Celeiro", bonus: "Reduz pela metade as perdas de habitantes em eventos de fome e seca" }
   };
-  const nomesAtributosEfeito = { hp: "Vida", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold" };
+  const nomesAtributosEfeito = { hp: "Vida", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold", sintonia: "Sintonia" };
   let retratoExibido = null;
   let ajustePendente = 0;
 
@@ -68,15 +70,17 @@
     });
   }
 
-  function mostrar(html, tela) {
+  function mostrar(html, tela, contextoMusica = tela === "intro" ? "intro" : "menu") {
     if (tela !== "jogo") retratoExibido = null;
     app.innerHTML = html;
     document.body.dataset.tela = tela;
+    Jogo.audio?.definirContexto(contextoMusica);
     app.focus({ preventScroll: true });
     ajustarTela();
   }
 
   function menu(run) {
+    const forcarDruida = window.localStorage.getItem("debug_forcar_druida") === "1";
     mostrar(`
       <section class="abertura" aria-labelledby="titulo-inicio">
         <div class="abertura-arte"><img src="assets/vila.png" alt="Uma vila medieval sob a vigília de um castelo" width="1024" height="1024"></div>
@@ -87,6 +91,8 @@
           <div class="acoes-menu">
             <button class="botao primario" data-acao="iniciar">Iniciar <span aria-hidden="true">→</span></button>
             <button class="botao" data-acao="carregar" ${run ? "" : "disabled"}>Carregar${run ? ` <span>Rodada ${numero(run.rodada)}</span>` : ""}</button>
+            <button class="botao debug-transformacoes-menu" data-acao="debug-transformacoes">Debug: ver transformações</button>
+            <button class="botao debug-druida-menu" data-acao="debug-alternar-druida" aria-pressed="${forcarDruida}">Debug: sempre iniciar como Druida · ${forcarDruida ? "ativo" : "inativo"}</button>
           </div>
           <p class="nota">${run ? "Há uma história esperando por você." : "Sua primeira história ainda não foi escrita."}</p>
         </div>
@@ -100,36 +106,17 @@
     </section>`, "intro");
   }
 
-  function atributos(run) {
+  function atributos(run, variacaoHonra = 0) {
     const icones = {
       hp: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
       escudo: '<path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/>',
       ataque: '<path d="m14 4 6-1-1 6-9 9-4-4Zm-9 9 6 6m-3-3-5 5"/>',
       honra: '<path d="m12 3 3 6 6 1-4.5 4.5 1 6.5-5.5-3-5.5 3 1-6.5L3 10l6-1Z"/>'
     };
-    return `<dl class="atributos">${["hp", "escudo", "ataque", "honra"].map(id => `<div data-atributo="${id}" class="atributo ${id === "honra" ? `honra-${Jogo.estado.faixaHonra(run.atributos.honra)}` : ""}">
+    const mudouHonra = variacaoHonra !== 0;
+    return `<dl class="atributos">${["hp", "escudo", "ataque", "honra"].map(id => `<div data-atributo="${id}" class="atributo ${id === "honra" ? `honra-${Jogo.estado.faixaHonra(run.atributos.honra)}${mudouHonra ? " honra-mudou" : ""}` : ""}" ${id === "honra" && mudouHonra ? `data-mudanca-honra="${variacaoHonra > 0 ? "subiu" : "caiu"}"` : ""} ${id === "honra" && variacaoHonra > 0 ? `data-ganho-honra="${numero(variacaoHonra)}"` : ""}>
       <dt><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icones[id]}</svg>${nomes[id]}</dt><dd>${id === "honra" ? assinado(run.atributos[id]) : id === "hp" ? `${numero(run.atributos.hp)} / ${numero(run.hpMax)}` : numero(run.atributos[id])}</dd>
     </div>`).join("")}</dl>`;
-  }
-
-  function rendaHover(run) {
-    const economia = Jogo.config.economia;
-    const habitantes = run.atributos.habitantes;
-    const rendaBase = Jogo.engine.rendaDaVila(habitantes);
-    const ponte = run.construcoes?.includes("ponte") && habitantes >= 20 ? 1 : 0;
-    const renda = rendaBase + ponte;
-    const detalhes = rendaBase < 0
-      ? `Abaixo de ${numero(economia.habitantesParaManutencao)} habitantes: ${assinado(rendaBase)} gold por rodada.`
-      : rendaBase > 0
-        ? `${numero(economia.habitantesPorGold)} habitantes geram ${assinado(rendaBase)} gold.`
-        : `A renda base começa em ${numero(economia.habitantesPorGold)} habitantes por gold.`;
-    const bonusPonte = ponte ? " A Ponte acrescenta +1 gold por ciclo." : "";
-    const periodicidade = renda > 0 ? ` O pagamento ocorre a cada ${numero(economia.intervaloRenda)} rodadas.` : "";
-    const pagaAgora = renda < 0 || (renda > 0 && run.rodada % economia.intervaloRenda === 0);
-    const proximoPagamento = renda > 0 && !pagaAgora
-      ? ` Próximo pagamento: rodada ${numero(run.rodada + (economia.intervaloRenda - run.rodada % economia.intervaloRenda))}.`
-      : pagaAgora ? " A renda será aplicada ao concluir esta rodada." : "";
-    return `${detalhes}${bonusPonte}${periodicidade}${proximoPagamento} A renda final é calculada após a escolha.`;
   }
 
   function efeitoDivinoHover(efeito) {
@@ -159,24 +146,24 @@
 
   function resultado(run) {
     const r = run.ultimoResultado;
+    if (run.aguardaDecisaoCulto) return `<div class="resultado resultado-culto" role="status">
+      <div class="decisao-culto" role="alert">
+        <h2>O último habitante se foi</h2>
+        <button class="botao aceitar-culto" data-acao="juntar-culto">Aceitar o chamado</button>
+      </div>
+    </div>`;
     const economia = r.economia;
     const movimento = economia ? [
       economia.gasto ? `Compra: −${numero(economia.gasto)} gold.` : "",
       economia.renda > 0 ? `Renda da vila: +${numero(economia.variacaoRenda)} gold.`
         : economia.renda < 0 ? `Manutenção da vila: ${assinado(economia.variacaoRenda)} gold.` : "Sem renda nesta rodada."
     ].filter(Boolean).join(" ") : "";
-    const transicao = Jogo.eventos.find(evento => evento.id === "ultimo_habitante");
-    const escolhaJuntar = transicao.opcoes.find(opcao => opcao.id === "juntar");
-    const escolhaEncerrar = transicao.opcoes.find(opcao => opcao.id === "encerrar");
-    const ordemTransicao = run.opcoesSorteadas?.map(id => transicao.opcoes.find(opcao => opcao.id === id)).filter(Boolean);
-    const escolhasTransicao = ordemTransicao?.length === transicao.opcoes.length ? ordemTransicao : transicao.opcoes;
-    const decisaoCulto = run.aguardaDecisaoCulto ? `<div class="decisao-culto"><h3>${esc(transicao.titulo)}</h3><p>${esc(transicao.informacoes)}</p><div class="escolhas">${escolhasTransicao.map(opcao => `<button class="escolha" data-acao="${opcao.id === "juntar" ? "juntar-culto" : "encerrar-culto"}"><span>${esc(opcao.texto)}${opcao.id === "juntar" ? " · reunir 50 seguidores" : ""}</span><span aria-hidden="true">→</span></button>`).join("")}</div></div>` : "";
     return `<div class="resultado" role="status">
       <h2>Assim foi feito.</h2>
       <p class="escolha-feita">“${esc(r.escolha)}”</p>
       ${r.combate ? `<p class="desfecho-combate">${r.combate.venceu ? "Vitória em batalha" : "Ataque malsucedido"} · ${numero(r.combate.dano)} de dano após o escudo</p>` : ""}
       <p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
-      ${decisaoCulto || `<button class="botao primario" data-acao="continuar">Continuar <span aria-hidden="true">→</span></button>`}
+      <button class="botao primario" data-acao="continuar">Continuar <span aria-hidden="true">→</span></button>
     </div>`;
   }
 
@@ -198,11 +185,12 @@
     }, {});
     const idsConquistados = [...new Set([...(run.itensConquistados || []), ...Object.keys(contagem)])];
     const itens = idsConquistados.map(id => ({ item: Jogo.itens.find(item => item.id === id), quantidade: contagem[id] || 0 }))
-      .filter(entrada => entrada.item);
+      .filter(({ item, quantidade }) => item && !(item.tipo === "uso" && quantidade === 0
+        && Number.isSafeInteger(run.itensConsumidosEm?.[item.id]) && run.itensConsumidosEm[item.id] < run.rodada));
     const efeitos = run.efeitosPreparados || {};
     const preparados = [
       efeitos.bloquearDanoProximaBatalha ? "Amuleto: próximo dano de batalha anulado" : "",
-      efeitos.bonusAtaqueProximaBatalha ? `Óleo: +${numero(efeitos.bonusAtaqueProximaBatalha)} Ataque na próxima batalha` : "",
+      efeitos.bonusAtaqueProximaBatalha ? `Ataque: +${numero(efeitos.bonusAtaqueProximaBatalha)} na próxima batalha` : "",
       efeitos.bonusEscudoProximaBatalha ? `Elixir: +${numero(efeitos.bonusEscudoProximaBatalha)} Escudo na próxima batalha` : "",
       efeitos.bonusGoldProximaRecompensa ? `Moeda: +${numero(efeitos.bonusGoldProximaRecompensa)} gold na próxima recompensa` : "",
       efeitos.bacamarteBatalhas ? `Bacamarte: dano anulado por ${numero(efeitos.bacamarteBatalhas)} batalhas restantes` : "",
@@ -212,17 +200,30 @@
     ].filter(Boolean);
     return `<details class="inventario" ${run.inventarioAberto ? "open" : ""}><summary>Inventário <span>${numero(itens.length)} ${itens.length === 1 ? "item" : "itens"} conquistados</span></summary>
       ${itens.length ? `<ul>${itens.map(({ item, quantidade }) => {
+        const recarga = Jogo.engine.recargaItemRestante(run, item.id);
         const estado = item.id === "marca_da_entidade_x" && run.flags.entidade_x_pacto ? "Maldição ativa · −1 Vida por rodada"
           : item.id === "lanca_do_heroi" && run.lancaHeroiBatalhas ? `Ativa: ${numero(run.lancaHeroiBatalhas)} batalhas restantes`
-          : item.aoReceber ? "Efeito permanente aplicado" : quantidade ? `Disponível: ${numero(quantidade)}` : "Sem unidades disponíveis";
-        const usoItem = item.id === "adaga_cerimonial" && quantidade && run.fase === "resultado" && !run.flags.adaga_cerimonial_usada
-          ? `<span class="acoes-item">${run.atributos.habitantes >= 10 ? `<button class="botao usar-item" data-item-sacrificio="habitantes">Sacrificar 10 habitantes</button>` : ""}${run.cultoAtivo && run.seguidoresCulto >= 10 ? `<button class="botao usar-item" data-item-sacrificio="culto">Sacrificar 10 seguidores</button>` : ""}</span>`
+          : recarga ? `Recarga: ${numero(recarga)} ${recarga === 1 ? "rodada" : "rodadas"}`
+          : item.guardarAposReceber && quantidade ? "Bônus permanente aplicado · guardada para a cura"
+            : item.aoReceber && !run.itensConsumidosEm?.[item.id] ? "Efeito permanente aplicado" : quantidade ? `Disponível: ${numero(quantidade)}`
+          : run.itensConsumidosEm?.[item.id] === run.rodada ? "Usado nesta rodada" : "Sem unidades disponíveis";
+        const usoItem = item.id === "adaga_cerimonial" && quantidade && Jogo.engine.podeUsarItem(run, item.id)
+          ? `<span class="acoes-item">${Jogo.engine.podeUsarItem(run, item.id, "habitantes") ? `<button class="botao usar-item" data-item-sacrificio="habitantes">Sacrificar 10 habitantes</button>` : ""}${Jogo.engine.podeUsarItem(run, item.id, "culto") ? `<button class="botao usar-item" data-item-sacrificio="culto">Sacrificar 10 seguidores</button>` : ""}</span>`
+          : item.id === "calice_negro" && quantidade && Jogo.engine.podeUsarItem(run, item.id)
+            ? `<button class="botao usar-item" data-item-id="${esc(item.id)}" data-item-sacrificio="${run.cultoAtivo ? "culto" : "habitantes"}">Sacrificar 5 ${run.cultoAtivo ? "seguidores" : "habitantes"}</button>`
           : item.uso && quantidade && item.id !== "adaga_cerimonial" && Jogo.engine.podeUsarItem(run, item.id)
             ? `<button class="botao usar-item" data-usar-item="${esc(item.id)}">Usar</button>` : "";
         return `<li><span class="item-descricao"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong><small>${esc(estado)} · ${esc(item.descricao)}</small></span>${usoItem}</li>`;
       }).join("")}</ul>` : "<p>Nenhum item conquistado nesta run.</p>"}
       ${run.avisoInventario ? `<p class="aviso-inventario" role="status">${esc(run.avisoInventario)}</p>` : ""}
-      ${preparados.length ? `<p class="efeitos-preparados">${preparados.map(esc).join(" · ")}</p>` : ""}</details>`;
+      ${preparados.length ? `<p class="efeitos-preparados">${preparados.map(esc).join(" · ")}</p>` : ""}</details>
+      <aside class="registro-itens" aria-label="Itens recebidos recentemente">
+        <h3>Último item recebido</h3>
+        ${run.logItens?.length ? `<ul>${run.logItens.slice(-1).map(registro => {
+          const item = Jogo.itens.find(candidato => candidato.id === registro.id);
+          return item ? `<li><strong>${esc(item.nome)}</strong><span>Rodada ${numero(registro.rodada)}</span></li>` : "";
+        }).join("")}</ul>` : `<p>Nenhum item recebido ainda.</p>`}
+      </aside>`;
   }
 
   function efeitoHonraOpcao(opcao, run) {
@@ -232,12 +233,29 @@
 
   function honraRevelada(opcao, evento, run) {
     const detalhes = [];
-    if (run.rodada <= run.honraReveladaAteRodada) {
+    const posseRevela = run.condicao?.ativa === "possessao";
+    const corvoRevelaTudo = Jogo.druida?.ehDruida(run) && run.animal?.tipo === "corvo"
+      && run.animal.nivel >= 3 && ((run.rodada - 1) % 25) < 5;
+    const corvoRevelaOpcao = Jogo.druida?.ehDruida(run) && run.corvoRevelaOpcaoId === opcao.id;
+    if (posseRevela || corvoRevelaTudo || corvoRevelaOpcao || run.rodada <= run.honraReveladaAteRodada) {
       if (opcao.combate && evento.batalha) {
         const vitoria = evento.batalha.vitoria.efeitos?.honra || 0;
         const falha = (evento.batalha.derrota.efeitos?.honra || 0) + (evento.batalha.penalidadeFalha?.efeitos?.honra || 0);
         detalhes.push(`Honra na vitória ${assinado(vitoria)} · na falha ${assinado(falha)}`);
+      } else if (opcao.testeSorte) {
+        const base = opcao.efeitos?.honra || 0;
+        const sucesso = base + (opcao.testeSorte.sucesso?.efeitos?.honra || 0);
+        const falha = base + (opcao.testeSorte.falha?.efeitos?.honra || 0);
+        detalhes.push(`Honra ${assinado(sucesso)} no sucesso · ${assinado(falha)} na falha`);
       } else detalhes.push(`Honra ${assinado(efeitoHonraOpcao(opcao, run))}`);
+      const ganhoDeHonra = opcao.combate && evento.batalha
+        ? Math.max(evento.batalha.vitoria.efeitos?.honra || 0,
+          (evento.batalha.derrota.efeitos?.honra || 0) + (evento.batalha.penalidadeFalha?.efeitos?.honra || 0))
+        : opcao.testeSorte
+          ? Math.max((opcao.efeitos?.honra || 0) + (opcao.testeSorte.sucesso?.efeitos?.honra || 0),
+            (opcao.efeitos?.honra || 0) + (opcao.testeSorte.falha?.efeitos?.honra || 0))
+          : efeitoHonraOpcao(opcao, run);
+      if (posseRevela && !run.condicao.abracada && ganhoDeHonra > 0) detalhes.push("a voz pode tirar 3 Vida");
     }
     const variacaoHabitantes = opcao.definir?.habitantes !== undefined
       ? opcao.definir.habitantes - run.atributos.habitantes : opcao.efeitos?.habitantes;
@@ -261,6 +279,7 @@
 
   function caminhoRetrato(traco, faixa, cultoAtivo) {
     const personagem = retratos[traco] || retratos.corajoso;
+    if (traco === "druida_herdeiro") return `assets/herdeiros/druida-herdeiro-${cultoAtivo ? "culto" : faixa}.png`;
     if (cultoAtivo) return "assets/herdeiros/" + personagem.arquivo + "-culto.png";
     return "assets/herdeiros/" + personagem.arquivo + "-" + faixa + ".png";
   }
@@ -270,10 +289,54 @@
     const imagemAnterior = anterior ? caminhoRetrato(anterior.traco, anterior.faixa, anterior.cultoAtivo) : "";
     const descricao = (retratos[traco] || retratos.corajoso).descricao +
       (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa]);
-    return '<div class="retrato-area' + (anterior ? " troca-retrato" : "") + '" data-honra="' + faixa + '">' +
+    return '<div class="retrato-area' + (cultoAtivo ? " culto-ativo" : "") + (anterior ? " troca-retrato" : "") + '" data-honra="' + faixa + '">' +
       (anterior ? '<img class="retrato retrato-anterior" src="' + imagemAnterior + '" width="1024" height="1024" alt="" aria-hidden="true">' : "") +
       '<img class="retrato retrato-atual" src="' + imagemAtual + '" width="1024" height="1024" alt="' + descricao + '">' +
       '</div>';
+  }
+
+  function detalheMoldura(condicaoId) {
+    return condicaoId === "vampirismo"
+      ? '<span class="moldura-presas" aria-hidden="true"><i></i><i></i></span>'
+      : condicaoId === "licantropia"
+        ? '<span class="moldura-arranhoes" aria-hidden="true"><i></i><i></i><i></i></span>'
+        : condicaoId === "possessao" ? '<span class="moldura-veu" aria-hidden="true"></span>' : "";
+  }
+
+  function preverTransformacoes(run) {
+    const herdeiro = run || { traco: "corajoso", atributos: { honra: 0 }, cultoAtivo: false };
+    const faixa = faixaRetrato(herdeiro.atributos.honra);
+    const condicoes = [
+      { id: "vampirismo", nome: "Vampirismo", detalhe: "Moldura vermelha com presas" },
+      { id: "licantropia", nome: "Licantropia", detalhe: "Moldura pálida com arranhões" },
+      { id: "possessao", nome: "Possessão", detalhe: "Moldura fria envolta por um véu" }
+    ];
+    const dialogo = document.createElement("dialog");
+    dialogo.className = "previa-transformacoes";
+    dialogo.setAttribute("aria-labelledby", "titulo-previa-transformacoes");
+    dialogo.innerHTML = `
+      <header class="previa-transformacoes-cabecalho">
+        <div><p class="previa-transformacoes-sobretitulo">Debug visual</p><h2 id="titulo-previa-transformacoes">Transformações do herdeiro</h2></div>
+        <button class="controle-honra" type="button" data-fechar-previa aria-label="Fechar prévia">Fechar</button>
+      </header>
+      <p class="previa-transformacoes-nota">Prévia cosmética. Não altera a partida nem avança a história.</p>
+      <div class="previa-transformacoes-grade">
+        ${condicoes.map(condicao => `
+          <section class="previa-transformacao" aria-label="Prévia de ${condicao.nome}">
+            <article class="carta carta-herdeiro honra-${faixa} condicao-${condicao.id} previa-transformacao-carta">
+              ${retrato(herdeiro.traco, faixa, null, Boolean(herdeiro.cultoAtivo))}
+              ${detalheMoldura(condicao.id)}
+              <div class="carta-titulo herdeiro-carta-titulo"><h2>${herdeiro.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2></div>
+            </article>
+            <div class="previa-transformacao-legenda"><h3>${condicao.nome}</h3><p>${condicao.detalhe}</p></div>
+          </section>`).join("")}
+      </div>`;
+    document.body.append(dialogo);
+    dialogo.addEventListener("click", evento => {
+      if (evento.target === dialogo || evento.target.closest("[data-fechar-previa]")) dialogo.close();
+    });
+    dialogo.addEventListener("close", () => dialogo.remove(), { once: true });
+    dialogo.showModal();
   }
 
   function animarRetrato() {
@@ -300,15 +363,34 @@
     const eventoDaRun = Jogo.eventos.find(evento => evento.id === run.eventoId);
     const eventoBase = run.aguardaDecisaoCulto ? Jogo.eventos.find(evento => evento.id === "ultimo_habitante") : eventoDaRun;
     const memoriaAnterior = run.legadoDaRun.memorias?.at(-1);
-    const interpolarMemoria = texto => texto?.replace(/\{\{(rodada|honra|motivo)\}\}/g, (_, campo) => memoriaAnterior?.[campo] ?? "sem registro") || "";
-    const eventoComMemoria = memoriaAnterior && eventoBase ? { ...eventoBase, texto: interpolarMemoria(eventoBase.texto), informacoes: interpolarMemoria(eventoBase.informacoes) } : eventoBase;
+    const valoresMemoria = {
+      rodada: memoriaAnterior?.rodada ?? "sem registro",
+      honra: memoriaAnterior?.honra ?? "sem registro",
+      motivo: memoriaAnterior?.motivo ?? "sem registro",
+      herdeiro: memoriaAnterior?.traco === "corajoso" ? "a herdeira anterior" : "o herdeiro anterior",
+      adocao: memoriaAnterior?.meninoAdotado ? "o menino que a linhagem acolheu" : "o herdeiro que veio antes"
+    };
+    const interpolarMemoria = texto => texto?.replace(/\{\{(rodada|honra|motivo|herdeiro|adocao)\}\}/g, (_, campo) => valoresMemoria[campo]) || "";
+    const eventoComMemoria = eventoBase ? { ...eventoBase, texto: interpolarMemoria(eventoBase.texto), informacoes: interpolarMemoria(eventoBase.informacoes) } : eventoBase;
     const evento = run.flags.entidade_x_pacto ? { ...eventoComMemoria, informacoes: `${eventoComMemoria.informacoes} A Marca da Entidade drena 1 ponto de Vida a cada rodada.` } : eventoComMemoria;
     const faixa = Jogo.estado.faixaHonra(run.atributos.honra);
+    const condicaoId = run.condicao?.ativa;
+    const nomesCondicoes = { licantropia: "Licantropia", vampirismo: "Vampirismo", possessao: "Possessão" };
+    const descricaoCondicoes = {
+      licantropia: "+2 Ataque · recupera 1 Vida por rodada",
+      vampirismo: "+3 Ataque · +2 Escudo · perde 1 Vida por rodada",
+      possessao: "+2 Ataque · revela a Honra das escolhas"
+    };
+    const classeCondicao = condicaoId ? ` condicao-${condicaoId}${run.condicao.abracada ? " condicao-abracada" : ""}` : "";
+    const molduraAtiva = detalheMoldura(condicaoId);
     const faixaDoRetrato = faixaRetrato(run.atributos.honra);
     const cultoAtivo = Boolean(run.cultoAtivo);
+    const variacaoHonra = retratoExibido?.runId === run.id
+      ? run.atributos.honra - (retratoExibido.honra ?? run.atributos.honra) : 0;
+    const transicaoCulto = retratoExibido?.runId === run.id && !retratoExibido.cultoAtivo && cultoAtivo;
     const anterior = retratoExibido?.runId === run.id && (
       retratoExibido.traco !== run.traco ||
-      retratoExibido.faixa !== faixaDoRetrato ||
+      (!cultoAtivo && retratoExibido.faixa !== faixaDoRetrato) ||
       retratoExibido.cultoAtivo !== cultoAtivo
     ) ? retratoExibido : null;
     const resolvido = run.fase === "resultado";
@@ -318,8 +400,13 @@
       id,
       ...(Object.hasOwn(nomesConstrucoes, id) ? nomesConstrucoes[id] : { nome: id, bonus: "Bônus registrado nesta crônica" })
     }));
+    const statusDruida = Jogo.druida?.ehDruida(run) ? `<div class="druida-status" aria-label="Sintonia e calendário do Druida-Herdeiro">
+      <p>${esc(run.avisoEstacao || "A floresta acompanha suas escolhas.")} ${esc(Jogo.druida.animais[run.animal.tipo]?.nome || "Animal")} · nível ${numero(run.animal.nivel)}</p>
+      <div class="druida-medidores"><div class="folhas-estacao" role="meter" aria-label="Progresso da estação" aria-valuemin="1" aria-valuemax="25" aria-valuenow="${((run.rodada - 1) % 25) + 1}">${Array.from({ length: 25 }, (_, indice) => `<span class="folha${indice < ((run.rodada - 1) % 25) + 1 ? " ativa" : ""}" aria-hidden="true"></span>`).join("")}</div>
+        <div class="medidor-sintonia" role="meter" aria-label="Sintonia" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${numero(run.sintonia)}"><span style="--sintonia: ${run.sintonia * 10}%"></span></div><strong>Sintonia ${numero(run.sintonia)}/10</strong></div>
+    </div>` : "";
     mostrar(`
-      <section class="cronica${resolvido ? " cronica--resultado" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}" aria-labelledby="titulo-jogo">
+      <section class="cronica${resolvido ? " cronica--resultado" : ""}${run.aguardaDecisaoCulto ? " cronica--decisao-culto" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}" aria-labelledby="titulo-jogo">
         <div class="titulo-run"><div class="titulo-run-identificacao"><div class="titulo-run-linha"><h1 id="titulo-jogo">A sua crônica</h1>
           <details class="construcoes-resumo">
             <summary aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila e seus bônus" title="Construções da vila: ver o que foi feito e seus bônus">
@@ -331,14 +418,15 @@
               ${construcoesRun.length ? `<ul>${construcoesRun.map(construcao => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
             </div>
           </details>
-        </div><p>Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]}</p></div>
+        </div><p>Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]}${Jogo.druida?.ehDruida(run) ? ` · Ano ${numero(Math.floor((run.rodada - 1) / 100) + 1)}` : ""}</p></div>
           <dl class="recursos-vila" aria-label="Recursos da vila">
             <div class="recurso-contador vila-contador"><dt>Habitantes da vila</dt><dd>${numero(run.atributos.habitantes)}</dd></div>
-            ${run.cultoAtivo ? `<div class="recurso-contador culto-contador"><dt>Seguidores do culto</dt><dd>${numero(run.seguidoresCulto)}</dd>${run.cultoRendaPorRodada ? `<small>Templo: +${numero(run.cultoRendaPorRodada)} por rodada</small>` : ""}</div>` : ""}
+            ${run.cultoAtivo ? `<div class="recurso-contador culto-contador"><dt>${transicaoCulto ? `<svg class="chama-passagem" viewBox="0 0 24 32" aria-hidden="true"><path class="chama-externa" d="M12 1c1 5-1 7-3 10-2 2-4 4-4 8a7 7 0 0 0 14 0c0-4-2-7-5-10 0 3-1 5-2 6 1-5 0-9 0-14Z"/><path class="chama-interna" d="M12 15c0 2-1 3-2 5a3.5 3.5 0 1 0 7 0c0-2-1-4-3-5 0 2-1 3-2 4 1-2 0-3 0-4Z"/></svg>` : ""}Seguidores do culto</dt><dd>${numero(run.seguidoresCulto)}</dd>${run.cultoRendaPorRodada ? `<small>Templo: +${numero(run.cultoRendaPorRodada)} por rodada</small>` : ""}</div>` : ""}
             <div class="testes-honra testes-debug"><dt>Debug</dt><dd>
               <button class="controle-honra" data-acao="habitantes-menos" ${run.aguardaDecisaoCulto ? "disabled" : ""} aria-label="Diminuir habitantes em 50 para debug" title="Diminuir habitantes em 50 para debug">Hab. −50</button>
               <button class="controle-honra" data-acao="honra-mais" ${run.aguardaDecisaoCulto ? "disabled" : ""} aria-label="Ganhar 30 de honra para testes" title="Ganhar 30 de honra para testes">+30</button>
               <button class="controle-honra" data-acao="honra-menos" ${run.aguardaDecisaoCulto ? "disabled" : ""} aria-label="Perder 30 de honra para testes" title="Perder 30 de honra para testes">−30</button>
+              <button class="controle-honra" data-acao="debug-transformacoes" aria-label="Ver prévia das transformações do herdeiro" title="Ver as transformações sem avançar a história">Transformações</button>
               <details class="debug-eventos">
                 <summary class="controle-honra" aria-label="Ativar evento especial para debug" title="Ativar uma carta especial para debug">Especial</summary>
                 <div class="debug-eventos-opcoes" aria-label="Cartas especiais para debug">
@@ -346,23 +434,31 @@
                   <button class="controle-honra" data-acao="debug-especial-abissal" ${run.aguardaDecisaoCulto ? "disabled" : ""}>História abissal</button>
                   <button class="controle-honra" data-acao="debug-especial-zodiaco" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Zodíaco chinês</button>
                   <button class="controle-honra" data-acao="debug-especial-norte" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Deuses nórdicos</button>
+                  <button class="controle-honra" data-acao="debug-contagio-uivos" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Evento: uivos</button>
+                  <button class="controle-honra" data-acao="debug-contagio-hospede" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Evento: hóspede</button>
+                  <button class="controle-honra" data-acao="debug-contagio-anel" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Evento: anel</button>
+                  <button class="controle-honra" data-acao="debug-condicao-licantropia" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar licantropia</button>
+                  <button class="controle-honra" data-acao="debug-condicao-vampirismo" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar vampirismo</button>
+                  <button class="controle-honra" data-acao="debug-condicao-possessao" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar possessão</button>
                 </div>
               </details>
             </dd></div>
-            <div class="recurso-contador gold-contador" data-atributo="gold"><dt>Gold <span class="info-hover" tabindex="0" role="img" aria-label="Informações sobre a renda de Gold" title="${esc(rendaHover(run))}" data-tooltip="${esc(rendaHover(run))}">i</span></dt><dd>${numero(run.atributos.gold)}</dd></div>
+            <div class="recurso-contador gold-contador" data-atributo="gold"><dt>Gold</dt><dd>${numero(run.atributos.gold)}</dd></div>
           </dl>
           <button class="botao discreto" data-acao="menu">Voltar ao início</button>
         </div>
+        ${statusDruida}
         ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status"><span aria-hidden="true">✦</span> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"} <span class="info-hover" tabindex="0" role="img" aria-label="Informações sobre o efeito de ${esc(run.efeitoDivino.nome)}" title="${esc(efeitoDivinoHover(run.efeitoDivino))}" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}">i</span></p>` : ""}
         <div class="mesa">
           <div class="coluna-herdeiro">
-            <article class="carta carta-herdeiro honra-${faixa}" aria-labelledby="titulo-herdeiro">
+            <article class="carta carta-herdeiro honra-${faixa}${classeCondicao}" aria-labelledby="titulo-herdeiro">
               ${retrato(run.traco, faixaDoRetrato, anterior, cultoAtivo)}
+              ${molduraAtiva}
+              <div class="carta-titulo herdeiro-carta-titulo"><h2 id="titulo-herdeiro">${run.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2><span class="traco-tooltip" tabindex="0" aria-label="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}" data-tooltip="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}">${esc(nomesTraco[run.traco] || "Herdeiro")}</span></div>
             </article>
             <div class="herdeiro-detalhes">
-              <div class="carta-titulo"><h2 id="titulo-herdeiro">${run.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2><span>${run.traco === "corajoso" ? "Senhora" : "Senhor"} destas terras</span></div>
-              <p class="descricao-traco">${descricoesTraco[run.traco] || "Um herdeiro destas terras."}</p>
-              ${atributos(run)}
+              ${condicaoId ? `<p class="condicao-status condicao-${condicaoId}" role="status"><strong>${esc(nomesCondicoes[condicaoId])}${run.condicao.abracada ? " abraçada" : " ativa"}</strong><span>${esc(descricaoCondicoes[condicaoId])}</span></p>` : ""}
+              ${atributos(run, variacaoHonra)}
             </div>
           </div>
           <section class="coluna-escolhas" aria-label="${resolvido ? "Resultado da sua decisão" : "Sua decisão"}">
@@ -380,13 +476,13 @@
             </article>
             <div class="evento-detalhes">
               <div class="evento-texto"><div class="carta-titulo evento-titulo"><h2 id="titulo-evento">${esc(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade">A Entidade</span>' : ""}</div><p>${esc(evento.texto)}</p></div>
-              <aside class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>
+              <aside class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>${run.previsaoCorvo ? `<p class="previsao-corvo" role="status">Seu corvo prevê: ${esc(run.previsaoCorvo)}.</p>` : ""}
                 ${batalhaLeitura && evento.batalha.mostrarLeitura !== false ? `<p class="batalha-leitura">Seu Ataque: <strong>${numero(run.atributos.ataque + (run.efeitosPreparados.bonusAtaqueProximaBatalha || 0))}</strong>. Defesa inimiga: <strong>${numero(batalhaLeitura.defesa)}</strong>. Dano antes das reduções: <strong>${numero(batalhaLeitura.vitoria.dano)} na vitória</strong> ou <strong>${numero(batalhaLeitura.derrota.dano)} na derrota</strong>. ${run.efeitoDivino?.reducaoDano ? `O efeito de ${esc(run.efeitoDivino.nome)} reduz mais ${numero(run.efeitoDivino.reducaoDano)} de dano.` : ""} ${batalhaLeitura.estagio ? `A dificuldade aumentou ${numero(batalhaLeitura.estagio)} ${batalhaLeitura.estagio === 1 ? "estágio" : "estágios"}.` : ""}</p>` : ""}
               </aside>
             </div>
           </div>
         </div>
-      </section>`, "jogo");
+      </section>`, "jogo", cultoAtivo ? "culto" : "jogo");
     const painelInventario = document.querySelector("#app .inventario");
     painelInventario?.addEventListener("toggle", () => {
       const cronica = painelInventario.closest(".cronica");
@@ -394,7 +490,7 @@
       cronica?.classList.toggle("inventario-aberto", painelInventario.open);
       ajustarTela();
     });
-    retratoExibido = { runId: run.id, traco: run.traco, faixa: faixaDoRetrato, cultoAtivo };
+    retratoExibido = { runId: run.id, traco: run.traco, faixa: faixaDoRetrato, cultoAtivo, honra: run.atributos.honra };
     animarRetrato();
   }
 
@@ -436,5 +532,5 @@
   window.addEventListener("resize", ajustarTela);
   if (window.visualViewport) window.visualViewport.addEventListener("resize", ajustarTela);
 
-  Jogo.ui = { menu, intro, jogo, fim, confirmarNovaRun };
+  Jogo.ui = { menu, intro, jogo, fim, confirmarNovaRun, preverTransformacoes };
 })();

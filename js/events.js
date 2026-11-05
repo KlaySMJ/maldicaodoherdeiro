@@ -246,9 +246,9 @@
       texto: "Um menino sujo de cinzas espera no portão com uma trouxa menor que ele. Diz que veio da vila queimada ao sul e que conheceu seu pai. Os guardas fingem não ouvir.",
       informacoes: "Ninguém pode confirmar a história do menino.",
       opcoes: [
-        { id: "acolher", texto: "Ele fica conosco.", requisitos: { honra: "nao_baixa" }, efeitos: { habitantes: 1, honra: 3 }, flags: { orfao_decidido: true, orfao_acolhido: true }, resultado: "O menino come como quem não vê comida há dias. A cozinheira finge reclamar e lhe dá um pedaço de pão a mais." },
+        { id: "acolher", texto: "Ele fica conosco.", requisitos: { honra: "nao_baixa" }, efeitos: { habitantes: 1, honra: 3 }, flags: { orfao_decidido: true, orfao_acolhido: true }, consequenciaTardia: { eventoId: "retorno_do_menino", atrasoMin: 10, atrasoMax: 20 }, resultado: "O menino come como quem não vê comida há dias. A cozinheira finge reclamar e lhe dá um pedaço de pão a mais." },
         { id: "pao", texto: "Dar pão e mandá-lo seguir.", requisitos: { goldMin: 1 }, efeitos: { honra: 1, gold: -1 }, flags: { orfao_decidido: true }, resultado: "Ele agradece sem sorrir e segue pela estrada. Um guarda o observa até sumir na neblina." },
-        { id: "tutelar", texto: "Seu pai também chegou aqui sem nada. Será criado como meu.", requisitos: { honra: "alta" }, efeitos: { habitantes: 1, honra: 2 }, flags: { orfao_decidido: true, orfao_acolhido: true }, resultado: "O menino ganha um catre perto da forja e um sobrenome emprestado. Na praça, ninguém comenta; todos observam." },
+        { id: "tutelar", texto: "Seu pai também chegou aqui sem nada. Será criado como meu.", requisitos: { honra: "alta" }, efeitos: { habitantes: 1, honra: 2 }, flags: { orfao_decidido: true, orfao_acolhido: true }, consequenciaTardia: { eventoId: "retorno_do_menino", atrasoMin: 10, atrasoMax: 20 }, resultado: "O menino ganha um catre perto da forja e um sobrenome emprestado. Na praça, ninguém comenta; todos observam." },
         { id: "explorar", texto: "Trabalho em troca de telhado.", requisitos: { honra: "baixa" }, efeitos: { gold: 3, honra: -4 }, flags: { orfao_decidido: true, orfao_explorado: true }, resultado: "O menino carrega sacos até cair de sono. Os moradores olham para o chão e fazem as contas do que isso diz sobre o senhor." }
       ]
     },
@@ -260,7 +260,7 @@
       informacoes: "A vila acompanha o que você fizer com o garoto que acolheu.",
       opcoes: [
         { id: "treinar", texto: "Treinar com ele pessoalmente.", efeitos: { ataque: 1, honra: 2, hp: -4 }, flags: { orfao_resolvido: true }, resultado: "Ele acerta suas costelas três vezes antes de aprender a guardar. Você perde quatro de vida e ganha um aliado de verdade." },
-        { id: "ferreiro", texto: "Encaminhá-lo ao ferreiro · 3 gold", requisitos: { goldMin: 3 }, efeitos: { escudo: 1, honra: 1, gold: -3 }, flags: { orfao_resolvido: true }, resultado: "O ferreiro aceita o aprendiz. Em um mês, seu escudo ganha rebites que não estavam ali antes." },
+        { id: "ferreiro", texto: "Encaminhá-lo ao ferreiro · 3 gold", requisitos: { goldMin: 3 }, efeitos: { escudo: 1, honra: 1, gold: -3 }, flags: { orfao_resolvido: true }, consequenciaTardia: { eventoId: "promessa_do_ferreiro", atrasoMin: 10, atrasoMax: 20 }, resultado: "O ferreiro aceita o aprendiz. Em um mês, seu escudo ganha rebites que não estavam ali antes." },
         { id: "campos", texto: "Ele aprende melhor nos campos.", efeitos: { habitantes: 2, honra: -1 }, flags: { orfao_resolvido: true }, resultado: "O menino volta à enxada, de cara fechada. Dois lavradores, que viam nele um sinal de esperança, decidem ficar." }
       ]
     },
@@ -4197,7 +4197,8 @@
             "honra": 6,
             "habitantes": 4
           },
-          "resultado": "O cervo olha para você uma vez e some entre as árvores. Quatro famílias do bosque pedem abrigo, dizendo que os animais as guiaram."
+          "resultado": "O cervo olha para você uma vez e some entre as árvores. Quatro famílias do bosque pedem abrigo, dizendo que os animais as guiaram.",
+          "desbloqueia": { "flags": ["druida_herdeiro"] }
         },
         {
           "id": "seguir",
@@ -5199,10 +5200,10 @@
 
   Jogo.eventos.push(
     {
-      id: "bau_estrada", titulo: "O baú à beira da estrada", tipo: "achado", peso: 2,
+      id: "bau_estrada", titulo: "O baú à beira da estrada", tipo: "achado", peso: 2.3, bauAleatorio: 3,
       imagem: "assets/bau-estrada.png", imagemAlt: "Baú de madeira meio enterrado na lama",
-      texto: "Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada, mas três objetos foram embrulhados em panos secos. Seus homens esperam que você escolha apenas um.",
-      informacoes: "O que ficar para trás poderá ser encontrado por outra pessoa.",
+      texto: "Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada e os objetos mudam a cada achado. Seus homens esperam que você escolha apenas um.",
+      informacoes: "Os itens oferecidos são sorteados e não incluem objetos que você já possui.",
       opcoes: [
         { id: "pocao", texto: "Levar a poção grande.", itens: ["pocao_cura_grande"], resultado: "O frasco é pesado, e o líquido vermelho-escuro se move devagar. Você o prende ao cinto." },
         { id: "faca", texto: "Ficar com a faca de caça.", itens: ["faca_de_caca"], resultado: "A lâmina curta ainda cheira a couro. Seu braço parece mais pronto para o que vier." },
@@ -5210,10 +5211,10 @@
       ]
     },
     {
-      id: "bau_mimico", titulo: "Um baú entre as raízes", tipo: "achado", peso: 1,
+      id: "bau_mimico", titulo: "Um baú entre as raízes", tipo: "achado", peso: 1.15, bauAleatorio: 2,
       imagem: "assets/bau-mimico.png", imagemAlt: "Baú estreito preso entre duas raízes",
-      texto: "Um baú estreito está preso entre duas raízes. A madeira está úmida, e um frasco e um pequeno pote podem ser vistos pela fresta da tampa.",
-      informacoes: "Os dois objetos parecem ao alcance da mão.",
+      texto: "Um baú estreito está preso entre duas raízes. A madeira está úmida; objetos diferentes aparecem pela fresta da tampa a cada encontro.",
+      informacoes: "Pode haver uma armadilha. Os itens sorteados não serão objetos que você já possui.",
       opcoes: [
         { id: "frasco", texto: "Retirar o frasco pela fresta.", itens: ["pocao_cura_grande"], armadilha: { chance: 1 / 6, danoHp: 10, perderItem: true }, resultado: "O vidro se solta com um estalo. Você guarda o frasco no cinto." },
         { id: "pote", texto: "Alcançar o pote de moedas no fundo.", itens: ["pote_de_moedas_velhas"], armadilha: { chance: 1 / 6, danoHp: 10, perderItem: true }, resultado: "Seus dedos encontram metal frio na escuridão. Você puxa o pote para fora." },
@@ -5322,17 +5323,17 @@
       id: "mao_do_rei", titulo: "A mão do Rei", tipo: "encontro", peso: 0.1,
       forcarSorteioQuandoElegivel: true,
       requisitos: { flags: ["menino_adotado_com_honra"], flagsAusentes: ["mao_do_rei_resolvida"], rodadasDesde: { menino_adotado: 40 } },
-      imagem: "assets/vila.png", imagemAlt: "O jovem herdeiro e o menino diante do salão do conselho",
-      texto: "Quarenta rodadas se passaram desde que o menino ganhou um lugar à sua mesa. Os moradores já procuram por ele antes de levar certos problemas ao salão.",
+      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O adolescente acolhido pela vila, vestido para servir no conselho, com um sorriso honroso",
+      texto: "Quarenta rodadas se passaram desde que você acolheu o menino. Ele cresceu, aprendeu a ouvir as famílias e agora os moradores o procuram antes de levar certos problemas ao salão.",
       informacoes: "O nome do cargo é antigo. O trabalho, não.",
       opcoes: [
-        { id: "nomear", texto: "Nomeá-lo conselheiro da vila.", efeitos: { honra: 5 }, flags: { menino_conselheiro: true, mao_do_rei_resolvida: true }, resultado: "Diante do povo, você entrega ao menino o selo do conselho. A partir de hoje, ele terá voz ao seu lado — e não esquecerá quem lhe deu lugar." }
+        { id: "nomear", texto: "Nomeá-lo conselheiro da vila.", efeitos: { honra: 5 }, flags: { menino_conselheiro: true, mao_do_rei_resolvida: true }, consequenciaTardia: { eventoId: "primeiro_conselho_do_menino", atrasoMin: 10, atrasoMax: 20 }, resultado: "Diante do povo, você entrega ao adolescente o selo do conselho. A partir de hoje, ele terá voz ao seu lado — e não esquecerá quem lhe deu lugar." }
       ]
     },
     {
       id: "conselheiro_menino_armazem", titulo: "Conselho: Contas do armazém", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
       requisitos: { flags: ["menino_conselheiro"] },
-      imagem: "assets/vila.png", imagemAlt: "Sacos de grãos organizados junto à porta do celeiro",
+      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O jovem conselheiro, em vestes formais, apresenta suas contas do armazém",
       texto: "O jovem conselheiro percebe que os sacos do armazém foram contados duas vezes e propõe repartir o excedente antes que estrague.",
       informacoes: "Ele já sabe quais famílias precisam mais. Você confirma a lista.",
       opcoes: [{ id: "repartir", texto: "Seguir o conselho.", efeitos: { habitantes: 5, honra: 3, gold: -2 }, resultado: "Os grãos chegam às casas antes da chuva. Cinco pessoas que pensavam partir decidem ficar." }]
@@ -5340,15 +5341,15 @@
     {
       id: "conselheiro_menino_ponte", titulo: "Conselho: A ponte e a estrada", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
       requisitos: { flags: ["menino_conselheiro"] },
-      imagem: "assets/ponte.png", imagemAlt: "A ponte de madeira sobre o rio da vila",
-      texto: "O menino ouve os carroceiros antes de falar. Sugere consertar as tábuas soltas antes que uma roda quebre no meio da travessia.",
+      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O jovem conselheiro, em vestes formais, explica como reparar a ponte",
+      texto: "O adolescente ouve os carroceiros antes de falar. Sugere consertar as tábuas soltas antes que uma roda quebre no meio da travessia.",
       informacoes: "A obra é pequena; o desvio que ela evita, não.",
       opcoes: [{ id: "reparar", texto: "Pagar o reparo · 2 gold", requisitos: { goldMin: 2 }, efeitos: { gold: -2, habitantes: 3, honra: 2 }, resultado: "A ponte volta a receber carroças. Três viajantes escolhem ficar depois de uma travessia tranquila." }, { id: "esperar", texto: "Aguardar a próxima estação.", efeitos: { honra: 1 }, resultado: "O menino aceita a decisão e anota quais tábuas cederam primeiro. A lista será útil quando houver moedas." }]
     },
     {
       id: "conselheiro_menino_guardas", titulo: "Conselho: Treinar sem ferir", tipo: "especial", peso: 0.3, especial: true, conselheiro: true,
       requisitos: { flags: ["menino_conselheiro"] },
-      imagem: "assets/forja.png", imagemAlt: "Uma espada e um escudo de treino junto à forja",
+      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O jovem conselheiro, em vestes formais, orienta os guardas no treino",
       texto: "O jovem conselheiro observa os guardas treinarem e aponta que os mais novos nunca praticam com escudos do mesmo tamanho.",
       informacoes: "O armeiro já separou madeira para fazer os ajustes.",
       opcoes: [{ id: "ajustar", texto: "Preparar equipamento para os guardas.", efeitos: { ataque: 1, escudo: 1, honra: 2 }, resultado: "O treino fica mais seguro e mais justo. O armeiro diz que o menino enxerga detalhes que adultos preferem ignorar." }]
@@ -5392,7 +5393,7 @@
   const criarCartaConselheiro = (carta, positiva) => ({
     id: carta.id, titulo: carta.titulo, tipo: "encontro", peso: 0.4, conselheiro: true,
     ...(positiva ? {} : { requisitos: { flagsAusentes: ["menino_conselheiro"] } }),
-    imagem: "assets/vila.png", imagemAlt: "Moradores reunidos no salão do conselho",
+    imagem: "assets/eventos-pessoas/conselheiro.png", imagemAlt: "Um conselheiro pálido de sorriso suspeito, vestido com um manto escuro",
     texto: carta.texto,
     informacoes: positiva ? "O conselho parece sensato. A decisão continua sendo sua." : "O conselho parece apressado. Você pode segui-lo ou recusar.",
     opcoes: [
@@ -5404,7 +5405,7 @@
   Jogo.eventos.push(...conselhosNegativos.map(carta => criarCartaConselheiro(carta, false)));
   Jogo.eventos.push(
     {
-      id: "equipamento_sem_dono", titulo: "Uma peça à espera", tipo: "achado", peso: 1,
+      id: "equipamento_sem_dono", titulo: "Uma peça à espera", tipo: "achado", peso: 1.15,
       imagem: "assets/forja.png", imagemAlt: "Uma arma e um escudo deixados junto à forja",
       texto: "Entre ferramentas esquecidas, há uma peça que ainda pode servir. O ferreiro limpa a ferrugem e espera sua decisão.",
       informacoes: "Equipamentos recebidos melhoram seus atributos imediatamente e permanecem nesta run.",
@@ -5414,7 +5415,7 @@
       ]
     },
     {
-      id: "reliquia_sem_dono", titulo: "Uma relíquia sem brasão", tipo: "achado", peso: 0.3,
+      id: "reliquia_sem_dono", titulo: "Uma relíquia sem brasão", tipo: "achado", peso: 0.35,
       imagem: "assets/bau-estrada.png", imagemAlt: "Um embrulho antigo retirado de um baú",
       texto: "Um embrulho lacrado é encontrado sob as tábuas do salão. O selo não pertence a nenhuma família conhecida.",
       informacoes: "O conteúdo pode ser uma dádiva, um pacto ou apenas mais um peso para carregar.",

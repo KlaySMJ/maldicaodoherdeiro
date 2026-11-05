@@ -216,6 +216,62 @@
     {
       id: "gato_companheiro", nome: "Gato do celeiro", texto: "Gato do celeiro · recupera 1 HP por rodada",
       descricao: "Companheiro passivo: recupera 1 HP ao começar cada rodada, até seu máximo.", categoria: "companheiro", raridade: "comum", tipo: "passivo", aoReceber: {}
+    },
+    {
+      id: "agua_benta", nome: "Água benta", texto: "Água benta · repele criaturas e pode curar uma condição",
+      descricao: "Consumível raro. Pode impedir um contágio ou, ao ser usada, remover uma condição sobrenatural ativa.",
+      categoria: "consumivel", raridade: "raro", tipo: "uso", especialSorteavel: true, uso: { curarCondicao: true }
+    },
+    {
+      id: "lamina_de_prata_benta", nome: "Lâmina de prata benta", texto: "Lâmina de prata benta · +3 Ataque",
+      descricao: "O fio é limpo demais para ter sido forjado só por mãos humanas. Item de cura da licantropia.",
+      categoria: "arma", raridade: "raro", tipo: "equipamento", especialSorteavel: true,
+      encarece: "arma_melhor", guardarAposReceber: true, aoReceber: { ataque: 3 }, aoConsumir: { ataque: -3 }
+    },
+    {
+      id: "estaca_de_freixo", nome: "Estaca de freixo", texto: "Estaca de freixo · item de cura do vampirismo",
+      descricao: "Uma lasca de árvore antiga, afiada por quem sabia exatamente o que fazia.",
+      categoria: "missao", raridade: "raro", tipo: "missao", especialSorteavel: true
+    },
+    {
+      id: "sino_de_exorcismo", nome: "Sino de exorcismo", texto: "Sino de exorcismo · item de cura da possessão",
+      descricao: "Seu som alcança lugares que o ouvido não alcança.",
+      categoria: "missao", raridade: "raro", tipo: "missao", especialSorteavel: true
+    },
+    {
+      id: "calice_sagrado", nome: "Cálice Sagrado", texto: "Cálice Sagrado · +50 Vida e cura sobrenatural",
+      descricao: "Relíquia lendária reutilizável. Recupera até 50 de Vida e remove qualquer condição sobrenatural. Recarga: 15 rodadas; 10 com o Escudo da fé.",
+      categoria: "reliquia", raridade: "lendario", tipo: "uso",
+      uso: { curarCondicao: true, curaUniversal: true, efeitos: { hp: 50 }, recargaRodadas: 15 }
+    },
+    {
+      id: "calice_negro", nome: "Cálice Negro", texto: "Cálice Negro · +30 Vida e +3 Ataque na próxima batalha",
+      descricao: "Relíquia de pacto reutilizável. Sacrifica 5 habitantes, ou 5 seguidores com o culto ativo; recupera 30 de Vida e prepara +3 Ataque para a próxima batalha. Recarga: 10 rodadas.",
+      categoria: "pacto", raridade: "pacto", tipo: "uso",
+      uso: { sacrificarPopulacao: 5, efeitos: { hp: 30, honra: -5 }, bonusAtaqueProximaBatalha: 3, recargaRodadas: 10 }
+    },
+    {
+      id: "cajado_de_carvalho_vivo", nome: "Cajado de carvalho vivo", texto: "Cajado de carvalho vivo · +2 Ataque, cresce a cada primavera",
+      descricao: "Arma de madeira do Druida-Herdeiro. Começa com +2 Ataque e cresce em +1 no início de cada primavera depois do primeiro ano, até +5. Encarece Arma melhor em 2 Gold.",
+      categoria: "arma", raridade: "raro", tipo: "equipamento", especialSorteavel: true, requisitos: { tracos: "druida_herdeiro" },
+      encarece: "arma_melhor", aoReceber: { ataque: 2 }, guardarAposReceber: true
+    },
+    {
+      id: "manto_de_folhas", nome: "Manto de folhas", texto: "Manto de folhas · +3 Escudo, +4 no inverno",
+      descricao: "Relíquia do Druida-Herdeiro. Acrescenta 3 Escudo nas batalhas e 4 durante o inverno.",
+      categoria: "escudo", raridade: "raro", tipo: "equipamento", especialSorteavel: true, requisitos: { tracos: "druida_herdeiro" }
+    },
+    {
+      id: "semente_bosque_sagrado", nome: "Semente do bosque sagrado", texto: "Semente do bosque sagrado · planta um bosque permanente",
+      descricao: "Uso único do Druida-Herdeiro. Planta um bosque que acrescenta 1 Habitante a cada 5 rodadas e 1 Sintonia ao fim de cada ano.",
+      categoria: "reliquia", raridade: "epico", tipo: "uso", especialSorteavel: true, requisitos: { tracos: "druida_herdeiro" },
+      uso: { umaVezPorRun: true, bosqueSagrado: true }
+    },
+    {
+      id: "mascara_de_cervo", nome: "Máscara do Cervo", texto: "Máscara do Cervo · +2 Escudo e proteção sazonal",
+      descricao: "Relíquia lendária desbloqueada ao manter a Sintonia alta por três anos. Concede +2 Escudo a qualquer herdeiro; no Druida, também remove os encargos das estações e eleva o animal um nível, até o nível 3.",
+      categoria: "reliquia", raridade: "lendario", tipo: "equipamento", especialSorteavel: true,
+      requerDesbloqueio: "mascara_de_cervo", aoReceber: { escudo: 2 }, guardarAposReceber: true
     }
   ];
 })();

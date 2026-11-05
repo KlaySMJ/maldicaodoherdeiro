@@ -11,10 +11,10 @@
     };
   };
   const transicao = {
-    id: "ultimo_habitante", titulo: "O último habitante", tipo: "especial", peso: 0, disparadoPelaEngine: true,
+    id: "ultimo_habitante", titulo: "O último habitante se foi", tipo: "especial", peso: 0, disparadoPelaEngine: true,
     imagem: "assets/eventos-culto/ultimo.png", imagemAlt: "Uma chama pequena diante de uma cadeira de pedra num salão vazio",
     texto: "As casas estão vazias e as portas, abertas. Uma chama arde no salão, e vozes repetem seu nome. Uma cadeira de pedra espera à beira do fogo.",
-    informacoes: "Você pode encerrar aqui a linhagem ou aceitar o que o espera.",
+    informacoes: "",
     opcoes: [
       { id: "encerrar", texto: "Encerrar a linhagem.", resultado: "Você apaga a chama com a mão. O salão fica escuro e, depois, silencioso. Ninguém vem." },
       { id: "juntar", texto: "Aceitar o chamado.", efeitos: { seguidores: 50, honra: -5 }, resultado: "Você senta na cadeira de pedra. Cinquenta pessoas se ajoelham ao mesmo tempo. A chama cresce.", desbloqueia: { flags: ["culto_conhecido"] } }
@@ -61,7 +61,32 @@
         vitoria: { dano: 16, efeitos: { seguidores: 12, gold: 6, honra: -3 }, resultado: "O caçador cai diante de todos. Doze novos fiéis chegam em procissão." },
         derrota: { dano: 24, efeitos: {}, resultado: "Você é arrastado para fora do salão. O caçador queima as cortinas e chama seus fiéis pelo nome." },
         penalidadeFalha: { efeitos: { seguidores: -15 }, texto: "Quinze fiéis são presos ou se dispersam na fuga." }
-      } })
+      } }),
+    make("recrutamento_forcado", "A lista de nomes", "desordem", 2, 3, "duvida",
+      "Um capitão oferece trazer famílias para o culto à força. Algumas já estão reunidas no portão, sob guarda.", "A Honra neutra ou positiva torna esta cobrança mais visível para a vila.", [
+        { id: "aceitar", texto: "Aceitar o recrutamento forçado.", efeitos: { seguidores: 12, honra: -5, habitantes: -2 }, resultado: "Doze pessoas passam a seguir o culto, mas duas famílias fogem antes do amanhecer." },
+        { id: "libertar", texto: "Mandar as famílias para casa.", efeitos: { seguidores: -4, honra: 3 }, resultado: "Quatro seguidores abandonam o salão. As famílias voltam para casa sem olhar para trás." }
+      ], { requisitos: { honraMin: -29 } }),
+    make("tributo_da_chama", "O tributo da chama", "desordem", 2, 5, "templo",
+      "Os administradores do culto querem cobrar uma taxa de cada casa para manter o templo aceso.", "A cobrança pode fortalecer o culto ou custar a confiança da vila.", [
+        { id: "cobrar", texto: "Cobrar de todas as casas.", efeitos: { gold: 6, honra: -4, habitantes: -3 }, resultado: "O templo recebe óleo para meses. Três famílias levam seus pertences para outra estrada." },
+        { id: "pagar", texto: "Cobrir o custo com o próprio cofre · 4 Gold.", requisitos: { goldMin: 4 }, efeitos: { gold: -4, seguidores: 5, honra: 1 }, resultado: "O fogo continua aceso sem uma nova cobrança. Cinco fiéis se aproximam da cerimônia." }
+      ], { requisitos: { honraMin: -29 } }),
+    make("vigilia_dos_sinos", "Os sinos antes do amanhecer", "especial", 1.5, 4, "chama",
+      "O culto toca os sinos durante a noite inteira. Pela manhã, ninguém consegue ouvir os próprios pensamentos.", "A vila pede que você limite as cerimônias.", [
+        { id: "silencio", texto: "Encerrar a vigília.", efeitos: { honra: 2, seguidores: -3, hp: 5 }, resultado: "Os sinos se calam. Três fiéis partem, e o resto da vila consegue dormir." },
+        { id: "continuar", texto: "Deixar os sinos tocarem.", efeitos: { seguidores: 6, honra: -2, hp: -5 }, resultado: "Mais pessoas se juntam ao cântico. O povo passa o dia seguinte exausto." }
+      ]),
+    make("cinzas_do_celeiro", "Cinzas no celeiro", "desordem", 1.5, 7, "fogueira",
+      "Uma brasa da cerimônia alcança o celeiro. O fogo ainda está baixo, mas a fumaça já cobre o pátio.", "A pressa pode salvar o grão ou as pessoas que trabalham lá.", [
+        { id: "apagar", texto: "Organizar os fiéis para apagar o fogo.", efeitos: { habitantes: 2, seguidores: -4, honra: 2 }, resultado: "O grão é salvo. Quatro seguidores ficam para trás ajudando as famílias." },
+        { id: "fechar", texto: "Trancar o celeiro e proteger o templo.", efeitos: { gold: 4, habitantes: -5, honra: -4 }, resultado: "O templo continua intacto, mas a fumaça leva o estoque e cinco moradores partem." }
+      ]),
+    make("irmas_da_estrada", "As irmãs da estrada", "encontro", 1.5, 8, "profeta",
+      "Duas irmãs chegam à vila procurando a família que perdeu contato com elas quando o culto cresceu.", "Elas conhecem caminhos seguros e pedem que ninguém seja obrigado a ficar.", [
+        { id: "acolher", texto: "Ajudá-las a encontrar a família.", efeitos: { habitantes: 3, seguidores: -2, honra: 3 }, resultado: "As irmãs reencontram parentes e decidem ficar. Dois fiéis também deixam o culto." },
+        { id: "reter", texto: "Impedir que saiam até a próxima cerimônia.", efeitos: { seguidores: 8, honra: -5, habitantes: -2 }, resultado: "O culto ganha novos nomes na lista. Duas famílias fogem enquanto as irmãs esperam." }
+      ])
   ];
   Jogo.eventos.push(transicao, ...cult);
 })();

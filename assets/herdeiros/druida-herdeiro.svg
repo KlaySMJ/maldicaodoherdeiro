@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1060" role="img" aria-labelledby="title desc">
+  <title id="title">Druida-Herdeiro, Filho da Floresta</title>
+  <desc id="desc">Um herdeiro de manto de folhas acompanha um cervo entre as árvores.</desc>
+  <g fill="none" stroke="#111" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M116 1030c-38-150-35-304-4-449 18-84 50-157 101-223M684 1030c38-150 35-304 4-449-18-84-50-157-101-223" stroke-width="20"/>
+    <path d="M92 479c74-35 127-96 160-183m-178 300c65-28 111-70 147-125m486 8c-66-28-112-70-148-125m171 8c-74-35-127-96-160-183" stroke-width="12"/>
+    <path d="M123 329c-48-30-62-75-39-113 49 3 79 36 81 85m-73 32c-35-46-33-89 8-120 46 22 63 64 46 108m517 8c48-30 62-75 39-113-49 3-79 36-81 85m73 32c35-46 33-89-8-120-46 22-63 64-46 108" fill="#435b3c" stroke-width="10"/>
+    <path d="M254 1030c8-106 25-209 53-301l-9-127 69-57h67l69 57-9 127c28 92 45 195 53 301Z" fill="#536746" stroke-width="16"/>
+    <path d="M302 593c22-66 56-104 98-112 42 8 76 46 98 112l-49 66h-98Z" fill="#6f8254" stroke-width="12"/>
+    <path d="M340 450c-27-21-40-56-40-104 0-64 39-105 100-105s100 41 100 105c0 48-13 83-40 104l-60 23Z" fill="#c4a27a" stroke-width="14"/>
+    <path d="M309 340c-37-27-48-71-27-120 16-37 47-62 92-74m117 194c37-27 48-71 27-120-16-37-47-62-92-74" stroke="#435b3c" stroke-width="19"/>
+    <path d="M360 356h2m76 0h2m-49 41c7 7 15 7 22 0" stroke-width="10"/>
+    <path d="M335 700c-46 58-70 125-78 204m208-204c46 58 70 125 78 204" stroke="#d1c4a8" stroke-width="12"/>
+    <path d="M391 674v273m18-273v273" stroke="#c6ab69" stroke-width="12"/>
+    <path d="M254 830c-54-35-85-29-91 9 32 20 63 17 91-9m292 0c54-35 85-29 91 9-32 20-63 17-91-9" fill="#748457" stroke-width="9"/>
+    <path d="M214 938c38-39 74-44 108-14-24 42-60 48-108 14m372 0c-38-39-74-44-108-14 24 42 60 48 108 14" fill="#536746" stroke-width="9"/>
+    <path d="M537 1018c22-74 66-127 131-158 37 49 39 105 5 169Zm37-98 77 81m-58-48 28-56" fill="#b9aa88" stroke-width="11"/>
+    <path d="M589 857c-5-39 1-72 19-99m27 82c23-25 47-42 74-51m-47 72c31-4 56-1 78 10" stroke-width="11"/>
+    <path d="M213 1030h374" stroke-width="20"/>
+  </g>
+</svg>

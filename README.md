@@ -78,6 +78,10 @@ O retrato volta aos três SVGs clássicos: neutro, honra alta e honra baixa. A h
 
 As cartas especiais do culto e os doze novos eventos letais têm ilustrações SVG próprias. A memória da run anterior fica no legado separado e pode aparecer em cartas sobre o túmulo ou uma criança que reconta a crônica.
 
+## Música
+
+Quatro faixas instrumentais em loop acompanham o menu, a mensagem antes de iniciar, o jogo e a entrada no culto. O controle `♫` no cabeçalho abre as opções de volume e pausa; as preferências ficam salvas neste navegador. A reprodução começa após a primeira interação com o jogo, conforme a política de áudio dos navegadores. Os arquivos WAV ficam em `assets/musica/`; `scripts/generate_music.cjs` recria as faixas.
+
 ## Organização
 
 | Arquivo | Responsabilidade |
@@ -90,6 +94,7 @@ As cartas especiais do culto e os doze novos eventos letais têm ilustrações S
 | `js/save.js` | Persistência, validação e recuperação de falhas |
 | `js/ui.js` | Telas e apresentação, sem regras de resolução |
 | `js/main.js` | Fluxo e conexão entre interface, engine e salvamento |
+| `js/audio.js` | Reprodução, troca de faixas e preferências de música ambiente |
 
 Os scripts comuns compartilham o namespace `window.Jogo`; não usam `fetch` nem módulos, para funcionar em `file://`.
 

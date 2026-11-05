@@ -18,17 +18,29 @@
   };
   Jogo.atributos = ["hp", "escudo", "ataque", "honra", "habitantes", "gold"];
   Jogo.estacoes = ["primavera", "verao", "outono", "inverno"];
-  Jogo.estacaoDaRodada = rodada => Jogo.estacoes[Math.floor((Math.max(1, rodada) - 1) / 25) % Jogo.estacoes.length];
+  Jogo.estacaoDaRodada = (rodada, personagem = null) => {
+    const traco = typeof personagem === "string" ? personagem : personagem?.traco;
+    return traco === "druida_herdeiro" && Jogo.druida
+      ? Jogo.druida.estacaoDaRodada(rodada)
+      : Jogo.estacoes[Math.floor((Math.max(1, rodada) - 1) / 25) % Jogo.estacoes.length];
+  };
 
   Jogo.estado = {
-    novo(legado) {
-      const traco = ["corajoso", "avarento", "doente"][Math.floor(Math.random() * 3)];
+    novo(legado, personagem = null, animal = null) {
+      const legadoDaRun = Jogo.legado.normalizar(legado);
+      const poolTracos = ["corajoso", "avarento", "doente"];
+      if (legadoDaRun.flags.druida_herdeiro === true) poolTracos.push("druida_herdeiro");
+      const traco = personagem === "druida_herdeiro" ? "druida_herdeiro"
+        : poolTracos[Math.floor(Math.random() * poolTracos.length)];
       const iniciaisTraco = {
         corajoso: { ...Jogo.config.iniciais, hp: 100, ataque: 3 },
         avarento: { ...Jogo.config.iniciais, gold: 10 },
-        doente: { ...Jogo.config.iniciais, hp: 70, escudo: 4 }
+        doente: { ...Jogo.config.iniciais, hp: 70, escudo: 4 },
+        druida_herdeiro: { ...Jogo.config.iniciais, hp: 110, escudo: 2, ataque: 2, habitantes: 50, gold: 3 }
       }[traco];
-      return {
+      const memoriaAnterior = legadoDaRun.memorias.at(-1);
+      const derrotasMemoria = legadoDaRun.memorias.filter(memoria => memoria.tipo === "derrota").length;
+      const run = {
         versao: Jogo.config.versao,
         id: window.crypto?.randomUUID?.() || `run-${Date.now()}-${Math.random().toString(16).slice(2)}`,
         status: "ativa",
@@ -36,12 +48,14 @@
         rodada: 1,
         atributos: iniciaisTraco,
         traco,
-        estacao: Jogo.estacaoDaRodada(1),
+        estacao: Jogo.estacaoDaRodada(1, traco),
         hpMax: iniciaisTraco.hp,
         construcoes: [],
         cultoRendaPorRodada: 0,
         inventario: [],
         itensConquistados: [],
+        logItens: [],
+        itensConsumidosEm: {},
         cultoAtivo: false,
         seguidoresCulto: 0,
         aguardaDecisaoCulto: false,
@@ -50,6 +64,14 @@
         efeitosPreparados: { bloquearDanoProximaBatalha: false, bonusAtaqueProximaBatalha: 0, bonusEscudoProximaBatalha: 0, bonusGoldProximaRecompensa: 0, bacamarteBatalhas: 0, escudoFeCooldown: 0 },
         lancaHeroiBatalhas: 0,
         eventosRecentes: [],
+        consequenciasAgendadas: [],
+        nemesis: memoriaAnterior?.tipo === "derrota" ? {
+          motivo: memoriaAnterior.motivo,
+          traco: memoriaAnterior.traco || null,
+          meninoAdotado: memoriaAnterior.meninoAdotado === true,
+          nivel: Math.min(4, Math.max(1, derrotasMemoria)),
+          enfrentado: false
+        } : null,
         eventosComunsRun: [],
         conselhosRecentes: [],
         honraNeutraSequencia: 0,
@@ -60,13 +82,29 @@
         janelaZodiaco: null,
         efeitoDivino: null,
         flags: {},
+        condicao: { ativa: null, rodada: null, abracada: false, curada: false, bonusAbraco: { ataque: 0, escudo: 0 } },
+        efeitosTemporarios: [],
+        sintonia: traco === "druida_herdeiro" ? 5 : undefined,
+        animal: traco === "druida_herdeiro" ? { tipo: animal, nivel: 1 } : undefined,
+        cajadoBonusAtaque: traco === "druida_herdeiro" ? 2 : undefined,
+        druidaAnosAlta: traco === "druida_herdeiro" ? 0 : undefined,
+        druidaAnoAvaliado: traco === "druida_herdeiro" ? 0 : undefined,
+        avisoEstacao: "",
+        previsaoCorvo: null,
+        corvoRevelaOpcaoId: null,
         // A fotografia do legado impede que novidades entrem na run em andamento.
-        legadoDaRun: Jogo.legado.normalizar(legado),
+        legadoDaRun,
         conquistas: Jogo.legado.vazio(),
         eventoId: null,
         ultimoResultado: null,
         fim: null
       };
+      if (traco === "druida_herdeiro") {
+        const animais = Object.keys(Jogo.druida?.animais || { lobo: {} });
+        const escolhido = animais.includes(animal) ? animal : animais[Math.floor(Math.random() * animais.length)];
+        Jogo.druida?.novaRun(run, escolhido);
+      }
+      return run;
     },
     faixaHonra(honra) {
       if (honra >= Jogo.config.honraExtremaAlta) return "altissima";

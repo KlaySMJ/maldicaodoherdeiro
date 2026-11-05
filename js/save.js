@@ -75,9 +75,19 @@
     if (!objeto(run) || run.versao !== Jogo.config.versao || typeof run.id !== "string" || !run.id) return false;
     if (!["ativa", "encerrada"].includes(run.status) || !["escolha", "resultado"].includes(run.fase)) return false;
     if (!inteiro(run.rodada) || run.rodada < 1 || !objeto(run.atributos)) return false;
-    if (!(["corajoso", "avarento", "doente"].includes(run.traco))
+    if (!(["corajoso", "avarento", "doente", "druida_herdeiro"].includes(run.traco))
       || !Jogo.estacoes.includes(run.estacao) || !ids(run.construcoes)
       || !inteiro(run.cultoRendaPorRodada) || run.cultoRendaPorRodada < 0 || run.cultoRendaPorRodada > 2) return false;
+    if (run.traco === "druida_herdeiro" && (!inteiro(run.sintonia) || run.sintonia < 0 || run.sintonia > 10
+      || !objeto(run.animal) || !["lobo", "corvo", "cervo"].includes(run.animal.tipo)
+      || !inteiro(run.animal.nivel) || run.animal.nivel < 1 || run.animal.nivel > 3
+      || !inteiro(run.cajadoBonusAtaque) || run.cajadoBonusAtaque < 2 || run.cajadoBonusAtaque > 5
+      || !inteiro(run.druidaAnosAlta) || run.druidaAnosAlta < 0 || run.druidaAnosAlta > 3
+      || !inteiro(run.druidaAnoAvaliado) || run.druidaAnoAvaliado < 0 || run.druidaAnoAvaliado > run.rodada
+      || (run.druidaAnoAvaliado !== 0 && run.druidaAnoAvaliado % 100 !== 0)
+      || typeof run.avisoEstacao !== "string"
+      || !(run.previsaoCorvo === null || typeof run.previsaoCorvo === "string")
+      || !(run.corvoRevelaOpcaoId === null || typeof run.corvoRevelaOpcaoId === "string"))) return false;
     if (!inteiro(run.hpMax) || run.hpMax < 1 || run.atributos.hp > run.hpMax
       || !inteiro(run.honraNeutraSequencia) || run.honraNeutraSequencia < 0 || run.honraNeutraSequencia > 200
       || !inteiro(run.lancaHeroiBatalhas) || run.lancaHeroiBatalhas < 0 || run.lancaHeroiBatalhas > 10) return false;
@@ -88,6 +98,16 @@
     if (run.aguardaDecisaoCulto && (run.status !== "ativa" || run.fase !== "resultado"
       || run.atributos.habitantes !== 0 || run.atributos.honra > -30 || run.atributos.hp <= 0)) return false;
     if (!Jogo.atributos.every(id => inteiro(run.atributos[id]) && (id === "honra" || run.atributos[id] >= 0))) return false;
+    if (!objeto(run.condicao) || ![null, "licantropia", "vampirismo", "possessao"].includes(run.condicao.ativa)
+      || !(run.condicao.rodada === null || (inteiro(run.condicao.rodada) && run.condicao.rodada >= 1 && run.condicao.rodada <= run.rodada))
+      || typeof run.condicao.abracada !== "boolean" || typeof run.condicao.curada !== "boolean"
+      || !objeto(run.condicao.bonusAbraco)
+      || !["ataque", "escudo"].every(id => inteiro(run.condicao.bonusAbraco[id]) && run.condicao.bonusAbraco[id] >= 0)
+      || (run.condicao.ativa && run.condicao.curada) || (run.condicao.abracada && !run.condicao.ativa)) return false;
+    if (!Array.isArray(run.efeitosTemporarios) || run.efeitosTemporarios.some(efeito => !objeto(efeito)
+      || !Jogo.atributos.includes(efeito.atributo) || !inteiro(efeito.valor)
+      || !inteiro(efeito.inicioRodada) || !inteiro(efeito.fimRodada) || efeito.inicioRodada < 1
+      || efeito.fimRodada < efeito.inicioRodada || typeof efeito.aplicado !== "boolean")) return false;
     if (!objeto(run.marcos) || !Object.entries(run.marcos).every(([id, rodada]) => id.length > 0
       && (id === "entidadeXRecusaFatalId"
         ? rodada === null || Jogo.eventos.some(evento => evento.id === rodada && evento.entidadeX)
@@ -129,7 +149,8 @@
     }
     if (Jogo.engine.motivoDerrota(run) || run.fim !== null) return false;
     const evento = Jogo.engine.pools(run).eventos.find(evento => evento.id === run.eventoId)
-      || Jogo.eventos.find(evento => evento.id === run.eventoId && evento.disparadoPelaEngine && run.fase === "resultado");
+      || Jogo.eventos.find(evento => evento.id === run.eventoId && evento.disparadoPelaEngine
+        && (run.fase === "resultado" || Jogo.engine.eventoCondicaoDevido(run)?.id === evento.id));
     // A honra determina o sorteio; os controles de teste podem mudá-la depois
     // sem descartar a carta já aberta. Os demais requisitos continuam validados.
     const requisitosSalvos = { ...evento?.requisitos };
@@ -196,6 +217,12 @@
         dados.itensConquistados = Array.isArray(dados.inventario) ? [...new Set(dados.inventario)] : [];
       }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "marcos")) dados.marcos = {};
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "condicao")) {
+        dados.condicao = { ativa: null, rodada: null, abracada: false, curada: false, bonusAbraco: { ataque: 0, escudo: 0 } };
+      }
+      if (objeto(dados) && dados.versao === Jogo.config.versao && objeto(dados.condicao)
+        && !Object.hasOwn(dados.condicao, "bonusAbraco")) dados.condicao.bonusAbraco = { ataque: 0, escudo: 0 };
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "efeitosTemporarios")) dados.efeitosTemporarios = [];
       if (objeto(dados) && dados.versao === Jogo.config.versao && objeto(dados.marcos) && !Object.hasOwn(dados.marcos, "entidadeXAparicoes")) {
         const flagsEntidade = dados.flags || {};
         const entidadeAtiva = flagsEntidade.entidade_x_ativa === true
@@ -212,7 +239,17 @@
         }
       }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "traco")) dados.traco = "corajoso";
-      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "estacao")) dados.estacao = Jogo.estacaoDaRodada(dados.rodada || 1);
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "estacao")) dados.estacao = Jogo.estacaoDaRodada(dados.rodada || 1, dados);
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "avisoEstacao")) dados.avisoEstacao = "";
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "previsaoCorvo")) dados.previsaoCorvo = null;
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "corvoRevelaOpcaoId")) dados.corvoRevelaOpcaoId = null;
+      if (objeto(dados) && dados.versao === Jogo.config.versao && dados.traco === "druida_herdeiro") {
+        if (!Object.hasOwn(dados, "sintonia")) dados.sintonia = 5;
+        if (!Object.hasOwn(dados, "animal")) dados.animal = { tipo: "lobo", nivel: 1 };
+        if (!Object.hasOwn(dados, "cajadoBonusAtaque")) dados.cajadoBonusAtaque = 2;
+        if (!Object.hasOwn(dados, "druidaAnosAlta")) dados.druidaAnosAlta = 0;
+        if (!Object.hasOwn(dados, "druidaAnoAvaliado")) dados.druidaAnoAvaliado = 0;
+      }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "construcoes")) dados.construcoes = [];
       if (objeto(dados) && dados.versao === Jogo.config.versao && Array.isArray(dados.construcoes)) {
         for (const [flag, id] of [["ponte_reparada", "ponte"], ["moinho_reparado", "moinho"]]) {
@@ -223,6 +260,27 @@
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "cultoAtivo")) dados.cultoAtivo = false;
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "seguidoresCulto")) dados.seguidoresCulto = 0;
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "aguardaDecisaoCulto")) dados.aguardaDecisaoCulto = false;
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "logItens")) dados.logItens = [];
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "consequenciasAgendadas")) dados.consequenciasAgendadas = [];
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "itensConsumidosEm")) {
+        dados.itensConsumidosEm = {};
+        for (const id of dados.itensConquistados || []) {
+          const item = Jogo.itens.find(candidato => candidato.id === id);
+          if (item?.tipo === "uso" && !(dados.inventario || []).includes(id)) {
+            dados.itensConsumidosEm[id] = Math.max(0, (dados.rodada || 1) - 1);
+          }
+        }
+      }
+      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "nemesis")) {
+        const memorias = Jogo.legado.normalizar(dados.legadoDaRun).memorias;
+        const memoriaAnterior = memorias.at(-1);
+        dados.nemesis = memoriaAnterior?.tipo === "derrota" ? {
+          motivo: memoriaAnterior.motivo, traco: memoriaAnterior.traco || null,
+          meninoAdotado: memoriaAnterior.meninoAdotado === true,
+          nivel: Math.min(4, Math.max(1, memorias.filter(memoria => memoria.tipo === "derrota").length)),
+          enfrentado: false
+        } : null;
+      }
       if (!runValida(dados)) throw new Error("Run inválida");
       return dados;
     } catch (_) {

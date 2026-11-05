@@ -7,14 +7,22 @@
     ? Object.fromEntries(Object.entries(valor).filter(([id, ativa]) => id.length > 0 && ativa === true)) : {};
   const memoriasSeguras = valor => Array.isArray(valor) ? valor.filter(registro => registro && typeof registro === "object"
     && typeof registro.id === "string" && Number.isSafeInteger(registro.rodada) && Number.isSafeInteger(registro.honra)
-    && typeof registro.tipo === "string" && typeof registro.motivo === "string").slice(-20) : [];
+    && typeof registro.tipo === "string" && typeof registro.motivo === "string").map(registro => ({
+      id: registro.id, rodada: registro.rodada, honra: registro.honra, tipo: registro.tipo, motivo: registro.motivo,
+      ...( ["corajoso", "avarento", "doente", "druida_herdeiro"].includes(registro.traco) ? { traco: registro.traco } : {}),
+      ...(registro.meninoAdotado === true ? { meninoAdotado: true } : {})
+    })).slice(-20) : [];
   const rotacoesSeguras = valor => Array.isArray(valor) ? valor.filter(registro => registro && typeof registro === "object"
     && typeof registro.id === "string" && Array.isArray(registro.eventos))
     .map(registro => ({ id: registro.id, eventos: listaIds(registro.eventos).slice(0, 300) })).slice(-2) : [];
 
   // A lista inicial ficará vazia até os objetivos serem definidos pelo autor.
   // Formato: { id, condicao(run), desbloqueia: { eventos: [], itens: [], flags: [] } }.
-  Jogo.objetivosLegado = [];
+  Jogo.objetivosLegado = [{
+    id: "bosque_vivo",
+    condicao: run => run.traco === "druida_herdeiro" && run.druidaAnosAlta >= 3,
+    desbloqueia: { itens: ["mascara_de_cervo"] }
+  }];
 
   function vazio() {
     return { versao: 1, eventos: [], itens: [], flags: {}, objetivosConcluidos: [], memorias: [], eventosRecentesRuns: [] };
@@ -54,6 +62,7 @@
   }
 
   function avaliar(run) {
+    Jogo.druida?.registrarAno(run);
     for (const objetivo of Jogo.objetivosLegado) {
       const jaCumpriu = run.conquistas.objetivosConcluidos.includes(objetivo.id)
         || run.legadoDaRun.objetivosConcluidos.includes(objetivo.id);
