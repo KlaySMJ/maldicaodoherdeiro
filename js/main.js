@@ -43,7 +43,7 @@
     if (run.status === "encerrada") mostrarFim(); else mostrarJogo();
   }
 
-  function iniciar(personagem = null) {
+  function iniciar(personagem = null, pularIntro = false) {
     const legado = Jogo.save.lerLegado();
     const tracoForcado = personagem || (window.localStorage.getItem("debug_forcar_druida") === "1" ? "druida_herdeiro" : null);
     run = Jogo.estado.novo(legado, tracoForcado);
@@ -52,16 +52,25 @@
     if (!evento) return;
     Jogo.engine.registrarSorteio(run, evento);
     Jogo.save.gravarRun(run);
-    Jogo.ui.intro();
+    if (pularIntro) mostrarJogo(); else Jogo.ui.intro();
     return true;
   }
 
-  async function acionar(acao, dados = {}) {
+  async function acionar(acao) {
     switch (acao) {
       case "iniciar":
         if (run?.status === "ativa" && !await Jogo.ui.confirmarNovaRun()) return;
         if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
         iniciar();
+        break;
+      case "tutorial":
+        if (run?.status === "ativa") {
+          if (document.body.dataset.tela === "jogo") Jogo.ui.tutorial();
+          else { Jogo.ui.tutorial(); mostrarJogo(); }
+        } else {
+          Jogo.ui.tutorial();
+          iniciar(null, true);
+        }
         break;
       case "novo-herdeiro": iniciar(); break;
       case "debug-alternar-druida":
@@ -138,7 +147,7 @@
       if (resolvida) {
         if (run.status === "encerrada") mostrarFim();
         else { Jogo.save.gravarRun(run); Jogo.ui.jogo(run); }
-      } else if (botao.dataset.acao) await acionar(botao.dataset.acao, { animal: botao.dataset.animal });
+      } else if (botao.dataset.acao) await acionar(botao.dataset.acao);
     } finally {
       ocupado = false;
     }

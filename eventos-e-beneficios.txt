@@ -6901,7 +6901,7 @@ ITENS ADICIONADOS DA PROPOSTA
 ==============================================================================
 ADENDO — BRUXA E CONSELHEIRO
 
-- A Bruxa da floresta agora tem peso 5 no sorteio. Quatro encontros adicionais, cada um no máximo uma vez por run: A bruxa e o fio da vida; Frutos negros na soleira; A vela que não apaga; Água para a bruxa. Os resultados podem recuperar HP, ajudar habitantes, melhorar o Escudo ou conceder Poção de cura grande e Amuleto de última guarda.
+- A Bruxa da floresta tem peso 2 no sorteio; seus quatro encontros adicionais e A noite das tosses têm peso 1 e ocorrem no máximo uma vez por run. Todos os eventos ligados à bruxa compartilham o intervalo de 10 cartas. Os resultados podem recuperar HP, ajudar habitantes, melhorar o Escudo ou conceder Poção de cura grande e Amuleto de última guarda.
 - Acolher o órfão com honra ≥50 grava a rodada da adoção. Quarenta rodadas depois, A mão do Rei é priorizada no sorteio; aceitar a nomeação ativa menino_conselheiro. Os conselhos negativos deixam de ser elegíveis.
 - Conselheiro positivo (15 cartas; seguir o conselho): Fechar as contas (+4 gold); Ouvir o moinho (+2 habitantes, +2 gold); Repouso antes da marcha (+12 HP); A lâmina no lugar (+1 Ataque); Cobrir a torre (+1 Escudo); Pão antes da estrada (+3 habitantes, +2 Honra, −1 gold); Trocar sementes (+3 gold, +1 habitante); Uma ronda curta (+1 Ataque, +1 Honra); Limpar o poço (+2 habitantes, +2 Honra); Esperar pelo preço (+5 gold); A porta lateral (+1 Escudo, +1 habitante); Dividir a lenha (+3 Honra, +5 HP); Reabrir a oficina (+1 Ataque, +2 gold); Uma mesa comprida (+4 habitantes, +2 Honra); Remendar antes da geada (+8 HP, +1 Escudo). Recusar não altera atributos.
 - Conselheiro negativo (15 cartas; seguir o conselho): Vender a farinha cedo (+4 gold, −4 habitantes); Aumentar a ronda (−3 habitantes, −2 gold); Treino até a exaustão (−10 HP); Reforçar o lado errado (−1 Escudo, −2 gold); Cobrar duas vezes (+5 gold, −4 Honra, −2 habitantes); Fechar a enfermaria (−8 HP, −3 Honra); Acusar sem prova (−3 habitantes, −4 Honra); Comprar aço molhado (−4 gold, −1 Ataque); Taxar o poço (+4 gold, −3 habitantes, −3 Honra); Cortar o descanso (−1 Ataque, −5 HP); Arma sem teste (−3 gold, −1 Ataque); Mandar os viajantes embora (−4 habitantes, −2 Honra); Vender as ferramentas (+3 gold, −2 habitantes); Uma punição pública (−5 Honra, −2 habitantes); Ignorar a rachadura (−1 Escudo, −2 habitantes). Recusar concede +1 Honra.
@@ -6935,6 +6935,7 @@ Requisitos: habitantes em 0, honra ≤ −30, herdeiro vivo.
 Imagem: assets/eventos-culto/ultimo.png.
 - Encerrar: derrota por falta de povo; registra rodada, honra e motivo no legado.
 - Aceitar: −5 Honra, +50 seguidores, concede a Adaga cerimonial e a flag de legado culto_conhecido.
+- Recrutamento periódico: +5 a cada 10 rodadas; abaixo de 30 seguidores, +5 a cada 5; abaixo de 15, +8 a cada 5. Cada Honra positiva afasta de 1 a 2 seguidores; se a debandada levar o culto a zero, a crônica termina. Afogados abençoados ainda dobra as chegadas quando a Honra é ≤−90.
 
 157. A PRIMEIRA CHAMA [primeira_chama] — especial, peso 3, após 2 rodadas no culto.
 - Mandamento de ferro: +10 seguidores, −4 Honra.

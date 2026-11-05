@@ -77,10 +77,10 @@
       id: "a_sede", titulo: "A sede", tipo: "sobrenatural", peso: 0,
       disparadoPelaEngine: true,
       texto: "A fome chega como um zumbido nos ouvidos. Os criados dormem, o cavalo respira no estábulo, e o cheiro de sangue, mesmo de longe, tem gosto de lembrança.",
-      informacoes: "A sede não passa sozinha.",
+      informacoes: "A sede não passa sozinha. No inventário, a Sede de sangue troca um aldeão por Vida.",
       imagem: "assets/vila.png", imagemAlt: "A noite cobre as casas enquanto uma janela permanece acesa",
       opcoes: [
-        { id: "morador", texto: "Beber de um morador adormecido.", efeitos: { hp: 15, habitantes: -1, honra: -4 },
+        { id: "morador", texto: "Beber de um morador adormecido.", requisitos: { itensProntos: ["sede_de_sangue"] }, efeitos: { hp: 15, habitantes: -1, honra: -4 }, iniciarRecargaItens: ["sede_de_sangue"],
           resultado: "Ele não acorda. A vila só nota na manhã seguinte, e o silêncio do enterro é o pior dos ruídos." },
         { id: "cacar", texto: "Caçar na floresta.", efeitos: { hp: 6, honra: -1 },
           resultado: "Um cervo, depois outro. O sangue animal sacia pouco e deixa um gosto de falta." },

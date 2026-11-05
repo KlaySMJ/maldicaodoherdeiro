@@ -18,6 +18,8 @@
   };
   Jogo.atributos = ["hp", "escudo", "ataque", "honra", "habitantes", "gold"];
   Jogo.estacoes = ["primavera", "verao", "outono", "inverno"];
+  // Quatro estações de 25 rodadas formam cada ano da crônica.
+  Jogo.anoDaRodada = rodada => Math.floor((Math.max(1, rodada) - 1) / 100) + 1;
   Jogo.estacaoDaRodada = (rodada, personagem = null) => {
     const traco = typeof personagem === "string" ? personagem : personagem?.traco;
     return traco === "druida_herdeiro" && Jogo.druida
@@ -26,7 +28,7 @@
   };
 
   Jogo.estado = {
-    novo(legado, personagem = null, animal = null) {
+    novo(legado, personagem = null) {
       const legadoDaRun = Jogo.legado.normalizar(legado);
       const poolTracos = ["corajoso", "avarento", "doente"];
       if (legadoDaRun.flags.druida_herdeiro === true) poolTracos.push("druida_herdeiro");
@@ -84,12 +86,10 @@
         flags: {},
         condicao: { ativa: null, rodada: null, abracada: false, curada: false, bonusAbraco: { ataque: 0, escudo: 0 } },
         efeitosTemporarios: [],
-        sintonia: traco === "druida_herdeiro" ? 5 : undefined,
-        animal: traco === "druida_herdeiro" ? { tipo: animal, nivel: 1 } : undefined,
+        druidaPassiva: traco === "druida_herdeiro" ? null : undefined,
         cajadoBonusAtaque: traco === "druida_herdeiro" ? 2 : undefined,
         druidaAnosAlta: traco === "druida_herdeiro" ? 0 : undefined,
         druidaAnoAvaliado: traco === "druida_herdeiro" ? 0 : undefined,
-        avisoEstacao: "",
         previsaoCorvo: null,
         corvoRevelaOpcaoId: null,
         // A fotografia do legado impede que novidades entrem na run em andamento.
@@ -100,9 +100,7 @@
         fim: null
       };
       if (traco === "druida_herdeiro") {
-        const animais = Object.keys(Jogo.druida?.animais || { lobo: {} });
-        const escolhido = animais.includes(animal) ? animal : animais[Math.floor(Math.random() * animais.length)];
-        Jogo.druida?.novaRun(run, escolhido);
+        Jogo.druida?.novaRun(run);
       }
       return run;
     },

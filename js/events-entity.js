@@ -4,7 +4,7 @@
   Jogo.eventos.push(
     {
       id: "a_viuva_do_moleiro", titulo: "A viúva do moleiro", tipo: "encontro", peso: 2,
-      imagem: "assets/eventos-pessoas/viuva-do-moleiro.png", imagemAlt: "Uma viúva segura um saco de farinha diante de uma roda de moinho parada",
+      imagem: "assets/eventos-pessoas/viuva-do-moleiro.png", imagemAlt: "A viúva do moleiro segura um saco de farinha",
       texto: "A viúva de um moleiro chega à praça com as contas da última colheita. Diz que os guardas levaram mais sacos do que o combinado; o capitão afirma que ela escondeu parte da farinha.",
       informacoes: "Os dois têm testemunhas. Nenhuma delas parece querer ser a primeira a falar.",
       opcoes: [

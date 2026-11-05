@@ -2,7 +2,7 @@
   "use strict";
   const Jogo = window.Jogo;
   const app = document.getElementById("app");
-  const nomes = { hp: "Vida", hpMax: "Vida máxima", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold", sintonia: "Sintonia" };
+  const nomes = { hp: "Vida", hpMax: "Vida máxima", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold" };
   const esc = valor => String(valor).replace(/[&<>"']/g, letra => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[letra]));
   const numero = valor => new Intl.NumberFormat("pt-BR").format(valor);
   const assinado = valor => `${valor > 0 ? "+" : ""}${numero(valor)}`;
@@ -12,7 +12,7 @@
     corajoso: "Corajosa: começa com +1 Ataque.",
     avarento: "Avarento: começa com 10 Gold.",
     doente: "Doente: começa com 70 Vida e 4 Escudo. Vida máxima inicial: 70.",
-    druida_herdeiro: "Druida-Herdeiro: começa com o Cajado de carvalho vivo, Sintonia 5 e um animal escolhido. As quatro estações seguem o ciclo de 25 rodadas."
+    druida_herdeiro: "Druida-Herdeiro: começa com o Cajado de carvalho vivo e recebe a passiva de um companheiro aleatório a cada rodada. As quatro estações seguem o ciclo de 25 rodadas."
   };
   const retratos = {
     corajoso: { arquivo: "corajoso", descricao: "Busto da herdeira corajosa" },
@@ -42,9 +42,25 @@
     praca_forca: { nome: "Praça da Forca", bonus: "+1 Gold a cada 6 rodadas; −1 Honra a cada 10; com culto ativo, +2 Seguidores a cada 10" },
     celeiro: { nome: "Celeiro", bonus: "Reduz pela metade as perdas de habitantes em eventos de fome e seca" }
   };
-  const nomesAtributosEfeito = { hp: "Vida", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold", sintonia: "Sintonia" };
+  const nomesAtributosEfeito = { hp: "Vida", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold" };
+  const chaveTutorial = "herdeiro_tutorial_v1";
+  const etapasTutorial = [
+    { seletor: ".evento-detalhes", titulo: "Leia o evento", texto: "Cada evento apresenta uma situação na crônica. Leia a descrição e as informações para perceber pistas, custos e riscos." },
+    { seletor: ".coluna-escolhas", titulo: "Faça uma escolha", texto: "Escolha uma opção para resolver o evento. Depois, veja o resultado e avance para a próxima rodada." },
+    { seletor: ".atributos", titulo: "Cuide do herdeiro", texto: "Vida mantém o herdeiro vivo; Escudo reduz o dano recebido; Ataque ajuda a vencer confrontos." },
+    { seletor: '[data-atributo="honra"]', titulo: "A Honra deixa marcas", texto: "Suas decisões mudam a Honra. Ela altera o retrato do herdeiro e pode liberar escolhas em alguns eventos." },
+    { seletor: ".recursos-vila", titulo: "Administre a vila", texto: "Habitantes representam a população. Gold paga compras e construções; muitas escolhas podem alterar esses recursos." },
+    { seletor: ".inventario > summary", titulo: "Use o inventário", texto: "Os itens conquistados ficam guardados aqui. Alguns dão efeitos passivos; outros têm um botão para serem usados." }
+  ];
   let retratoExibido = null;
   let ajustePendente = 0;
+  let etapaTutorial = null;
+  let tutorialForcado = false;
+  let tutorialConcluidoNestaSessao = false;
+  let camadaTutorial = null;
+  let alvoTutorial = null;
+  let cronicaTutorial = null;
+  let cronicaInerteOriginal = false;
 
   function ajustarTela() {
     window.cancelAnimationFrame(ajustePendente);
@@ -79,6 +95,124 @@
     ajustarTela();
   }
 
+  function tutorialFoiConcluido() {
+    try { return window.localStorage.getItem(chaveTutorial) === "concluido"; }
+    catch (_) { return false; }
+  }
+
+  function limparTutorial() {
+    if (alvoTutorial) alvoTutorial.classList.remove("tutorial-alvo");
+    if (cronicaTutorial) cronicaTutorial.inert = cronicaInerteOriginal;
+    camadaTutorial?.remove();
+    alvoTutorial = null;
+    cronicaTutorial = null;
+    camadaTutorial = null;
+  }
+
+  function encerrarTutorial() {
+    limparTutorial();
+    etapaTutorial = null;
+    tutorialConcluidoNestaSessao = true;
+    try { window.localStorage.setItem(chaveTutorial, "concluido"); } catch (_) { /* O tutorial continua disponível nesta sessão. */ }
+    app.focus({ preventScroll: true });
+  }
+
+  function posicionarTutorial(painel, alvo) {
+    const margem = 16;
+    const viewport = window.visualViewport;
+    const largura = viewport?.width || window.innerWidth;
+    const altura = viewport?.height || window.innerHeight;
+    const topoViewport = viewport?.offsetTop || 0;
+    const caixaAlvo = alvo.getBoundingClientRect();
+    const caixaPainel = painel.getBoundingClientRect();
+    const x = Math.min(largura - caixaPainel.width - margem,
+      Math.max(margem, caixaAlvo.left + caixaAlvo.width / 2 - caixaPainel.width / 2));
+    const espacoAbaixo = topoViewport + altura - caixaAlvo.bottom;
+    const espacoAcima = caixaAlvo.top - topoViewport;
+    const abaixo = espacoAbaixo >= caixaPainel.height + margem || espacoAbaixo >= espacoAcima;
+    const yPreferido = abaixo ? caixaAlvo.bottom + margem : caixaAlvo.top - caixaPainel.height - margem;
+    const y = Math.min(topoViewport + altura - caixaPainel.height - margem,
+      Math.max(topoViewport + margem, yPreferido));
+    painel.style.left = `${x}px`;
+    painel.style.top = `${y}px`;
+  }
+
+  function desenharEtapaTutorial() {
+    limparTutorial();
+    const etapa = etapasTutorial[etapaTutorial];
+    if (!etapa) { encerrarTutorial(); return; }
+    const seletorAlvo = etapaTutorial === 0 && app.querySelector(".cronica--resultado") ? ".resultado" : etapa.seletor;
+    const alvo = app.querySelector(seletorAlvo);
+    if (!alvo) { encerrarTutorial(); return; }
+
+    alvoTutorial = alvo;
+    alvo.classList.add("tutorial-alvo");
+    cronicaTutorial = app.querySelector(".cronica");
+    cronicaInerteOriginal = Boolean(cronicaTutorial?.inert);
+    if (cronicaTutorial) cronicaTutorial.inert = true;
+
+    const camada = document.createElement("div");
+    camada.className = "tutorial-camada";
+    camada.innerHTML = `<div class="tutorial-escurecimento" aria-hidden="true"></div>
+      <div class="tutorial-bloqueio" aria-hidden="true"></div>
+      <section class="tutorial-painel" role="dialog" aria-modal="true" aria-labelledby="tutorial-titulo" aria-describedby="tutorial-texto" tabindex="-1">
+        <p class="tutorial-contagem">Tutorial · ${etapaTutorial + 1} de ${etapasTutorial.length}</p>
+        <div class="tutorial-progresso" aria-hidden="true">${etapasTutorial.map((_, indice) => `<span${indice <= etapaTutorial ? ' class="ativo"' : ""}></span>`).join("")}</div>
+        <h2 id="tutorial-titulo">${esc(etapa.titulo)}</h2>
+        <p id="tutorial-texto">${esc(etapa.texto)}</p>
+        <div class="tutorial-acoes">
+          <button class="botao tutorial-voltar" type="button" data-tutorial-voltar ${etapaTutorial === 0 ? "disabled" : ""}>Voltar</button>
+          <button class="botao tutorial-pular" type="button" data-tutorial-pular>Pular tutorial</button>
+          <button class="botao primario tutorial-avancar" type="button" data-tutorial-avancar>${etapaTutorial === etapasTutorial.length - 1 ? "Concluir" : "Próximo"}<span aria-hidden="true">→</span></button>
+        </div>
+      </section>`;
+    camadaTutorial = camada;
+    app.append(camada);
+
+    const painel = camada.querySelector(".tutorial-painel");
+    const posicionar = () => posicionarTutorial(painel, alvo);
+    posicionar();
+    window.requestAnimationFrame(posicionar);
+    camada.addEventListener("click", evento => {
+      evento.stopPropagation();
+      const botao = evento.target.closest("button");
+      if (!botao || botao.disabled) return;
+      if (botao.hasAttribute("data-tutorial-pular")) { encerrarTutorial(); return; }
+      if (botao.hasAttribute("data-tutorial-voltar")) etapaTutorial = Math.max(0, etapaTutorial - 1);
+      else if (botao.hasAttribute("data-tutorial-avancar")) {
+        if (etapaTutorial === etapasTutorial.length - 1) { encerrarTutorial(); return; }
+        etapaTutorial++;
+      } else return;
+      desenharEtapaTutorial();
+    });
+    camada.addEventListener("keydown", evento => {
+      if (evento.key === "Escape") {
+        evento.preventDefault();
+        encerrarTutorial();
+        return;
+      }
+      if (evento.key !== "Tab") return;
+      const botoes = [...painel.querySelectorAll("button:not(:disabled)")];
+      const primeiro = botoes[0];
+      const ultimo = botoes[botoes.length - 1];
+      if (evento.shiftKey && document.activeElement === primeiro) {
+        evento.preventDefault(); ultimo.focus();
+      } else if (!evento.shiftKey && document.activeElement === ultimo) {
+        evento.preventDefault(); primeiro.focus();
+      }
+    });
+    painel.querySelector("[data-tutorial-avancar]").focus({ preventScroll: true });
+  }
+
+  function tutorial() {
+    if (!app.querySelector(".cronica")) {
+      tutorialForcado = true;
+      return;
+    }
+    etapaTutorial = 0;
+    desenharEtapaTutorial();
+  }
+
   function menu(run) {
     const forcarDruida = window.localStorage.getItem("debug_forcar_druida") === "1";
     mostrar(`
@@ -90,6 +224,7 @@
           <p>Um jovem senhor. Uma vila distante. A cada decisão, uma história que o próximo herdeiro talvez nunca conheça.</p>
           <div class="acoes-menu">
             <button class="botao primario" data-acao="iniciar">Iniciar <span aria-hidden="true">→</span></button>
+            <button class="botao" data-acao="tutorial">Como jogar</button>
             <button class="botao" data-acao="carregar" ${run ? "" : "disabled"}>Carregar${run ? ` <span>Rodada ${numero(run.rodada)}</span>` : ""}</button>
             <button class="botao debug-transformacoes-menu" data-acao="debug-transformacoes">Debug: ver transformações</button>
             <button class="botao debug-druida-menu" data-acao="debug-alternar-druida" aria-pressed="${forcarDruida}">Debug: sempre iniciar como Druida · ${forcarDruida ? "ativo" : "inativo"}</button>
@@ -204,11 +339,15 @@
         const estado = item.id === "marca_da_entidade_x" && run.flags.entidade_x_pacto ? "Maldição ativa · −1 Vida por rodada"
           : item.id === "lanca_do_heroi" && run.lancaHeroiBatalhas ? `Ativa: ${numero(run.lancaHeroiBatalhas)} batalhas restantes`
           : recarga ? `Recarga: ${numero(recarga)} ${recarga === 1 ? "rodada" : "rodadas"}`
+          : item.uso?.sacrificarHabitantes && quantidade && run.atributos.hp >= run.hpMax ? "Vida já está no máximo"
+          : item.uso?.sacrificarHabitantes && quantidade && run.atributos.habitantes <= item.uso.sacrificarHabitantes ? "Habitantes insuficientes"
           : item.guardarAposReceber && quantidade ? "Bônus permanente aplicado · guardada para a cura"
             : item.aoReceber && !run.itensConsumidosEm?.[item.id] ? "Efeito permanente aplicado" : quantidade ? `Disponível: ${numero(quantidade)}`
           : run.itensConsumidosEm?.[item.id] === run.rodada ? "Usado nesta rodada" : "Sem unidades disponíveis";
         const usoItem = item.id === "adaga_cerimonial" && quantidade && Jogo.engine.podeUsarItem(run, item.id)
           ? `<span class="acoes-item">${Jogo.engine.podeUsarItem(run, item.id, "habitantes") ? `<button class="botao usar-item" data-item-sacrificio="habitantes">Sacrificar 10 habitantes</button>` : ""}${Jogo.engine.podeUsarItem(run, item.id, "culto") ? `<button class="botao usar-item" data-item-sacrificio="culto">Sacrificar 10 seguidores</button>` : ""}</span>`
+          : item.uso?.sacrificarHabitantes && quantidade && Jogo.engine.podeUsarItem(run, item.id)
+            ? `<button class="botao usar-item" data-usar-item="${esc(item.id)}">Matar 1 aldeão</button>`
           : item.id === "calice_negro" && quantidade && Jogo.engine.podeUsarItem(run, item.id)
             ? `<button class="botao usar-item" data-item-id="${esc(item.id)}" data-item-sacrificio="${run.cultoAtivo ? "culto" : "habitantes"}">Sacrificar 5 ${run.cultoAtivo ? "seguidores" : "habitantes"}</button>`
           : item.uso && quantidade && item.id !== "adaga_cerimonial" && Jogo.engine.podeUsarItem(run, item.id)
@@ -234,10 +373,8 @@
   function honraRevelada(opcao, evento, run) {
     const detalhes = [];
     const posseRevela = run.condicao?.ativa === "possessao";
-    const corvoRevelaTudo = Jogo.druida?.ehDruida(run) && run.animal?.tipo === "corvo"
-      && run.animal.nivel >= 3 && ((run.rodada - 1) % 25) < 5;
     const corvoRevelaOpcao = Jogo.druida?.ehDruida(run) && run.corvoRevelaOpcaoId === opcao.id;
-    if (posseRevela || corvoRevelaTudo || corvoRevelaOpcao || run.rodada <= run.honraReveladaAteRodada) {
+    if (posseRevela || corvoRevelaOpcao || run.rodada <= run.honraReveladaAteRodada) {
       if (opcao.combate && evento.batalha) {
         const vitoria = evento.batalha.vitoria.efeitos?.honra || 0;
         const falha = (evento.batalha.derrota.efeitos?.honra || 0) + (evento.batalha.penalidadeFalha?.efeitos?.honra || 0);
@@ -290,8 +427,8 @@
     const descricao = (retratos[traco] || retratos.corajoso).descricao +
       (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa]);
     return '<div class="retrato-area' + (cultoAtivo ? " culto-ativo" : "") + (anterior ? " troca-retrato" : "") + '" data-honra="' + faixa + '">' +
-      (anterior ? '<img class="retrato retrato-anterior" src="' + imagemAnterior + '" width="1024" height="1024" alt="" aria-hidden="true">' : "") +
-      '<img class="retrato retrato-atual" src="' + imagemAtual + '" width="1024" height="1024" alt="' + descricao + '">' +
+      (anterior ? '<img class="retrato retrato-anterior' + (anterior.traco === "druida_herdeiro" ? " retrato--druida" : "") + '" src="' + imagemAnterior + '" width="1024" height="1024" alt="" aria-hidden="true">' : "") +
+      '<img class="retrato retrato-atual' + (traco === "druida_herdeiro" ? " retrato--druida" : "") + '" src="' + imagemAtual + '" width="1024" height="1024" alt="' + descricao + '">' +
       '</div>';
   }
 
@@ -360,6 +497,7 @@
   }
 
   function jogo(run) {
+    Jogo.engine.sincronizarItemVampirismo(run);
     const eventoDaRun = Jogo.eventos.find(evento => evento.id === run.eventoId);
     const eventoBase = run.aguardaDecisaoCulto ? Jogo.eventos.find(evento => evento.id === "ultimo_habitante") : eventoDaRun;
     const memoriaAnterior = run.legadoDaRun.memorias?.at(-1);
@@ -378,7 +516,7 @@
     const nomesCondicoes = { licantropia: "Licantropia", vampirismo: "Vampirismo", possessao: "Possessão" };
     const descricaoCondicoes = {
       licantropia: "+2 Ataque · recupera 1 Vida por rodada",
-      vampirismo: "+3 Ataque · +2 Escudo · perde 1 Vida por rodada",
+      vampirismo: "+3 Ataque · +2 Escudo · perde 1 Vida por rodada; Sede de sangue: 1 aldeão por até 20 Vida, a cada 6 rodadas",
       possessao: "+2 Ataque · revela a Honra das escolhas"
     };
     const classeCondicao = condicaoId ? ` condicao-${condicaoId}${run.condicao.abracada ? " condicao-abracada" : ""}` : "";
@@ -400,10 +538,9 @@
       id,
       ...(Object.hasOwn(nomesConstrucoes, id) ? nomesConstrucoes[id] : { nome: id, bonus: "Bônus registrado nesta crônica" })
     }));
-    const statusDruida = Jogo.druida?.ehDruida(run) ? `<div class="druida-status" aria-label="Sintonia e calendário do Druida-Herdeiro">
-      <p>${esc(run.avisoEstacao || "A floresta acompanha suas escolhas.")} ${esc(Jogo.druida.animais[run.animal.tipo]?.nome || "Animal")} · nível ${numero(run.animal.nivel)}</p>
-      <div class="druida-medidores"><div class="folhas-estacao" role="meter" aria-label="Progresso da estação" aria-valuemin="1" aria-valuemax="25" aria-valuenow="${((run.rodada - 1) % 25) + 1}">${Array.from({ length: 25 }, (_, indice) => `<span class="folha${indice < ((run.rodada - 1) % 25) + 1 ? " ativa" : ""}" aria-hidden="true"></span>`).join("")}</div>
-        <div class="medidor-sintonia" role="meter" aria-label="Sintonia" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${numero(run.sintonia)}"><span style="--sintonia: ${run.sintonia * 10}%"></span></div><strong>Sintonia ${numero(run.sintonia)}/10</strong></div>
+    const passivaDruida = Jogo.druida?.passivas[run.druidaPassiva] || { nome: "Companheiro", descricao: "A floresta acompanha esta rodada." };
+    const statusDruida = Jogo.druida?.ehDruida(run) ? `<div class="druida-status" aria-label="Passiva atual e calendário do Druida-Herdeiro">
+      <p><strong>${esc(passivaDruida.nome)} nesta rodada:</strong> ${esc(passivaDruida.descricao)}</p>
     </div>` : "";
     mostrar(`
       <section class="cronica${resolvido ? " cronica--resultado" : ""}${run.aguardaDecisaoCulto ? " cronica--decisao-culto" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}" aria-labelledby="titulo-jogo">
@@ -418,7 +555,7 @@
               ${construcoesRun.length ? `<ul>${construcoesRun.map(construcao => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
             </div>
           </details>
-        </div><p>Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]}${Jogo.druida?.ehDruida(run) ? ` · Ano ${numero(Math.floor((run.rodada - 1) / 100) + 1)}` : ""}</p></div>
+        </div><p>Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]} · Ano ${numero(Jogo.anoDaRodada(run.rodada))}</p></div>
           <dl class="recursos-vila" aria-label="Recursos da vila">
             <div class="recurso-contador vila-contador"><dt>Habitantes da vila</dt><dd>${numero(run.atributos.habitantes)}</dd></div>
             ${run.cultoAtivo ? `<div class="recurso-contador culto-contador"><dt>${transicaoCulto ? `<svg class="chama-passagem" viewBox="0 0 24 32" aria-hidden="true"><path class="chama-externa" d="M12 1c1 5-1 7-3 10-2 2-4 4-4 8a7 7 0 0 0 14 0c0-4-2-7-5-10 0 3-1 5-2 6 1-5 0-9 0-14Z"/><path class="chama-interna" d="M12 15c0 2-1 3-2 5a3.5 3.5 0 1 0 7 0c0-2-1-4-3-5 0 2-1 3-2 4 1-2 0-3 0-4Z"/></svg>` : ""}Seguidores do culto</dt><dd>${numero(run.seguidoresCulto)}</dd>${run.cultoRendaPorRodada ? `<small>Templo: +${numero(run.cultoRendaPorRodada)} por rodada</small>` : ""}</div>` : ""}
@@ -445,7 +582,7 @@
             </dd></div>
             <div class="recurso-contador gold-contador" data-atributo="gold"><dt>Gold</dt><dd>${numero(run.atributos.gold)}</dd></div>
           </dl>
-          <button class="botao discreto" data-acao="menu">Voltar ao início</button>
+          <div class="titulo-run-acoes"><button class="botao" data-acao="tutorial">Tutorial</button><button class="botao discreto" data-acao="menu" aria-label="Voltar ao início" title="Voltar ao início">Início</button></div>
         </div>
         ${statusDruida}
         ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status"><span aria-hidden="true">✦</span> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"} <span class="info-hover" tabindex="0" role="img" aria-label="Informações sobre o efeito de ${esc(run.efeitoDivino.nome)}" title="${esc(efeitoDivinoHover(run.efeitoDivino))}" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}">i</span></p>` : ""}
@@ -477,12 +614,17 @@
             <div class="evento-detalhes">
               <div class="evento-texto"><div class="carta-titulo evento-titulo"><h2 id="titulo-evento">${esc(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade">A Entidade</span>' : ""}</div><p>${esc(evento.texto)}</p></div>
               <aside class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>${run.previsaoCorvo ? `<p class="previsao-corvo" role="status">Seu corvo prevê: ${esc(run.previsaoCorvo)}.</p>` : ""}
-                ${batalhaLeitura && evento.batalha.mostrarLeitura !== false ? `<p class="batalha-leitura">Seu Ataque: <strong>${numero(run.atributos.ataque + (run.efeitosPreparados.bonusAtaqueProximaBatalha || 0))}</strong>. Defesa inimiga: <strong>${numero(batalhaLeitura.defesa)}</strong>. Dano antes das reduções: <strong>${numero(batalhaLeitura.vitoria.dano)} na vitória</strong> ou <strong>${numero(batalhaLeitura.derrota.dano)} na derrota</strong>. ${run.efeitoDivino?.reducaoDano ? `O efeito de ${esc(run.efeitoDivino.nome)} reduz mais ${numero(run.efeitoDivino.reducaoDano)} de dano.` : ""} ${batalhaLeitura.estagio ? `A dificuldade aumentou ${numero(batalhaLeitura.estagio)} ${batalhaLeitura.estagio === 1 ? "estágio" : "estágios"}.` : ""}</p>` : ""}
+                ${batalhaLeitura && evento.batalha.mostrarLeitura !== false ? `<p class="batalha-leitura">Seu Ataque: <strong>${numero(run.atributos.ataque + (run.efeitosPreparados.bonusAtaqueProximaBatalha || 0) + (Jogo.druida?.bonusAtaqueCombate(run) || 0))}</strong>. Defesa inimiga: <strong>${numero(batalhaLeitura.defesa)}</strong>. Dano antes das reduções: <strong>${numero(batalhaLeitura.vitoria.dano)} na vitória</strong> ou <strong>${numero(batalhaLeitura.derrota.dano)} na derrota</strong>. ${run.efeitoDivino?.reducaoDano ? `O efeito de ${esc(run.efeitoDivino.nome)} reduz mais ${numero(run.efeitoDivino.reducaoDano)} de dano.` : ""} ${batalhaLeitura.estagio ? `A dificuldade aumentou ${numero(batalhaLeitura.estagio)} ${batalhaLeitura.estagio === 1 ? "estágio" : "estágios"}.` : ""}</p>` : ""}
               </aside>
             </div>
           </div>
         </div>
       </section>`, "jogo", cultoAtivo ? "culto" : "jogo");
+    if (tutorialForcado || (etapaTutorial === null && !tutorialConcluidoNestaSessao && !tutorialFoiConcluido())) {
+      tutorialForcado = false;
+      etapaTutorial = 0;
+    }
+    if (etapaTutorial !== null) desenharEtapaTutorial();
     const painelInventario = document.querySelector("#app .inventario");
     painelInventario?.addEventListener("toggle", () => {
       const cronica = painelInventario.closest(".cronica");
@@ -529,8 +671,15 @@
     ajustarTela();
   });
 
-  window.addEventListener("resize", ajustarTela);
-  if (window.visualViewport) window.visualViewport.addEventListener("resize", ajustarTela);
+  function redimensionarTela() {
+    ajustarTela();
+    const painel = camadaTutorial?.querySelector(".tutorial-painel");
+    const alvo = alvoTutorial;
+    if (painel && alvo) window.requestAnimationFrame(() => posicionarTutorial(painel, alvo));
+  }
 
-  Jogo.ui = { menu, intro, jogo, fim, confirmarNovaRun, preverTransformacoes };
+  window.addEventListener("resize", redimensionarTela);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", redimensionarTela);
+
+  Jogo.ui = { menu, intro, jogo, fim, confirmarNovaRun, preverTransformacoes, tutorial };
 })();

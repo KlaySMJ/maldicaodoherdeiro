@@ -13,6 +13,23 @@
     return run.condicao;
   }
 
+  function sincronizarItemVampirismo(run) {
+    if (!Array.isArray(run?.inventario)) return false;
+    const itemId = "sede_de_sangue";
+    const deveTer = run.condicao?.ativa === "vampirismo" && !run.condicao.abracada;
+    const indice = run.inventario.indexOf(itemId);
+    if (deveTer && indice < 0) {
+      run.inventario.push(itemId);
+      delete run.itensConsumidosEm?.[itemId];
+      return true;
+    }
+    if (!deveTer && indice >= 0) {
+      while (run.inventario.includes(itemId)) run.inventario.splice(run.inventario.indexOf(itemId), 1);
+      return true;
+    }
+    return false;
+  }
+
   function ativarCondicao(run, id) {
     if (!modificadoresCondicao[id]) return false;
     const condicao = garantirCondicao(run);
@@ -24,6 +41,7 @@
     condicao.bonusAbraco = { ataque: 0, escudo: 0 };
     run.marcos.condicao = run.rodada;
     run.flags.condicao_decidida = true;
+    sincronizarItemVampirismo(run);
     aplicarEfeitos(run, modificadoresCondicao[id]);
     return true;
   }
@@ -38,6 +56,7 @@
     for (const [atributo, valor] of Object.entries(efeitos)) efeitos[atributo] = -valor;
     aplicarEfeitos(run, efeitos);
     condicao.ativa = null;
+    sincronizarItemVampirismo(run);
     if (marcadaComoCura) {
       condicao.abracada = false;
       condicao.curada = true;
@@ -61,6 +80,7 @@
     condicao.bonusAbraco = bonus;
     condicao.abracada = true;
     run.flags.condicao_abracada = true;
+    sincronizarItemVampirismo(run);
     aplicarEfeitos(run, bonus);
     return true;
   }
@@ -122,14 +142,13 @@
       if (requisitos[`${atributo}Min`] !== undefined && a[atributo] < requisitos[`${atributo}Min`]) return false;
       if (requisitos[`${atributo}Max`] !== undefined && a[atributo] > requisitos[`${atributo}Max`]) return false;
     }
-    if (requisitos.sintoniaMin !== undefined && (run.sintonia ?? -1) < requisitos.sintoniaMin) return false;
-    if (requisitos.sintoniaMax !== undefined && (run.sintonia ?? 11) > requisitos.sintoniaMax) return false;
     if (requisitos.flags?.some(id => !Object.hasOwn(run.flags, id) || !run.flags[id])) return false;
     if (requisitos.flagsAusentes?.some(id => Object.hasOwn(run.flags, id) && run.flags[id])) return false;
     if (requisitos.flagsLegado?.some(id => !Object.hasOwn(run.legadoDaRun.flags, id) || run.legadoDaRun.flags[id] !== true)) return false;
     if (requisitos.itensLegado?.some(id => !run.legadoDaRun.itens.includes(id))) return false;
     if (requisitos.cultoAtivo !== undefined && Boolean(run.cultoAtivo) !== requisitos.cultoAtivo) return false;
     if (requisitos.itens?.some(id => !run.inventario.includes(id))) return false;
+    if (requisitos.itensProntos?.some(id => !run.inventario.includes(id) || recargaItemRestante(run, id) > 0)) return false;
     if (requisitos.populacaoMinimo !== undefined) {
       const populacao = run.cultoAtivo ? run.seguidoresCulto : a.habitantes;
       if (populacao < requisitos.populacaoMinimo) return false;
@@ -166,8 +185,8 @@
 
   function eventoDisponivel(evento, run, aleatorio = Math.random) {
     if (evento.letal && run.rodada < 6) return false;
-    if (evento.letal && run.flags[`${evento.id}_visto`]) return false;
-    if (evento.oncePerRun && run.flags[`${evento.id}_visto`]) return false;
+    if ((evento.letal || evento.oncePerRun) && run.flags[`${evento.id}_visto`]) return false;
+    if (evento.oncePerYear && run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`]) return false;
     if (evento.especial && run.flags[`especial_${evento.id}`] === true) return false;
     if (evento.pacto && run.flags.pacto_feito === true) return false;
     if (evento.nemesis && (!run.nemesis || run.nemesis.enfrentado)) return false;
@@ -323,7 +342,11 @@
     const recentes = [...run.eventosRecentes];
     if (run.eventoId && recentes.at(-1) !== run.eventoId) recentes.push(run.eventoId);
     while (recentes.length) {
-      const diferentes = candidatos.filter(evento => !recentes.includes(evento.id));
+      const gruposRecentes = new Set(recentes.map(id => {
+        const recente = Jogo.eventos.find(candidato => candidato.id === id);
+        return recente?.grupoRecorrencia || id;
+      }));
+      const diferentes = candidatos.filter(evento => !gruposRecentes.has(evento.grupoRecorrencia || evento.id));
       if (diferentes.length) { candidatos = diferentes; break; }
       recentes.shift();
     }
@@ -342,9 +365,6 @@
   }
 
   function aplicarEfeitos(run, efeitos = {}, multiplicadores = {}, contexto = {}) {
-    if (Jogo.druida?.ehDruida(run) && Number.isSafeInteger(efeitos.sintonia)) {
-      run.sintonia = Math.max(0, Math.min(10, run.sintonia + efeitos.sintonia));
-    }
     if (Number.isSafeInteger(efeitos.seguidores) && run.cultoAtivo) {
       const multiplicadorSeguidores = !contexto.semBonusSeguidores && temItem(run, "afogados_abencoados") && run.atributos.honra <= -90 ? 2 : 1;
       run.seguidoresCulto = Math.max(0, run.seguidoresCulto + efeitos.seguidores * multiplicadorSeguidores);
@@ -370,12 +390,12 @@
 
   function aplicarBonusDeRecompensa(run, efeitos = {}) {
     const preparados = run.efeitosPreparados || {};
-    const ouroBase = efeitos.gold > 0 ? Jogo.druida?.ajustarRecompensa(run, efeitos.gold) ?? efeitos.gold : efeitos.gold;
+    const ouroBase = efeitos.gold ?? 0;
     const bonus = ouroBase > 0 ? preparados.bonusGoldProximaRecompensa || 0 : 0;
     const companhia = temItem(run, "corvo_companheiro") && ouroBase > 0 ? 1 : 0;
     if (bonus) run.efeitosPreparados = { ...preparados, bonusGoldProximaRecompensa: 0 };
     const gold = ouroBase + bonus + companhia;
-    return gold !== efeitos.gold ? { ...efeitos, gold } : efeitos;
+    return efeitos.gold !== undefined && gold !== efeitos.gold ? { ...efeitos, gold } : efeitos;
   }
 
   function motivoDerrota(run) {
@@ -436,7 +456,7 @@
     if (ganhouHabitantes > 0) run.seguidoresCulto += (1 + Math.floor(Math.random() * 5)) * dobraSeguidores;
     const honraGanha = run.atributos.honra - antes.honra;
     if (honraGanha > 0) {
-      const debandadaCalculada = honraGanha * (2 + Math.floor(Math.random() * 3));
+      const debandadaCalculada = honraGanha * (1 + Math.floor(Math.random() * 2));
       const debandada = Math.min(run.seguidoresCulto, debandadaCalculada);
       run.seguidoresCulto -= debandada;
       if (debandada && run.ultimoResultado) {
@@ -444,10 +464,16 @@
       }
     }
     const adesao = run.marcos.cultoAdesao;
-    const intervalo = temItem(run, "honra_dos_caidos") && run.atributos.honra <= -50 ? 5 : 10;
+    const seguidoresAntesDoRecrutamento = run.seguidoresCulto;
+    const recrutamentoDeRecuperacao = seguidoresAntesDoRecrutamento < 30;
+    const chegadaAcelerada = recrutamentoDeRecuperacao
+      || (temItem(run, "honra_dos_caidos") && run.atributos.honra <= -50);
+    const intervalo = chegadaAcelerada ? 5 : 10;
+    const chegadaBase = seguidoresAntesDoRecrutamento < 15 ? 8 : 5;
     if (run.seguidoresCulto > 0 && Number.isSafeInteger(adesao) && run.rodada > adesao && (run.rodada - adesao) % intervalo === 0) {
-      run.seguidoresCulto += 5 * dobraSeguidores;
-      if (run.ultimoResultado) run.ultimoResultado.texto += ` ${5 * dobraSeguidores} novos seguidores chegam ao culto.`;
+      const chegada = chegadaBase * dobraSeguidores;
+      run.seguidoresCulto += chegada;
+      if (run.ultimoResultado) run.ultimoResultado.texto += ` ${chegada} novos seguidores chegam ao culto.`;
     }
   }
 
@@ -468,23 +494,20 @@
     batalha = batalhaAjustada(run, batalha);
     const preparados = run.efeitosPreparados || {};
     const bonusAtaque = preparados.bonusAtaqueProximaBatalha || 0;
+    const bonusAtaqueDruida = Jogo.druida?.bonusAtaqueCombate(run) || 0;
     const bonusEscudo = preparados.bonusEscudoProximaBatalha || 0;
     const lancaAtiva = !batalha.semOverrides && run.lancaHeroiBatalhas > 0;
     const adagaAtiva = !batalha.semOverrides && temItem(run, "adaga_amaldicoada");
-    const venceu = !batalha.forcarDerrota && (lancaAtiva || adagaAtiva || run.atributos.ataque + bonusAtaque >= batalha.defesa);
+    const venceu = !batalha.forcarDerrota && (lancaAtiva || adagaAtiva || run.atributos.ataque + bonusAtaque + bonusAtaqueDruida >= batalha.defesa);
     const desfecho = venceu ? batalha.vitoria : batalha.derrota;
     const danoBase = adagaAtiva && !lancaAtiva && !batalha.forcarDerrota ? batalha.derrota.dano : desfecho.dano;
     const manto = temItem(run, "manto_de_folhas") ? (run.estacao === "inverno" ? 4 : 3) : 0;
     const escudoUsado = run.atributos.escudo + bonusEscudo + manto;
     const danoAnulado = lancaAtiva || preparados.bloquearDanoProximaBatalha || (preparados.bacamarteBatalhas || 0) > 0;
     const reducaoDivina = batalha.somenteEscudo ? 0 : run.efeitoDivino?.reducaoDano || 0;
-    const indiceEstacaoDruida = Math.floor((run.rodada - 1) / 25) + 1;
-    const loboProtege = Jogo.druida?.ehDruida(run) && run.animal?.tipo === "lobo" && run.animal.nivel >= 3
-      && run.marcos.druidaLoboUltimaEstacao !== indiceEstacaoDruida;
-    if (loboProtege) run.marcos.druidaLoboUltimaEstacao = indiceEstacaoDruida;
     const reducaoPassiva = batalha.somenteEscudo ? 0 : (temItem(run, "cao_companheiro") ? 2 : 0)
       + (run.construcoes?.includes("muralha") ? 2 : 0)
-      + (run.construcoes?.includes("torre_vigia") ? 3 : 0) + (loboProtege ? 3 : 0);
+      + (run.construcoes?.includes("torre_vigia") ? 3 : 0);
     const dano = danoAnulado ? 0 : Math.max(0, danoBase - escudoUsado - reducaoDivina - reducaoPassiva);
     let efeitos = aplicarBonusDeRecompensa(run, desfecho.efeitos || {});
     if (danoAnulado && efeitos.hp < 0) efeitos = { ...efeitos, hp: 0 };
@@ -582,7 +605,7 @@
   function resolverOpcao(run, evento, opcao, gasto = 0) {
     run.inventarioAberto = false;
     run.avisoInventario = null;
-    const antes = { ...run.atributos, hpMax: run.hpMax, sintonia: run.sintonia };
+    const antes = { ...run.atributos, hpMax: run.hpMax };
     run.atributos.gold -= gasto;
     let efeitosEscolha = opcao.efeitos || {};
     let resultado = { texto: (run.cultoAtivo && opcao.resultadoCulto) || opcao.resultado || "", combate: null };
@@ -651,6 +674,10 @@
       run.cultoRendaPorRodada = 0;
     }
     run.flags = { ...run.flags, ...opcao.flags, ...desfechoEscolhido?.flags };
+    if (opcao.iniciarRecargaItens?.length) {
+      run.itensConsumidosEm ||= {};
+      for (const itemId of opcao.iniciarRecargaItens) run.itensConsumidosEm[itemId] = run.rodada;
+    }
     if (evento.marcaCondicaoDecidida) run.flags.condicao_decidida = true;
     const contagio = desfechoEscolhido?.condicaoAtivar || opcao.condicaoAtivar;
     if (contagio) ativarCondicao(run, contagio);
@@ -697,8 +724,8 @@
         item.eventoId === evento.id && item.rodada <= run.rodada);
       if (agendamentoIndex >= 0) run.consequenciasAgendadas.splice(agendamentoIndex, 1);
     }
-    if (evento.letal) run.flags[`${evento.id}_visto`] = true;
-    if (evento.oncePerRun) run.flags[`${evento.id}_visto`] = true;
+    if (evento.oncePerYear) run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`] = true;
+    if (evento.letal || evento.oncePerRun) run.flags[`${evento.id}_visto`] = true;
     if (opcao.flags?.ano_novo_ativo) run.marcos.anoNovoBase = run.rodada;
     if (opcao.flags?.bencao_norte_ativa) run.marcos.norteAtivado = run.rodada;
     const marcos = Array.isArray(opcao.marcoRodada) ? opcao.marcoRodada : opcao.marcoRodada ? [opcao.marcoRodada] : [];
@@ -708,8 +735,10 @@
       if (marco.flag) run.flags = { ...run.flags, [marco.flag]: true };
     }
     if (opcao.armadilha && Math.random() < opcao.armadilha.chance) {
-      const roubado = opcao.armadilha.perderItem && run.inventario.length
-        ? run.inventario[Math.floor(Math.random() * run.inventario.length)] : null;
+      const itensRoubaveis = run.inventario.filter(itemId =>
+        !Jogo.itens.find(item => item.id === itemId)?.imuneMimico);
+      const roubado = opcao.armadilha.perderItem && itensRoubaveis.length
+        ? itensRoubaveis[Math.floor(Math.random() * itensRoubaveis.length)] : null;
       if (roubado) consumirItem(run, roubado, run.inventario.indexOf(roubado));
       aplicarEfeitos(run, { hp: -(opcao.armadilha.danoHp || 0) });
       const nomeRoubado = roubado ? Jogo.itens.find(item => item.id === roubado)?.nome || "um item" : null;
@@ -773,7 +802,7 @@
     run.ultimoResultado = {
       ...resultado, escolha: opcao.texto,
       economia: { renda, variacaoRenda: run.atributos.gold - saldoAntesDaRenda, gasto },
-      alteracoes: Object.fromEntries([...Jogo.atributos, "hpMax", ...(Jogo.druida?.ehDruida(run) ? ["sintonia"] : [])].map(id => [id,
+      alteracoes: Object.fromEntries([...Jogo.atributos, "hpMax"].map(id => [id,
         id === "hpMax" ? run.hpMax - antes.hpMax : run.atributos[id] - antes[id]]))
     };
     if (!run.cultoAtivo && run.atributos.hp > 0 && run.atributos.habitantes <= 0 && run.atributos.honra <= -30) {
@@ -829,7 +858,8 @@
     const indice = run.inventario.indexOf(itemId);
     if (!item || indice < 0 || !item.uso || !podeUsarItem(run, itemId, alvoSacrificio)) return false;
     const uso = item.uso;
-    const escudoDaFe = itemId !== "adaga_cerimonial" && temItem(run, "escudo_da_fe") && !uso.umaVezPorRun;
+    const escudoDaFe = itemId !== "adaga_cerimonial" && temItem(run, "escudo_da_fe")
+      && !uso.umaVezPorRun && !uso.ignorarEscudoDaFe;
     if (uso.bosqueSagrado) {
       if (!Jogo.druida?.plantarBosque(run)) return false;
       consumirItem(run, itemId, indice);
@@ -918,6 +948,19 @@
       run.efeitosPreparados.bonusAtaqueProximaBatalha += 100;
       return true;
     }
+    if (uso.sacrificarHabitantes) {
+      const antes = { ...run.atributos };
+      registrarUsoComRecarga(run, item, indice, escudoDaFe);
+      aplicarEfeitos(run, { habitantes: -uso.sacrificarHabitantes });
+      if (uso.efeitos) aplicarEfeitos(run, uso.efeitos);
+      if (run.fase === "resultado" && run.ultimoResultado) {
+        run.ultimoResultado.texto += ` A mordida mata ${uso.sacrificarHabitantes === 1 ? "um aldeão" : `${uso.sacrificarHabitantes} aldeões`} e recupera ${uso.efeitos?.hp || 0} de Vida.`;
+        for (const atributo of Jogo.atributos) run.ultimoResultado.alteracoes[atributo] += run.atributos[atributo] - antes[atributo];
+      }
+      const motivo = motivoDerrota(run);
+      if (motivo) encerrar(run, "derrota", motivo);
+      return true;
+    }
     if (uso.sacrificarPopulacao) {
       registrarUsoComRecarga(run, item, indice, escudoDaFe);
       aplicarEfeitos(run, run.cultoAtivo
@@ -952,6 +995,8 @@
     if (run?.status !== "ativa" || !["escolha", "resultado"].includes(run.fase)) return false;
     const item = Jogo.itens.find(item => item.id === itemId);
     if (!item?.uso || !run?.inventario?.includes(itemId)) return false;
+    if (item.uso.condicaoAtiva && run.condicao?.ativa !== item.uso.condicaoAtiva) return false;
+    if (item.uso.bloquearSeAbracada && run.condicao?.abracada) return false;
     if (itemId === "adaga_cerimonial") {
       if (run.aguardaDecisaoCulto || run.flags.adaga_cerimonial_usada) return false;
       const habitantes = run.atributos.habitantes >= 10;
@@ -963,6 +1008,9 @@
     if (item.uso.bosqueSagrado && (!Jogo.druida?.ehDruida(run) || run.flags.bosque_sagrado)) return false;
     if (item.uso.umaVezPorRun && run.flags[`usou_${itemId}`]) return false;
     if (item.uso.curarCondicao && (!run.condicao?.ativa || (run.condicao.abracada && !item.uso.curaUniversal))) return false;
+    if (item.uso.sacrificarHabitantes
+      && (run.atributos.habitantes <= item.uso.sacrificarHabitantes
+        || (item.uso.efeitos?.hp > 0 && run.atributos.hp >= run.hpMax))) return false;
     if (item.uso.sacrificarPopulacao) {
       const alvo = run.cultoAtivo ? "culto" : "habitantes";
       const populacao = run.cultoAtivo ? run.seguidoresCulto : run.atributos.habitantes;
@@ -1001,7 +1049,7 @@
     const usadoEm = run.itensConsumidosEm?.[itemId];
     const recargaPropria = Number.isSafeInteger(usadoEm)
       ? Math.max(0, recarga - (run.rodada - usadoEm)) : 0;
-    const recargaEscudo = temItem(run, "escudo_da_fe")
+    const recargaEscudo = !item?.uso?.ignorarEscudoDaFe && temItem(run, "escudo_da_fe")
       ? run.efeitosPreparados?.escudoFeCooldown || 0 : 0;
     return Math.max(recargaPropria, recargaEscudo);
   }
@@ -1029,7 +1077,6 @@
       aplicarEfeitos(run, item.aoReceber);
       if (item.aoReceber.lancaHeroiBatalhas) run.lancaHeroiBatalhas = item.aoReceber.lancaHeroiBatalhas;
       if (itemId === "espada_da_verdade") run.atributos.honra = 0;
-      if (itemId === "mascara_de_cervo") Jogo.druida?.concederMascara(run);
       if (item.encarece) {
         const compras = run.comprasMercador[item.encarece] || 0;
         run.comprasMercador = { ...run.comprasMercador, [item.encarece]: compras + 1 };
@@ -1345,5 +1392,5 @@
     return true;
   }
 
-  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, usarItem, podeUsarItem, recargaItemRestante, concederItem, sortearItemGenerico, batalhaAjustada, juntarCulto, encerrarSemCulto, ofertaMercador, precoMercadoria, podePagar, rendaDaVila, testarHonra, debugDiminuirHabitantes, debugAtivarContagio, debugForcarCondicao, debugAtivarEventoEspecial, eventoCondicaoDevido, curarCondicao, avancar, registrarSorteio, encerrar, motivoDerrota };
+  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, usarItem, podeUsarItem, recargaItemRestante, concederItem, sortearItemGenerico, batalhaAjustada, juntarCulto, encerrarSemCulto, ofertaMercador, precoMercadoria, podePagar, rendaDaVila, testarHonra, debugDiminuirHabitantes, debugAtivarContagio, debugForcarCondicao, debugAtivarEventoEspecial, eventoCondicaoDevido, curarCondicao, sincronizarItemVampirismo, avancar, registrarSorteio, encerrar, motivoDerrota };
 })();

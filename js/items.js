@@ -172,7 +172,7 @@
     },
     {
       id: "honra_dos_caidos", nome: "Honra dos caídos", texto: "Honra dos caídos · mais seguidores a cada cinco rodadas",
-      descricao: "Requer Honra ≤ −50 e o culto ativo. Duplica a taxa de chegada periódica de seguidores: +5 a cada cinco rodadas.",
+      descricao: "Requer Honra ≤ −50 e o culto ativo. Garante chegada periódica a cada cinco rodadas; com menos de 15 seguidores, a recuperação acelerada traz 8 por vez, antes dos bônus de outros itens.",
       categoria: "pacto", raridade: "pacto", tipo: "equipamento", especialSorteavel: true, requisitos: { honraMax: -50, cultoAtivo: true }, aoReceber: {}
     },
     {
@@ -234,6 +234,12 @@
       categoria: "missao", raridade: "raro", tipo: "missao", especialSorteavel: true
     },
     {
+      id: "sede_de_sangue", nome: "Sede de sangue", texto: "Sede de sangue · 1 aldeão por 20 Vida",
+      descricao: "Mata 1 aldeão para recuperar até 20 Vida e perde 2 Honra. Só pode ser usada enquanto o vampirismo não foi abraçado. Recarga: 6 rodadas.",
+      categoria: "sobrenatural", tipo: "uso", imuneMimico: true,
+      uso: { condicaoAtiva: "vampirismo", bloquearSeAbracada: true, sacrificarHabitantes: 1, efeitos: { hp: 20, honra: -2 }, recargaRodadas: 6, ignorarEscudoDaFe: true }
+    },
+    {
       id: "sino_de_exorcismo", nome: "Sino de exorcismo", texto: "Sino de exorcismo · item de cura da possessão",
       descricao: "Seu som alcança lugares que o ouvido não alcança.",
       categoria: "missao", raridade: "raro", tipo: "missao", especialSorteavel: true
@@ -252,8 +258,8 @@
     },
     {
       id: "cajado_de_carvalho_vivo", nome: "Cajado de carvalho vivo", texto: "Cajado de carvalho vivo · +2 Ataque, cresce a cada primavera",
-      descricao: "Arma de madeira do Druida-Herdeiro. Começa com +2 Ataque e cresce em +1 no início de cada primavera depois do primeiro ano, até +5. Encarece Arma melhor em 2 Gold.",
-      categoria: "arma", raridade: "raro", tipo: "equipamento", especialSorteavel: true, requisitos: { tracos: "druida_herdeiro" },
+      descricao: "Arma de madeira do Druida-Herdeiro. Começa com +2 Ataque e cresce em +1 no início de cada primavera depois do primeiro ano, até +5. Encarece Arma melhor em 2 Gold. O mímico não pode destruí-lo.",
+      categoria: "arma", raridade: "raro", tipo: "equipamento", especialSorteavel: true, imuneMimico: true, requisitos: { tracos: "druida_herdeiro" },
       encarece: "arma_melhor", aoReceber: { ataque: 2 }, guardarAposReceber: true
     },
     {
@@ -263,13 +269,13 @@
     },
     {
       id: "semente_bosque_sagrado", nome: "Semente do bosque sagrado", texto: "Semente do bosque sagrado · planta um bosque permanente",
-      descricao: "Uso único do Druida-Herdeiro. Planta um bosque que acrescenta 1 Habitante a cada 5 rodadas e 1 Sintonia ao fim de cada ano.",
+      descricao: "Uso único do Druida-Herdeiro. Planta um bosque que acrescenta 1 Habitante a cada 5 rodadas.",
       categoria: "reliquia", raridade: "epico", tipo: "uso", especialSorteavel: true, requisitos: { tracos: "druida_herdeiro" },
       uso: { umaVezPorRun: true, bosqueSagrado: true }
     },
     {
-      id: "mascara_de_cervo", nome: "Máscara do Cervo", texto: "Máscara do Cervo · +2 Escudo e proteção sazonal",
-      descricao: "Relíquia lendária desbloqueada ao manter a Sintonia alta por três anos. Concede +2 Escudo a qualquer herdeiro; no Druida, também remove os encargos das estações e eleva o animal um nível, até o nível 3.",
+      id: "mascara_de_cervo", nome: "Máscara do Cervo", texto: "Máscara do Cervo · +2 Escudo · +1 cura do Cervo",
+      descricao: "Relíquia lendária desbloqueada após três anos consecutivos com Honra alta. Concede +2 Escudo a qualquer herdeiro; no Druida, a passiva do Cervo recupera 1 Vida adicional.",
       categoria: "reliquia", raridade: "lendario", tipo: "equipamento", especialSorteavel: true,
       requerDesbloqueio: "mascara_de_cervo", aoReceber: { escudo: 2 }, guardarAposReceber: true
     }

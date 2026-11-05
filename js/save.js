@@ -78,14 +78,11 @@
     if (!(["corajoso", "avarento", "doente", "druida_herdeiro"].includes(run.traco))
       || !Jogo.estacoes.includes(run.estacao) || !ids(run.construcoes)
       || !inteiro(run.cultoRendaPorRodada) || run.cultoRendaPorRodada < 0 || run.cultoRendaPorRodada > 2) return false;
-    if (run.traco === "druida_herdeiro" && (!inteiro(run.sintonia) || run.sintonia < 0 || run.sintonia > 10
-      || !objeto(run.animal) || !["lobo", "corvo", "cervo"].includes(run.animal.tipo)
-      || !inteiro(run.animal.nivel) || run.animal.nivel < 1 || run.animal.nivel > 3
+    if (run.traco === "druida_herdeiro" && (!Object.hasOwn(Jogo.druida.passivas, run.druidaPassiva)
       || !inteiro(run.cajadoBonusAtaque) || run.cajadoBonusAtaque < 2 || run.cajadoBonusAtaque > 5
       || !inteiro(run.druidaAnosAlta) || run.druidaAnosAlta < 0 || run.druidaAnosAlta > 3
       || !inteiro(run.druidaAnoAvaliado) || run.druidaAnoAvaliado < 0 || run.druidaAnoAvaliado > run.rodada
       || (run.druidaAnoAvaliado !== 0 && run.druidaAnoAvaliado % 100 !== 0)
-      || typeof run.avisoEstacao !== "string"
       || !(run.previsaoCorvo === null || typeof run.previsaoCorvo === "string")
       || !(run.corvoRevelaOpcaoId === null || typeof run.corvoRevelaOpcaoId === "string"))) return false;
     if (!inteiro(run.hpMax) || run.hpMax < 1 || run.atributos.hp > run.hpMax
@@ -240,12 +237,19 @@
       }
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "traco")) dados.traco = "corajoso";
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "estacao")) dados.estacao = Jogo.estacaoDaRodada(dados.rodada || 1, dados);
-      if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "avisoEstacao")) dados.avisoEstacao = "";
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "previsaoCorvo")) dados.previsaoCorvo = null;
       if (objeto(dados) && dados.versao === Jogo.config.versao && !Object.hasOwn(dados, "corvoRevelaOpcaoId")) dados.corvoRevelaOpcaoId = null;
       if (objeto(dados) && dados.versao === Jogo.config.versao && dados.traco === "druida_herdeiro") {
-        if (!Object.hasOwn(dados, "sintonia")) dados.sintonia = 5;
-        if (!Object.hasOwn(dados, "animal")) dados.animal = { tipo: "lobo", nivel: 1 };
+        if (!Object.hasOwn(dados, "druidaPassiva") || !Object.hasOwn(Jogo.druida.passivas, dados.druidaPassiva)) {
+          const tipoAntigo = dados.animal?.tipo;
+          dados.druidaPassiva = Object.hasOwn(Jogo.druida.passivas, tipoAntigo)
+            ? tipoAntigo : Object.keys(Jogo.druida.passivas)[Math.floor(Math.random() * Object.keys(Jogo.druida.passivas).length)];
+        }
+        if (Object.hasOwn(dados, "sintonia")) dados.druidaAnosAlta = 0;
+        delete dados.sintonia;
+        delete dados.animal;
+        delete dados.avisoEstacao;
+        if (objeto(dados.ultimoResultado?.alteracoes)) delete dados.ultimoResultado.alteracoes.sintonia;
         if (!Object.hasOwn(dados, "cajadoBonusAtaque")) dados.cajadoBonusAtaque = 2;
         if (!Object.hasOwn(dados, "druidaAnosAlta")) dados.druidaAnosAlta = 0;
         if (!Object.hasOwn(dados, "druidaAnoAvaliado")) dados.druidaAnoAvaliado = 0;

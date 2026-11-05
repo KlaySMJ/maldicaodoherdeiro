@@ -5268,11 +5268,14 @@
   }
 
   const cartaBruxa = Jogo.eventos.find(evento => evento.id === "bruxa");
-  if (cartaBruxa) cartaBruxa.peso = 5;
+  if (cartaBruxa) {
+    cartaBruxa.peso = 2;
+    cartaBruxa.grupoRecorrencia = "bruxa";
+  }
 
   Jogo.eventos.push(
     {
-      id: "bruxa_fio_da_vida", titulo: "A bruxa e o fio da vida", tipo: "encontro", peso: 3,
+      id: "bruxa_fio_da_vida", titulo: "A bruxa e o fio da vida", tipo: "encontro", peso: 1, grupoRecorrencia: "bruxa",
       requisitos: { flagsAusentes: ["bruxa_fio_da_vida_resolvida"] },
       imagem: "assets/ervas.png", imagemAlt: "Ervas medicinais arrumadas junto a um pilão",
       texto: "A bruxa retorna com um feixe de raízes frescas. Diz que pode fechar suas feridas ou ensinar a vila a reconhecer as plantas.",
@@ -5284,7 +5287,7 @@
       ]
     },
     {
-      id: "bruxa_frutos_negros", titulo: "Frutos negros na soleira", tipo: "encontro", peso: 3,
+      id: "bruxa_frutos_negros", titulo: "Frutos negros na soleira", tipo: "encontro", peso: 1, grupoRecorrencia: "bruxa",
       requisitos: { flagsAusentes: ["bruxa_frutos_resolvido"] },
       imagem: "assets/vila.png", imagemAlt: "Um pequeno cesto deixado diante de uma porta",
       texto: "Um cesto de frutos escuros aparece diante do salão. A bruxa espera no caminho e garante que são seguros, desde que ninguém os cozinhe em ferro.",
@@ -5296,7 +5299,7 @@
       ]
     },
     {
-      id: "bruxa_vela", titulo: "A vela que não apaga", tipo: "encontro", peso: 3,
+      id: "bruxa_vela", titulo: "A vela que não apaga", tipo: "encontro", peso: 1, grupoRecorrencia: "bruxa",
       requisitos: { flagsAusentes: ["bruxa_vela_resolvida"] },
       imagem: "assets/ervas.png", imagemAlt: "Uma vela curta entre folhas secas e pequenos frascos",
       texto: "A bruxa acende uma vela no pátio. O vento a dobra, mas não a apaga. Ela oferece a chama para proteger sua próxima batalha.",
@@ -5308,7 +5311,7 @@
       ]
     },
     {
-      id: "bruxa_fonte", titulo: "Água para a bruxa", tipo: "encontro", peso: 3,
+      id: "bruxa_fonte", titulo: "Água para a bruxa", tipo: "encontro", peso: 1, grupoRecorrencia: "bruxa",
       requisitos: { flagsAusentes: ["bruxa_fonte_resolvida"] },
       imagem: "assets/poco.png", imagemAlt: "Um poço de pedra com um balde de madeira",
       texto: "A bruxa encontra o poço quase seco e pede ajuda para descer um balde. Diz que precisa de água limpa para uma cura, não para um feitiço.",
