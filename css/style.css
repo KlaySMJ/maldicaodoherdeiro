@@ -91,7 +91,7 @@ body[data-tela="inicio"] #app, body[data-tela="fim"] #app { display: flex; align
 .acoes-menu { display: grid; gap: 10px; margin-top: 20px; }
 .acoes-menu .botao { width: 100%; }
 .acoes-menu .botao span { font-size: 14px; }
-.acoes-menu .debug-transformacoes-menu, .acoes-menu .debug-druida-menu { margin-top: 5px; border-style: dashed; color: var(--secundaria); font-size: 13px; }
+.acoes-menu .debug-transformacoes-menu, .acoes-menu .debug-druida-menu, .acoes-menu .debug-menino-menu { margin-top: 5px; border-style: dashed; color: var(--secundaria); font-size: 13px; }
 .abertura-texto > .nota { margin-top: 16px; }
 .painel-legado, .painel-backup { border-top: 1px solid #514a40; }
 .painel-legado > summary, .painel-backup > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; cursor: pointer; color: var(--secundaria); font-size: 14px; list-style: none; }

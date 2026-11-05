@@ -119,6 +119,11 @@
         );
         Jogo.ui.menu(run);
         break;
+      case "debug-iniciar-menino":
+        if (run?.status === "ativa" && !(await Jogo.ui.confirmarNovaRun())) break;
+        if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
+        iniciar("menino_cronista", true);
+        break;
       case "carregar":
         carregar();
         break;

@@ -439,6 +439,7 @@
             <input id="importar-progresso-arquivo" type="file" accept="application/json,.json" hidden>
             <button class="botao debug-transformacoes-menu" data-acao="debug-transformacoes">Debug: ver transformações</button>
             <button class="botao debug-druida-menu" data-acao="debug-alternar-druida" aria-pressed="${forcarDruida}">Debug: sempre iniciar como Druida · ${forcarDruida ? "ativo" : "inativo"}</button>
+            <button class="botao debug-menino-menu" data-acao="debug-iniciar-menino">Debug: iniciar como Menino da Crônica</button>
           </div>
           <p class="nota">${run ? "Há uma história esperando por você." : "Sua primeira história ainda não foi escrita."}</p>
         </div>
@@ -462,8 +463,12 @@
         <div class="selecao-herdeiro-lista">${opcoesHerdeiro
           .map((herdeiro) => {
             const desbloqueado = disponiveis.has(herdeiro.traco);
+            const imagemBase = `assets/herdeiros/${herdeiro.imagem}-neutra.png`;
+            const versaoImagem = window.JOGO_VERSAO_ASSETS
+              ? `${imagemBase}?v=${encodeURIComponent(window.JOGO_VERSAO_ASSETS)}`
+              : imagemBase;
             return `<button class="herdeiro-opcao" data-acao="selecionar-herdeiro" data-traco="${herdeiro.traco}" ${desbloqueado ? "" : "disabled"}>
-              <img src="assets/herdeiros/${herdeiro.imagem}-neutra.png" width="96" height="128" alt="">
+              <img src="${esc(versaoImagem)}" width="96" height="128" alt="">
               <span class="herdeiro-opcao-texto"><strong>${esc(herdeiro.nome)}</strong><span>${esc(herdeiro.descricao)}</span><small>${desbloqueado ? "Disponível" : herdeiro.traco === "menino_cronista" ? "Acolha o órfão com honra e torne-o conselheiro." : "Poupe o cervo branco para encontrar este herdeiro."}</small></span><span class="herdeiro-opcao-seta" aria-hidden="true">→</span>
             </button>`;
           })
@@ -754,10 +759,12 @@
 
   function caminhoRetrato(traco, faixa, cultoAtivo) {
     const personagem = retratos[traco] || retratos.corajoso;
+    const versao = window.JOGO_VERSAO_ASSETS;
+    const comVersao = (caminho) => (versao ? `${caminho}?v=${encodeURIComponent(versao)}` : caminho);
     if (traco === "druida_herdeiro")
-      return `assets/herdeiros/druida-herdeiro-${cultoAtivo ? "culto" : faixa}.png`;
-    if (cultoAtivo) return "assets/herdeiros/" + personagem.arquivo + "-culto.png";
-    return "assets/herdeiros/" + personagem.arquivo + "-" + faixa + ".png";
+      return comVersao(`assets/herdeiros/druida-herdeiro-${cultoAtivo ? "culto" : faixa}.png`);
+    if (cultoAtivo) return comVersao("assets/herdeiros/" + personagem.arquivo + "-culto.png");
+    return comVersao("assets/herdeiros/" + personagem.arquivo + "-" + faixa + ".png");
   }
 
   function precarregarProximaCarta(src) {

@@ -28,7 +28,7 @@ Na análise original: 4 loops e **zero efeitos sonoros** (`js/audio.js:4-9`).
 
 - [x] **Aquecer a paleta da UI** — fundo `#0a0908`, superfícies em carvão quente e texto marfim.
 - [x] **Faixas de honra no fundo da carta** — a carta recebe um tom sutil conforme a faixa de honra.
-- [ ] **Arte para eventos genéricos** — a medição original encontrou `assets/vila.webp` em **78** cartas e o retrato do conselheiro em **30**. Trinta cartas agora usam WebPs temáticos existentes; referências dinâmicas permanecem e cenas sem arte compatível continuam com a vila.
+- [ ] **Arte para eventos genéricos** — a medição original encontrou `assets/vila.webp` em **78** cartas e o retrato do conselheiro em **30**. Trinta e seis cartas agora usam WebPs temáticos existentes; referências dinâmicas permanecem e cenas sem arte compatível continuam com a vila.
 
 
 ## 4. Balanceamento
@@ -41,13 +41,13 @@ Na análise original: 4 loops e **zero efeitos sonoros** (`js/audio.js:4-9`).
 | Efeitos honra / escudo / ataque | **550** / 42 / 49 | escolhas de combate são pobres vs. morais |
 | Opções com `testeSorte` | **35 de 750 (4,7%)** | jogo quase 100% determinístico |
 | Eventos com peso 0 / ≥3 | 10 / 30 | sorteio concentrado |
-| Renda | 1 gold a cada 3 rodadas por 50 hab. | arma de 10 gold ≈ 30 rodadas sem eventos |
+| Renda | 1 gold a cada 3 rodadas por 50 hab. | a poção de 5 Gold já cabe no saldo inicial; arma/escudo de 10 Gold ficam ao alcance por volta da rodada 15 se o ouro for guardado |
 
 - [x] **Dar progressão por rodada** — 39 eventos existentes ganharam marcos entre as rodadas 8 e 50, além de eventos tardios novos.
 - [x] **Endurecer as batalhas tardias** — a dificuldade cresce a cada 10 rodadas e ganha estágios extras a cada 20 rodadas após a 30.
 - [ ] **Equilibrar os atributos** — os eventos novos dão mais caminhos para ataque e escudo, mas a distribuição geral de honra ainda precisa de uma revisão de balanceamento.
 - [x] **Mais moeda sob risco** — novas opções de sorte colocam ouro e recursos em risco e trazem alternativas de combate/defesa.
-- [ ] **Revisar a economia** — confirmar se 1 gold/3 rodadas não torna o mercador irrelevante nas primeiras 30 rodadas.
+- [x] **Revisar a economia inicial** — com 5 Gold iniciais, a poção de 5 é acessível desde o começo e arma/escudo de 10 ficam ao alcance por volta da rodada 15 com 50 habitantes e sem outras compras. Preços preservados; a conta estática precisa de validação em partidas reais.
 
 ## 5. Novas features
 
@@ -118,5 +118,5 @@ O **Druida já é o modelo**: 8 PNG, 1 SVG, desbloqueio por `desbloqueia.flags` 
 
 - A primeira vitória acontece ao concluir 100 rodadas; a objetiva do Druida foi ajustada para um ano para continuar alcançável.
 - A arte temática reaproveita WebPs existentes. As cenas ainda sem imagem específica continuam com `vila.webp`; retratos de conselheiro mantêm seus usos dinâmicos.
-- A renda base foi revisada: 50 habitantes geram 1 Gold a cada 3 rodadas; nenhuma alteração de preço foi feita sem uma medição de partidas.
+- A economia inicial foi revisada por cálculo: 5 Gold iniciais pagam a poção; guardando o ouro e mantendo 50 habitantes, arma ou escudo de 10 Gold ficam ao alcance por volta da rodada 15. Preços preservados; a validação em partidas reais continua pendente.
 - A conversão opcional de WAV para Ogg/MP3 e a revisão ampla do peso de honra continuam pendentes.

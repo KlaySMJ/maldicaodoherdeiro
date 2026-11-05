@@ -86,6 +86,22 @@ Isso vale para os 4 ids atuais também.
 
 ### Arte por herdeiro
 
+#### Base visual obrigatória para construir um herdeiro
+
+- Antes de gerar ou revisar um herdeiro, consultar `MEMORIA-ILUSTRACOES.md` por inteiro.
+- Usar `assets/herdeiros/corajoso-neutra.png`, `avarento-neutra.png` e `doente-neutra.png` como referências visuais diretas, junto da arte neutra do personagem em construção para preservar sua identidade. Não basta descrever o estilo em texto.
+- O resultado precisa pertencer ao mesmo elenco: busto transparente com enquadramento e proporção equivalentes, contorno preto espesso e irregular, formas simplificadas, hachura econômica, marfim e preto com dourado pequeno e localizado.
+- Preservar o rosto e os traços próprios do novo personagem. Tomar o elenco como base de estilo e composição, sem copiar rosto, coroa, roupa ou símbolos exclusivos de outro herdeiro.
+- Construir as variantes de honra e culto a partir da imagem neutra aprovada, mantendo o mesmo rosto, idade, cabelo e proporção. A roupa deve carregar a maior parte da mudança de estado; a expressão muda pouco e acompanha o traje, sem ser a única diferença visível.
+- Distinguir cada faixa por corte, cor, condição e acabamento próprios da roupa. A expressão deve continuar reconhecível como a mesma pessoa; exceções como raiva na honra negativa ou malícia no culto devem ser sutis e explícitas no pedido.
+- Distinguir a variante de culto com roupa própria e acentos pedidos — para o Menino da Crônica, tecido vermelho e expressão um pouco maliciosa. Ela continua na linguagem visual do elenco, sem mudar para outro estilo de desenho.
+
+#### Aplicação no Menino da Crônica
+
+- A arte neutra e as sete variantes devem seguir as referências dos outros herdeiros no contorno, simplificação do rosto, proporção do busto, coroa pequena e fundo transparente.
+- As faixas de honra se distinguem principalmente pela roupa: limpa e bem cortada nas faixas altas, mais escura, gasta e remendada nas negativas. A expressão varia pouco; nas negativas fica irritada sem exagero.
+- Honra máxima usa roupa formal simples, sem louros e sem camadas volumosas. O culto tem traje vermelho próprio e sorriso discretamente malicioso.
+
 `js/ui.js:488-492` monta o caminho: `assets/herdeiros/<arquivo>-<faixa>.png`
 
 | Peça | Qtd | Faixas (`js/ui.js:67-74`) |
