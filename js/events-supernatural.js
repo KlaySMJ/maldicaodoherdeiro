@@ -9,7 +9,7 @@
       marcaCondicaoDecidida: true,
       texto: "Por três noites seguidas, uivos que não parecem de lobo vêm do bosque. Na manhã do quarto dia, as pegadas na lama são de algo que anda sobre duas e quatro patas.",
       informacoes: "Ninguém viu a criatura. Os cães pararam de comer.",
-      imagem: "assets/vila.png", imagemAlt: "O bosque escuro além das casas da vila",
+      imagem: "assets/vila.webp", imagemAlt: "O bosque escuro além das casas da vila",
       opcoes: [
         { id: "cacar", texto: "Caçar a fera com os guardas.", testeSorte: { chance: 55,
           sucesso: { efeitos: { honra: 4, gold: 6 }, resultado: "A fera cai com uma lança no flanco. A pele rende 6 Gold, e os guardas voltam com histórias demais para uma só noite." },
@@ -27,7 +27,7 @@
       marcaCondicaoDecidida: true,
       texto: "Um viajante de rosto muito claro bate ao portão depois do anoitecer. Pede pouso por uma noite, recusa a comida e prefere ficar longe dos espelhos do salão. Seus dentes parecem limpos demais.",
       informacoes: "Ele é educado e sabe o nome de todos os seus criados.",
-      imagem: "assets/vila.png", imagemAlt: "Um viajante pálido aguarda diante do portão",
+      imagem: "assets/vila.webp", imagemAlt: "Um viajante pálido aguarda diante do portão",
       opcoes: [
         { id: "conversar", texto: "Dar-lhe pouso e conversar a noite toda.", testeSorte: { chance: 60,
           sucesso: { efeitos: { gold: 6, honra: 2 }, resultado: "Ele deixa um saco de moedas antigas e uma frase sobre a hospitalidade. Ao amanhecer, a cama está intacta." },
@@ -45,7 +45,7 @@
       marcaCondicaoDecidida: true,
       texto: "Durante a exumação de um velho cemitério, os coveiros encontram um anel de ferro no dedo de um esqueleto. O ferro ainda está quente. Alguns juram que ouvem uma voz, dizendo seu nome.",
       informacoes: "O anel parece valer mais do que o corpo, mas a voz também parece valer.",
-      imagem: "assets/vila.png", imagemAlt: "Um anel de ferro repousa sobre a terra de uma sepultura",
+      imagem: "assets/vila.webp", imagemAlt: "Um anel de ferro repousa sobre a terra de uma sepultura",
       opcoes: [
         { id: "colocar", texto: "Colocar o anel no dedo.", testeSorte: { chance: 55,
           sucesso: { efeitos: { gold: 8, ataque: 1 }, resultado: "A voz cala. O anel esfria e se ajusta ao dedo como uma velha amizade. Por alguns dias, tudo parece mais fácil." },
@@ -61,7 +61,7 @@
       disparadoPelaEngine: true,
       texto: "A lua sobe grande e branca. Suas unhas pesam, os dentes doem, e a voz dentro de você já não pede licença. O salão parece pequeno demais.",
       informacoes: "A noite dura até o amanhecer. O que você fizer, a vila lembrará.",
-      imagem: "assets/vila.png", imagemAlt: "A lua cheia ilumina o bosque ao redor da vila",
+      imagem: "assets/vila.webp", imagemAlt: "A lua cheia ilumina o bosque ao redor da vila",
       opcoes: [
         { id: "acorrentar", texto: "Acorrentar-se no porão.", efeitos: { honra: 1, hp: -6 },
           resultado: "As correntes aguentam, e o porão, não. Pela manhã, você acorda sangrando, com as paredes marcadas e a vila intacta." },
@@ -78,7 +78,7 @@
       disparadoPelaEngine: true,
       texto: "A fome chega como um zumbido nos ouvidos. Os criados dormem, o cavalo respira no estábulo, e o cheiro de sangue, mesmo de longe, tem gosto de lembrança.",
       informacoes: "A sede não passa sozinha. No inventário, a Sede de sangue troca um aldeão por Vida.",
-      imagem: "assets/vila.png", imagemAlt: "A noite cobre as casas enquanto uma janela permanece acesa",
+      imagem: "assets/vila.webp", imagemAlt: "A noite cobre as casas enquanto uma janela permanece acesa",
       opcoes: [
         { id: "morador", texto: "Beber de um morador adormecido.", requisitos: { itensProntos: ["sede_de_sangue"] }, efeitos: { hp: 15, habitantes: -1, honra: -4 }, iniciarRecargaItens: ["sede_de_sangue"],
           resultado: "Ele não acorda. A vila só nota na manhã seguinte, e o silêncio do enterro é o pior dos ruídos." },
@@ -95,7 +95,7 @@
       disparadoPelaEngine: true,
       texto: "A voz fala baixo, bem perto do ouvido. Diz que sabe quem na vila mente, quem rouba, quem merece. Pede só que você faça o que ela mandar, uma vez.",
       informacoes: "A voz não parece mentir. Esse é o problema.",
-      imagem: "assets/vila.png", imagemAlt: "Uma sombra parece sussurrar junto ao ouvido do herdeiro",
+      imagem: "assets/vila.webp", imagemAlt: "Uma sombra parece sussurrar junto ao ouvido do herdeiro",
       opcoes: [
         { id: "obedecer", texto: "Obedecer à voz.", efeitos: { gold: 10, ataque: 1, honra: -4 },
           resultado: "Você faz o que ela manda. O resultado é prático e sujo. Pela manhã, ninguém olha você de frente." },
@@ -113,7 +113,7 @@
       requisitos: { condicaoAtiva: "licantropia", rodadasDesde: { condicao: 16 }, flagsAusentes: ["condicao_abracada", "condicao_curada"] },
       texto: "Uma velha de colar de dentes pede para vê-lo na lua nova. Diz que sabe o que você é e que há maneiras de mudar isso. Nenhuma é de graça.",
       informacoes: "Ela fala sem pressa, como quem já curou outros.",
-      imagem: "assets/vila.png", imagemAlt: "Uma velha aguarda junto a um círculo de pedras",
+      imagem: "assets/vila.webp", imagemAlt: "Uma velha aguarda junto a um círculo de pedras",
       opcoes: [
         { id: "prata", texto: "Cravar a lâmina de prata benta no chão do círculo.", requisitos: { itens: ["lamina_de_prata_benta"] }, consumirItens: ["lamina_de_prata_benta"], efeitos: { honra: 4, hp: -10 }, curarCondicao: true,
           resultado: "A lâmina se parte ao tocar a pedra, e a lua parece escurecer de vergonha. Seus pelos caem como folhas." },
@@ -130,7 +130,7 @@
       requisitos: { condicaoAtiva: "vampirismo", rodadasDesde: { condicao: 16 }, flagsAusentes: ["condicao_abracada", "condicao_curada"] },
       texto: "Um padre andarilho bate ao salão e olha para você sem medo. Diz que o reconhece e que a última coisa que ainda existe de humano em você pode ser salva, se você quiser.",
       informacoes: "Ele traz uma cruz de madeira e um sorriso triste.",
-      imagem: "assets/vila.png", imagemAlt: "Um padre viajante segura uma cruz diante do salão",
+      imagem: "assets/vila.webp", imagemAlt: "Um padre viajante segura uma cruz diante do salão",
       opcoes: [
         { id: "estaca", texto: "Cravar a estaca de freixo no próprio peito, de leve.", requisitos: { itens: ["estaca_de_freixo"] }, consumirItens: ["estaca_de_freixo"], efeitos: { honra: 4, hp: -15 }, curarCondicao: true,
           resultado: "A dor é de um fogo antigo. A estaca vira cinza, e os espelhos voltam a mostrar seu rosto." },
@@ -148,7 +148,7 @@
       requisitos: { condicaoAtiva: "possessao", rodadasDesde: { condicao: 16 }, flagsAusentes: ["condicao_abracada", "condicao_curada"] },
       texto: "A voz, hoje, fala em outra língua. Alguns moradores rezam em frente ao salão. Uma criança aponta para você e pergunta quem é o homem atrás do senhor.",
       informacoes: "A voz está fraca. Esta pode ser a única janela.",
-      imagem: "assets/vila.png", imagemAlt: "Moradores rezam diante das portas do salão",
+      imagem: "assets/vila.webp", imagemAlt: "Moradores rezam diante das portas do salão",
       opcoes: [
         { id: "sino", texto: "Realizar o exorcismo com o sino consagrado.", requisitos: { itens: ["sino_de_exorcismo"] }, consumirItens: ["sino_de_exorcismo"], efeitos: { honra: 4, hp: -10 }, curarCondicao: true,
           resultado: "O sino toca uma nota que parece vir de baixo. A voz grita uma vez e depois cala. A sala inteira respira junto." },

@@ -20,7 +20,13 @@ function preparar() {
     }
   };
   const contexto = vm.createContext({ window, CustomEvent: class { constructor(tipo, opcoes) { this.detail = opcoes.detail; } } });
-  for (const nome of ["state", "events", "items", "legacy", "engine", "save"]) {
+  for (const nome of [
+    "state", "events", "events-vila", "events-pactos", "events-abissais", "events-baus",
+    "events-personagens-cadeias", "events-conselheiro", "events-recompensas", "events-specials",
+    "events-lethal", "events-cult", "events-foundations", "events-entity", "events-supernatural",
+    "events-grail", "events-druida", "events-anuais", "events-personagens", "events-artes-especificas",
+    "events-ajustes", "items", "legacy", "engine", "save"
+  ]) {
     vm.runInContext(fs.readFileSync(path.join(__dirname, `../js/${nome}.js`), "utf8"), contexto);
   }
   const J = window.Jogo;

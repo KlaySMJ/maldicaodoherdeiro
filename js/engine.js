@@ -185,6 +185,7 @@
 
   function eventoDisponivel(evento, run, aleatorio = Math.random) {
     if (evento.letal && run.rodada < 6) return false;
+    if (run.flags.menino_conselheiro && evento.conselheiroPadrao && evento.conselhoNegativo) return false;
     if ((evento.letal || evento.oncePerRun) && run.flags[`${evento.id}_visto`]) return false;
     if (evento.oncePerYear && run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`]) return false;
     if (evento.especial && run.flags[`especial_${evento.id}`] === true) return false;
@@ -1140,6 +1141,27 @@
     return registrarSorteio(run, evento);
   }
 
+  function debugAtivarNovoConselheiro(run) {
+    if (run?.status !== "ativa" || run.aguardaDecisaoCulto) return false;
+    const evento = Jogo.eventos.find(candidato => candidato.id === "conselheiro_menino_armazem");
+    if (!evento) return false;
+
+    run.flags = {
+      ...run.flags,
+      menino_conselheiro: true,
+      mao_do_rei_resolvida: true,
+      primeiro_conselho_resolvido: true
+    };
+    run.consequenciasAgendadas = (run.consequenciasAgendadas || [])
+      .filter(item => ![evento.id, "primeiro_conselho_do_menino"].includes(item.eventoId));
+    run.fase = "escolha";
+    run.ultimoResultado = null;
+    run.aguardaDecisaoCulto = false;
+    run.inventarioAberto = false;
+    run.avisoInventario = null;
+    return registrarSorteio(run, evento);
+  }
+
   function debugForcarCondicao(run, id) {
     if (run?.status !== "ativa" || run.aguardaDecisaoCulto || !modificadoresCondicao[id]) return false;
     const antes = { ...run.atributos };
@@ -1392,5 +1414,5 @@
     return true;
   }
 
-  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, usarItem, podeUsarItem, recargaItemRestante, concederItem, sortearItemGenerico, batalhaAjustada, juntarCulto, encerrarSemCulto, ofertaMercador, precoMercadoria, podePagar, rendaDaVila, testarHonra, debugDiminuirHabitantes, debugAtivarContagio, debugForcarCondicao, debugAtivarEventoEspecial, eventoCondicaoDevido, curarCondicao, sincronizarItemVampirismo, avancar, registrarSorteio, encerrar, motivoDerrota };
+  Jogo.engine = { cumpre, pools, opcoes, peso, sortear, escolher, comprar, usarItem, podeUsarItem, recargaItemRestante, concederItem, sortearItemGenerico, batalhaAjustada, juntarCulto, encerrarSemCulto, ofertaMercador, precoMercadoria, podePagar, rendaDaVila, testarHonra, debugDiminuirHabitantes, debugAtivarContagio, debugAtivarNovoConselheiro, debugForcarCondicao, debugAtivarEventoEspecial, eventoCondicaoDevido, curarCondicao, sincronizarItemVampirismo, avancar, registrarSorteio, encerrar, motivoDerrota };
 })();

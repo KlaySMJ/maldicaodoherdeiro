@@ -7,7 +7,7 @@
   const evento = (id, titulo, rodada, peso, imagem, texto, informacoes, opcoes, requisitos = {}) => ({
     id, titulo, tipo: "letal", letal: true, peso,
     requisitos: { rodadaMin: rodada, ...requisitos },
-    imagem: `assets/eventos-letais/${imagem}.png`,
+    imagem: `assets/eventos-letais/${imagem}.webp`,
     imagemAlt: `${titulo}, ilustração em traços brancos sobre preto`, texto, informacoes, opcoes
   });
   Jogo.eventos.push(

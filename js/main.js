@@ -27,6 +27,13 @@
     }
   }
 
+  function ativarNovoConselheiroDebug() {
+    if (Jogo.engine.debugAtivarNovoConselheiro(run)) {
+      Jogo.save.gravarRun(run);
+      mostrarJogo();
+    }
+  }
+
   function forcarCondicaoDebug(condicaoId) {
     if (Jogo.engine.debugForcarCondicao(run, condicaoId)) {
       Jogo.save.gravarRun(run);
@@ -95,6 +102,7 @@
         }
         break;
       case "debug-transformacoes": Jogo.ui.preverTransformacoes(run); break;
+      case "detalhes-condicao": Jogo.ui.mostrarDetalhesCondicao(run); break;
       case "debug-especial-entidade": ativarEventoEspecialDebug("entidade"); break;
       case "debug-especial-abissal": ativarEventoEspecialDebug("abissal"); break;
       case "debug-especial-zodiaco": ativarEventoEspecialDebug("zodiaco"); break;
@@ -102,6 +110,7 @@
       case "debug-contagio-uivos": ativarContagioDebug("uivos_no_bosque"); break;
       case "debug-contagio-hospede": ativarContagioDebug("hospede_palido"); break;
       case "debug-contagio-anel": ativarContagioDebug("anel_do_defunto"); break;
+      case "debug-conselheiro": ativarNovoConselheiroDebug(); break;
       case "debug-condicao-licantropia": forcarCondicaoDebug("licantropia"); break;
       case "debug-condicao-vampirismo": forcarCondicaoDebug("vampirismo"); break;
       case "debug-condicao-possessao": forcarCondicaoDebug("possessao"); break;

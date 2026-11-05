@@ -5,7 +5,7 @@
     {
       id: "companhia_da_vila", titulo: "Uma companhia improvável", tipo: "encontro", peso: 1,
       oncePerRun: true, requisitos: { flagsAusentes: ["companhia_da_vila_visto"] },
-      imagem: "assets/eventos-sistemas/companhia.png", imagemAlt: "Um cão, um corvo e um gato junto ao portão",
+      imagem: "assets/eventos-sistemas/companhia.webp", imagemAlt: "Um cão, um corvo e um gato junto ao portão",
       texto: "Três animais passam a noite junto ao portão. Pela manhã, cada um parece ter escolhido você.",
       informacoes: "Um deles pode acompanhar o herdeiro. Os outros voltarão à estrada.",
       opcoes: [
@@ -17,7 +17,7 @@
     {
       id: "construcoes_da_vila", titulo: "Obras para a vila", tipo: "encontro", peso: 1,
       oncePerRun: true, requisitos: { flagsAusentes: ["construcoes_da_vila_visto"] },
-      imagem: "assets/eventos-sistemas/construcoes.png", imagemAlt: "Uma pequena forja e muralhas de pedra em construção",
+      imagem: "assets/eventos-sistemas/construcoes.webp", imagemAlt: "Uma pequena forja e muralhas de pedra em construção",
       texto: "Os mestres apresentam os planos de novas obras. O cofre só pode financiar uma delas nesta crônica.",
       informacoes: "A construção escolhida concede um benefício visível durante esta run.",
       opcoes: [
@@ -33,7 +33,7 @@
     },
     {
       id: "prova_do_traco", titulo: "A marca do herdeiro", tipo: "encontro", peso: 1,
-      imagem: "assets/eventos-sistemas/traco.png", imagemAlt: "Três símbolos gravados em madeira: lança, moeda e ramo de ervas",
+      imagem: "assets/eventos-sistemas/traco.webp", imagemAlt: "Três símbolos gravados em madeira: lança, moeda e ramo de ervas",
       texto: "Um velho escriba encontra uma anotação sobre a natureza deste herdeiro. O povo espera para ver se ela é destino ou apenas tinta.",
       informacoes: "O que recebeu ao nascer ainda pode mudar pelo que faz.",
       opcoes: [
@@ -44,7 +44,7 @@
     },
     {
       id: "festival_primavera", titulo: "As primeiras sementes", tipo: "encontro", peso: 1,
-      requisitos: { estacao: "primavera" }, imagem: "assets/eventos-sistemas/primavera.png", imagemAlt: "Sementes nas mãos de uma criança",
+      requisitos: { estacao: "primavera" }, imagem: "assets/eventos-sistemas/primavera.webp", imagemAlt: "Sementes nas mãos de uma criança",
       texto: "A terra amolece depois do frio. Uma criança traz sementes encontradas perto do moinho e pergunta se pode plantá-las.",
       informacoes: "É o primeiro sinal de primavera.", opcoes: [
         { id: "plantar", texto: "Entregar as sementes às famílias.", efeitos: { habitantes: 2, honra: 2 }, resultado: "As famílias dividem o terreno e guardam um punhado de sementes para o próximo ano." },
@@ -53,7 +53,7 @@
     },
     {
       id: "festival_verao", titulo: "O dia mais longo", tipo: "encontro", peso: 1,
-      requisitos: { estacao: "verao" }, imagem: "assets/eventos-sistemas/verao.png", imagemAlt: "Uma roda de moradores reunida sob o sol alto",
+      requisitos: { estacao: "verao" }, imagem: "assets/eventos-sistemas/verao.webp", imagemAlt: "Uma roda de moradores reunida sob o sol alto",
       texto: "O sol demora a se pôr. A vila acende uma fogueira e pede que o senhor abra os celeiros para uma noite de festa.",
       informacoes: "A noite de verão não dura para sempre.", opcoes: [
         { id: "festejar", texto: "Abrir os celeiros.", efeitos: { habitantes: 3, honra: 2, gold: -2 }, resultado: "A festa continua até o amanhecer. Três viajantes decidem ficar." },
@@ -62,7 +62,7 @@
     },
     {
       id: "festival_outono", titulo: "A última colheita", tipo: "encontro", peso: 1,
-      requisitos: { estacao: "outono" }, imagem: "assets/eventos-sistemas/outono.png", imagemAlt: "Um cesto de grãos sob folhas secas",
+      requisitos: { estacao: "outono" }, imagem: "assets/eventos-sistemas/outono.webp", imagemAlt: "Um cesto de grãos sob folhas secas",
       texto: "Os últimos feixes chegam dos campos. Há grão suficiente para guardar ou vender, mas não para as duas coisas.",
       informacoes: "A próxima estação será fria.", opcoes: [
         { id: "guardar", texto: "Guardar metade para o inverno.", efeitos: { habitantes: 2, honra: 2 }, resultado: "Os sacos descem ao celeiro. Duas famílias aceitam passar o inverno na vila." },
@@ -71,7 +71,7 @@
     },
     {
       id: "festival_inverno", titulo: "A vigília do solstício", tipo: "encontro", peso: 1,
-      requisitos: { estacao: "inverno" }, imagem: "assets/eventos-sistemas/inverno.png", imagemAlt: "Uma vela acesa numa janela coberta de neve",
+      requisitos: { estacao: "inverno" }, imagem: "assets/eventos-sistemas/inverno.webp", imagemAlt: "Uma vela acesa numa janela coberta de neve",
       texto: "A noite parece não terminar. Uma vela aparece em cada janela, e os moradores pedem que você passe a vigília entre eles.",
       informacoes: "No solstício, até os relógios parecem hesitar.", opcoes: [
         { id: "vigiar", texto: "Ficar com o povo até o amanhecer.", efeitos: { hp: 8, honra: 2 }, resultado: "A chama atravessa a noite. Ao amanhecer, você se sente menos só." },
@@ -81,7 +81,7 @@
     {
       id: "tumulo_herdeiro", titulo: "O túmulo do herdeiro passado", tipo: "especial", peso: 1,
       oncePerRun: true, requisitos: { memoriaAnterior: true, flagsAusentes: ["tumulo_herdeiro_visto"] },
-      imagem: "assets/eventos-sistemas/tumulo.png", imagemAlt: "Uma lápide simples ao lado de uma coroa enterrada",
+      imagem: "assets/eventos-sistemas/tumulo.webp", imagemAlt: "Uma lápide simples ao lado de uma coroa enterrada",
       texto: "O povo leva você ao túmulo do herdeiro anterior. A pedra registra que ele chegou à rodada {{rodada}} com honra {{honra}}.",
       informacoes: "A causa escrita na pedra: {{motivo}}",
       opcoes: [
@@ -92,7 +92,7 @@
     {
       id: "crianca_cronica", titulo: "A criança conta a história", tipo: "especial", peso: 1,
       oncePerRun: true, requisitos: { memoriaAnterior: true, flagsAusentes: ["crianca_cronica_vista"] },
-      imagem: "assets/eventos-sistemas/crianca.png", imagemAlt: "Uma criança contando uma história para moradores reunidos",
+      imagem: "assets/eventos-sistemas/crianca.webp", imagemAlt: "Uma criança contando uma história para moradores reunidos",
       texto: "Uma criança conta aos moradores como o herdeiro anterior morreu na rodada {{rodada}}, com honra {{honra}}. Ela repete: {{motivo}}",
       informacoes: "Cada pessoa acrescenta um detalhe diferente. Nenhuma muda o fim.",
       opcoes: [
@@ -103,7 +103,7 @@
     {
       id: "retorno_do_menino", titulo: "O menino volta pela estrada", tipo: "especial", peso: 0,
       disparadoPelaEngine: true, consequenciaAgendada: true,
-      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O adolescente acolhido pela vila, com o traje formal de conselheiro",
+      imagem: "assets/eventos-pessoas/menino-conselheiro.webp", imagemAlt: "O adolescente acolhido pela vila, com o traje formal de conselheiro",
       texto: "O menino que você acolheu retorna de uma viagem com anotações sobre as famílias da estrada. Ele reconhece o selo da vila e pede para ajudar.",
       informacoes: "Uma escolha antiga volta a produzir efeitos nesta crônica.",
       opcoes: [
@@ -114,7 +114,7 @@
     {
       id: "primeiro_conselho_do_menino", titulo: "O primeiro parecer", tipo: "especial", peso: 0,
       disparadoPelaEngine: true, consequenciaAgendada: true,
-      imagem: "assets/eventos-pessoas/menino-conselheiro.png", imagemAlt: "O adolescente conselheiro apresenta sua primeira proposta à vila",
+      imagem: "assets/eventos-pessoas/menino-conselheiro.webp", imagemAlt: "O adolescente conselheiro apresenta sua primeira proposta à vila",
       texto: "Na primeira sessão formal, o adolescente estuda os pedidos das famílias e propõe começar pelos que ficaram sem abrigo.",
       informacoes: "A nomeação do menino agora afeta as decisões da vila.",
       opcoes: [
@@ -125,7 +125,7 @@
     {
       id: "promessa_do_ferreiro", titulo: "A conta do aprendiz", tipo: "especial", peso: 0,
       disparadoPelaEngine: true, consequenciaAgendada: true,
-      imagem: "assets/forja.png", imagemAlt: "O ferreiro e um escudo reforçado sobre a bancada",
+      imagem: "assets/forja.webp", imagemAlt: "O ferreiro e um escudo reforçado sobre a bancada",
       texto: "O ferreiro traz o escudo que o aprendiz ajudou a reforçar. Ele pede pagamento pelas placas de metal que usou.",
       informacoes: "A promessa feita ao menino retorna à oficina.",
       opcoes: [
@@ -136,7 +136,7 @@
     {
       id: "eco_da_lapide", titulo: "Uma lembrança na praça", tipo: "especial", peso: 0,
       disparadoPelaEngine: true, consequenciaAgendada: true,
-      imagem: "assets/eventos-sistemas/tumulo.png", imagemAlt: "Uma coroa antiga diante da lápide do herdeiro anterior",
+      imagem: "assets/eventos-sistemas/tumulo.webp", imagemAlt: "Uma coroa antiga diante da lápide do herdeiro anterior",
       texto: "A moeda que você deixou no túmulo reaparece na praça. Uma criança repete a causa da morte de {{herdeiro}}: {{motivo}}",
       informacoes: "O povo quer decidir o que fazer com a memória que voltou.",
       opcoes: [
@@ -147,7 +147,7 @@
     {
       id: "nemesis_da_memoria", titulo: "A morte retorna", tipo: "batalha", peso: 0,
       disparadoPelaEngine: true, nemesis: true,
-      imagem: "assets/eventos-sistemas/tumulo.png", imagemAlt: "Uma sombra armada emerge ao lado de uma coroa enterrada",
+      imagem: "assets/eventos-sistemas/tumulo.webp", imagemAlt: "Uma sombra armada emerge ao lado de uma coroa enterrada",
       texto: "A causa que levou {{herdeiro}} aparece diante dos portões com um rosto novo. {{adocao}} ainda vive na memória da linhagem — e a sombra veio terminar o que começou: {{motivo}}",
       informacoes: "Este inimigo carrega a memória da run anterior e fica mais forte a cada derrota registrada.",
       batalha: {

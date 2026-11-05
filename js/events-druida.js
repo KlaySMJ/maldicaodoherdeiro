@@ -6,7 +6,7 @@
   Jogo.eventos.push(
     {
       id: "lei_do_machado", titulo: "A lei do machado", tipo: "encontro", peso: 3, oncePerRun: true,
-      requisitos: { tracos: "druida_herdeiro", rodadaMin: 4 }, imagem: "assets/arvore-que-pede.png",
+      requisitos: { tracos: "druida_herdeiro", rodadaMin: 4 }, imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Uma árvore antiga diante de uma clareira", texto: "Lenhadores abrem uma trilha e derrubam árvores jovens. As casas precisam de madeira, mas o bosque guarda a nascente que sustenta a vila.",
       informacoes: "A estação mede o que a floresta pode oferecer e o que ainda precisa ficar de pé.",
       opcoes: [
@@ -18,7 +18,7 @@
     },
     {
       id: "animal_ferido", titulo: "O animal ferido", tipo: "encontro", peso: 3, oncePerRun: true,
-      requisitos: { tracos: "druida_herdeiro", rodadaMin: 5 }, imagem: "assets/cervo-branco.png",
+      requisitos: { tracos: "druida_herdeiro", rodadaMin: 5 }, imagem: "assets/cervo-branco.webp",
       imagemAlt: "Um cervo branco entre as árvores", texto: "Um animal ferido se arrasta até a estrada. Há uma flecha recente em sua lateral e marcas de botas na lama.",
       informacoes: "A floresta observa como você trata quem não pode retribuir.",
       opcoes: [
@@ -33,7 +33,7 @@
     },
     {
       id: "vigilia_da_geada", titulo: "A vigília da geada", tipo: "encontro", peso: 3, oncePerRun: true,
-      requisitos: { tracos: "druida_herdeiro", estacao: "inverno" }, imagem: "assets/ervas.png",
+      requisitos: { tracos: "druida_herdeiro", estacao: "inverno" }, imagem: "assets/ervas.webp",
       imagemAlt: "Ramos secos e ervas guardadas para o frio", texto: "A geada chega antes da hora. Animais e famílias procuram abrigo, enquanto o frio se infiltra pelas paredes do salão.",
       informacoes: "O frio pode tirar mais do que conforto. Nenhuma opção muda as regras de Honra ou de culto.",
       opcoes: [
@@ -48,7 +48,7 @@
     },
     {
       id: "festival_da_seiva", titulo: "O festival da seiva", tipo: "encontro", peso: 3, oncePerYear: true,
-      requisitos: { tracos: "druida_herdeiro", estacao: "primavera" }, imagem: "assets/arvore-que-pede.png",
+      requisitos: { tracos: "druida_herdeiro", estacao: "primavera" }, imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Uma árvore antiga coberta de brotos novos", texto: "A seiva volta a correr. A vila pede um festival para celebrar o degelo e preparar o plantio.",
       informacoes: "A festa pode unir a comunidade ou transformar a estação em lucro imediato.",
       opcoes: [
@@ -59,7 +59,7 @@
     },
     {
       id: "incendio_no_bosque", titulo: "Incêndio no bosque", tipo: "batalha", peso: 2, oncePerRun: true, letal: true,
-      requisitos: { tracos: "druida_herdeiro", estacao: "verao", rodadaMin: 6 }, imagem: "assets/vila.png",
+      requisitos: { tracos: "druida_herdeiro", estacao: "verao", rodadaMin: 6 }, imagem: "assets/vila.webp",
       imagemAlt: "Fumaça sobe atrás da muralha da vila", texto: "O fogo salta de uma clareira para outra. As chamas cercam as casas mais próximas do bosque e o vento as empurra para a vila.",
       informacoes: "Um companheiro pode ajudar a encontrar uma trilha segura entre as chamas.",
       opcoes: [
@@ -78,7 +78,7 @@
     },
     {
       id: "dizimo_da_floresta", titulo: "O dízimo da floresta", tipo: "encontro", peso: 3, oncePerRun: true,
-      requisitos: { tracos: "druida_herdeiro", estacao: "outono" }, imagem: "assets/ervas.png",
+      requisitos: { tracos: "druida_herdeiro", estacao: "outono" }, imagem: "assets/ervas.webp",
       imagemAlt: "Folhas e frutos recolhidos no outono", texto: "A colheita foi farta. Antes que os celeiros fechem, uma voz sai das árvores e pede sua parte.",
       informacoes: "O espírito promete um presente raro se a oferenda for suficiente.",
       opcoes: [
@@ -93,7 +93,7 @@
     },
     {
       id: "espirito_da_floresta", titulo: "O espírito da floresta", tipo: "batalha", peso: 1, oncePerRun: true,
-      requisitos: { tracos: "druida_herdeiro", rodadaMin: 24 }, imagem: "assets/arvore-que-pede.png",
+      requisitos: { tracos: "druida_herdeiro", rodadaMin: 24 }, imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Uma árvore antiga, guardiã de uma clareira", texto: "O espírito da floresta ergue-se diante de você. Seus galhos formam uma coroa e as raízes fecham a trilha atrás de seus passos.",
       informacoes: "A floresta observa sua Honra. Você pode receber sua bênção, enfrentá-la ou aceitar uma punição.",
       batalha: {

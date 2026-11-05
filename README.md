@@ -1,5 +1,9 @@
 # A maldição do Herdeiro
 
+## Direção das ilustrações
+
+Leia [MEMORIA-ILUSTRACOES.md](MEMORIA-ILUSTRACOES.md) antes de criar ou editar qualquer ilustração. Ela registra o estilo, a tonalidade da vila como referência dos eventos e as cartas-base por categoria.
+
 MVP de um jogo de escolhas em fantasia medieval. HTML, CSS e JavaScript puros, sem bibliotecas, instalação ou build.
 
 ## Jogar
@@ -22,7 +26,7 @@ A run é salva ao começar, a cada decisão e ao avançar. Recarregar depois de 
 - Um ataque malsucedido também aplica `batalha.penalidadeFalha`, definida por evento. No exemplo, além do dano mitigado, a vila perde 12 habitantes. Outro evento pode definir perda adicional de HP ou outros efeitos.
 - Não há condição de vitória definida nesta fase. `Jogo.engine.encerrar(run, "vitoria", motivo)` usa o mesmo encerramento para uma futura condição de vitória.
 
-O visual da interface usa fundo preto com textos, bordas e desenhos brancos. Cada run sorteia um traço (Corajoso, Avarento ou Doente), que ajusta os atributos iniciais e o retrato; as ilustrações acompanham as faixas de honra. A estação muda a cada 25 rodadas, com cartas sazonais. O catálogo contém 222 definições, incluindo 12 escolhas letais bloqueadas antes da rodada 6 e eventos próprios do culto; uma definição é a transição do último habitante e só é disparada pela engine. As opções visíveis são embaralhadas ao abrir cada carta e a ordem fica salva ao carregar. Nenhum recurso externo é necessário.
+O visual da interface usa fundo preto com textos, bordas e desenhos brancos. Cada run sorteia um traço (Corajoso, Avarento ou Doente), que ajusta os atributos iniciais e o retrato; as ilustrações acompanham as faixas de honra. A estação muda a cada 25 rodadas, com cartas sazonais. O catálogo contém 270 definições, incluindo 12 escolhas letais bloqueadas antes da rodada 6 e eventos próprios do culto; uma definição é a transição do último habitante e só é disparada pela engine. As opções visíveis são embaralhadas ao abrir cada carta e a ordem fica salva ao carregar. Nenhum recurso externo é necessário.
 
 Os companheiros são passivos: o cão reduz 2 de dano em batalhas, o corvo acrescenta 1 gold às recompensas positivas e o gato recupera 1 HP por rodada. Construções duram até o fim da run: ponte (+1 gold em cada renda), moinho (+1 HP por rodada), capela (+1 Escudo), forja (−2 gold no preço da arma) e muralha (−2 dano em batalha). O legado registra a rodada, honra final e causa do fim de cada herdeiro; cartas de memória podem reapresentar o registro à geração seguinte.
 
@@ -87,7 +91,12 @@ Quatro faixas instrumentais em loop acompanham o menu, a mensagem antes de inici
 | Arquivo | Responsabilidade |
 | --- | --- |
 | `js/state.js` | Valores iniciais, faixas de honra e criação da run |
-| `js/events.js`, `js/events-specials.js`, `js/events-lethal.js`, `js/events-cult.js`, `js/events-foundations.js` | Catálogo de eventos, requisitos, efeitos, pesos, batalhas, estações, culto e cadeias especiais |
+| `js/events.js`, `js/events-vila.js` | Eventos iniciais e narrativas da vila |
+| `js/events-pactos.js`, `js/events-abissais.js`, `js/events-specials.js` | Pactos, cadeia abissal, zodíaco e deuses nórdicos |
+| `js/events-baus.js`, `js/events-recompensas.js` | Baús, equipamentos e achados |
+| `js/events-personagens.js`, `js/events-personagens-cadeias.js`, `js/events-conselheiro.js` | Personagens, suas sequências e conselhos do menino |
+| `js/events-lethal.js`, `js/events-cult.js`, `js/events-foundations.js`, `js/events-entity.js`, `js/events-supernatural.js`, `js/events-grail.js`, `js/events-druida.js`, `js/events-anuais.js`, `js/events-artes-especificas.js` | Eventos letais, culto, entidades, estações, Druida, cadeias e artes específicas |
+| `js/events-ajustes.js` | Ajustes compartilhados aplicados ao catálogo completo |
 | `js/items.js` | Catálogo e efeitos dos itens utilizáveis |
 | `js/legacy.js` | Objetivos vazios, concessões e união do legado |
 | `js/engine.js` | Pools, requisitos, sorteio, resolução e encerramento |
@@ -96,7 +105,7 @@ Quatro faixas instrumentais em loop acompanham o menu, a mensagem antes de inici
 | `js/main.js` | Fluxo e conexão entre interface, engine e salvamento |
 | `js/audio.js` | Reprodução, troca de faixas e preferências de música ambiente |
 
-Os scripts comuns compartilham o namespace `window.Jogo`; não usam `fetch` nem módulos, para funcionar em `file://`.
+Os scripts comuns compartilham o namespace `window.Jogo`; não usam `fetch` nem módulos, para funcionar em `file://`. Em `index.html`, mude a constante `VERSAO_SCRIPTS` para renovar o cache de todos os scripts juntos.
 
 ## Adicionar eventos
 

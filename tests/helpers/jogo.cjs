@@ -29,7 +29,13 @@ function preparar() {
   });
   vm.runInContext("Math.random = () => 0.25;", contexto);
   const executar = nome => vm.runInContext(fs.readFileSync(path.join(__dirname, `../../js/${nome}.js`), "utf8"), contexto);
-  for (const nome of ["state", "events", "events-specials", "events-lethal", "events-cult", "events-foundations", "events-entity", "events-supernatural", "items", "legacy", "engine", "save", "ui"]) executar(nome);
+  for (const nome of [
+    "state", "events", "events-vila", "events-pactos", "events-abissais", "events-baus",
+    "events-personagens-cadeias", "events-conselheiro", "events-recompensas", "events-specials",
+    "events-lethal", "events-cult", "events-foundations", "events-entity", "events-supernatural",
+    "events-grail", "events-druida", "events-anuais", "events-personagens", "events-artes-especificas",
+    "events-ajustes", "items", "legacy", "engine", "save", "ui"
+  ]) executar(nome);
   const J = window.Jogo;
 
   function resultado(run) {

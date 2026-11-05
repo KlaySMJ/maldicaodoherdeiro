@@ -7,7 +7,7 @@
     {
       id: "cavaleiro_moribundo", titulo: "O cavaleiro moribundo", tipo: "especial", peso: 1, especial: true,
       requisitos: { rodadaMin: 10, flagsAusentes: ["calice_1"] },
-      imagem: "assets/cavaleiro-de-osso.png", imagemAlt: "Um cavaleiro de ossos jaz sob a armadura rachada",
+      imagem: "assets/cavaleiro-de-osso.webp", imagemAlt: "Um cavaleiro de ossos jaz sob a armadura rachada",
       texto: "Um cavaleiro de armadura rachada jaz à beira da estrada. Ele murmura sobre um cálice que cura e condena, e sobre um lugar onde dois caminhos se separam. Cada palavra custa ao peito dele um suspiro.",
       informacoes: "O cavaleiro não tem muito tempo. Ele só quer ser ouvido.",
       opcoes: [
@@ -20,7 +20,7 @@
     {
       id: "mapa_na_pedra", titulo: "O mapa na pedra", tipo: "especial", peso: 1, especial: true,
       requisitos: { rodadaMin: 14, flags: ["calice_1"], flagsAusentes: ["calice_2"] },
-      imagem: "assets/ponte.png", imagemAlt: "Uma ponte antiga de madeira cruza o caminho sobre um rio",
+      imagem: "assets/ponte.webp", imagemAlt: "Uma ponte antiga de madeira cruza o caminho sobre um rio",
       texto: "Numa pedra à beira da estrada, alguém gravou há séculos um mapa: duas trilhas que se cruzam em um círculo, e uma inscrição quase apagada pelo líquen.",
       informacoes: "O mapa está incompleto. A pedra, porém, parece conhecer o resto.",
       opcoes: [
@@ -33,7 +33,7 @@
     {
       id: "encruzilhada_calice", titulo: "A encruzilhada do Cálice", tipo: "especial", peso: 0.8, especial: true,
       requisitos: { rodadaMin: 18, flags: ["calice_2"], flagsAusentes: ["calice_3", "calice_desistiu"], honra: "decidida" },
-      imagem: "assets/vila.png", imagemAlt: "Uma estrada se cruza diante do portão da vila",
+      imagem: "assets/vila.webp", imagemAlt: "Uma estrada se cruza diante do portão da vila",
       texto: "Duas estradas saem do mesmo ponto. À esquerda, pedras brancas e passarinhos. À direita, pedras negras e corvos. No centro, um marco de pedra traz uma inscrição: ‘Só passa quem é o que parece ser.’",
       informacoes: "Você sente que a estrada o escolheu antes de você escolhê-la.",
       opcoes: [
@@ -45,7 +45,7 @@
     {
       id: "prova_do_ermitao", titulo: "A prova do ermitão", tipo: "especial", peso: 1, especial: true,
       requisitos: { rodadaMin: 18, flags: ["calice_3", "calice_rota_luz"], flagsAusentes: ["calice_4", "calice_desistiu"], honra: "alta" },
-      imagem: "assets/ervas.png", imagemAlt: "Ervas, frascos e um pilão usados para cuidar de doentes",
+      imagem: "assets/ervas.webp", imagemAlt: "Ervas, frascos e um pilão usados para cuidar de doentes",
       texto: "Numa caverna alta, um ermitão magro oferece água e três perguntas. Ele diz que o Cálice não se dá a quem quer, apenas a quem já faz o que ele pede.",
       informacoes: "As perguntas não têm palavras. São ações.",
       opcoes: [
@@ -57,7 +57,7 @@
     {
       id: "pacto_corvo_negro", titulo: "O pacto do corvo negro", tipo: "especial", peso: 1, especial: true,
       requisitos: { rodadaMin: 18, flags: ["calice_3", "calice_rota_sombra"], flagsAusentes: ["calice_4", "calice_desistiu"], honra: "baixa" },
-      imagem: "assets/corvo.png", imagemAlt: "Um corvo negro do tamanho de um homem espera sobre um altar",
+      imagem: "assets/corvo.webp", imagemAlt: "Um corvo negro do tamanho de um homem espera sobre um altar",
       texto: "Num santuário abandonado, em meio à névoa, um corvo do tamanho de um homem espera sobre o altar. Fala em voz grave e cansada. Diz que a sombra também tem um preço, e que ele cobra em coisas pequenas.",
       informacoes: "O corvo não discute. Apenas cobra.",
       opcoes: [
@@ -69,7 +69,7 @@
     {
       id: "calice_na_capela", titulo: "O Cálice na capela", tipo: "especial", peso: 1, especial: true,
       requisitos: { rodadaMin: 22, flags: ["calice_4", "calice_rota_luz"], flagsAusentes: ["calice_5", "calice_desistiu"], honra: "alta" },
-      imagem: "assets/santa-sem-nome.png", imagemAlt: "Uma figura sagrada com um halo de luz",
+      imagem: "assets/santa-sem-nome.webp", imagemAlt: "Uma figura sagrada com um halo de luz",
       texto: "No alto da montanha, uma capela sem teto deixa o sol cair sobre um altar de pedra. Sobre ele, um cálice de madeira simples, gasto pelo uso. Não há guardião. Apenas um silêncio que parece vir de dentro do cálice.",
       informacoes: "Peregrinos esperam à porta da capela, em fila. Ninguém ousa tocá-lo.",
       opcoes: [
@@ -81,7 +81,7 @@
     {
       id: "calice_no_pantano", titulo: "O Cálice no pântano", tipo: "batalha", peso: 1, especial: true,
       requisitos: { rodadaMin: 26, flags: ["calice_4", "calice_rota_sombra"], flagsAusentes: ["calice_5", "calice_desistiu"], honra: "baixa" },
-      imagem: "assets/torre-na-lagoa.png", imagemAlt: "Uma torre de pedra meio submersa em águas escuras",
+      imagem: "assets/torre-na-lagoa.webp", imagemAlt: "Uma torre de pedra meio submersa em águas escuras",
       texto: "Um templo meio afundado no pântano negro mostra, entre as colunas, um cálice de pedra escura, coberto de algas. Um guardião de lama, armadura e raiva ergue-se da água, sem dizer palavra.",
       informacoes: "O ataque precisa alcançar a defesa do guardião. Seu escudo reduz o dano recebido, sem se desgastar.",
       batalha: {

@@ -5,7 +5,7 @@
   Jogo.eventos.push(
     {
       id: "ano_novo_lunar", titulo: "Ano Novo Lunar", tipo: "encontro", peso: 2, oncePerYear: true,
-      requisitos: { estacao: "primavera" }, imagem: "assets/vila.png",
+      requisitos: { estacao: "primavera" }, imagem: "assets/vila.webp",
       imagemAlt: "Moradores reunidos na praça para celebrar o começo do ano",
       texto: "Viajantes do leste chegam com lanternas e um calendário marcado pelos ciclos da lua. A vila se reúne para dar as boas-vindas ao novo ano.",
       informacoes: "A celebração pode unir a vila, trazer prosperidade ou encher seus cofres à custa da festa.",
@@ -17,7 +17,7 @@
     },
     {
       id: "festival_dos_mortos", titulo: "Festival dos Mortos", tipo: "encontro", peso: 2, oncePerYear: true,
-      requisitos: { estacao: "outono" }, imagem: "assets/ervas.png",
+      requisitos: { estacao: "outono" }, imagem: "assets/ervas.webp",
       imagemAlt: "Pequenas velas acesas entre folhas de outono",
       texto: "Com a queda das folhas, as famílias acendem velas para lembrar quem já se foi. Uma procissão atravessa a vila levando nomes, canções e pequenas oferendas.",
       informacoes: "A lembrança dos mortos pode aproximar os vivos ou servir de desculpa para tomar o que foi deixado nos altares.",

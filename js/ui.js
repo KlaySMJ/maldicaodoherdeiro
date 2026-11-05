@@ -2,12 +2,53 @@
   "use strict";
   const Jogo = window.Jogo;
   const app = document.getElementById("app");
+  const imagensComTomDaVila = new Set([
+    "assets/geada.webp",
+    "assets/eventos-especificos/a-voz.webp",
+    "assets/eventos-especificos/anel-do-defunto.webp",
+    "assets/eventos-especificos/ano-novo-lunar.webp",
+    "assets/eventos-especificos/caminho-sem-guarda.webp",
+    "assets/eventos-especificos/caravana-na-ponte.webp",
+    "assets/eventos-especificos/conselho-armazem.webp",
+    "assets/eventos-especificos/conselho-guardas.webp",
+    "assets/eventos-especificos/conselho-ponte.webp",
+    "assets/eventos-especificos/dizimo-da-floresta.webp",
+    "assets/eventos-especificos/donos-da-plantacao.webp",
+    "assets/eventos-especificos/escudos-de-celeiro.webp",
+    "assets/eventos-especificos/espirito-da-floresta.webp",
+    "assets/eventos-especificos/exorcismo.webp",
+    "assets/eventos-especificos/festival-da-seiva.webp",
+    "assets/eventos-especificos/festival-dos-mortos.webp",
+    "assets/eventos-especificos/frutos-negros-na-soleira.webp",
+    "assets/eventos-especificos/hospede-palido.webp",
+    "assets/eventos-especificos/incendio-no-bosque.webp",
+    "assets/eventos-especificos/lei-do-machado.webp",
+    "assets/eventos-especificos/mao-do-rei.webp",
+    "assets/eventos-especificos/mapa-na-pedra.webp",
+    "assets/eventos-especificos/pedra-e-pao.webp",
+    "assets/eventos-especificos/ponte-partida.webp",
+    "assets/eventos-especificos/preco-da-cura.webp",
+    "assets/eventos-especificos/preco-da-ponte.webp",
+    "assets/eventos-especificos/primeiro-parecer.webp",
+    "assets/eventos-especificos/retorno-do-menino.webp",
+    "assets/eventos-especificos/testamento-selado.webp",
+    "assets/eventos-especificos/torre-na-lagoa.webp",
+    "assets/eventos-especificos/uma-noite-sem-fome.webp",
+    "assets/eventos-especificos/vela-que-nao-apaga.webp",
+    "assets/eventos-especificos/vigilia-da-geada.webp"
+  ]);
   const nomes = { hp: "Vida", hpMax: "Vida máxima", escudo: "Escudo", ataque: "Ataque", honra: "Honra", habitantes: "Habitantes", gold: "Gold" };
   const esc = valor => String(valor).replace(/[&<>"']/g, letra => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[letra]));
   const numero = valor => new Intl.NumberFormat("pt-BR").format(valor);
   const assinado = valor => `${valor > 0 ? "+" : ""}${numero(valor)}`;
   const nomesRaridade = { comum: "Comum", raro: "Raro", epico: "Épico", lendario: "Lendário", pacto: "Pacto" };
   const nomesTraco = { corajoso: "Corajosa", avarento: "Avarento", doente: "Doente", druida_herdeiro: "Filho da Floresta" };
+  const condicaoNomes = { licantropia: "Licantropia", vampirismo: "Vampirismo", possessao: "Possessão" };
+  const condicaoDescricoes = {
+    licantropia: "+2 Ataque · recupera 1 Vida por rodada",
+    vampirismo: "+3 Ataque · +2 Escudo · perde 1 Vida por rodada; Sede de sangue: 1 aldeão por até 20 Vida, a cada 6 rodadas",
+    possessao: "+2 Ataque · revela a Honra das escolhas"
+  };
   const descricoesTraco = {
     corajoso: "Corajosa: começa com +1 Ataque.",
     avarento: "Avarento: começa com 10 Gold.",
@@ -53,6 +94,8 @@
     { seletor: ".inventario > summary", titulo: "Use o inventário", texto: "Os itens conquistados ficam guardados aqui. Alguns dão efeitos passivos; outros têm um botão para serem usados." }
   ];
   let retratoExibido = null;
+  let imagemEventoPrecarregadaSrc = "";
+  let imagemEventoPrecarregada = null;
   let ajustePendente = 0;
   let etapaTutorial = null;
   let tutorialForcado = false;
@@ -213,11 +256,38 @@
     desenharEtapaTutorial();
   }
 
+  function descricaoDaCondicao(id, abracada) {
+    if (!abracada) return condicaoDescricoes[id];
+    return {
+      licantropia: "+4 Ataque · recupera 1 Vida por rodada",
+      vampirismo: "+5 Ataque · +4 Escudo · não perde Vida por rodada nem recebe Sede de sangue",
+      possessao: "+5 Ataque · +3 Escudo · revela a Honra das escolhas"
+    }[id] || condicaoDescricoes[id];
+  }
+
+  function mostrarDetalhesCondicao(run) {
+    const id = run?.condicao?.ativa;
+    if (!id || !condicaoDescricoes[id]) return;
+    const abracada = Boolean(run.condicao.abracada);
+    const dialogo = document.createElement("dialog");
+    dialogo.className = "condicao-dialogo";
+    dialogo.setAttribute("aria-labelledby", "titulo-detalhe-condicao");
+    dialogo.innerHTML = `<div class="condicao-dialogo-cabecalho"><h2 id="titulo-detalhe-condicao">${esc(condicaoNomes[id])} ${abracada ? "abraçada" : "ativa"}</h2><button class="controle-honra" type="button" data-fechar-condicao aria-label="Fechar detalhes">×</button></div>
+      <p>${esc(descricaoDaCondicao(id, abracada))}</p>
+      <p class="condicao-dialogo-ajuda">Toque no retrato do herdeiro para consultar esta condição novamente.</p>`;
+    document.body.append(dialogo);
+    dialogo.addEventListener("click", evento => {
+      if (evento.target === dialogo || evento.target.closest("[data-fechar-condicao]")) dialogo.close();
+    });
+    dialogo.addEventListener("close", () => dialogo.remove(), { once: true });
+    dialogo.showModal();
+  }
+
   function menu(run) {
     const forcarDruida = window.localStorage.getItem("debug_forcar_druida") === "1";
     mostrar(`
       <section class="abertura" aria-labelledby="titulo-inicio">
-        <div class="abertura-arte"><img src="assets/vila.png" alt="Uma vila medieval sob a vigília de um castelo" width="1024" height="1024"></div>
+        <div class="abertura-arte"><img src="assets/vila.webp" alt="Uma vila medieval sob a vigília de um castelo" width="1024" height="1024"></div>
         <div class="abertura-texto">
           <h1 id="titulo-inicio">A maldição do Herdeiro</h1>
           <p class="subtitulo">A terra será sua.<br>As consequências, de todos.</p>
@@ -421,6 +491,16 @@
     return "assets/herdeiros/" + personagem.arquivo + "-" + faixa + ".png";
   }
 
+  function precarregarProximaCarta(src) {
+    if (!src || src === imagemEventoPrecarregadaSrc) return;
+    imagemEventoPrecarregadaSrc = src;
+    imagemEventoPrecarregada = new Image();
+    imagemEventoPrecarregada.decoding = "async";
+    imagemEventoPrecarregada.fetchPriority = "high";
+    imagemEventoPrecarregada.src = src;
+    imagemEventoPrecarregada.decode?.().catch(() => {});
+  }
+
   function retrato(traco, faixa, anterior, cultoAtivo) {
     const imagemAtual = caminhoRetrato(traco, faixa, cultoAtivo);
     const imagemAnterior = anterior ? caminhoRetrato(anterior.traco, anterior.faixa, anterior.cultoAtivo) : "";
@@ -510,7 +590,11 @@
     };
     const interpolarMemoria = texto => texto?.replace(/\{\{(rodada|honra|motivo|herdeiro|adocao)\}\}/g, (_, campo) => valoresMemoria[campo]) || "";
     const eventoComMemoria = eventoBase ? { ...eventoBase, texto: interpolarMemoria(eventoBase.texto), informacoes: interpolarMemoria(eventoBase.informacoes) } : eventoBase;
-    const evento = run.flags.entidade_x_pacto ? { ...eventoComMemoria, informacoes: `${eventoComMemoria.informacoes} A Marca da Entidade drena 1 ponto de Vida a cada rodada.` } : eventoComMemoria;
+    const eventoComConselheiro = run.flags.menino_conselheiro && eventoBase?.conselheiroPadrao
+      ? { ...eventoComMemoria, imagem: "assets/eventos-pessoas/menino-conselheiro.webp", imagemAlt: "O jovem conselheiro da vila apresenta seu parecer" }
+      : eventoComMemoria;
+    const evento = run.flags.entidade_x_pacto ? { ...eventoComConselheiro, informacoes: `${eventoComConselheiro.informacoes} A Marca da Entidade drena 1 ponto de Vida a cada rodada.` } : eventoComConselheiro;
+    precarregarProximaCarta(evento?.imagem);
     const faixa = Jogo.estado.faixaHonra(run.atributos.honra);
     const condicaoId = run.condicao?.ativa;
     const nomesCondicoes = { licantropia: "Licantropia", vampirismo: "Vampirismo", possessao: "Possessão" };
@@ -577,6 +661,7 @@
                   <button class="controle-honra" data-acao="debug-condicao-licantropia" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar licantropia</button>
                   <button class="controle-honra" data-acao="debug-condicao-vampirismo" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar vampirismo</button>
                   <button class="controle-honra" data-acao="debug-condicao-possessao" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar possessão</button>
+                  <button class="controle-honra" data-acao="debug-conselheiro" ${run.aguardaDecisaoCulto ? "disabled" : ""} title="Nomear o novo conselheiro e mostrar um conselho dele">Novo conselheiro</button>
                 </div>
               </details>
             </dd></div>
@@ -591,6 +676,7 @@
             <article class="carta carta-herdeiro honra-${faixa}${classeCondicao}" aria-labelledby="titulo-herdeiro">
               ${retrato(run.traco, faixaDoRetrato, anterior, cultoAtivo)}
               ${molduraAtiva}
+              ${condicaoId ? `<button class="condicao-info-trigger condicao-${condicaoId}" type="button" data-acao="detalhes-condicao" aria-label="Ver detalhes de ${esc(condicaoNomes[condicaoId])}" title="${esc(`${condicaoNomes[condicaoId]}: ${descricaoDaCondicao(condicaoId, run.condicao.abracada)}. Toque para ver os detalhes.`)}"><span>${esc(condicaoNomes[condicaoId])} <span aria-hidden="true">ⓘ</span></span></button>` : ""}
               <div class="carta-titulo herdeiro-carta-titulo"><h2 id="titulo-herdeiro">${run.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2><span class="traco-tooltip" tabindex="0" aria-label="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}" data-tooltip="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}">${esc(nomesTraco[run.traco] || "Herdeiro")}</span></div>
             </article>
             <div class="herdeiro-detalhes">
@@ -609,7 +695,7 @@
           </section>
           <div class="coluna-evento">
             <article class="carta carta-evento" aria-labelledby="titulo-evento">
-              <img class="imagem-evento" src="${esc(evento.imagem)}" width="1024" height="1024" alt="${esc(evento.imagemAlt)}">
+              <img class="imagem-evento${imagensComTomDaVila.has(evento.imagem) ? " imagem-evento--tom-vila" : ""}" src="${esc(evento.imagem)}" width="1024" height="1024" loading="lazy" decoding="async" alt="${esc(evento.imagemAlt)}">
             </article>
             <div class="evento-detalhes">
               <div class="evento-texto"><div class="carta-titulo evento-titulo"><h2 id="titulo-evento">${esc(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade">A Entidade</span>' : ""}</div><p>${esc(evento.texto)}</p></div>
@@ -681,5 +767,5 @@
   window.addEventListener("resize", redimensionarTela);
   if (window.visualViewport) window.visualViewport.addEventListener("resize", redimensionarTela);
 
-  Jogo.ui = { menu, intro, jogo, fim, confirmarNovaRun, preverTransformacoes, tutorial };
+  Jogo.ui = { menu, intro, jogo, fim, confirmarNovaRun, preverTransformacoes, mostrarDetalhesCondicao, tutorial };
 })();

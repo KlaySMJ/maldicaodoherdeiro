@@ -7,30 +7,56 @@
   <meta name="description" content="Cada herdeiro faz suas escolhas. O povo lembra. Um jogo de fantasia medieval para o navegador.">
   <title>A maldição do Herdeiro</title>
   <link rel="icon" href="assets/selo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css?v=20261105-4">
-  <script defer src="js/state.js"></script>
-  <script defer src="js/events.js"></script>
-  <script defer src="js/events-specials.js"></script>
-  <script defer src="js/events-lethal.js"></script>
-  <script defer src="js/events-cult.js"></script>
-  <script defer src="js/events-foundations.js"></script>
-  <script defer src="js/events-entity.js"></script>
-  <script defer src="js/events-supernatural.js?v=20261105-6"></script>
-  <script defer src="js/events-grail.js"></script>
-  <script defer src="js/events-druida.js"></script>
-  <script defer src="js/events-anuais.js"></script>
-  <script defer src="js/events-personagens.js"></script>
-  <script defer src="js/events-artes-especificas.js"></script>
-  <script defer src="js/items.js?v=20261105-6"></script>
-  <script defer src="js/legacy.js"></script>
-  <script defer src="js/druida.js"></script>
-  <script defer src="js/engine.js?v=20261105-8"></script>
-  <script defer src="js/save.js"></script>
-  <script defer src="js/audio.js"></script>
-  <script defer src="js/ui.js?v=20261105-6"></script>
-  <script defer src="js/main.js"></script>
+  <link rel="stylesheet" href="css/style.css?v=20261105-8">
+  <!-- A escrita durante o parsing preserva defer e a ordem de execução em file://. -->
+  <script>
+    (() => {
+      const VERSAO_SCRIPTS = "20261105-2";
+      const arquivos = [
+        "js/state.js",
+        "js/events.js",
+        "js/events-vila.js",
+        "js/events-pactos.js",
+        "js/events-abissais.js",
+        "js/events-baus.js",
+        "js/events-personagens-cadeias.js",
+        "js/events-conselheiro.js",
+        "js/events-recompensas.js",
+        "js/events-specials.js",
+        "js/events-lethal.js",
+        "js/events-cult.js",
+        "js/events-foundations.js",
+        "js/events-entity.js",
+        "js/events-supernatural.js",
+        "js/events-grail.js",
+        "js/events-druida.js",
+        "js/events-anuais.js",
+        "js/events-personagens.js",
+        "js/events-artes-especificas.js",
+        "js/events-ajustes.js",
+        "js/items.js",
+        "js/legacy.js",
+        "js/druida.js",
+        "js/engine.js",
+        "js/save.js",
+        "js/audio.js",
+        "js/ui.js",
+        "js/main.js"
+      ];
+      document.write(arquivos.map(arquivo =>
+        `<script defer src="${arquivo}?v=${VERSAO_SCRIPTS}"><\/script>`
+      ).join("\n"));
+    })();
+  </script>
 </head>
 <body>
+  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute;overflow:hidden">
+    <defs>
+      <filter id="tom-vila-evento" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="1.03 0 0 0 0 0 0.97 0 0 0 0 0 0.87 0 0 0 0 0 1 0" />
+      </filter>
+    </defs>
+  </svg>
   <div class="livro">
     <header class="cabecalho">
       <a class="marca" href="index.html" aria-label="A maldição do Herdeiro — início"><img src="assets/selo.svg" width="32" height="36" alt="">A maldição do Herdeiro</a>

@@ -166,7 +166,7 @@
 
   const zodiacos = animais.map(animal => ({
     id: `zodiaco_${animal.id}`, titulo: animal.titulo, tipo: "especial", peso: 2, especial: true, zodiaco: true,
-    imagem: `assets/eventos-especiais/zodiaco-${animal.imagem}.png`, imagemAlt: `Ilustração própria do ${animal.nome} do zodíaco, em traços brancos sobre fundo preto`,
+    imagem: `assets/eventos-especiais/zodiaco-${animal.imagem}.webp`, imagemAlt: `Ilustração própria do ${animal.nome} do zodíaco, em traços brancos sobre fundo preto`,
     texto: animal.cena, informacoes: animal.info,
     opcoes: animal.opcoes.map(opcao => ({ ...opcao, flags: { ...opcao.flags, ...flag(`zodiaco_${animal.id}`) } }))
   }));
@@ -196,7 +196,7 @@
     return {
       id: deus.id, titulo: deus.title, tipo: "especial", peso: 1.5, especial: true, divino: true,
       natureza: deus.kind, pesos: [{ requisitos: { honra: maldicao ? "baixa" : "alta" }, valor: 3 }],
-      imagem: `assets/eventos-especiais/norte-${deus.image}.png`, imagemAlt: `Ilustração própria de ${deus.name}, em traços brancos sobre fundo preto`,
+      imagem: `assets/eventos-especiais/norte-${deus.image}.webp`, imagemAlt: `Ilustração própria de ${deus.name}, em traços brancos sobre fundo preto`,
       texto: deus.scene, informacoes: deus.info, opcoes: options
     };
   });
@@ -205,7 +205,7 @@
     {
       id: "mercador_chines", titulo: "O mercador de vermelho", tipo: "especial", peso: 1, especial: true,
       apenasAposTipo: "mercador", chanceAposAnterior: 0.25,
-      imagem: "assets/eventos-especiais/mercador-vermelho.png", imagemAlt: "Mercador diante de uma carroça com lanternas e envelope vermelho",
+      imagem: "assets/eventos-especiais/mercador-vermelho.webp", imagemAlt: "Mercador diante de uma carroça com lanternas e envelope vermelho",
       texto: "Logo após o mercador da estrada partir, outra carroça passa pelo portão, coberta de lanternas de papel. O dono desce com um envelope vermelho e espera que você diga a primeira palavra.",
       informacoes: "O mercador observa seus modos mais do que suas palavras. Uma resposta demonstra a cortesia que ele espera.",
       opcaoCorreta: "D02", poolOpcoes: dialogosMercador
@@ -214,7 +214,7 @@
     {
       id: "emissario_do_norte", titulo: "O viajante do Norte", tipo: "especial", peso: 3, especial: true,
       apenasAposIds: ["geada", "inverno_longo"],
-      imagem: "assets/eventos-especiais/viajante-norte.png", imagemAlt: "Viajante de manto de pele junto a um fogo e apoiado em um cajado",
+      imagem: "assets/eventos-especiais/viajante-norte.webp", imagemAlt: "Viajante de manto de pele junto a um fogo e apoiado em um cajado",
       texto: "Quando o gelo cede, um viajante de manto de pele bate ao portão com a ponta do cajado. Está há dias sem comer, mas permanece de pé. Os cães ficam em silêncio.",
       informacoes: "Ele diz que carrega o favor de deuses antigos. Uma das respostas o acolhe da forma que espera.",
       opcaoCorreta: "E02", poolOpcoes: dialogosNorte

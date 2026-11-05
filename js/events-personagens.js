@@ -4,15 +4,15 @@
 
   const retratos = {
     bruxa: {
-      imagem: "assets/eventos-pessoas/bruxa.png",
+      imagem: "assets/eventos-pessoas/bruxa.webp",
       alt: "A bruxa da floresta, com nariz comprido, uma verruga e um sorriso amarelo"
     },
     ferreiro: {
-      imagem: "assets/eventos-pessoas/ferreiro.png",
+      imagem: "assets/eventos-pessoas/ferreiro.webp",
       alt: "O ferreiro da vila, homem mais velho de barba grisalha e avental de couro"
     },
     padre: {
-      imagem: "assets/eventos-pessoas/padre.png",
+      imagem: "assets/eventos-pessoas/padre.webp",
       alt: "O padre da vila, calvo no alto, com cabelo grisalho nas laterais e expressão severa"
     }
   };
