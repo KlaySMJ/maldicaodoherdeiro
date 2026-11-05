@@ -11,6 +11,7 @@ function prepararAudio(preferencias = {}) {
   const eventos = new Map();
   const timers = new Map();
   const audios = [];
+  const documentoEventos = new Map();
   let proximoTimer = 1;
   let agora = 0;
   const controle = {
@@ -42,8 +43,15 @@ function prepararAudio(preferencias = {}) {
       this.paused = false;
       return Promise.resolve();
     }
+    addEventListener(tipo, callback) {
+      this[tipo] = callback;
+    }
     pause() {
       this.paused = true;
+    }
+    terminar() {
+      this.paused = true;
+      this.ended?.();
     }
   }
 
@@ -61,6 +69,9 @@ function prepararAudio(preferencias = {}) {
       },
     },
     document: {
+      addEventListener(tipo, callback) {
+        documentoEventos.set(tipo, callback);
+      },
       getElementById(id) {
         return (
           {
@@ -90,6 +101,7 @@ function prepararAudio(preferencias = {}) {
   return {
     J: contexto.window.Jogo,
     audios,
+    documentoEventos,
     controle,
     volume,
     volumeTexto,
@@ -103,7 +115,7 @@ function prepararAudio(preferencias = {}) {
 }
 
 test("áudio respeita preferências salvas e espera interação do jogador", () => {
-  const { J, audios, controle, volume, volumeTexto } = prepararAudio({
+  const { J, audios, controle, volume, volumeTexto, documentoEventos } = prepararAudio({
     musica_ambiente: "0",
     volume_musica: "73",
   });
@@ -112,9 +124,51 @@ test("áudio respeita preferências salvas e espera interação do jogador", () 
   assert.equal(controle.atributos["aria-pressed"], "false");
   assert.equal(volume.value, "73");
   assert.equal(volumeTexto.textContent, "73%");
+  assert.equal(documentoEventos.has("pointerdown"), true);
+  assert.equal(documentoEventos.has("keydown"), true);
   J.audio.interagir();
   J.audio.definirContexto("culto");
   assert.equal(audios.length, 0);
+});
+
+test("efeitos de escolha usam OGG sem sobreposição e o ganho de honra entra depois", () => {
+  const { J, audios } = prepararAudio();
+  J.audio.sfx("confirmacao");
+  J.audio.sfx("confirmacao");
+  J.audio.sfx("honra");
+  assert.equal(audios.length, 1);
+  assert.equal(audios[0].src, "assets/musica/sfx-escolha.ogg");
+  audios[0].terminar();
+  assert.equal(audios.length, 2);
+  assert.equal(audios[1].src, "assets/musica/sfx-honra.ogg");
+  audios[1].terminar();
+});
+
+test("os efeitos OGG têm duração dentro dos limites e terminam com uma página EOS", () => {
+  for (const [arquivo, limite] of [
+    ["sfx-escolha.ogg", 0.3],
+    ["sfx-honra.ogg", 1.2],
+  ]) {
+    const bytes = fs.readFileSync(path.join(__dirname, "../assets/musica", arquivo));
+    assert.equal(bytes.toString("ascii", 0, 4), "OggS");
+    let offset = 0;
+    let ultimaGranulacao = 0n;
+    let flagsPaginaFinal = 0;
+    while (offset < bytes.length) {
+      assert.equal(bytes.toString("ascii", offset, offset + 4), "OggS");
+      const segmentos = bytes[offset + 26];
+      const tamanhoCorpo = bytes
+        .subarray(offset + 27, offset + 27 + segmentos)
+        .reduce((soma, tamanho) => soma + tamanho, 0);
+      ultimaGranulacao = bytes.readBigUInt64LE(offset + 6);
+      flagsPaginaFinal = bytes[offset + 5];
+      offset += 27 + segmentos + tamanhoCorpo;
+    }
+    assert.equal(offset, bytes.length);
+    assert.ok(Number(ultimaGranulacao) / 48000 <= limite);
+    assert.ok(Number(ultimaGranulacao) > 0);
+    assert.equal(flagsPaginaFinal & 4, 4);
+  }
 });
 
 test("áudio troca de contexto, aplica fades, pausa e salva as preferências", async () => {

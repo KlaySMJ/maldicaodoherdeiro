@@ -23,6 +23,7 @@
     if (!ehDruida(run)) return;
     const tipos = Object.keys(passivas);
     run.druidaPassiva = tipos[Math.floor(Math.random() * tipos.length)];
+    Jogo.legado?.conceder(run, { flags: [`companheiro_visto_${run.druidaPassiva}`] });
     run.previsaoCorvo = null;
     run.corvoRevelaOpcaoId = null;
 

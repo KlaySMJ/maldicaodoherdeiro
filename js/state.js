@@ -9,8 +9,9 @@
     hpMaxInicial: 100,
     economia: { habitantesPorGold: 50, intervaloRenda: 3, habitantesParaManutencao: 20, perdaPorRodada: 1 },
     memoriaEventos: 10,
-    memoriaCronica: 12,
-    rodadasVitoria: 100,
+    memoriaCronica: 15,
+    rodadasVitoria: 300,
+    intervaloEntidade: 24,
     honraAlta: 30,
     honraBaixa: -30,
     honraExtremaAlta: 90,
@@ -105,12 +106,20 @@
       const pool = ["corajoso", "avarento", "doente"];
       if (Jogo.legado.normalizar(legado).flags.druida_herdeiro === true) pool.push("druida_herdeiro");
       if (Jogo.legado.normalizar(legado).flags.menino_cronista === true) pool.push("menino_cronista");
+      if (Jogo.legado.normalizar(legado).flags.heroi_do_povo === true) pool.push("heroi_do_povo");
       return pool;
     },
     novo(legado, personagem = null) {
       const legadoDaRun = Jogo.legado.normalizar(legado);
       const poolTracos = Jogo.estado.tracosDisponiveis(legadoDaRun);
-      const conhecidos = ["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"];
+      const conhecidos = [
+        "corajoso",
+        "avarento",
+        "doente",
+        "druida_herdeiro",
+        "menino_cronista",
+        "heroi_do_povo",
+      ];
       const traco = conhecidos.includes(personagem)
         ? personagem
         : poolTracos[Math.floor(Math.random() * poolTracos.length)];
@@ -119,7 +128,9 @@
         avarento: { ...Jogo.config.iniciais, gold: 10 },
         doente: { ...Jogo.config.iniciais, hp: 70, escudo: 4 },
         druida_herdeiro: { ...Jogo.config.iniciais, hp: 110, escudo: 2, ataque: 2, habitantes: 50, gold: 3 },
-        menino_cronista: { ...Jogo.config.iniciais, hp: 70, escudo: 3 },
+        menino_cronista: { ...Jogo.config.iniciais, hp: 70, escudo: 3, honra: 30 },
+        // A Heroína do povo é a guarda da vila: ataque e escudo altos, honra imune à perda.
+        heroi_do_povo: { ...Jogo.config.iniciais, escudo: 5, ataque: 5 },
       }[traco];
       const memoriaAnterior = legadoDaRun.memorias.at(-1);
       const derrotasMemoria = legadoDaRun.memorias.filter((memoria) => memoria.tipo === "derrota").length;
@@ -135,6 +146,7 @@
         hpMax: iniciaisTraco.hp,
         construcoes: [],
         cultoRendaPorRodada: 0,
+        batalhasVencidas: 0,
         inventario: [],
         itensConquistados: [],
         logItens: [],
@@ -143,6 +155,7 @@
         seguidoresCulto: 0,
         aguardaDecisaoCulto: false,
         comprasMercador: {},
+        mercadoriasCompradas: [],
         ofertaMercador: null,
         efeitosPreparados: {
           bloquearDanoProximaBatalha: false,
@@ -155,6 +168,9 @@
         lancaHeroiBatalhas: 0,
         eventosRecentes: [],
         historicoCronica: [],
+        historicoCronicaAberto: false,
+        vampirismoHabitantesConsumidos: 0,
+        vampirismoBonusAtaque: 0,
         consequenciasAgendadas: [],
         nemesis:
           memoriaAnterior?.tipo === "derrota"
@@ -169,6 +185,8 @@
         eventosComunsRun: [],
         conselhosRecentes: [],
         honraNeutraSequencia: 0,
+        honraSempreNeutra: iniciaisTraco.honra >= -29 && iniciaisTraco.honra <= 29,
+        avisosConquistas: [],
         marcos: {},
         honraReveladaAteRodada: 0,
         habitantesReveladosAteRodada: 0,

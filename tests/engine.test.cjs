@@ -58,9 +58,11 @@ function preparar() {
     "events-anuais",
     "events-personagens",
     "events-artes-especificas",
+    "events-heroi",
     "events-ajustes",
     "items",
     "legacy",
+    "conquistas",
     "druida",
     "engine",
     "save",
@@ -227,6 +229,8 @@ test("saves anteriores à economia migram sem perder progresso nem repetir decis
     run.versao = 1;
     delete run.atributos.gold;
     delete run.comprasMercador;
+    delete run.batalhasVencidas;
+    delete run.mercadoriasCompradas;
     if (run.ultimoResultado) {
       delete run.ultimoResultado.alteracoes.gold;
       delete run.ultimoResultado.economia;
@@ -239,6 +243,8 @@ test("saves anteriores à economia migram sem perder progresso nem repetir decis
     assert.equal(carregada.atributos.hp, run.atributos.hp);
     assert.equal(carregada.atributos.gold, 5);
     assert.deepEqual(simples(carregada.comprasMercador), {});
+    assert.equal(carregada.batalhasVencidas, 0);
+    assert.deepEqual(simples(carregada.mercadoriasCompradas), []);
     if (fase === "resultado") assert.equal(carregada.ultimoResultado.alteracoes.gold, 0);
     assert.equal(J.save.gravarRun(carregada), true);
     assert.deepEqual(simples(J.save.lerRun()), simples(carregada));
@@ -339,6 +345,83 @@ test("derrotas por HP ou habitantes encerram a run após a consequência inteira
     assert.equal(run.fim.tipo, "derrota");
     assert.equal(J.engine.avancar(run), false);
   }
+});
+
+test("encerramento no desfecho de sorte só termina a run na falha", () => {
+  // A sorte fica fixada em 0.25 na preparação: chance 50 vence, chance 0 perde.
+  const { J, run } = preparar();
+  run.eventoId = "taca_do_convidado";
+  assert.equal(J.engine.escolher(run, "beber"), true);
+  assert.equal(run.status, "ativa");
+  assert.equal(run.fim, null);
+
+  const segunda = preparar();
+  const opcao = segunda.J.eventos
+    .find((evento) => evento.id === "taca_do_convidado")
+    .opcoes.find((item) => item.id === "beber");
+  opcao.testeSorte.chance = 0;
+  segunda.run.eventoId = "taca_do_convidado";
+  assert.equal(segunda.J.engine.escolher(segunda.run, "beber"), true);
+  assert.equal(segunda.run.status, "encerrada");
+  assert.equal(segunda.run.fim.tipo, "derrota");
+  assert.match(segunda.run.fim.motivo, /veneno/);
+  assert.equal(segunda.J.save.runValida(segunda.run), true);
+});
+
+test("o fim do ano abre três desfechos de vitória e todos entram no ranking", () => {
+  const cenarios = [
+    [() => {}, "vitoria"],
+    [
+      (run) => {
+        run.cultoAtivo = true;
+        run.marcos.cultoAdesao = 1;
+      },
+      "vitoria_culto",
+    ],
+    [
+      (run) => {
+        run.atributos.honra = 95;
+      },
+      "vitoria_honra",
+    ],
+  ];
+  for (const [prepararFim, esperado] of cenarios) {
+    const { J, run } = preparar();
+    run.fase = "resultado";
+    run.rodada = J.config.rodadasVitoria;
+    run.ultimoResultado = {
+      texto: "Mais uma rodada passa.",
+      escolha: "Avançar a crônica.",
+      alteracoes: Object.fromEntries(J.atributos.map((id) => [id, 0])),
+      combate: null,
+    };
+    prepararFim(run);
+    assert.equal(J.engine.avancar(run), true);
+    assert.equal(run.status, "encerrada");
+    assert.equal(run.fim.tipo, esperado);
+    assert.equal(run.conquistas.melhoresRuns.length, 1);
+    assert.equal(J.save.runValida(run), true);
+  }
+});
+
+test("save relê runs encerradas com os desfechos de vitória novos", () => {
+  const { J, run } = preparar();
+  run.fase = "resultado";
+  run.rodada = J.config.rodadasVitoria;
+  run.cultoAtivo = true;
+  run.marcos.cultoAdesao = 1;
+  run.ultimoResultado = {
+    texto: "O ano termina.",
+    escolha: "Avançar a crônica.",
+    alteracoes: Object.fromEntries(J.atributos.map((id) => [id, 0])),
+    combate: null,
+  };
+  J.engine.avancar(run);
+  assert.equal(run.fim.tipo, "vitoria_culto");
+  assert.equal(J.save.gravarRun(run), true);
+  const lida = J.save.lerRun();
+  assert.equal(lida.fim.tipo, "vitoria_culto");
+  assert.match(lida.fim.motivo, /chamado/);
 });
 
 test("desbloqueios permanecem pendentes e só entram nas pools da próxima run", () => {
@@ -634,7 +717,7 @@ test("reparar a ponte libera uma caravana, cuja recompensa não pode ser repetid
 test("todo evento oferece saídas válidas e resultados finitos para ambas as honras e combates", () => {
   for (const honra of [-50, 0, 50]) {
     const { J } = preparar();
-    assert.equal(J.eventos.length, 270);
+    assert.equal(J.eventos.length, 276);
     assert.equal(new Set(J.eventos.map((e) => e.id)).size, J.eventos.length);
     for (const evento of J.eventos) {
       for (const gold of [0, 100]) {

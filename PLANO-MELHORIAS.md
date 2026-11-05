@@ -7,7 +7,7 @@ Sugestões levantadas na análise do catálogo atual (270 eventos, 750 opções,
 ## 1. Gameplay
 
 - [x] **Tela de escolha do herdeiro** — lista os traços disponíveis e os bloqueados, incluindo o Druida e o Menino da Crônica.
-- [x] **Condição de vitória** — concluir o primeiro ano da crônica (100 rodadas); runs derrotadas antes disso continuam derrotas.
+- [x] **Condição de vitória** — concluir o ano da crônica (`Jogo.config.rodadasVitoria`, hoje 300); runs derrotadas antes disso continuam derrotas. O fim do ano tem três desfechos: `vitoria`, `vitoria_culto` e `vitoria_honra`.
 - [x] **Histórico da crônica** — as últimas 12 escolhas e seus desfechos aparecem na tela da run.
 - [x] **Atalhos de teclado** — `1`–`4` escolhem a opção, `Enter` continua.
 - [x] **Exportar/importar progresso** — backup JSON com legado e run, com validação e migração de traços desconhecidos.
@@ -57,7 +57,7 @@ Na análise original: 4 loops e **zero efeitos sonoros** (`js/audio.js:4-9`).
 
 ## 6. Novos eventos
 
-- [x] **Progressão tardia do primeiro ano** — eventos existentes têm gates a partir da rodada 31; três eventos novos surgem nas rodadas 35, 55 e 75. A vitória chega ao completar 100 rodadas.
+- [x] **Progressão tardia do primeiro ano** — eventos existentes têm gates a partir da rodada 31; três eventos novos surgem nas rodadas 35, 55 e 75. A vitória chega ao completar `rodadasVitoria` rodadas.
 - [x] **Batalhas com escolha** — auditoria das 16 batalhas confirmou de uma a três opções não combativas em cada uma; a sugestão original já estava coberta.
 - [x] **Construções com cadeia própria** — auditoria confirmou eventos ou efeitos para as dez construções listadas; a sugestão original já estava coberta.
 - [x] **Eventos exclusivos por traço** — linhas novas para Corajoso, Avarento e Doente complementam a do Druida.
@@ -116,7 +116,9 @@ O **Druida já é o modelo**: 8 PNG, 1 SVG, desbloqueio por `desbloqueia.flags` 
 
 ## Registro da execução
 
-- A primeira vitória acontece ao concluir 100 rodadas; a objetiva do Druida foi ajustada para um ano para continuar alcançável.
+- A primeira vitória acontece ao concluir `rodadasVitoria` rodadas; a objetiva do Druida foi ajustada para um ano para continuar alcançável.
+- **Frente 1 — varredura de textos:** mojibake zerado no projeto inteiro (as 10 ocorrências do `engine.js` foram corrigidas); 2323 textos auditados sem espaços duplos, pontuação colada, aspas abertas ou espaço final; as repetições restantes são os templates intencionais do conselheiro. Sete opções do Druida criadas pelo helper `natureza()` renderizavam `<p>` vazio e ganharam `resultado`. O `README` dizia que não havia condição de vitória e foi atualizado.
+- **Frente 2 — finais alternativos:** `encerramento` passou a valer também em desfechos de `testeSorte`; quatro eventos letais ganharam morte real (casa em chamas, taça do convidado, fera no celeiro, dados do velho); o fim do ano abre `vitoria`, `vitoria_culto` (culto ativo) ou `vitoria_honra` (Honra ≥ 90), todas no ranking. `save.js` e a tela de fim aceitam os tipos novos. Corrigido bug pré-existente: a memória do fim nunca era gravada porque o payload do `mesclar` não tinha `versao: 1`, o que também mantinha a contagem de nêmesis em zero.
 - A arte temática reaproveita WebPs existentes. As cenas ainda sem imagem específica continuam com `vila.webp`; retratos de conselheiro mantêm seus usos dinâmicos.
 - A economia inicial foi revisada por cálculo: 5 Gold iniciais pagam a poção; guardando o ouro e mantendo 50 habitantes, arma ou escudo de 10 Gold ficam ao alcance por volta da rodada 15. Preços preservados; a validação em partidas reais continua pendente.
 - A conversão opcional de WAV para Ogg/MP3 e a revisão ampla do peso de honra continuam pendentes.

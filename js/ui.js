@@ -54,8 +54,23 @@
       /[&<>"']/g,
       (letra) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[letra],
     );
+  const nomesEspeciais = ["A Entidade", "Entidade"];
+  const textoComNomesEspeciais = (valor) => {
+    const nomes = nomesEspeciais.map((nome) => nome.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    return esc(valor).replace(
+      new RegExp(`\\b(?:${nomes})\\b`, "g"),
+      '<span class="nome-especial-tremendo">$&</span>',
+    );
+  };
   const numero = (valor) => new Intl.NumberFormat("pt-BR").format(valor);
   const assinado = (valor) => `${valor > 0 ? "+" : ""}${numero(valor)}`;
+  const textoDaRendaProxima = (run) => {
+    const previsao = Jogo.engine.preverRenda(run);
+    if (!previsao.fontes.length)
+      return "Sem renda recorrente prevista nas próximas 30 rodadas. Nenhum item altera a renda recorrente.";
+    const fontes = previsao.fontes.map((fonte) => `${fonte.nome}: ${assinado(fonte.valor)} Gold`).join("; ");
+    return `Próxima variação de Gold: ${assinado(previsao.total)} na rodada ${numero(previsao.rodada)}. ${fontes}. Itens: nenhum item altera a renda recorrente.`;
+  };
   const nomesRaridade = {
     comum: "Comum",
     raro: "Raro",
@@ -69,6 +84,7 @@
     doente: "Doente",
     druida_herdeiro: "Filho da Floresta",
     menino_cronista: "Menino da Crônica",
+    heroi_do_povo: "A Heroína do povo",
   };
   const condicaoNomes = { licantropia: "Licantropia", vampirismo: "Vampirismo", possessao: "Possessão" };
   const condicaoDescricoes = {
@@ -85,6 +101,8 @@
       "Druida-Herdeiro: começa com o Cajado de carvalho vivo e recebe a passiva de um companheiro aleatório a cada rodada. As quatro estações seguem o ciclo de 25 rodadas.",
     menino_cronista:
       "Menino da Crônica: começa com 70 Vida e 3 Escudo. Acolheu a vila quando chegou órfão e voltou para ajudar a registrar sua história.",
+    heroi_do_povo:
+      "Heroína do povo: começa com 5 Ataque e 5 Escudo. A honra dela nunca cai e nunca fica negativa — nem sob a espada da verdade nem sob o chamado do culto.",
   };
   const retratos = {
     corajoso: { arquivo: "corajoso", descricao: "Busto da herdeira corajosa" },
@@ -95,6 +113,7 @@
       descricao: "Druida-Herdeiro maduro, de barba grisalha e cajado do cervo",
     },
     menino_cronista: { arquivo: "menino-cronista", descricao: "Busto do Menino da Crônica" },
+    heroi_do_povo: { arquivo: "heroi-do-povo", descricao: "Busto da Heroína do povo" },
   };
   const fasesRetrato = {
     neutra: "com honra neutra",
@@ -184,6 +203,8 @@
   let alvoTutorial = null;
   let cronicaTutorial = null;
   let cronicaInerteOriginal = false;
+  let temporizadorTextoEvento = 0;
+  let completarTextoAtivo = null;
 
   function ajustarTela() {
     window.cancelAnimationFrame(ajustePendente);
@@ -210,6 +231,9 @@
   }
 
   function mostrar(html, tela, contextoMusica = tela === "intro" ? "intro" : "menu") {
+    if (temporizadorTextoEvento) window.clearInterval(temporizadorTextoEvento);
+    temporizadorTextoEvento = 0;
+    completarTextoAtivo = null;
     if (tela !== "jogo") retratoExibido = null;
     app.innerHTML = html;
     document.body.dataset.tela = tela;
@@ -217,6 +241,48 @@
     Jogo.audio?.definirContexto(contextoMusica);
     app.focus({ preventScroll: true });
     ajustarTela();
+  }
+
+  function completarTextoEvento(tecla = null) {
+    if (!completarTextoAtivo) return false;
+    if (
+      tecla !== null &&
+      tecla !== "Enter" &&
+      tecla !== " " &&
+      tecla !== "Spacebar" &&
+      !/^[1-9]$/.test(tecla)
+    )
+      return false;
+    completarTextoAtivo();
+    return true;
+  }
+
+  function digitarTextoEvento(texto, animar) {
+    const visual = app.querySelector("[data-texto-visual]");
+    const decisao = app.querySelector("[data-decisao-evento]");
+    const aviso = app.querySelector("[data-opcoes-disponiveis]");
+    if (!visual || !decisao || !animar) return;
+    const caracteres = Array.from(texto);
+    let indice = 0;
+    const completar = () => {
+      if (temporizadorTextoEvento) window.clearInterval(temporizadorTextoEvento);
+      temporizadorTextoEvento = 0;
+      visual.textContent = texto;
+      decisao.hidden = false;
+      decisao.classList.add("decisao-evento--pronta");
+      if (aviso) aviso.hidden = false;
+      completarTextoAtivo = null;
+      ajustarTela();
+    };
+    completarTextoAtivo = completar;
+    temporizadorTextoEvento = window.setInterval(
+      () => {
+        indice += 1;
+        visual.textContent = caracteres.slice(0, indice).join("");
+        if (indice >= caracteres.length) completar();
+      },
+      Math.min(30, 4000 / Math.max(1, caracteres.length)),
+    );
   }
 
   function tutorialFoiConcluido() {
@@ -396,18 +462,23 @@
     dialogo.showModal();
   }
 
-  function menu(run) {
+  function modoDebug() {
+    try {
+      return (
+        window.DEBUG_JOGO === true ||
+        new URLSearchParams(window.location.search).get("debug") === "1" ||
+        window.localStorage.getItem("debug_jogo") === "1" ||
+        window.localStorage.getItem("debug_forcar_druida") === "1" ||
+        window.localStorage.getItem("debug_forcar_menino") === "1"
+      );
+    } catch {
+      return window.DEBUG_JOGO === true;
+    }
+  }
+
+  function menu(run, focarLegado = false) {
     const forcarDruida = window.localStorage.getItem("debug_forcar_druida") === "1";
-    const legado = Jogo.save.lerLegado();
-    const objetivos = Jogo.objetivosLegado
-      .map((objetivo) => {
-        const concluido = legado.objetivosConcluidos.includes(objetivo.id);
-        return `<li><strong>${esc(objetivo.nome || objetivo.id)}</strong><span>${esc(objetivo.descricao || "Objetivo de legado")}</span><small>${concluido ? "Concluído" : "Ainda por cumprir"}</small></li>`;
-      })
-      .join("");
-    const eventosDesbloqueados = Jogo.eventos.filter((evento) => legado.eventos.includes(evento.id));
-    const itensDesbloqueados = Jogo.itens.filter((item) => legado.itens.includes(item.id));
-    const melhoresRuns = legado.melhoresRuns || [];
+    const forcarConselheiro = window.localStorage.getItem("debug_forcar_menino") === "1";
     mostrar(
       `
       <section class="abertura" aria-labelledby="titulo-inicio">
@@ -420,18 +491,7 @@
             <button class="botao primario" data-acao="iniciar">Escolher herdeiro <span aria-hidden="true">→</span></button>
             <button class="botao" data-acao="tutorial">Como jogar</button>
             <button class="botao" data-acao="carregar" ${run ? "" : "disabled"}>Carregar${run ? ` <span>Rodada ${numero(run.rodada)}</span>` : ""}</button>
-            <details class="painel-legado">
-              <summary>Legado e recordes</summary>
-              <div class="painel-legado-conteudo">
-                <h2>Objetivos</h2>
-                <ul>${objetivos || "<li>Nenhum objetivo de legado cadastrado.</li>"}</ul>
-                <h2>Desbloqueios</h2>
-                <p>${eventosDesbloqueados.length} eventos · ${itensDesbloqueados.length} itens · ${legado.flags.druida_herdeiro ? "Filho da Floresta disponível" : "Filho da Floresta ainda não encontrado"}</p>
-                ${eventosDesbloqueados.length || itensDesbloqueados.length ? `<ul>${eventosDesbloqueados.map((evento) => `<li><strong>${esc(evento.titulo)}</strong><span>Evento</span></li>`).join("")}${itensDesbloqueados.map((item) => `<li><strong>${esc(item.nome)}</strong><span>Item</span></li>`).join("")}</ul>` : ""}
-                <h2>Melhores crônicas</h2>
-                ${melhoresRuns.length ? `<ol>${melhoresRuns.slice(0, 5).map((registro) => `<li><strong>${esc(nomesTraco[registro.traco] || "Herdeiro")}</strong><span>${numero(registro.pontuacao)} pontos · ${numero(registro.habitantes)} habitantes · ${numero(registro.gold)} gold</span></li>`).join("")}</ol>` : `<p>Nenhuma vitória registrada. Sobreviva às ${numero(Jogo.config.rodadasVitoria)} rodadas de um ano para cumprir a crônica.</p>`}
-              </div>
-            </details>
+            <button id="abrir-legado" class="botao painel-legado-abrir" data-acao="abrir-legado">Conquistas e legado <span aria-hidden="true">→</span></button>
             <details class="painel-backup">
               <summary>Backup de progresso</summary>
               <div><button class="botao" data-acao="exportar-progresso">Exportar arquivo</button><button class="botao" data-acao="importar-progresso">Importar arquivo</button></div>
@@ -439,37 +499,205 @@
             <input id="importar-progresso-arquivo" type="file" accept="application/json,.json" hidden>
             <button class="botao debug-transformacoes-menu" data-acao="debug-transformacoes">Debug: ver transformações</button>
             <button class="botao debug-druida-menu" data-acao="debug-alternar-druida" aria-pressed="${forcarDruida}">Debug: sempre iniciar como Druida · ${forcarDruida ? "ativo" : "inativo"}</button>
-            <button class="botao debug-menino-menu" data-acao="debug-iniciar-menino">Debug: iniciar como Menino da Crônica</button>
+            <button class="botao debug-conselheiro-menu" data-acao="debug-alternar-conselheiro" aria-pressed="${forcarConselheiro}">Debug: sempre iniciar como Conselheiro · ${forcarConselheiro ? "ativo" : "inativo"}</button>
           </div>
           <p class="nota">${run ? "Há uma história esperando por você." : "Sua primeira história ainda não foi escrita."}</p>
         </div>
       </section>`,
       "inicio",
     );
+    if (focarLegado) document.getElementById("abrir-legado")?.focus({ preventScroll: true });
   }
 
+  function painelLegado(legado = Jogo.save.lerLegado()) {
+    const desbloqueadas = new Set(legado.conquistasDesbloqueadas || []);
+    const eventos = Jogo.eventos.filter((evento) => legado.eventos.includes(evento.id));
+    const itens = Jogo.itens.filter((item) => legado.itens.includes(item.id));
+    const melhoresRuns = legado.melhoresRuns || [];
+    const conquistas = Jogo.conquistas?.lista || [];
+    const categorias = [
+      { id: "cronicas", titulo: "Crônicas" },
+      { id: "sobrenatural", titulo: "Forças sobrenaturais" },
+      { id: "herdeiros", titulo: "Herdeiros" },
+      { id: "atributos", titulo: "Ataque e Escudo" },
+    ];
+    const categoriaDaConquista = (id) =>
+      id.startsWith("condicao_")
+        ? "sobrenatural"
+        : id.startsWith("ataque_") || id.startsWith("escudo_")
+          ? "atributos"
+          : id.startsWith("vitoria_") || id.includes("_vitoria_")
+            ? "herdeiros"
+            : "cronicas";
+    const listaConquistas = categorias
+      .map((categoria) => {
+        const daCategoria = conquistas.filter(
+          (conquista) => categoriaDaConquista(conquista.id) === categoria.id,
+        );
+        if (!daCategoria.length) return "";
+        const conquistadas = daCategoria.filter((conquista) => desbloqueadas.has(conquista.id)).length;
+        return `<section class="legado-categoria" aria-labelledby="titulo-categoria-${categoria.id}">
+          <header><h2 id="titulo-categoria-${categoria.id}">${categoria.titulo}</h2><span>${conquistadas} de ${daCategoria.length}</span></header>
+          <ul>${daCategoria
+            .map((conquista) => {
+              const conquistada = desbloqueadas.has(conquista.id);
+              return `<li class="legado-conquista ${conquistada ? "conquista-desbloqueada" : "conquista-pendente"}">
+                <span class="legado-conquista-selo" aria-hidden="true">${conquistada ? "✦" : "◇"}</span>
+                <div><div class="legado-conquista-status">${conquistada ? "Conquistada" : "Por conquistar"}</div><strong>${esc(conquista.nome)}</strong><p>${esc(conquista.descricao)}</p></div>
+              </li>`;
+            })
+            .join("")}</ul>
+        </section>`;
+      })
+      .join("");
+    const objetivos = Jogo.objetivosLegado
+      .map((objetivo) => {
+        const concluido = legado.objetivosConcluidos.includes(objetivo.id);
+        return `<li class="legado-objetivo ${concluido ? "objetivo-concluido" : "objetivo-pendente"}">
+          <span class="legado-objetivo-selo" aria-hidden="true">${concluido ? "✓" : "◇"}</span>
+          <div><strong>${esc(objetivo.nome || objetivo.id)}</strong><p>${esc(objetivo.descricao || "Objetivo de legado")}</p></div>
+          <small>${concluido ? "Concluído" : "Pendente"}</small>
+        </li>`;
+      })
+      .join("");
+    const painelRecordes = melhoresRuns.length
+      ? `<ol class="legado-recordes-lista">${melhoresRuns
+          .slice(0, 5)
+          .map(
+            (registro, indice) =>
+              `<li><span class="legado-recorde-posicao">${String(indice + 1).padStart(2, "0")}</span><div><strong>${esc(nomesTraco[registro.traco] || "Herdeiro")}</strong><span>${numero(registro.habitantes)} habitantes · ${numero(registro.gold)} Gold</span></div><strong class="legado-recorde-pontos">${numero(registro.pontuacao)} <small>pontos</small></strong></li>`,
+          )
+          .join("")}</ol>`
+      : `<p class="legado-vazio">Nenhuma crônica vitoriosa foi registrada ainda.</p>`;
+    mostrar(
+      `<section id="painel-legado" class="legado-tela" tabindex="-1" aria-labelledby="titulo-legado">
+        <header class="legado-cabecalho"><div><p class="nota">A memória da linhagem</p><h1 id="titulo-legado">Conquistas e legado</h1><p>As marcas que suas crônicas deixaram.</p></div><button class="botao" data-acao="voltar-legado">Voltar ao início</button></header>
+        <div class="legado-abas" role="tablist" aria-label="Seções da memória da linhagem">
+          <button id="aba-conquistas" class="legado-aba" type="button" role="tab" aria-selected="true" aria-controls="painel-conquistas" tabindex="0">Conquistas <span>${desbloqueadas.size}/${conquistas.length}</span></button>
+          <button id="aba-jornada" class="legado-aba" type="button" role="tab" aria-selected="false" aria-controls="painel-jornada" tabindex="-1">Jornada</button>
+          <button id="aba-recordes" class="legado-aba" type="button" role="tab" aria-selected="false" aria-controls="painel-recordes" tabindex="-1">Recordes</button>
+        </div>
+        <section id="painel-conquistas" class="legado-painel" role="tabpanel" tabindex="0" aria-labelledby="aba-conquistas">
+          <div class="legado-progresso"><div><p class="nota">Marcas conquistadas</p><strong>${desbloqueadas.size}<span> / ${conquistas.length}</span></strong></div><progress max="${Math.max(1, conquistas.length)}" value="${desbloqueadas.size}" aria-label="${desbloqueadas.size} de ${conquistas.length} conquistas"></progress><p>Uma conquista fica registrada mesmo depois que a crônica termina.</p></div>
+          <div class="legado-categorias">${listaConquistas || `<p class="legado-vazio">As conquistas aparecerão aqui quando forem definidas.</p>`}</div>
+        </section>
+        <section id="painel-jornada" class="legado-painel" role="tabpanel" tabindex="0" aria-labelledby="aba-jornada" hidden>
+          <div class="legado-jornada-grade">
+            <section class="legado-bloco"><header><div><p class="nota">Metas de linhagem</p><h2>Objetivos</h2></div><span>${legado.objetivosConcluidos.length}/${Jogo.objetivosLegado.length}</span></header><ul class="legado-objetivos">${objetivos || `<li class="legado-vazio">Nenhum objetivo cadastrado.</li>`}</ul></section>
+            <section class="legado-bloco"><header><div><p class="nota">O que permanece</p><h2>Desbloqueios</h2></div><span>${eventos.length + itens.length} registros</span></header>
+              <div class="legado-desbloqueios-resumo"><div><strong>${eventos.length}</strong><span>eventos</span></div><div><strong>${itens.length}</strong><span>itens</span></div><div><strong>${legado.flags.druida_herdeiro ? "Sim" : "Não"}</strong><span>Druida-Herdeiro</span></div></div>
+              <div class="legado-desbloqueios-grade"><section><h3>Eventos</h3>${eventos.length ? `<ul>${eventos.map((evento) => `<li><span>Evento</span><strong>${esc(evento.titulo)}</strong></li>`).join("")}</ul>` : `<p class="legado-vazio">Nenhum evento desbloqueado.</p>`}</section><section><h3>Itens</h3>${itens.length ? `<ul>${itens.map((item) => `<li><span>Item</span><strong>${esc(item.nome)}</strong></li>`).join("")}</ul>` : `<p class="legado-vazio">Nenhum item desbloqueado.</p>`}</section></div>
+            </section>
+          </div>
+        </section>
+        <section id="painel-recordes" class="legado-painel" role="tabpanel" tabindex="0" aria-labelledby="aba-recordes" hidden><div class="legado-bloco legado-recordes"><header><div><p class="nota">As crônicas que chegaram mais longe</p><h2>Recordes</h2></div><span>Até 5 entradas</span></header>${painelRecordes}</div></section>
+      </section>`,
+      "legado",
+    );
+    const painel = document.getElementById("painel-legado");
+    const abas = [...(painel?.querySelectorAll?.('[role="tab"]') || [])];
+    const paineis = [...(painel?.querySelectorAll?.('[role="tabpanel"]') || [])];
+    const selecionarAba = (aba, focar = false) => {
+      for (const candidata of abas) {
+        const selecionada = candidata === aba;
+        candidata.setAttribute("aria-selected", String(selecionada));
+        candidata.tabIndex = selecionada ? 0 : -1;
+      }
+      for (const conteudo of paineis) conteudo.hidden = conteudo.id !== aba?.getAttribute("aria-controls");
+      if (focar) aba?.focus();
+    };
+    for (const aba of abas) {
+      aba.addEventListener("click", () => selecionarAba(aba));
+      aba.addEventListener("keydown", (evento) => {
+        const indice = abas.indexOf(aba);
+        const proximo =
+          evento.key === "ArrowRight"
+            ? (indice + 1) % abas.length
+            : evento.key === "ArrowLeft"
+              ? (indice - 1 + abas.length) % abas.length
+              : evento.key === "Home"
+                ? 0
+                : evento.key === "End"
+                  ? abas.length - 1
+                  : -1;
+        if (proximo < 0) return;
+        evento.preventDefault();
+        selecionarAba(abas[proximo], true);
+      });
+    }
+    document.getElementById("painel-legado")?.focus({ preventScroll: true });
+  }
   function escolherHerdeiro(legado) {
     const disponiveis = new Set(Jogo.estado.tracosDisponiveis(legado));
+    const debug = modoDebug();
     const opcoesHerdeiro = [
-      { traco: "corajoso", nome: "A Herdeira Corajosa", descricao: "+1 Ataque no início.", imagem: "corajoso" },
-      { traco: "avarento", nome: "O Herdeiro Avarento", descricao: "Começa com 10 Gold.", imagem: "avarento" },
-      { traco: "doente", nome: "O Herdeiro Doente", descricao: "70 Vida e 4 Escudo; aguenta menos golpes.", imagem: "doente" },
-      { traco: "druida_herdeiro", nome: "O Filho da Floresta", descricao: "Cajado vivo e um companheiro da floresta.", imagem: "druida-herdeiro" },
-      { traco: "menino_cronista", nome: "O Menino da Crônica", descricao: "70 Vida e 3 Escudo; acolhido e feito conselheiro da vila.", imagem: "menino-cronista" },
+      {
+        traco: "corajoso",
+        nome: "A Herdeira Corajosa",
+        descricao: "+1 Ataque no início.",
+        imagem: "corajoso",
+      },
+      {
+        traco: "avarento",
+        nome: "O Herdeiro Avarento",
+        descricao: "Começa com 10 Gold.",
+        imagem: "avarento",
+      },
+      {
+        traco: "doente",
+        nome: "O Herdeiro Doente",
+        descricao: "70 Vida e 4 Escudo; aguenta menos golpes.",
+        imagem: "doente",
+      },
+      {
+        traco: "druida_herdeiro",
+        nome: "O Filho da Floresta",
+        descricao:
+          "O Cajado começa com +2 Ataque e ganha +1 a cada primavera após o primeiro ano, até +5. O companheiro aleatório muda a passiva: Lobo dá +2 Ataque em batalhas, Corvo revela o tipo do evento e Honra de uma opção, e Cervo cura 3 Vida por rodada (4 com a Máscara).",
+        imagem: "druida-herdeiro",
+      },
+      {
+        traco: "menino_cronista",
+        nome: "O Menino da Crônica",
+        descricao: "70 Vida e 3 Escudo; acolhido e feito conselheiro da vila.",
+        imagem: "menino-cronista",
+      },
+      {
+        traco: "heroi_do_povo",
+        nome: "A Heroína do povo",
+        descricao: "5 Ataque e 5 Escudo; a honra dela nunca cai nem fica negativa.",
+        imagem: "heroi-do-povo",
+      },
     ];
+    const dicasTraco = {
+      menino_cronista: "Acolha o órfão com honra e torne-o conselheiro.",
+      heroi_do_povo: "Alcance 400 de Honra em uma crônica.",
+    };
     mostrar(
       `<section class="selecao-herdeiro" aria-labelledby="titulo-selecao-herdeiro">
         <div class="selecao-herdeiro-cabecalho"><p class="nota">A linhagem continua</p><h1 id="titulo-selecao-herdeiro">Quem herda a vila?</h1><p>Cada traço muda os primeiros passos desta crônica.</p></div>
         <div class="selecao-herdeiro-lista">${opcoesHerdeiro
           .map((herdeiro) => {
-            const desbloqueado = disponiveis.has(herdeiro.traco);
+            const desbloqueado =
+              disponiveis.has(herdeiro.traco) ||
+              (debug && (herdeiro.traco === "menino_cronista" || herdeiro.traco === "heroi_do_povo"));
+            const nomeHerdeiro =
+              debug && herdeiro.traco === "menino_cronista" ? "O Conselheiro (debug)" : herdeiro.nome;
+            const descricaoHerdeiro =
+              debug && herdeiro.traco === "menino_cronista"
+                ? "70 Vida, 3 Escudo e 30 Honra no início."
+                : herdeiro.descricao;
+            const dicaHerdeiro = desbloqueado
+              ? "Disponível para escolher."
+              : dicasTraco[herdeiro.traco] || "Poupe o cervo branco para encontrar este herdeiro.";
+            const descricaoAcessivel = `${nomeHerdeiro}. ${descricaoHerdeiro} ${dicaHerdeiro}`;
             const imagemBase = `assets/herdeiros/${herdeiro.imagem}-neutra.png`;
             const versaoImagem = window.JOGO_VERSAO_ASSETS
               ? `${imagemBase}?v=${encodeURIComponent(window.JOGO_VERSAO_ASSETS)}`
               : imagemBase;
-            return `<button class="herdeiro-opcao" data-acao="selecionar-herdeiro" data-traco="${herdeiro.traco}" ${desbloqueado ? "" : "disabled"}>
-              <img src="${esc(versaoImagem)}" width="96" height="128" alt="">
-              <span class="herdeiro-opcao-texto"><strong>${esc(herdeiro.nome)}</strong><span>${esc(herdeiro.descricao)}</span><small>${desbloqueado ? "Disponível" : herdeiro.traco === "menino_cronista" ? "Acolha o órfão com honra e torne-o conselheiro." : "Poupe o cervo branco para encontrar este herdeiro."}</small></span><span class="herdeiro-opcao-seta" aria-hidden="true">→</span>
+            return `<button class="herdeiro-opcao${desbloqueado ? "" : " herdeiro-opcao--bloqueado"}" type="button" data-acao="selecionar-herdeiro" data-traco="${herdeiro.traco}" aria-disabled="${desbloqueado ? "false" : "true"}" aria-label="${esc(descricaoAcessivel)}">
+              <img src="${esc(versaoImagem)}" width="600" height="600" alt="">
+              <span class="herdeiro-opcao-info"><strong>${esc(nomeHerdeiro)}</strong><span>${esc(descricaoHerdeiro)}</span><small>${esc(dicaHerdeiro)}</small><small class="herdeiro-toque-escolha">Toque novamente para escolher.</small></span>
             </button>`;
           })
           .join("")}</div>
@@ -543,7 +771,7 @@
       return `<div class="resultado resultado-culto" role="status">
       <div class="decisao-culto" role="alert">
         <h2>O último habitante se foi</h2>
-        <button class="botao aceitar-culto" data-acao="juntar-culto">Aceitar o chamado</button>
+        <button class="botao aceitar-culto" data-acao="juntar-culto"><span class="chamado-tremendo">Aceitar o chamado</span></button>
       </div>
     </div>`;
     const economia = r.economia;
@@ -559,11 +787,15 @@
           .filter(Boolean)
           .join(" ")
       : "";
+    const avisosConquistas = (run.avisosConquistas || [])
+      .map((id) => Jogo.conquistas?.lista.find((conquista) => conquista.id === id))
+      .filter(Boolean);
     return `<div class="resultado" role="status">
       <h2>Assim foi feito.</h2>
       <p class="escolha-feita">“${esc(r.escolha)}”</p>
       ${r.combate ? `<p class="desfecho-combate">${r.combate.venceu ? "Vitória em batalha" : "Ataque malsucedido"} · ${numero(r.combate.dano)} de dano após o escudo</p>` : ""}
       <p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
+      ${avisosConquistas.length ? `<aside class="aviso-conquistas" aria-live="polite"><strong>Conquista${avisosConquistas.length === 1 ? " desbloqueada" : "s desbloqueadas"}</strong><ul>${avisosConquistas.map((conquista) => `<li>${esc(conquista.nome)}</li>`).join("")}</ul></aside>` : ""}
       <button class="botao primario" data-acao="continuar">Continuar <span aria-hidden="true">→</span></button>
     </div>`;
   }
@@ -688,13 +920,17 @@
 
   function historicoCronica(run) {
     const registros = (run.historicoCronica || []).slice().reverse();
-    return `<details class="historico-cronica"><summary>Crônica recente <span>${registros.length} ${registros.length === 1 ? "escolha" : "escolhas"}</span></summary>
-      ${registros.length ? `<ol>${registros
-        .map(
-          (registro) =>
-            `<li><small>Rodada ${numero(registro.rodada)} · ${esc(registro.evento)}</small><strong>“${esc(registro.escolha)}”</strong><p>${esc(registro.desfecho)}</p></li>`,
-        )
-        .join("")}</ol>` : "<p>As escolhas desta run aparecerão aqui.</p>"}
+    return `<details class="historico-cronica" ${run.historicoCronicaAberto ? "open" : ""}><summary>Crônica recente <span>${registros.length} ${registros.length === 1 ? "escolha" : "escolhas"}</span></summary>
+      ${
+        registros.length
+          ? `<ol>${registros
+              .map(
+                (registro) =>
+                  `<li><small>Rodada ${numero(registro.rodada)} · ${esc(registro.evento)}</small><strong>“${esc(registro.escolha)}”</strong><p>${esc(registro.desfecho)}</p></li>`,
+              )
+              .join("")}</ol>`
+          : "<p>As escolhas desta run aparecerão aqui.</p>"
+      }
     </details>`;
   }
 
@@ -777,6 +1013,17 @@
     imagemEventoPrecarregada.decode?.().catch(() => {});
   }
 
+  function precarregarProximoRetrato(traco, faixa, cultoAtivo, direcao) {
+    const sequencia = ["baixissima", "baixa-2", "baixa", "neutra", "alta", "alta-2", "altissima"];
+    const indice = sequencia.indexOf(faixa);
+    const proximaFaixa = sequencia[indice + direcao];
+    if (!proximaFaixa) return;
+    const imagem = new Image();
+    imagem.decoding = "async";
+    imagem.src = caminhoRetrato(traco, proximaFaixa, cultoAtivo);
+    imagem.decode?.().catch(() => {});
+  }
+
   function retrato(traco, faixa, anterior, cultoAtivo) {
     const imagemAtual = caminhoRetrato(traco, faixa, cultoAtivo);
     const imagemAnterior = anterior
@@ -810,11 +1057,51 @@
     );
   }
 
-  function detalheMoldura(condicaoId) {
+  function faseLunar(run) {
+    const rodada = Number.isSafeInteger(run?.rodada) ? Math.max(1, run.rodada) : 1;
+    const progresso = rodada % 8 || 8;
+    const fase =
+      progresso === 8
+        ? { id: "cheia", nome: "Lua cheia" }
+        : progresso === 1
+          ? { id: "nova", nome: "Lua nova" }
+          : progresso <= 3
+            ? { id: "crescente", nome: "Lua crescente" }
+            : progresso === 4
+              ? { id: "meia", nome: "Quarto crescente" }
+              : progresso <= 6
+                ? { id: "gibosa", nome: "Lua gibosa" }
+                : { id: "quase-cheia", nome: "Quase cheia" };
+    return { ...fase, progresso, restantes: 8 - progresso };
+  }
+
+  function descricaoCicloLunar(run) {
+    if (run?.condicao?.abracada) return "O ciclo lunar está sob controle.";
+    const fase = faseLunar(run);
+    return `${fase.nome}. ${fase.restantes ? `Lua cheia em ${fase.restantes} rodadas.` : "A lua cheia chegou nesta rodada."}`;
+  }
+
+  function detalheMoldura(condicaoId, run = null) {
     return condicaoId === "vampirismo"
       ? '<span class="moldura-presas" aria-hidden="true"><i></i><i></i></span>'
       : condicaoId === "licantropia"
-        ? '<span class="moldura-arranhoes" aria-hidden="true"><i></i><i></i><i></i></span>'
+        ? (() => {
+            const ciclo = faseLunar(run);
+            const domado = run?.condicao?.ativa === "licantropia" && run.condicao.abracada;
+            const fase = domado ? { id: "domada", nome: "Ciclo domado" } : ciclo;
+            const rotulo = domado
+              ? fase.nome
+              : ciclo.restantes
+                ? `Cheia em ${ciclo.restantes} rod.`
+                : "Lua cheia";
+            const marcas = Array.from({ length: 8 }, (_, indice) =>
+              indice < ciclo.progresso || domado ? '<i class="moldura-lunar-marca--acesa"></i>' : "<i></i>",
+            ).join("");
+            return `<span class="moldura-lunar" data-fase-lunar="${fase.id}" aria-hidden="true">
+              <span class="moldura-lunar-selo"><i class="moldura-lunar-orbe"></i><span>${rotulo}</span></span>
+              <span class="moldura-lunar-ciclo">${marcas}</span>
+            </span>`;
+          })()
         : condicaoId === "possessao"
           ? '<span class="moldura-veu" aria-hidden="true"></span>'
           : "";
@@ -825,7 +1112,7 @@
     const faixa = faixaRetrato(herdeiro.atributos.honra);
     const condicoes = [
       { id: "vampirismo", nome: "Vampirismo", detalhe: "Moldura vermelha com presas" },
-      { id: "licantropia", nome: "Licantropia", detalhe: "Moldura pálida com arranhões" },
+      { id: "licantropia", nome: "Licantropia", detalhe: "Moldura lunar com ciclo de oito rodadas" },
       { id: "possessao", nome: "Possessão", detalhe: "Moldura fria envolta por um véu" },
     ];
     const dialogo = document.createElement("dialog");
@@ -844,7 +1131,7 @@
           <section class="previa-transformacao" aria-label="Prévia de ${condicao.nome}">
             <article class="carta carta-herdeiro honra-${faixa} condicao-${condicao.id} previa-transformacao-carta">
               ${retrato(herdeiro.traco, faixa, null, Boolean(herdeiro.cultoAtivo))}
-              ${detalheMoldura(condicao.id)}
+              ${detalheMoldura(condicao.id, herdeiro)}
               <div class="carta-titulo herdeiro-carta-titulo"><h2>${herdeiro.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2></div>
             </article>
             <div class="previa-transformacao-legenda"><h3>${condicao.nome}</h3><p>${condicao.detalhe}</p></div>
@@ -868,11 +1155,6 @@
       area.querySelector(".retrato-anterior")?.remove();
       area.classList.remove("troca-retrato", "em-transicao");
     };
-    // Troca imediata para quem prefere movimento reduzido.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      concluir();
-      return;
-    }
     const iniciar = () => {
       if (area.isConnected) area.classList.add("em-transicao");
     };
@@ -883,7 +1165,7 @@
     atual.addEventListener("error", concluir, { once: true });
   }
 
-  function jogo(run) {
+  function jogo(run, { textoCompleto = false } = {}) {
     Jogo.engine.sincronizarItemVampirismo(run);
     const eventoDaRun = Jogo.eventoPorId(run.eventoId);
     const eventoBase = run.aguardaDecisaoCulto ? Jogo.eventoPorId("ultimo_habitante") : eventoDaRun;
@@ -921,6 +1203,7 @@
           informacoes: `${eventoComConselheiro.informacoes} A Marca da Entidade drena 1 ponto de Vida a cada rodada.`,
         }
       : eventoComConselheiro;
+    const descricaoRenda = textoDaRendaProxima(run);
     precarregarProximaCarta(evento?.imagem);
     const faixa = Jogo.estado.faixaHonra(run.atributos.honra);
     const condicaoId = run.condicao?.ativa;
@@ -934,7 +1217,7 @@
     const classeCondicao = condicaoId
       ? ` condicao-${condicaoId}${run.condicao.abracada ? " condicao-abracada" : ""}`
       : "";
-    const molduraAtiva = detalheMoldura(condicaoId);
+    const molduraAtiva = detalheMoldura(condicaoId, run);
     const faixaDoRetrato = faixaRetrato(run.atributos.honra);
     const cultoAtivo = Boolean(run.cultoAtivo);
     const variacaoHonra =
@@ -949,7 +1232,12 @@
         retratoExibido.cultoAtivo !== cultoAtivo)
         ? retratoExibido
         : null;
+    if (variacaoHonra !== 0 && !cultoAtivo)
+      precarregarProximoRetrato(run.traco, faixaDoRetrato, cultoAtivo, Math.sign(variacaoHonra));
     const resolvido = run.fase === "resultado";
+    const movimentoReduzido =
+      !window.matchMedia || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const animarTexto = !resolvido && !textoCompleto && !movimentoReduzido;
     const escolhas = Jogo.engine.opcoes(evento, run);
     const batalhaLeitura = evento.batalha ? Jogo.engine.batalhaAjustada(run, evento.batalha) : null;
     const leituraBatalha =
@@ -985,7 +1273,7 @@
       : "";
     mostrar(
       `
-      <section class="cronica${resolvido ? " cronica--resultado" : ""}${run.aguardaDecisaoCulto ? " cronica--decisao-culto" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}" aria-labelledby="titulo-jogo">
+      <section class="cronica${resolvido ? " cronica--resultado" : ""}${run.aguardaDecisaoCulto ? " cronica--decisao-culto" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}${run.historicoCronicaAberto ? " historico-aberto" : ""}" aria-labelledby="titulo-jogo">
         <div class="titulo-run"><div class="titulo-run-identificacao"><div class="titulo-run-linha"><h1 id="titulo-jogo">A sua crônica</h1>
           <details class="construcoes-resumo">
             <summary aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila e seus bônus" title="Construções da vila: ver o que foi feito e seus bônus">
@@ -997,7 +1285,7 @@
               ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
             </div>
           </details>
-        </div><p>Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]} · Ano ${numero(Jogo.anoDaRodada(run.rodada))} · ${numero(Math.min(100, Math.round((run.rodada / Jogo.config.rodadasVitoria) * 100)))}% do primeiro ano</p></div>
+        </div><p>Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]} · Ano ${numero(Jogo.anoDaRodada(run.rodada))}</p></div>
           <dl class="recursos-vila" aria-label="Recursos da vila">
             <div class="recurso-contador vila-contador"><dt>Habitantes da vila</dt><dd>${numero(run.atributos.habitantes)}</dd></div>
             ${run.cultoAtivo ? `<div class="recurso-contador culto-contador"><dt>${transicaoCulto ? `<svg class="chama-passagem" viewBox="0 0 24 32" aria-hidden="true"><path class="chama-externa" d="M12 1c1 5-1 7-3 10-2 2-4 4-4 8a7 7 0 0 0 14 0c0-4-2-7-5-10 0 3-1 5-2 6 1-5 0-9 0-14Z"/><path class="chama-interna" d="M12 15c0 2-1 3-2 5a3.5 3.5 0 1 0 7 0c0-2-1-4-3-5 0 2-1 3-2 4 1-2 0-3 0-4Z"/></svg>` : ""}Seguidores do culto</dt><dd>${numero(run.seguidoresCulto)}</dd>${run.cultoRendaPorRodada ? `<small>Templo: +${numero(run.cultoRendaPorRodada)} por rodada</small>` : ""}</div>` : ""}
@@ -1023,9 +1311,9 @@
                 </div>
               </details>
             </dd></div>
-            <div class="recurso-contador gold-contador" data-atributo="gold"><dt>Gold</dt><dd>${numero(run.atributos.gold)}</dd></div>
+            <div class="recurso-contador gold-contador" data-atributo="gold" role="group" tabindex="0" aria-label="Gold: ${numero(run.atributos.gold)}" aria-describedby="descricao-renda-gold" data-tooltip="${esc(descricaoRenda)}"><dt>Gold</dt><dd>${numero(run.atributos.gold)}</dd><span id="descricao-renda-gold" class="leitor-de-tela">${esc(descricaoRenda)}</span></div>
           </dl>
-          <div class="titulo-run-acoes"><button class="botao" data-acao="tutorial">Tutorial</button><button class="botao discreto" data-acao="menu" aria-label="Voltar ao início" title="Voltar ao início">Início</button></div>
+          <div class="titulo-run-acoes"><button class="botao botao-tutorial" data-acao="tutorial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5c2.8-1.3 5.3-.4 7 1.1v14c-1.7-1.5-4.2-2.4-7-1.1zM19 4.5c-2.8-1.3-5.3-.4-7 1.1v14c1.7-1.5 4.2-2.4 7-1.1z"/><path d="M7.5 8h2M7.5 11h2M14.5 8h2M14.5 11h2"/></svg><span>Tutorial</span></button><button class="botao discreto" data-acao="menu" aria-label="Voltar ao início" title="Voltar ao início">Início</button></div>
         </div>
         ${statusDruida}
         ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status"><span aria-hidden="true">✦</span> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"} <span class="info-hover" tabindex="0" role="img" aria-label="Informações sobre o efeito de ${esc(run.efeitoDivino.nome)}" title="${esc(efeitoDivinoHover(run.efeitoDivino))}" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}">i</span></p>` : ""}
@@ -1034,7 +1322,7 @@
             <article class="carta carta-herdeiro honra-${faixa}${classeCondicao}" aria-labelledby="titulo-herdeiro">
               ${retrato(run.traco, faixaDoRetrato, anterior, cultoAtivo)}
               ${molduraAtiva}
-              ${condicaoId ? `<button class="condicao-info-trigger condicao-${condicaoId}" type="button" data-acao="detalhes-condicao" aria-label="Ver detalhes de ${esc(condicaoNomes[condicaoId])}" title="${esc(`${condicaoNomes[condicaoId]}: ${descricaoDaCondicao(condicaoId, run.condicao.abracada)}. Toque para ver os detalhes.`)}"><span>${esc(condicaoNomes[condicaoId])} <span aria-hidden="true">ⓘ</span></span></button>` : ""}
+              ${condicaoId ? `<button class="condicao-info-trigger condicao-${condicaoId}" type="button" data-acao="detalhes-condicao" aria-label="Ver detalhes de ${esc(condicaoNomes[condicaoId])}${condicaoId === "licantropia" ? `. ${esc(descricaoCicloLunar(run))}` : ""}" title="${esc(`${condicaoNomes[condicaoId]}: ${descricaoDaCondicao(condicaoId, run.condicao.abracada)}. ${condicaoId === "licantropia" ? `${descricaoCicloLunar(run)} ` : ""}Toque para ver os detalhes.`)}"><span>${esc(condicaoNomes[condicaoId])} <span aria-hidden="true">ⓘ</span></span></button>` : ""}
               <div class="carta-titulo herdeiro-carta-titulo"><h2 id="titulo-herdeiro">${run.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2><span class="traco-tooltip" tabindex="0" aria-label="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}" data-tooltip="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}">${esc(nomesTraco[run.traco] || "Herdeiro")}</span></div>
             </article>
             <div class="herdeiro-detalhes">
@@ -1043,22 +1331,20 @@
             </div>
           </div>
           <section class="coluna-escolhas" aria-label="${resolvido ? "Resultado da sua decisão" : "Sua decisão"}">
-            ${resolvido ? "" : `<div class="evento-leitura"><div class="evento-leitura-titulo"><h2>${esc(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade">A Entidade</span>' : ""}</div><p>${esc(evento.texto)}</p>${leituraBatalha}</div>`}
+            ${resolvido ? "" : `<div class="evento-leitura"><div class="evento-leitura-titulo"><h2>${textoComNomesEspeciais(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade nome-especial-tremendo">A Entidade</span>' : ""}</div><p class="texto-evento-digitado" aria-live="off"><span class="leitor-de-tela">${esc(evento.texto)}</span><span data-texto-visual aria-hidden="true">${animarTexto ? "" : esc(evento.texto)}</span></p>${leituraBatalha}</div>`}
             ${
               resolvido
                 ? resultado(run)
-                : `<h2>${evento.mercadorias ? "O mercador oferece" : "Qual é a sua palavra?"}</h2>${ofertas(evento, run)}<div class="escolhas">${escolhas
+                : `<div class="decisao-evento" data-decisao-evento ${animarTexto ? "hidden" : ""}><p class="leitor-de-tela" role="status" data-opcoes-disponiveis hidden>As opções estão disponíveis.</p><h2>${evento.mercadorias ? "O mercador oferece" : "Qual é a sua palavra?"}</h2>${ofertas(evento, run)}<div class="escolhas">${escolhas
                     .map((opcao, indice) => {
                       const previaHonra = honraRevelada(opcao, evento, run);
                       const itemPremio = Jogo.itens.find((item) => (opcao.itens || []).includes(item.id));
                       const raridadePremio = itemPremio?.raridade
                         ? `<small class="nome-raridade raridade-${esc(itemPremio.raridade)}"> (${esc(nomesRaridade[itemPremio.raridade])})</small>`
                         : "";
-                      return `<button class="escolha${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 4 ? `aria-keyshortcuts="${indice + 1}"` : ""}>${indice < 4 ? `<kbd>${indice + 1}</kbd>` : ""}<span class="escolha-conteudo">${esc(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}</span><span aria-hidden="true">→</span></button>`;
+                      return `<button class="escolha${opcao.id === "juntar" && evento.id === "ultimo_habitante" ? " escolha-chamado" : ""}${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 9 ? `aria-keyshortcuts="${indice + 1}"` : ""}><span class="escolha-conteudo">${textoComNomesEspeciais(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}</span><span aria-hidden="true">→</span></button>`;
                     })
-                    .join(
-                      "",
-                    )}</div>${evento.mercadorias ? "" : '<p class="nota">Atalhos: 1–4 escolhem · Enter continua após o desfecho.</p>'}`
+                    .join("")}</div></div>`
             }
             ${inventario(run)}${historicoCronica(run)}
           </section>
@@ -1080,6 +1366,7 @@
       "jogo",
       cultoAtivo ? "culto" : evento.batalha ? "batalha" : run.estacao,
     );
+    digitarTextoEvento(evento.texto, animarTexto);
     Jogo.audio?.definirDucking(resolvido || Boolean(evento.batalha));
     if (
       tutorialForcado ||
@@ -1093,7 +1380,26 @@
     painelInventario?.addEventListener("toggle", () => {
       const cronica = painelInventario.closest(".cronica");
       run.inventarioAberto = painelInventario.open;
+      if (painelInventario.open) {
+        const historico = document.querySelector("#app .historico-cronica");
+        run.historicoCronicaAberto = false;
+        if (historico) historico.open = false;
+        cronica?.classList.remove("historico-aberto");
+      }
       cronica?.classList.toggle("inventario-aberto", painelInventario.open);
+      ajustarTela();
+    });
+    const painelHistorico = document.querySelector("#app .historico-cronica");
+    painelHistorico?.addEventListener("toggle", () => {
+      const cronica = painelHistorico.closest(".cronica");
+      run.historicoCronicaAberto = painelHistorico.open;
+      if (painelHistorico.open) {
+        const inventario = document.querySelector("#app .inventario");
+        run.inventarioAberto = false;
+        if (inventario) inventario.open = false;
+        cronica?.classList.remove("inventario-aberto");
+      }
+      cronica?.classList.toggle("historico-aberto", painelHistorico.open);
       ajustarTela();
     });
     retratoExibido = {
@@ -1106,17 +1412,38 @@
     animarRetrato();
   }
 
+  const titulosFim = {
+    vitoria: "Uma crônica cumprida.",
+    vitoria_culto: "A crônica do chamado.",
+    vitoria_honra: "A crônica do povo.",
+  };
+
   function fim(run, legadoSalvo) {
-    const venceu = run.fim.tipo === "vitoria";
+    const venceu = run.fim.tipo.startsWith("vitoria");
+    const tituloFim = titulosFim[run.fim.tipo] || (venceu ? "Uma crônica cumprida." : "Um herdeiro se vai.");
     const melhoresRuns = Jogo.save.lerLegado().melhoresRuns || [];
+    const avisosConquistas = (run.avisosConquistas || [])
+      .map((id) => Jogo.conquistas?.lista.find((conquista) => conquista.id === id))
+      .filter(Boolean);
     mostrar(
       `<section class="fim" aria-labelledby="titulo-fim">
       <img class="fim-selo" src="assets/selo.svg" width="72" height="84" alt="">
-      <h1 id="titulo-fim">${venceu ? "Uma crônica cumprida." : "Um herdeiro se vai."}</h1>
+      <h1 id="titulo-fim">${tituloFim}</h1>
       <p class="subtitulo">${esc(run.fim.motivo)}</p>
+      ${avisosConquistas.length ? `<aside class="aviso-conquistas" aria-live="polite"><strong>Conquista${avisosConquistas.length === 1 ? " desbloqueada" : "s desbloqueadas"}</strong><ul>${avisosConquistas.map((conquista) => `<li>${esc(conquista.nome)}</li>`).join("")}</ul></aside>` : ""}
       ${run.ultimoResultado ? `<p class="fim-relato">${esc(run.ultimoResultado.texto)}</p>${alteracoes(run.ultimoResultado)}` : ""}
       <dl class="resumo-fim"><div><dt>Rodada alcançada</dt><dd>${numero(run.rodada)}</dd></div><div><dt>Habitantes restantes</dt><dd>${numero(run.atributos.habitantes)}</dd></div></dl>
-      ${venceu ? `<section class="recordes-fim"><h2>Melhores crônicas</h2><ol>${melhoresRuns.slice(0, 5).map((registro) => `<li><span>${esc(nomesTraco[registro.traco] || "Herdeiro")}</span><strong>${numero(registro.pontuacao)} pontos</strong></li>`).join("")}</ol></section>` : ""}
+      ${
+        venceu
+          ? `<section class="recordes-fim"><h2>Melhores crônicas</h2><ol>${melhoresRuns
+              .slice(0, 5)
+              .map(
+                (registro) =>
+                  `<li><span>${esc(nomesTraco[registro.traco] || "Herdeiro")}</span><strong>${numero(registro.pontuacao)} pontos</strong></li>`,
+              )
+              .join("")}</ol></section>`
+          : ""
+      }
       <p class="fim-memoria">Você não saberá o que afetou.<br>Porém o povo irá lembrar.</p>
       <div class="acoes-menu">${legadoSalvo ? `<button class="botao primario" data-acao="novo-herdeiro">Um novo herdeiro <span aria-hidden="true">→</span></button><button class="botao" data-acao="menu">Voltar ao início</button>` : `<p role="status">O encerramento ainda não pôde ser salvo. As conquistas ficam nesta sessão, mas podem se perder ao fechar a página.</p><button class="botao primario" data-acao="tentar-salvar">Tentar salvar novamente</button><button class="botao" data-acao="novo-herdeiro">Outro herdeiro sem salvar</button>`}</div>
     </section>`,
@@ -1187,6 +1514,7 @@
 
   Jogo.ui = {
     menu,
+    painelLegado,
     escolherHerdeiro,
     intro,
     jogo,
@@ -1196,5 +1524,6 @@
     preverTransformacoes,
     mostrarDetalhesCondicao,
     tutorial,
+    completarTextoEvento,
   };
 })();

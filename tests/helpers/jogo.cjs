@@ -35,7 +35,13 @@ function preparar() {
         return Promise.resolve();
       }
     },
-    document: { getElementById: () => app, querySelector: () => null, body: { dataset: {} } },
+    document: {
+      getElementById: () => app,
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      addEventListener() {},
+      body: { dataset: {} },
+    },
     CustomEvent: class {
       constructor(tipo, opcoes) {
         this.detail = opcoes.detail;
@@ -67,9 +73,11 @@ function preparar() {
     "events-anuais",
     "events-personagens",
     "events-artes-especificas",
+    "events-heroi",
     "events-ajustes",
     "items",
     "legacy",
+    "conquistas",
     "druida",
     "engine",
     "save",
@@ -110,7 +118,12 @@ function preparar() {
   }
 
   async function clicar(dataset) {
-    await app.click({ target: { closest: () => ({ dataset, disabled: false }) } });
+    await app.click({
+      target: {
+        closest: () => ({ dataset, disabled: false, getAttribute: () => null, focus() {} }),
+      },
+      detail: 0,
+    });
   }
   return {
     J,

@@ -214,8 +214,9 @@
         {
           id: "morador",
           texto: "Beber de um morador adormecido.",
-          requisitos: { itensProntos: ["sede_de_sangue"] },
+          requisitos: { itensProntos: ["sede_de_sangue"], populacaoMinimo: 1 },
           efeitos: { hp: 15, habitantes: -1, honra: -4 },
+          consumoVampirismo: 1,
           iniciarRecargaItens: ["sede_de_sangue"],
           resultado:
             "Ele não acorda. A vila só nota na manhã seguinte, e o silêncio do enterro é o pior dos ruídos.",
@@ -236,8 +237,9 @@
         {
           id: "abracar",
           texto: "Entregar-se à noite.",
-          requisitos: { rodadaMin: 24 },
+          requisitos: { rodadaMin: 24, populacaoMinimo: 6 },
           efeitos: { honra: -8, habitantes: -6 },
+          consumoVampirismo: 6,
           abracarCondicao: true,
           resultado:
             "A sede some, e a luz da manhã passa a pertencer a outros. Seis moradores sumiram de suas camas.",

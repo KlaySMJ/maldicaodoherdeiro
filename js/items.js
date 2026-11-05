@@ -522,14 +522,15 @@
       nome: "Sede de sangue",
       texto: "Sede de sangue · 1 aldeão por 20 Vida",
       descricao:
-        "Mata 1 aldeão para recuperar até 20 Vida e perde 2 Honra. Só pode ser usada enquanto o vampirismo não foi abraçado. Recarga: 6 rodadas.",
+        "Sacrifica 1 habitante ou seguidor do culto para recuperar até 20 Vida e perde 2 Honra. Só pode ser usada enquanto o vampirismo não foi abraçado. Recarga: 6 rodadas.",
       categoria: "sobrenatural",
       tipo: "uso",
       imuneMimico: true,
       uso: {
         condicaoAtiva: "vampirismo",
         bloquearSeAbracada: true,
-        sacrificarHabitantes: 1,
+        sacrificarPopulacao: 1,
+        consumoVampirismo: true,
         efeitos: { hp: 20, honra: -2 },
         recargaRodadas: 6,
         ignorarEscudoDaFe: true,

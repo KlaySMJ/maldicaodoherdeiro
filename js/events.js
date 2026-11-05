@@ -711,10 +711,12 @@
       id: "orfao",
       titulo: "Uma criança no portão",
       tipo: "encontro",
+      narrativamenteUnico: true,
+      oncePerRun: true,
       peso: 2,
       requisitos: { flagsAusentes: ["orfao_decidido"] },
-      imagem: "assets/vila.webp",
-      imagemAlt: "O portão e as casas do vilarejo em traços brancos sobre preto",
+      imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
+      imagemAlt: "O menino que espera diante do portão da vila",
       texto:
         "Um menino sujo de cinzas espera no portão com uma trouxa menor que ele. Diz que veio da vila queimada ao sul e que conheceu seu pai. Os guardas fingem não ouvir.",
       informacoes: "Ninguém pode confirmar a história do menino.",
@@ -1033,7 +1035,7 @@
           texto: "Abolir o pedágio · 3 gold",
           requisitos: { goldMin: 3 },
           efeitos: { habitantes: 3, honra: 3, gold: -3 },
-          flags: { pedagio_resolvido: true },
+          flags: { pedagio_resolvido: true, pedagio_abolido: true },
           resultado:
             "Você paga a madeira nova de cancelas que ninguém cobrará. A estrada volta a lotar, e os viajantes agradecem sem fazer barulho.",
         },

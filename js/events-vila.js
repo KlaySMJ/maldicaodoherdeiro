@@ -1194,6 +1194,8 @@
         id: "espiao",
         titulo: "O espião de sotaque estranho",
         tipo: "encontro",
+        narrativamenteUnico: true,
+        oncePerRun: true,
         peso: 1,
         texto:
           "Um forasteiro pergunta demais sobre o moinho, o celeiro e a idade dos guardas. Diz que é só curiosidade, e cada pergunta tem um carimbo diferente.",

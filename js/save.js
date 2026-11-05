@@ -1,7 +1,14 @@
 (function () {
   "use strict";
   const Jogo = window.Jogo;
-  const TRACOS_VALIDOS = ["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"];
+  const TRACOS_VALIDOS = [
+    "corajoso",
+    "avarento",
+    "doente",
+    "druida_herdeiro",
+    "menino_cronista",
+    "heroi_do_povo",
+  ];
   const CHAVE_RUN = "run_atual";
   const CHAVE_LEGADO = "legado";
   const LEITURA_INDISPONIVEL = Symbol("leitura indisponível");
@@ -75,6 +82,7 @@
       ids(valor.itens) &&
       flags(valor.flags) &&
       ids(valor.objetivosConcluidos) &&
+      (valor.conquistasDesbloqueadas === undefined || ids(valor.conquistasDesbloqueadas)) &&
       (valor.memorias === undefined ||
         (Array.isArray(valor.memorias) &&
           valor.memorias.every(
@@ -124,7 +132,9 @@
       !ids(run.construcoes) ||
       !inteiro(run.cultoRendaPorRodada) ||
       run.cultoRendaPorRodada < 0 ||
-      run.cultoRendaPorRodada > 2
+      run.cultoRendaPorRodada > 2 ||
+      !inteiro(run.batalhasVencidas) ||
+      run.batalhasVencidas < 0
     )
       return false;
     if (
@@ -151,6 +161,8 @@
       !inteiro(run.honraNeutraSequencia) ||
       run.honraNeutraSequencia < 0 ||
       run.honraNeutraSequencia > 200 ||
+      typeof run.honraSempreNeutra !== "boolean" ||
+      !ids(run.avisosConquistas) ||
       !inteiro(run.lancaHeroiBatalhas) ||
       run.lancaHeroiBatalhas < 0 ||
       run.lancaHeroiBatalhas > 10
@@ -234,6 +246,20 @@
     )
       return false;
     if (!ids(run.eventosComunsRun) || run.eventosComunsRun.length > 300) return false;
+    if (
+      !ids(run.mercadoriasCompradas) ||
+      run.mercadoriasCompradas.length > 200 ||
+      new Set(run.mercadoriasCompradas).size !== run.mercadoriasCompradas.length
+    )
+      return false;
+    if (
+      !inteiro(run.vampirismoHabitantesConsumidos) ||
+      run.vampirismoHabitantesConsumidos < 0 ||
+      !inteiro(run.vampirismoBonusAtaque) ||
+      run.vampirismoBonusAtaque < 0 ||
+      run.vampirismoBonusAtaque > Math.floor(run.vampirismoHabitantesConsumidos / 5)
+    )
+      return false;
     if (run.ofertaMercador !== null && typeof run.ofertaMercador !== "string") return false;
     if (
       !objeto(run.efeitosPreparados) ||
@@ -266,7 +292,8 @@
             typeof registro.evento !== "string" ||
             typeof registro.escolha !== "string" ||
             typeof registro.desfecho !== "string",
-        )))
+        ))
+    )
       return false;
     if (
       !ids(run.conselhosRecentes) ||
@@ -326,7 +353,9 @@
     } else if (run.ultimoResultado !== null) return false;
     if (run.status === "encerrada") {
       return (
-        objeto(run.fim) && ["derrota", "vitoria"].includes(run.fim.tipo) && typeof run.fim.motivo === "string"
+        objeto(run.fim) &&
+        ["derrota", "vitoria", "vitoria_culto", "vitoria_honra"].includes(run.fim.tipo) &&
+        typeof run.fim.motivo === "string"
       );
     }
     if (Jogo.engine.motivoDerrota(run) || run.fim !== null) return false;
@@ -364,7 +393,15 @@
 
   function normalizarRunV2(dados) {
     if (!Object.hasOwn(dados, "comprasMercador")) dados.comprasMercador = {};
+    if (!Number.isSafeInteger(dados.batalhasVencidas) || dados.batalhasVencidas < 0)
+      dados.batalhasVencidas = 0;
+    if (!Array.isArray(dados.mercadoriasCompradas)) dados.mercadoriasCompradas = [];
+    dados.mercadoriasCompradas = [...new Set(dados.mercadoriasCompradas.filter((id) => typeof id === "string"))];
     if (!Array.isArray(dados.historicoCronica)) dados.historicoCronica = [];
+    dados.historicoCronica = dados.historicoCronica.slice(-Jogo.config.memoriaCronica);
+    if (typeof dados.historicoCronicaAberto !== "boolean") dados.historicoCronicaAberto = false;
+    if (!Number.isSafeInteger(dados.vampirismoHabitantesConsumidos)) dados.vampirismoHabitantesConsumidos = 0;
+    if (!Number.isSafeInteger(dados.vampirismoBonusAtaque)) dados.vampirismoBonusAtaque = 0;
     if (!Object.hasOwn(dados, "hpMax"))
       dados.hpMax = Math.max(Jogo.config.hpMaxInicial, dados.atributos?.hp || 0);
     if (dados.traco === "doente") {
@@ -379,6 +416,8 @@
       dados.hpMax = Math.max(dados.hpMax, 70 + bonusDeItens + bonusDoCajado);
     }
     if (!Object.hasOwn(dados, "honraNeutraSequencia")) dados.honraNeutraSequencia = 0;
+    if (!Object.hasOwn(dados, "honraSempreNeutra")) dados.honraSempreNeutra = false;
+    if (!Array.isArray(dados.avisosConquistas)) dados.avisosConquistas = [];
     if (!Object.hasOwn(dados, "lancaHeroiBatalhas")) dados.lancaHeroiBatalhas = 0;
     if (!Object.hasOwn(dados, "eventosRecentes")) dados.eventosRecentes = [];
     if (!Object.hasOwn(dados, "eventosComunsRun")) {
@@ -398,6 +437,8 @@
     }
     for (const legado of [dados.legadoDaRun, dados.conquistas]) {
       if (objeto(legado) && !Object.hasOwn(legado, "eventosRecentesRuns")) legado.eventosRecentesRuns = [];
+      if (objeto(legado) && !Object.hasOwn(legado, "conquistasDesbloqueadas"))
+        legado.conquistasDesbloqueadas = [];
     }
     if (!Object.hasOwn(dados, "conselhosRecentes")) {
       dados.conselhosRecentes = (dados.eventosRecentes || [])

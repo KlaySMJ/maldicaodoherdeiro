@@ -386,7 +386,8 @@
       tipo: "encontro",
       peso: 1.5,
       rodadaMin: 8,
-      imagem: "profeta",
+      imagem: "irmas-da-estrada",
+      extra: { imagemAlt: "Duas irmãs viajantes caminham juntas, com trouxas presas aos mantos" },
       texto:
         "Duas irmãs chegam à vila procurando a família que perdeu contato com elas quando o culto cresceu.",
       informacoes: "Elas conhecem caminhos seguros e pedem que ninguém seja obrigado a ficar.",

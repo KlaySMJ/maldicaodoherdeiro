@@ -26,7 +26,12 @@ function preparar() {
   };
   const contexto = vm.createContext({
     window,
-    document: { getElementById: () => app },
+    document: {
+      getElementById: () => app,
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      addEventListener() {},
+    },
     CustomEvent: class {
       constructor(tipo, opcoes) {
         this.detail = opcoes.detail;
@@ -41,6 +46,7 @@ function preparar() {
   J.ui = {
     menu: (run) => Object.assign(tela, { nome: "inicio", run }),
     intro: () => Object.assign(tela, { nome: "intro" }),
+    tutorial() {},
     jogo: (run) => Object.assign(tela, { nome: "jogo", run }),
     fim: (run) => Object.assign(tela, { nome: "fim", run }),
     confirmarNovaRun: async () => true,
@@ -52,10 +58,32 @@ function preparar() {
     return run;
   }
   async function clicar(dataset) {
-    await app.click({ target: { closest: () => ({ dataset, disabled: false }) } });
+    await app.click({
+      target: {
+        closest: () => ({ dataset, disabled: false, getAttribute: () => null, focus() {} }),
+      },
+      detail: 0,
+    });
   }
   return { J, dados, tela, window, novaRun, clicar, iniciarControlador: () => executar("main") };
 }
+
+test("debug pode forçar o Conselheiro em novos inícios, exclusivo do Druida", async () => {
+  const { dados, tela, clicar, iniciarControlador } = preparar();
+  iniciarControlador();
+
+  await clicar({ acao: "debug-alternar-conselheiro" });
+  assert.equal(dados.get("debug_forcar_menino"), "1");
+  assert.equal(dados.get("debug_forcar_druida"), "0");
+
+  // A ação Tutorial inicia uma run sem escolher um traço manualmente.
+  await clicar({ acao: "tutorial" });
+  assert.equal(tela.run.traco, "menino_cronista");
+
+  await clicar({ acao: "debug-alternar-druida" });
+  assert.equal(dados.get("debug_forcar_menino"), "0");
+  assert.equal(dados.get("debug_forcar_druida"), "1");
+});
 
 test("Carregar lê o save atual no clique, sem retomar a cópia antiga do menu", async () => {
   const { J, tela, novaRun, clicar, iniciarControlador } = preparar();
@@ -149,6 +177,7 @@ test("botões de teste alteram apenas a honra e preservam rodada, saldo e result
   assert.deepEqual(JSON.parse(JSON.stringify(tela.run)), {
     ...antes,
     atributos: { ...antes.atributos, honra: 30 },
+    honraSempreNeutra: false,
   });
   await clicar({ acao: "honra-menos" });
   await clicar({ acao: "honra-menos" });

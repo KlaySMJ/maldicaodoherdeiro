@@ -35,6 +35,7 @@ const camposEvento = new Set([
   "mercadorias",
   "multiplicadoresPeso",
   "nemesis",
+  "narrativamenteUnico",
   "oncePerRun",
   "oncePerYear",
   "opcaoCorreta",
@@ -57,6 +58,7 @@ const camposOpcao = new Set([
   "consequenciaTardia",
   "construcoes",
   "consumirItens",
+  "consumoVampirismo",
   "curaUniversal",
   "curarCondicao",
   "definir",
@@ -68,6 +70,7 @@ const camposOpcao = new Set([
   "efeitos",
   "encerramento",
   "entidadeXCeder",
+  "entrarNoCulto",
   "flags",
   "id",
   "iniciarRecargaItens",
@@ -96,7 +99,7 @@ function percorrer(valor, visitar) {
 
 test("o catálogo completo mantém IDs e índice únicos", () => {
   const { J } = preparar();
-  assert.equal(J.eventos.length, 270);
+  assert.equal(J.eventos.length, 276);
   assert.equal(J.eventosPorId.size, J.eventos.length);
   assert.equal(J.validarCatalogoEventos(), true);
 
@@ -122,6 +125,20 @@ test("eventos e opções usam somente campos reconhecidos", () => {
       }
     }
   }
+});
+
+test("cartas narrativamente únicas têm proteção contra repetição", () => {
+  const { J } = preparar();
+  const unicas = J.eventos.filter((evento) => evento.narrativamenteUnico);
+  assert.ok(unicas.some((evento) => evento.id === "espiao"));
+  assert.ok(unicas.length > 0);
+  for (const evento of unicas) {
+    assert.ok(
+      evento.oncePerRun || evento.oncePerYear || evento.letal,
+      `${evento.id} está marcada como única sem proteção contra repetição.`,
+    );
+  }
+  assert.equal(J.eventoPorId("espiao").oncePerRun, true);
 });
 
 test("consequências adiadas e desbloqueios apontam para dados válidos", () => {

@@ -314,9 +314,11 @@
       id: "retorno_do_menino",
       titulo: "O menino volta pela estrada",
       tipo: "especial",
+      narrativamenteUnico: true,
       peso: 0,
       disparadoPelaEngine: true,
       consequenciaAgendada: true,
+      oncePerRun: true,
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente acolhido pela vila, com o traje formal de conselheiro",
       texto:

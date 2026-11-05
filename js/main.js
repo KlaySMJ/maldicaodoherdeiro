@@ -4,8 +4,8 @@
   let run = Jogo.save.lerRun();
   let ocupado = false;
 
-  function mostrarJogo() {
-    if (run?.status === "ativa") Jogo.ui.jogo(run);
+  function mostrarJogo(textoCompleto = false) {
+    if (run?.status === "ativa") Jogo.ui.jogo(run, { textoCompleto });
   }
 
   function mostrarFim() {
@@ -51,13 +51,18 @@
       return;
     }
     if (run.status === "encerrada") mostrarFim();
-    else mostrarJogo();
+    else mostrarJogo(true);
   }
 
   function iniciar(personagem = null, pularIntro = false) {
     const legado = Jogo.save.lerLegado();
     const tracoForcado =
-      personagem || (window.localStorage.getItem("debug_forcar_druida") === "1" ? "druida_herdeiro" : null);
+      personagem ||
+      (window.localStorage.getItem("debug_forcar_menino") === "1"
+        ? "menino_cronista"
+        : window.localStorage.getItem("debug_forcar_druida") === "1"
+          ? "druida_herdeiro"
+          : null);
     run = Jogo.estado.novo(legado, tracoForcado);
     Jogo.legado.avaliar(run);
     const evento = Jogo.engine.sortear(run);
@@ -113,9 +118,18 @@
         }
         break;
       case "debug-alternar-druida":
+        window.localStorage.setItem("debug_forcar_menino", "0");
         window.localStorage.setItem(
           "debug_forcar_druida",
           window.localStorage.getItem("debug_forcar_druida") === "1" ? "0" : "1",
+        );
+        Jogo.ui.menu(run);
+        break;
+      case "debug-alternar-conselheiro":
+        window.localStorage.setItem("debug_forcar_druida", "0");
+        window.localStorage.setItem(
+          "debug_forcar_menino",
+          window.localStorage.getItem("debug_forcar_menino") === "1" ? "0" : "1",
         );
         Jogo.ui.menu(run);
         break;
@@ -126,6 +140,12 @@
         break;
       case "carregar":
         carregar();
+        break;
+      case "abrir-legado":
+        Jogo.ui.painelLegado(Jogo.save.lerLegado());
+        break;
+      case "voltar-legado":
+        Jogo.ui.menu(run, true);
         break;
       case "entrar-no-jogo":
         mostrarJogo();
@@ -213,9 +233,32 @@
     }
   }
 
+  document.addEventListener(
+    "click",
+    (evento) => {
+      if (Jogo.ui.completarTextoEvento()) {
+        evento.preventDefault();
+        evento.stopPropagation();
+      }
+    },
+    true,
+  );
+
   document.getElementById("app").addEventListener("click", async (evento) => {
     const botao = evento.target.closest("button");
     if (!botao || botao.disabled || ocupado) return;
+    const toqueSemHover = window.matchMedia?.("(hover: none)").matches && evento.detail > 0;
+    if (
+      botao.dataset.acao === "selecionar-herdeiro" &&
+      toqueSemHover &&
+      botao.dataset.infoRevelada !== "true"
+    ) {
+      botao.dataset.infoRevelada = "true";
+      botao.focus({ preventScroll: true });
+      return;
+    }
+    if (botao.getAttribute("aria-disabled") === "true" || botao.getAttribute("role") === "tab") return;
+    const honraAntesDaEscolha = run?.atributos.honra;
     Jogo.audio?.interagir();
     if (botao.dataset.opcao) {
       const carta = Jogo.eventoPorId(run?.eventoId);
@@ -245,6 +288,8 @@
         (botao.dataset.mercadoria
           ? Jogo.engine.comprar(run, botao.dataset.mercadoria)
           : botao.dataset.opcao && Jogo.engine.escolher(run, botao.dataset.opcao));
+      if (botao.dataset.opcao && resolvida && run.atributos.honra > honraAntesDaEscolha)
+        Jogo.audio?.sfx("honra");
       if (resolvida) {
         if (run.status === "encerrada") mostrarFim();
         else {
@@ -263,7 +308,8 @@
     if (!arquivo) return;
     try {
       const conteudo = JSON.parse(await arquivo.text());
-      if (!Jogo.save.importar(conteudo)) throw new Error("O arquivo não contém um progresso válido deste jogo.");
+      if (!Jogo.save.importar(conteudo))
+        throw new Error("O arquivo não contém um progresso válido deste jogo.");
       run = Jogo.save.lerRun();
       Jogo.ui.menu(run);
     } catch (erro) {
@@ -276,6 +322,15 @@
   });
 
   document.addEventListener("keydown", (evento) => {
+    if (Jogo.ui.completarTextoEvento(evento.key)) {
+      evento.preventDefault();
+      return;
+    }
+    if (evento.key === "Escape" && document.body.dataset.tela === "legado") {
+      evento.preventDefault();
+      Jogo.ui.menu(run, true);
+      return;
+    }
     if (
       evento.defaultPrevented ||
       evento.repeat ||
@@ -287,7 +342,7 @@
     )
       return;
 
-    if (/^[1-4]$/.test(evento.key)) {
+    if (/^[1-9]$/.test(evento.key)) {
       const escolha = document.querySelectorAll("#app [data-opcao]")[Number(evento.key) - 1];
       if (!escolha || escolha.disabled || !run || run.aguardaDecisaoCulto) return;
       evento.preventDefault();

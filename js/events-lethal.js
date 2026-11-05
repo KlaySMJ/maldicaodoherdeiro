@@ -99,7 +99,12 @@
             {
               efeitos: { hp: -35 },
               resultado:
-                "O teto cede sobre você. Os guardas o puxam pelos tornozelos; a família não é salva.",
+                "O telhado cede sob seus pés. Os guardas chegam a tempo de ver a chama tomar a escada — e a família com ela.",
+              encerramento: {
+                tipo: "derrota",
+                motivo:
+                  "Você entrou pela janela do sótão em chamas. O telhado não esperou pelos guardas, nem pela família.",
+              },
             },
           ),
         }),
@@ -137,7 +142,12 @@
             {
               efeitos: { hp: -30 },
               resultado:
-                "Seu corpo arde por dentro. O nobre foge entre os criados enquanto você cai de joelhos.",
+                "Seu corpo arde por dentro. O nobre foge entre os criados enquanto você cai de joelhos — e não se levanta.",
+              encerramento: {
+                tipo: "derrota",
+                motivo:
+                  "O brinde do nobre era veneno. Você caiu diante da mesa inteira antes que o servo pudesse avisar de novo.",
+              },
             },
           ),
           flags: marca("taca_decidida"),
@@ -223,7 +233,12 @@
             },
             {
               efeitos: { hp: -28 },
-              resultado: "A coisa é maior do que parecia. Você sai arrastado, coberto de sangue.",
+              resultado:
+                "A coisa era maior do que parecia. A tocha cai no grão seco e o escuro fecha atrás de você.",
+              encerramento: {
+                tipo: "derrota",
+                motivo: "Você entrou sozinho com uma tocha. O celeiro ficou quieto depois que a luz apagou.",
+              },
             },
           ),
         }),
@@ -489,6 +504,11 @@
             {
               efeitos: { hp: -32 },
               resultado: "Um corte aparece na sua coxa, fundo e limpo. O velho sorri em silêncio.",
+              encerramento: {
+                tipo: "derrota",
+                motivo:
+                  "Você apostou o sangue, e o velho cobrou a dívida inteira. A praça viu o silêncio dele.",
+              },
             },
           ),
           flags: marca("dados_decididos"),

@@ -31,7 +31,8 @@
   const fades = new Map();
   const efeitos = {
     carta: "assets/musica/sfx-virada-carta.wav",
-    confirmacao: "assets/musica/sfx-confirmacao.wav",
+    confirmacao: "assets/musica/sfx-escolha.ogg",
+    honra: "assets/musica/sfx-honra.ogg",
     impacto: "assets/musica/sfx-impacto.wav",
     moedas: "assets/musica/sfx-moedas.wav",
     sino: "assets/musica/sfx-sino-culto.wav",
@@ -41,8 +42,11 @@
   let volumeAtual = 50;
   let volumeEfeitosAtual = 65;
   let desbloqueada = false;
+  let falhaAoIniciar = false;
   let reduzida = false;
   let atual = null;
+  let efeitoEmReproducao = null;
+  const filaEfeitos = [];
 
   try {
     habilitada = armazenamento?.getItem("musica_ambiente") !== "0";
@@ -52,7 +56,12 @@
       volumeAtual = volumeSalvo;
     const efeitosArmazenados = armazenamento?.getItem("volume_efeitos");
     const efeitosSalvos = Number(efeitosArmazenados);
-    if (efeitosArmazenados !== null && Number.isFinite(efeitosSalvos) && efeitosSalvos >= 0 && efeitosSalvos <= 100)
+    if (
+      efeitosArmazenados !== null &&
+      Number.isFinite(efeitosSalvos) &&
+      efeitosSalvos >= 0 &&
+      efeitosSalvos <= 100
+    )
       volumeEfeitosAtual = efeitosSalvos;
   } catch {
     // O áudio segue com os valores padrão quando o navegador bloqueia o armazenamento.
@@ -60,7 +69,7 @@
 
   function atualizarControle() {
     if (controle) {
-      const texto = habilitada ? "Pausar música" : "Retomar música";
+      const texto = habilitada ? (falhaAoIniciar ? "Ativar som" : "Pausar música") : "Retomar música";
       controle.setAttribute("aria-pressed", String(habilitada));
       controle.textContent = texto;
     }
@@ -117,12 +126,16 @@
           transicionar(proxima, 0, 0.3, true);
           return;
         }
+        falhaAoIniciar = false;
+        atualizarControle();
         transicionar(proxima, volumeDaMusica(), 2.2);
         if (anterior && anterior !== proxima) transicionar(anterior, 0, 1.8, true);
       })
       .catch(() => {
         sons.delete(proxima);
         if (atual === proxima) atual = anterior || null;
+        falhaAoIniciar = true;
+        atualizarControle();
       });
   }
 
@@ -144,15 +157,41 @@
 
   function tocarEfeito(nome) {
     if (volumeEfeitosAtual === 0 || !efeitos[nome] || typeof Audio === "undefined") return;
+    if (efeitoEmReproducao && !efeitoEmReproducao.paused) {
+      if (nome === "honra" && !filaEfeitos.includes(nome)) filaEfeitos.push(nome);
+      return;
+    }
     const som = new Audio(efeitos[nome]);
     som.preload = "auto";
     som.volume = (volumeEfeitosAtual / 100) * 0.8;
     efeitosAtivos.add(som);
-    som.addEventListener?.("ended", () => efeitosAtivos.delete(som), { once: true });
-    som.play().catch(() => efeitosAtivos.delete(som));
+    efeitoEmReproducao = som;
+    som.addEventListener?.(
+      "ended",
+      () => {
+        efeitosAtivos.delete(som);
+        if (efeitoEmReproducao === som) efeitoEmReproducao = null;
+        const proximo = filaEfeitos.shift();
+        if (proximo) tocarEfeito(proximo);
+      },
+      { once: true },
+    );
+    som.play().catch(() => {
+      efeitosAtivos.delete(som);
+      if (efeitoEmReproducao === som) efeitoEmReproducao = null;
+      const proximo = filaEfeitos.shift();
+      if (proximo) tocarEfeito(proximo);
+    });
   }
 
   function alternar() {
+    if (habilitada && falhaAoIniciar) {
+      falhaAoIniciar = false;
+      desbloqueada = true;
+      iniciarFaixa();
+      atualizarControle();
+      return;
+    }
     habilitada = !habilitada;
     try {
       armazenamento?.setItem("musica_ambiente", habilitada ? "1" : "0");
@@ -170,6 +209,8 @@
   }
 
   controle?.addEventListener("click", alternar);
+  documento?.addEventListener?.("pointerdown", interagir, { once: true, capture: true });
+  documento?.addEventListener?.("keydown", interagir, { once: true, capture: true });
   volume?.addEventListener("input", () => {
     volumeAtual = Number(volume.value);
     atualizarControle();
@@ -186,6 +227,14 @@
   volumeEfeitos?.addEventListener("input", () => {
     volumeEfeitosAtual = Number(volumeEfeitos.value);
     atualizarControle();
+    if (volumeEfeitosAtual === 0) {
+      for (const efeito of efeitosAtivos) efeito.pause();
+      efeitosAtivos.clear();
+      efeitoEmReproducao = null;
+      filaEfeitos.length = 0;
+    } else {
+      for (const efeito of efeitosAtivos) efeito.volume = (volumeEfeitosAtual / 100) * 0.8;
+    }
     try {
       armazenamento?.setItem("volume_efeitos", String(volumeEfeitosAtual));
     } catch {
@@ -206,6 +255,8 @@
       }
       for (const efeito of efeitosAtivos) efeito.pause();
       efeitosAtivos.clear();
+      efeitoEmReproducao = null;
+      filaEfeitos.length = 0;
       return;
     }
     if (desbloqueada && habilitada) iniciarFaixa();

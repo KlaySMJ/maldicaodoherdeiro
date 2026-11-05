@@ -91,7 +91,11 @@
       informacoes:
         "O frio pode tirar mais do que conforto. Nenhuma opção muda as regras de Honra ou de culto.",
       opcoes: [
-        natureza("lenha_viva", "Acender lenha viva para aquecer o salão.", { hp: 8 }),
+        {
+          ...natureza("lenha_viva", "Acender lenha viva para aquecer o salão.", { hp: 8 }),
+          resultado:
+            "A lenha viva segura o frio até o amanhecer. Você dorme perto do fogo e acorda com as mãos quentes.",
+        },
         {
           ...natureza("abrigar_animais", "Abrir os estábulos para as famílias e os animais.", {
             honra: 2,
@@ -130,13 +134,25 @@
       texto: "A seiva volta a correr. A vila pede um festival para celebrar o degelo e preparar o plantio.",
       informacoes: "A festa pode unir a comunidade ou transformar a estação em lucro imediato.",
       opcoes: [
-        natureza("dancar", "Dançar com as famílias até o amanhecer.", { hp: 10, habitantes: 3, honra: 2 }),
+        {
+          ...natureza("dancar", "Dançar com as famílias até o amanhecer.", {
+            hp: 10,
+            habitantes: 3,
+            honra: 2,
+          }),
+          resultado:
+            "A roda não fecha até o sol nascer. Você acorda recuperado, e três famílias que pensavam em partir decidem ficar.",
+        },
         {
           ...natureza("mudas", "Comprar mudas e distribuí-las · 2 Gold.", { gold: -2, honra: 3 }),
           requisitos: { goldMin: 2 },
           resultado: "Cada família leva uma muda. O plantio começa antes do fim do festival.",
         },
-        natureza("cobrar", "Cobrar entrada e vender a colheita.", { gold: 6, honra: -2 }),
+        {
+          ...natureza("cobrar", "Cobrar entrada e vender a colheita.", { gold: 6, honra: -2 }),
+          resultado:
+            "A caixa do festival enche de moedas. Quem pagou entra risonho; quem ficou de fora lembra da sua ganância.",
+        },
       ],
     },
     {
@@ -169,7 +185,11 @@
             },
           },
         },
-        natureza("evacuar", "Retirar as famílias e deixar o bosque queimar.", { habitantes: -3 }),
+        {
+          ...natureza("evacuar", "Retirar as famílias e deixar o bosque queimar.", { habitantes: -3 }),
+          resultado:
+            "As famílias correm atrás da muralha, mas o fogo cobra o caminho. Três pessoas não resistem à fumaça.",
+        },
         {
           id: "animal_incendio",
           texto: "Entrar no fogo com seu animal.",
@@ -216,8 +236,16 @@
           },
           resultado: "Você deixa a oferenda entre as raízes.",
         },
-        natureza("guardar_colheita", "Guardar a colheita para a vila.", { gold: 6 }),
-        natureza("oferecer_sangue", "Oferecer seu sangue e ouvir o bosque.", { hp: -8, honra: 2 }),
+        {
+          ...natureza("guardar_colheita", "Guardar a colheita para a vila.", { gold: 6 }),
+          resultado:
+            "Você fecha os celeiros para a vila e vende o excedente. A voz das árvores fica sem resposta.",
+        },
+        {
+          ...natureza("oferecer_sangue", "Oferecer seu sangue e ouvir o bosque.", { hp: -8, honra: 2 }),
+          resultado:
+            "Você abre a palma sobre as raízes. O bosque bebe em silêncio; quem vê o gesto não esquece.",
+        },
       ],
     },
     {
@@ -271,7 +299,11 @@
           requisitos: { honraMax: -30 },
           resultado: "O espírito cobra sangue e cinco pessoas deixam a vila antes do amanhecer.",
         },
-        natureza("fugir", "Fugir pela trilha antes que se feche.", { hp: -10, habitantes: -3 }),
+        {
+          ...natureza("fugir", "Fugir pela trilha antes que se feche.", { hp: -10, habitantes: -3 }),
+          resultado:
+            "As raízes fecham a trilha atrás de você. Você sai ferido, e três habitantes não encontram o caminho de volta.",
+        },
       ],
     },
   );

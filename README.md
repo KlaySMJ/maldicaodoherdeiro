@@ -24,7 +24,7 @@ A run é salva ao começar, a cada decisão e ao avançar. Recarregar depois de 
 - Batalha: ATAQUE maior ou igual à defesa inimiga vence. O dano de cada desfecho vem do evento; o recebido é `Math.max(0, dano - escudo)`. O escudo não é consumido.
 - A cada dez rodadas completas, a defesa de inimigos aumenta em 1 e o dano em caso de vitória ou derrota aumenta em 2. A carta mostra os valores ajustados antes da decisão.
 - Um ataque malsucedido também aplica `batalha.penalidadeFalha`, definida por evento. No exemplo, além do dano mitigado, a vila perde 12 habitantes. Outro evento pode definir perda adicional de HP ou outros efeitos.
-- Não há condição de vitória definida nesta fase. `Jogo.engine.encerrar(run, "vitoria", motivo)` usa o mesmo encerramento para uma futura condição de vitória.
+- A condição de vitória é completar `Jogo.config.rodadasVitoria` rodadas. O fim do ano pode sair como `vitoria`, `vitoria_culto` (culto ativo) ou `vitoria_honra` (Honra ≥ 90); todas as variantes entram no ranking de melhores runs. Desfechos com `encerramento` também podem terminar a crônica antes do tempo, inclusive em eventos letais.
 
 O visual da interface usa fundo preto com textos, bordas e desenhos brancos. Cada run sorteia um traço (Corajoso, Avarento ou Doente), que ajusta os atributos iniciais e o retrato; as ilustrações acompanham as faixas de honra. A estação muda a cada 25 rodadas, com cartas sazonais. O catálogo contém 270 definições, incluindo 12 escolhas letais bloqueadas antes da rodada 6 e eventos próprios do culto; uma definição é a transição do último habitante e só é disparada pela engine. As opções visíveis são embaralhadas ao abrir cada carta e a ordem fica salva ao carregar. Nenhum recurso externo é necessário.
 

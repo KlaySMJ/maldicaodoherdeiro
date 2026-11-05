@@ -26,7 +26,14 @@
             honra: registro.honra,
             tipo: registro.tipo,
             motivo: registro.motivo,
-            ...(["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"].includes(registro.traco)
+            ...([
+              "corajoso",
+              "avarento",
+              "doente",
+              "druida_herdeiro",
+              "menino_cronista",
+              "heroi_do_povo",
+            ].includes(registro.traco)
               ? { traco: registro.traco }
               : {}),
             ...(registro.meninoAdotado === true ? { meninoAdotado: true } : {}),
@@ -58,7 +65,14 @@
               Number.isSafeInteger(registro.rodada) &&
               Number.isSafeInteger(registro.habitantes) &&
               Number.isSafeInteger(registro.gold) &&
-              ["corajoso", "avarento", "doente", "druida_herdeiro", "menino_cronista"].includes(registro.traco),
+              [
+                "corajoso",
+                "avarento",
+                "doente",
+                "druida_herdeiro",
+                "menino_cronista",
+                "heroi_do_povo",
+              ].includes(registro.traco),
           )
           .map(({ id, pontuacao, rodada, habitantes, gold, traco }) => ({
             id,
@@ -90,6 +104,14 @@
         run.flags?.menino_adotado_com_honra === true && run.flags?.menino_conselheiro === true,
       desbloqueia: { flags: ["menino_cronista"] },
     },
+    {
+      id: "heroi_do_povo",
+      nome: "A voz do povo",
+      // 400 de honra ≈ 60% do teto otimista de ~657 em 300 rodadas; dispara assim que a honra chega lá.
+      descricao: "Alcance 400 de Honra em uma crônica.",
+      condicao: (run) => Number.isSafeInteger(run.atributos?.honra) && run.atributos.honra >= 400,
+      desbloqueia: { flags: ["heroi_do_povo"] },
+    },
   ];
 
   function vazio() {
@@ -99,6 +121,7 @@
       itens: [],
       flags: {},
       objetivosConcluidos: [],
+      conquistasDesbloqueadas: [],
       memorias: [],
       eventosRecentesRuns: [],
       melhoresRuns: [],
@@ -113,6 +136,7 @@
       itens: listaIds(dados.itens),
       flags: flagsSeguras(dados.flags),
       objetivosConcluidos: listaIds(dados.objetivosConcluidos),
+      conquistasDesbloqueadas: listaIds(dados.conquistasDesbloqueadas),
       memorias: memoriasSeguras(dados.memorias),
       eventosRecentesRuns: rotacoesSeguras(dados.eventosRecentesRuns),
       melhoresRuns: melhoresRunsSeguras(dados.melhoresRuns),
@@ -128,6 +152,7 @@
       itens: listaIds([...a.itens, ...b.itens]),
       flags: { ...a.flags, ...b.flags },
       objetivosConcluidos: listaIds([...a.objetivosConcluidos, ...b.objetivosConcluidos]),
+      conquistasDesbloqueadas: listaIds([...a.conquistasDesbloqueadas, ...b.conquistasDesbloqueadas]),
       memorias: memoriasSeguras(
         [...a.memorias, ...b.memorias].filter(
           (registro, indice, lista) =>
@@ -164,6 +189,7 @@
       conceder(run, objetivo.desbloqueia);
       run.conquistas.objetivosConcluidos.push(objetivo.id);
     }
+    Jogo.conquistas?.avaliar(run);
   }
 
   function registrarRun(run) {

@@ -1,0 +1,28 @@
+{
+  "gerador": "Ferramenta integrada de geração de imagens",
+  "referenciasObrigatorias": [
+    "assets/herdeiros/corajoso-neutra.png",
+    "assets/herdeiros/avarento-neutra.png",
+    "assets/herdeiros/doente-neutra.png"
+  ],
+  "destino": "assets/herdeiros/heroi-do-povo-<faixa>.png",
+  "variantes": [
+    "neutra",
+    "alta",
+    "alta-2",
+    "altissima",
+    "baixa",
+    "baixa-2",
+    "baixissima",
+    "culto"
+  ],
+  "regras": "Criar uma nova personagem herdeira, mulher adulta jovem, em busto recortado e fundo transparente. As três referências obrigatórias definem linguagem visual, proporção do busto, contorno preto grosso e irregular, formas simplificadas, hachura econômica e paleta chapada de marfim envelhecido, preto e pequeno acento dourado localizado. Não copiar os rostos nem os adereços exclusivos das referências. A personagem é uma heroína criada pelo povo: rosto expressivo e reconhecível, cabelo preso de modo prático, pequena tiara simples e vestido medieval de tecido — nunca armadura pesada. O traje e os materiais mudam claramente entre estados; manter rosto, idade, cabelo, enquadramento, proporção e silhueta entre variantes. Sem moldura, placa, fundo opaco, texto, letras, louros, brilho mágico ou realismo fotográfico. Gerar PNG com transparência, preservando o recorte e dimensões comuns aos retratos existentes.",
+  "neutra": "Retrato-base da Heroína do povo. Vestido simples e bem usado, tiara discreta, postura firme porém acolhedora, expressão serena e atenta. Paleta de marfim envelhecido, preto e tecido em tons terrosos contidos; dourado apenas num pequeno broche da vila.",
+  "alta": "Editar a imagem neutra, sem alterar identidade. A honra alta deve ser visível sobretudo pelo traje: vestido limpo, bem cortado e cuidadosamente remendado, postura mais aberta e expressão confiante, sem riqueza real ou ornamentos volumosos.",
+  "alta-2": "Editar a imagem neutra, sem alterar identidade. Honra muito alta: vestido formal de tecido melhor, costuras cuidadas e gola estruturada simples; postura resoluta e olhar caloroso. A mudança deve ser evidente em tamanho pequeno, sem coroa grande, louros ou luxo nobre.",
+  "altissima": "Editar a imagem neutra, sem alterar identidade. Honra máxima: vestido formal sóbrio, impecável e de corte simples; tiara ainda pequena, postura digna e expressão tranquila. Aparência contida, sem louros, camadas volumosas ou adereços reais.",
+  "baixa": "Editar a imagem neutra, sem alterar identidade. Honra baixa: vestido escurecido e amarrotado, remendos e bainha gasta claramente visíveis; ombros mais fechados, sobrancelhas tensas e expressão desapontada, sem mudar os traços faciais.",
+  "baixa-2": "Editar a imagem neutra, sem alterar identidade. Honra muito baixa: vestido bastante gasto, remendos grosseiros, tecido manchado e costuras cedendo; postura defensiva e olhar duro, sem transformar a personagem em vilã nem acrescentar cicatrizes.",
+  "baixissima": "Editar a imagem neutra, sem alterar identidade. Honra extremamente baixa: vestido escuro, muito puído e remendado, tiara desalinhada mas ainda reconhecível; expressão irritada contida e postura curvada pelo peso da crônica. Sem sangue, monstruosidade ou mudança de rosto.",
+  "culto": "Editar a imagem neutra, sem alterar identidade. Criar traje próprio do culto, nitidamente diferente do vestido comum: manto escuro simples com forro vermelho profundo e um pequeno símbolo de chama bordado. Expressão séria e ambígua, sem sorriso maligno exagerado; manter o mesmo rosto, cabelo, tiara discreta e busto transparente. Vermelho somente no traje, sem mudar a linguagem visual do elenco."
+}
