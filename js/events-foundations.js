@@ -319,6 +319,7 @@
       disparadoPelaEngine: true,
       consequenciaAgendada: true,
       oncePerRun: true,
+      requisitos: { tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente acolhido pela vila, com o traje formal de conselheiro",
       texto:
@@ -349,6 +350,7 @@
       peso: 0,
       disparadoPelaEngine: true,
       consequenciaAgendada: true,
+      requisitos: { tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente conselheiro apresenta sua primeira proposta à vila",
       texto:

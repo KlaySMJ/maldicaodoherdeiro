@@ -730,6 +730,7 @@
           rodadaMin: 8,
           flags: ["orfao_explorado"],
           flagsAusentes: ["orfao_resolvido"],
+          tracosAusentes: ["menino_cronista"],
         },
         texto:
           "O menino que carregava sacos fez uma trouxa menor do que as dívidas que você lhe deve. Ele está parado no portão e não chora.",

@@ -147,6 +147,7 @@
         : requisitos.tracos === run.traco)
     )
       return false;
+    if (requisitos.tracosAusentes?.includes(run.traco)) return false;
     if (
       requisitos.rodadasDesde &&
       Object.entries(requisitos.rodadasDesde).some(
@@ -232,6 +233,7 @@
 
   function eventoDisponivel(evento, run, aleatorio = Math.random) {
     if (evento.letal && run.rodada < 6) return false;
+    if (run.traco === "menino_cronista" && evento.conselheiro) return false;
     if (run.flags.menino_conselheiro && evento.conselheiroPadrao && evento.conselhoNegativo) return false;
     if ((evento.letal || evento.oncePerRun) && run.flags[`${evento.id}_visto`]) return false;
     if (evento.oncePerYear && run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`])
@@ -2007,6 +2009,7 @@
   Jogo.engine = {
     cumpre,
     pools,
+    eventoDisponivel,
     opcoes,
     peso,
     sortear,

@@ -1,6 +1,10 @@
 (function () {
   "use strict";
   const Jogo = window.Jogo;
+  try {
+    for (const chave of ["debug_jogo", "debug_forcar_druida", "debug_forcar_menino", "debug_forcar_heroi"])
+      window.localStorage.removeItem(chave);
+  } catch {}
   let run = Jogo.save.lerRun();
   let ocupado = false;
 
@@ -58,11 +62,13 @@
     const legado = Jogo.save.lerLegado();
     const tracoForcado =
       personagem ||
-      (window.localStorage.getItem("debug_forcar_menino") === "1"
-        ? "menino_cronista"
-        : window.localStorage.getItem("debug_forcar_druida") === "1"
-          ? "druida_herdeiro"
-          : null);
+      (window.localStorage.getItem("debug_forcar_heroi") === "1"
+        ? "heroi_do_povo"
+        : window.localStorage.getItem("debug_forcar_menino") === "1"
+          ? "menino_cronista"
+          : window.localStorage.getItem("debug_forcar_druida") === "1"
+            ? "druida_herdeiro"
+            : null);
     run = Jogo.estado.novo(legado, tracoForcado);
     Jogo.legado.avaliar(run);
     const evento = Jogo.engine.sortear(run);
@@ -76,6 +82,10 @@
 
   async function acionar(acao, botao = null) {
     switch (acao) {
+      case "debug-alternar":
+        Jogo.ui.alternarDebug();
+        Jogo.ui.menu(run);
+        break;
       case "iniciar":
         if (run?.status === "ativa" && !(await Jogo.ui.confirmarNovaRun())) return;
         if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
@@ -119,6 +129,7 @@
         break;
       case "debug-alternar-druida":
         window.localStorage.setItem("debug_forcar_menino", "0");
+        window.localStorage.setItem("debug_forcar_heroi", "0");
         window.localStorage.setItem(
           "debug_forcar_druida",
           window.localStorage.getItem("debug_forcar_druida") === "1" ? "0" : "1",
@@ -127,9 +138,19 @@
         break;
       case "debug-alternar-conselheiro":
         window.localStorage.setItem("debug_forcar_druida", "0");
+        window.localStorage.setItem("debug_forcar_heroi", "0");
         window.localStorage.setItem(
           "debug_forcar_menino",
           window.localStorage.getItem("debug_forcar_menino") === "1" ? "0" : "1",
+        );
+        Jogo.ui.menu(run);
+        break;
+      case "debug-alternar-heroi":
+        window.localStorage.setItem("debug_forcar_druida", "0");
+        window.localStorage.setItem("debug_forcar_menino", "0");
+        window.localStorage.setItem(
+          "debug_forcar_heroi",
+          window.localStorage.getItem("debug_forcar_heroi") === "1" ? "0" : "1",
         );
         Jogo.ui.menu(run);
         break;

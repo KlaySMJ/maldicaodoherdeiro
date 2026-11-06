@@ -195,7 +195,7 @@
       peso: 0.3,
       especial: true,
       conselheiro: true,
-      requisitos: { flags: ["menino_conselheiro"] },
+      requisitos: { flags: ["menino_conselheiro"], tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O jovem conselheiro, em vestes formais, apresenta suas contas do armazém",
       texto:
@@ -218,7 +218,7 @@
       peso: 0.3,
       especial: true,
       conselheiro: true,
-      requisitos: { flags: ["menino_conselheiro"] },
+      requisitos: { flags: ["menino_conselheiro"], tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O jovem conselheiro, em vestes formais, explica como reparar a ponte",
       texto:
@@ -249,7 +249,7 @@
       peso: 0.3,
       especial: true,
       conselheiro: true,
-      requisitos: { flags: ["menino_conselheiro"] },
+      requisitos: { flags: ["menino_conselheiro"], tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O jovem conselheiro, em vestes formais, orienta os guardas no treino",
       texto:

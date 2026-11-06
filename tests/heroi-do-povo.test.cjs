@@ -44,6 +44,17 @@ test("a Heroína do povo permanece bloqueada até alcançar 400 de Honra", () =>
   assert.match(desbloqueada || "", /aria-disabled="false"/);
 });
 
+test("o modo debug libera a escolha explícita da Heroína do povo", () => {
+  const { J, app, window } = preparar();
+  window.localStorage.setItem("debug_forcar_heroi", "1");
+  J.ui.escolherHerdeiro(J.legado.vazio());
+  const opcao = app.innerHTML.match(
+    /<button class="herdeiro-opcao[^>]*data-traco="heroi_do_povo"[^>]*>/,
+  )?.[0];
+  assert.match(opcao || "", /aria-disabled="false"/);
+  assert.match(app.innerHTML, /A Heroína do povo \(debug\)/);
+});
+
 test("400 de honra concedem a Heroína do povo ao legado e à pool de herdeiros", () => {
   const { J } = preparar();
   const run = J.estado.novo(J.legado.vazio(), "corajoso");
@@ -67,6 +78,19 @@ test("o desbloqueio dispara sozinho ao escolher uma opção que leva a honra a 4
   assert.equal(J.engine.escolher(run, "pagar"), true);
   assert.equal(run.atributos.honra, 401);
   assert.equal(run.conquistas.flags.heroi_do_povo, true);
+});
+
+test("eventos do órfão e de conselho não aparecem para o Menino da Crônica", () => {
+  const { J } = preparar();
+  const conselheiro = J.estado.novo(J.legado.vazio(), "menino_cronista");
+  const outroHerdeiro = J.estado.novo(J.legado.vazio(), "corajoso");
+  const orfao = J.eventoPorId("orfao");
+  const conselho = J.eventos.find((evento) => evento.conselheiro);
+
+  assert.equal(J.engine.cumpre(orfao.requisitos, conselheiro), false);
+  assert.equal(J.engine.cumpre(orfao.requisitos, outroHerdeiro), true);
+  assert.equal(J.engine.eventoDisponivel(conselho, conselheiro), false);
+  assert.equal(J.engine.eventoDisponivel(conselho, outroHerdeiro), true);
 });
 
 test("a honra da Heroína do povo nunca cai nem fica negativa", () => {

@@ -714,7 +714,10 @@
       narrativamenteUnico: true,
       oncePerRun: true,
       peso: 2,
-      requisitos: { flagsAusentes: ["orfao_decidido"] },
+      requisitos: {
+        flagsAusentes: ["orfao_decidido"],
+        tracosAusentes: ["menino_cronista"],
+      },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O menino que espera diante do portão da vila",
       texto:
@@ -768,7 +771,12 @@
       titulo: "O menino e a espada",
       tipo: "encontro",
       peso: 3,
-      requisitos: { flags: ["orfao_acolhido"], flagsAusentes: ["orfao_resolvido"], rodadaMin: 8 },
+      requisitos: {
+        flags: ["orfao_acolhido"],
+        flagsAusentes: ["orfao_resolvido"],
+        tracosAusentes: ["menino_cronista"],
+        rodadaMin: 8,
+      },
       imagem: "assets/forja.webp",
       imagemAlt: "Espada de treino junto à bigorna do ferreiro",
       texto:

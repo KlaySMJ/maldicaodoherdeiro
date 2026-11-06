@@ -85,6 +85,23 @@ test("debug pode forçar o Conselheiro em novos inícios, exclusivo do Druida", 
   assert.equal(dados.get("debug_forcar_druida"), "1");
 });
 
+test("debug permite iniciar como Heroína do povo antes do desbloqueio", async () => {
+  const { J, dados, tela, clicar, iniciarControlador } = preparar();
+  iniciarControlador();
+
+  await clicar({ acao: "debug-alternar-heroi" });
+  assert.equal(dados.get("debug_forcar_heroi"), "1");
+  assert.equal(dados.get("debug_forcar_druida"), "0");
+  assert.equal(dados.get("debug_forcar_menino"), "0");
+
+  await clicar({ acao: "tutorial" });
+  assert.equal(tela.run.traco, "heroi_do_povo");
+  assert.equal(J.save.lerLegado().flags.heroi_do_povo, undefined);
+
+  await clicar({ acao: "debug-alternar-heroi" });
+  assert.equal(dados.get("debug_forcar_heroi"), "0");
+});
+
 test("Carregar lê o save atual no clique, sem retomar a cópia antiga do menu", async () => {
   const { J, tela, novaRun, clicar, iniciarControlador } = preparar();
   J.save.gravarRun(novaRun(1));

@@ -2,6 +2,7 @@
   "use strict";
   const Jogo = window.Jogo;
   const app = document.getElementById("app");
+  let debugRevelado = false;
   const imagensComTomDaVila = new Set([
     "assets/geada.webp",
     "assets/espelho-do-antecessor.webp",
@@ -464,26 +465,23 @@
   }
 
   function modoDebug() {
-    try {
-      return (
-        window.DEBUG_JOGO === true ||
-        new URLSearchParams(window.location.search).get("debug") === "1" ||
-        window.localStorage.getItem("debug_jogo") === "1" ||
-        window.localStorage.getItem("debug_forcar_druida") === "1" ||
-        window.localStorage.getItem("debug_forcar_menino") === "1"
-      );
-    } catch {
-      return window.DEBUG_JOGO === true;
-    }
+    return debugRevelado;
+  }
+
+  function alternarDebug() {
+    debugRevelado = !debugRevelado;
+    document.body.classList.toggle("debug-visivel", debugRevelado);
+    return debugRevelado;
   }
 
   function menu(run, focarLegado = false) {
     const forcarDruida = window.localStorage.getItem("debug_forcar_druida") === "1";
     const forcarConselheiro = window.localStorage.getItem("debug_forcar_menino") === "1";
+    const forcarHeroi = window.localStorage.getItem("debug_forcar_heroi") === "1";
     mostrar(
       `
       <section class="abertura" aria-labelledby="titulo-inicio">
-        <div class="abertura-arte"><img src="assets/vila.webp" alt="Uma vila medieval sob a vigília de um castelo" width="1024" height="1024"></div>
+        <button type="button" class="abertura-arte" data-acao="debug-alternar" aria-pressed="${modoDebug()}" aria-label="Imagem da vila: clique para ${modoDebug() ? "ocultar" : "mostrar"} os controles de debug"><img src="assets/vila.webp" alt="Uma vila medieval sob a vigília de um castelo" width="1024" height="1024"></button>
         <div class="abertura-texto">
           <h1 id="titulo-inicio">A maldição do Herdeiro</h1>
           <p class="subtitulo">A terra será sua.<br>As consequências, de todos.</p>
@@ -501,6 +499,7 @@
             <button class="botao debug-transformacoes-menu" data-acao="debug-transformacoes">Debug: ver transformações</button>
             <button class="botao debug-druida-menu" data-acao="debug-alternar-druida" aria-pressed="${forcarDruida}">Debug: sempre iniciar como Druida · ${forcarDruida ? "ativo" : "inativo"}</button>
             <button class="botao debug-conselheiro-menu" data-acao="debug-alternar-conselheiro" aria-pressed="${forcarConselheiro}">Debug: sempre iniciar como Conselheiro · ${forcarConselheiro ? "ativo" : "inativo"}</button>
+            <button class="botao debug-heroi-menu" data-acao="debug-alternar-heroi" aria-pressed="${forcarHeroi}">Debug: sempre iniciar como Heroína do povo · ${forcarHeroi ? "ativo" : "inativo"}</button>
           </div>
           <p class="nota">${run ? "Há uma história esperando por você." : "Sua primeira história ainda não foi escrita."}</p>
         </div>
@@ -631,6 +630,7 @@
   function escolherHerdeiro(legado) {
     const disponiveis = new Set(Jogo.estado.tracosDisponiveis(legado));
     const debug = modoDebug();
+    const forcarHeroi = window.localStorage.getItem("debug_forcar_heroi") === "1";
     const opcoesHerdeiro = [
       {
         traco: "corajoso",
@@ -681,9 +681,15 @@
         <div class="selecao-herdeiro-lista">${opcoesHerdeiro
           .map((herdeiro) => {
             const desbloqueado =
-              disponiveis.has(herdeiro.traco) || (debug && herdeiro.traco === "menino_cronista");
+              disponiveis.has(herdeiro.traco) ||
+              (debug && herdeiro.traco === "menino_cronista") ||
+              (herdeiro.traco === "heroi_do_povo" && forcarHeroi);
             const nomeHerdeiro =
-              debug && herdeiro.traco === "menino_cronista" ? "O Conselheiro (debug)" : herdeiro.nome;
+              debug && herdeiro.traco === "menino_cronista"
+                ? "O Conselheiro (debug)"
+                : forcarHeroi && herdeiro.traco === "heroi_do_povo"
+                  ? "A Heroína do povo (debug)"
+                  : herdeiro.nome;
             const descricaoHerdeiro =
               debug && herdeiro.traco === "menino_cronista"
                 ? "70 Vida, 3 Escudo e 30 Honra no início."
@@ -1515,6 +1521,7 @@
 
   Jogo.ui = {
     menu,
+    alternarDebug,
     painelLegado,
     escolherHerdeiro,
     intro,

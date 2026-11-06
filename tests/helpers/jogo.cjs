@@ -128,6 +128,7 @@ function preparar() {
   return {
     J,
     app,
+    window,
     novaRun,
     culto,
     resultado,
