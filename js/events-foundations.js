@@ -125,8 +125,8 @@
       imagem: "assets/eventos-sistemas/traco.webp",
       imagemAlt: "Três símbolos gravados em madeira: lança, moeda e ramo de ervas",
       texto:
-        "Um velho escriba encontra uma anotação sobre a natureza deste herdeiro. O povo espera para ver se ela é destino ou apenas tinta.",
-      informacoes: "O que recebeu ao nascer ainda pode mudar pelo que faz.",
+        "Um velho escriba encontra uma nota sobre o traço com que você nasceu. O povo quer saber se você ainda se reconhece nela.",
+      informacoes: "O escriba registrou três traços. A prova disponível depende de qual deles você carrega.",
       opcoes: [
         {
           id: "corajoso",

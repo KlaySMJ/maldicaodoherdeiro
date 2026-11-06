@@ -27,6 +27,23 @@ test("a Heroína do povo começa com 5 de Ataque, 5 de Escudo e honra neutra", (
   assert.deepEqual(simples(run.inventario), []);
 });
 
+test("a Heroína do povo permanece bloqueada até alcançar 400 de Honra", () => {
+  const { J, app } = preparar();
+  const legado = J.legado.vazio();
+  J.ui.escolherHerdeiro(legado);
+  const bloqueada = app.innerHTML.match(
+    /<button class="herdeiro-opcao[^>]*data-traco="heroi_do_povo"[^>]*>/,
+  )?.[0];
+  assert.match(bloqueada || "", /aria-disabled="true"/);
+
+  legado.flags.heroi_do_povo = true;
+  J.ui.escolherHerdeiro(legado);
+  const desbloqueada = app.innerHTML.match(
+    /<button class="herdeiro-opcao[^>]*data-traco="heroi_do_povo"[^>]*>/,
+  )?.[0];
+  assert.match(desbloqueada || "", /aria-disabled="false"/);
+});
+
 test("400 de honra concedem a Heroína do povo ao legado e à pool de herdeiros", () => {
   const { J } = preparar();
   const run = J.estado.novo(J.legado.vazio(), "corajoso");
@@ -136,7 +153,9 @@ test("aceitar o chamado entra no culto sem tocar na honra e valida o save", () =
   const run = emEscolha(novaHeroi(J), "o_chamado_na_capela");
   run.rodada = 50;
   run.atributos.honra = 40;
-  assert.ok(J.engine.opcoes(J.eventoPorId("o_chamado_na_capela"), run).some((o) => o.id === "entrar_na_capela"));
+  assert.ok(
+    J.engine.opcoes(J.eventoPorId("o_chamado_na_capela"), run).some((o) => o.id === "entrar_na_capela"),
+  );
 
   assert.equal(J.engine.escolher(run, "entrar_na_capela"), true);
   assert.equal(run.cultoAtivo, true);

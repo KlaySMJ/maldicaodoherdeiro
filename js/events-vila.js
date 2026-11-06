@@ -542,7 +542,7 @@
         },
         texto:
           "Dois jovens de famílias rivais querem casar sob a árvore velha. Os pais fingem que isso não está acontecendo.",
-        informacoes: "Um casamento pode unir a vila ou rachá-la ao meio.",
+        informacoes: "Você pode presidir a cerimônia, ceder o salão ou pedir um dote aos noivos.",
         opcoes: [
           {
             id: "presidir",
@@ -671,7 +671,7 @@
         },
         texto:
           "O padre pede pedras e mãos para erguer uma capela de verdade. A vila discute se prefere um teto novo ou um sino.",
-        informacoes: "A capela pode trazer paz ou apenas mais uma conta.",
+        informacoes: "Você pode ajudar a erguer a capela, pagar pedreiros ou dispensar o padre.",
         opcoes: [
           {
             id: "erguer",
@@ -733,7 +733,8 @@
         },
         texto:
           "O menino que carregava sacos fez uma trouxa menor do que as dívidas que você lhe deve. Ele está parado no portão e não chora.",
-        informacoes: "Os moradores esperam para ver o que o senhor fará.",
+        informacoes:
+          "Você pode pedir que ele fique, pagar o que lhe deve ou mandar os guardas fecharem o portão.",
         opcoes: [
           {
             id: "perdao",
@@ -956,7 +957,7 @@
           flagsAusentes: ["rosto_decidido"],
         },
         texto: "Uma velha na praça diz que você tem o olhar do senhor anterior. Não sabe se é elogio.",
-        informacoes: "Sua reputação agora tem um predecessor com quem comparar.",
+        informacoes: "Você pode ouvir as lembranças da velha, negar a semelhança ou mandá-la calar.",
         opcoes: [
           {
             id: "perguntar",
@@ -1091,7 +1092,7 @@
         peso: 2,
         texto:
           "Os jovens querem testar quem dá o melhor golpe com bastões de madeira. Um deles já escolheu seu adversário: você.",
-        informacoes: "Um torneio humilde ainda é um torneio.",
+        informacoes: "Você pode enfrentar o rapaz, premiar o vencedor ou proibir os jogos.",
         opcoes: [
           {
             id: "aceitar",
@@ -1294,7 +1295,8 @@
         },
         texto:
           "Os moradores montaram bancas sem que ninguém mandasse. Há pão, couro, ferro, e um único espelho que ninguém conseguiu vender.",
-        informacoes: "A feira é pequena, mas pode ser o começo de algo.",
+        informacoes:
+          "Você pode isentar as bancas, cobrar uma taxa pequena ou comprar o espelho que ninguém quer.",
         opcoes: [
           {
             id: "isentar",
@@ -1347,7 +1349,8 @@
         ],
         texto:
           "Um camponês acusa o vizinho de mover as pedras do limite. O vizinho jura que as pedras se moveram sozinhas.",
-        informacoes: "Ninguém sabe quem mente. A vila espera uma sentença.",
+        informacoes:
+          "Um acusa o outro de mover as pedras. Você pode medi-las, dividir o terreno ou condenar um dos vizinhos.",
         opcoes: [
           {
             id: "medir",
@@ -1578,7 +1581,8 @@
         },
         texto:
           "Crianças acharam uma entrada coberta de cipó atrás do moinho. Dentro, há tábuas apodrecidas e um brilho que talvez seja ferro.",
-        informacoes: "Minas velhas guardam riqueza e armadilhas.",
+        informacoes:
+          "Você pode reabrir a mina com escoras, entrar sozinho para avaliá-la ou lacrar a entrada.",
         opcoes: [
           {
             id: "reabrir",
@@ -1640,7 +1644,8 @@
         },
         texto:
           "A terra treme sob os pés. Um som surdo vem de dentro da mina, e os gritos chegam depois. Você corre.",
-        informacoes: "Aquilo que se abre sem cuidado pode se fechar sem aviso.",
+        informacoes:
+          "Os mineiros estão presos lá dentro. Para alcançá-los, você também terá de entrar na mina instável.",
         opcoes: [
           {
             id: "resgatar",
@@ -1712,7 +1717,7 @@
         peso: 2,
         texto:
           "Uma mulher quer abrir uma estalagem na estrada da vila. Já tem as panelas, o nome e a paciência; só falta a licença do senhor.",
-        informacoes: "Estalagens trazem viajantes, e viajantes trazem notícias.",
+        informacoes: "Você pode conceder a licença, cobrar uma taxa anual ou mandá-la voltar pela estrada.",
         opcoes: [
           {
             id: "conceder",
@@ -1805,7 +1810,7 @@
         },
         texto:
           "Uma estrela com cauda atravessa o céu por três noites. Os velhos se benzem, os jovens apontam, os cães uivam sem parar.",
-        informacoes: "Ninguém sabe o que ela anuncia, mas todos têm uma opinião.",
+        informacoes: "Você pode passar as noites ao relento observando a estrela com o povo.",
         opcoes: [
           {
             id: "observar",
@@ -1835,7 +1840,8 @@
         },
         texto:
           "Um homem com olhos acesos prega que o fim chega pelo céu. Metade da praça acredita; a outra metade ainda não decidiu.",
-        informacoes: "O medo é a moeda mais barata e a mais cara.",
+        informacoes:
+          "Você pode acalmar a praça, pagar para o profeta partir ou lucrar com o medo que ele espalha.",
         opcoes: [
           {
             id: "desmentir",
@@ -1992,7 +1998,8 @@
         peso: 2,
         texto:
           "As lavadeiras cochicham em voz baixa sobre o senhor. Cada versão do rumor é mais interessante que a anterior.",
-        informacoes: "Não existe verdade no rumor, só repetição.",
+        informacoes:
+          "Você pode pagar por elogios, conversar com as lavadeiras ou tentar calá-las. Ignoradas, elas continuam falando.",
         opcoes: [
           {
             id: "ignorar",
@@ -2423,7 +2430,8 @@
         ],
         texto:
           "A padaria fechou três dias seguidos. As filas aumentam, e os preços também. Alguém começa a vender pão por baixo do balcão.",
-        informacoes: "A fome nunca precisou de tradutor.",
+        informacoes:
+          "Você pode abrir o celeiro, tabelar o preço do pão ou confiscar o que é vendido às escondidas.",
         opcoes: [
           {
             id: "abrir",
@@ -3074,7 +3082,8 @@
         },
         texto:
           "Você dorme na poltrona do seu predecessor e sonha com uma vila que não reconhece. Ele está de pé na porta, sem rosto, e pergunta o que você fez.",
-        informacoes: "Alguns sonhos exigem resposta, mesmo sem perguntas.",
+        informacoes:
+          "O predecessor pergunta o que você fez com a vila. A resposta fica entre vocês no sonho.",
         opcoes: [
           {
             id: "responder",
@@ -3581,7 +3590,7 @@
         },
         texto:
           "A neve cobre as portas pela segunda vez. As reservas diminuem, e cada pessoa conta a lenha como quem conta dias.",
-        informacoes: "O inverno não faz perguntas.",
+        informacoes: "As reservas diminuem, e você só pode dividir o que ainda resta.",
         opcoes: [
           {
             id: "dividir",
@@ -3663,7 +3672,7 @@
         },
         texto:
           "Numa noite sem lua, você vê uma criança sentada no degrau do portão. Ela não responde quando você fala. Apenas olha, e parece já saber seu nome.",
-        informacoes: "Nada acontece até que algo aconteça.",
+        informacoes: "Ela parece saber seu nome, mas você não sabe de onde veio.",
         opcoes: [
           {
             id: "sentar",

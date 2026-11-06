@@ -681,8 +681,7 @@
         <div class="selecao-herdeiro-lista">${opcoesHerdeiro
           .map((herdeiro) => {
             const desbloqueado =
-              disponiveis.has(herdeiro.traco) ||
-              (debug && (herdeiro.traco === "menino_cronista" || herdeiro.traco === "heroi_do_povo"));
+              disponiveis.has(herdeiro.traco) || (debug && herdeiro.traco === "menino_cronista");
             const nomeHerdeiro =
               debug && herdeiro.traco === "menino_cronista" ? "O Conselheiro (debug)" : herdeiro.nome;
             const descricaoHerdeiro =

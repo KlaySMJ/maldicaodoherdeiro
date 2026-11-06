@@ -135,7 +135,8 @@
         },
         texto:
           "Um homem de sorriso fácil atravessa o pátio em pleno meio-dia, sem sombra. Abre a capa e mostra armaduras, armas e frascos. Diz que aceita qualquer moeda, menos as de ouro.",
-        informacoes: "O mercador não cobra em gold. Ele cobra naquilo que você não sabe que tem.",
+        informacoes:
+          "A armadura custa cinco moradores; a lâmina, seis pontos de honra. Pela sombra, ele paga quinze moedas, mas você perde vida e honra.",
         opcoes: [
           {
             id: "armadura",

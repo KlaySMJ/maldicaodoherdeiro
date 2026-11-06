@@ -31,6 +31,8 @@ As 30 cartas do conselheiro repetiam o mesmo prefixo de título, a mesma informa
 
 A revisão também corrigiu dois resultados interrompidos no meio da frase, a descrição da refeição em `a_noite_dos_lampioes` e o rótulo correspondente. Placeholders como `{{rodada}}` e `{{motivo}}` foram preservados.
 
+O primeiro passe não identificou todos os trechos genéricos ou pouco naturais. Uma nova leitura das informações contextuais encontrou frases tautológicas e linhas vagas como “um torneio humilde ainda é um torneio”. Reescrevi esses casos para esclarecer a cena, as opções ou seus custos, inclusive em `aquele_que_vem_depois`, `casamento`, `feira`, `torneio`, `julgamento`, `menino_vai_embora`, `sonho_do_velho`, `mercador_sem_sombra` e `testamento`. Também corrigi o rótulo do equipamento: o jogo sorteia uma peça; não oferece uma escolha entre raridades.
+
 ### Seleção de herdeiros
 
 O cabeçalho agora explica como revelar as informações no retrato. As descrições de herdeiros informam os atributos iniciais relevantes, as passivas da linhagem e as condições de desbloqueio sem depender de texto permanente sobre os quadrados.
@@ -43,7 +45,8 @@ As seis etapas foram alinhadas ao painel de batalha, ao fluxo de escolha e resul
 
 - [x] Os 276 IDs permanecem no catálogo e aparecem no inventário, sem duplicatas.
 - [x] Narração e informação contextual estão registradas para os 276 eventos.
-- [x] Opções, resultados e consequências revisados correspondem aos efeitos e desfechos existentes.
+- [x] Opções, resultados e consequências revisados correspondem aos efeitos e desfechos existentes, incluindo o sorteio do equipamento e os custos do mercador.
+- [x] Um passe adicional substituiu informações vagas ou pouco naturais por texto ligado à cena e às escolhas reais.
 - [x] A seleção cobre os seis herdeiros, seus traços e as dicas de desbloqueio.
 - [x] O tutorial cobre as seis etapas e descreve o fluxo atual.
 - [x] IDs, requisitos, efeitos, flags, sorteio e placeholders dinâmicos permanecem intactos.
@@ -51,7 +54,7 @@ As seis etapas foram alinhadas ao painel de batalha, ao fluxo de escolha e resul
 
 ## Entrega
 
-Arquivos de referência e revisão: `INVENTARIO-TEXTOS-EVENTOS.md` e este PRD. Os textos executados estão em `js/events-conselheiro.js`, `js/events.js`, `js/events-vila.js`, `js/events-heroi.js` e `js/ui.js`.
+Arquivos de referência e revisão: `INVENTARIO-TEXTOS-EVENTOS.md` e este PRD. Os textos executados estão em `js/events-conselheiro.js`, `js/events.js`, `js/events-vila.js`, `js/events-heroi.js`, `js/events-recompensas.js`, `js/events-pactos.js`, `js/events-foundations.js` e `js/ui.js`.
 
 ### Checklist final
 
@@ -59,11 +62,12 @@ Arquivos de referência e revisão: `INVENTARIO-TEXTOS-EVENTOS.md` e este PRD. O
 - [x] Revisar os 276 títulos, narrações e informações contextuais.
 - [x] Revisar as opções e os desfechos, incluindo as 17 batalhas e suas ramificações.
 - [x] Dar textos próprios às 30 ações de conselho e corrigir frases incompletas.
+- [x] Fazer um passe posterior para retirar frases genéricas ou pouco orgânicas que passaram pela primeira revisão.
 - [x] Atualizar o inventário da seleção, do tutorial e dos eventos.
 - [x] Confirmar que dados mecânicos, IDs e placeholders não mudaram.
 - [x] Rodar testes, lint e formatação dos arquivos alterados.
 - [x] Preparar e registrar o commit final das mudanças.
 
-**Resumo:** revisão textual aplicada ao catálogo de eventos, à seleção de herdeiros e ao tutorial. Nenhuma regra do jogo foi alterada.
+**Resumo:** a revisão do catálogo, da seleção de herdeiros e do tutorial recebeu um passe complementar após a identificação de frases genéricas que haviam passado. As correções ligam as informações às cenas, escolhas e consequências existentes; nenhuma regra do jogo foi alterada por este passe.
 
-**Validações:** 115 testes passam; o lint passa; os arquivos alterados passam no Prettier. A checagem geral de formatação ainda aponta `js/conquistas.js`, `js/events-progresso.js`, `js/save.js` e `tests/heroi-do-povo.test.cjs`, que já estavam fora do padrão e não fazem parte desta revisão. Decisões editoriais pendentes: nenhuma.
+**Validações:** 116 testes passam; o lint passa; os arquivos alterados passam no Prettier. A checagem geral de formatação aponta três arquivos que não fazem parte deste passe: `js/conquistas.js`, `js/events-progresso.js` e `js/save.js`. A revisão complementar e suas alterações estão registradas; a avaliação de naturalidade continua sujeita a julgamento editorial.

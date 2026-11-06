@@ -813,7 +813,7 @@
       imagemAlt: "Um cofre entre os bens guardados pelo antigo senhor",
       texto:
         "Numa noite de chuva, você encontra o cofre do seu predecessor atrás de uma tapeçaria. Dentro há moedas contadas e uma carta que pede perdão a pessoas que você nunca conheceu.",
-      informacoes: "Há heranças que chegam sem pedir licença.",
+      informacoes: "A carta pede perdão a pessoas que você nunca conheceu. As moedas não apagam esse pedido.",
       opcoes: [
         {
           id: "ler",

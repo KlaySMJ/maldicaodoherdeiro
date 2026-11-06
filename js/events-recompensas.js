@@ -11,14 +11,15 @@
       imagem: "assets/forja.webp",
       imagemAlt: "Uma arma e um escudo deixados junto à forja",
       texto:
-        "Entre ferramentas esquecidas, há uma peça que ainda pode servir. O ferreiro limpa a ferrugem e espera sua decisão.",
-      informacoes: "Equipamentos recebidos melhoram seus atributos imediatamente e permanecem nesta run.",
+        "Entre as ferramentas esquecidas, o ferreiro encontra uma peça que ainda serve. Ele limpa a ferrugem e espera sua decisão.",
+      informacoes:
+        "Se aceitar, leva um equipamento que reforça seus atributos e fica com você até o fim desta jornada.",
       opcoes: [
         {
           id: "ficar",
-          texto: "Escolher um equipamento comum, raro ou épico.",
+          texto: "Levar o equipamento que ele recuperou.",
           recompensaItemGenerico: true,
-          resultado: "Você escolhe um dos objetos que ainda pode ser aproveitado.",
+          resultado: "O ferreiro entrega o objeto que conseguiu recuperar.",
         },
         {
           id: "deixar",
@@ -36,7 +37,8 @@
       imagemAlt: "Um embrulho antigo retirado de um baú",
       texto:
         "Um embrulho lacrado é encontrado sob as tábuas do salão. O selo não pertence a nenhuma família conhecida.",
-      informacoes: "O conteúdo pode ser uma dádiva, um pacto ou apenas mais um peso para carregar.",
+      informacoes:
+        "O embrulho guarda um item especial, mas seu conteúdo só aparece depois que você rompe o selo.",
       opcoes: [
         {
           id: "abrir",
