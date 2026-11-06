@@ -184,6 +184,7 @@
         opcoesSorteadas: [],
         janelaZodiaco: null,
         efeitoDivino: null,
+        pressagios: Jogo.pressagios?.vazio(),
         flags: {},
         condicao: {
           ativa: null,

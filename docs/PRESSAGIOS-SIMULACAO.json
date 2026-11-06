@@ -1,0 +1,111 @@
+{
+  "sementesCalendario": 2000,
+  "distribuicaoAnuncios": [
+    14,
+    407,
+    1444,
+    135
+  ],
+  "mediaAnuncios": 1.85,
+  "partidasReais": [
+    {
+      "herdeiro": "corajoso",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 128,
+      "anuncios": 1,
+      "sucessos": 1,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 0
+    },
+    {
+      "herdeiro": "avarento",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 198,
+      "anuncios": 2,
+      "sucessos": 1,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 1
+    },
+    {
+      "herdeiro": "doente",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 230,
+      "anuncios": 2,
+      "sucessos": 1,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 1
+    },
+    {
+      "herdeiro": "druida_herdeiro",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 90,
+      "anuncios": 1,
+      "sucessos": 0,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 1
+    },
+    {
+      "herdeiro": "menino_cronista",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 245,
+      "anuncios": 2,
+      "sucessos": 1,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 1
+    },
+    {
+      "herdeiro": "heroi_do_povo",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 212,
+      "anuncios": 1,
+      "sucessos": 1,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 0
+    },
+    {
+      "herdeiro": "herdeiro_culto",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 158,
+      "anuncios": 1,
+      "sucessos": 0,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 1
+    },
+    {
+      "herdeiro": "herdeira_leste",
+      "partidas": 3,
+      "vitorias": 1,
+      "rodadas": 470,
+      "anuncios": 3,
+      "sucessos": 3,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 0
+    },
+    {
+      "herdeiro": "herdeiro_nordico",
+      "partidas": 3,
+      "vitorias": 0,
+      "rodadas": 270,
+      "anuncios": 1,
+      "sucessos": 1,
+      "falhas": 0,
+      "cancelados": 0,
+      "interrompidos": 0
+    }
+  ]
+}

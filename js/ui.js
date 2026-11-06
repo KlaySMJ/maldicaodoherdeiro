@@ -1274,7 +1274,53 @@
     atual.addEventListener("error", concluir, { once: true });
   }
 
+  function cenaPressagio(run) {
+    const p = run.pressagios.atual,
+      item = Jogo.pressagios.porId(p.id);
+    const resultado = p.fase === "resultado";
+    const alteracoes = resultado
+      ? Object.entries(p.resultado.alteracoes)
+          .filter(([, v]) => v !== 0)
+          .map(([id, v]) => `${nomes[id] || id}: ${v > 0 ? "+" : ""}${v}`)
+          .join(" · ")
+      : "";
+    mostrar(
+      `<section class="pressagio-cena${resultado ? " pressagio-cena--resultado" : ""}" aria-labelledby="pressagio-titulo">
+      <article class="pressagio-caixa">
+        <h1 id="pressagio-titulo">${esc(item.nome)}</h1>
+        <img src="${esc(item.imagem)}?v=${encodeURIComponent(window.JOGO_VERSAO_ASSETS || "1")}" alt="Ilustração de ${esc(item.nome)} em gravura" width="800" height="800">
+        ${
+          resultado
+            ? `<p role="status">${p.resultado.sucesso ? "A preparação protegeu a vila." : "O mau presságio se cumpriu."}</p><p>${esc(p.resultado.sucesso ? item.sucesso : item.falha)}</p><p>${esc(alteracoes)}${p.resultado.nomeEfeito ? ` · ${esc(p.resultado.nomeEfeito)}` : ""}</p>`
+            : `<p>${esc(item.texto)}</p><p class="pressagio-regra">${esc(item.regra)}</p><p class="pressagio-desfechos">Se conseguir: ${esc(item.sucesso)}<br>Se falhar: ${esc(item.falha)}</p>`
+        }
+        <button id="pressagio-responder" type="button" class="botao primario" data-acao="pressagio-confirmar">${resultado ? "Voltar à vila" : "Preparar para o presságio"}</button>
+      </article>
+    </section>`,
+      "pressagio",
+    );
+    window.requestAnimationFrame(() =>
+      app.querySelector("#pressagio-responder")?.focus({ preventScroll: true }),
+    );
+  }
+  function detalhesPressagio(run) {
+    const p = run?.pressagios?.atual;
+    if (!p) return;
+    const item = Jogo.pressagios.porId(p.id);
+    mostrar(
+      `<section class="pressagio-detalhes" aria-labelledby="pressagio-detalhe-titulo"><h1 id="pressagio-detalhe-titulo">${esc(item.nome)}</h1>
+      <p>${esc(item.regra)}</p><p role="status">${esc(Jogo.pressagios.progresso(run))}</p>
+      <p>Se conseguir: ${esc(item.sucesso)}</p><p>Se falhar: ${esc(item.falha)}</p>
+      ${modoDebug() ? `<details><summary>Estado do presságio</summary><pre>${esc(JSON.stringify(run.pressagios, null, 2))}</pre></details>` : ""}
+      <button class="botao" data-acao="entrar-no-jogo">Voltar à vila</button></section>`,
+      "pressagio-detalhes",
+    );
+  }
   function jogo(run, { textoCompleto = false } = {}) {
+    if (Jogo.pressagios?.bloqueia(run) && !run.aguardaDecisaoCulto) {
+      cenaPressagio(run);
+      return;
+    }
     Jogo.engine.sincronizarItemVampirismo(run);
     const eventoDaRun = Jogo.eventoPorId(run.eventoId);
     const eventoBase = run.aguardaDecisaoCulto ? Jogo.eventoPorId("ultimo_habitante") : eventoDaRun;
@@ -1435,6 +1481,12 @@
                   <button class="controle-honra" data-acao="debug-especial-abissal" ${run.aguardaDecisaoCulto ? "disabled" : ""}>História abissal</button>
                   <button class="controle-honra" data-acao="debug-especial-zodiaco" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Zodíaco chinês</button>
                   <button class="controle-honra" data-acao="debug-especial-norte" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Deuses nórdicos</button>
+                  <details><summary class="controle-honra">Maus Presságios</summary>
+                    ${(Jogo.pressagios?.catalogo || []).map((p) => `<button class="controle-honra" data-acao="debug-pressagio" data-pressagio-id="${p.id}" ${run.aguardaDecisaoCulto || run.encontroLeste ? "disabled" : ""}>${esc(p.nome)}</button>`).join("")}
+                    <button class="controle-honra" data-acao="debug-pressagio-sucesso" ${run.pressagios?.atual?.fase !== "ativo" ? "disabled" : ""}>Simular sucesso (aplica recompensa)</button>
+                    <button class="controle-honra" data-acao="debug-pressagio-falha" ${run.pressagios?.atual?.fase !== "ativo" ? "disabled" : ""}>Simular falha (aplica penalidade)</button>
+                    <button class="controle-honra" data-acao="debug-pressagio-limpar">Limpar presságio sem recompensa</button>
+                  </details>
                   <details>
                     <summary class="controle-honra">Escolher evento nórdico</summary>
                     ${(Jogo.efeitosNordicos || [])
@@ -1462,9 +1514,11 @@
             <button class="botao botao-tutorial" data-acao="tutorial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5c2.8-1.3 5.3-.4 7 1.1v14c-1.7-1.5-4.2-2.4-7-1.1zM19 4.5c-2.8-1.3-5.3-.4-7 1.1v14c1.7-1.5 4.2-2.4 7-1.1z"/><path d="M7.5 8h2M7.5 11h2M14.5 8h2M14.5 11h2"/></svg><span>Tutorial</span></button>
             <button class="botao botao-icone" data-acao="alternar-inventario" aria-label="Abrir Inventário" title="Inventário" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg></button>
             <button class="botao botao-icone" data-acao="alternar-progresso" aria-label="Ver Progresso da crônica" title="Progresso" aria-controls="painel-progresso" aria-expanded="${run.historicoCronicaAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19.5h16M5 16l4-4 3 2 6-7"/><path d="M14.5 7H18v3.5"/></svg></button>
+            ${run.pressagios?.atual ? `<button type="button" class="botao botao-icone pressagio-indicador" data-acao="pressagio-detalhes" aria-label="Mau presságio: ${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}. Ver condição e prazo" title="${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}"><span aria-hidden="true">☾</span><small>${Math.max(0, run.pressagios.atual.fim - run.rodada)}</small></button>` : ""}
           </nav>
         </div>
         ${statusDruida}
+        ${run.pressagios?.efeito ? `<p class="efeito-divino-status" role="status">Presságio: ${esc(run.pressagios.efeito.nome)} · ${Math.max(0, run.pressagios.efeito.fim - run.rodada)} rodadas · ${esc(efeitoDivinoHover(run.pressagios.efeito))}</p>` : ""}
         ${run.passivaNordica ? `<p class="efeito-divino-status" role="status">Passiva do dia: ${esc(run.passivaNordica.nome)} · ${esc(efeitoDivinoHover(run.passivaNordica))}</p>` : ""}
         ${run.encontroLeste ? `<p role="status">Visita do zodíaco: este encontro não passa o dia.</p>` : ""}
         ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status" tabindex="0" aria-describedby="descricao-efeito-divino" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 14.8 8.5 22 9l-5.5 4.8 1.7 7.2-6.2-3.8-6.2 3.8 1.7-7.2L2 9l7.2-.5L12 2Z"/></svg> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"}<span id="descricao-efeito-divino" class="leitor-de-tela">${esc(efeitoDivinoHover(run.efeitoDivino))}</span></p>` : ""}
@@ -1682,6 +1736,7 @@
   if (window.visualViewport) window.visualViewport.addEventListener("resize", redimensionarTela);
 
   Jogo.ui = {
+    detalhesPressagio,
     modoDebug,
     menu,
     alternarDebug,

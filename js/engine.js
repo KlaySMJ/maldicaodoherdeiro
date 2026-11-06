@@ -450,6 +450,8 @@
     }
     const recorrenteCondicao = eventoCondicaoDevido(run);
     if (recorrenteCondicao) return recorrenteCondicao;
+    const auxilioPressagio = Jogo.pressagios?.eventoAuxilio(run);
+    if (auxilioPressagio) return auxilioPressagio;
     if (run.nemesis && !run.nemesis.enfrentado && run.rodada >= 5) {
       const inimigo = Jogo.eventos.find((evento) => evento.nemesis);
       if (inimigo) return inimigo;
@@ -457,6 +459,7 @@
     let candidatos = pools(run).eventos.filter(
       (evento) =>
         eventoDisponivel(evento, run, aleatorio) &&
+        (!Jogo.pressagios || Jogo.pressagios.eventoCompativel(run, evento)) &&
         cumpre(evento.requisitos, run) &&
         !(evento.conselheiro && (run.conselhosRecentes || []).includes(evento.id)) &&
         // O sorteio roda antes de registrar a nova carta. Ignore os IDs da carta anterior.
@@ -1346,6 +1349,7 @@
     const contexto = prepararResolucaoOpcao(run, evento, opcao, gasto);
     aplicarEfeitosBase(contexto);
     aplicarEfeitosEspeciais(contexto);
+    Jogo.pressagios?.registrarDecisao(contexto);
     calcularEconomia(contexto);
     const resolvida = verificarEncerramento(contexto);
     if (resolvida) registrarEscolhaNaCronica(run, evento, opcao);
@@ -1354,6 +1358,7 @@
 
   function escolher(run, opcaoId) {
     if (run?.status !== "ativa") return false;
+    if (Jogo.pressagios?.bloqueia(run)) return false;
     if (run.aguardaDecisaoCulto && run.fase === "resultado") {
       if (opcaoId === "juntar") return juntarCulto(run);
       if (opcaoId === "encerrar") return encerrarSemCulto(run);
@@ -1366,6 +1371,7 @@
   }
 
   function comprar(run, mercadoriaId) {
+    if (Jogo.pressagios?.bloqueia(run)) return false;
     if (run.status !== "ativa" || run.fase !== "escolha") return false;
     const evento = Jogo.eventoPorId(run.eventoId);
     const mercadoria = evento?.mercadorias?.find((item) => item.id === mercadoriaId);
@@ -1591,6 +1597,7 @@
   }
 
   function podeUsarItem(run, itemId, alvoSacrificio = null) {
+    if (Jogo.pressagios?.bloqueia(run)) return false;
     if (run?.status !== "ativa" || !["escolha", "resultado"].includes(run.fase)) return false;
     const item = Jogo.itens.find((item) => item.id === itemId);
     if (!item?.uso || !run?.inventario?.includes(itemId)) return false;
@@ -1927,12 +1934,14 @@
 
   function avancar(run) {
     if (run.status !== "ativa" || run.fase !== "resultado") return false;
+    if (Jogo.pressagios?.bloqueia(run)) return false;
     run.avisosConquistas = [];
     const visitaPendente = !run.encontroLeste && !run.aguardaDecisaoCulto && Jogo.herdeiros.visitaDevida(run);
     if (visitaPendente) {
       run.encontroLeste = {
         eventoId: run.eventoId,
         opcoesSorteadas: [...run.opcoesSorteadas],
+        ultimoResultado: run.ultimoResultado,
         resultadoConcluido: true,
       };
       registrarSorteio(run, Jogo.eventoPorId(visitaPendente.eventoId));
@@ -1948,10 +1957,18 @@
       run.ofertaMercador = suspenso.ofertaMercador ?? null;
       run.recompensasBau = suspenso.recompensasBau ?? null;
       run.fase = suspenso.resultadoConcluido ? "resultado" : "escolha";
-      run.ultimoResultado = null;
+      run.ultimoResultado = suspenso.resultadoConcluido
+        ? suspenso.ultimoResultado || {
+            escolha: "A visita termina.",
+            texto: "A vila retoma seus afazeres.",
+            combate: null,
+            alteracoes: Object.fromEntries(Jogo.atributos.map((id) => [id, 0])),
+          }
+        : null;
       if (suspenso.resultadoConcluido) return avancar(run);
       return true;
     }
+    if (Jogo.pressagios?.passagem(run)) return true;
     if (run.rodada >= Jogo.config.rodadasVitoria) {
       encerrar(run, ...finalDeVitoria(run));
       return true;
@@ -1977,6 +1994,7 @@
     }
     if (run.efeitosPreparados.escudoFeCooldown > 0) run.efeitosPreparados.escudoFeCooldown -= 1;
     aplicarRodadaEfeitoDivino(run);
+    Jogo.pressagios?.iniciarRodada(run);
     if (run.flags.entidade_x_pacto) aplicarEfeitos(run, { hp: -1 });
     if (
       !run.cultoAtivo &&
@@ -2114,6 +2132,8 @@
 
   function registrarSorteio(run, evento) {
     if (!run || !evento) return false;
+    if (evento.id === "pressagio_preparativos" && run.pressagios?.atual)
+      run.pressagios.atual.ultimaAuxilio = run.rodada;
     run.eventoId = evento.id;
     if (evento.id === "colheita") run.marcos.colheitaUltimaRodada = run.rodada;
     if (evento.id === "cura_critica") run.flags.cura_critica_oferecida = true;
@@ -2201,7 +2221,29 @@
     return true;
   }
 
+  function avaliarConsequenciaPressagio(run) {
+    if (
+      !run.cultoAtivo &&
+      run.atributos.hp > 0 &&
+      run.atributos.habitantes <= 0 &&
+      run.atributos.honra <= -30
+    ) {
+      aguardarDecisaoCulto(run);
+      run.fase = "resultado";
+      run.ultimoResultado ||= {
+        escolha: "O presságio se cumpre.",
+        texto: "A última casa ficou vazia.",
+        combate: null,
+        alteracoes: Object.fromEntries(Jogo.atributos.map((id) => [id, 0])),
+      };
+      return;
+    }
+    const motivo = motivoDerrota(run);
+    if (motivo) encerrar(run, "derrota", motivo);
+  }
+
   Jogo.engine = {
+    avaliarConsequenciaPressagio,
     iniciarPassivaNordica,
     aplicarEfeitos,
     cumpre,

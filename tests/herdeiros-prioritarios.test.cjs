@@ -347,6 +347,11 @@ test("o Leste completa 300 dias com seis encontros extras e pode carregar em cad
     });
     let escolhas = 0;
     while (run.status === "ativa" && escolhas < 310) {
+      while (J.pressagios.bloqueia(run)) {
+        const resposta = J.pressagios.confirmar(run);
+        if (resposta.retomar) J.engine.avancar(run);
+      }
+      if (run.status !== "ativa") break;
       if (!run.encontroLeste) J.engine.registrarSorteio(run, J.eventoPorId("dia_tranquilo_teste"));
       J.save.gravarRun(run);
       run = J.save.lerRun();

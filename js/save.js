@@ -119,6 +119,7 @@
     if (!["ativa", "encerrada"].includes(run.status) || !["escolha", "resultado"].includes(run.fase))
       return false;
     if (!Jogo.herdeiros.camposValidos(run)) return false;
+    if (Jogo.pressagios && !Jogo.pressagios.camposValidos(run)) return false;
     if (!inteiro(run.rodada) || run.rodada < 1 || !objeto(run.atributos)) return false;
     if (
       !TRACOS_VALIDOS.includes(run.traco) ||
@@ -587,6 +588,7 @@
 
   function migrarRun(dados) {
     if (!objeto(dados)) return;
+    if (!Object.hasOwn(dados, "pressagios") && Jogo.pressagios) dados.pressagios = Jogo.pressagios.vazio();
     if (!Object.hasOwn(dados, "calendarioLeste")) dados.calendarioLeste = [];
     if (!Object.hasOwn(dados, "encontroLeste")) dados.encontroLeste = null;
     if (!Object.hasOwn(dados, "passivaNordica")) dados.passivaNordica = null;

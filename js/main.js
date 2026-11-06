@@ -75,7 +75,63 @@
   }
 
   async function acionar(acao, botao = null) {
+    if (
+      Jogo.pressagios?.bloqueia(run) &&
+      ![
+        "pressagio-confirmar",
+        "debug-pressagio-limpar",
+        "menu",
+        "carregar",
+        "juntar-culto",
+        "encerrar-culto",
+      ].includes(acao)
+    )
+      return;
     switch (acao) {
+      case "pressagio-confirmar": {
+        const resposta = Jogo.pressagios.confirmar(run);
+        if (!resposta) break;
+        if (resposta.retomar) Jogo.engine.avancar(run);
+        if (run.status === "encerrada") mostrarFim();
+        else {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        }
+        break;
+      }
+      case "debug-pressagio": {
+        if (!Jogo.ui.modoDebug()) break;
+        if (Jogo.pressagios.anunciar(run, botao.dataset.pressagioId, true)) {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        } else
+          window.dispatchEvent(
+            new CustomEvent("jogo:aviso", {
+              detail:
+                "Conclua ou limpe o presságio atual antes de abrir outro. Visitas extras e decisões de culto também precisam terminar.",
+            }),
+          );
+        break;
+      }
+      case "debug-pressagio-sucesso":
+      case "debug-pressagio-falha":
+        if (Jogo.ui.modoDebug() && Jogo.pressagios.resolver(run, acao.endsWith("sucesso"))) {
+          if (run.status === "encerrada") mostrarFim();
+          else {
+            Jogo.save.gravarRun(run);
+            mostrarJogo();
+          }
+        }
+        break;
+      case "debug-pressagio-limpar":
+        if (Jogo.ui.modoDebug() && Jogo.pressagios.limpar(run)) {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        }
+        break;
+      case "pressagio-detalhes":
+        Jogo.ui.detalhesPressagio(run);
+        break;
       case "debug-alternar":
         Jogo.ui.alternarDebug();
         Jogo.ui.menu(run);

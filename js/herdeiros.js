@@ -58,7 +58,7 @@
     return run.calendarioLeste?.find((visita) => !visita.resolvida && visita.rodada <= run.rodada);
   }
   function efeitos(run) {
-    return [run.efeitoDivino, run.passivaNordica].filter(Boolean);
+    return [run.efeitoDivino, run.passivaNordica, run.pressagios?.efeito].filter(Boolean);
   }
   function valorEfeito(run, campo) {
     return efeitos(run).reduce((soma, efeito) => soma + (efeito[campo] || 0), 0);

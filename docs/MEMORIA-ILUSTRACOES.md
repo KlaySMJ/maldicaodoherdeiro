@@ -8,6 +8,7 @@ Consulte este arquivo antes de qualquer geração, edição ou avaliação de ar
 - Gravura medieval em nanquim: contornos feitos à mão e de espessuras variadas, hachuras para volume e rostos expressivos, com caricatura sutil. Evitar realismo fotográfico, anime, cartoon infantil, pixel art e 3D.
 - Paleta de preto e marfim envelhecido, com detalhes pequenos em dourado envelhecido quando fizer sentido. Evitar branco puro e grandes áreas frias; não adicionar cores vibrantes sem pedido.
 - Maus Presságios têm uma exceção de paleta aprovada pelo usuário: suas artes podem destoar das demais cartas e usar vermelho para demonstrar perigo. O vermelho pode ocupar áreas maiores, além de pequenos detalhes; a tonalidade da vila não limita esse conjunto. Preservar o traço de gravura medieval e a atmosfera sombria.
+- A Nuvem Faminta usa cinza médio nos gafanhotos, distinguindo os insetos do fundo preto, com marfim nas plantações. O usuário rejeitou as versões vermelha e verde e pediu uma nova composição com os gafanhotos; evitar o inseto gigante e formas decorativas de nuvem. Os corvos também não devem usar vermelho: seguir a paleta e o acabamento da carta de Odin em `assets/eventos-especiais/norte-odin.webp`, sem lua ou disco atrás das aves, e manter o telhado no preto e marfim das demais cartas. Essas duas exceções prevalecem sobre a direção geral de vermelho dos presságios.
 - Ao editar uma personagem existente, use a própria arte como referência de identidade. Preserve rosto, idade, cabelo, expressão e silhueta; enriqueça roupa, materiais, acessórios e hachuras sem trocar sua aparência.
 - A arte deve manter fundo transparente quando o formato e o uso permitirem. O fundo preto pertence à interface; não desenhe uma placa ou moldura na ilustração.
 - Artes de cartas de evento podem ser convertidas para WebP com qualidade 90 e máximo de 800 px no maior lado, preservando proporções, transparência e cor. Essa mudança é apenas de formato; não redesenhar nem alterar a tonalidade. Manter PNGs compartilhados com usos fora das cartas e os retratos de herdeiro requeridos pelo caminho dinâmico da interface.
@@ -27,6 +28,10 @@ Consulte este arquivo antes de qualquer geração, edição ou avaliação de ar
 Algumas artes PNG de evento têm correção de cor na exibição por meio da classe `imagem-evento--tom-vila`, listada em `js/ui.js` e definida em `index.html`. Use-a quando uma nova arte ficar mais branca ou fria que `assets/vila.png`; não aplique a correção às imagens que já estiverem na tonalidade de referência.
 
 ## Decisões já definidas
+
+- A Sombra Coroada mantém a figura junto à cadeira e o manto vermelho, sem lua nem nuvens ao fundo. O chão usa marfim com hachuras pretas. Preservar a iluminação e os detalhes da figura; o pedido de remoção se refere à lua.
+
+- A Noite do Lamento mostra apenas a porta e seu batente, sem pessoas. Substituir qualquer símbolo por uma mancha de sangue maior sobre a madeira; não usar ícones modernos nem inscrições.
 
 - Freyr segue a nova referência enviada pelo usuário: rosto anguloso, cabelo comprido solto, barba longa com duas tranças, coroa de folhas, torso à mostra e manto. O corpo deve ser um pouco mais esguio, com ombros e braços menos volumosos. Não desenhar espigas, feixes de grãos ou bastão. Adaptar para busto no traço e na paleta de Thor, sem o javali, a moldura vegetal, o disco solar, o cenário ou as inscrições da referência. Esta decisão substitui a versão anterior de barba curta e túnica com espigas.
 

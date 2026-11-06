@@ -1,0 +1,28 @@
+[
+  {
+    "viewport": "1440x1000",
+    "artes": 10,
+    "anuncios": 10,
+    "recargas": true,
+    "debug": true,
+    "indicador": true,
+    "teclado": true,
+    "semOverflow": true,
+    "movimentoReduzido": true,
+    "imagemAusente": true,
+    "errosJavaScript": []
+  },
+  {
+    "viewport": "390x844 toque",
+    "artes": 10,
+    "anuncios": 10,
+    "recargas": true,
+    "debug": true,
+    "indicador": true,
+    "teclado": true,
+    "semOverflow": true,
+    "movimentoReduzido": true,
+    "imagemAusente": true,
+    "errosJavaScript": []
+  }
+]

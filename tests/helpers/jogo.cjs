@@ -83,6 +83,7 @@ function preparar() {
     "conquistas",
     "druida",
     "engine",
+    "pressagios",
     "save",
     "ui",
   ])

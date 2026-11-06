@@ -2,7 +2,7 @@
 
 Data: 6 de novembro de 2026.
 
-Estado: proposta de produto; implementação pendente. As regras marcadas como confirmadas vêm das decisões do usuário. Valores sugeridos servem ao primeiro teste de balanceamento.
+Estado: implementado em 6 de novembro de 2026. As regras marcadas como aprovadas vêm das decisões do usuário. Ao executar o PRD, adotamos os valores iniciais de frequência, Lua Vermelha e Barão para permitir o primeiro teste jogável; isso não equivale a uma aprovação final de balanceamento.
 
 ## Objetivo
 
@@ -15,7 +15,7 @@ O jogador precisa entender o risco antes de voltar à vila. Cumprir a preparaç�
 | Assunto | Regra |
 | --- | --- |
 | Nome do conjunto | Maus Presságios; cada ocorrência é um mau presságio. |
-| Quantidade | Dez eventos: os oito iniciais e dois novos para caminhos morais diferentes. Parte das regras ainda depende de definição. |
+| Quantidade | Dez eventos: os oito iniciais e dois novos para caminhos morais diferentes. |
 | Anúncio | Cena própria, com escurecimento da tela e animação especial. |
 | Conteúdo da cena | Uma caixa com nome, descrição, imagem e uma única resposta: “Preparar para o presságio”. |
 | Passagem do tempo | Abrir a cena e responder não avançam a rodada. |
@@ -23,7 +23,7 @@ O jogador precisa entender o risco antes de voltar à vila. Cumprir a preparaç�
 | Desfecho favorável | Evitar a penalidade também concede uma recompensa pequena. |
 | Duração | Varia entre presságios; alguns podem durar até um ano. |
 | Simultaneidade | Apenas um ativo por vez. |
-| Frequência | Rara; o intervalo e a chance exatos ainda precisam de teste. |
+| Frequência | 2% por rodada elegível, intervalo de 50 rodadas após o desfecho e limite de três anúncios naturais. Valores iniciais para teste. |
 | Debug | Permite testar os dez eventos diretamente. |
 | Lua Vermelha | Usa a queda de Vida em relação à Vida inicial do presságio, em vez de somar todas as perdas. |
 | Verificação da Lua Vermelha | Apenas no fim do prazo. Curar antes do vencimento pode evitar a penalidade. |
@@ -36,9 +36,9 @@ O calendário atual define quatro estações de 25 rodadas, totalizando 100 roda
 
 “Um ano para se preparar” significa 100 rodadas reais. Cenas extras, incluindo encontros da Herdeira do Leste, não encurtam esse prazo. Segundos de animação, tempo com a página fechada e cliques no inventário também não contam.
 
-### Valores sugeridos para o primeiro teste
+### Valores utilizados no primeiro teste
 
-| Parâmetro | Proposta inicial, ainda sem aprovação |
+| Parâmetro | Implementação inicial |
 | --- | --- |
 | Primeira oportunidade | Depois de concluir a rodada 25. |
 | Chance | 2% por rodada elegível, com uma tentativa por rodada. |
@@ -55,7 +55,7 @@ Não sortear durante outro presságio, uma cena de anúncio ou um desfecho pende
 
 ## Entrada, anúncio e retorno
 
-O ponto sugerido de entrada é depois de concluir todos os acontecimentos da rodada, antes de avançar para a seguinte. O aviso fica fora do sorteio normal de cartas e não ocupa o lugar de um evento diário.
+O ponto de entrada é depois de concluir todos os acontecimentos da rodada, antes de avançar para a seguinte. O aviso fica fora do sorteio normal de cartas e não ocupa o lugar de um evento diário.
 
 1. O jogador conclui a decisão da rodada e pede para continuar.
 2. Se a rodada permitir um anúncio e o sorteio selecionar um presságio, o jogo salva a ocorrência e escurece a tela.
@@ -69,13 +69,13 @@ O anúncio não concede renda, cura, visita extra, efeito periódico ou novo sor
 
 ### Apresentação
 
-Proposta de duração: cerca de um segundo para escurecer e revelar a cena. Durante a troca, bloquear ações duplicadas; a cena precisa aparecer mesmo se a imagem falhar ou a animação não disparar seu evento de término.
+Duração implementada: cerca de um segundo para escurecer e revelar a cena. A troca bloqueia ações duplicadas; a cena aparece mesmo se a imagem falhar ou a animação não disparar seu evento de término.
 
-Respeitar a preferência por movimento reduzido com uma troca breve de opacidade. O foco vai para a caixa e depois para a resposta; teclado e toque devem permitir confirmar. A versão de celular mantém a resposta acessível sem cortar a descrição.
+A preferência por movimento reduzido desativa a animação e o escurecimento. O foco vai para a resposta, dentro da caixa identificada pelo título; teclado e toque permitem confirmar. A versão de celular permite rolar o conteúdo sem cortar a descrição ou a resposta.
 
 Por decisão do usuário, as artes dos Maus Presságios podem destoar das demais cartas e usar vermelho para demonstrar perigo. O vermelho pode ocupar áreas maiores da composição; a paleta de marfim da vila não limita esse conjunto. Manter o traço de gravura medieval, a atmosfera sombria e a ausência de moldura desenhada, conforme a exceção registrada em `MEMORIA-ILUSTRACOES.md`.
 
-Entregar WebP em qualidade 90, com maior lado de 800 px, preservando proporções e transparência. Este PRD não inclui geração de imagens.
+As dez artes foram produzidas durante a execução, com as revisões pedidas pelo usuário. Os WebPs usam qualidade 90, maior lado de 800 px, proporções preservadas e transparência. Gafanhotos usam cinza; os corvos seguem Odin, sem lua e sem vermelho. A Noite do Lamento mostra só a porta com uma mancha grande de sangue. A Sombra Coroada mantém a cadeira, o manto e a figura, sem lua e com chão marfim. Referências e prompts estão em [ARTES-MAUS-PRESSAGIOS.md](ARTES-MAUS-PRESSAGIOS.md).
 
 ## Acompanhamento e resolução
 
@@ -87,9 +87,9 @@ Uma rodada monitorada inclui suas decisões e encontros extras antes de encerrar
 
 Ao resolver, mostrar a causa e a alteração de recursos. Aplicar a penalidade ou a recompensa uma vez, registrar o resultado e liberar o espaço para um futuro presságio, respeitando o intervalo. A proposta é usar um aviso de resultado com uma confirmação, sem consumir rodada; a animação especial completa fica reservada ao anúncio.
 
-### Exemplo em definição: A Lua Vermelha
+### A Lua Vermelha: valores do primeiro teste
 
-O usuário propôs uma ameaça ligada à perda de 40 de Vida, com penalidade de 20 habitantes. Esses valores permanecem como referência para discussão, sem aprovação de balanceamento. Prazo sugerido para o primeiro teste: 25 rodadas.
+O usuário propôs uma ameaça ligada à perda de 40 de Vida, com penalidade de 20 habitantes. A implementação inicial usa esses valores, prazo de 25 rodadas e recompensa de 2 Gold; o balanceamento permanece sujeito ao teste jogável.
 
 Guardar `vidaReferencia` no anúncio. A queda em uma verificação é `max(0, vidaReferencia - vidaAtual)`. Não somar danos de momentos diferentes. A referência permanece fixa até o desfecho, inclusive se a Vida máxima mudar; essa interação precisa de teste antes de aprovar a regra final.
 
@@ -104,22 +104,22 @@ Conferir a queda apenas no fim do prazo, conforme decisão do usuário. Atingir 
 
 Cair a 75 e recuperar até 110 antes do fim evita a falha. A descrição precisa deixar claro que a verificação acontece ao término do prazo.
 
-Recompensa sugerida para evitar a Lua Vermelha: +2 Gold. O valor ainda precisa de aprovação. O botão do anúncio não cobra Gold nem compra proteção.
+Recompensa inicial para evitar a Lua Vermelha: +2 Gold. O botão do anúncio não cobra Gold nem compra proteção.
 
 ## Definição dos dez eventos
 
-As posições 2 a 7, 9 e 10 têm suas regras aprovadas pelo usuário. A Lua Vermelha mantém as decisões já registradas, com valores finais pendentes. A posição 8 recebe uma nova narrativa ligada ao Barão, a pedido do usuário, e segue em análise. As sugestões apresentadas na conversa só entram como aprovadas após a decisão do usuário.
+As posições 2 a 7, 9 e 10 têm suas regras aprovadas pelo usuário. A Lua Vermelha e a Vinda do Barão usam os valores iniciais descritos abaixo, adotados na execução. Os números podem mudar após o teste; esta implementação não os registra como novas aprovações do usuário.
 
 | Posição | Nome | Situação |
 | --- | --- | --- |
-| 1 | A Lua Vermelha | Verificação final e cura confirmadas; prazo e valores finais pendentes. |
+| 1 | A Lua Vermelha | Verificação final e cura confirmadas; implementação inicial de 25 rodadas, queda de 40 de Vida, falha de 20 habitantes e sucesso de 2 Gold. |
 | 2 | O Cometa de Cinzas | Aprovado: 50 rodadas; reserva final de 30 Gold; falha causa −20 de Vida e −10 habitantes; sucesso recupera 5 de Vida. |
 | 3 | A Nuvem Faminta | Aprovado: praga de gafanhotos; investir 15 Gold em auxílio à vila durante 50 rodadas; falha causa −15 habitantes e −10 de Vida; sucesso concede 5 habitantes. |
 | 4 | A Ferrugem Negra | Aprovado: 50 rodadas; aumentar o Escudo inicial em 50%, com aumento mínimo de 2; falha retira 40% da Vida no vencimento, preservando 1 de Vida; sucesso concede 20% do Escudo final como ganho permanente. |
 | 5 | Os corvos | Aprovado: ganhar 50 de Honra por decisões em 50 rodadas; sucesso concede o Olhar de Odin por 20 rodadas; falha aplica uma maldição nórdica aleatória por 10. |
 | 6 | A Noite do Lamento | Aprovado: 100 rodadas; terminar com 20 habitantes a mais do que no anúncio; falha causa −20 habitantes; sucesso concede 10 habitantes adicionais. |
 | 7 | A Procissão sem Rostos | Aprovado: realizar 12 escolhas de auxílio em 50 rodadas; falha causa −20 de Vida e −5 habitantes; sucesso concede permanentemente 10 de Vida máxima e recupera 10 de Vida. |
-| 8 | A Vinda do Barão | Nova narrativa em análise, substituindo O Cofre que Respira; manter a proposta de ganhar 40 Gold por decisões em 50 rodadas; falha retira metade do Gold disponível e 10 de Vida; sucesso concede 10 Gold. |
+| 8 | A Vinda do Barão | Implementação inicial, substituindo O Cofre que Respira: ganhar 40 Gold por decisões em 50 rodadas; falha retira metade do Gold disponível e 10 de Vida; sucesso concede 10 Gold. |
 | 9 | A Sombra Coroada | Aprovado: para partidas ruins; evitar decisões que concedam Honra durante 25 rodadas; sucesso concede 15% de Ataque; falha retira 20% de Ataque. |
 | 10 | A Testemunha de Pedra | Aprovado: para partidas boas; evitar decisões que retirem Honra durante 25 rodadas; sucesso concede 15% de Escudo; falha retira 20% de Escudo. |
 
@@ -129,7 +129,7 @@ Uma estrela deixa um rastro sobre a vila. Todas as manhãs, cinzas cobrem os tel
 
 O prazo é de 50 rodadas. Verificar o saldo de Gold apenas no vencimento: 30 ou mais evita a penalidade e recupera 5 de Vida, respeitando a Vida máxima; menos de 30 causa a perda conjunta de 20 de Vida e 10 habitantes. Aplicar as proteções habituais da partida, conforme a regra geral de consequências deste PRD.
 
-A condição exige uma reserva, sem descontar os 30 Gold. O jogador pode gastar e recompor o saldo durante o prazo. A falha representa a falta de cuidados para os moradores e o adoecimento do herdeiro ao tentar ajudá-los sem recursos suficientes. A interação com o culto permanece pendente, conforme a seção de decisões em aberto.
+A condição exige uma reserva, sem descontar os 30 Gold. O jogador pode gastar e recompor o saldo durante o prazo. A falha representa a falta de cuidados para os moradores e o adoecimento do herdeiro ao tentar ajudá-los sem recursos suficientes. No culto, os efeitos de Vida permanecem e habitantes não se transformam em seguidores.
 
 ### Aprovado: A Nuvem Faminta
 
@@ -139,7 +139,7 @@ O presságio anuncia uma praga de gafanhotos. Durante 50 rodadas, o jogador prec
 
 Verificar o total investido apenas no vencimento. Se atingir 15 Gold, evitar as perdas e conceder 5 habitantes; se não atingir, aplicar a perda conjunta de 15 habitantes e 10 de Vida, respeitando as proteções habituais. Mostrar o progresso no indicador, como 9/15 Gold, sem cobrar outra vez os gastos já feitos.
 
-A implementação precisa identificar as escolhas elegíveis e garantir oportunidades suficientes durante o prazo. A definição dessas oportunidades e a interação com o culto permanecem pendentes. Esta proposta substitui Os Sinos Enterrados e a versão anterior de A Fome sob a Terra.
+A implementação identifica as escolhas elegíveis no conjunto `auxilios` de `js/pressagios.js`. A carta Proteção dos moradores oferece auxílio a cada três rodadas, enquanto a meta não estiver completa, com prioridade abaixo das consequências agendadas e condições obrigatórias. Esta proposta substitui Os Sinos Enterrados e a versão anterior de A Fome sob a Terra.
 
 ### Aprovado: A Ferrugem Negra
 
@@ -163,13 +163,13 @@ Meta aprovada: somar 50 pontos de Honra provenientes de decisões ao longo de 50
 
 #### Referência para a meta de Honra
 
-Levantamento de 6 de novembro de 2026 com o catálogo carregado pelo helper `tests/helpers/jogo.cjs`: 384 eventos, com 1.100 opções de escolha, incluindo os conjuntos `poolOpcoes`. Dessas opções, 547 apresentam `efeitos.honra` positivo, com média de aproximadamente 2,19 pontos entre as escolhas positivas. Os valores mais comuns são +1 e +2, que aparecem em 386 dessas 547 opções.
+Levantamento de 6 de novembro de 2026, anterior à inclusão da carta de auxílio, com o catálogo carregado pelo helper `tests/helpers/jogo.cjs`: 384 eventos, com 1.100 opções de escolha, incluindo os conjuntos `poolOpcoes`. Dessas opções, 547 apresentam `efeitos.honra` positivo, com média de aproximadamente 2,19 pontos entre as escolhas positivas. Os valores mais comuns são +1 e +2, que aparecem em 386 dessas 547 opções.
 
 Com essa média, 50 pontos equivalem a cerca de 23 escolhas positivas em 50 rodadas. Essa conta é uma referência de esforço; não representa a média de Honra de partidas reais e não considera todos os custos, testes de sorte ou consequências das decisões.
 
 Como conferência adicional, o levantamento avaliou o potencial das cartas comuns elegíveis nas rodadas 26 a 75, ponderadas pelos pesos da engine. Em cenários de Honra inicial −30, 0 e +30, com 70 habitantes e saldos fixos de 5, 15 ou 30 Gold, escolher sempre o maior ganho direto disponível resultou em potencial estimado entre 98 e 103 pontos em 50 rodadas. Esse cálculo mantém os atributos dos cenários fixos e exclui cartas especiais e letais; não simula uma partida completa, a memória das cartas nem o avanço das cadeias.
 
-A meta aprovada de 50 usa aproximadamente metade desse potencial estimado, deixando espaço para decisões de sobrevivência. Ainda exige simulação de partidas e teste com os herdeiros antes da implementação.
+A meta aprovada de 50 usa aproximadamente metade desse potencial estimado, deixando espaço para decisões de sobrevivência. As simulações da execução constam ao fim deste documento; elas não substituem o teste jogável de balanceamento.
 
 #### Desfechos aprovados
 
@@ -177,7 +177,7 @@ No sucesso, conceder o Olhar de Odin durante 20 rodadas: revelar o valor de Honr
 
 Na falha, sortear uma das dez maldições nórdicas do catálogo, usando seu efeito básico durante 10 rodadas. O sorteio e a aplicação acontecem uma vez no desfecho; carregar o save não troca a maldição. Essa consequência substitui a perda de 10 habitantes da proposta anterior.
 
-A convivência desses efeitos com uma bênção ou maldição de carta já ativa ainda precisa de regra explícita. A sugestão é preservar o efeito anterior e manter o do presságio com prazo próprio, respeitando as proteções e evitando duplicar efeitos que não acumulam. Os desfechos não abrem outra carta nórdica nem consomem rodada adicional.
+O efeito do presságio ocupa uma fonte própria, com prazo independente, sem substituir a bênção ou maldição da carta nem a passiva diária do Herdeiro Nórdico. Redução de cura usa presença do efeito e não acumula a mesma restrição duas vezes. Manutenção, efeitos periódicos e expiração executam uma vez por rodada real. Os desfechos não abrem outra carta nórdica nem consomem rodada adicional.
 
 ### Aprovado: A Noite do Lamento
 
@@ -189,7 +189,7 @@ Guardar o número de habitantes no anúncio. Ao fim de 100 rodadas, exigir pelo 
 
 Na falha, aplicar a perda de 20 habitantes, respeitando as proteções habituais. No sucesso, conceder 10 habitantes adicionais após verificar a meta. Tanto a meta quanto os desfechos usam valores fixos, conforme a preferência do usuário por simplificar a contagem.
 
-Esta versão substitui O Exército sem Pegadas e as propostas intermediárias A Névoa dos Ausentes e As Casas Marcadas. A interação com o culto ainda depende da regra geral de população desse sistema.
+Esta versão substitui O Exército sem Pegadas e as propostas intermediárias A Névoa dos Ausentes e As Casas Marcadas. O culto não recebe esse presságio no sorteio natural; uma conversão durante o acompanhamento cancela a ocorrência, registra o histórico e começa o intervalo, sem prêmio nem penalidade.
 
 ### Aprovado: A Procissão sem Rostos
 
@@ -203,17 +203,17 @@ No vencimento, verificar o total. Se houver menos de 12 auxílios, aplicar a per
 
 A implementação precisa marcar as escolhas elegíveis e garantir oportunidades suficientes durante o prazo. A contagem pode compartilhar a identificação dos auxílios com A Nuvem Faminta, mas cada condição mantém sua unidade: decisões para a Procissão e Gold efetivamente gasto para a Nuvem.
 
-### Em análise: A Vinda do Barão
+### Implementação inicial: A Vinda do Barão
 
 Um mensageiro de estandarte cinzento entrega uma carta selada. O barão virá à vila, e os soldados que o acompanham já recolhem provisões nas aldeias do caminho.
 
 O usuário pediu uma narrativa relacionada ao Barão no lugar do cofre. A referência vem dos eventos existentes `barao` (O cobrador do barão, em `js/events.js`) e `volta_do_barao` (A volta do barão, em `js/events-vila.js`), que usam estandartes cinzentos e cobranças de tributo.
 
-Manter, para avaliação, a preparação econômica da proposta anterior: conquistar 40 Gold por decisões durante 50 rodadas. Contar ganhos efetivos de negociações e recompensas das escolhas após o anúncio, sem incluir renda automática. O jogador pode gastar os ganhos depois; a condição acompanha o total conquistado, não o saldo final. O texto final da condição precisa deixar essa diferença clara, sem anunciar uma cobrança automática de 40 Gold.
+A preparação econômica usa a proposta anterior: conquistar 40 Gold por decisões durante 50 rodadas. Contar ganhos efetivos de negociações e recompensas das escolhas após o anúncio, sem incluir renda automática. O jogador pode gastar os ganhos depois; a condição acompanha o total conquistado, não o saldo final. O texto da condição explica essa diferença, sem anunciar uma cobrança automática de 40 Gold.
 
-Na falha, o séquito saqueia metade do Gold disponível, arredondando a perda para cima, e causa 10 de dano ao herdeiro. No sucesso, comerciantes voltam a negociar com a vila após a passagem dos soldados, concedendo 10 Gold. Nome, narrativa e desfechos continuam em avaliação.
+Na falha, o séquito saqueia metade do Gold disponível, arredondando a perda para cima, e causa 10 de dano ao herdeiro. No sucesso, comerciantes voltam a negociar com a vila após a passagem dos soldados, concedendo 10 Gold. Os valores iniciais seguem para avaliação no teste jogável.
 
-Definir a ligação com as cartas atuais do Barão antes de implementar. Evitar que outra visita dele contradiga o anúncio ou repita a mesma cobrança durante o acompanhamento. Este presságio ainda não agenda uma batalha nem altera as cartas existentes.
+Durante esse presságio, as cartas `barao` e `volta_do_barao` saem temporariamente dos candidatos do sorteio comum. Após a resolução, voltam a obedecer às condições normais. O presságio não agenda batalha ou cobrança adicional.
 
 ### Aprovado: A Sombra Coroada
 
@@ -239,13 +239,13 @@ No sucesso, aumentar permanentemente o Escudo em 15% do valor existente no venci
 
 A proposta é avaliar a Honra associada à decisão e aos seus desfechos, sem contar renda, passivas ou outros efeitos automáticos. A preparação exige evitar a direção proibida; não obriga a ganhar Honra no caminho bom ou perder Honra no caminho ruim. Decisões neutras podem cumprir ambas as condições.
 
-Antes da implementação, definir como a contagem trata imunidade da Heroína do povo e efeitos de itens que neutralizam Honra. A recomendação é avaliar a alteração prevista pela decisão antes dessas proteções, com descrição explícita na carta, para que imunidade não conceda sucesso automático. Esta interpretação ainda precisa da aprovação do usuário.
+A contagem usa a intenção da escolha antes das proteções da Heroína do povo ou dos itens que neutralizam Honra. A regra aparece na descrição e evita sucesso automático por imunidade. Essa decisão técnica adotada na execução continua sujeita ao teste jogável.
 
-Conferir também se todas as cartas que podem aparecer oferecem uma saída compatível com a preparação. Uma escolha obrigatória ou um desfecho aleatório oculto não deve tornar a falha inevitável sem possibilidade de reação. Esses pontos de balanceamento continuam pendentes.
+O sorteio comum exige pelo menos uma opção compatível e considera os dois desfechos de testes de sorte. Se uma carta obrigatória não oferecer nenhuma saída compatível, sua escolha não registra violação. A contagem não obriga o jogador a aceitar um resultado impossível de evitar.
 
 Cada proposta deve explicar o que o jogador pode fazer para se preparar com as escolhas e recursos existentes. Evitar dez variações de perder Vida; incluir condições que mudem a forma de gastar recursos ou proteger a vila. Uma condição que dependa apenas de receber uma carta rara oferece pouca capacidade de reação.
 
-Penalidades devem ter gravidade comparável entre herdeiros, respeitando suas proteções. Até definir uma regra para o culto, a proposta é excluir do sorteio presságios que afetem apenas habitantes quando a partida usa seguidores como população. Se a conversão ao culto acontecer durante um presságio, o projeto ainda precisa decidir como tratar a consequência; não substituir habitantes por seguidores sem uma regra explícita.
+Penalidades respeitam as proteções habituais dos herdeiros e do celeiro. A Noite do Lamento, cuja condição e desfechos dependem somente de habitantes, fica fora do sorteio natural durante o culto. Os demais preservam seus efeitos declarados: habitantes não se convertem em seguidores. O debug pode abrir qualquer caso para inspeção.
 
 ## Estado da partida e integração
 
@@ -278,7 +278,7 @@ Disponibilizar ações para inspecionar o estado, simular sucesso, simular falha
 
 Se já houver um presságio ativo, recusar a ativação de outro e mostrar o motivo. A limpeza explícita permite trocar de caso sem manter dois ativos. O debug pode ignorar chance e intervalo para testar; não avança o calendário ao anunciar ou limpar, nem concede recompensas por limpeza.
 
-## Critérios de aceite e validação prevista
+## Critérios de aceite e validação
 
 | Verificação | Resultado esperado |
 | --- | --- |
@@ -297,22 +297,35 @@ Se já houver um presságio ativo, recusar a ativação de outro e mostrar o mot
 | Acessibilidade | Teclado, toque e movimento reduzido permitem concluir o anúncio. |
 | Falha de imagem ou animação | A resposta permanece utilizável e a partida retoma. |
 
-Implementar testes de estado e controlador para frequência, limites de prazo e salvamento. Fazer simulações de partidas completas para estimar quantos anúncios aparecem e quantas falhas ocorrem por herdeiro; usar esses resultados para ajustar os valores sugeridos.
+Os testes de estado e controlador cobrem frequência, limites de prazo, salvamento, condições, efeitos nórdicos, decisões morais, culto e visitas do Leste. As simulações ao fim deste documento registram anúncios e desfechos por herdeiro; seus limites impedem um ajuste automático dos valores.
 
-A conferência manual deve cobrir desktop e celular, leitura da regra, tempo do escurecimento e retorno à partida. Este PRD ainda não valida o equilíbrio das penalidades nem a animação.
+A conferência da interface usa Edge com Playwright em desktop e celular emulado, além da inspeção visual das capturas. O teste jogável de balanceamento e a conferência em um celular físico continuam pendentes.
 
-## Decisões em aberto
+Validação da entrega: 172 testes passaram, incluindo 15 específicos de presságios; lint, formatação e conferência de diferenças passaram. O navegador carregou as dez artes e abriu os dez anúncios em 1440 × 1000 e 390 × 844 com toque emulado. Recargas no anúncio e no desfecho, retorno sem repetir efeitos, indicador, foco por teclado, movimento reduzido e imagem ausente passaram, sem erros de JavaScript ou transbordamento horizontal. O relatório está em [PRESSAGIOS-INTERFACE-VALIDACAO.json](PRESSAGIOS-INTERFACE-VALIDACAO.json).
 
-| Decisão | Situação |
+## Decisões adotadas na execução
+
+| Decisão | Regra implementada |
 | --- | --- |
-| Frequência | Aprovar ou ajustar as propostas de 2%, intervalo de 50 e limite de três. |
-| Catálogo | Avaliar A Vinda do Barão e fechar os valores da Lua Vermelha. Posições 2 a 7, 9 e 10 aprovadas. |
-| Barão | Definir a ligação do presságio com as visitas e cobranças das cartas existentes. |
-| Caminhos morais | Nomes, narrativas, prazo, requisitos e desfechos aprovados; definir interação com imunidades e escolhas obrigatórias. |
-| Os corvos | Definir a convivência dos desfechos com efeitos nórdicos já ativos; meta e durações aprovadas. |
-| Auxílio à vila | Definir as escolhas que contam para A Nuvem Faminta e A Procissão sem Rostos, garantindo oportunidades durante os prazos. |
-| Valores | Aprovar prazos, penalidades e recompensas; Lua Vermelha ainda usa números de exemplo. |
-| Culto | Definir elegibilidade e tratamento de presságio ativo durante a conversão. |
+| Frequência | 2%, primeira oportunidade na rodada 25, intervalo de 50 e limite de três; uma tentativa por rodada e sem repetição natural. |
+| Lua Vermelha | 25 rodadas, queda final de 40 de Vida, falha de 20 habitantes e sucesso de 2 Gold. |
+| Barão | 40 Gold conquistados por decisões em 50 rodadas; as duas cartas comuns do Barão aguardam o desfecho. |
+| Caminhos morais | Intenção antes das imunidades; cartas comuns precisam oferecer saída compatível. Escolha obrigatória sem alternativa compatível não registra violação. |
+| Os corvos | Fonte nórdica própria; preserva o efeito da carta e a passiva diária. Odin dura 20 rodadas reais, maldições básicas duram 10. |
+| Auxílio à vila | 34 pares de evento/opção identificados; carta Proteção dos moradores oferece ajuda a cada três rodadas, abaixo das consequências obrigatórias. Pagamento de 1 Gold ou trabalho de 2 de Vida contam como auxílio; adiar não conta. |
+| Culto | Noite do Lamento não entra naturalmente durante o culto e cancela na conversão. Nenhum efeito troca habitantes por seguidores. |
+
+Os parâmetros iniciais de Lua Vermelha, frequência e Barão ainda precisam da avaliação do usuário em jogo. As regras de integração acima tornam a primeira versão testável sem alterar as porcentagens e metas aprovadas dos outros eventos.
+
+## Resultados das simulações
+
+O relatório [PRESSAGIOS-SIMULACAO.json](PRESSAGIOS-SIMULACAO.json) reúne dois ensaios com sorteador congruente linear reproduzível: `s = (1664525 * s + 1013904223) mod 2^32`, usando `s / 2^32` como resultado. Para reproduzir, executar `node scripts/simular-pressagios.cjs` na raiz do projeto; o script usa a engine real pelo helper de testes e regrava o relatório.
+
+No ensaio de frequência, 2.000 calendários percorreram as 300 rodadas com Honra neutra e recursos mantidos para evitar derrotas. As sementes foram de 1 a 2.000. O sorteio real e os prazos dos presságios rodaram sem forçar anúncios; os recursos estáveis isolam o calendário, portanto esse ensaio não mede sobrevivência ou dificuldade. A distribuição ficou em 14 calendários sem anúncio, 407 com um, 1.444 com dois e 135 com três, média de 1,85 por crônica. Nenhum prazo ultrapassou a rodada 300.
+
+O segundo ensaio executou três partidas por herdeiro, com recursos normais, cartas reais e sementes `n * 18973 + índiceDoHerdeiro`, para `n` de 1 a 3. A política prioriza Vida quando baixa, Gold, população e melhorias de combate; evita combates quando há alternativa e dá peso extra à meta do presságio. Ela não planeja cadeias ou compras. O fluxo concluiu as 27 partidas, com uma vitória e 14 anúncios: nove sucessos de presságios, nenhuma falha concluída e cinco acompanhamentos interrompidos pela derrota. Os dados por herdeiro estão no relatório.
+
+Essa amostra pequena e a política de escolha não permitem aprovar o equilíbrio das penalidades. A frequência fica verificada; a taxa de falha por herdeiro requer partidas jogadas por pessoas ou um simulador com planejamento melhor.
 
 ## Checklist de entrega
 
@@ -323,7 +336,14 @@ A conferência manual deve cobrir desktop e celular, leitura da regra, tempo do 
 - [x] Conferir calendário, avanço de rodada e integração com os herdeiros no código atual.
 - [x] Especificar anúncio, retorno, salvamento e debug.
 - [x] Ampliar o catálogo para dez e propor dois novos presságios para caminhos morais diferentes.
-- [ ] Fechar as decisões em aberto e definir os dez eventos.
-- [ ] Implementar e testar o sistema, produzir as artes e conferir a interface manualmente.
+- [x] Definir os dez eventos e adotar valores iniciais para as decisões de balanceamento pendentes.
+- [x] Implementar módulo, estado, engine, controlador, indicador e salvamento com migração.
+- [x] Integrar culto, visitas do Leste e fonte nórdica própria, sem consumir dias extras.
+- [x] Produzir as dez artes em WebP e incorporar as revisões pedidas pelo usuário.
+- [x] Implementar debug dos dez casos, inspeção, desfechos reais e limpeza sem recompensa.
+- [x] Testar regras, recargas, limites de prazo e penalidades que levam à derrota ou à decisão de culto.
+- [x] Simular frequência em 2.000 calendários e executar 27 partidas automáticas com os nove herdeiros.
+- [x] Conferir a interface no navegador em desktop e celular emulado, inspecionar as capturas e registrar as validações finais.
+- [ ] Avaliar o balanceamento em partidas jogadas pelo usuário e conferir um celular físico.
 
-Resultado: PRD pronto para discussão; nenhuma mecânica foi implementada nesta entrega. Validação realizada: leitura do calendário, do fluxo de avanço e dos efeitos atuais. Balanceamento e conferência visual continuam pendentes.
+Resultado: dez presságios implementados, com artes próprias, preparação durante a partida e debug. Validações: 172 testes, lint, formatação, diferenças e interface em desktop/celular emulado passaram. O balanceamento jogável e a conferência em celular físico permanecem em aberto; os resultados automáticos e os limites da amostra estão registrados acima.

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "lua_vermelha",
+    "arquivo": "assets/eventos-pressagios/lua_vermelha.webp",
+    "origem": "exec-c357c807-9cd2-4e23-b16b-b14e074f1191.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 165160,
+    "pixelsTransparentes": 267559
+  },
+  {
+    "id": "cometa_cinzas",
+    "arquivo": "assets/eventos-pressagios/cometa_cinzas.webp",
+    "origem": "exec-ec87b91f-5eb3-4831-ac89-4a58e229958a.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 223892,
+    "pixelsTransparentes": 260103
+  },
+  {
+    "id": "nuvem_faminta",
+    "arquivo": "assets/eventos-pressagios/nuvem_faminta.webp",
+    "origem": "exec-11661075-2a59-4f93-a86c-3ba1168373e1.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 212558,
+    "pixelsTransparentes": 391392
+  },
+  {
+    "id": "ferrugem_negra",
+    "arquivo": "assets/eventos-pressagios/ferrugem_negra.webp",
+    "origem": "exec-a1b7038f-d2a3-4233-93d4-ac035c30167b.png",
+    "original": [
+      1295,
+      1214
+    ],
+    "largura": 800,
+    "altura": 750,
+    "qualidade": 90,
+    "bytes": 220554,
+    "pixelsTransparentes": 245340
+  },
+  {
+    "id": "corvos",
+    "arquivo": "assets/eventos-pressagios/corvos.webp",
+    "origem": "exec-c88f60ca-b06f-4798-b8ed-5647d10c9c28.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 148992,
+    "pixelsTransparentes": 342337
+  },
+  {
+    "id": "noite_lamento",
+    "arquivo": "assets/eventos-pressagios/noite_lamento.webp",
+    "origem": "exec-347abe92-4b21-4997-9649-0148ad4bea1e.png",
+    "original": [
+      1082,
+      1454
+    ],
+    "largura": 595,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 233518,
+    "pixelsTransparentes": 90034
+  },
+  {
+    "id": "procissao",
+    "arquivo": "assets/eventos-pressagios/procissao.webp",
+    "origem": "exec-5ce4fc47-2c78-4170-8e67-62119819132d.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 146058,
+    "pixelsTransparentes": 249499
+  },
+  {
+    "id": "vinda_barao",
+    "arquivo": "assets/eventos-pressagios/vinda_barao.webp",
+    "origem": "exec-bc393d94-56e3-47f9-8e38-fa9e2601cdd3.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 216964,
+    "pixelsTransparentes": 203888
+  },
+  {
+    "id": "sombra_coroada",
+    "arquivo": "assets/eventos-pressagios/sombra_coroada.webp",
+    "origem": "exec-dfcc8f40-5bb7-4a38-bfe1-c19f81ccda1a.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 138192,
+    "pixelsTransparentes": 359042
+  },
+  {
+    "id": "testemunha_pedra",
+    "arquivo": "assets/eventos-pressagios/testemunha_pedra.webp",
+    "origem": "exec-e276efd6-9e5f-4911-b1ac-d6b678c49577.png",
+    "original": [
+      1254,
+      1254
+    ],
+    "largura": 800,
+    "altura": 800,
+    "qualidade": 90,
+    "bytes": 185146,
+    "pixelsTransparentes": 299427
+  }
+]
