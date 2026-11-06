@@ -634,7 +634,7 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 @media (max-height: 700px) {
   .cabecalho { height: 44px; }
   .titulo-run { padding-top: 8px; padding-bottom: 8px; }
-  .cronica { --altura-cartas: 28dvh; }
+  .cronica { --altura-cartas: min(32dvh, 240px); }
   .coluna-escolhas > .nota { display: none; }
   .fim { padding: 6px 0; }
   .fim-selo { display: none; }
@@ -657,7 +657,9 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .resultado h2 { display: none; }
   .cronica--mercador .mesa { gap: 6px; }
   .mercadorias { gap: 6px; margin-bottom: 6px; }
-  .cronica { --altura-cartas: 18dvh; }
+   .cronica { --altura-cartas: min(32dvh, 240px); }
+   .atributos { grid-template-columns: minmax(60px, 1.6fr) repeat(3, minmax(0, 1fr)); }
+   .atributo[data-atributo="hp"] dd { white-space: nowrap; font-size: 17px; }
 }
 @media (min-width: 601px) and (max-height: 500px) {
   .livro { padding: 0 16px; }
