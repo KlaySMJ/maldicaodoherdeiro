@@ -46,6 +46,33 @@
       "assets/eventos-especificos/uma-noite-sem-fome.webp",
       "Família divide uma refeição ao redor de uma mesa",
     ],
+    arvoreCaida: ["assets/eventos-especificos/arvore-sobre-estrada.webp", "Árvore caída atravessa a estrada"],
+    salgueiro: [
+      "assets/eventos-especificos/raizes-sob-parede.webp",
+      "Raízes de um salgueiro deslocam uma parede de pedra",
+    ],
+    rodaDagua: ["assets/eventos-especificos/roda-dagua.webp", "Eixo rachado de uma roda d'água"],
+    retrato: [
+      "assets/eventos-especificos/retrato-sem-dono.webp",
+      "Retrato antigo parcialmente coberto por um pano",
+    ],
+    lanterna: [
+      "assets/eventos-especificos/lanterna-na-colina.webp",
+      "Pequena lanterna pendurada num poste sobre a colina",
+    ],
+    panos: [
+      "assets/eventos-especificos/codigo-dos-panos.webp",
+      "Três faixas de pano marcadas com sinais repetidos",
+    ],
+    barril: [
+      "assets/eventos-especificos/desenho-no-barril.webp",
+      "Desenho de uma cisterna no fundo de um barril",
+    ],
+    tear: [
+      "assets/eventos-especificos/tear-desmontado.webp",
+      "Peças de um tear desmontado ao lado de tecido",
+    ],
+    chaves: ["assets/eventos-especificos/chaves-sala-comum.webp", "Três chaves antigas presas a uma argola"],
   };
 
   function opcao(id, texto, resultado, efeitos = {}, extras = {}) {
@@ -74,7 +101,7 @@
       "A árvore sobre a estrada",
       "Uma árvore tombou na curva durante a madrugada. Uma carroça já está presa entre o tronco e a vala; o cocheiro espera ajuda antes que a chuva chegue.",
       "A madeira serve à vila, aos carroceiros ou pode ficar onde caiu.",
-      artes.vila,
+      artes.arvoreCaida,
       [
         opcao(
           "serrar_madeira",
@@ -238,7 +265,7 @@
       "O salgueiro marcado",
       "As raízes de um salgueiro antigo levantaram as pedras da passagem. Pastores dizem que, sem a árvore, ninguém encontra o caminho de volta depois da neblina.",
       "A árvore pode ficar, ser podada ou perder a passagem que divide com a trilha.",
-      artes.vila,
+      artes.salgueiro,
       [
         opcao(
           "proteger_salgueiro",
@@ -292,7 +319,7 @@
       "A roda que perde o eixo",
       "A roda d'água para no meio da moagem. O eixo gasto ainda gira à mão, mas cada volta abre uma fenda maior na madeira.",
       "Um eixo novo custa Gold; um reparo improvisado consome tempo e pode parar o moinho de vez.",
-      artes.caixas,
+      artes.rodaDagua,
       [
         opcao(
           "comprar_eixo",
@@ -508,7 +535,7 @@
       "As chaves da sala comum",
       "Duas cópias da chave do salão desapareceram. Ali ficam ferramentas, sacos de farinha e os registros que o escrivão usa durante a feira.",
       "Um rodízio, uma pessoa responsável ou um acesso restrito define quem responde pelo espaço.",
-      artes.construcao,
+      artes.chaves,
       [
         opcao(
           "rodizio_chaves",
@@ -562,7 +589,7 @@
       "O retrato sem dono",
       "Um retrato aparece na sala comunal, coberto por um pano que ninguém lembra de ter pendurado. A moldura traz o nome de uma vila que já não aparece nos mapas.",
       "Guardar a pintura, leiloá-la ou pedir ajuda para localizar a família muda o destino do objeto.",
-      artes.documento,
+      artes.retrato,
       [
         opcao(
           "guardar_retrato",
@@ -1487,7 +1514,7 @@
               "As raízes deslocam a parede de um quintal. Uma pedra caiu sobre o caminho; os moradores querem saber se devem cortar a árvore antes que ceda mais.",
             informacoes:
               "Podar parte das raízes, reforçar a parede ou transferir a árvore tem custos distintos.",
-            arte: artes.construcao,
+            arte: artes.salgueiro,
             opcoes: [
               {
                 ...opcao(
@@ -1702,7 +1729,7 @@
           texto:
             "Uma luz aparece numa colina sem casas. Não pisca nem se move, mesmo quando o vento apaga as lanternas da estrada.",
           informacoes: "Subir, responder com um sinal ou esperar a manhã define como a vila trata a luz.",
-          arte: artes.tumulo,
+          arte: artes.lanterna,
           opcoes: [
             {
               ...opcao(
@@ -1776,7 +1803,7 @@
             "Faixas de pano aparecem em três pontos do vale. As cores se repetem numa ordem que o vigia diz ter visto antes, mas ninguém lembra quando.",
           informacoes:
             "Decifrar o código, trocar as faixas por sinais da vila ou ignorar o recado define a rota do posto.",
-          arte: artes.fiandeiras,
+          arte: artes.panos,
           opcoes: [
             {
               ...opcao(
@@ -1848,7 +1875,7 @@
               "Aprendizes encontram o desenho de uma cisterna no fundo de um barril comprado na feira. Uma marca no canto indica o terreno perto da muralha leste.",
             informacoes:
               "Conferir o terreno, pagar um pedreiro ou descartar o desenho decide se a obra começa.",
-            arte: artes.caixas,
+            arte: artes.barril,
             opcoes: [
               {
                 ...opcao(
@@ -1996,7 +2023,7 @@
             "Uma caravana deixa um tear desmontado ao perceber que perdeu uma roda. As peças ocupam o pátio, onde a vila guarda tábuas para o inverno.",
           informacoes:
             "Guardar o tear, ajudar a procurar a peça ou cobrar pelo espaço ocupado define a passagem da caravana.",
-          arte: artes.caixas,
+          arte: artes.tear,
           opcoes: [
             {
               ...opcao(
