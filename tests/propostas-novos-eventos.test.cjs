@@ -6,6 +6,43 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { preparar } = require("./helpers/jogo.cjs");
 
+test("debug ativa as duas novas transformações pelo controlador e persiste a sequência", async () => {
+  for (const [id, acao, eventoId, marco] of [
+    ["olhos_mercurio", "debug-condicao-olhos-mercurio", "primeira_conta", "olhosMercurioInicio"],
+    ["olho_mil_nomes", "debug-condicao-olho-mil-nomes", "fila_no_portao", "olhoMilNomesInicio"],
+  ]) {
+    const { J, app, novaRun, iniciar, clicar } = preparar();
+    const run = novaRun();
+    run.rodada = 20;
+    run.flags[`${id}_encerrado`] = true;
+    run.flags[`${id}_encerrada`] = true;
+    run.flags[`${id}_etapa4`] = true;
+    const antes = JSON.stringify(run.atributos);
+    J.save.gravarRun(run);
+    iniciar();
+    await clicar({ acao: "carregar" });
+    assert.ok(app.innerHTML.includes(`data-acao="${acao}"`));
+    await clicar({ acao });
+    const salva = J.save.lerRun();
+    assert.ok(salva);
+    assert.equal(salva.flags[`${id}_ativo`], true);
+    assert.equal(salva.flags[`${id}_etapa3`], true);
+    assert.equal(salva.flags[`${id}_etapa4`], undefined);
+    assert.equal(salva.flags[`${id}_encerrado`], undefined);
+    assert.equal(salva.flags[`${id}_encerrada`], undefined);
+    assert.equal(salva.marcos[marco], 20);
+    assert.equal(salva.rodada, 20);
+    assert.equal(salva.eventoId, eventoId);
+    assert.equal(salva.fase, "escolha");
+    assert.equal(JSON.stringify(salva.atributos), antes);
+    assert.equal(J.engine.cumpre(J.eventoPorId(eventoId).requisitos, salva), true);
+    salva.aguardaDecisaoCulto = true;
+    const aguardando = JSON.stringify(salva);
+    assert.equal(J.engine.debugForcarCondicao(salva, id), false);
+    assert.equal(JSON.stringify(salva), aguardando);
+  }
+});
+
 const idsComuns = [
   "arvore_sobre_estrada",
   "telhas_antes_da_chuva",

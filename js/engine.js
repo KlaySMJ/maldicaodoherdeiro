@@ -1803,6 +1803,27 @@
   }
 
   function debugForcarCondicao(run, id) {
+    const transformacoes = {
+      olhos_mercurio: { marco: "olhosMercurioInicio", eventoId: "primeira_conta" },
+      olho_mil_nomes: { marco: "olhoMilNomesInicio", eventoId: "fila_no_portao" },
+    };
+    const transformacao = transformacoes[id];
+    if (transformacao) {
+      if (run?.status !== "ativa" || run.aguardaDecisaoCulto) return false;
+      const evento = Jogo.eventoPorId(transformacao.eventoId);
+      if (!evento) return false;
+      for (const flag of Object.keys(run.flags)) if (flag.startsWith(`${id}_`)) delete run.flags[flag];
+      run.flags[`${id}_ativo`] = true;
+      run.flags[`${id}_etapa2`] = true;
+      run.flags[`${id}_etapa3`] = true;
+      run.marcos[transformacao.marco] = run.rodada;
+      run.encontroLeste = null;
+      run.fase = "escolha";
+      run.ultimoResultado = null;
+      run.inventarioAberto = false;
+      run.avisoInventario = null;
+      return registrarSorteio(run, evento);
+    }
     if (run?.status !== "ativa" || run.aguardaDecisaoCulto || !modificadoresCondicao[id]) return false;
     const antes = { ...run.atributos };
     const eventoAtual = Jogo.eventoPorId(run.eventoId);

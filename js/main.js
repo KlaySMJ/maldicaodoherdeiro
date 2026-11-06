@@ -201,6 +201,12 @@
       case "debug-condicao-possessao":
         forcarCondicaoDebug("possessao");
         break;
+      case "debug-condicao-olhos-mercurio":
+        forcarCondicaoDebug("olhos_mercurio");
+        break;
+      case "debug-condicao-olho-mil-nomes":
+        forcarCondicaoDebug("olho_mil_nomes");
+        break;
       case "continuar":
         if (Jogo.engine.avancar(run)) {
           if (run.status === "encerrada") mostrarFim();

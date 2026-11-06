@@ -215,7 +215,7 @@
         "Habitantes mostram o tamanho da vila. Você usa Gold em compras e construções; algumas escolhas mudam esses valores.",
     },
     {
-      seletor: ".inventario > summary",
+      seletor: '[data-acao="alternar-inventario"]',
       titulo: "Use o inventário",
       texto:
         "Os itens conquistados ficam no inventário. Alguns têm efeito passivo; outros podem ser usados pelo botão ao lado.",
@@ -1441,6 +1441,8 @@
                   <button class="controle-honra" data-acao="debug-condicao-licantropia" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar licantropia</button>
                   <button class="controle-honra" data-acao="debug-condicao-vampirismo" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar vampirismo</button>
                   <button class="controle-honra" data-acao="debug-condicao-possessao" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar possessão</button>
+                  <button class="controle-honra" data-acao="debug-condicao-olhos-mercurio" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar Olhos de Mercúrio</button>
+                  <button class="controle-honra" data-acao="debug-condicao-olho-mil-nomes" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar Olho dos Mil Nomes</button>
                   <button class="controle-honra" data-acao="debug-conselheiro" ${run.aguardaDecisaoCulto ? "disabled" : ""} title="Nomear o novo conselheiro e mostrar um conselho dele">Novo conselheiro</button>
                 </div>
               </details>

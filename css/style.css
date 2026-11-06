@@ -440,6 +440,9 @@ body:not(.debug-visivel) .acoes-menu .debug-transformacoes-menu, body:not(.debug
 .mercadorias { margin-bottom: 10px; }
 .mercadoria .preco { font-size: .9em; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .inventario { margin-top: 12px; border-top: 1px solid var(--branco); padding-top: 8px; font-size: calc(13px * var(--fator-texto)); }
+.cronica:not(.inventario-aberto) .inventario,
+.cronica:not(.inventario-aberto) .registro-itens,
+.cronica:not(.historico-aberto) .historico-cronica { display: none; }
 .inventario summary { display: flex; justify-content: space-between; gap: 8px; cursor: pointer; font-size: calc(15px * var(--fator-texto)); }
 .inventario summary span { color: var(--secundaria); font-size: .82em; }
 .inventario p { margin: 3px 0; color: var(--secundaria); }
@@ -753,8 +756,8 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 
 .titulo-run-acoes { display: flex; align-items: center; gap: 8px; margin-left: 0; flex: 0 0 auto; }
 .titulo-run-acoes .botao { min-height: 38px; padding: 6px 10px; font-size: 13px; white-space: nowrap; }
-.botao-icone { display: grid; place-items: center; width: 44px; min-width: 44px; height: 44px; padding: 0; }
-.botao-icone svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.titulo-run-acoes .botao-icone { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 44px; gap: 0; width: 44px; min-width: 44px; height: 44px; padding: 0; }
+.botao-icone svg { display: block; flex: 0 0 auto; width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .tutorial-camada { position: static; }
 .tutorial-escurecimento { position: fixed; z-index: 10000; inset: 0; background: rgb(0 0 0 / 78%); pointer-events: none; }
 .tutorial-alvo { position: relative; z-index: 10001; outline: 2px solid var(--branco); outline-offset: 4px; box-shadow: 0 0 0 8px rgb(0 0 0 / 88%); }
