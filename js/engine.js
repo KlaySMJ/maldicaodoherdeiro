@@ -244,7 +244,8 @@
       return false;
     if (
       evento.oncePerYear &&
-      (run.flags[`${evento.id}_visto`] || marcadoresAnuais ||
+      (run.flags[`${evento.id}_visto`] ||
+        marcadoresAnuais ||
         run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`])
     )
       return false;
@@ -273,6 +274,7 @@
     if (evento.apenasAposTipo && anterior?.tipo !== evento.apenasAposTipo) return false;
     if (evento.apenasAposIds && !evento.apenasAposIds.includes(anteriorId)) return false;
     if (evento.chanceAposAnterior && aleatorio() >= evento.chanceAposAnterior) return false;
+    if (evento.zodiaco && run.traco === "herdeira_leste") return false;
     if (evento.zodiaco) {
       const base = run.marcos.anoNovoBase;
       const marco = run.janelaZodiaco?.marco;
@@ -302,7 +304,15 @@
     const base = Math.max(0, evento.peso ?? 1);
     const multiplicador = Math.max(0, regra?.multiplicador ?? 1);
     const ajusteAbissal = evento.abissal && temItem(run, "martelo_dos_afogados") ? 2 : 1;
-    return base * multiplicador * ajusteAbissal;
+    const culto =
+      run.traco === "herdeiro_culto" &&
+      (evento.tipo === "culto" ||
+        evento.requisitos?.flags?.includes("culto_ativo") ||
+        evento.opcoes?.some((opcao) => opcao.entrarNoCulto) ||
+        evento.id === "ultimo_habitante")
+        ? 2
+        : 1;
+    return base * multiplicador * ajusteAbissal * culto;
   }
 
   function eventoComum(evento) {
@@ -420,11 +430,7 @@
 
   function sortear(run, aleatorio = Math.random) {
     if (run.atributos.hp > run.hpMax * 0.3) run.flags.cura_critica_oferecida = false;
-    if (
-      run.atributos.hp > 0 &&
-      run.atributos.hp <= run.hpMax * 0.3 &&
-      !run.flags.cura_critica_oferecida
-    ) {
+    if (run.atributos.hp > 0 && run.atributos.hp <= run.hpMax * 0.3 && !run.flags.cura_critica_oferecida) {
       const curaCritica = Jogo.eventoPorId("cura_critica");
       if (curaCritica) return curaCritica;
     }
@@ -539,12 +545,23 @@
       }
       const antes = run.atributos[atributo];
       let efeito = efeitos[atributo] || 0;
-      if (atributo === "gold" && efeito > 0 && run.efeitoDivino?.reducaoGanhoGold) {
-        efeito = Math.max(0, efeito - run.efeitoDivino.reducaoGanhoGold);
-      }
+      if (atributo === "gold" && efeito > 0)
+        efeito = Math.max(0, efeito - Jogo.herdeiros.valorEfeito(run, "reducaoGanhoGold"));
       let valor = Math.floor((antes + efeito) * (multiplicadores[atributo] ?? 1));
+      if (atributo === "hp" && valor > antes && Jogo.herdeiros.efeitos(run).some((e) => e.reduzirCura))
+        valor = antes + Math.floor((valor - antes) / 2);
       if (atributo === "habitantes" && contexto.protecaoCeleiro && valor < antes) {
         valor = antes - Math.floor((antes - valor) / 2);
+      }
+      if (atributo === "habitantes") {
+        valor = Jogo.herdeiros.perdaHabitantes(run, antes, valor);
+        if (
+          run.traco === "herdeiro_culto" &&
+          (efeitos.habitantes < 0 || (multiplicadores.habitantes ?? 1) < 1) &&
+          valor >= antes &&
+          antes > 0
+        )
+          valor = antes - 1;
       }
       run.atributos[atributo] =
         atributo === "honra"
@@ -603,9 +620,7 @@
 
   function juntarCulto(run) {
     if (run?.status !== "ativa" || run.fase !== "resultado" || !run.aguardaDecisaoCulto) return false;
-    run.cultoAtivo = true;
-    run.flags = { ...run.flags, culto_ativo: true };
-    run.seguidoresCulto = 50;
+    Jogo.herdeiros.iniciarCulto(run);
     if (!honraImune(run)) run.atributos.honra -= 5;
     run.aguardaDecisaoCulto = false;
     run.marcos.cultoAdesao = run.rodada;
@@ -614,6 +629,7 @@
     Jogo.legado.conceder(run, { flags: ["culto_conhecido"] });
     concederItem(run, "adaga_cerimonial");
     run.flags.ultimo_habitante_visto = true;
+    if (run.encontroLeste) run.encontroLeste.transicaoCulto = true;
     run.eventoId = "ultimo_habitante";
     run.ultimoResultado.escolha = "Aceitar o chamado.";
     if (!honraImune(run)) run.ultimoResultado.alteracoes.honra -= 5;
@@ -627,6 +643,7 @@
     run.aguardaDecisaoCulto = false;
     run.opcoesSorteadas = [];
     run.flags.ultimo_habitante_visto = true;
+    if (run.encontroLeste) run.encontroLeste.transicaoCulto = true;
     run.eventoId = "ultimo_habitante";
     run.ultimoResultado.escolha = "Encerrar a linhagem.";
     run.ultimoResultado.texto = Jogo.eventoPorId("ultimo_habitante").opcoes.find(
@@ -637,7 +654,7 @@
     return true;
   }
 
-  function atualizarCulto(run, antes) {
+  function atualizarCulto(run, antes, semRecrutamento = false) {
     if (!run.cultoAtivo) return;
     const dobraSeguidores = temItem(run, "afogados_abencoados") && run.atributos.honra <= -90 ? 2 : 1;
     const ganhouHabitantes = run.atributos.habitantes - antes.habitantes;
@@ -651,6 +668,7 @@
         run.ultimoResultado.informativoCulto = `${numeroSeguidores(debandada)} ${debandada === 1 ? "seguidor deixou" : "seguidores deixaram"} o culto quando sua honra aumentou.`;
       }
     }
+    if (semRecrutamento) return;
     const adesao = run.marcos.cultoAdesao;
     const seguidoresAntesDoRecrutamento = run.seguidoresCulto;
     const recrutamentoDeRecuperacao = seguidoresAntesDoRecrutamento < 30;
@@ -747,7 +765,7 @@
     const escudoUsado = run.atributos.escudo + bonusEscudo + manto;
     const danoAnulado =
       lancaAtiva || preparados.bloquearDanoProximaBatalha || (preparados.bacamarteBatalhas || 0) > 0;
-    const reducaoDivina = batalha.somenteEscudo ? 0 : run.efeitoDivino?.reducaoDano || 0;
+    const reducaoDivina = batalha.somenteEscudo ? 0 : Jogo.herdeiros.valorEfeito(run, "reducaoDano");
     const reducaoPassiva = batalha.somenteEscudo
       ? 0
       : (temItem(run, "cao_companheiro") ? 2 : 0) +
@@ -983,6 +1001,10 @@
     }
     for (const [atributo, valor] of Object.entries(opcao.definir || {})) {
       if (!Jogo.atributos.includes(atributo) || !Number.isSafeInteger(valor)) continue;
+      if (atributo === "hp") {
+        aplicarEfeitos(run, { hp: valor - run.atributos.hp });
+        continue;
+      }
       if (atributo === "honra") {
         const atual = run.atributos.honra;
         // Definir honra também não pode derrubar a Heroína do povo nem levá-la a negativo.
@@ -993,7 +1015,10 @@
             : valor;
         continue;
       }
-      run.atributos[atributo] = Math.max(0, valor);
+      run.atributos[atributo] =
+        atributo === "habitantes"
+          ? Jogo.herdeiros.perdaHabitantes(run, run.atributos.habitantes, Math.max(0, valor))
+          : Math.max(0, valor);
     }
     if (opcao.efeitoContinuo?.revelarHonraRodadas > 0) {
       run.honraReveladaAteRodada = Math.max(
@@ -1019,7 +1044,16 @@
         run.rodada + Math.max(0, Math.floor(opcao.efeitoDivino.revelarHabitantesRodadas) - 1),
       );
     }
-    if (opcao.efeitoDivino) ativarEfeitoDivino(run, opcao.efeitoDivino);
+    if (opcao.efeitoDivino) {
+      ativarEfeitoDivino(run, opcao.efeitoDivino);
+      if (evento.divino) run.flags.efeito_nordico_recebido = true;
+    }
+    if (evento.zodiaco && ["aceitar", "oferenda"].includes(opcao.id))
+      run.flags.bencao_zodiacal_recebida = true;
+    if (run.encontroLeste && evento.zodiaco) {
+      const visita = run.calendarioLeste.find((v) => v.eventoId === evento.id && !v.resolvida);
+      if (visita) visita.resolvida = true;
+    }
     if (opcao.efeitoContinuo?.seguidoresPorRodada > 0 && run.cultoAtivo) {
       run.cultoRendaPorRodada = Math.max(
         run.cultoRendaPorRodada || 0,
@@ -1027,7 +1061,11 @@
       );
     }
     if (opcao.dissolverCulto && run.cultoAtivo) {
-      run.atributos.habitantes = run.seguidoresCulto;
+      run.atributos.habitantes = Jogo.herdeiros.perdaHabitantes(
+        run,
+        run.atributos.habitantes,
+        run.seguidoresCulto,
+      );
       run.seguidoresCulto = 0;
       run.cultoAtivo = false;
       run.flags = { ...run.flags, culto_ativo: false };
@@ -1036,9 +1074,7 @@
     // Convite direto ao culto (o caminho da Heroína do povo, cuja honra nunca cai
     // o suficiente para acordar os gatilhos normais de `honra <= -30`).
     if (opcao.entrarNoCulto && !run.cultoAtivo && run.status === "ativa") {
-      run.cultoAtivo = true;
-      run.flags = { ...run.flags, culto_ativo: true };
-      run.seguidoresCulto = 50;
+      Jogo.herdeiros.iniciarCulto(run);
       aplicarEfeitos(run, { honra: -5 });
       run.marcos.cultoAdesao = run.rodada;
       run.marcos.culto_entrada_rodada = run.rodada;
@@ -1190,10 +1226,11 @@
       if (item && concederItem(run, item.id))
         resultado.texto = `${resultado.texto} Você recebe: ${item.nome}.`.trim();
     }
-    run.honraNeutraSequencia =
-      run.atributos.honra >= -30 && run.atributos.honra <= 30
-        ? Math.min(200, (run.honraNeutraSequencia || 0) + 1)
-        : 0;
+    if (!run.encontroLeste)
+      run.honraNeutraSequencia =
+        run.atributos.honra >= -30 && run.atributos.honra <= 30
+          ? Math.min(200, (run.honraNeutraSequencia || 0) + 1)
+          : 0;
     if (run.honraNeutraSequencia >= 200 && !run.legadoDaRun.itens.includes("espada_da_verdade")) {
       Jogo.legado.conceder(run, { itens: ["espada_da_verdade"] });
     }
@@ -1223,12 +1260,13 @@
       (run.rodada - rodadaEntreposto) % 2 === 0
         ? 1
         : 0;
-    const renda = rendaRegular + rendaMercado + rendaPraca + rendaEntreposto;
+    const extra = Boolean(run.encontroLeste);
+    const renda = extra ? 0 : rendaRegular + rendaMercado + rendaPraca + rendaEntreposto;
     const saldoAntesDaRenda = run.atributos.gold;
     aplicarEfeitos(run, { gold: renda });
-    if (rendaMercado) resultado.texto += " O Mercado coberto rende 1 Gold.";
-    if (rendaPraca) resultado.texto += " A Praça da Forca rende 1 Gold.";
-    if (rendaEntreposto) resultado.texto += " O Entreposto comercial rende 1 Gold.";
+    if (!extra && rendaMercado) resultado.texto += " O Mercado coberto rende 1 Gold.";
+    if (!extra && rendaPraca) resultado.texto += " A Praça da Forca rende 1 Gold.";
+    if (!extra && rendaEntreposto) resultado.texto += " O Entreposto comercial rende 1 Gold.";
     const rodadaCisterna = run.marcos?.cisternaConstruidaRodada;
     const habitanteCisterna =
       run.construcoes.includes("cisterna_comunitaria") &&
@@ -1237,11 +1275,11 @@
       (run.rodada - rodadaCisterna) % 3 === 0
         ? 1
         : 0;
-    if (habitanteCisterna) {
+    if (!extra && habitanteCisterna) {
       aplicarEfeitos(run, { habitantes: habitanteCisterna });
       resultado.texto += " A Cisterna comunitária acrescenta 1 Habitante.";
     }
-    if (run.construcoes.includes("praca_forca") && run.rodada % 10 === 0) {
+    if (!extra && run.construcoes.includes("praca_forca") && run.rodada % 10 === 0) {
       if (!temItem(run, "espada_da_verdade")) {
         aplicarEfeitos(run, { honra: -1 });
         resultado.texto += " A Praça da Forca reduz sua Honra em 1.";
@@ -1251,7 +1289,7 @@
         resultado.texto += ` A Praça da Forca atrai ${temItem(run, "afogados_abencoados") && run.atributos.honra <= -90 ? 4 : 2} Seguidores para o culto.`;
       }
     }
-    Jogo.druida?.registrarAno(run);
+    if (!extra) Jogo.druida?.registrarAno(run);
     Jogo.legado.conceder(run, opcao.desbloqueia);
     Jogo.legado.avaliar(run);
     run.fase = "resultado";
@@ -1278,8 +1316,8 @@
     ) {
       aguardarDecisaoCulto(run);
     }
-    atualizarCulto(run, antes);
-    concluirRodadaEfeitoDivino(run);
+    atualizarCulto(run, antes, Boolean(run.encontroLeste));
+    if (!run.encontroLeste) concluirRodadaEfeitoDivino(run);
     const motivo = motivoDerrota(run);
     // Um desfecho de sorte pode encerrar a run; senão, a própria opção pode fazer isso.
     const encerramento = desfechoEscolhido?.encerramento || opcao.encerramento;
@@ -1395,14 +1433,20 @@
     if (!["habitantes", "culto"].includes(alvoSacrificio)) return false;
     const antes = { ...run.atributos };
     consumirItem(run, itemId, indice);
-    if (alvoSacrificio === "culto") run.seguidoresCulto -= 10;
+    const especial = run.traco === "herdeiro_culto" && alvoSacrificio === "culto";
+    if (alvoSacrificio === "culto") run.seguidoresCulto -= especial ? 5 : 10;
     else aplicarEfeitos(run, { habitantes: -10 });
-    aplicarEfeitos(run, { ataque: 10 });
+    aplicarEfeitos(run, { ataque: 10, escudo: especial ? 5 : 0 });
+    if (especial) run.flags.adaga_herdeiro_culto = true;
     run.flags.adaga_cerimonial_usada = true;
-    const textoUso =
-      alvoSacrificio === "culto"
+    Jogo.legado.avaliar(run);
+    const textoUso = especial
+      ? "A Adaga cerimonial consome 5 seguidores; seu Ataque aumenta em 10 e seu Escudo em 5."
+      : alvoSacrificio === "culto"
         ? "A Adaga cerimonial consome dez seguidores; seu Ataque aumenta em 10."
-        : "A Adaga cerimonial consome dez habitantes; seu Ataque aumenta em 10.";
+        : run.traco === "herdeiro_culto"
+          ? "A Adaga cerimonial consome cinco habitantes; seu Ataque aumenta em 10."
+          : "A Adaga cerimonial consome dez habitantes; seu Ataque aumenta em 10.";
     if (run.fase === "resultado" && run.ultimoResultado) {
       run.ultimoResultado.texto += ` ${textoUso}`;
       for (const atributo of Jogo.atributos) {
@@ -1554,8 +1598,8 @@
     if (item.uso.bloquearSeAbracada && run.condicao?.abracada) return false;
     if (itemId === "adaga_cerimonial") {
       if (run.aguardaDecisaoCulto || run.flags.adaga_cerimonial_usada) return false;
-      const habitantes = run.atributos.habitantes >= 10;
-      const seguidores = run.cultoAtivo && run.seguidoresCulto >= 10;
+      const habitantes = run.atributos.habitantes >= (run.traco === "herdeiro_culto" ? 5 : 10);
+      const seguidores = run.cultoAtivo && run.seguidoresCulto >= (run.traco === "herdeiro_culto" ? 5 : 10);
       if (alvoSacrificio === "habitantes") return habitantes;
       if (alvoSacrificio === "culto") return seguidores;
       return alvoSacrificio === null && (habitantes || seguidores);
@@ -1691,7 +1735,7 @@
     if (run?.status !== "ativa") return false;
     const antes = run.atributos.habitantes;
     if (antes <= 0) return false;
-    run.atributos.habitantes = Math.max(0, antes - 50);
+    run.atributos.habitantes = Jogo.herdeiros.perdaHabitantes(run, antes, Math.max(0, antes - 50));
     if (
       run.fase === "resultado" &&
       !run.cultoAtivo &&
@@ -1860,6 +1904,30 @@
   function avancar(run) {
     if (run.status !== "ativa" || run.fase !== "resultado") return false;
     run.avisosConquistas = [];
+    const visitaPendente = !run.encontroLeste && !run.aguardaDecisaoCulto && Jogo.herdeiros.visitaDevida(run);
+    if (visitaPendente) {
+      run.encontroLeste = {
+        eventoId: run.eventoId,
+        opcoesSorteadas: [...run.opcoesSorteadas],
+        resultadoConcluido: true,
+      };
+      registrarSorteio(run, Jogo.eventoPorId(visitaPendente.eventoId));
+      run.fase = "escolha";
+      run.ultimoResultado = null;
+      return true;
+    }
+    if (run.encontroLeste && !run.aguardaDecisaoCulto) {
+      const suspenso = run.encontroLeste;
+      run.encontroLeste = null;
+      run.eventoId = suspenso.eventoId;
+      run.opcoesSorteadas = suspenso.opcoesSorteadas;
+      run.ofertaMercador = suspenso.ofertaMercador ?? null;
+      run.recompensasBau = suspenso.recompensasBau ?? null;
+      run.fase = suspenso.resultadoConcluido ? "resultado" : "escolha";
+      run.ultimoResultado = null;
+      if (suspenso.resultadoConcluido) return avancar(run);
+      return true;
+    }
     if (run.rodada >= Jogo.config.rodadasVitoria) {
       encerrar(run, ...finalDeVitoria(run));
       return true;
@@ -1869,6 +1937,7 @@
     run.rodada = proximaRodada;
     run.estacao = Jogo.estacaoDaRodada(run.rodada, run);
     Jogo.druida?.iniciar(run);
+    iniciarPassivaNordica(run);
     aplicarEfeitosTemporarios(run);
     aplicarEfeitoCondicaoRodada(run);
     const curaEnfermaria = run.construcoes.includes("enfermaria_ervateira") && run.atributos.hp < 60 ? 1 : 0;
@@ -1923,7 +1992,7 @@
 
   function prepararJanelaZodiaco(run, rodada) {
     const base = run.marcos.anoNovoBase;
-    if (!run.flags.ano_novo_ativo || !Number.isSafeInteger(base)) {
+    if (run.traco === "herdeira_leste" || !run.flags.ano_novo_ativo || !Number.isSafeInteger(base)) {
       run.janelaZodiaco = null;
       return;
     }
@@ -1942,6 +2011,7 @@
   }
 
   function ativarEfeitoDivino(run, definicao) {
+    if (run.efeitoDivino) removerModificadores(run, run.efeitoDivino);
     const duracao = Math.max(1, Math.min(10, Math.floor(definicao.duracao || 10)));
     const modificadoresAplicados = {};
     for (const [atributo, valor] of Object.entries(definicao.modificadores || {})) {
@@ -1958,6 +2028,8 @@
       porRodada: definicao.porRodada || null,
       reducaoDano: definicao.reducaoDano || 0,
       reducaoGanhoGold: definicao.reducaoGanhoGold || 0,
+      reduzirCura: Boolean(definicao.reduzirCura),
+      manutencaoGold: definicao.manutencaoGold || 0,
       revelarHonraRodadas: definicao.revelarHonraRodadas || 0,
       revelarHabitantesRodadas: definicao.revelarHabitantesRodadas || 0,
     };
@@ -1968,6 +2040,7 @@
     if (!efeito || run.rodada <= efeito.inicio || efeito.ultimaRodada === run.rodada) return;
     efeito.ultimaRodada = run.rodada;
     const rodada = run.rodada - efeito.inicio;
+    if (efeito.manutencaoGold) aplicarEfeitos(run, { gold: -efeito.manutencaoGold });
     const periodico = efeito.porRodada;
     if (periodico && (!periodico.aCada || rodada % periodico.aCada === 0)) {
       const antes = run.atributos.habitantes;
@@ -1986,11 +2059,33 @@
       return;
     efeito.restantes -= 1;
     if (efeito.restantes > 0) return;
-    for (const [atributo, valor] of Object.entries(efeito.modificadoresAplicados || {})) {
-      aplicarEfeitos(run, { [atributo]: -valor });
-    }
+    removerModificadores(run, efeito);
     run.efeitoDivino = null;
     if (run.ultimoResultado) run.ultimoResultado.texto += " O efeito divino termina.";
+  }
+
+  function removerModificadores(run, efeito) {
+    for (const [atributo, valor] of Object.entries(efeito.modificadoresAplicados || {})) {
+      run.atributos[atributo] = Math.max(0, run.atributos[atributo] - valor);
+    }
+  }
+
+  function iniciarPassivaNordica(run) {
+    if (run.traco !== "herdeiro_nordico" || run.passivaNordica?.inicio === run.rodada) return;
+    if (run.passivaNordica) removerModificadores(run, run.passivaNordica);
+    const catalogo = Jogo.efeitosNordicos || [];
+    if (!catalogo.length) return;
+    const definicao = catalogo[Math.floor(Math.random() * catalogo.length)];
+    const aplicados = {};
+    for (const [atributo, valor] of Object.entries(definicao.modificadores || {})) {
+      const antes = run.atributos[atributo];
+      run.atributos[atributo] = Math.max(0, antes + valor);
+      aplicados[atributo] = run.atributos[atributo] - antes;
+    }
+    run.passivaNordica = { ...definicao, inicio: run.rodada, modificadoresAplicados: aplicados };
+    run.flags["passiva_" + definicao.tipo] = true;
+    if (definicao.porRodada) aplicarEfeitos(run, definicao.porRodada.efeitos);
+    if (definicao.manutencaoGold) aplicarEfeitos(run, { gold: -definicao.manutencaoGold });
   }
 
   function registrarSorteio(run, evento) {
@@ -2060,10 +2155,31 @@
     if (evento.zodiaco || evento.divino) {
       Jogo.legado.conceder(run, { flags: [`visto_${evento.id}`] });
     }
+    const visita = !run.encontroLeste && Jogo.herdeiros.visitaDevida(run);
+    if (
+      visita &&
+      !evento.zodiaco &&
+      evento.id !== "ultimo_habitante" &&
+      !run.aguardaDecisaoCulto &&
+      !evento.consequenciaAgendada &&
+      !evento.forcarSorteioQuandoElegivel &&
+      !evento.disparadoPelaEngine &&
+      !evento.marcaCondicaoDecidida
+    ) {
+      run.encontroLeste = {
+        eventoId: evento.id,
+        opcoesSorteadas: [...run.opcoesSorteadas],
+        ofertaMercador: run.ofertaMercador,
+        recompensasBau: run.recompensasBau,
+      };
+      registrarSorteio(run, Jogo.eventoPorId(visita.eventoId));
+    }
     return true;
   }
 
   Jogo.engine = {
+    iniciarPassivaNordica,
+    aplicarEfeitos,
     cumpre,
     pools,
     eventoDisponivel,

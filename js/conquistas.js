@@ -2,6 +2,7 @@
   "use strict";
   const Jogo = window.Jogo;
   const nomeTraco = {
+    ...Object.fromEntries(Object.entries(Jogo.herdeiros.novos).map(([id, h]) => [id, h.nome])),
     corajoso: "A herdeira corajosa",
     avarento: "O herdeiro avarento",
     doente: "O herdeiro doente",
@@ -20,6 +21,7 @@
     "druida_herdeiro",
     "menino_cronista",
     "heroi_do_povo",
+    ...Object.keys(Jogo.herdeiros.novos),
   ];
   const estruturas = [
     "ponte",
@@ -50,6 +52,39 @@
   const zodiacos = Jogo.eventos.filter((evento) => evento.zodiaco);
   const deusesNordicos = Jogo.eventos.filter((evento) => evento.divino);
   const lista = [
+    {
+      id: "fortuna_do_leste",
+      nome: "A fortuna atravessa o mar",
+      descricao: Jogo.herdeiros.novos.herdeira_leste.desbloqueio,
+      condicao: Jogo.herdeiros.condicoes.herdeira_leste,
+    },
+    {
+      id: "chamado_nordico",
+      nome: "Sob o olhar do Norte",
+      descricao: Jogo.herdeiros.novos.herdeiro_nordico.desbloqueio,
+      condicao: Jogo.herdeiros.condicoes.herdeiro_nordico,
+    },
+    {
+      id: "culto_adaga_herdeiro",
+      nome: "O preço da lâmina",
+      descricao: "Como Herdeiro do Culto, sacrifique 5 seguidores com a adaga.",
+      condicao: (run) => run.flags.adaga_herdeiro_culto === true,
+    },
+    {
+      id: "leste_duas_estacoes",
+      nome: "Duas visitas no mesmo ano",
+      descricao: "Como Herdeira do Leste, resolva as duas visitas zodiacais de um ano.",
+      condicao: (run) =>
+        run.traco === "herdeira_leste" &&
+        [1, 2, 3].some((ano) => run.calendarioLeste.filter((v) => v.ano === ano && v.resolvida).length === 2),
+    },
+    {
+      id: "nordico_duas_faces",
+      nome: "Entre favor e castigo",
+      descricao: "Como Nórdico, receba uma passiva de bênção e uma de maldição na mesma crônica.",
+      condicao: (run) =>
+        run.traco === "herdeiro_nordico" && run.flags.passiva_bencao && run.flags.passiva_maldicao,
+    },
     {
       id: "cronica_abissal",
       nome: "O que dormia acordou",
@@ -131,7 +166,9 @@
       condicao: (run) => {
         const adquiridas = new Set(run.itensConquistados || []);
         const raridadesAdquiridas = new Set(
-          Jogo.itens.filter((item) => adquiridas.has(item.id) && raridades.includes(item.raridade)).map((item) => item.raridade),
+          Jogo.itens
+            .filter((item) => adquiridas.has(item.id) && raridades.includes(item.raridade))
+            .map((item) => item.raridade),
         );
         return raridadesAdquiridas.size >= 3;
       },
@@ -166,7 +203,8 @@
     {
       id: "companheiros_druida",
       nome: "O bosque tem muitos olhos",
-      descricao: "Conheça o Lobo, o Corvo e o Cervo como Druida-Herdeiro. O progresso acumula entre crônicas.",
+      descricao:
+        "Conheça o Lobo, o Corvo e o Cervo como Druida-Herdeiro. O progresso acumula entre crônicas.",
       condicao: (run) => todosCompanheirosDoDruida(run),
     },
     {
@@ -195,7 +233,8 @@
       id: "morte_devedor_barao",
       nome: "A dívida ficou para a vila",
       descricao: "Morra diante do cobrador do barão, deixando a dívida para o próximo herdeiro.",
-      condicao: (run) => run.status === "encerrada" && run.fim?.tipo === "derrota" && run.eventoId === "barao",
+      condicao: (run) =>
+        run.status === "encerrada" && run.fim?.tipo === "derrota" && run.eventoId === "barao",
     },
     {
       id: "morte_jogo_dados",
@@ -363,7 +402,10 @@
       versao: 1,
       conquistasDesbloqueadas: novas.map((conquista) => conquista.id),
     });
-    Jogo.save?.registrarConquistas(run, novas.map((conquista) => conquista.id));
+    Jogo.save?.registrarConquistas(
+      run,
+      novas.map((conquista) => conquista.id),
+    );
     run.avisosConquistas ||= [];
     for (const conquista of novas) {
       run.avisosConquistas.push(conquista.id);

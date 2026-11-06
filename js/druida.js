@@ -40,7 +40,8 @@
     }
     if (run.druidaPassiva === "cervo") {
       const cura = temItem(run, "mascara_de_cervo") ? 4 : 3;
-      run.atributos.hp = Math.min(run.hpMax, run.atributos.hp + cura);
+      if (Jogo.engine) Jogo.engine.aplicarEfeitos(run, { hp: cura });
+      else run.atributos.hp = Math.min(run.hpMax, run.atributos.hp + cura);
     }
     if (run.flags.bosque_sagrado && run.rodada % 5 === 0) run.atributos.habitantes += 1;
   }

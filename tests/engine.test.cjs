@@ -39,6 +39,7 @@ function preparar() {
   vm.runInContext("Math.random = () => 0.25;", contexto);
   for (const nome of [
     "state",
+    "herdeiros",
     "events",
     "events-vila",
     "events-pactos",
@@ -718,7 +719,7 @@ test("reparar a ponte libera uma caravana, cuja recompensa não pode ser repetid
 test("todo evento oferece saídas válidas e resultados finitos para ambas as honras e combates", () => {
   for (const honra of [-50, 0, 50]) {
     const { J } = preparar();
-    assert.equal(J.eventos.length, 301);
+    assert.equal(J.eventos.length, 310);
     assert.equal(new Set(J.eventos.map((e) => e.id)).size, J.eventos.length);
     for (const evento of J.eventos) {
       for (const gold of [0, 100]) {

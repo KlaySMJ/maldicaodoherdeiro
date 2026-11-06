@@ -40,7 +40,7 @@ function preparar() {
       querySelector: () => null,
       querySelectorAll: () => [],
       addEventListener() {},
-      body: { dataset: {} },
+      body: { dataset: {}, classList: { toggle() {} } },
     },
     CustomEvent: class {
       constructor(tipo, opcoes) {
@@ -54,6 +54,7 @@ function preparar() {
     vm.runInContext(fs.readFileSync(path.join(__dirname, `../../js/${nome}.js`), "utf8"), contexto);
   for (const nome of [
     "state",
+    "herdeiros",
     "events",
     "events-vila",
     "events-pactos",

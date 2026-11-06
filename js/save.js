@@ -1,14 +1,7 @@
 (function () {
   "use strict";
   const Jogo = window.Jogo;
-  const TRACOS_VALIDOS = [
-    "corajoso",
-    "avarento",
-    "doente",
-    "druida_herdeiro",
-    "menino_cronista",
-    "heroi_do_povo",
-  ];
+  const TRACOS_VALIDOS = Jogo.herdeiros.todos;
   const CHAVE_RUN = "run_atual";
   const CHAVE_LEGADO = "legado";
   const LEITURA_INDISPONIVEL = Symbol("leitura indisponível");
@@ -125,6 +118,7 @@
       return false;
     if (!["ativa", "encerrada"].includes(run.status) || !["escolha", "resultado"].includes(run.fase))
       return false;
+    if (!Jogo.herdeiros.camposValidos(run)) return false;
     if (!inteiro(run.rodada) || run.rodada < 1 || !objeto(run.atributos)) return false;
     if (
       !TRACOS_VALIDOS.includes(run.traco) ||
@@ -396,7 +390,9 @@
     if (!Number.isSafeInteger(dados.batalhasVencidas) || dados.batalhasVencidas < 0)
       dados.batalhasVencidas = 0;
     if (!Array.isArray(dados.mercadoriasCompradas)) dados.mercadoriasCompradas = [];
-    dados.mercadoriasCompradas = [...new Set(dados.mercadoriasCompradas.filter((id) => typeof id === "string"))];
+    dados.mercadoriasCompradas = [
+      ...new Set(dados.mercadoriasCompradas.filter((id) => typeof id === "string")),
+    ];
     if (!Array.isArray(dados.historicoCronica)) dados.historicoCronica = [];
     dados.historicoCronica = dados.historicoCronica.slice(-Jogo.config.memoriaCronica);
     if (typeof dados.historicoCronicaAberto !== "boolean") dados.historicoCronicaAberto = false;
@@ -591,6 +587,9 @@
 
   function migrarRun(dados) {
     if (!objeto(dados)) return;
+    if (!Object.hasOwn(dados, "calendarioLeste")) dados.calendarioLeste = [];
+    if (!Object.hasOwn(dados, "encontroLeste")) dados.encontroLeste = null;
+    if (!Object.hasOwn(dados, "passivaNordica")) dados.passivaNordica = null;
     while (Number.isSafeInteger(dados.versao)) {
       const migracao = migracoesRun[dados.versao];
       if (!migracao) return;
@@ -640,7 +639,10 @@
 
   function registrarConquistas(run, desbloqueadas = run?.conquistas?.conquistasDesbloqueadas) {
     if (!Array.isArray(desbloqueadas) || !desbloqueadas.length) return true;
-    const progresso = { versao: 1, conquistasDesbloqueadas: desbloqueadas };
+    const permissoes = Object.fromEntries(
+      Jogo.herdeiros.desbloqueaveis.filter((id) => run?.conquistas?.flags?.[id]).map((id) => [id, true]),
+    );
+    const progresso = { versao: 1, conquistasDesbloqueadas: desbloqueadas, flags: permissoes };
     legadoDaSessao = Jogo.legado.mesclar(legadoDaSessao, progresso);
     const anterior = ler(CHAVE_LEGADO);
     if (anterior === LEITURA_INDISPONIVEL) return false;
@@ -707,7 +709,21 @@
     }
   }
 
+  function liberarPersonagens() {
+    const anterior = ler(CHAVE_LEGADO);
+    if (anterior === LEITURA_INDISPONIVEL) return false;
+    const progresso = {
+      versao: 1,
+      flags: Object.fromEntries(Jogo.herdeiros.desbloqueaveis.map((id) => [id, true])),
+    };
+    const legado = Jogo.legado.mesclar(Jogo.legado.mesclar(anterior, legadoDaSessao), progresso);
+    if (!gravar(CHAVE_LEGADO, legado)) return false;
+    legadoDaSessao = legado;
+    return true;
+  }
+
   Jogo.save = {
+    liberarPersonagens,
     lerLegado,
     lerRun,
     runValida,

@@ -62,16 +62,8 @@
 
   function iniciar(personagem = null, pularIntro = false) {
     const legado = Jogo.save.lerLegado();
-    const tracoForcado =
-      personagem ||
-      (window.localStorage.getItem("debug_forcar_heroi") === "1"
-        ? "heroi_do_povo"
-        : window.localStorage.getItem("debug_forcar_menino") === "1"
-          ? "menino_cronista"
-          : window.localStorage.getItem("debug_forcar_druida") === "1"
-            ? "druida_herdeiro"
-            : null);
-    run = Jogo.estado.novo(legado, tracoForcado);
+    if (personagem && !Jogo.estado.tracosDisponiveis(legado).includes(personagem)) return false;
+    run = Jogo.estado.novo(legado, personagem);
     Jogo.legado.avaliar(run);
     const evento = Jogo.engine.sortear(run);
     if (!evento) return;
@@ -129,38 +121,19 @@
           document.getElementById("importar-progresso-arquivo")?.click();
         }
         break;
-      case "debug-alternar-druida":
-        window.localStorage.setItem("debug_forcar_menino", "0");
-        window.localStorage.setItem("debug_forcar_heroi", "0");
-        window.localStorage.setItem(
-          "debug_forcar_druida",
-          window.localStorage.getItem("debug_forcar_druida") === "1" ? "0" : "1",
-        );
+      case "debug-liberar-personagens": {
+        if (!Jogo.ui.modoDebug()) break;
+        const salvo = Jogo.save.liberarPersonagens();
         Jogo.ui.menu(run);
-        break;
-      case "debug-alternar-conselheiro":
-        window.localStorage.setItem("debug_forcar_druida", "0");
-        window.localStorage.setItem("debug_forcar_heroi", "0");
-        window.localStorage.setItem(
-          "debug_forcar_menino",
-          window.localStorage.getItem("debug_forcar_menino") === "1" ? "0" : "1",
+        window.dispatchEvent(
+          new CustomEvent("jogo:aviso", {
+            detail: salvo
+              ? "Personagens liberados para escolher."
+              : "Não foi possível salvar a liberação. Tente novamente.",
+          }),
         );
-        Jogo.ui.menu(run);
         break;
-      case "debug-alternar-heroi":
-        window.localStorage.setItem("debug_forcar_druida", "0");
-        window.localStorage.setItem("debug_forcar_menino", "0");
-        window.localStorage.setItem(
-          "debug_forcar_heroi",
-          window.localStorage.getItem("debug_forcar_heroi") === "1" ? "0" : "1",
-        );
-        Jogo.ui.menu(run);
-        break;
-      case "debug-iniciar-menino":
-        if (run?.status === "ativa" && !(await Jogo.ui.confirmarNovaRun())) break;
-        if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
-        iniciar("menino_cronista", true);
-        break;
+      }
       case "carregar":
         carregar();
         break;
@@ -304,7 +277,12 @@
       if (run && itemUsadoId && Jogo.engine.usarItem(run, itemUsadoId, itemSacrificio)) {
         const item = Jogo.itens.find((candidato) => candidato.id === itemUsadoId);
         run.inventarioAberto = true;
-        run.avisoInventario = item ? `${item.nome}: ${item.descricao}` : "Item usado.";
+        run.avisoInventario =
+          itemUsadoId === "adaga_cerimonial" && run.flags.adaga_herdeiro_culto
+            ? "Adaga cerimonial: 5 seguidores por +10 Ataque e +5 Escudo."
+            : item
+              ? `${item.nome}: ${item.descricao}`
+              : "Item usado.";
         if (run.status === "encerrada") mostrarFim();
         else {
           Jogo.save.gravarRun(run);

@@ -8,7 +8,7 @@ Os caminhos de código, imagens e scripts citados nestes arquivos partem da raiz
 
 ## Planos e propostas
 
-- [Herdeiros prioritários: Culto, Leste e Nórdico](PLANO-HERDEIROS-PRIORITARIOS.md): implementar antes dos herdeiros ainda pendentes do plano antigo.
+- [Herdeiros prioritários: Culto, Leste e Nórdico](PLANO-HERDEIROS-PRIORITARIOS.md): mecânicas implementadas; artes próprias e revisão visual manual pendentes.
 - [Plano de melhorias](PLANO-MELHORIAS.md).
 - [Revisão da interface e do legado](PLANO-REVISAO-INTERFACE-E-LEGADO.md).
 - [Balanceamento e mobile](PRD-BALANCEAMENTO-E-MOBILE.md).

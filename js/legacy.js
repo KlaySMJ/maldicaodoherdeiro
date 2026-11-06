@@ -26,16 +26,7 @@
             honra: registro.honra,
             tipo: registro.tipo,
             motivo: registro.motivo,
-            ...([
-              "corajoso",
-              "avarento",
-              "doente",
-              "druida_herdeiro",
-              "menino_cronista",
-              "heroi_do_povo",
-            ].includes(registro.traco)
-              ? { traco: registro.traco }
-              : {}),
+            ...(Jogo.herdeiros.todos.includes(registro.traco) ? { traco: registro.traco } : {}),
             ...(registro.meninoAdotado === true ? { meninoAdotado: true } : {}),
           }))
           .slice(-20)
@@ -65,14 +56,7 @@
               Number.isSafeInteger(registro.rodada) &&
               Number.isSafeInteger(registro.habitantes) &&
               Number.isSafeInteger(registro.gold) &&
-              [
-                "corajoso",
-                "avarento",
-                "doente",
-                "druida_herdeiro",
-                "menino_cronista",
-                "heroi_do_povo",
-              ].includes(registro.traco),
+              Jogo.herdeiros.todos.includes(registro.traco),
           )
           .map(({ id, pontuacao, rodada, habitantes, gold, traco }) => ({
             id,
@@ -89,6 +73,13 @@
 
   // Formato: { id, nome, descricao, condicao(run), desbloqueia: { eventos: [], itens: [], flags: [] } }.
   Jogo.objetivosLegado = [
+    ...Object.entries(Jogo.herdeiros.novos).map(([id, herdeiro]) => ({
+      id,
+      nome: herdeiro.nome,
+      descricao: herdeiro.desbloqueio,
+      condicao: Jogo.herdeiros.condicoes[id],
+      desbloqueia: { flags: [id] },
+    })),
     {
       id: "bosque_vivo",
       nome: "O bosque que permanece",
@@ -134,7 +125,10 @@
       versao: 1,
       eventos: listaIds(dados.eventos),
       itens: listaIds(dados.itens),
-      flags: flagsSeguras(dados.flags),
+      flags: {
+        ...flagsSeguras(dados.flags),
+        ...(dados.conquistasDesbloqueadas?.includes("culto_concluido") ? { herdeiro_culto: true } : {}),
+      },
       objetivosConcluidos: listaIds(dados.objetivosConcluidos),
       conquistasDesbloqueadas: listaIds(dados.conquistasDesbloqueadas),
       memorias: memoriasSeguras(dados.memorias),

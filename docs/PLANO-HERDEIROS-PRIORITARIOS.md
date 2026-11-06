@@ -1,14 +1,14 @@
 # Plano: herdeiros do Culto, do Leste e Nórdico
 
-Data: 6 de novembro de 2026. Estado: planejamento; nenhuma mecânica implementada por este documento.
+Data: 6 de novembro de 2026. Estado: implementação funcional concluída. Por pedido do usuário, esta execução não inclui a produção das artes.
 
 ## Prioridade e escopo
 
 Implementar estes três herdeiros antes dos personagens ainda pendentes de [HERDEIROS-FUTUROS.md](HERDEIROS-FUTUROS.md). Os herdeiros já disponíveis continuam no jogo. O plano antigo serve como referência de ideias, mas suas listas de registros e números de linha precisam de revisão antes do uso.
 
-Esta entrega inclui os desbloqueios, as conquistas, as passivas, os retratos e a ampliação do catálogo nórdico para **10 bênçãos e 10 maldições**. O usuário confirmou que o Nórdico recebe **um efeito sorteado por rodada**; não recebe todos ao mesmo tempo.
+O escopo funcional inclui os desbloqueios, as conquistas, as passivas e a ampliação do catálogo nórdico para **10 bênçãos e 10 maldições**. O usuário confirmou que o Nórdico recebe **um efeito sorteado por rodada**; não recebe todos ao mesmo tempo.
 
-## Base conferida no código
+## Base conferida antes da implementação
 
 `js/state.js` define 300 rodadas para vencer, anos de 100 rodadas e estações de 25. Os atributos comuns atuais são 120 de Vida, 5 de Escudo, 2 de Ataque, Honra 0, 50 habitantes e 5 gold. Os seis traços cadastrados são `corajoso`, `avarento`, `doente`, `druida_herdeiro`, `menino_cronista` e `heroi_do_povo`.
 
@@ -195,18 +195,30 @@ Para o Nórdico: uma passiva no primeiro dia e em cada dia seguinte; nenhuma rep
 
 Conferir 10 bênçãos e 10 maldições com IDs únicos, todas com arte existente. Executar `npm test`, `npm run lint` e `npm run format:check` após a implementação. Fazer simulações de runs completas para avaliar sobrevivência e frequência das cartas, sem alterar os valores pedidos sem registrar a proposta de ajuste. A revisão manual deve cobrir seleção, tooltips, seguidores reservados, retratos e retomada de encontros no celular.
 
-## Checklist de entrega do plano
+## Registro da implementação
 
-- [x] Conferir as regras atuais de herdeiros, culto, calendário, efeitos e conquistas no código.
-- [x] Registrar os três herdeiros com prioridade sobre o backlog anterior.
-- [x] Definir atributos, desbloqueios e conquistas relacionadas.
-- [x] Incorporar a confirmação: um efeito nórdico sorteado por rodada e catálogo com 10 bênçãos e 10 maldições.
-- [x] Especificar calendário sem passagem de dia, persistência e casos de teste.
-- [x] Confirmar Níðhöggr como a décima maldição e acrescentar efeitos próprios a Fenrir e Hrym.
-- [x] Registrar as referências obrigatórias de arte para entidades nórdicas e herdeiros.
-- [x] Planejar um único botão de debug para liberar todos os personagens.
-- [ ] Validar em implementação os valores propostos para os novos efeitos e o multiplicador de frequência do Culto.
-- [ ] Implementar mecânicas, conquistas, migrações, interface e o botão único de debug.
-- [ ] Produzir e revisar as artes, executar os testes e conferir a interface manualmente.
+Os três herdeiros estão cadastrados com seleção, desbloqueios persistidos, conquistas, atributos, regras próprias e compatibilidade com saves. O catálogo agora contém 384 definições: as oito entidades nórdicas novas e o convite exclusivo **A chama guardada** somam nove cartas ao catálogo anterior. O convite permite ao Herdeiro do Culto aderir antes de perder todos os habitantes; as cartas com requisito de culto ativo também recebem o peso dobrado, mesmo quando seu tipo não é culto.
 
-Resultado: plano pronto para orientar a implementação prioritária, com as confirmações do usuário incorporadas. A validação desta entrega consiste na consulta ao código e na conferência documental; não houve alteração do jogo nem execução de testes de mecânicas. Níðhöggr está aprovado como a décima maldição; permanecem pendentes a implementação e as validações de balanceamento, artes e interface listadas acima.
+O Leste preserva a carta normal, as opções, a oferta do mercador e as recompensas do baú quando o zodíaco interrompe o dia. Encontros obrigatórios podem terminar primeiro; a visita pendente ocorre ainda no mesmo dia, antes da vitória no dia 300. A adesão ao culto durante a visita não invalida o save nem perde a carta suspensa.
+
+As alternativas pagas das novas bênçãos duram 10 dias: Baldr reduz 4 de dano, Frigg concede +3 Escudo, Heimdall revela Honra e habitantes, Freyr concede +2 habitantes por dia. As versões básicas mantêm os valores da tabela. As alternativas pagas das maldições encurtam a duração para 5 dias.
+
+Uma readesão ao culto concede 50 seguidores, sem recriar os 30 da reserva inicial. O botão **Liberar personagens** grava apenas as permissões de seleção; os controles individuais e as preferências antigas de personagem deixaram de forçar novos inícios.
+
+Não houve criação ou conversão de imagens. Os novos herdeiros usam assets/selo.svg como retrato provisório; as oito entidades reutilizam referências nórdicas existentes. A produção das artes próprias segue as regras desta especificação e permanece fora desta execução.
+
+Validações: 153 testes automatizados passaram, assim como lint, conferência de formatação e git diff --check. Também executei nove simulações do catálogo real, três por novo herdeiro. Todas chegaram ao dia 300 com saves válidos; as três partidas do Leste resolveram seis encontros zodiacais. A estratégia automática compara as consequências das escolhas e não representa a experiência de um jogador sem conhecimento prévio. Os testes incluem partidas de 300 dias com save e carregamento em cada escolha e resultado, cobrindo os pares sazonais.
+
+## Checklist de entrega
+
+- [x] Conferir as regras atuais e implementar os três herdeiros com prioridade sobre o backlog anterior.
+- [x] Integrar atributos, passivas, desbloqueios, conquistas e compatibilidade dos saves.
+- [x] Implementar calendário sem passagem de dia e persistência dos encontros do Leste.
+- [x] Completar 10 bênçãos e 10 maldições, incluindo Níðhöggr e os efeitos adicionais de Fenrir e Hrym.
+- [x] Substituir os controles individuais por um único botão de debug para liberar personagens.
+- [x] Atualizar documentação e catálogos, mantendo as referências obrigatórias das artes.
+- [x] Executar 153 testes, lint, conferência de formatação e nove simulações completas.
+- [ ] Produzir e revisar as artes próprias, excluídas desta execução por pedido do usuário.
+- [ ] Conferir visualmente a interface no navegador e no celular; os testes de renderização não substituem essa revisão.
+
+Resultado: implementação funcional entregue, com os herdeiros prioritários, os 20 efeitos nórdicos e o debug unificado. Os testes cobrem as novas regras e a persistência; as simulações completas não encontraram saves inválidos. Permanecem pendentes a produção das artes, fora do escopo autorizado, e a revisão visual manual no navegador e no celular.

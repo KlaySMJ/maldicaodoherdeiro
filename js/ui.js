@@ -80,6 +80,7 @@
     pacto: "Pacto",
   };
   const nomesTraco = {
+    ...Object.fromEntries(Object.entries(Jogo.herdeiros.novos).map(([id, h]) => [id, h.nome])),
     corajoso: "Corajosa",
     avarento: "Avarento",
     doente: "Doente",
@@ -95,6 +96,7 @@
     possessao: "+2 Ataque · revela a Honra das escolhas",
   };
   const descricoesTraco = {
+    ...Object.fromEntries(Object.entries(Jogo.herdeiros.novos).map(([id, h]) => [id, h.descricao])),
     corajoso: "Corajosa: começa com +1 Ataque.",
     avarento: "Avarento: começa com 10 Gold.",
     doente: "Doente: começa com 70 Vida e 4 Escudo; sua Vida máxima inicial também é 70.",
@@ -501,9 +503,6 @@
   }
 
   function menu(run, focarLegado = false) {
-    const forcarDruida = window.localStorage.getItem("debug_forcar_druida") === "1";
-    const forcarConselheiro = window.localStorage.getItem("debug_forcar_menino") === "1";
-    const forcarHeroi = window.localStorage.getItem("debug_forcar_heroi") === "1";
     mostrar(
       `
       <section class="abertura" aria-labelledby="titulo-inicio">
@@ -522,10 +521,8 @@
               <div><button class="botao" data-acao="exportar-progresso">Exportar arquivo</button><button class="botao" data-acao="importar-progresso">Importar arquivo</button></div>
             </details>
             <input id="importar-progresso-arquivo" type="file" accept="application/json,.json" hidden>
+            <button class="botao debug-druida-menu" data-acao="debug-liberar-personagens">Liberar personagens</button>
             <button class="botao debug-transformacoes-menu" data-acao="debug-transformacoes">Debug: ver transformações</button>
-            <button class="botao debug-druida-menu" data-acao="debug-alternar-druida" aria-pressed="${forcarDruida}">Debug: sempre iniciar como Druida · ${forcarDruida ? "ativo" : "inativo"}</button>
-            <button class="botao debug-conselheiro-menu" data-acao="debug-alternar-conselheiro" aria-pressed="${forcarConselheiro}">Debug: sempre iniciar como Conselheiro · ${forcarConselheiro ? "ativo" : "inativo"}</button>
-            <button class="botao debug-heroi-menu" data-acao="debug-alternar-heroi" aria-pressed="${forcarHeroi}">Debug: sempre iniciar como Heroína do povo · ${forcarHeroi ? "ativo" : "inativo"}</button>
           </div>
           <p class="nota">${run ? "Há uma história esperando por você." : "Sua primeira história ainda não foi escrita."}</p>
         </div>
@@ -655,9 +652,13 @@
   }
   function escolherHerdeiro(legado) {
     const disponiveis = new Set(Jogo.estado.tracosDisponiveis(legado));
-    const debug = modoDebug();
-    const forcarHeroi = window.localStorage.getItem("debug_forcar_heroi") === "1";
     const opcoesHerdeiro = [
+      ...Object.entries(Jogo.herdeiros.novos).map(([traco, h]) => ({
+        traco,
+        nome: h.nome,
+        descricao: h.descricao,
+        imagem: null,
+      })),
       {
         traco: "corajoso",
         nome: "A Herdeira Corajosa",
@@ -698,6 +699,7 @@
       },
     ];
     const dicasTraco = {
+      ...Object.fromEntries(Object.entries(Jogo.herdeiros.novos).map(([id, h]) => [id, h.desbloqueio])),
       menino_cronista: "Acolha o órfão com Honra e permita que ele se torne conselheiro.",
       heroi_do_povo: "Alcance 400 de Honra em uma crônica.",
     };
@@ -706,25 +708,16 @@
         <div class="selecao-herdeiro-cabecalho"><p class="nota">A linhagem continua</p><h1 id="titulo-selecao-herdeiro">Quem herda a vila?</h1><p>Passe o cursor ou toque uma vez no retrato para ver o que muda e como desbloqueá-lo.</p></div>
         <div class="selecao-herdeiro-lista">${opcoesHerdeiro
           .map((herdeiro) => {
-            const desbloqueado =
-              disponiveis.has(herdeiro.traco) ||
-              (debug && herdeiro.traco === "menino_cronista") ||
-              (herdeiro.traco === "heroi_do_povo" && forcarHeroi);
-            const nomeHerdeiro =
-              debug && herdeiro.traco === "menino_cronista"
-                ? "O Conselheiro (debug)"
-                : forcarHeroi && herdeiro.traco === "heroi_do_povo"
-                  ? "A Heroína do povo (debug)"
-                  : herdeiro.nome;
-            const descricaoHerdeiro =
-              debug && herdeiro.traco === "menino_cronista"
-                ? "70 Vida, 3 Escudo e 30 Honra no início."
-                : herdeiro.descricao;
+            const desbloqueado = disponiveis.has(herdeiro.traco);
+            const nomeHerdeiro = herdeiro.nome;
+            const descricaoHerdeiro = herdeiro.descricao;
             const dicaHerdeiro = desbloqueado
               ? "Disponível para escolher."
               : dicasTraco[herdeiro.traco] || "Poupe o cervo branco quando ele cruzar seu caminho.";
             const descricaoAcessivel = `${nomeHerdeiro}. ${descricaoHerdeiro} ${dicaHerdeiro}`;
-            const imagemBase = `assets/herdeiros/${herdeiro.imagem}-neutra.png`;
+            const imagemBase = herdeiro.imagem
+              ? `assets/herdeiros/${herdeiro.imagem}-neutra.png`
+              : "assets/selo.svg";
             const versaoImagem = window.JOGO_VERSAO_ASSETS
               ? `${imagemBase}?v=${encodeURIComponent(window.JOGO_VERSAO_ASSETS)}`
               : imagemBase;
@@ -781,11 +774,15 @@
         .map(([atributo, valor]) => `${assinado(valor)} ${nomesAtributosEfeito[atributo] || atributo}`);
       if (periodicos.length)
         detalhes.push(
-          efeito.porRodada.aCada
-            ? `a cada ${numero(efeito.porRodada.aCada)} rodadas: ${periodicos.join(", ")}`
-            : `por rodada: ${periodicos.join(", ")}`,
+          efeito.eventoId
+            ? `ao iniciar o dia: ${periodicos.join(", ")}`
+            : efeito.porRodada.aCada
+              ? `a cada ${numero(efeito.porRodada.aCada)} rodadas: ${periodicos.join(", ")}`
+              : `por rodada: ${periodicos.join(", ")}`,
         );
     }
+    if (efeito.reduzirCura) detalhes.push("reduz a cura de Vida pela metade");
+    if (efeito.manutencaoGold) detalhes.push("cobra 1 Gold por dia");
     if (efeito.reducaoDano) detalhes.push(`reduz ${numero(efeito.reducaoDano)} de dano em batalha`);
     if (efeito.reducaoGanhoGold) detalhes.push(`reduz em ${numero(efeito.reducaoGanhoGold)} o gold recebido`);
     if (efeito.revelarHonraRodadas) detalhes.push("revela sua Honra enquanto durar");
@@ -915,7 +912,7 @@
                                     : "Sem unidades disponíveis";
                 const usoItem =
                   item.id === "adaga_cerimonial" && quantidade && Jogo.engine.podeUsarItem(run, item.id)
-                    ? `<span class="acoes-item">${Jogo.engine.podeUsarItem(run, item.id, "habitantes") ? `<button class="botao usar-item" data-item-sacrificio="habitantes">Sacrificar 10 habitantes</button>` : ""}${Jogo.engine.podeUsarItem(run, item.id, "culto") ? `<button class="botao usar-item" data-item-sacrificio="culto">Sacrificar 10 seguidores</button>` : ""}</span>`
+                    ? `<span class="acoes-item">${Jogo.engine.podeUsarItem(run, item.id, "habitantes") ? `<button class="botao usar-item" data-item-sacrificio="habitantes">Sacrificar ${run.traco === "herdeiro_culto" ? 5 : 10} habitantes</button>` : ""}${Jogo.engine.podeUsarItem(run, item.id, "culto") ? `<button class="botao usar-item" data-item-sacrificio="culto">Sacrificar ${run.traco === "herdeiro_culto" ? "5 seguidores · +10 Ataque e +5 Escudo" : "10 seguidores"}</button>` : ""}</span>`
                     : item.uso?.sacrificarHabitantes && quantidade && Jogo.engine.podeUsarItem(run, item.id)
                       ? `<button class="botao usar-item" data-usar-item="${esc(item.id)}">Matar 1 aldeão</button>`
                       : item.id === "calice_negro" && quantidade && Jogo.engine.podeUsarItem(run, item.id)
@@ -926,7 +923,7 @@
                             Jogo.engine.podeUsarItem(run, item.id)
                           ? `<button class="botao usar-item" data-usar-item="${esc(item.id)}">Usar</button>`
                           : "";
-                return `<li><span class="item-descricao"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong><small>${esc(estado)} · ${esc(item.descricao)}</small></span>${usoItem}</li>`;
+                return `<li><span class="item-descricao"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong><small>${esc(estado)} · ${esc(item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto" ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque." : item.descricao)}</small></span>${usoItem}</li>`;
               })
               .join("")}</ul>`
           : "<p>Nenhum item conquistado nesta run.</p>"
@@ -953,7 +950,12 @@
 
   function historicoCronica(
     run,
-    { id = "painel-progresso", titulo = "Crônica recente", recentesPrimeiro = true, expandido = run.historicoCronicaAberto } = {},
+    {
+      id = "painel-progresso",
+      titulo = "Crônica recente",
+      recentesPrimeiro = true,
+      expandido = run.historicoCronicaAberto,
+    } = {},
   ) {
     const registros = (run.historicoCronica || []).slice();
     if (recentesPrimeiro) registros.reverse();
@@ -980,7 +982,12 @@
     const detalhes = [];
     const posseRevela = run.condicao?.ativa === "possessao";
     const corvoRevelaOpcao = Jogo.druida?.ehDruida(run) && run.corvoRevelaOpcaoId === opcao.id;
-    if (posseRevela || corvoRevelaOpcao || run.rodada <= run.honraReveladaAteRodada) {
+    if (
+      posseRevela ||
+      corvoRevelaOpcao ||
+      Jogo.herdeiros.valorEfeito(run, "revelarHonraRodadas") ||
+      run.rodada <= run.honraReveladaAteRodada
+    ) {
       if (opcao.combate && evento.batalha) {
         const vitoria = evento.batalha.vitoria.efeitos?.honra || 0;
         const falha =
@@ -1012,7 +1019,11 @@
       opcao.definir?.habitantes !== undefined
         ? opcao.definir.habitantes - run.atributos.habitantes
         : opcao.efeitos?.habitantes;
-    if (run.rodada <= run.habitantesReveladosAteRodada && Number.isSafeInteger(variacaoHabitantes)) {
+    if (
+      (Jogo.herdeiros.valorEfeito(run, "revelarHabitantesRodadas") ||
+        run.rodada <= run.habitantesReveladosAteRodada) &&
+      Number.isSafeInteger(variacaoHabitantes)
+    ) {
       detalhes.push(`Habitantes ${assinado(variacaoHabitantes)}`);
     }
     return detalhes.join(" · ");
@@ -1046,7 +1057,10 @@
       const habitantes = efeitosRamos().map(({ nome, efeitos }) => {
         let variacao = efeitos.habitantes || 0;
         if (opcao.definir?.habitantes !== undefined)
-          variacao = opcao.definir.habitantes - run.atributos.habitantes + (opcao.testeSorte?.[nome]?.efeitos?.habitantes || 0);
+          variacao =
+            opcao.definir.habitantes -
+            run.atributos.habitantes +
+            (opcao.testeSorte?.[nome]?.efeitos?.habitantes || 0);
         const texto = variacao > 0 ? `Habitantes ${assinado(variacao)}` : "sem ganho de Habitantes";
         return `${nome ? `${nome}: ` : ""}${texto}`;
       });
@@ -1068,6 +1082,7 @@
   }
 
   function caminhoRetrato(traco, faixa, cultoAtivo) {
+    if (Jogo.herdeiros.novos[traco]) return "assets/selo.svg";
     const personagem = retratos[traco] || retratos.corajoso;
     const versao = window.JOGO_VERSAO_ASSETS;
     const comVersao = (caminho) => (versao ? `${caminho}?v=${encodeURIComponent(versao)}` : caminho);
@@ -1103,9 +1118,10 @@
     const imagemAnterior = anterior
       ? caminhoRetrato(anterior.traco, anterior.faixa, anterior.cultoAtivo)
       : "";
-    const descricao =
-      (retratos[traco] || retratos.corajoso).descricao +
-      (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa]);
+    const descricao = Jogo.herdeiros.novos[traco]
+      ? `Selo provisório: ${Jogo.herdeiros.novos[traco].nome}`
+      : (retratos[traco] || retratos.corajoso).descricao +
+        (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa]);
     return (
       '<div class="retrato-area' +
       (cultoAtivo ? " culto-ativo" : "") +
@@ -1161,7 +1177,8 @@
       molduras.push('<span class="moldura-mercurio" aria-hidden="true"><i></i></span>');
     if (condicaoId === "olho-mil-nomes" || run?.flags?.olho_mil_nomes_ativo)
       molduras.push('<span class="moldura-mil-nomes" aria-hidden="true"><i></i></span>');
-    if (condicaoId === "vampirismo") molduras.push('<span class="moldura-presas" aria-hidden="true"><i></i><i></i></span>');
+    if (condicaoId === "vampirismo")
+      molduras.push('<span class="moldura-presas" aria-hidden="true"><i></i><i></i></span>');
     if (condicaoId === "licantropia") {
       const ciclo = faseLunar(run);
       const domado = run?.condicao?.ativa === "licantropia" && run.condicao.abracada;
@@ -1186,8 +1203,18 @@
       { id: "vampirismo", nome: "Vampirismo", detalhe: "Moldura vermelha com presas" },
       { id: "licantropia", nome: "Licantropia", detalhe: "Moldura lunar com ciclo de oito rodadas" },
       { id: "possessao", nome: "Possessão", detalhe: "Moldura fria envolta por um véu" },
-      { id: "olhos-mercurio", classe: "transformacao-olhos-mercurio", nome: "Olhos de Mercúrio", detalhe: "Lentes prateadas nas bordas da carta" },
-      { id: "olho-mil-nomes", classe: "transformacao-olho-mil-nomes", nome: "Olho dos Mil Nomes", detalhe: "Olho dourado em moldura de bronze" },
+      {
+        id: "olhos-mercurio",
+        classe: "transformacao-olhos-mercurio",
+        nome: "Olhos de Mercúrio",
+        detalhe: "Lentes prateadas nas bordas da carta",
+      },
+      {
+        id: "olho-mil-nomes",
+        classe: "transformacao-olho-mil-nomes",
+        nome: "Olho dos Mil Nomes",
+        detalhe: "Olho dourado em moldura de bronze",
+      },
     ];
     const dialogo = document.createElement("dialog");
     dialogo.className = "previa-transformacoes";
@@ -1200,27 +1227,25 @@
       <p class="previa-transformacoes-nota">Prévia cosmética. Não altera a partida nem avança a história.</p>
       <div class="previa-transformacoes-grade">
         ${condicoes
-          .map(
-            (condicao) => {
-              const runPrevia = {
-                ...herdeiro,
-                flags: {
-                  ...(herdeiro.flags || {}),
-                  olhos_mercurio_ativo: condicao.id === "olhos-mercurio",
-                  olho_mil_nomes_ativo: condicao.id === "olho-mil-nomes",
-                },
-              };
-              return `
+          .map((condicao) => {
+            const runPrevia = {
+              ...herdeiro,
+              flags: {
+                ...(herdeiro.flags || {}),
+                olhos_mercurio_ativo: condicao.id === "olhos-mercurio",
+                olho_mil_nomes_ativo: condicao.id === "olho-mil-nomes",
+              },
+            };
+            return `
           <section class="previa-transformacao" aria-label="Prévia de ${condicao.nome}">
             <article class="carta carta-herdeiro honra-${faixa} ${condicao.classe || `condicao-${condicao.id}`} previa-transformacao-carta">
               ${retrato(herdeiro.traco, faixa, null, Boolean(herdeiro.cultoAtivo))}
               ${detalheMoldura(condicao.id, runPrevia)}
-              <div class="carta-titulo herdeiro-carta-titulo"><h2>${herdeiro.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2></div>
+              <div class="carta-titulo herdeiro-carta-titulo"><h2>${["corajoso", "herdeira_leste"].includes(herdeiro.traco) ? "A herdeira" : "O herdeiro"}</h2></div>
             </article>
             <div class="previa-transformacao-legenda"><h3>${condicao.nome}</h3><p>${condicao.detalhe}</p></div>
           </section>`;
-            },
-          )
+          })
           .join("")}
       </div>`;
     document.body.append(dialogo);
@@ -1258,7 +1283,9 @@
       rodada: memoriaAnterior?.rodada ?? "sem registro",
       honra: memoriaAnterior?.honra ?? "sem registro",
       motivo: memoriaAnterior?.motivo ?? "sem registro",
-      herdeiro: memoriaAnterior?.traco === "corajoso" ? "a herdeira anterior" : "o herdeiro anterior",
+      herdeiro: ["corajoso", "herdeira_leste"].includes(memoriaAnterior?.traco)
+        ? "a herdeira anterior"
+        : "o herdeiro anterior",
       adocao: memoriaAnterior?.meninoAdotado
         ? "o menino que a linhagem acolheu"
         : "o herdeiro que veio antes",
@@ -1313,7 +1340,9 @@
         detalhe: "Mostra ganhos positivos de Habitantes antes da escolha.",
       },
     ].filter(Boolean);
-    const classeTransformacao = transformacoesAtivas.map((transformacao) => ` ${transformacao.classe}`).join("");
+    const classeTransformacao = transformacoesAtivas
+      .map((transformacao) => ` ${transformacao.classe}`)
+      .join("");
     const statusTransformacoes = transformacoesAtivas
       .map(
         (transformacao) =>
@@ -1392,6 +1421,7 @@
         </div><p class="linha-calendario">Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]} <span class="marcador-estacoes" role="img" aria-label="Ciclo das estações. Atual: ${esc(nomesEstacao[run.estacao])}."><i class="marca-estacao marca-primavera${run.estacao === "primavera" ? " ativa" : ""}"></i><i class="marca-estacao marca-verao${run.estacao === "verao" ? " ativa" : ""}"></i><i class="marca-estacao marca-outono${run.estacao === "outono" ? " ativa" : ""}"></i><i class="marca-estacao marca-inverno${run.estacao === "inverno" ? " ativa" : ""}"></i></span> · Ano ${numero(Jogo.anoDaRodada(run.rodada))}</p></div>
           <dl class="recursos-vila" aria-label="Recursos da vila">
             <div class="recurso-contador vila-contador"><dt>Habitantes da vila</dt><dd>${numero(run.atributos.habitantes)}</dd></div>
+            ${run.traco === "herdeiro_culto" && !run.cultoAtivo ? `<div class="recurso-contador"><dt>Seguidores em reserva</dt><dd>${numero(run.seguidoresCulto)}</dd><small>Disponíveis ao aderir ao culto</small></div>` : ""}
             ${run.cultoAtivo ? `<div class="recurso-contador culto-contador"><dt>${transicaoCulto ? `<svg class="chama-passagem" viewBox="0 0 24 32" aria-hidden="true"><path class="chama-externa" d="M12 1c1 5-1 7-3 10-2 2-4 4-4 8a7 7 0 0 0 14 0c0-4-2-7-5-10 0 3-1 5-2 6 1-5 0-9 0-14Z"/><path class="chama-interna" d="M12 15c0 2-1 3-2 5a3.5 3.5 0 1 0 7 0c0-2-1-4-3-5 0 2-1 3-2 4 1-2 0-3 0-4Z"/></svg>` : ""}Seguidores do culto</dt><dd>${numero(run.seguidoresCulto)}</dd>${run.cultoRendaPorRodada ? `<small>Templo: +${numero(run.cultoRendaPorRodada)} por rodada</small>` : ""}</div>` : ""}
             <div class="testes-honra testes-debug"><dt>Debug</dt><dd>
               <button class="controle-honra" data-acao="habitantes-menos" ${run.aguardaDecisaoCulto ? "disabled" : ""} aria-label="Diminuir habitantes em 50 para debug" title="Diminuir habitantes em 50 para debug">Hab. −50</button>
@@ -1419,12 +1449,13 @@
           </dl>
           <nav class="titulo-run-acoes" aria-label="Ações da crônica">
             <button class="botao botao-tutorial" data-acao="tutorial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5c2.8-1.3 5.3-.4 7 1.1v14c-1.7-1.5-4.2-2.4-7-1.1zM19 4.5c-2.8-1.3-5.3-.4-7 1.1v14c1.7-1.5 4.2-2.4 7-1.1z"/><path d="M7.5 8h2M7.5 11h2M14.5 8h2M14.5 11h2"/></svg><span>Tutorial</span></button>
-            <button class="botao botao-icone" data-acao="menu" aria-label="Voltar para Casa" title="Casa"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10.5a.5.5 0 0 1-.5.5H14v-7h-4v7H3.5a.5.5 0 0 1-.5-.5V10Z"/></svg></button>
             <button class="botao botao-icone" data-acao="alternar-inventario" aria-label="Abrir Inventário" title="Inventário" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg></button>
             <button class="botao botao-icone" data-acao="alternar-progresso" aria-label="Ver Progresso da crônica" title="Progresso" aria-controls="painel-progresso" aria-expanded="${run.historicoCronicaAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19.5h16M5 16l4-4 3 2 6-7"/><path d="M14.5 7H18v3.5"/></svg></button>
           </nav>
         </div>
         ${statusDruida}
+        ${run.passivaNordica ? `<p class="efeito-divino-status" role="status">Passiva do dia: ${esc(run.passivaNordica.nome)} · ${esc(efeitoDivinoHover(run.passivaNordica))}</p>` : ""}
+        ${run.encontroLeste ? `<p role="status">Visita do zodíaco: este encontro não passa o dia.</p>` : ""}
         ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 14.8 8.5 22 9l-5.5 4.8 1.7 7.2-6.2-3.8-6.2 3.8 1.7-7.2L2 9l7.2-.5L12 2Z"/></svg> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"} <span class="info-hover" tabindex="0" role="img" aria-label="Informações sobre o efeito de ${esc(run.efeitoDivino.nome)}" title="${esc(efeitoDivinoHover(run.efeitoDivino))}" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}">i</span></p>` : ""}
         <div class="mesa">
           <div class="coluna-herdeiro">
@@ -1432,7 +1463,7 @@
               ${retrato(run.traco, faixaDoRetrato, anterior, cultoAtivo)}
               ${molduraAtiva}
               ${condicaoId ? `<button class="condicao-info-trigger condicao-${condicaoId}" type="button" data-acao="detalhes-condicao" aria-label="Ver detalhes de ${esc(condicaoNomes[condicaoId])}${condicaoId === "licantropia" ? `. ${esc(descricaoCicloLunar(run))}` : ""}" title="${esc(`${condicaoNomes[condicaoId]}: ${descricaoDaCondicao(condicaoId, run.condicao.abracada)}. ${condicaoId === "licantropia" ? `${descricaoCicloLunar(run)} ` : ""}Toque para ver os detalhes.`)}"><span>${esc(condicaoNomes[condicaoId])} <span aria-hidden="true">ⓘ</span></span></button>` : ""}
-              <div class="carta-titulo herdeiro-carta-titulo"><h2 id="titulo-herdeiro">${run.traco === "corajoso" ? "A herdeira" : "O herdeiro"}</h2><span class="traco-tooltip" tabindex="0" aria-label="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}" data-tooltip="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}">${esc(nomesTraco[run.traco] || "Herdeiro")}</span></div>
+              <div class="carta-titulo herdeiro-carta-titulo"><h2 id="titulo-herdeiro">${["corajoso", "herdeira_leste"].includes(run.traco) ? "A herdeira" : "O herdeiro"}</h2><span class="traco-tooltip" tabindex="0" aria-label="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}" data-tooltip="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}">${esc(nomesTraco[run.traco] || "Herdeiro")}</span></div>
             </article>
             <div class="herdeiro-detalhes">
               ${condicaoId ? `<p class="condicao-status condicao-${condicaoId}" role="status"><strong>${esc(nomesCondicoes[condicaoId])}${run.condicao.abracada ? " abraçada" : " ativa"}</strong><span>${esc(descricaoCondicoes[condicaoId])}</span></p>` : ""}
@@ -1493,12 +1524,16 @@
     painelInventario?.addEventListener("toggle", () => {
       const cronica = painelInventario.closest(".cronica");
       run.inventarioAberto = painelInventario.open;
-      document.querySelector('#app [data-acao="alternar-inventario"]')?.setAttribute("aria-expanded", String(painelInventario.open));
+      document
+        .querySelector('#app [data-acao="alternar-inventario"]')
+        ?.setAttribute("aria-expanded", String(painelInventario.open));
       if (painelInventario.open) {
         const historico = document.querySelector("#app .historico-cronica");
         run.historicoCronicaAberto = false;
         if (historico) historico.open = false;
-        document.querySelector('#app [data-acao="alternar-progresso"]')?.setAttribute("aria-expanded", "false");
+        document
+          .querySelector('#app [data-acao="alternar-progresso"]')
+          ?.setAttribute("aria-expanded", "false");
         cronica?.classList.remove("historico-aberto");
       }
       cronica?.classList.toggle("inventario-aberto", painelInventario.open);
@@ -1508,12 +1543,16 @@
     painelHistorico?.addEventListener("toggle", () => {
       const cronica = painelHistorico.closest(".cronica");
       run.historicoCronicaAberto = painelHistorico.open;
-      document.querySelector('#app [data-acao="alternar-progresso"]')?.setAttribute("aria-expanded", String(painelHistorico.open));
+      document
+        .querySelector('#app [data-acao="alternar-progresso"]')
+        ?.setAttribute("aria-expanded", String(painelHistorico.open));
       if (painelHistorico.open) {
         const inventario = document.querySelector("#app .inventario");
         run.inventarioAberto = false;
         if (inventario) inventario.open = false;
-        document.querySelector('#app [data-acao="alternar-inventario"]')?.setAttribute("aria-expanded", "false");
+        document
+          .querySelector('#app [data-acao="alternar-inventario"]')
+          ?.setAttribute("aria-expanded", "false");
         cronica?.classList.remove("inventario-aberto");
       }
       cronica?.classList.toggle("historico-aberto", painelHistorico.open);
@@ -1632,6 +1671,7 @@
   if (window.visualViewport) window.visualViewport.addEventListener("resize", redimensionarTela);
 
   Jogo.ui = {
+    modoDebug,
     menu,
     alternarDebug,
     painelLegado,

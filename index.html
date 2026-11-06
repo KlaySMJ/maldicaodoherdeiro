@@ -10,7 +10,7 @@
   <!-- A escrita durante o parsing preserva defer e a ordem de execução em file://. -->
   <script>
     (() => {
-      const VERSAO_ASSETS = "20261106-28";
+      const VERSAO_ASSETS = "20261106-29";
       window.JOGO_VERSAO_ASSETS = VERSAO_ASSETS;
       const mostrarErroDeAbertura = () => {
         const app = document.getElementById("app");
@@ -25,6 +25,7 @@
       document.write(`<link rel="stylesheet" href="css/style.css?v=${VERSAO_ASSETS}">`);
       const arquivos = [
         "js/state.js",
+        "js/herdeiros.js",
         "js/events.js",
         "js/events-vila.js",
         "js/events-pactos.js",

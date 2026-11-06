@@ -1,6 +1,6 @@
 # Inventário revisado de eventos
 
-Campos atuais `titulo`, `texto` (narração) e `informacoes` do catálogo runtime. O travessão indica que o evento não exibe informação contextual. Placeholders dinâmicos foram mantidos. Total: **276 eventos**.
+Campos atuais `titulo`, `texto` (narração) e `informacoes` do catálogo runtime. O travessão indica que o evento não exibe informação contextual. Placeholders dinâmicos foram mantidos. Inventário base: **276 eventos**. Os nove acréscimos dos herdeiros prioritários constam no apêndice abaixo; o catálogo completo do jogo contém 384 definições.
 
 | ID | Nome | Narração | Informação contextual |
 |---|---|---|---|
@@ -356,3 +356,20 @@ Etapas e controles atuais em `js/ui.js`.
 | `tutorial.pular` | Botão | Pular tutorial. |
 | `tutorial.avancar` | Botão | Próximo. |
 | `tutorial.concluir` | Botão da última etapa | Concluir. |
+
+
+## Acréscimos dos herdeiros prioritários, 6 de novembro de 2026
+
+| ID | Nome | Narração | Informação contextual |
+| --- | --- | --- | --- |
+| `bencao_baldr` | A luz entre as frestas | Uma luz quente atravessa as frestas do salão. As marcas nas portas desaparecem antes do amanhecer. | O visitante espera sua decisão. |
+| `bencao_frigg` | O fio no escudo | Um fio claro prende a correia do seu escudo. Nenhuma mão da vila consegue desfazer o nó. | O visitante espera sua decisão. |
+| `bencao_heimdall` | O vigia da ponte | Da ponte, um vigia conta os passos de quem entra e de quem parte. Ele sabe quantas casas cada decisão deixará vazias. | O visitante espera sua decisão. |
+| `bencao_freyr` | O campo aberto | Sulcos aparecem no terreno abandonado. Ao amanhecer, uma família pede licença para plantar. | O visitante espera sua decisão. |
+| `maldicao_jormungand` | O veneno no poço | Uma escama cobre a boca do poço. Mesmo depois de retirá-la, o gosto amargo fica em sua boca. | O visitante espera sua decisão. |
+| `maldicao_fenrir` | Os dentes na ferida | Marcas de dentes aparecem na sua pele. As ataduras ficam úmidas, e a ferida torna a abrir. | O visitante espera sua decisão. |
+| `maldicao_hrym` | O gelo sob a porta | O gelo força as dobradiças e rompe as correias dos escudos. Toda manhã os guardas compram mais lenha. | O visitante espera sua decisão. |
+| `maldicao_nidhogg` | As raízes roídas | O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde. | O visitante espera sua decisão. |
+| `o_chamado_da_reserva` | A chama guardada | Trinta mantos esperam à porta. A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo. | Ao aderir, os seguidores em reserva recebem mais 50 membros. |
+
+Os nomes, descrições e condições de desbloqueio dos novos herdeiros ficam no registro `js/herdeiros.js`. As artes permanecem pendentes; os retratos exibem o selo existente e as novas entidades usam imagens provisórias do catálogo nórdico.

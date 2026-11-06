@@ -104,23 +104,14 @@
   Jogo.estado = {
     tracosDisponiveis(legado) {
       const pool = ["corajoso", "avarento", "doente"];
-      if (Jogo.legado.normalizar(legado).flags.druida_herdeiro === true) pool.push("druida_herdeiro");
-      if (Jogo.legado.normalizar(legado).flags.menino_cronista === true) pool.push("menino_cronista");
-      if (Jogo.legado.normalizar(legado).flags.heroi_do_povo === true) pool.push("heroi_do_povo");
+      const flags = Jogo.legado.normalizar(legado).flags;
+      for (const id of Jogo.herdeiros.desbloqueaveis) if (flags[id] === true) pool.push(id);
       return pool;
     },
     novo(legado, personagem = null) {
       const legadoDaRun = Jogo.legado.normalizar(legado);
       const poolTracos = Jogo.estado.tracosDisponiveis(legadoDaRun);
-      const conhecidos = [
-        "corajoso",
-        "avarento",
-        "doente",
-        "druida_herdeiro",
-        "menino_cronista",
-        "heroi_do_povo",
-      ];
-      const traco = conhecidos.includes(personagem)
+      const traco = Jogo.herdeiros.todos.includes(personagem)
         ? personagem
         : poolTracos[Math.floor(Math.random() * poolTracos.length)];
       const iniciaisTraco = {
@@ -131,7 +122,7 @@
         menino_cronista: { ...Jogo.config.iniciais, hp: 90, escudo: 3, honra: 30 },
         // A Heroína do povo é a guarda da vila: ataque e escudo altos, honra imune à perda.
         heroi_do_povo: { ...Jogo.config.iniciais, escudo: 5, ataque: 5 },
-      }[traco];
+      }[traco] || { ...Jogo.config.iniciais, ...Jogo.herdeiros.novos[traco].iniciais };
       const memoriaAnterior = legadoDaRun.memorias.at(-1);
       const derrotasMemoria = legadoDaRun.memorias.filter((memoria) => memoria.tipo === "derrota").length;
       const run = {
@@ -218,6 +209,7 @@
       if (traco === "druida_herdeiro") {
         Jogo.druida?.novaRun(run);
       }
+      Jogo.herdeiros.novaRun(run);
       return run;
     },
     faixaHonra(honra) {

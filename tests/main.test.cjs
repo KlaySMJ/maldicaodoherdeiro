@@ -44,9 +44,10 @@ function preparar() {
   vm.runInContext("Math.random = () => 0.25;", contexto);
   const executar = (nome) =>
     vm.runInContext(fs.readFileSync(path.join(__dirname, `../js/${nome}.js`), "utf8"), contexto);
-  for (const nome of ["state", "events", "items", "legacy", "engine", "save"]) executar(nome);
+  for (const nome of ["state", "herdeiros", "events", "items", "legacy", "engine", "save"]) executar(nome);
   const J = window.Jogo;
   J.ui = {
+    modoDebug: () => true,
     menu: (run) => Object.assign(tela, { nome: "inicio", run }),
     intro: () => Object.assign(tela, { nome: "intro" }),
     tutorial() {},
@@ -71,38 +72,15 @@ function preparar() {
   return { J, dados, tela, window, novaRun, clicar, iniciarControlador: () => executar("main") };
 }
 
-test("debug pode forçar o Conselheiro em novos inícios, exclusivo do Druida", async () => {
-  const { dados, tela, clicar, iniciarControlador } = preparar();
+test("debug libera todos os personagens sem forçar outro início ou conceder conquistas", async () => {
+  const { J, dados, clicar, iniciarControlador } = preparar();
+  dados.set("debug_forcar_heroi", "1");
   iniciarControlador();
-
-  await clicar({ acao: "debug-alternar-conselheiro" });
-  assert.equal(dados.get("debug_forcar_menino"), "1");
-  assert.equal(dados.get("debug_forcar_druida"), "0");
-
-  // A ação Tutorial inicia uma run sem escolher um traço manualmente.
-  await clicar({ acao: "tutorial" });
-  assert.equal(tela.run.traco, "menino_cronista");
-
-  await clicar({ acao: "debug-alternar-druida" });
-  assert.equal(dados.get("debug_forcar_menino"), "0");
-  assert.equal(dados.get("debug_forcar_druida"), "1");
-});
-
-test("debug permite iniciar como Heroína do povo antes do desbloqueio", async () => {
-  const { J, dados, tela, clicar, iniciarControlador } = preparar();
-  iniciarControlador();
-
-  await clicar({ acao: "debug-alternar-heroi" });
-  assert.equal(dados.get("debug_forcar_heroi"), "1");
-  assert.equal(dados.get("debug_forcar_druida"), "0");
-  assert.equal(dados.get("debug_forcar_menino"), "0");
-
-  await clicar({ acao: "tutorial" });
-  assert.equal(tela.run.traco, "heroi_do_povo");
-  assert.equal(J.save.lerLegado().flags.heroi_do_povo, undefined);
-
-  await clicar({ acao: "debug-alternar-heroi" });
-  assert.equal(dados.get("debug_forcar_heroi"), "0");
+  await clicar({ acao: "debug-liberar-personagens" });
+  for (const id of J.herdeiros.desbloqueaveis) assert.equal(J.save.lerLegado().flags[id], true);
+  assert.equal(dados.has("debug_forcar_heroi"), false);
+  assert.equal(J.save.lerLegado().conquistasDesbloqueadas.length, 0);
+  assert.equal(J.save.lerRun(), null);
 });
 
 test("Carregar lê o save atual no clique, sem retomar a cópia antiga do menu", async () => {

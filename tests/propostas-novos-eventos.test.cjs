@@ -104,7 +104,7 @@ test("as 74 propostas aprovadas formam o catálogo e apontam para artes disponí
   assert.equal(idsCadeias.length, 28);
   assert.equal(idsTransformacoes.length, 8);
   assert.equal(new Set(ids).size, 74);
-  assert.equal(J.eventos.length, 375);
+  assert.equal(J.eventos.length, 384);
   assert.ok(eventos.every(Boolean));
   assert.ok(eventos.every((evento) => evento.imagem.endsWith(".webp")));
   assert.ok(eventos.every((evento) => fs.existsSync(path.join(__dirname, "..", evento.imagem))));

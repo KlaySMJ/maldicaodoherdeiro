@@ -407,5 +407,32 @@
       ],
     }),
   ];
-  Jogo.registrarEventos(transicao, ...cult);
+  Jogo.registrarEventos(transicao, ...cult, {
+    id: "o_chamado_da_reserva",
+    titulo: "A chama guardada",
+    tipo: "culto",
+    peso: 2,
+    oncePerRun: true,
+    requisitos: { tracos: "herdeiro_culto", rodadaMin: 8, cultoAtivo: false },
+    imagem: "assets/eventos-culto/templo.webp",
+    imagemAlt: "Templo do culto, referência provisória",
+    texto:
+      "Trinta mantos esperam à porta. A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo.",
+    informacoes: "Ao aderir, os seguidores em reserva recebem mais 50 membros.",
+    opcoes: [
+      {
+        id: "aderir",
+        texto: "Levar a chama ao templo.",
+        entrarNoCulto: true,
+        resultado:
+          "Os trinta mantos entram com você. Outros cinquenta esperam junto ao altar; a adaga fica em suas mãos.",
+      },
+      {
+        id: "recusar",
+        texto: "Fechar a caixa e permanecer na vila.",
+        efeitos: { honra: 2 },
+        resultado: "Você devolve as brasas. Os mantos se afastam da porta.",
+      },
+    ],
+  });
 })();

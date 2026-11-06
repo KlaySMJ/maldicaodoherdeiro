@@ -146,9 +146,9 @@ test("controles mobile têm rótulos, áreas de toque e rolagem para o conteúdo
   ];
   J.ui.jogo(run, false);
 
-  for (const acao of ["menu", "alternar-inventario", "alternar-progresso"])
+  for (const acao of ["tutorial", "alternar-inventario", "alternar-progresso"])
     assert.match(app.innerHTML, new RegExp(`data-acao="${acao}"`));
-  assert.match(app.innerHTML, /aria-label="Voltar para Casa"/);
+  assert.doesNotMatch(app.innerHTML, /aria-label="Voltar para Casa"/);
   assert.match(app.innerHTML, /aria-controls="painel-inventario"/);
   assert.match(app.innerHTML, /aria-controls="painel-progresso"/);
   assert.match(app.innerHTML, /id="painel-progresso"/);

@@ -20,6 +20,7 @@ function preparar(eventoId) {
   vm.runInContext("Math.random = () => 0.25;", contexto);
   for (const nome of [
     "state",
+    "herdeiros",
     "events",
     "events-vila",
     "events-pactos",

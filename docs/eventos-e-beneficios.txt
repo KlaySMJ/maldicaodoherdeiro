@@ -1,6 +1,6 @@
 A MALDIÇÃO DO HERDEIRO — EVENTOS E BENEFÍCIOS
 
-Catálogo atual no jogo: 375 definições. As 74 cartas executadas de PROPOSTAS-NOVOS-EVENTOS.txt estão descritas no apêndice ao final e cadastradas em js/events-propostas.js. “O último habitante” é uma transição da engine e não entra no sorteio.
+Catálogo atual no jogo: 384 definições. As 74 cartas executadas de PROPOSTAS-NOVOS-EVENTOS.txt estão descritas no apêndice ao final e cadastradas em js/events-propostas.js. “O último habitante” é uma transição da engine e não entra no sorteio.
 
 Documento de consulta do autor; não é exibido ao jogador.
 
@@ -7925,3 +7925,87 @@ Escolhas:
     Efeitos diretos: −2 Gold, +5 Vida, +2 Honra.
   - Aceitar o Olho como parte de você.
     Efeitos diretos: −5 Vida, −1 Honra.
+
+
+HERDEIROS PRIORITÁRIOS — IMPLEMENTAÇÃO DE 2026-11-06
+
+A luz entre as frestas [bencao_baldr]
+Cena: Uma luz quente atravessa as frestas do salão. As marcas nas portas desaparecem antes do amanhecer.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Baldr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"reducaoDano":2,"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Baldr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"reducaoDano":4,"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A oferta muda a passagem do visitante.
+  - Recusar com respeito.
+    Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
+
+O fio no escudo [bencao_frigg]
+Cena: Um fio claro prende a correia do seu escudo. Nenhuma mão da vila consegue desfazer o nó.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Frigg","reduzirCura":false,"manutencaoGold":0,"duracao":10,"modificadores":{"escudo":2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Frigg","reduzirCura":false,"manutencaoGold":0,"duracao":10,"modificadores":{"escudo":3},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A oferta muda a passagem do visitante.
+  - Recusar com respeito.
+    Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
+
+O vigia da ponte [bencao_heimdall]
+Cena: Da ponte, um vigia conta os passos de quem entra e de quem parte. Ele sabe quantas casas cada decisão deixará vazias.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Heimdall","reduzirCura":false,"manutencaoGold":0,"duracao":10,"revelarHonraRodadas":0,"revelarHabitantesRodadas":10}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Heimdall","reduzirCura":false,"manutencaoGold":0,"duracao":10,"revelarHonraRodadas":10,"revelarHabitantesRodadas":10}. Resultado: A oferta muda a passagem do visitante.
+  - Recusar com respeito.
+    Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
+
+O campo aberto [bencao_freyr]
+Cena: Sulcos aparecem no terreno abandonado. Ao amanhecer, uma família pede licença para plantar.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Freyr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"porRodada":{"efeitos":{"habitantes":1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Freyr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"porRodada":{"efeitos":{"habitantes":2}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A oferta muda a passagem do visitante.
+  - Recusar com respeito.
+    Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
+
+O veneno no poço [maldicao_jormungand]
+Cena: Uma escama cobre a boca do poço. Mesmo depois de retirá-la, o gosto amargo fica em sua boca.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Jormungand","reduzirCura":false,"manutencaoGold":0,"duracao":10,"porRodada":{"efeitos":{"hp":-1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Jormungand","reduzirCura":false,"manutencaoGold":0,"duracao":5,"porRodada":{"efeitos":{"hp":-1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A oferta muda a passagem do visitante.
+  - Resistir à presença.
+    Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
+
+Os dentes na ferida [maldicao_fenrir]
+Cena: Marcas de dentes aparecem na sua pele. As ataduras ficam úmidas, e a ferida torna a abrir.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Fenrir","reduzirCura":true,"manutencaoGold":0,"duracao":10,"modificadores":{"ataque":-2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Fenrir","reduzirCura":true,"manutencaoGold":0,"duracao":5,"modificadores":{"ataque":-2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A oferta muda a passagem do visitante.
+  - Resistir à presença.
+    Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
+
+O gelo sob a porta [maldicao_hrym]
+Cena: O gelo força as dobradiças e rompe as correias dos escudos. Toda manhã os guardas compram mais lenha.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Hrym","reduzirCura":false,"manutencaoGold":1,"duracao":10,"modificadores":{"escudo":-2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Hrym","reduzirCura":false,"manutencaoGold":1,"duracao":5,"modificadores":{"escudo":-2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A oferta muda a passagem do visitante.
+  - Resistir à presença.
+    Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
+
+As raízes roídas [maldicao_nidhogg]
+Cena: O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde.
+  - Receber o efeito.
+    Efeitos diretos: {}. Efeito divino: {"nome":"Níðhöggr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"porRodada":{"efeitos":{"habitantes":-1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
+  - Oferecer lenha e alimento · 2 gold
+    Efeitos diretos: {"gold":-2}. Efeito divino: {"nome":"Níðhöggr","reduzirCura":false,"manutencaoGold":0,"duracao":5,"porRodada":{"efeitos":{"habitantes":-1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A oferta muda a passagem do visitante.
+  - Resistir à presença.
+    Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
+
+A chama guardada [o_chamado_da_reserva]
+Cena: Trinta mantos esperam à porta. A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo.
+  - Levar a chama ao templo.
+    Efeitos diretos: {}. Adesão ao culto: soma 50 à reserva na primeira entrada. Resultado: Os trinta mantos entram com você. Outros cinquenta esperam junto ao altar; a adaga fica em suas mãos.
+  - Fechar a caixa e permanecer na vila.
+    Efeitos diretos: {"honra":2}. Resultado: Você devolve as brasas. Os mantos se afastam da porta.
+
+As passivas, os atributos iniciais, as conquistas e o calendário dos novos herdeiros constam em PLANO-HERDEIROS-PRIORITARIOS.md. O catálogo nórdico possui 10 bênçãos e 10 maldições; Höðr mantém sua carta anterior. As imagens novas não fazem parte desta entrega.

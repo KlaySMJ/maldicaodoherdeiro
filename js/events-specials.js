@@ -793,6 +793,401 @@
     },
   ];
 
+  divindades.push(
+    ...[
+      {
+        id: "bencao_baldr",
+        name: "Baldr",
+        title: "A luz entre as frestas",
+        scene:
+          "Uma luz quente atravessa as frestas do salão. As marcas nas portas desaparecem antes do amanhecer.",
+        image: "tyr",
+        kind: "bencao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              reducaoDano: 2,
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              reducaoDano: 2,
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Recusar com respeito.",
+            "O visitante se afasta.",
+            {
+              recusar: true,
+            },
+          ],
+        ],
+      },
+      {
+        id: "bencao_frigg",
+        name: "Frigg",
+        title: "O fio no escudo",
+        scene: "Um fio claro prende a correia do seu escudo. Nenhuma mão da vila consegue desfazer o nó.",
+        image: "freya",
+        kind: "bencao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              modificadores: {
+                escudo: 2,
+              },
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              modificadores: {
+                escudo: 2,
+              },
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Recusar com respeito.",
+            "O visitante se afasta.",
+            {
+              recusar: true,
+            },
+          ],
+        ],
+      },
+      {
+        id: "bencao_heimdall",
+        name: "Heimdall",
+        title: "O vigia da ponte",
+        scene:
+          "Da ponte, um vigia conta os passos de quem entra e de quem parte. Ele sabe quantas casas cada decisão deixará vazias.",
+        image: "odin",
+        kind: "bencao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              revealHabitantes: true,
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              revealHabitantes: true,
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Recusar com respeito.",
+            "O visitante se afasta.",
+            {
+              recusar: true,
+            },
+          ],
+        ],
+      },
+      {
+        id: "bencao_freyr",
+        name: "Freyr",
+        title: "O campo aberto",
+        scene: "Sulcos aparecem no terreno abandonado. Ao amanhecer, uma família pede licença para plantar.",
+        image: "njord",
+        kind: "bencao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              porRodada: {
+                efeitos: {
+                  habitantes: 1,
+                },
+              },
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              porRodada: {
+                efeitos: {
+                  habitantes: 1,
+                },
+              },
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Recusar com respeito.",
+            "O visitante se afasta.",
+            {
+              recusar: true,
+            },
+          ],
+        ],
+      },
+      {
+        id: "maldicao_jormungand",
+        name: "Jormungand",
+        title: "O veneno no poço",
+        scene: "Uma escama cobre a boca do poço. Mesmo depois de retirá-la, o gosto amargo fica em sua boca.",
+        image: "hel",
+        kind: "maldicao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              porRodada: {
+                efeitos: {
+                  hp: -1,
+                },
+              },
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              porRodada: {
+                efeitos: {
+                  hp: -1,
+                },
+              },
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Resistir à presença.",
+            "Você suporta a dor até a presença recuar.",
+            {
+              desafio: true,
+              custo: {
+                hp: -6,
+              },
+              requisitos: {
+                honraMin: 50,
+              },
+            },
+          ],
+        ],
+      },
+      {
+        id: "maldicao_fenrir",
+        name: "Fenrir",
+        title: "Os dentes na ferida",
+        scene: "Marcas de dentes aparecem na sua pele. As ataduras ficam úmidas, e a ferida torna a abrir.",
+        image: "hodr",
+        kind: "maldicao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              modificadores: {
+                ataque: -2,
+              },
+              reduzirCura: true,
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              modificadores: {
+                ataque: -2,
+              },
+              reduzirCura: true,
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Resistir à presença.",
+            "Você suporta a dor até a presença recuar.",
+            {
+              desafio: true,
+              custo: {
+                hp: -6,
+              },
+              requisitos: {
+                honraMin: 50,
+              },
+            },
+          ],
+        ],
+      },
+      {
+        id: "maldicao_hrym",
+        name: "Hrym",
+        title: "O gelo sob a porta",
+        scene:
+          "O gelo força as dobradiças e rompe as correias dos escudos. Toda manhã os guardas compram mais lenha.",
+        image: "skadi",
+        kind: "maldicao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              modificadores: {
+                escudo: -2,
+              },
+              manutencaoGold: 1,
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              modificadores: {
+                escudo: -2,
+              },
+              manutencaoGold: 1,
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Resistir à presença.",
+            "Você suporta a dor até a presença recuar.",
+            {
+              desafio: true,
+              custo: {
+                hp: -6,
+              },
+              requisitos: {
+                honraMin: 50,
+              },
+            },
+          ],
+        ],
+      },
+      {
+        id: "maldicao_nidhogg",
+        name: "Níðhöggr",
+        title: "As raízes roídas",
+        scene:
+          "O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde.",
+        image: "surtr",
+        kind: "maldicao",
+        info: "O visitante espera sua decisão.",
+        options: [
+          [
+            "Receber o efeito.",
+            "A presença permanece na vila.",
+            {
+              porRodada: {
+                efeitos: {
+                  habitantes: -1,
+                },
+              },
+            },
+          ],
+          [
+            "Oferecer lenha e alimento · 2 gold",
+            "A oferta muda a passagem do visitante.",
+            {
+              porRodada: {
+                efeitos: {
+                  habitantes: -1,
+                },
+              },
+              custo: {
+                gold: -2,
+              },
+              requisitos: {
+                goldMin: 2,
+              },
+              duracao: 5,
+            },
+          ],
+          [
+            "Resistir à presença.",
+            "Você suporta a dor até a presença recuar.",
+            {
+              desafio: true,
+              custo: {
+                hp: -6,
+              },
+              requisitos: {
+                honraMin: 50,
+              },
+            },
+          ],
+        ],
+      },
+    ],
+  );
+
+  for (const deus of divindades) {
+    if (!["bencao_baldr", "bencao_frigg", "bencao_heimdall", "bencao_freyr"].includes(deus.id)) continue;
+    const oferenda = deus.options[1][2];
+    oferenda.duracao = 10;
+    if (deus.id === "bencao_baldr") oferenda.reducaoDano = 4;
+    if (deus.id === "bencao_frigg") oferenda.modificadores.escudo = 3;
+    if (deus.id === "bencao_heimdall") oferenda.revealHonra = true;
+    if (deus.id === "bencao_freyr") oferenda.porRodada.efeitos.habitantes = 2;
+  }
+
   const zodiacos = animais.map((animal) => ({
     id: `zodiaco_${animal.id}`,
     titulo: animal.titulo,
@@ -834,11 +1229,15 @@
         efeito.reducaoDano ||
         efeito.reducaoGanhoGold ||
         efeito.revealHonra ||
-        efeito.revealHabitantes
+        efeito.revealHabitantes ||
+        efeito.reduzirCura ||
+        efeito.manutencaoGold
       ) {
         const duracao = efeito.duracao || 10;
         extra.efeitoDivino = {
           nome: deus.name,
+          reduzirCura: Boolean(efeito.reduzirCura),
+          manutencaoGold: efeito.manutencaoGold || 0,
           duracao,
           modificadores: efeito.modificadores,
           porRodada: efeito.porRodada,
@@ -874,6 +1273,12 @@
       opcoes: options,
     };
   });
+
+  Jogo.efeitosNordicos = deuses.map((evento) => ({
+    eventoId: evento.id,
+    tipo: evento.id.startsWith("bencao_") ? "bencao" : "maldicao",
+    ...evento.opcoes[0].efeitoDivino,
+  }));
 
   Jogo.registrarEventos(
     {

@@ -44,15 +44,15 @@ test("a Heroína do povo permanece bloqueada até alcançar 400 de Honra", () =>
   assert.match(desbloqueada || "", /aria-disabled="false"/);
 });
 
-test("o modo debug libera a escolha explícita da Heroína do povo", () => {
-  const { J, app, window } = preparar();
-  window.localStorage.setItem("debug_forcar_heroi", "1");
-  J.ui.escolherHerdeiro(J.legado.vazio());
+test("o botão único libera a escolha explícita da Heroína do povo", () => {
+  const { J, app } = preparar();
+  assert.equal(J.save.liberarPersonagens(), true);
+  J.ui.escolherHerdeiro(J.save.lerLegado());
   const opcao = app.innerHTML.match(
     /<button class="herdeiro-opcao[^>]*data-traco="heroi_do_povo"[^>]*>/,
   )?.[0];
   assert.match(opcao || "", /aria-disabled="false"/);
-  assert.match(app.innerHTML, /A Heroína do povo \(debug\)/);
+  assert.match(app.innerHTML, /A Heroína do povo/);
 });
 
 test("400 de honra concedem a Heroína do povo ao legado e à pool de herdeiros", () => {
