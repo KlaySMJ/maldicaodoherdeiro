@@ -1,8 +1,10 @@
 # A maldição do Herdeiro
 
+As memórias, os planos e os catálogos de apoio ficam em [docs/](docs/README.md). Os caminhos de código e de imagens citados nesses documentos partem da raiz do projeto.
+
 ## Direção das ilustrações
 
-Leia [MEMORIA-ILUSTRACOES.md](MEMORIA-ILUSTRACOES.md) antes de criar ou editar qualquer ilustração. Ela registra o estilo, a tonalidade da vila como referência dos eventos e as cartas-base por categoria.
+Leia [MEMORIA-ILUSTRACOES.md](docs/MEMORIA-ILUSTRACOES.md) antes de criar ou editar qualquer ilustração. Ela registra o estilo, a tonalidade da vila como referência dos eventos e as cartas-base por categoria.
 
 MVP de um jogo de escolhas em fantasia medieval. HTML, CSS e JavaScript puros, sem bibliotecas, instalação ou build.
 
@@ -48,7 +50,7 @@ As cartas 101–120 são especiais, pesam 0,3 no sorteio (o Primeiro Herdeiro, 0
 
 As cartas 130–155 abrem duas cadeias raras. O Mercador de vermelho surge com 25% de chance logo após uma visita de mercador; seus diálogos mostram a resposta correta e duas alternativas em ordem aleatória. Aceitá-lo corretamente agenda uma carta do zodíaco a cada 50 rodadas, elegível durante uma janela de 10 rodadas. O Viajante do Norte pode surgir depois da Geada ou do Inverno Longo; se acolhido, libera um evento divino no máximo a cada 40 rodadas. As doze cartas do zodíaco e as doze cartas divinas têm arte própria. Os efeitos divinos duram de cinco a dez rodadas, aparecem no indicador da run e podem modificar atributos, ganhos de gold, população, cura, dano de batalha ou informação das escolhas. As cartas não identificam a bênção ou maldição antes da decisão.
 
-O sorteio evita as últimas 25 cartas, mantendo os pesos por honra entre as elegíveis. Se restarem poucas cartas, libera a mais antiga primeiro para continuar o jogo. O histórico é salvo; carregar não reinicia esse intervalo. A referência de escolhas e consequências está em `eventos-e-beneficios.txt`.
+O sorteio evita as últimas 25 cartas, mantendo os pesos por honra entre as elegíveis. Se restarem poucas cartas, libera a mais antiga primeiro para continuar o jogo. O histórico é salvo; carregar não reinicia esse intervalo. A referência de escolhas e consequências está em [eventos-e-beneficios.txt](docs/eventos-e-beneficios.txt).
 
 ## Gold e mercador
 

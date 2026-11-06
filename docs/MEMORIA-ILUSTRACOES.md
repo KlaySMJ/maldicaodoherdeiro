@@ -26,6 +26,8 @@ Algumas artes PNG de evento têm correção de cor na exibição por meio da cla
 
 ## Decisões já definidas
 
+- As novas entidades nórdicas do plano `PLANO-HERDEIROS-PRIORITARIOS.md` seguem obrigatoriamente o padrão dos deuses nórdicos existentes. Usar as artes atuais `assets/eventos-especiais/norte-odin.webp`, `norte-freya.webp` e `norte-loki.webp` como referências diretas de composição, hachura e acabamento, respeitando a tonalidade de eventos. Os novos herdeiros seguem o padrão próprio dos herdeiros já definidos, inclusive o Herdeiro Nórdico, com as referências de busto e tom claro desta memória.
+
 - Herdeiros são retratos de busto. A mulher usa tiara e vestido, não roupa pesada. Avarento e Doente usam coroa. Diferencie os trajes entre herdeiros; não use moedas ou flores na roupa do Avarento. A versão de culto deve ter roupa própria.
 - A Heroína do povo tem uma pequena pinta redonda logo abaixo do canto direito da boca (para quem olha) em todas as versões. Pele e áreas claras dos cachos usam o branco quente padrão dos herdeiros. As versões neutra e de honra mantêm mangas curtas lisas iguais, com os antebraços visíveis no recorte do busto; o culto conserva o formato próprio das mangas. Manter a mesma escala, posição vertical e altura visível entre as versões de honra; usar a honra +30 como referência das margens transparentes.
 - O plano `HERDEIROS-FUTUROS.md` define que novos retratos usem diretamente Corajoso, Avarento e Doente como referências visuais. A média aproximada das áreas claras é `#F9EEDD`; usar as imagens como fonte de verdade e não confundir esse tom com o marfim mais escuro da vila, que foi definido para eventos.
