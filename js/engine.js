@@ -1843,7 +1843,7 @@
     return true;
   }
 
-  function debugAtivarEventoEspecial(run, categoria) {
+  function debugAtivarEventoEspecial(run, categoria, eventoId) {
     if (run?.status !== "ativa" || run.aguardaDecisaoCulto) return false;
     const limparFlags = (predicado) => {
       for (const id of Object.keys(run.flags)) if (predicado(id)) delete run.flags[id];
@@ -1905,7 +1905,10 @@
     } else if (categoria === "norte") {
       const eventos = Jogo.eventos.filter((candidato) => candidato.divino);
       if (!eventos.length) return false;
-      evento = eventos.find((candidato) => !run.flags[`especial_${candidato.id}`]);
+      if (eventoId && !eventos.some((candidato) => candidato.id === eventoId)) return false;
+      evento = eventoId
+        ? eventos.find((candidato) => candidato.id === eventoId)
+        : eventos.find((candidato) => !run.flags[`especial_${candidato.id}`]);
       if (!evento) {
         for (const candidato of eventos) delete run.flags[`especial_${candidato.id}`];
         evento = eventos[0];

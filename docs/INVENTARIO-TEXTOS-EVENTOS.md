@@ -372,4 +372,4 @@ Etapas e controles atuais em `js/ui.js`.
 | `maldicao_nidhogg` | As raízes roídas | O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde. | O visitante espera sua decisão. |
 | `o_chamado_da_reserva` | A chama guardada | Trinta mantos esperam à porta. A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo. | Ao aderir, os seguidores em reserva recebem mais 50 membros. |
 
-Os nomes, descrições e condições de desbloqueio dos novos herdeiros ficam no registro `js/herdeiros.js`. As artes permanecem pendentes; os retratos exibem o selo existente e as novas entidades usam imagens provisórias do catálogo nórdico.
+Os nomes, descrições e condições de desbloqueio dos novos herdeiros ficam no registro `js/herdeiros.js`. Os retratos ainda exibem o selo existente; as oito novas entidades nórdicas têm artes próprias, documentadas em [ARTES-EVENTOS-NORDICOS.md](ARTES-EVENTOS-NORDICOS.md).

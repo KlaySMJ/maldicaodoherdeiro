@@ -5,10 +5,11 @@ Os caminhos de código, imagens e scripts citados nestes arquivos partem da raiz
 ## Memórias
 
 - [Memória das ilustrações](MEMORIA-ILUSTRACOES.md): referências visuais e decisões sobre as artes.
+- [Artes dos novos eventos nórdicos](ARTES-EVENTOS-NORDICOS.md): arquivos finais, referências, prompts e validação.
 
 ## Planos e propostas
 
-- [Herdeiros prioritários: Culto, Leste e Nórdico](PLANO-HERDEIROS-PRIORITARIOS.md): mecânicas implementadas; artes próprias e revisão visual manual pendentes.
+- [Herdeiros prioritários: Culto, Leste e Nórdico](PLANO-HERDEIROS-PRIORITARIOS.md): mecânicas e artes nórdicas integradas; retratos dos herdeiros e revisão visual manual pendentes.
 - [Plano de melhorias](PLANO-MELHORIAS.md).
 - [Revisão da interface e do legado](PLANO-REVISAO-INTERFACE-E-LEGADO.md).
 - [Balanceamento e mobile](PRD-BALANCEAMENTO-E-MOBILE.md).

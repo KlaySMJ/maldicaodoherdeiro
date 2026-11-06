@@ -19,8 +19,8 @@
     Jogo.ui.fim(run, salvo);
   }
 
-  function ativarEventoEspecialDebug(categoria) {
-    if (Jogo.engine.debugAtivarEventoEspecial(run, categoria)) {
+  function ativarEventoEspecialDebug(categoria, eventoId) {
+    if (Jogo.engine.debugAtivarEventoEspecial(run, categoria, eventoId)) {
       Jogo.save.gravarRun(run);
       mostrarJogo();
     }
@@ -178,7 +178,7 @@
         ativarEventoEspecialDebug("zodiaco");
         break;
       case "debug-especial-norte":
-        ativarEventoEspecialDebug("norte");
+        ativarEventoEspecialDebug("norte", botao?.dataset.eventoId);
         break;
       case "debug-contagio-uivos":
         ativarContagioDebug("uivos_no_bosque");

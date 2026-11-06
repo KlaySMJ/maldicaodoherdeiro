@@ -801,7 +801,7 @@
         title: "A luz entre as frestas",
         scene:
           "Uma luz quente atravessa as frestas do salão. As marcas nas portas desaparecem antes do amanhecer.",
-        image: "tyr",
+        image: "baldr",
         kind: "bencao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -840,7 +840,7 @@
         name: "Frigg",
         title: "O fio no escudo",
         scene: "Um fio claro prende a correia do seu escudo. Nenhuma mão da vila consegue desfazer o nó.",
-        image: "freya",
+        image: "frigg",
         kind: "bencao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -884,7 +884,7 @@
         title: "O vigia da ponte",
         scene:
           "Da ponte, um vigia conta os passos de quem entra e de quem parte. Ele sabe quantas casas cada decisão deixará vazias.",
-        image: "odin",
+        image: "heimdall",
         kind: "bencao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -923,7 +923,7 @@
         name: "Freyr",
         title: "O campo aberto",
         scene: "Sulcos aparecem no terreno abandonado. Ao amanhecer, uma família pede licença para plantar.",
-        image: "njord",
+        image: "freyr",
         kind: "bencao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -970,7 +970,7 @@
         name: "Jormungand",
         title: "O veneno no poço",
         scene: "Uma escama cobre a boca do poço. Mesmo depois de retirá-la, o gosto amargo fica em sua boca.",
-        image: "hel",
+        image: "jormungand",
         kind: "maldicao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -1023,7 +1023,7 @@
         name: "Fenrir",
         title: "Os dentes na ferida",
         scene: "Marcas de dentes aparecem na sua pele. As ataduras ficam úmidas, e a ferida torna a abrir.",
-        image: "hodr",
+        image: "fenrir",
         kind: "maldicao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -1075,7 +1075,7 @@
         title: "O gelo sob a porta",
         scene:
           "O gelo força as dobradiças e rompe as correias dos escudos. Toda manhã os guardas compram mais lenha.",
-        image: "skadi",
+        image: "hrym",
         kind: "maldicao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -1127,7 +1127,7 @@
         title: "As raízes roídas",
         scene:
           "O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde.",
-        image: "surtr",
+        image: "nidhogg",
         kind: "maldicao",
         info: "O visitante espera sua decisão.",
         options: [
@@ -1267,7 +1267,7 @@
         { requisitos: maldicao ? { honraMax: -30 } : { honraMin: 30 }, multiplicador: 3 },
       ],
       imagem: `assets/eventos-especiais/norte-${deus.image}.webp`,
-      imagemAlt: `Ilustração própria de ${deus.name}, em traços brancos sobre fundo preto`,
+      imagemAlt: `Gravura de ${deus.name} em preto e marfim, com fundo transparente`,
       texto: deus.scene,
       informacoes: deus.info,
       opcoes: options,

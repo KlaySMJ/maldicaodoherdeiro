@@ -1,0 +1,120 @@
+{
+  "referencia": {
+    "arquivo": "assets/eventos-especiais/norte-thor.webp",
+    "largura": 800,
+    "altura": 731,
+    "transparentes": 223619,
+    "medianaClaros": [
+      247,
+      230,
+      201
+    ]
+  },
+  "qualidadeWebp": 90,
+  "artes": [
+    {
+      "nome": "baldr",
+      "arquivo": "assets/eventos-especiais/norte-baldr.webp",
+      "bytes": 203856,
+      "largura": 800,
+      "altura": 731,
+      "transparentes": 206154,
+      "medianaClaros": [
+        249,
+        231,
+        204
+      ]
+    },
+    {
+      "nome": "frigg",
+      "arquivo": "assets/eventos-especiais/norte-frigg.webp",
+      "bytes": 169712,
+      "largura": 800,
+      "altura": 768,
+      "transparentes": 257571,
+      "medianaClaros": [
+        248,
+        231,
+        208
+      ]
+    },
+    {
+      "nome": "heimdall",
+      "arquivo": "assets/eventos-especiais/norte-heimdall.webp",
+      "bytes": 220290,
+      "largura": 800,
+      "altura": 700,
+      "transparentes": 188792,
+      "medianaClaros": [
+        245,
+        230,
+        211
+      ]
+    },
+    {
+      "nome": "freyr",
+      "arquivo": "assets/eventos-especiais/norte-freyr.webp",
+      "bytes": 177428,
+      "largura": 800,
+      "altura": 731,
+      "transparentes": 255367,
+      "medianaClaros": [
+        247,
+        227,
+        195
+      ]
+    },
+    {
+      "nome": "jormungand",
+      "arquivo": "assets/eventos-especiais/norte-jormungand.webp",
+      "bytes": 250752,
+      "largura": 800,
+      "altura": 791,
+      "transparentes": 330178,
+      "medianaClaros": [
+        249,
+        227,
+        196
+      ]
+    },
+    {
+      "nome": "fenrir",
+      "arquivo": "assets/eventos-especiais/norte-fenrir.webp",
+      "bytes": 214652,
+      "largura": 800,
+      "altura": 743,
+      "transparentes": 199941,
+      "medianaClaros": [
+        247,
+        227,
+        195
+      ]
+    },
+    {
+      "nome": "hrym",
+      "arquivo": "assets/eventos-especiais/norte-hrym.webp",
+      "bytes": 202056,
+      "largura": 800,
+      "altura": 699,
+      "transparentes": 183155,
+      "medianaClaros": [
+        249,
+        226,
+        194
+      ]
+    },
+    {
+      "nome": "nidhogg",
+      "arquivo": "assets/eventos-especiais/norte-nidhogg.webp",
+      "bytes": 173092,
+      "largura": 800,
+      "altura": 600,
+      "transparentes": 208482,
+      "medianaClaros": [
+        247,
+        227,
+        199
+      ]
+    }
+  ]
+}

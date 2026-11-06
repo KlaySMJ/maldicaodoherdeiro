@@ -6,6 +6,29 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { preparar } = require("./helpers/jogo.cjs");
 
+test("debug permite escolher cada um dos 20 eventos nórdicos, inclusive os já vistos", async () => {
+  const { J, app, novaRun, iniciar, clicar } = preparar();
+  const run = novaRun();
+  const eventos = J.eventos.filter((evento) => evento.divino);
+  assert.equal(eventos.length, 20);
+  for (const evento of eventos) run.flags[`especial_${evento.id}`] = true;
+  J.save.gravarRun(run);
+  iniciar();
+  await clicar({ acao: "carregar" });
+  for (const evento of eventos) {
+    assert.ok(app.innerHTML.includes(`data-evento-id="${evento.id}"`));
+    await clicar({ acao: "debug-especial-norte", eventoId: evento.id });
+    assert.equal(J.save.lerRun().eventoId, evento.id);
+    assert.equal(J.save.lerRun().fase, "escolha");
+  }
+  const salva = J.save.lerRun();
+  const antes = JSON.stringify(salva);
+  assert.equal(J.engine.debugAtivarEventoEspecial(salva, "norte", "mercador"), false);
+  assert.equal(JSON.stringify(salva), antes);
+  salva.aguardaDecisaoCulto = true;
+  assert.equal(J.engine.debugAtivarEventoEspecial(salva, "norte", eventos[0].id), false);
+});
+
 test("debug ativa as duas novas transformações pelo controlador e persiste a sequência", async () => {
   for (const [id, acao, eventoId, marco] of [
     ["olhos_mercurio", "debug-condicao-olhos-mercurio", "primeira_conta", "olhosMercurioInicio"],

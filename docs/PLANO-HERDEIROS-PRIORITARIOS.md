@@ -1,6 +1,6 @@
 # Plano: herdeiros do Culto, do Leste e Nórdico
 
-Data: 6 de novembro de 2026. Estado: implementação funcional concluída. Por pedido do usuário, esta execução não inclui a produção das artes.
+Data: 6 de novembro de 2026. Estado: implementação funcional concluída e oito artes nórdicas integradas. Os herdeiros serão ilustrados depois dos eventos, um por vez, conforme a ordem definida pelo usuário.
 
 ## Prioridade e escopo
 
@@ -179,7 +179,7 @@ Conferir em `js/ui.js` as oito variantes PNG usadas atualmente: neutra, alta, al
 
 Direções propostas, sujeitas à revisão visual: tiara e vestido para a Herdeira do Leste; trajes com referências do Norte para o Nórdico; vestes ligadas ao culto para seu herdeiro, distinguindo o estado inicial do traje de adesão. Não copiar rostos de personagens existentes.
 
-As artes das novas entidades devem seguir obrigatoriamente o padrão dos deuses nórdicos já adotado no jogo. Usar diretamente `assets/eventos-especiais/norte-odin.webp`, `norte-freya.webp` e `norte-loki.webp` como referências de acabamento, hachura, composição e dourado localizado, junto da tonalidade de eventos definida na memória. Os novos herdeiros, inclusive o Nórdico, seguem o padrão dos retratos de herdeiros já definidos, com suas referências próprias de rosto simplificado, busto e marfim claro.
+As artes das novas entidades seguem obrigatoriamente o padrão dos deuses nórdicos já adotado no jogo. Pela revisão do usuário, `assets/eventos-especiais/norte-thor.webp` é a referência principal de traço e cor; conferir os resultados com essa carta e evitar a tonalidade amarelada das primeiras propostas. As referências específicas de personagem enviadas pelo usuário definem roupas, anatomia e composição. Os novos herdeiros, inclusive o Nórdico, seguem o padrão dos retratos de herdeiros já definidos, com suas referências próprias de rosto simplificado, busto e marfim claro.
 
 As novas cartas nórdicas usam WebP, qualidade 90, maior lado de 800 px e transparência quando aplicável. O plano prevê oito novas cartas para chegar a 20, incluindo Níðhöggr; a arte atual de Höðr continua em uso. Conferir a correspondência com as referências de cada categoria na revisão visual antes da entrega da implementação.
 
@@ -205,7 +205,7 @@ As alternativas pagas das novas bênçãos duram 10 dias: Baldr reduz 4 de dano,
 
 Uma readesão ao culto concede 50 seguidores, sem recriar os 30 da reserva inicial. O botão **Liberar personagens** grava apenas as permissões de seleção; os controles individuais e as preferências antigas de personagem deixaram de forçar novos inícios.
 
-Não houve criação ou conversão de imagens. Os novos herdeiros usam assets/selo.svg como retrato provisório; as oito entidades reutilizam referências nórdicas existentes. A produção das artes próprias segue as regras desta especificação e permanece fora desta execução.
+As oito entidades nórdicas têm artes próprias em WebP, qualidade 90 e maior lado de 800 px, preservando proporção e transparência. Thor define a referência de traço e cor, conforme a revisão do usuário. Os arquivos e os prompts estão em [ARTES-EVENTOS-NORDICOS.md](ARTES-EVENTOS-NORDICOS.md). Os novos herdeiros continuam usando `assets/selo.svg` como retrato provisório e serão produzidos um por vez.
 
 Validações: 153 testes automatizados passaram, assim como lint, conferência de formatação e git diff --check. Também executei nove simulações do catálogo real, três por novo herdeiro. Todas chegaram ao dia 300 com saves válidos; as três partidas do Leste resolveram seis encontros zodiacais. A estratégia automática compara as consequências das escolhas e não representa a experiência de um jogador sem conhecimento prévio. Os testes incluem partidas de 300 dias com save e carregamento em cada escolha e resultado, cobrindo os pares sazonais.
 
@@ -218,7 +218,8 @@ Validações: 153 testes automatizados passaram, assim como lint, conferência d
 - [x] Substituir os controles individuais por um único botão de debug para liberar personagens.
 - [x] Atualizar documentação e catálogos, mantendo as referências obrigatórias das artes.
 - [x] Executar 153 testes, lint, conferência de formatação e nove simulações completas.
-- [ ] Produzir e revisar as artes próprias, excluídas desta execução por pedido do usuário.
+- [x] Produzir e revisar as oito artes nórdicas, usando Thor como referência principal e incorporando as referências de personagem enviadas.
+- [ ] Produzir e revisar os retratos dos novos herdeiros, um por vez, depois dos eventos.
 - [ ] Conferir visualmente a interface no navegador e no celular; os testes de renderização não substituem essa revisão.
 
-Resultado: implementação funcional entregue, com os herdeiros prioritários, os 20 efeitos nórdicos e o debug unificado. Os testes cobrem as novas regras e a persistência; as simulações completas não encontraram saves inválidos. Permanecem pendentes a produção das artes, fora do escopo autorizado, e a revisão visual manual no navegador e no celular.
+Resultado: implementação funcional e oito artes próprias dos novos eventos nórdicos entregues. Os testes cobrem as regras e a persistência; o relatório das imagens confere formato, resolução, transparência e comparação de cor. Permanecem pendentes os retratos dos herdeiros e a revisão visual manual no navegador e no celular.

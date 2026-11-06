@@ -26,6 +26,12 @@ Algumas artes PNG de evento têm correção de cor na exibição por meio da cla
 
 ## Decisões já definidas
 
+- Níðhöggr segue a referência de dragão escuro enviada pelo usuário: cabeça estreita, chifres longos, pescoço e ombros espinhosos, corpo esguio, garras e asas de membrana. Adaptar a figura para a carta no traço e na paleta de Thor, sem a raiz na boca da primeira proposta, sem cenário, caveiras, inscrições ou brilho verde.
+
+- Para Jormungand, seguir a referência circular enviada pelo usuário: a serpente morde a própria cauda e envolve uma árvore central, sem fundo, moldura ou logotipo. Fenrir deve olhar de frente, com expressão sinistra e anatomia de lobo, sem feições humanoides. Hrym segue o gigante central da referência enviada: corpo robusto, barba volumosa, elmo, peles e arma pesada, adaptado para busto; não incluir os demais personagens, os balões nem as cores do quadrinho. Thor continua como referência de arte e cor dessas figuras.
+
+- Revisão de 6 de novembro de 2026 para as oito novas entidades nórdicas: usar `assets/eventos-especiais/norte-thor.webp` como referência principal de arte e cor. Conferir cada resultado lado a lado com Thor e com as cartas existentes; evitar a tonalidade amarela excessiva das primeiras propostas. Esta escolha prevalece sobre a referência geral de tonalidade da vila para esse conjunto. Baldr segue a referência enviada pelo usuário: cabelos compridos, barba, capa, torso à mostra e bastão com ramo. Heimdall segue a roupa da estatueta enviada: elmo com chifres curvos, couraça decorada, malha, capa e chifre de sopro. Frigg segue a gravura enviada: cabelos soltos, vestido drapeado, capa e roca alta. Adaptar as figuras para bustos, sem reproduzir fundos, bases ou inscrições das referências.
+
 - As novas entidades nórdicas do plano `PLANO-HERDEIROS-PRIORITARIOS.md` seguem obrigatoriamente o padrão dos deuses nórdicos existentes. Usar as artes atuais `assets/eventos-especiais/norte-odin.webp`, `norte-freya.webp` e `norte-loki.webp` como referências diretas de composição, hachura e acabamento, respeitando a tonalidade de eventos. Os novos herdeiros seguem o padrão próprio dos herdeiros já definidos, inclusive o Herdeiro Nórdico, com as referências de busto e tom claro desta memória.
 
 - Herdeiros são retratos de busto. A mulher usa tiara e vestido, não roupa pesada. Avarento e Doente usam coroa. Diferencie os trajes entre herdeiros; não use moedas ou flores na roupa do Avarento. A versão de culto deve ter roupa própria.

@@ -1435,6 +1435,15 @@
                   <button class="controle-honra" data-acao="debug-especial-abissal" ${run.aguardaDecisaoCulto ? "disabled" : ""}>História abissal</button>
                   <button class="controle-honra" data-acao="debug-especial-zodiaco" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Zodíaco chinês</button>
                   <button class="controle-honra" data-acao="debug-especial-norte" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Deuses nórdicos</button>
+                  <details>
+                    <summary class="controle-honra">Escolher evento nórdico</summary>
+                    ${(Jogo.efeitosNordicos || [])
+                      .map(
+                        (efeito) =>
+                          `<button class="controle-honra" data-acao="debug-especial-norte" data-evento-id="${efeito.eventoId}" ${run.aguardaDecisaoCulto ? "disabled" : ""}>${efeito.nome}: ${Jogo.eventoPorId(efeito.eventoId).titulo}</button>`,
+                      )
+                      .join("")}
+                  </details>
                   <button class="controle-honra" data-acao="debug-contagio-uivos" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Evento: uivos</button>
                   <button class="controle-honra" data-acao="debug-contagio-hospede" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Evento: hóspede</button>
                   <button class="controle-honra" data-acao="debug-contagio-anel" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Evento: anel</button>
