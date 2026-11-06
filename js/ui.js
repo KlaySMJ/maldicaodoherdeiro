@@ -96,11 +96,11 @@
   const descricoesTraco = {
     corajoso: "Corajosa: começa com +1 Ataque.",
     avarento: "Avarento: começa com 10 Gold.",
-    doente: "Doente: começa com 70 Vida e 4 Escudo. Vida máxima inicial: 70.",
+    doente: "Doente: começa com 70 Vida e 4 Escudo; sua Vida máxima inicial também é 70.",
     druida_herdeiro:
       "Druida-Herdeiro: começa com o Cajado de carvalho vivo e recebe a passiva de um companheiro aleatório a cada rodada. As quatro estações seguem o ciclo de 25 rodadas.",
     menino_cronista:
-      "Menino da Crônica: começa com 70 Vida e 3 Escudo. Acolheu a vila quando chegou órfão e voltou para ajudar a registrar sua história.",
+      "Menino da Crônica: começa com 70 Vida, 3 Escudo e 30 Honra. A vila o acolheu quando ele chegou órfão; hoje, ele registra a história de quem o recebeu.",
     heroi_do_povo:
       "Heroína do povo: começa com 5 Ataque e 5 Escudo. A honra dela nunca cai e nunca fica negativa — nem sob a espada da verdade nem sob o chamado do culto.",
   };
@@ -160,36 +160,37 @@
       seletor: ".evento-leitura",
       titulo: "Leia antes de escolher",
       texto:
-        "O título e a situação ficam no centro antes das opções. Em batalhas, confira à direita o ataque, a defesa, o dano e o Escudo previstos.",
+        "Leia a cena e compare as opções. Em batalhas, o painel à direita mostra seu Ataque, a Defesa inimiga e o dano previsto para vitória ou derrota; logo abaixo, indica o Escudo considerado.",
     },
     {
       seletor: ".coluna-escolhas",
       titulo: "Faça uma escolha",
       texto:
-        "Escolha uma opção para resolver o evento. Depois, veja o resultado e avance para a próxima rodada.",
+        "Escolha uma opção para resolver o evento. Depois de ler o desfecho, avance para a rodada seguinte.",
     },
     {
       seletor: ".atributos",
       titulo: "Cuide do herdeiro",
-      texto: "Vida mantém o herdeiro vivo; Escudo reduz o dano recebido; Ataque ajuda a vencer confrontos.",
+      texto:
+        "Vida mantém você na crônica. O Escudo reduz o dano recebido, e o Ataque define sua força nos combates.",
     },
     {
       seletor: '[data-atributo="honra"]',
       titulo: "A Honra deixa marcas",
       texto:
-        "Suas decisões mudam a Honra. Ela altera o retrato do herdeiro e pode liberar escolhas em alguns eventos.",
+        "Suas decisões mudam a Honra. Ela altera o retrato e pode abrir novas escolhas em certos eventos.",
     },
     {
       seletor: ".recursos-vila",
       titulo: "Administre a vila",
       texto:
-        "Habitantes representam a população. Gold paga compras e construções; muitas escolhas podem alterar esses recursos.",
+        "Habitantes mostram o tamanho da vila. Você usa Gold em compras e construções; algumas escolhas mudam esses valores.",
     },
     {
       seletor: ".inventario > summary",
       titulo: "Use o inventário",
       texto:
-        "Os itens conquistados ficam guardados aqui. Alguns dão efeitos passivos; outros têm um botão para serem usados.",
+        "Os itens conquistados ficam no inventário. Alguns têm efeito passivo; outros podem ser usados pelo botão ao lado.",
     },
   ];
   let retratoExibido = null;
@@ -646,36 +647,37 @@
       {
         traco: "doente",
         nome: "O Herdeiro Doente",
-        descricao: "70 Vida e 4 Escudo; aguenta menos golpes.",
+        descricao: "Começa com 70 Vida e 4 Escudo. Sua Vida máxima inicial também é 70.",
         imagem: "doente",
       },
       {
         traco: "druida_herdeiro",
         nome: "O Filho da Floresta",
         descricao:
-          "O Cajado começa com +2 Ataque e ganha +1 a cada primavera após o primeiro ano, até +5. O companheiro aleatório muda a passiva: Lobo dá +2 Ataque em batalhas, Corvo revela o tipo do evento e Honra de uma opção, e Cervo cura 3 Vida por rodada (4 com a Máscara).",
+          "Começa com 110 Vida, 4 Ataque, 2 Escudo e 3 Gold. O Cajado de Carvalho Vivo dá +2 Ataque e ganha +1 em cada primavera a partir do segundo ano, até +5. A cada rodada, um companheiro aleatório concede uma passiva: Lobo dá +2 Ataque em batalhas; Corvo revela o tipo do evento e a Honra de uma opção; Cervo recupera 3 Vida, ou 4 com a Máscara do Cervo.",
         imagem: "druida-herdeiro",
       },
       {
         traco: "menino_cronista",
         nome: "O Menino da Crônica",
-        descricao: "70 Vida e 3 Escudo; acolhido e feito conselheiro da vila.",
+        descricao:
+          "Começa com 70 Vida, 3 Escudo e 30 Honra. A vila o acolheu quando chegou órfão; hoje, ele é seu conselheiro.",
         imagem: "menino-cronista",
       },
       {
         traco: "heroi_do_povo",
         nome: "A Heroína do povo",
-        descricao: "5 Ataque e 5 Escudo; a honra dela nunca cai nem fica negativa.",
+        descricao: "Começa com 5 Ataque e 5 Escudo. Sua Honra não diminui nem fica abaixo de zero.",
         imagem: "heroi-do-povo",
       },
     ];
     const dicasTraco = {
-      menino_cronista: "Acolha o órfão com honra e torne-o conselheiro.",
+      menino_cronista: "Acolha o órfão com Honra e permita que ele se torne conselheiro.",
       heroi_do_povo: "Alcance 400 de Honra em uma crônica.",
     };
     mostrar(
       `<section class="selecao-herdeiro" aria-labelledby="titulo-selecao-herdeiro">
-        <div class="selecao-herdeiro-cabecalho"><p class="nota">A linhagem continua</p><h1 id="titulo-selecao-herdeiro">Quem herda a vila?</h1><p>Cada traço muda os primeiros passos desta crônica.</p></div>
+        <div class="selecao-herdeiro-cabecalho"><p class="nota">A linhagem continua</p><h1 id="titulo-selecao-herdeiro">Quem herda a vila?</h1><p>Passe o cursor ou toque uma vez no retrato para ver o que muda e como desbloqueá-lo.</p></div>
         <div class="selecao-herdeiro-lista">${opcoesHerdeiro
           .map((herdeiro) => {
             const desbloqueado =
@@ -689,7 +691,7 @@
                 : herdeiro.descricao;
             const dicaHerdeiro = desbloqueado
               ? "Disponível para escolher."
-              : dicasTraco[herdeiro.traco] || "Poupe o cervo branco para encontrar este herdeiro.";
+              : dicasTraco[herdeiro.traco] || "Poupe o cervo branco quando ele cruzar seu caminho.";
             const descricaoAcessivel = `${nomeHerdeiro}. ${descricaoHerdeiro} ${dicaHerdeiro}`;
             const imagemBase = `assets/herdeiros/${herdeiro.imagem}-neutra.png`;
             const versaoImagem = window.JOGO_VERSAO_ASSETS

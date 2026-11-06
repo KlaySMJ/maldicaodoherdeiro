@@ -212,6 +212,25 @@ test("mortes específicas registram a carta que encerrou a crônica", () => {
   }
 });
 
+test("a conquista do barão entra no histórico assim que o evento é resolvido", () => {
+  const { J } = preparar();
+  const run = J.estado.novo(J.legado.vazio(), "corajoso");
+  run.rodada = 12;
+  run.eventoId = "volta_do_barao";
+  run.atributos.gold = 20;
+
+  assert.equal(J.engine.escolher(run, "pagar"), true);
+  assert.equal(run.flags.volta_barao_sobreviveu, true);
+  assert.equal(run.status, "ativa");
+  assert.ok(run.conquistas.conquistasDesbloqueadas.includes("barão_resolvido_sobreviveu"));
+  assert.ok(J.save.lerLegado().conquistasDesbloqueadas.includes("barão_resolvido_sobreviveu"));
+
+  J.engine.encerrar(run, "derrota", "Fim de teste.");
+  assert.ok(run.conquistas.conquistasDesbloqueadas.includes("barão_resolvido_sobreviveu"));
+  assert.equal(J.save.finalizar(run), true);
+  assert.ok(J.save.lerLegado().conquistasDesbloqueadas.includes("barão_resolvido_sobreviveu"));
+});
+
 test("sobreviver ao primeiro e ao segundo ano concede marcos de crônica", () => {
   const { J } = preparar();
   const run = J.estado.novo(J.legado.vazio(), "corajoso");

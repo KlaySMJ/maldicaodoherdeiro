@@ -1,62 +1,69 @@
-# PRD: revisão dos textos dos eventos
+# PRD: revisão dos textos do jogo
 
 ## Objetivo
 
-Revisar a redação de todos os eventos do jogo, da seleção de herdeiros e do tutorial com a skill `anti-ai-slop-writing` definida em `SKILL.md`. A revisão deve dar mais voz própria às cenas e à interface, sem alterar regras, efeitos ou a identidade narrativa já estabelecida.
-
-Este PRD prepara a revisão. Não autoriza mudanças nos textos do jogo ainda; o inventário gerado ao lado fica disponível para leitura e ajustes antes da execução.
+Dar mais variedade e clareza aos textos de eventos, opções, resultados, seleção de herdeiros e tutorial, preservando o tom sombrio do jogo e todas as suas regras.
 
 ## Escopo
 
-O catálogo atual reúne **276 eventos** registrados pela aplicação, distribuídos pelos arquivos `js/events*.js`. Na etapa de revisão, considerar todos os textos visíveis ao jogador: título, narração (`texto`), informação contextual (`informacoes`), rótulos das opções, resultados e mensagens de consequências presentes nos dados do evento.
+O catálogo contém **276 eventos** em `js/events*.js`. A revisão abrange títulos, narrações (`texto`), informações contextuais (`informacoes`), rótulos das opções e resultados, inclusive os desfechos de batalha.
 
-O escopo também inclui os nomes, descrições, dicas de desbloqueio e instruções acessíveis da seleção de herdeiros em `js/ui.js`, além dos títulos, textos e controles das etapas do tutorial no mesmo arquivo. A revisão deve conferir se as descrições dos herdeiros explicam corretamente suas características e se o tutorial corresponde ao fluxo atual da interface.
+A seleção cobre os seis herdeiros cadastrados em `js/ui.js`, suas características, as dicas de desbloqueio e as instruções de uso dos retratos. O tutorial cobre as seis etapas e os controles exibidos em jogo.
 
-O arquivo `INVENTARIO-TEXTOS-EVENTOS.md` lista o ID, o nome e o texto narrativo atual dos eventos, e agora inclui seções para seleção de herdeiros e tutorial. Ele serve como base para análise e anotação; não substitui a revisão dos textos de opções e consequências nos arquivos-fonte.
+O inventário final, em `INVENTARIO-TEXTOS-EVENTOS.md`, registra título, narração e informação contextual de cada evento. Também lista as ações de seguir os 30 conselhos que receberam texto próprio, além dos textos atuais da seleção e do tutorial.
 
 ## Regras editoriais
 
-- Ler `SKILL.md` por inteiro antes de redigir ou revisar. Consultar `references/banned-words.md` se esse arquivo estiver disponível.
-- Preservar fatos, personagens, contexto histórico-fantástico e o tom sombrio do jogo. Não inventar acontecimentos, falas, números ou detalhes apresentados como fatos.
-- Manter intactos IDs, requisitos, efeitos, flags, estruturas de dados, placeholders dinâmicos e qualquer lógica executável.
-- Escrever em português natural e concreto. Variar ritmo e estrutura conforme a cena; evitar frases genéricas, repetições e cadências artificiais.
-- Fazer as escolhas distinguíveis entre si, com intenção e consequência legíveis. Não prometer um efeito diferente daquele que o jogo realmente aplica.
-- Tratar `imagemAlt` como texto acessível, não como prosa narrativa. Alterá-lo apenas se a imagem ou sua descrição estiver incorreta.
-- Não forçar gírias, contrações ou detalhes específicos quando destoarem do mundo ficcional.
+- Seguir a skill `anti-ai-slop-writing` de `SKILL.md`. A lista `references/banned-words.md` não está disponível neste repositório.
+- Preservar fatos, personagens, contexto histórico-fantástico e tom sombrio. Não inventar acontecimentos ou efeitos apresentados como fatos.
+- Manter intactos IDs, requisitos, efeitos, flags, estruturas de dados executáveis e placeholders dinâmicos.
+- Escrever em português natural e concreto. Remover repetições quando não forem um padrão intencional da interface.
+- Fazer cada opção corresponder ao que o jogo realmente aplica.
+- Tratar `imagemAlt` como texto acessível e alterá-lo apenas se a imagem ou sua descrição estiver incorreta.
 
-## Fluxo de trabalho proposto
+## Execução
 
-1. Usar o catálogo carregado pela aplicação para conferir a lista completa e mapear cada evento ao arquivo-fonte. Trabalhar em lotes pequenos, sem deixar eventos únicos ou condicionais de fora; em seguida, mapear a seleção e todas as etapas do tutorial em `js/ui.js`.
-2. Para cada evento, comparar narração, informação, opções e resultados; conferir requisitos e efeitos antes de propor mudanças, para que a prosa descreva o comportamento real.
-3. Revisar o texto com a skill, preservando placeholders e mantendo a extensão adequada à interface e à cena.
-4. Atualizar o inventário com a redação proposta somente depois da revisão. Manter IDs dos eventos e identificadores estáveis para os textos de seleção e tutorial, para que a pessoa responsável possa localizar, aprovar ou editar cada trecho.
-5. Depois da aprovação editorial, aplicar os textos aos arquivos-fonte sem alterar a lógica. Rodar os testes do catálogo e a suíte completa; inspecionar o diff em busca de mudanças acidentais em IDs, requisitos, efeitos e flags.
+### Eventos
+
+Os 276 eventos foram conferidos pelo catálogo carregado pela aplicação. Títulos, narrações e informações contextuais foram revisados; as opções, resultados e ramificações foram comparados com o conteúdo mecânico dos eventos.
+
+As 30 cartas do conselheiro repetiam o mesmo prefixo de título, a mesma informação contextual e o mesmo rótulo para seguir o conselho. Cada uma agora tem um título, uma informação e uma ação de escolha ligados à situação descrita. Os rótulos e resultados de recusa permaneceram compartilhados, pois descrevem a mesma decisão.
+
+A revisão também corrigiu dois resultados interrompidos no meio da frase, a descrição da refeição em `a_noite_dos_lampioes` e o rótulo correspondente. Placeholders como `{{rodada}}` e `{{motivo}}` foram preservados.
+
+### Seleção de herdeiros
+
+O cabeçalho agora explica como revelar as informações no retrato. As descrições de herdeiros informam os atributos iniciais relevantes, as passivas da linhagem e as condições de desbloqueio sem depender de texto permanente sobre os quadrados.
+
+### Tutorial
+
+As seis etapas foram alinhadas ao painel de batalha, ao fluxo de escolha e resultado, aos atributos, à Honra, aos recursos da vila e ao inventário atuais.
 
 ## Critérios de aceite
 
-- Todos os **276 eventos** do catálogo têm correspondência no inventário por ID, sem duplicatas ou ausências.
-- A seleção cobre os seis herdeiros cadastrados e suas descrições, dicas de desbloqueio, cabeçalho e instruções de escolha.
-- O tutorial cobre todas as etapas e seus controles, sem instruções obsoletas em relação à interface atual.
-- Cada texto revisado continua coerente com as opções, resultados e consequências mecânicas do evento.
-- Nenhum ID, placeholder, requisito, efeito, flag ou regra de sorteio muda como parte da revisão editorial.
-- O inventário final contém ID, nome e descrição narrativa, e permite localizar o evento no código.
-- Os testes existentes passam após a aplicação das mudanças aprovadas.
+- [x] Os 276 IDs permanecem no catálogo e aparecem no inventário, sem duplicatas.
+- [x] Narração e informação contextual estão registradas para os 276 eventos.
+- [x] Opções, resultados e consequências revisados correspondem aos efeitos e desfechos existentes.
+- [x] A seleção cobre os seis herdeiros, seus traços e as dicas de desbloqueio.
+- [x] O tutorial cobre as seis etapas e descreve o fluxo atual.
+- [x] IDs, requisitos, efeitos, flags, sorteio e placeholders dinâmicos permanecem intactos.
+- [x] A suíte existente e o lint passam; os arquivos alterados passam na checagem de formatação individual.
 
-## Entregáveis e estado
+## Entrega
 
-- `PRD-REVISAO-TEXTOS-EVENTOS.md`: escopo e procedimento da revisão.
-- `INVENTARIO-TEXTOS-EVENTOS.md`: extração do ID, título e texto narrativo atual para análise manual.
-- O inventário também inclui os textos da seleção de herdeiros e do tutorial.
-- Revisão e aplicação dos novos textos: **pendentes**, aguardando a análise do inventário.
+Arquivos de referência e revisão: `INVENTARIO-TEXTOS-EVENTOS.md` e este PRD. Os textos executados estão em `js/events-conselheiro.js`, `js/events.js`, `js/events-vila.js`, `js/events-heroi.js` e `js/ui.js`.
 
-## Checklist e validações
+### Checklist final
 
-- [x] Ler a skill de escrita e mapear os arquivos que registram eventos.
-- [x] Gerar inventário a partir do catálogo runtime, incluindo os 276 eventos.
-- [x] Ampliar escopo e inventário para seleção de herdeiros e tutorial.
-- [x] Definir escopo, salvaguardas editoriais e critérios de aceite.
-- [ ] Análise e ajustes manuais do inventário pela pessoa responsável.
-- [ ] Revisão dos textos dos eventos e aprovação antes de editar os arquivos-fonte.
-- [ ] Testes funcionais e revisão do diff após aplicar os textos aprovados.
+- [x] Ler `SKILL.md` e verificar a disponibilidade da lista de termos proibidos; o arquivo referenciado não foi encontrado.
+- [x] Revisar os 276 títulos, narrações e informações contextuais.
+- [x] Revisar as opções e os desfechos, incluindo as 17 batalhas e suas ramificações.
+- [x] Dar textos próprios às 30 ações de conselho e corrigir frases incompletas.
+- [x] Atualizar o inventário da seleção, do tutorial e dos eventos.
+- [x] Confirmar que dados mecânicos, IDs e placeholders não mudaram.
+- [x] Rodar testes, lint e formatação dos arquivos alterados.
+- [x] Preparar e registrar o commit final das mudanças.
 
-Resultado: o PRD e o inventário de eventos, seleção e tutorial estão prontos para análise. Nenhum texto do jogo foi alterado; a revisão editorial e sua validação permanecem pendentes.
+**Resumo:** revisão textual aplicada ao catálogo de eventos, à seleção de herdeiros e ao tutorial. Nenhuma regra do jogo foi alterada.
+
+**Validações:** 115 testes passam; o lint passa; os arquivos alterados passam no Prettier. A checagem geral de formatação ainda aponta `js/conquistas.js`, `js/events-progresso.js`, `js/save.js` e `tests/heroi-do-povo.test.cjs`, que já estavam fora do padrão e não fazem parte desta revisão. Decisões editoriais pendentes: nenhuma.

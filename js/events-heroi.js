@@ -52,7 +52,10 @@
           resultado: "O grão sai em sacos marcados. Nenhuma porta da vila fica fechada à noite.",
         },
         {
-          ...escolha("vender_excedente", "Vender o excedente a quem pode pagar.", { gold: 6, habitantes: -2 }),
+          ...escolha("vender_excedente", "Vender o excedente a quem pode pagar.", {
+            gold: 6,
+            habitantes: -2,
+          }),
           resultado: "Carros saem carregados ao entardecer. Duas casas deixam a chave na porta.",
         },
         {
@@ -94,7 +97,8 @@
         { id: "enfrentar", texto: "Enfrentar o bando na estrada.", combate: true },
         {
           ...escolha("pagar_passagem", "Pagar a passagem e seguir.", { gold: -4 }),
-          resultado: "Você entrega as moedas sem discutir. Os desertores anotam o seu nome — e deixam passar.",
+          resultado:
+            "Você entrega as moedas sem discutir. Os desertores anotam o seu nome — e deixam passar.",
         },
         {
           ...escolha("desviar_mata", "Desviar pela mata e chegar a pé.", { hp: -5 }),
@@ -112,15 +116,15 @@
       imagem: "assets/eventos-especificos/festival-dos-mortos.webp",
       imagemAlt: "Lampiões acesos diante das casas da vila",
       texto:
-        "Acendem lampiões em cada janela e levam até a sua porta um farto de ervas. É o jeito da vila de dizer que reconhece quem cuidou dela.",
+        "Acendem lampiões em cada janela e levam até a sua porta uma refeição farta, temperada com ervas. É o jeito da vila de dizer que reconhece quem cuidou dela.",
       informacoes: "Receber bem aproxima quem ainda hesita em bater à sua porta.",
       opcoes: [
         {
-          ...escolha(
-            "convidar_todos",
-            "Convidar a praça inteira para dentro de casa.",
-            { gold: -6, honra: 3, habitantes: 1 },
-          ),
+          ...escolha("convidar_todos", "Convidar a praça inteira para dentro de casa.", {
+            gold: -6,
+            honra: 3,
+            habitantes: 1,
+          }),
           resultado: "A casa não fecha mais. Duas famílias de fora pedem para ficar perto da luz.",
         },
         {
@@ -128,7 +132,7 @@
           resultado: "Você cumprimenta até a última pessoa e dorme de pé. Ninguém fica sem resposta.",
         },
         {
-          ...escolha("guardar_o_farto", "Guardar o farto e subir para o descanso.", { hp: 5 }),
+          ...escolha("guardar_o_farto", "Aceitar o jantar e subir para descansar.", { hp: 5 }),
           resultado:
             "Você come, dorme e acorda com os ombros descansados. Lá embaixo, os lampiões continuam acesos.",
         },

@@ -1053,7 +1053,7 @@
               gold: -4,
               honra: -1,
             },
-            resultado: "A carga volta, e os ladrões, em breve.",
+            resultado: "A carga volta para o cocheiro. Os ladrões levam as moedas e somem no bosque.",
           },
         ],
         batalha: {

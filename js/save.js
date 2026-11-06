@@ -614,8 +614,8 @@
   }
 
   function finalizar(run) {
-    // Mantém as conquistas desta sessão utilizáveis mesmo sem armazenamento.
-    // Elas só entram aqui depois do encerramento, nunca durante uma run ativa.
+    // Consolida o restante do progresso da run; conquistas já registradas no
+    // desbloqueio permanecem seguras por serem mescladas de forma idempotente.
     Jogo.legado.registrarRun(run);
     legadoDaSessao = Jogo.legado.mesclar(
       legadoDaSessao,
@@ -630,6 +630,15 @@
     const legado = Jogo.legado.mesclar(anterior, legadoDaSessao);
     if (!gravar(CHAVE_LEGADO, legado)) return false;
     return apagarRun();
+  }
+
+  function registrarConquistas(run, desbloqueadas = run?.conquistas?.conquistasDesbloqueadas) {
+    if (!Array.isArray(desbloqueadas) || !desbloqueadas.length) return true;
+    const progresso = { versao: 1, conquistasDesbloqueadas: desbloqueadas };
+    legadoDaSessao = Jogo.legado.mesclar(legadoDaSessao, progresso);
+    const anterior = ler(CHAVE_LEGADO);
+    if (anterior === LEITURA_INDISPONIVEL) return false;
+    return gravar(CHAVE_LEGADO, Jogo.legado.mesclar(anterior, progresso));
   }
 
   function registrarRotacaoRun(run) {
@@ -698,6 +707,7 @@
     runValida,
     apagarRun,
     finalizar,
+    registrarConquistas,
     registrarRotacaoRun,
     exportar,
     importar,

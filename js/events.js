@@ -851,7 +851,7 @@
           requisitos: { goldMin: 4 },
           efeitos: { habitantes: 5, honra: 3, gold: -4 },
           resultado:
-            "A música ganha segunda estrofe. Cinco viajantes seguem o cheiro do vinho e ficam até o amanhecer, e depois.",
+            "A música ganha uma segunda estrofe. Cinco viajantes seguem o cheiro do vinho, ficam na vila, e o barril esvazia antes do amanhecer.",
         },
         {
           id: "servir",

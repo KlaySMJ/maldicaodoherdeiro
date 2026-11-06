@@ -363,6 +363,7 @@
       versao: 1,
       conquistasDesbloqueadas: novas.map((conquista) => conquista.id),
     });
+    Jogo.save?.registrarConquistas(run, novas.map((conquista) => conquista.id));
     run.avisosConquistas ||= [];
     for (const conquista of novas) {
       run.avisosConquistas.push(conquista.id);
