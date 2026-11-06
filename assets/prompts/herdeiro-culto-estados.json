@@ -1,0 +1,39 @@
+{
+  "gerador": "Ferramenta integrada imagegen",
+  "estadoProducao": "Concluído para revisão",
+  "referenciaIdentidade": "assets/herdeiros/herdeiro-culto-neutra.png",
+  "referenciasDeTom": [
+    "assets/herdeiros/corajoso-neutra.png",
+    "assets/herdeiros/avarento-neutra.png",
+    "assets/herdeiros/doente-neutra.png"
+  ],
+  "direcao": "Quanto mais negativa a honra, mais refinada a roupa. Manter cabelo preto, expressão maligna e silhueta esguia; produzir somente os estados atingíveis.",
+  "promptComum": "Use case: identity-preserve. Edit the FIRST supplied image, the APPROVED base portrait, into ONE clothing-state variant of the SAME adult Herdeiro do Culto. Absolute invariants: identical narrow angular face, slim neck and shoulders, clean-shaven jaw, nose, eyes, malicious calculating expression and subtle closed smirk, head coordinates, body proportions, canvas size, transparent margins and curved bust crop. Preserve his exact long flowing BLACK hair with the same silhouette, length and few fine muted highlights. At least 85–90% of the hair remains dark, never blond, gray or white. Keep the same warm near-white #F9EEDD SKIN tone, no gray skin, yellow tint or realistic complexion.\nHe only has nonpositive/negative honor. As honor becomes more negative, his clothing becomes MORE refined, impressive and expensive, always perfectly intact and carefully maintained. NEVER add tears, rags, patches, loose repair stitches, stains, fraying, poverty, decay or injuries. Show his malevolence through composure and elegant tailoring, not ruined garments. Preserve the original subtly caricatured medieval ink style: thick irregular black contours, simplified face, economical hatching and subtle paper grain. Dark charcoal or black clothing, very restrained muted aged-gold detail; no extra colors except the muted crimson in the adherence outfit. Keep clothes slim and controlled, with no giant shoulders or bulky layered cape. No crown, armor, weapon, skull, glowing eyes, fangs, runes, new props, background, frame, text, halo, photorealism, anime or 3D. Fully transparent alpha outside the figure. ",
+  "variantes": [
+    {
+      "estado": "baixa",
+      "honra": -30,
+      "arquivo": "assets/herdeiros/herdeiro-culto-baixa.png",
+      "promptEspecifico": "NEGATIVE HONOR -30: a well-cut dark velvet tunic with crisp symmetric overlapping pointed lapels, a narrow warm-gray inner collar and one small elegant antique-gold geometric fastener at the upper chest. A few smooth long fabric folds and plain neatly finished sleeves. Distinct from the base's simple gathered round-clasp robe, while retaining the same slender silhouette. Restrained first step of luxury, no cape and no cult flame."
+    },
+    {
+      "estado": "baixa-2",
+      "honra": -60,
+      "arquivo": "assets/herdeiros/herdeiro-culto-baixa-2.png",
+      "promptEspecifico": "VERY NEGATIVE HONOR -60: an elegant fitted dark robe with a double folded angular collar, slim vertical panels framing the chest and a sparse narrow aged-gold geometric stitch border on the collar and panels. Two short fine aged-gold chain fastenings at the sternum, plain well-fitted sleeves. Add just a few soft dark woven patterns inside the chest panels, not dense texture. This is clearly a more refined outfit than -30, still narrow and uncluttered. Keep shoulders the original size, no large mantle and no cult flame."
+    },
+    {
+      "estado": "baixissima",
+      "honra": -90,
+      "arquivo": "assets/herdeiros/herdeiro-culto-baixissima.png",
+      "promptEspecifico": "EXTREMELY NEGATIVE HONOR -90: his most refined pre-adherence outfit, a black formal robe of fine cloth with an angular high collar, a flat narrow tailored shoulder yoke lying against his existing slim shoulders, a thin warm-white inner collar edge and a small geometric antique-gold clasp linked to two fine short chains. A few sparse geometric gold border marks distinguish the collar and cuffs, with broad controlled silk folds. The dress should look expensive, powerful and impeccably cared for, but not excessively ornate. No tall crown, huge shoulder armor, large cape or cult flame. Same exact malicious face and long black hair."
+    },
+    {
+      "estado": "culto",
+      "arquivo": "assets/herdeiros/herdeiro-culto-culto.png",
+      "promptEspecifico": "ACTIVE CULT ADHERENCE: a distinct impeccably tailored black ceremonial robe with a folded high collar, narrow deep-muted-crimson lapel lining and a short flat crimson shoulder drape fitted to his slender outline. Keep all fabric refined, clean and intact. A small white stylized three-tongue cult flame is clearly visible at the center of the chest, beneath the clasp and between the hair strands; use the SECOND image ONLY as reference for the existing flame emblem and crimson palette, never for face or identity. One small antique-gold fastening and controlled broad folds. Preserve the exact base's calculating eyes and cold restrained smirk, no new face or exaggerated grin. Long hair remains BLACK, skin remains the exact warm-white tone. No hood hiding the hair, skulls, crowns, weapon or magical glow.",
+      "correcaoExpressao": "Use case: precise-object-edit. Edit ONLY the facial EXPRESSION of this existing cult-adherence portrait of the adult Herdeiro do Culto. The user wants this particular state to look more corrupted and fanatically unhinged than his restrained calculating base.\n\nKeep his exact recognizable face anatomy and head position, but make the expression distinctly unsettling: a fixed intense stare with the eyes a little more open, small normal dark pupils, one brow lifted while the other angles downward, slight tension lines around the eyes and forehead, and a crooked asymmetric grin showing just a narrow sliver of upper teeth. The effect should be feverishly devoted, losing composure and disturbingly delighted. It must be clearly different from the calm closed smirk in the current image. Do not make an enormous Joker-like mouth, monster jaw, fangs or an anime reaction face. Keep the expression in the same simple subtly caricatured medieval ink vocabulary.\n\nPreserve EVERYTHING ELSE exactly: same narrow angular face, nose, age, clean-shaven jaw, slender neck and shoulder outline, long predominantly BLACK flowing hair with sparse fine highlights, original pose and canvas coordinates. Preserve the pristine elegant black-and-muted-crimson ceremonial clothes, collar, gold clasp, folds and WHITE cult-flame emblem at the center of his chest. His clothes remain well cared for and refined even in this corrupted state; no damage, dirt, rags, patches, torn edges or poverty.\n\nMaintain the same warm-white #F9EEDD skin tone, thick irregular black outlines, sparse hatching, subtle paper grain, restrained gold, red only in the existing clothes, square image dimensions, curved bust crop and clean fully transparent alpha background. No recoloring of the skin or hair, no scars or wounds, no glowing/red eyes, new accessories, crown, skulls, weapon, scenery, frame, text or halo. Same man and same costume; only the cult state's expression becomes more frantic and corrupted."
+    }
+  ],
+  "previa": "docs/previas/herdeiro-culto.html"
+}
