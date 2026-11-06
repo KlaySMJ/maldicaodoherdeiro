@@ -1,0 +1,51 @@
+{
+  "gerador": "Ferramenta integrada imagegen",
+  "referenciaIdentidade": "assets/herdeiros/herdeiro-nordico-neutra.png",
+  "previa": "docs/previas/herdeiro-nordico.html",
+  "invariantes": "Preservar duas tranças na barba, cicatriz evidente e olho cego do lado direito para quem olha em todas as versões. O outro olho permanece escuro.",
+  "promptComumHonras": "Use case: identity-preserve. Edit the supplied APPROVED neutral portrait into ONE state variant of the SAME mature Herdeiro Nórdico. This is a CLOTHING state change, not a redesign. Absolute invariants: exact same angular face, age, nose, mustache, swept-back white hair, shaved temple, long beard with EXACTLY TWO braids, gold earring, head position, face size, neck, broad shoulder silhouette, canvas dimensions, transparent margins and curved bust crop. Most importantly, keep the prominent healed diagonal scar across the eye on the VIEWER'S RIGHT EXACTLY in place and shape; keep THAT eye open, pale opaque/milky and blind with NO black pupil. The other eye on the viewer's LEFT stays normal and dark. Do not heal, erase, move or duplicate the scar or change which eye is blind. No eye glow, eyepatch or colored eyes.\nMaintain the exact source's simplified, subtly caricatured medieval ink style: thick irregular black contours, sparse hatching, warm-white #F9EEDD light areas of skin, hair, beard and cloth, dark ink shadows, muted aged-gold accents only. No extra yellow or brown cast, bright white, realistic skin, red outside the cult state, anime, 3D or photorealism. No new weapons, props, crowns, helmets, text, scenery, frame, halo or background. Keep the original figure coordinates so all states align.\n",
+  "variantes": [
+    {
+      "estado": "alta",
+      "honraMinimaOuMaxima": 30,
+      "arquivo": "assets/herdeiros/herdeiro-nordico-alta.png",
+      "promptEspecifico": "HIGH HONOR +30. Refine his neutral northern tunic: clean warm-white cloth with a narrow dark woven knot border following the split neckline, orderly broad folds, and one small aged-gold geometric clasp on each existing shoulder strap. Keep the close-fitting modest fur collar in its original size and position, described with a few broad clumps. Clothes look well cared for, still simple and practical. Preserve the same stern composed expression, without changing face anatomy or smile."
+    },
+    {
+      "estado": "alta-2",
+      "honraMinimaOuMaxima": 60,
+      "arquivo": "assets/herdeiros/herdeiro-nordico-alta-2.png",
+      "promptEspecifico": "VERY HIGH HONOR +60. Give him a distinct northern outfit: a neat dark charcoal leather jerkin over warm-white tunic sleeves, a clearly visible narrow woven white front panel with two small aged-gold loop fastenings, and a small close-fitting fur collar of the same size as neutral. A thin geometric edge follows the jerkin's shoulder seams; no dense embossing or armor. The light sleeves and dark front create a clear second rank while keeping the exact shoulder silhouette. No cape or bulky new layers. Same composed original face."
+    },
+    {
+      "estado": "altissima",
+      "honraMinimaOuMaxima": 90,
+      "arquivo": "assets/herdeiros/herdeiro-nordico-altissima.png",
+      "promptEspecifico": "MAXIMUM HONOR +90. A dignified restrained northern chief's outfit: a refined warm-white tunic with a broad dark woven neckline, sparse aged-gold knot edging and a short flat warm-white wool shoulder mantle fastened with two small ring brooches. Keep mantle close to the original shoulder outline, with only a few strong folds and a narrow fur lining at the neckline, no giant fur mass. A simple dark woven band near the upper sleeves carries one small angular gold knot motif. More distinguished than the lower ranks, without crown, armor, huge layers or ornamental overload. Same original mature face and stern calm expression."
+    },
+    {
+      "estado": "baixa",
+      "honraMinimaOuMaxima": -30,
+      "arquivo": "assets/herdeiros/herdeiro-nordico-baixa.png",
+      "promptEspecifico": "LOW HONOR -30. His same northern warm-white tunic is noticeably less cared for: a slightly rumpled split collar, one small square stitched repair on the upper sleeve, uneven cloth folds and a scuffed plain shoulder fastening. Keep the same modest fur collar size and shoulder outline. Show wear sparingly, without changing face, skin, hair, beard, scar, blind eye or expression. No dirt on the face and no extra props."
+    },
+    {
+      "estado": "baixa-2",
+      "honraMinimaOuMaxima": -60,
+      "arquivo": "assets/herdeiros/herdeiro-nordico-baixa-2.png",
+      "promptEspecifico": "VERY LOW HONOR -60. A distinct rough dark charcoal wool tunic with warm-white collar edging, a repaired diagonal shoulder seam and one light patched upper sleeve. The modest fur collar is a little worn, kept close to the same shoulder outline. A few frayed threads and larger simple folds convey the state; no highly detailed grunge. Face, hair, beard, scar and milky blind eye stay EXACTLY like the base, without aging or extra wrinkles."
+    },
+    {
+      "estado": "baixissima",
+      "honraMinimaOuMaxima": -90,
+      "arquivo": "assets/herdeiros/herdeiro-nordico-baixissima.png",
+      "promptEspecifico": "EXTREMELY LOW HONOR -90. A badly worn northern warm-white tunic with uneven torn sleeve hems, a few large simple stitched repairs, a dark frayed narrow shoulder wrap and worn leather fastenings. All fabric layers remain thin, inside the original bust silhouette, no voluminous ragged cape or bigger shoulders. The wear is in clothing only; no dirt, injuries or changes to the original face, scar, milky blind eye, beard, age or head. Maintain the warm-white tone even on the worn cloth."
+    },
+    {
+      "estado": "culto",
+      "arquivo": "assets/herdeiros/herdeiro-nordico-culto.png",
+      "referenciaEmblema": "assets/herdeiros/corajoso-culto.png",
+      "prompt": "Use case: identity-preserve. Create ONE CULT variant by editing image 1, the approved neutral Herdeiro Nórdico. Image 2 is ONLY a reference for the existing game's muted crimson color and small white cult-flame emblem.\n\nPreserve the exact identity, pose and canvas of image 1: same mature angular face, stern composed expression, nose, long mustache, swept-back white hair, shaved temple, gold earring, EXACTLY TWO beard braids, original braid bands, head coordinates, face scale, broad shoulders and curved bust crop. His prominent healed diagonal scar on the VIEWER'S RIGHT crosses the eyebrow, eye and cheek; preserve it EXACTLY. THAT eye stays open, pale milky and blind with NO dark pupil, no healing and no magical glow. The opposite eye remains dark and normal.\n\nChange the clothes to a distinct black northern wool tunic with neat narrow muted-crimson collar edging and a short flat deep-crimson shoulder mantle, keeping the same shoulder silhouette. A close-fitting narrow dark fur collar stays neutral dark rather than red. One simple dark clasp holds the mantle. Put ONE small readable WHITE stylized three-tongue cult flame, like image 2, on the visible dark tunic at the VIEWER'S RIGHT upper chest BESIDE the beard braid, not hidden under hair and not printed on his beard. No crown, hood, weapon, skulls, runes, extra props or exaggerated armor.\n\nMatch image 1's simplified medieval ink drawing exactly: thick irregular black contours, sparse hatching, flat warm-white #F9EEDD skin/hair/beard, dark shadows, tiny aged gold. No skin or hair recoloring, no excessive yellow, brown cast, realism, anime or 3D. Keep all figure proportions and transparent margins. The background must be genuinely transparent alpha with no scenery, frame, text, halo, ground or shadow outside the figure."
+    }
+  ]
+}

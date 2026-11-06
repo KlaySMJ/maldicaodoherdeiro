@@ -531,6 +531,13 @@
   }
 
   function aplicarEfeitos(run, efeitos = {}, multiplicadores = {}, contexto = {}) {
+    let danoHonraCulto = 0;
+    if (run?.traco === "herdeiro_culto" && Number.isSafeInteger(efeitos.honra) && efeitos.honra > 0) {
+      danoHonraCulto = efeitos.honra;
+      efeitos = { ...efeitos, hp: (efeitos.hp || 0) - danoHonraCulto };
+      delete efeitos.honra;
+      multiplicadores = { ...multiplicadores, honra: 1 };
+    }
     if (Number.isSafeInteger(efeitos.seguidores) && run.cultoAtivo) {
       const multiplicadorSeguidores =
         !contexto.semBonusSeguidores && temItem(run, "afogados_abencoados") && run.atributos.honra <= -90
@@ -570,13 +577,16 @@
         atributo === "honra"
           ? honraImune(run)
             ? Math.max(antes, Math.max(0, valor))
-            : valor
+            : run.traco === "herdeiro_culto"
+              ? Math.min(0, valor)
+              : valor
           : atributo === "hp"
             ? Math.min(run.hpMax, Math.max(0, valor))
             : Math.max(0, valor);
     }
     run.honraSempreNeutra =
       run.honraSempreNeutra !== false && run.atributos.honra >= -29 && run.atributos.honra <= 29;
+    return danoHonraCulto;
   }
 
   function aplicarBonusDeRecompensa(run, efeitos = {}) {
@@ -776,6 +786,7 @@
         (run.construcoes?.includes("torre_vigia") ? 3 : 0);
     const dano = danoAnulado ? 0 : Math.max(0, danoBase - escudoUsado - reducaoDivina - reducaoPassiva);
     let efeitos = aplicarBonusDeRecompensa(run, desfecho.efeitos || {});
+    let danoHonraCulto = 0;
     if (danoAnulado && efeitos.hp < 0) efeitos = { ...efeitos, hp: 0 };
     let explosaoBacamarte = false;
     if (lancaAtiva && efeitos.honra < 0) efeitos = { ...efeitos, honra: 0 };
@@ -805,13 +816,16 @@
     }
     if (adagaAtiva && venceu && !lancaAtiva) {
       const curaDeVitoria = efeitos.hp || 0;
-      aplicarEfeitos(run, { ...efeitos, hp: 0 });
+      danoHonraCulto += aplicarEfeitos(run, { ...efeitos, hp: 0 });
       if (curaDeVitoria !== 0) aplicarEfeitos(run, { hp: curaDeVitoria });
       aplicarEfeitos(run, { hp: -dano });
     } else {
       const hpDoDesfecho = efeitos.hp || 0;
       const hpDoDesfechoSemDanoBloqueado = danoAnulado && hpDoDesfecho < 0 ? 0 : hpDoDesfecho;
-      aplicarEfeitos(run, { ...efeitos, hp: hpDoDesfechoSemDanoBloqueado - dano });
+      danoHonraCulto += aplicarEfeitos(run, {
+        ...efeitos,
+        hp: hpDoDesfechoSemDanoBloqueado - dano,
+      });
     }
     if (explosaoBacamarte) aplicarEfeitos(run, { hp: -15 });
     run.efeitosPreparados = {
@@ -831,13 +845,17 @@
           : batalha.penalidadeFalha.efeitos || {}),
       };
       if (danoAnulado && efeitosFalha.hp < 0) efeitosFalha.hp = 0;
-      aplicarEfeitos(run, efeitosFalha, batalha.penalidadeFalha.multiplicadores, {
-        semBonusSeguidores: true,
-      });
+      danoHonraCulto += aplicarEfeitos(
+        run,
+        efeitosFalha,
+        batalha.penalidadeFalha.multiplicadores,
+        { semBonusSeguidores: true },
+      );
       texto += ` ${batalha.penalidadeFalha.texto || ""}`;
     }
     return {
       texto: texto.trim(),
+      danoHonraCulto,
       combate: {
         venceu,
         dano,
@@ -941,6 +959,7 @@
       combate: null,
     };
     let desfechoEscolhido = null;
+    let danoHonraCulto = 0;
     if (opcao.testeSorte) {
       const chance = opcao.testeSorte.fatalidadeAleatoria
         ? run.marcos.entidadeXRecusaFatalId === evento.id
@@ -956,6 +975,8 @@
     let vozPuneHonra;
     if (opcao.combate && evento.batalha) {
       resultado = resolverCombate(run, evento.batalha);
+      danoHonraCulto = resultado.danoHonraCulto || 0;
+      delete resultado.danoHonraCulto;
       const desfechoCombate = resultado.combate?.venceu ? evento.batalha.vitoria : evento.batalha.derrota;
       const honraCombate =
         (desfechoCombate?.efeitos?.honra || 0) +
@@ -970,7 +991,18 @@
       if (vozPuneHonra) efeitosEscolha = { ...efeitosEscolha, hp: (efeitosEscolha.hp || 0) - 3 };
     }
 
-    return { run, evento, opcao, gasto, antes, efeitosEscolha, resultado, desfechoEscolhido, vozPuneHonra };
+    return {
+      run,
+      evento,
+      opcao,
+      gasto,
+      antes,
+      efeitosEscolha,
+      resultado,
+      desfechoEscolhido,
+      vozPuneHonra,
+      danoHonraCulto,
+    };
   }
 
   function aplicarEfeitosBase(contexto) {
@@ -987,7 +1019,12 @@
       if (efeitosOpcao.habitantes === 0) delete efeitosOpcao.habitantes;
     }
     const protecaoCeleiro = evento.protecaoCeleiro && run.construcoes?.includes("celeiro");
-    aplicarEfeitos(run, efeitosOpcao, opcao.multiplicadores, { protecaoCeleiro });
+    if (run.traco === "herdeiro_culto" && Number.isSafeInteger(opcao.definir?.honra)) {
+      delete efeitosOpcao.honra;
+    }
+    contexto.danoHonraCulto =
+      (contexto.danoHonraCulto || 0) +
+      aplicarEfeitos(run, efeitosOpcao, opcao.multiplicadores, { protecaoCeleiro });
     if (opcao.consumoVampirismo) {
       const populacaoAtual = run.cultoAtivo ? run.seguidoresCulto : run.atributos.habitantes;
       registrarConsumoVampirismo(run, Math.max(0, populacaoAntesDoConsumo - populacaoAtual));
@@ -1010,6 +1047,17 @@
       }
       if (atributo === "honra") {
         const atual = run.atributos.honra;
+        if (run.traco === "herdeiro_culto") {
+          const ganhoHonra = Math.max(0, valor - atual);
+          if (ganhoHonra > 0) {
+            aplicarEfeitos(run, { hp: -ganhoHonra });
+            contexto.danoHonraCulto = (contexto.danoHonraCulto || 0) + ganhoHonra;
+          }
+          run.atributos.honra = Math.min(atual, valor, 0);
+          run.honraSempreNeutra =
+            run.honraSempreNeutra !== false && run.atributos.honra >= -29 && run.atributos.honra <= 29;
+          continue;
+        }
         // Definir honra também não pode derrubar a Heroína do povo nem levá-la a negativo.
         run.atributos.honra = honraImune(run)
           ? Math.max(atual, Math.max(0, valor))
@@ -1120,6 +1168,7 @@
   function aplicarEfeitosEspeciais(contexto) {
     const { run, evento, opcao, antes, resultado, desfechoEscolhido, vozPuneHonra } = contexto;
     if (vozPuneHonra) resultado.texto += " A voz lhe tira 3 de Vida pela honra que sua escolha demonstra.";
+    if (contexto.danoHonraCulto > 0) resultado.texto += " A Honra que chega até você abre uma ferida.";
     if (opcao.consequenciaTardia) agendarConsequencia(run, opcao.consequenciaTardia, evento, opcao);
     if (opcao.entidadeXCeder || desfechoEscolhido?.entidadeXCeder) {
       run.flags = {
