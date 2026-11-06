@@ -5,10 +5,10 @@
   // Regras e valores de balanceamento ficam juntos para facilitar ajustes.
   Jogo.config = {
     versao: 2,
-    iniciais: { hp: 100, escudo: 5, ataque: 2, honra: 0, habitantes: 50, gold: 5 },
-    hpMaxInicial: 100,
+    iniciais: { hp: 120, escudo: 5, ataque: 2, honra: 0, habitantes: 50, gold: 5 },
+    hpMaxInicial: 120,
     economia: { habitantesPorGold: 50, intervaloRenda: 3, habitantesParaManutencao: 20, perdaPorRodada: 1 },
-    memoriaEventos: 10,
+    memoriaEventos: 25,
     memoriaCronica: 15,
     rodadasVitoria: 300,
     intervaloEntidade: 24,
@@ -124,11 +124,11 @@
         ? personagem
         : poolTracos[Math.floor(Math.random() * poolTracos.length)];
       const iniciaisTraco = {
-        corajoso: { ...Jogo.config.iniciais, hp: 100, ataque: 3 },
+        corajoso: { ...Jogo.config.iniciais, hp: 120, ataque: 3 },
         avarento: { ...Jogo.config.iniciais, gold: 10 },
-        doente: { ...Jogo.config.iniciais, hp: 70, escudo: 4 },
-        druida_herdeiro: { ...Jogo.config.iniciais, hp: 110, escudo: 2, ataque: 2, habitantes: 50, gold: 3 },
-        menino_cronista: { ...Jogo.config.iniciais, hp: 70, escudo: 3, honra: 30 },
+        doente: { ...Jogo.config.iniciais, hp: 90, escudo: 4 },
+        druida_herdeiro: { ...Jogo.config.iniciais, hp: 120, escudo: 2, ataque: 2, habitantes: 50, gold: 3 },
+        menino_cronista: { ...Jogo.config.iniciais, hp: 90, escudo: 3, honra: 30 },
         // A Heroína do povo é a guarda da vila: ataque e escudo altos, honra imune à perda.
         heroi_do_povo: { ...Jogo.config.iniciais, escudo: 5, ataque: 5 },
       }[traco];

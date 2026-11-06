@@ -28,7 +28,10 @@ function preparar() {
     window,
     document: {
       getElementById: () => app,
-      querySelector: () => null,
+      querySelector: (seletor) =>
+        seletor === "#app #painel-progresso > summary"
+          ? { click: () => Object.assign(tela, { progressoAbriu: true }) }
+          : null,
       querySelectorAll: () => [],
       addEventListener() {},
     },
@@ -122,6 +125,19 @@ test("Carregar lê o save atual no clique, sem retomar a cópia antiga do menu",
   assert.equal(tela.run.flags.praga_evitada, true);
 });
 
+test("Progresso abre o histórico da crônica atual", async () => {
+  const { J, tela, novaRun, clicar, iniciarControlador } = preparar();
+  J.save.gravarRun(novaRun(8));
+  iniciarControlador();
+
+  await clicar({ acao: "carregar" });
+  await clicar({ acao: "alternar-progresso" });
+
+  assert.equal(tela.nome, "jogo");
+  assert.equal(tela.run.rodada, 8);
+  assert.equal(tela.progressoAbriu, true);
+});
+
 test("Carregar recupera o resultado salvo sem reaplicar a escolha", async () => {
   const { J, tela, novaRun, clicar, iniciarControlador } = preparar();
   J.save.gravarRun(novaRun());
@@ -133,11 +149,11 @@ test("Carregar recupera o resultado salvo sem reaplicar a escolha", async () => 
   await clicar({ acao: "carregar" });
   assert.equal(tela.run.rodada, 4);
   assert.equal(tela.run.fase, "resultado");
-  assert.equal(tela.run.atributos.hp, 90);
+  assert.equal(tela.run.atributos.hp, 110);
   assert.equal(tela.run.ultimoResultado.escolha, "Vou verificar pessoalmente.");
   await clicar({ acao: "continuar" });
   assert.equal(tela.run.rodada, 5);
-  assert.equal(tela.run.atributos.hp, 90);
+  assert.equal(tela.run.atributos.hp, 110);
   assert.equal(J.save.lerRun().rodada, 5);
 });
 
@@ -155,7 +171,7 @@ test("Carregar continua a sessão em memória se o navegador não puder salvar",
   await clicar({ acao: "carregar" });
   assert.equal(tela.nome, "jogo");
   assert.equal(tela.run.rodada, 3);
-  assert.equal(tela.run.atributos.hp, 90);
+  assert.equal(tela.run.atributos.hp, 110);
 });
 
 test("comprar pelo controlador salva o saldo, a renda e os preços sem reaplicar ao carregar", async () => {

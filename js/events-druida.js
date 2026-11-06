@@ -127,7 +127,7 @@
       titulo: "O festival da seiva",
       tipo: "encontro",
       peso: 3,
-      oncePerYear: true,
+      oncePerRun: true,
       requisitos: { tracos: "druida_herdeiro", estacao: "primavera" },
       imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Uma árvore antiga coberta de brotos novos",

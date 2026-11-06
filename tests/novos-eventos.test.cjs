@@ -222,9 +222,9 @@ test("taverna muda peso em −30 e respostas em −50; sempre oferece uma saída
 
 test("barão força a derrota no combate e mantém o escudo após a penalidade", () => {
   for (const [ataque, escudo, hp, habitantes, gold, honra] of [
-    [4, 5, 83, 44, 7, 50],
-    [3, 5, 83, 44, 7, 50],
-    [3, 100, 100, 44, 7, 50],
+    [4, 5, 103, 44, 7, 50],
+    [3, 5, 103, 44, 7, 50],
+    [3, 100, 120, 44, 7, 50],
   ]) {
     const { J, run } = preparar("barao");
     Object.assign(run.atributos, { ataque, escudo });
@@ -247,7 +247,7 @@ test("negociação do barão exige honra e saldo antes da renda e custa 3 gold e
     assert.equal(J.engine.escolher(run, "negociar"), permitido);
     if (!permitido) assert.deepEqual(simples(run), antes);
     else {
-      assert.equal(run.atributos.hp, 97);
+      assert.equal(run.atributos.hp, 117);
       assert.equal(run.atributos.gold, 1); // 3 pagos, depois 1 da vila.
       assert.equal(run.atributos.honra, 52);
       assert.equal(run.ultimoResultado.alteracoes.gold, -2);

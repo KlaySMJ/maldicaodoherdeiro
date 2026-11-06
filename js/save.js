@@ -472,6 +472,12 @@
       dados.itensConquistados = Array.isArray(dados.inventario) ? [...new Set(dados.inventario)] : [];
     }
     if (!Object.hasOwn(dados, "marcos")) dados.marcos = {};
+    if (
+      !Object.hasOwn(dados.marcos, "colheitaUltimaRodada") &&
+      (dados.eventoId === "colheita" || dados.eventosRecentes?.includes("colheita"))
+    ) {
+      dados.marcos.colheitaUltimaRodada = dados.rodada;
+    }
     if (!Object.hasOwn(dados, "condicao")) {
       dados.condicao = {
         ativa: null,

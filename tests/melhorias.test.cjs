@@ -15,11 +15,11 @@ test("peso efetivo da Entidade fica baixo e a pausa entre cartas aumenta para 24
   const pesosAbissais = abissais.map((evento) => J.engine.peso(evento, run));
 
   assert.equal(entidade.length, 7);
-  assert.ok(pesosEntidade.every((peso) => peso >= 0.4 && peso <= 0.6));
+  assert.ok(pesosEntidade.every((peso) => peso >= 0.2 && peso <= 0.3));
   assert.equal(abissais.length, 5);
   assert.ok(pesosAbissais.every((peso) => peso >= 0.5 && peso <= 0.8));
   assert.equal(J.config.intervaloEntidade, 24);
-  assert.ok(pesosEntidade.reduce((total, peso) => total + peso, 0) <= 3.5);
+  assert.ok(pesosEntidade.reduce((total, peso) => total + peso, 0) <= 1.75);
   assert.ok(pesosAbissais.reduce((total, peso) => total + peso, 0) >= 3.3);
 });
 

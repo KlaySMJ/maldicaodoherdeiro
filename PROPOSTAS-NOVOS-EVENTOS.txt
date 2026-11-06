@@ -1,0 +1,405 @@
+PROPOSTAS DE NOVOS EVENTOS
+
+Meta original: ampliar o catálogo de 276 para pelo menos 350 eventos. A lista reuniu 80 conceitos; após a validação, 66 foram aprovados e 14 rejeitados. Duas cadeias de transformação acrescentaram mais oito propostas, totalizando 74. Na execução deste PRD, o catálogo já tinha 301 eventos; a implementação das 74 propostas elevou o total a 375.
+
+Os IDs abaixo eram provisórios na etapa de proposta. Antes do cadastro, foram comparados com o catálogo atualizado; os 74 IDs são únicos. Opções, resultados e efeitos foram definidos e balanceados durante a execução.
+
+EVENTOS COMUNS: 52
+
+Trabalho, recursos e manutenção
+
+01. A árvore sobre a estrada [arvore_sobre_estrada]
+Uma árvore caída bloqueia a rota dos carroceiros. A vila pode abrir passagem, vender a madeira ou deixar que cada viajante se vire.
+
+02. Telhas antes da chuva [telhas_antes_da_chuva]
+Um lote de telhas chega pouco antes de uma frente de chuva. Usá-las nas casas mais danificadas, cobrar pela distribuição ou guardar parte para o salão comunal.
+
+03. A medida do sal [medida_do_sal]
+O sal vendido no mercado parece render menos que o peso anotado. Rever as balanças, aceitar a medida do comerciante ou cobrar uma taxa de fiscalização.
+
+04. O barco encalhado [barco_encalhado]
+Uma barca fica presa num banco de areia, com carga intacta. Reunir moradores para puxá-la, negociar a carga com o dono ou esperar que a água suba.
+
+05. A parede de pedra [parede_de_pedra]
+Uma pedreira desativada pode fornecer blocos para uma obra, mas parte da encosta está instável. Reabrir o corte, retirar só as pedras soltas ou proibir a entrada.
+
+06. A carroça de ferramentas [carroca_de_ferramentas]
+Um vendedor oferece ferramentas usadas por preço baixo. Comprar para os trabalhadores, examinar cada peça ou recusar a oferta suspeita.
+
+07. O canal assoreado [canal_assoreado]
+O canal que leva água aos campos perdeu profundidade. Organizar um mutirão, cobrar dos proprietários beneficiados ou mudar a plantação de lugar.
+
+08. O salgueiro marcado [salgueiro_marcado]
+Um salgueiro antigo virou referência para os pastores, mas suas raízes ameaçam uma passagem. Proteger a árvore, podá-la ou abrir outra rota.
+
+09. A caldeira emprestada [caldeira_emprestada]
+Uma comunidade vizinha pede a caldeira usada para tingir tecidos. Emprestar com garantia, cobrar pelo uso ou reservar o equipamento para a vila.
+
+10. O lote de argila vermelha [argila_vermelha]
+Uma chuva revela argila boa numa encosta. Permitir a extração, reservar o terreno para cultivo ou vender o direito a um oleiro itinerante.
+
+11. A roda que perde o eixo [roda_perde_eixo]
+Uma roda d'água para de girar durante a moagem. Pagar por um eixo novo, improvisar um conserto ou suspender o serviço até a próxima estação.
+
+12. A ponte de corda [ponte_de_corda]
+Uma travessia improvisada encurta o caminho, mas já cedeu sob o peso de uma mula. Reforçar as amarras, limitar a passagem ou desmontá-la.
+
+13. As velas de sebo [velas_de_sebo]
+O estoque de velas está curto antes de uma noite de trabalho. Distribuir o que resta, encomendar mais ao fabricante ou reservar a luz para a guarda.
+
+14. O depósito de carvão [deposito_de_carvao]
+Um comerciante oferece carvão armazenado há muito tempo. Testar a qualidade, comprar com desconto ou trocar por madeira seca.
+
+15. A cerca de espinhos [cerca_de_espinhos]
+Uma cerca viva protege hortas, mas avança sobre a trilha pública. Podá-la, desviar a passagem ou compensar quem mantém a cerca.
+
+16. O lastro de cobre [lastro_de_cobre]
+Um carregamento traz peças de cobre misturadas a sucata. Separar o metal, vender o lote inteiro ou devolver a carga ao transportador.
+
+Comunidade, acordos e decisões locais
+
+17. O lugar à mesa [lugar_a_mesa]
+Uma família recém-chegada não encontra espaço na refeição comunal. Abrir outro lugar, pedir contribuição ou deixar a decisão para os moradores.
+
+18. O nome na placa [nome_na_placa]
+Dois grupos reivindicam a autoria de uma obra antiga. Investigar os registros, dividir o reconhecimento ou trocar o nome da placa por uma homenagem coletiva.
+
+19. A troca de turnos [troca_de_turnos]
+Os vigias pedem uma escala menos pesada depois de noites seguidas na muralha. Reorganizar o trabalho, contratar um substituto ou manter a escala atual.
+
+20. As chaves da sala comum [chaves_sala_comum]
+Ninguém sabe quem deve guardar as chaves do salão. Criar um rodízio, nomear uma pessoa responsável ou restringir o acesso.
+
+21. O pátio dividido [patio_dividido]
+Artesãos e lavradores querem usar o mesmo pátio em horários diferentes. Marcar períodos, cobrar pelo espaço ou escolher um uso permanente.
+
+22. A promessa de testemunha [promessa_testemunha]
+Uma testemunha muda sua versão de uma disputa depois de conversar com as partes. Ouvi-la em separado, aceitar o primeiro relato ou pedir que os envolvidos resolvam o caso.
+
+23. O retrato sem dono [retrato_sem_dono]
+Um retrato aparece na sala comunal, mas ninguém reconhece a pessoa pintada. Guardá-lo, leiloá-lo ou pedir que um viajante procure o antigo dono.
+
+24. A fila do banho [fila_do_banho]
+O banho público não comporta todos que chegaram para a feira. Estender o horário, cobrar uma entrada ou priorizar quem trabalha nos turnos noturnos.
+
+25. O cão que escolheu a porta [cao_escolheu_porta]
+Um cão sem coleira passa a dormir diante de uma casa. Procurar seu dono, deixar que a família o acolha ou levá-lo para a guarda.
+
+26. A carta de recomendação [carta_recomendacao]
+Uma jovem pede uma carta para seguir como aprendiz em outra cidade. Recomendar sua partida, oferecer formação local ou pedir que espere uma estação.
+
+27. A herança das ferramentas [heranca_ferramentas]
+Após a morte de um artesão, parentes e aprendizes disputam suas ferramentas. Fazer um inventário, entregar o conjunto à família ou reservar peças para a oficina.
+
+28. O sino de casamento [sino_casamento]
+O sineiro recebe pedidos de duas cerimônias para a mesma hora. Alterar um horário, tocar para ambas em sequência ou cobrar uma taxa para decidir a prioridade.
+
+29. A sala para os viajantes [sala_viajantes]
+Um cômodo vazio pode abrigar viajantes durante a estação fria ou virar depósito. Preparar camas, alugar o espaço ou guardar os mantimentos ali.
+
+30. A disputa pelo banco [disputa_pelo_banco]
+Dois idosos reivindicam o mesmo banco coberto na praça. Construir outro, sortear o lugar ou transferi-lo para perto da enfermaria.
+
+31. A cópia do registro [copia_do_registro]
+Um escrivão oferece copiar os registros da vila antes que a umidade os apague. Pagar pelo trabalho, pedir cópias apenas dos nomes ou deixar os papéis como estão.
+
+32. A procissão que mudou de rota [procissao_rota]
+Uma procissão quer passar por um bairro que não costuma recebê-la. Abrir a rua, negociar outro caminho ou proibir a passagem naquele dia.
+
+Viagem, comércio e descobertas
+
+33. O mapa com duas margens [mapa_duas_margens]
+Um mapa antigo mostra duas rotas para o mesmo destino. Financiar uma expedição curta, vender o mapa ou pedir que os mercadores confirmem os caminhos.
+
+34. A bolsa de botões [bolsa_de_botoes]
+Uma bolsa de botões raros cai de uma carroça. Procurar o dono, vender as peças ou guardá-las para um alfaiate local.
+
+35. O carregamento de vidro [carregamento_de_vidro]
+Um mercador oferece vidro colorido que pode ser revendido ou usado nas janelas do salão. Comprar o lote, negociar uma troca ou recusar o risco de quebra.
+
+36. A rota dos cestos vazios [rota_cestos_vazios]
+Vários cestos retornam vazios de uma região vizinha. Investigar a rota, contratar novos carregadores ou suspender as entregas.
+
+37. O moinho de mão [moinho_de_mao]
+Um viajante carrega um pequeno moinho manual e procura comprador. Adquiri-lo para emergências, deixá-lo com uma família ou trocar por provisões.
+
+38. A pedra de medir distâncias [pedra_de_distancias]
+Uma pedra antiga traz marcas que parecem indicar distâncias entre povoados. Pedir a um escriba que decifre os sinais, usá-la como marco ou deixá-la no lugar.
+
+39. O carregador de sinos [carregador_de_sinos]
+Um vendedor ambulante transporta sinos de tamanhos diferentes. Comprar um para a guarda, trocar por ferramentas ou acompanhar o vendedor até outra vila.
+
+40. A remessa trocada [remessa_trocada]
+Uma remessa de lã chega no lugar de sacos de grão. Devolver a carga, negociá-la com o dono ou procurar quem recebeu os grãos por engano.
+
+41. Os cadernos do agrimensor [cadernos_agrimensor]
+Um agrimensor deixa cadernos com anotações sobre terrenos fora das muralhas. Pagar pela informação, consultar os moradores ou devolver os cadernos.
+
+42. O mercado de ferramentas quebradas [mercado_ferramentas_quebradas]
+Uma banca vende ferramentas danificadas para quem souber consertá-las. Comprar o lote, testar uma peça ou mandar fechar a banca.
+
+43. A mula sem carga [mula_sem_carga]
+Uma mula chega sozinha pela estrada, sem alforjes e sem marca visível. Procurar sinais do dono, mantê-la para o transporte ou entregá-la a um pastor.
+
+44. O caminho das pedras brancas [caminho_pedras_brancas]
+Pedras claras aparecem alinhadas numa trilha que não consta nos mapas. Segui-la com uma patrulha, marcar o trajeto ou avisar os viajantes para evitá-lo.
+
+45. A caixa de amostras [caixa_de_amostras]
+Um boticário deixa uma caixa de amostras e pede que a vila registre seus efeitos. Testar uma amostra, cobrar pelo trabalho ou devolver a caixa fechada.
+
+46. O leilão de cordas [leilao_de_cordas]
+Uma embarcação vende cordas de diferentes espessuras antes de partir. Comprar para obras, disputar o lote com outro comprador ou esperar uma oferta futura.
+
+Estranhezas e pequenos riscos
+
+47. A sombra no campanário [sombra_campanario]
+Uma sombra aparece no campanário mesmo ao meio-dia. Enviar alguém para verificar, fechar a torre ou observar até o anoitecer.
+
+48. O sal que não derrete [sal_nao_derrete]
+Um punhado de sal permanece seco dentro de um pote submerso. Entregá-lo a um estudioso, vendê-lo como curiosidade ou jogá-lo fora.
+
+49. O quarto sem pegadas [quarto_sem_pegadas]
+Uma hospedaria amanhece com a porta trancada por dentro e sem marcas no pó do chão. Revistar o quarto, chamar a guarda ou não transformar o caso em rumor.
+
+50. A chuva sobre o poço seco [chuva_poco_seco]
+Chove apenas sobre um poço que está sem água há meses. Recolher a água, pedir que a ervateira a examine ou cobrir o poço.
+
+51. As moedas viradas [moedas_viradas]
+Moedas de uma caixa aparecem todas com o mesmo lado para cima. Conferir o cofre, chamar quem as cunhou ou aceitar o ocorrido como acaso.
+
+52. A janela acesa na casa vazia [janela_casa_vazia]
+Uma casa abandonada mostra luz em várias noites seguidas. Entrar com testemunhas, vender a propriedade ou manter a porta fechada.
+
+EVENTOS EM CADEIA: 28, EM SETE CADEIAS DE QUATRO ETAPAS
+
+Cada cadeia deve guardar flags de progresso na run, tirar etapas concluídas do sorteio e permitir desfechos diferentes conforme escolhas anteriores. O quarto evento encerra a sequência; falhas ou recusas também precisam de saída, sem obrigar o jogador a completar todas as etapas.
+
+CADEIA 1 — A CARTA DE NAVEGAÇÃO
+
+53. Uma carta na encadernação [carta_na_encadernacao]
+Um livro comprado na feira esconde um mapa dobrado. Guardá-lo, procurar o autor ou vendê-lo a um colecionador.
+
+54. As marcas no vau [marcas_no_vau]
+O mapa leva a um vau com marcas recentes. Medir a profundidade, pedir ajuda aos barqueiros ou seguir as marcas para dentro do bosque.
+
+55. O posto de pedra [posto_de_pedra]
+Um antigo posto de cobrança aparece entre árvores. Registrar os sinais, retirar pedras para uma obra ou procurar um caminho abaixo dele.
+
+56. O destino da carta [destino_da_carta]
+As anotações apontam para um abrigo escondido com objetos de viagem. Levar o que encontrar, deixar uma oferta para futuros viajantes ou tornar o lugar inacessível.
+
+CADEIA 2 — O OFÍCIO DO VIDREIRO
+
+57. Cacos sob a cinza [cacos_sob_cinza]
+Uma família encontra vidro colorido entre as cinzas de um forno abandonado. Recolher as peças, chamar um artesão ou fechar o terreno.
+
+58. A receita incompleta [receita_incompleta]
+O vidreiro local identifica uma receita sem a última medida. Procurar os antigos aprendizes, experimentar com material da vila ou vender o caderno.
+
+59. O forno de areia [forno_de_areia]
+Os aprendizes localizam areia adequada para uma nova fornada, mas o forno precisa de combustível e reparos. Financiar o teste, dividir os custos ou abandonar a ideia.
+
+60. A janela que guarda calor [janela_guarda_calor]
+O primeiro lote pode fechar as janelas da enfermaria ou ser vendido para pagar o forno. Escolher o uso, reservar metade ou leiloar toda a produção.
+
+CADEIA 3 — O POMAR SEM PLACA
+
+61. Frutos no terreno baldio [frutos_terreno_baldio]
+Uma árvore frutífera cresce num terreno sem dono conhecido. Colher os frutos, proteger a árvore ou procurar registros da propriedade.
+
+62. O enxerto recusado [enxerto_recusado]
+Um jardineiro oferece enxertos, mas insiste que a árvore pertence à sua família. Negociar o direito de plantio, aceitar apenas algumas mudas ou encerrar a conversa.
+
+63. As raízes sob a parede [raizes_sob_parede]
+As raízes começam a deslocar a parede de um quintal. Podar parte delas, reforçar a parede ou transferir a árvore.
+
+64. A primeira cesta do pomar [primeira_cesta_pomar]
+O pomar dá frutos suficientes para uma primeira colheita. Distribuir entre as casas, guardar sementes ou vender a cesta para financiar o cuidado das árvores.
+
+CADEIA 4 — O LIVRO DAS DÍVIDAS ANTIGAS
+
+65. Uma página no fundo do baú [pagina_fundo_bau]
+Um inventário antigo lista dívidas que ninguém na vila reconhece. Comparar assinaturas, rasgar a página ou convocar os nomes ainda vivos.
+
+66. O herdeiro do cobrador [herdeiro_cobrador]
+Um visitante afirma que herdou o direito de cobrar aquelas dívidas. Pedir provas, oferecer uma quantia para encerrar o assunto ou expulsá-lo.
+
+67. As testemunhas da ponte [testemunhas_ponte]
+Moradores lembram que parte da dívida pagou uma obra já desaparecida. Investigar a ponte, ouvir as famílias ou tratar o documento como inválido.
+
+68. A conta encerrada [conta_encerrada]
+Os registros permitem identificar quem lucrou com a cobrança. Publicar os nomes, negociar reparação ou queimar os papéis e encerrar a disputa.
+
+CADEIA 5 — O POSTO DE SINAIS
+
+69. A lanterna na colina [lanterna_colina]
+Uma luz aparece numa colina sem casas. Subir para investigar, enviar um sinal de resposta ou esperar até a manhã.
+
+70. Cinzas no abrigo [cinzas_no_abrigo]
+O abrigo no alto contém cinzas recentes e marcas de uma antiga vigia. Procurar o responsável, reconstruir a lareira ou usar o posto como depósito.
+
+71. O código dos panos [codigo_dos_panos]
+Faixas coloridas surgem em três pontos do vale. Descobrir o código, substituir as faixas por sinais da vila ou ignorar a mensagem.
+
+72. O aviso recebido [aviso_recebido]
+Uma sequência de sinais alerta para perigo na estrada ou anuncia uma caravana. Organizar a guarda, preparar abrigo ou cobrar pela passagem segura.
+
+CADEIA 6 — OS APRENDIZES DA CISTERNA
+
+73. O desenho no barril [desenho_no_barril]
+Aprendizes encontram um desenho de cisterna no fundo de um barril comprado. Conferir o terreno indicado, pedir orientação a um pedreiro ou descartar o plano.
+
+74. A camada de argila [camada_de_argila]
+As escavações revelam uma camada que pode vedar a água, mas também cede em alguns pontos. Continuar com reforço, mudar o local ou interromper a obra.
+
+75. A água que sobe devagar [agua_sobe_devagar]
+Uma pequena quantidade de água acumula na cisterna recém-aberta. Reservá-la para a enfermaria, testar sua qualidade ou deixar que os aprendizes ajustem o canal.
+
+76. A primeira distribuição [primeira_distribuicao]
+Com a cisterna funcional, a vila precisa definir quem recebe água primeiro. Criar uma fila pública, separar uma reserva ou deixar cada casa retirar o que puder.
+
+CADEIA 7 — A CARAVANA DOS TECELÕES
+
+77. O tear desmontado [tear_desmontado]
+Uma caravana deixa um tear desmontado ao procurar uma roda perdida. Guardar as peças, oferecer ajuda para encontrá-la ou cobrar pelo espaço ocupado.
+
+78. O fio de três cores [fio_tres_cores]
+Os tecelões recuperam a roda e propõem tingir fios com plantas locais. Fornecer materiais, cobrar pelo uso do pátio ou pedir parte do tecido produzido.
+
+79. O padrão emprestado [padrao_emprestado]
+Um desenho usado no tecido pertence a uma comunidade distante. Pedir autorização, criar um padrão próprio ou continuar usando o modelo sem acordo.
+
+80. O último rolo [ultimo_rolo]
+Antes de partir, a caravana oferece um rolo de tecido como pagamento. Entregar à enfermaria, vender no mercado ou repartir entre os aprendizes.
+
+ORDEM DE PRODUÇÃO SUGERIDA
+
+Começar pelas cadeias com consequências fáceis de reconhecer e pelos eventos comuns que cubram recursos pouco usados. Em seguida, revisar elegibilidade, pesos, flags e recorrência para que as novas cartas aumentem as possibilidades de cada run sem criar sequências obrigatórias ou saturar uma mesma estação.
+
+CHECKLIST
+
+[x] Contar o catálogo usado como base: 276 eventos.
+[x] Propor 80 conceitos iniciais; após a revisão, registrar 66 aprovados e 14 rejeitados.
+[x] Priorizar eventos comuns e cadeias: 52 eventos comuns e 28 eventos em sete cadeias.
+[x] Dar uma cena e uma decisão principal a cada proposta; manter IDs como rascunhos.
+[x] Validar uma a uma as propostas com o autor, incluindo as séries completas e efeitos de Honra, Gold e Vida.
+[x] Aprovar duas novas cadeias de transformação, com quatro eventos cada; total aprovado: 74 propostas.
+[x] Conferir IDs e sobreposições contra o catálogo atualizado.
+[x] Escrever opções, resultados e efeitos mecânicos para cada carta aprovada.
+[x] Validar variedade e frequência em 15 runs simuladas de 300 rodadas.
+
+RESUMO
+
+O autor aprovou 74 propostas: 38 eventos comuns, 28 etapas nas sete cadeias originais e oito etapas em duas cadeias de transformação. Quatorze propostas comuns foram rejeitadas. A execução partiu de 301 eventos e chegou a 375, incluindo opções, efeitos, flags, arte e interface.
+
+VALIDAÇÕES
+
+A contagem de 276 registra a auditoria inicial que motivou o PRD. Imediatamente antes da implementação, o catálogo tinha 301 eventos; após o cadastro, tem 375. A validação de integridade confirma IDs únicos e referências de arte existentes. Em 15 simulações de 300 rodadas, cada run viu em média 63,8 das 74 propostas e completou 3,9 das sete cadeias quando sempre escolhia a opção de continuidade. Os testes automatizados e lint são registrados no resumo final abaixo.
+
+REGISTRO DA VALIDAÇÃO
+
+Propostas comuns rejeitadas, não incluir na implementação: `barco_encalhado`, `argila_vermelha`, `nome_na_placa`, `promessa_testemunha`, `fila_do_banho`, `sino_casamento`, `sala_viajantes`, `disputa_pelo_banco`, `procissao_rota`, `mapa_duas_margens`, `rota_cestos_vazios`, `carregador_de_sinos`, a proposta da mula sem condutor e `caminho_pedras_brancas`.
+
+Alterações aprovadas nas propostas comuns: `medida_do_sal` virou **A medida do trigo**; `carroca_de_ferramentas` pode conceder **Luvas de trabalho** (+1 Escudo); `cao_escolheu_porta` concede o **Cão de guarda**. O evento da pedra quente concede **Amuleto de jaspe** (+15 Vida máxima e atual). `moinho_de_mao` virou **Farinha com limalha**; a pedra de calor, o portão e o quarto sem pegadas receberam as versões aprovadas durante a validação. Ajustes de opções e valores removidos também seguem as aprovações dadas pelo autor.
+
+Na cadeia do livro das dívidas, a última etapa oferece o **Tomo do esquecimento** (épico) como uma das recompensas. Na cadeia do pomar, a etapa final concede **+10 Vida máxima**, sem cura imediata. A cadeia do posto de sinais termina revelando que o emissor era o último vigia, que pede ajuda para uma caravana presa. A cisterna concluída vira construção permanente e gera **+1 Habitante a cada três rodadas**, começando após três rodadas completas. A cadeia dos tecelões pode concluir com um **Entreposto comercial**, que gera **+1 Gold a cada duas rodadas**, também após duas rodadas completas; essa opção não aparece se a vila usar o padrão sem autorização.
+
+As duas transformações aprovadas surgem na segunda etapa de suas respectivas cadeias:
+
+- **Olhos de Mercúrio:** mostram as variações de Gold e Vida de cada opção. A cadeia tem quatro etapas e oferece a remoção da transformação após 16 rodadas.
+- **Olho dos Mil Nomes:** homenagem ao Olho do Milênio de *Yu-Gi-Oh*. Mostra ganhos positivos de Habitantes e sua quantidade; quando não há ganho, indica “sem ganho de Habitantes”, sem revelar a quantidade perdida. A transformação também pode ser removida após 16 rodadas.
+
+As duas transformações foram implementadas com condições próprias, prévias de consequências e efeitos contínuos das construções novas.
+
+DETALHE DAS DUAS CADEIAS DE TRANSFORMAÇÃO APROVADAS
+
+CADEIA A — OLHOS DE MERCÚRIO
+
+A transformação ocorre na segunda etapa. Não concede bônus de atributo; mostra as variações de Gold e Vida nas opções. Em testes de sorte, sucesso e falha devem aparecer separados.
+
+A1. O cambista sem balança
+Na feira, um homem pesa moedas na palma aberta, sem usar balança. Antes de você falar, calcula quanto Gold custaria mandar uma carroça pela estrada do norte. Diz que enxerga o preço escondido nas decisões e convida você à antiga casa de contas.
+- Segui-lo até a casa de contas: Honra +1, Gold −1, Vida 0; libera A2.
+- Entregá-lo à guarda: Honra +2, Gold 0, Vida 0; encerra a cadeia.
+
+A2. Vidro sob a pálpebra
+Na casa de contas, os livros estão cheios de números riscados e marcas de sangue seco. O cambista explica que as lentes revelam o que cada escolha cobra em moedas e no corpo. Aceitar ativa Olhos de Mercúrio.
+- Aceitar a lente: Honra 0, Gold −3, Vida −5; a transformação passa a revelar as mudanças de Gold e Vida em cada opção.
+- Recusar a lente e sair: Honra +1, Gold 0, Vida 0; encerra a cadeia.
+
+A3. A primeira conta
+Na estrada, uma carroça tombada bloqueia a passagem. O mercador ferido oferece uma poção antes que você atravesse os destroços; com Olhos de Mercúrio, os custos ficam visíveis antes da escolha.
+- Comprar a poção: Honra +1, Gold −4, Vida +12.
+- Guardar o Gold e atravessar sem ajuda: Honra 0, Gold 0, Vida −5.
+
+A4. O peso da visão
+Dezesseis rodadas depois, a lente começa a arder; gotas de mercúrio escorrem pelo rosto quando você tenta dormir. A ervateira consegue removê-la, embora a operação também custe forças.
+- Retirar a lente com ajuda da ervateira: Honra +2, Gold −2, Vida +5; cura a transformação e remove a previsão.
+- Manter a lente e suportar a dor: Honra −1, Gold 0, Vida −5; a transformação continua ativa.
+
+CADEIA B — O OLHO DOS MIL NOMES
+
+Homenagem ao Olho do Milênio de Yu-Gi-Oh, com relíquia, nome e cena próprios. A transformação também acontece na segunda etapa. Ela mostra ganhos positivos de Habitantes e sua quantidade; quando não há ganho, indica “sem ganho de Habitantes”, sem revelar a quantidade perdida.
+
+B1. O olho no reboco
+Ao derrubar uma parede de uma casa vazia, os pedreiros encontram um olho dourado preso entre as pedras. A pupila se move quando alguém fala; do outro lado do muro, uma voz responde com o nome de uma família que ainda não chegou à vila.
+- Levar a relíquia à ervateira para examiná-la: Honra +1, Gold −1, Vida 0; libera B2.
+- Cobrir o olho com argamassa e fechar a parede: Honra +2, Gold −2, Vida 0; encerra a cadeia.
+
+B2. O Olho dos Mil Nomes
+A ervateira não consegue separar a relíquia do reboco. Quando você a toca, o olho dourado se fixa sobre sua testa. As vozes deixam de vir da parede; agora você ouve quantas pessoas uma escolha pode trazer à vila. Aceitar ativa a transformação.
+- Aceitar a transformação: Honra 0, Gold −2, Vida −5; opções mostram ganho de Habitantes e quantidade, ou “sem ganho de Habitantes”. Perdas não são reveladas.
+- Arrancar a relíquia e enterrá-la: Honra +1, Gold 0, Vida 0; encerra a cadeia.
+
+B3. A fila no portão
+Uma família chega depois de perder a casa numa tempestade. O Olho conta quatro vozes entre os viajantes e anuncia que todas podem ficar se a vila abrir espaço.
+- Acolher a família: Honra +2, Gold −3, Vida 0, Habitantes +4.
+- Mandá-la seguir para outra vila: Honra −2, Gold 0, Vida 0, Habitantes −2. A previsão mostra “sem ganho de Habitantes”, sem revelar a perda.
+
+B4. O olho pede silêncio
+Dezesseis rodadas depois, as vozes continuam mesmo quando ninguém chega. A ervateira encontra uma forma de soltar o Olho, mas as vozes podem continuar se você decidir mantê-lo.
+- Remover a relíquia com o ritual da ervateira: Honra +2, Gold −2, Vida +5; cura a transformação e remove a previsão.
+- Aceitar o Olho como parte de você: Honra −1, Gold 0, Vida −5; mantém a transformação e a previsão.
+
+DIREÇÃO VISUAL PARA O PLANO
+
+Antes de produzir arte, revisar cada carta aprovada e decidir se ela realmente precisa de uma ilustração nova. Reaproveitar a carta existente mais próxima quando ela comunicar a cena sem confundir o jogador; não criar uma imagem nova só para preencher o campo de arte.
+
+Seguir `MEMORIA-ILUSTRACOES.md` e usar `assets/vila.png` como referência de tonalidade das cartas: gravura medieval em nanquim, sombras quentes, marfim envelhecido e preto, com dourado envelhecido apenas em detalhes pequenos. Preservar temas, traço e paleta das artes existentes. Evitar retratos ou figuras humanas nas novas cartas; quando uma imagem nova for necessária, representar apenas a cena ou os objetos, sem pessoas.
+
+Nas cartas de aceitação das transformações, a ilustração precisa mostrar o objeto oferecido, sem retratar o herdeiro:
+
+- **Olhos de Mercúrio, A2 — Vidro sob a pálpebra:** destacar a lente de mercúrio e o livro de contas; manter o brilho metálico discreto, sem paleta fria ou vibrante.
+- **Olho dos Mil Nomes, B2:** mostrar a relíquia dourada em forma de olho, presa ao reboco ou à parede. A referência ao Olho do Milênio deve permanecer uma homenagem; usar desenho, inscrição e composição próprios do jogo.
+
+Quando cada transformação estiver ativa, aplicar sua identidade visual à moldura da carta/retrato na interface: motivo de lente para Olhos de Mercúrio e olho dourado com marcas de nomes para o Olho dos Mil Nomes. Fazer essa distinção na moldura da UI, não desenhando molduras dentro das ilustrações. Manter os acentos localizados e não alterar o retrato do herdeiro.
+
+Se for necessária arte nova para carta de evento, entregar em WebP, qualidade 90, maior lado de até 800 px, preservando proporção e transparência quando aplicável. Converter o formato não autoriza mudar a tonalidade ou redesenhar artes existentes.
+
+CHECKLIST FINAL DA VALIDAÇÃO VISUAL
+
+[x] Registrar a direção visual e os critérios para decidir se cada carta precisa de nova arte.
+[x] Definir arte de cena/objeto sem pessoas como padrão para as cartas deste lote.
+[x] Pedir que as cartas de aceitação A2 e B2 mostrem, respectivamente, a lente de mercúrio e o Olho dos Mil Nomes.
+[x] Definir identidades próprias para as molduras das duas transformações, sem desenhar molduras dentro das artes.
+[x] Conferir as 74 cartas novas e reaproveitar arte existente em 72; gerar arte apenas para A2 e B2.
+[x] Criar as duas artes aprovadas em WebP 800 × 800, qualidade 90, com transparência.
+[x] Integrar molduras distintas para Olhos de Mercúrio e Olho dos Mil Nomes na interface.
+[x] Conferir manualmente as cartas e molduras no navegador em tamanho de jogo.
+
+RESUMO E VALIDAÇÕES VISUAIS
+
+As 74 cartas foram implementadas. O catálogo passou de 301 para 375 eventos; 72 cartas reutilizam artes existentes e duas usam ilustrações novas de objetos sem pessoas. Os testes cobrem IDs, requisitos das cadeias, as duas molduras, prévias e efeitos periódicos das construções. As cartas A2 e B2 e a prévia das molduras foram conferidas no Edge em tamanho de jogo.
+
+CHECKLIST DE EXECUÇÃO DO PRD — 2026-11-06
+
+[x] Cadastrar as 38 cartas comuns aprovadas, preservando as 14 propostas rejeitadas.
+[x] Cadastrar as sete cadeias originais, com quatro estágios cada e encerramento por escolha.
+[x] Cadastrar as duas cadeias de transformação, com quatro estágios, opções de remoção após 16 rodadas e prévias próprias.
+[x] Aplicar renda do Entreposto a cada duas rodadas e ganho de Habitante da Cisterna a cada três.
+[x] Restringir a construção do Entreposto quando o padrão foi usado sem autorização.
+[x] Atualizar o carregamento do módulo no navegador e no ambiente de testes.
+[x] Atualizar a contagem documentada para 375 e validar a integridade dos IDs.
+[x] Conferir manualmente a arte e as molduras no navegador em tamanho de jogo.
+
+Resumo: as 74 propostas aprovadas estão no catálogo, com progressão por flags, os efeitos econômicos das construções e as duas transformações. `npm test` passou com 133 testes, `npm run lint` passou, e a arte e as molduras foram conferidas no Edge. O Prettier focado passou nos arquivos novos; a checagem global ainda aponta sete arquivos com formatação pendente: `js/conquistas.js`, `js/engine.js`, `js/events-anuais.js`, `js/events-progresso.js`, `js/events-vila.js`, `js/save.js` e `js/ui.js`.

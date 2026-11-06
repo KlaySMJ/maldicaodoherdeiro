@@ -73,8 +73,8 @@
 
   function novaRun(run) {
     run.traco = TRACO;
-    run.atributos = { hp: 110, escudo: 2, ataque: 4, honra: 0, habitantes: 50, gold: 3 };
-    run.hpMax = 110;
+    run.atributos = { hp: 120, escudo: 2, ataque: 4, honra: 0, habitantes: 50, gold: 3 };
+    run.hpMax = 120;
     run.druidaPassiva = null;
     run.cajadoBonusAtaque = 2;
     run.druidaAnosAlta = 0;

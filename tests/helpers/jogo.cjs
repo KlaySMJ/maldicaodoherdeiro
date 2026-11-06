@@ -75,6 +75,8 @@ function preparar() {
     "events-artes-especificas",
     "events-heroi",
     "events-ajustes",
+    "events-progresso",
+    "events-propostas",
     "items",
     "legacy",
     "conquistas",

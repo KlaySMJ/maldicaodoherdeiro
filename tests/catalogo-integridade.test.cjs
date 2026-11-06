@@ -44,6 +44,7 @@ const camposEvento = new Set([
   "peso",
   "poolOpcoes",
   "protecaoCeleiro",
+  "requerDesbloqueio",
   "requisitos",
   "texto",
   "tipo",
@@ -99,7 +100,7 @@ function percorrer(valor, visitar) {
 
 test("o catálogo completo mantém IDs e índice únicos", () => {
   const { J } = preparar();
-  assert.equal(J.eventos.length, 276);
+  assert.equal(J.eventos.length, 375);
   assert.equal(J.eventosPorId.size, J.eventos.length);
   assert.equal(J.validarCatalogoEventos(), true);
 

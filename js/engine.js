@@ -138,6 +138,8 @@
     const a = run.atributos;
     if (requisitos.rodadaMin !== undefined && run.rodada < requisitos.rodadaMin) return false;
     if (requisitos.rodadaMax !== undefined && run.rodada > requisitos.rodadaMax) return false;
+    if (requisitos.ano !== undefined && Jogo.anoDaRodada(run.rodada) !== requisitos.ano) return false;
+    if (requisitos.anos && !requisitos.anos.includes(Jogo.anoDaRodada(run.rodada))) return false;
     if (requisitos.estacao && run.estacao !== requisitos.estacao) return false;
     if (requisitos.estacoes && !requisitos.estacoes.includes(run.estacao)) return false;
     if (
@@ -235,9 +237,22 @@
     if (evento.letal && run.rodada < 6) return false;
     if (run.traco === "menino_cronista" && evento.conselheiro) return false;
     if (run.flags.menino_conselheiro && evento.conselheiroPadrao && evento.conselhoNegativo) return false;
-    if ((evento.letal || evento.oncePerRun) && run.flags[`${evento.id}_visto`]) return false;
-    if (evento.oncePerYear && run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`])
+    const marcadoresAnuais = Object.keys(run.flags).some(
+      (id) => id.startsWith(`${evento.id}_ano_`) && id.endsWith("_visto") && run.flags[id],
+    );
+    if ((evento.letal || evento.oncePerRun) && (run.flags[`${evento.id}_visto`] || marcadoresAnuais))
       return false;
+    if (
+      evento.oncePerYear &&
+      (run.flags[`${evento.id}_visto`] || marcadoresAnuais ||
+        run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`])
+    )
+      return false;
+    if (evento.id === "colheita" && Number.isSafeInteger(run.marcos.colheitaUltimaRodada)) {
+      const estacaoAtual = Math.floor((run.rodada - 1) / 25);
+      const estacaoAnterior = Math.floor((run.marcos.colheitaUltimaRodada - 1) / 25);
+      if (estacaoAtual - estacaoAnterior < 2) return false;
+    }
     if (evento.especial && run.flags[`especial_${evento.id}`] === true) return false;
     if (evento.pacto && run.flags.pacto_feito === true) return false;
     if (evento.nemesis && (!run.nemesis || run.nemesis.enfrentado)) return false;
@@ -310,11 +325,13 @@
     const estagio = estagioBase + estagioTardio;
     const nivelNemesis = run.eventoId === "nemesis_da_memoria" ? Math.max(1, run.nemesis?.nivel || 1) : 0;
     if (!estagio && !nivelNemesis) return batalha;
+    const estagioDefesa = Math.min(estagio, 10);
+    const bonusDano = Math.min(estagio * 2, 20);
     return {
       ...batalha,
-      defesa: batalha.defesa + estagio + nivelNemesis * 2,
-      vitoria: { ...batalha.vitoria, dano: batalha.vitoria.dano + estagio * 2 + nivelNemesis * 2 },
-      derrota: { ...batalha.derrota, dano: batalha.derrota.dano + estagio * 2 + nivelNemesis * 5 },
+      defesa: batalha.defesa + estagioDefesa + nivelNemesis * 2,
+      vitoria: { ...batalha.vitoria, dano: batalha.vitoria.dano + bonusDano + nivelNemesis * 2 },
+      derrota: { ...batalha.derrota, dano: batalha.derrota.dano + bonusDano + nivelNemesis * 5 },
       estagio,
     };
   }
@@ -402,6 +419,15 @@
   }
 
   function sortear(run, aleatorio = Math.random) {
+    if (run.atributos.hp > run.hpMax * 0.3) run.flags.cura_critica_oferecida = false;
+    if (
+      run.atributos.hp > 0 &&
+      run.atributos.hp <= run.hpMax * 0.3 &&
+      !run.flags.cura_critica_oferecida
+    ) {
+      const curaCritica = Jogo.eventoPorId("cura_critica");
+      if (curaCritica) return curaCritica;
+    }
     run.consequenciasAgendadas ||= [];
     run.consequenciasAgendadas = run.consequenciasAgendadas.filter(
       (item) =>
@@ -440,12 +466,6 @@
         run.rodada % evento.intervaloRodadas === 0,
     );
     if (anuaisDevidos.length) candidatos = anuaisDevidos;
-    const chegadaEntidade = candidatos.find((evento) => evento.entidadeXInicio);
-    if (chegadaEntidade) {
-      const chegou = aleatorio() < 0.08;
-      candidatos = candidatos.filter((evento) => !evento.entidadeXInicio);
-      if (chegou) candidatos = [chegadaEntidade];
-    }
     if (run.flags.entidade_x_ativa) {
       const intervalo = Jogo.config.intervaloEntidade;
       const ultima = run.marcos.entidadeXUltimoEvento ?? run.rodada;
@@ -834,6 +854,14 @@
       fontes.push({ nome: "Mercado coberto", valor: 1 });
     if (run.construcoes.includes("praca_forca") && rodada % 6 === 0)
       fontes.push({ nome: "Praça da Forca", valor: 1 });
+    const rodadaEntreposto = run.marcos?.entrepostoComercialRodada;
+    if (
+      run.construcoes.includes("entreposto_comercial") &&
+      Number.isSafeInteger(rodadaEntreposto) &&
+      rodada - rodadaEntreposto >= 2 &&
+      (rodada - rodadaEntreposto) % 2 === 0
+    )
+      fontes.push({ nome: "Entreposto comercial", valor: 1 });
     return { rodada, fontes, total: fontes.reduce((total, fonte) => total + fonte.valor, 0) };
   }
 
@@ -927,6 +955,9 @@
   function aplicarEfeitosBase(contexto) {
     const { run, evento, opcao, efeitosEscolha, desfechoEscolhido } = contexto;
     const efeitosOpcao = { ...aplicarBonusDeRecompensa(run, efeitosEscolha) };
+    if (evento.id === "cura_critica") {
+      efeitosOpcao.hp = Math.max(0, Math.ceil(run.hpMax * 0.7) - run.atributos.hp);
+    }
     const populacaoAntesDoConsumo = run.cultoAtivo ? run.seguidoresCulto : run.atributos.habitantes;
     if (opcao.consumoVampirismo && run.cultoAtivo && (efeitosOpcao.habitantes || 0) < 0) {
       const perda = Math.min(opcao.consumoVampirismo, -efeitosOpcao.habitantes);
@@ -1097,7 +1128,10 @@
       );
       if (agendamentoIndex >= 0) run.consequenciasAgendadas.splice(agendamentoIndex, 1);
     }
-    if (evento.oncePerYear) run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`] = true;
+    if (evento.oncePerYear) {
+      run.flags[`${evento.id}_ano_${Jogo.anoDaRodada(run.rodada)}_visto`] = true;
+      run.flags[`${evento.id}_visto`] = true;
+    }
     if (evento.letal || evento.oncePerRun) run.flags[`${evento.id}_visto`] = true;
     if (opcao.flags?.ano_novo_ativo) run.marcos.anoNovoBase = run.rodada;
     if (opcao.flags?.bencao_norte_ativa) run.marcos.norteAtivado = run.rodada;
@@ -1181,11 +1215,32 @@
       rendaBase > 0 && run.rodada % Jogo.config.economia.intervaloRenda !== 0 ? 0 : rendaBase;
     const rendaMercado = run.construcoes.includes("mercado_coberto") && run.rodada % 5 === 0 ? 1 : 0;
     const rendaPraca = run.construcoes.includes("praca_forca") && run.rodada % 6 === 0 ? 1 : 0;
-    const renda = rendaRegular + rendaMercado + rendaPraca;
+    const rodadaEntreposto = run.marcos?.entrepostoComercialRodada;
+    const rendaEntreposto =
+      run.construcoes.includes("entreposto_comercial") &&
+      Number.isSafeInteger(rodadaEntreposto) &&
+      run.rodada - rodadaEntreposto >= 2 &&
+      (run.rodada - rodadaEntreposto) % 2 === 0
+        ? 1
+        : 0;
+    const renda = rendaRegular + rendaMercado + rendaPraca + rendaEntreposto;
     const saldoAntesDaRenda = run.atributos.gold;
     aplicarEfeitos(run, { gold: renda });
     if (rendaMercado) resultado.texto += " O Mercado coberto rende 1 Gold.";
     if (rendaPraca) resultado.texto += " A Praça da Forca rende 1 Gold.";
+    if (rendaEntreposto) resultado.texto += " O Entreposto comercial rende 1 Gold.";
+    const rodadaCisterna = run.marcos?.cisternaConstruidaRodada;
+    const habitanteCisterna =
+      run.construcoes.includes("cisterna_comunitaria") &&
+      Number.isSafeInteger(rodadaCisterna) &&
+      run.rodada - rodadaCisterna >= 3 &&
+      (run.rodada - rodadaCisterna) % 3 === 0
+        ? 1
+        : 0;
+    if (habitanteCisterna) {
+      aplicarEfeitos(run, { habitantes: habitanteCisterna });
+      resultado.texto += " A Cisterna comunitária acrescenta 1 Habitante.";
+    }
     if (run.construcoes.includes("praca_forca") && run.rodada % 10 === 0) {
       if (!temItem(run, "espada_da_verdade")) {
         aplicarEfeitos(run, { honra: -1 });
@@ -1941,6 +1996,8 @@
   function registrarSorteio(run, evento) {
     if (!run || !evento) return false;
     run.eventoId = evento.id;
+    if (evento.id === "colheita") run.marcos.colheitaUltimaRodada = run.rodada;
+    if (evento.id === "cura_critica") run.flags.cura_critica_oferecida = true;
     if (evento.entidadeXInicio) {
       run.flags = { ...run.flags, entidade_x_ativa: true };
       run.marcos.entidadeXAparicoes = (run.marcos.entidadeXAparicoes || 0) + 1;

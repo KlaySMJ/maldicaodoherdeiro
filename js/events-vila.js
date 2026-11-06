@@ -2333,8 +2333,8 @@
         tipo: "encontro",
         peso: 2,
         texto:
-          "O sino da vila rachou numa manhã de geada, produzindo um som que lembra uma tosse. Ninguém sabe quando começar o dia.",
-        informacoes: "O sino organiza a vila. Sem ele, cada um segue o relógio que prefere.",
+          "O sino da vila rachou numa manhã de geada e já não alcança as casas do lado norte. Os guardas pedem um aviso que chegue até lá antes da próxima ronda.",
+        informacoes: "Você pode substituir o sino, pagar vigias ou deixar o trecho sem aviso.",
         opcoes: [
           {
             id: "fundir",
@@ -2352,13 +2352,14 @@
           },
           {
             id: "remendar",
-            texto: "Remendar o sino com o ferreiro.",
+            texto: "Pagar vigias para cobrir o trecho norte · 2 Gold.",
             efeitos: {
-              honra: 1,
-              gold: -1,
+              honra: 2,
+              gold: -2,
+              escudo: 1,
             },
             resultado:
-              'O sino volta a tocar, mas com um tom esquisito. As crianças o apelidam de "o Doente".',
+              "Dois guardas se revezam no trecho sem aviso. As famílias voltam para casa sabendo quem procurar se a estrada se mover à noite.",
           },
           {
             id: "sem",
@@ -3696,5 +3697,83 @@
         imagemAlt: "Cena da vila durante aquele que vem depois",
       },
     ],
+  );
+
+  Jogo.registrarEventos(
+    {
+      id: "enfermaria_sem_lenha",
+      titulo: "A enfermaria sem lenha",
+      tipo: "encontro",
+      peso: 2,
+      imagem: "assets/eventos-sistemas/inverno.webp",
+      imagemAlt: "Uma enfermaria fria com lenha empilhada do lado de fora",
+      texto: "A lenha da enfermaria acabou antes da geada. A ervateira mantém os doentes cobertos, mas a água dos remédios esfria antes de ferver.",
+      informacoes: "Aquecer custa Gold; poupar madeira ou desmontar uma estrutura muda quem sente o frio.",
+      opcoes: [
+        { id: "aquecer_enfermaria", texto: "Comprar lenha para manter o fogo aceso · 3 Gold.", requisitos: { goldMin: 3 }, efeitos: { hp: 12, gold: -3, honra: 2 }, resultado: "O fogo aquece os quartos até a manhã. A ervateira prepara os remédios sem deixar a enfermaria esfriar." },
+        { id: "poupar_lenha_enfermaria", texto: "Guardar a lenha para as casas mais frias.", efeitos: { hp: -5, habitantes: -1, honra: -1 }, resultado: "A enfermaria atravessa a noite com cobertores extras. Um paciente parte com a família antes do amanhecer." },
+        { id: "desmontar_enfermaria", texto: "Desmontar o galpão abandonado junto ao muro.", efeitos: { hp: 5, gold: -1, honra: 1 }, resultado: "As tábuas secas mantêm o fogo aceso por uma noite. Pela manhã, o galpão já não pode ser usado como abrigo." },
+      ],
+    },
+    {
+      id: "poco_duas_aldeias",
+      titulo: "O poço de duas aldeias",
+      tipo: "encontro",
+      peso: 2,
+      imagem: "assets/poco.webp",
+      imagemAlt: "Um poço de pedra entre duas estradas que chegam à vila",
+      texto: "Uma aldeia vizinha chega com baldes vazios. A nascente que divide os dois caminhos baixou, e os moradores discutem quem deve tirar água primeiro.",
+      informacoes: "Dividir o acesso, cobrar pela água ou fechar a passagem afeta as duas comunidades.",
+      opcoes: [
+        { id: "dividir_poco", texto: "Marcar horários iguais para cada aldeia.", efeitos: { habitantes: 3, honra: 3, gold: -1 }, resultado: "Cada aldeia recebe uma parte da manhã. Os baldes sobem sem empurrões, e o caminho permanece aberto." },
+        { id: "taxar_poco", texto: "Cobrar pelo uso da nascente.", efeitos: { gold: 6, honra: -3, habitantes: -1 }, resultado: "As moedas chegam antes do meio-dia. A aldeia vizinha leva água e procura outra fonte para a próxima estação." },
+        { id: "fechar_poco", texto: "Reservar a nascente apenas para a vila.", efeitos: { habitantes: -2, honra: -2, gold: 2 }, resultado: "Os guardas fecham o caminho. Os vizinhos partem com os baldes vazios." },
+      ],
+    },
+    {
+      id: "carroca_atolada",
+      titulo: "A carroça atolada",
+      tipo: "encontro",
+      peso: 2,
+      imagem: "assets/eventos-especiais/viajante-norte.webp",
+      imagemAlt: "Uma carroça carregada presa na lama de uma estrada rural",
+      texto: "Uma carroça carregada afundou até o eixo num trecho de barro. O cocheiro pede ajuda para tirar a carga antes que a chuva feche a estrada.",
+      informacoes: "Você pode mobilizar moradores, pagar por uma equipe ou negociar a carga sem esperar pelo dono.",
+      opcoes: [
+        { id: "puxar_carroca", texto: "Reunir moradores para tirar a carroça da lama.", efeitos: { gold: 4, habitantes: -1, honra: 2 }, resultado: "A roda sai do barro presa a uma corda. O cocheiro deixa parte da carga como pagamento." },
+        { id: "pagar_carroca", texto: "Pagar a um ferreiro para reforçar o eixo · 3 Gold.", requisitos: { goldMin: 3 }, efeitos: { gold: -3, habitantes: 2, honra: 2 }, resultado: "O eixo aguenta a viagem até a vila. O cocheiro descarrega duas caixas e segue antes da chuva." },
+        { id: "tomar_carga_carroca", texto: "Vender parte da carga antes que o dono retorne.", efeitos: { gold: 8, honra: -5, habitantes: -2 }, resultado: "A carga desaparece da estrada antes do anoitecer. O cocheiro volta tarde demais para perguntar quem comprou." },
+      ],
+    },
+    {
+      id: "livro_das_racoes",
+      titulo: "O livro das rações",
+      tipo: "encontro",
+      peso: 2,
+      imagem: "assets/eventos-pessoas/conselheiro.webp",
+      imagemAlt: "Um escrivão confere uma lista de mantimentos à luz de uma vela",
+      texto: "Duas listas de ração não coincidem. O escrivão diz que houve erro de cópia; as famílias na fila afirmam que alguns nomes foram riscados antes da distribuição.",
+      informacoes: "Conferir os registros custa tempo; confiar ou repartir sem revisão também tem consequências.",
+      opcoes: [
+        { id: "conferir_racoes", texto: "Comparar as listas e corrigir os nomes · 2 Gold.", requisitos: { goldMin: 2 }, efeitos: { gold: -2, habitantes: 2, honra: 3 }, resultado: "A conta revela duas casas esquecidas. O escrivão repõe as porções e assina a correção diante da fila." },
+        { id: "confiar_escrivao", texto: "Aceitar a palavra do escrivão e fechar o livro.", efeitos: { gold: 4, honra: -3, habitantes: -1 }, resultado: "O escrivão guarda as moedas da venda do excedente. Uma família deixa a fila sem receber porção." },
+        { id: "repartir_racoes", texto: "Dividir o que resta entre todas as casas.", efeitos: { gold: -3, habitantes: 3, honra: 2 }, resultado: "As porções ficam menores, mas chegam a todos. A lista será refeita quando entrar a próxima colheita." },
+      ],
+    },
+    {
+      id: "casa_muda_de_dono",
+      titulo: "A casa que muda de dono",
+      tipo: "encontro",
+      peso: 2,
+      imagem: "assets/vila.webp",
+      imagemAlt: "Uma casa vazia com a porta aberta para a praça da vila",
+      texto: "A última pessoa de uma casa partiu durante a noite. Pela manhã, duas famílias pedem a chave; a cozinha comum também precisa de um teto antes do inverno.",
+      informacoes: "Acolher uma família, leiloar os móveis ou reservar a casa para uso comunitário deixa marcas diferentes.",
+      opcoes: [
+        { id: "acolher_casa_vazia", texto: "Entregar a chave à família que chegou ontem.", efeitos: { habitantes: 4, gold: -1, honra: 3 }, resultado: "A família leva os poucos móveis para dentro. Ao fim do dia, há fumaça na chaminé e luz na janela." },
+        { id: "leiloar_casa_vazia", texto: "Leiloar os móveis e cobrar pelo próximo aluguel.", efeitos: { gold: 7, honra: -4, habitantes: -1 }, resultado: "Os móveis saem em duas carroças. O comprador recebe a casa, enquanto a outra família segue procurando abrigo." },
+        { id: "cozinha_comum", texto: "Reservar a casa para a cozinha comum.", efeitos: { hp: 6, habitantes: 2, honra: 2, gold: -2 }, resultado: "As panelas passam para a casa vazia. Quem ainda não tem moradia encontra uma mesa para a próxima refeição." },
+      ],
+    },
   );
 })();

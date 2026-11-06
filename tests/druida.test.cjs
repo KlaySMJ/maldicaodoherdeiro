@@ -25,14 +25,14 @@ test("novaRun aplica atributos e equipamento inicial do druida", () => {
 
   assert.equal(run.traco, "druida_herdeiro");
   assert.deepEqual(JSON.parse(JSON.stringify(run.atributos)), {
-    hp: 110,
+    hp: 120,
     escudo: 2,
     ataque: 4,
     honra: 0,
     habitantes: 50,
     gold: 3,
   });
-  assert.equal(run.hpMax, 110);
+  assert.equal(run.hpMax, 120);
   assert.equal(run.druidaPassiva, "lobo");
   assert.ok(run.inventario.includes("cajado_de_carvalho_vivo"));
   assert.ok(run.itensConquistados.includes("cajado_de_carvalho_vivo"));

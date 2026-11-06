@@ -708,6 +708,26 @@
       ],
     },
     {
+      id: "cura_critica",
+      titulo: "Um lugar para respirar",
+      tipo: "especial",
+      peso: 0,
+      especial: true,
+      imagem: "assets/eventos-sistemas/inverno.webp",
+      imagemAlt: "Uma lamparina acesa numa sala aquecida durante a noite",
+      texto:
+        "O boticário percebe que você mal consegue ficar de pé. Ele afasta os curiosos, prepara água quente e pede que a vila cuide do resto até o amanhecer.",
+      informacoes: "O repouso recupera sua Vida até 70% do máximo e não custa Gold.",
+      opcoes: [
+        {
+          id: "repousar",
+          texto: "Aceitar os cuidados e repousar.",
+          resultado:
+            "Você passa a noite sob os cuidados do boticário. A febre cede, e seus passos recuperam firmeza.",
+        },
+      ],
+    },
+    {
       id: "orfao",
       titulo: "Uma criança no portão",
       tipo: "encontro",

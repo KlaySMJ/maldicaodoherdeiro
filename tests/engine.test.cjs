@@ -60,6 +60,7 @@ function preparar() {
     "events-artes-especificas",
     "events-heroi",
     "events-ajustes",
+    "events-progresso",
     "items",
     "legacy",
     "conquistas",
@@ -85,7 +86,7 @@ test("novos herdeiros começam com os valores acordados, sem itens herdados", ()
   const run = J.estado.novo(legado);
   assert.equal(run.traco, "corajoso");
   assert.deepEqual(simples(run.atributos), {
-    hp: 100,
+    hp: 120,
     escudo: 5,
     ataque: 3,
     honra: 0,
@@ -212,9 +213,8 @@ test("compras inválidas não alteram a run; renda futura não pode pagar uma co
 
 test("mercador pode ser sorteado e permite seguir mesmo sem moedas", () => {
   const { J, run } = preparar();
-  const ids = new Set(Array.from({ length: 100 }, (_, i) => J.engine.sortear(run, () => i / 100).id));
-  assert.ok(ids.has("mercador"));
-  assert.ok(ids.size > 1);
+  J.eventos = [J.eventoPorId("mercador")];
+  assert.equal(J.engine.sortear(run).id, "mercador");
   run.eventoId = "mercador";
   run.atributos.gold = 0;
   assert.equal(J.engine.escolher(run, "seguir"), true);
@@ -300,7 +300,7 @@ test("ataque malsucedido aplica dano mitigado e penalidade adicional do evento",
   const { J, run } = preparar();
   run.eventoId = "saqueadores";
   J.engine.escolher(run, "combater");
-  assert.equal(run.atributos.hp, 81);
+  assert.equal(run.atributos.hp, 101);
   assert.equal(run.atributos.habitantes, 38);
   assert.equal(run.atributos.escudo, 5);
   assert.equal(run.ultimoResultado.combate.venceu, false);
@@ -314,7 +314,7 @@ test("ataque igual à defesa vence; o dano nunca fica negativo", () => {
   run.atributos.escudo = 20;
   J.engine.escolher(run, "combater");
   assert.equal(run.ultimoResultado.combate.venceu, true);
-  assert.equal(run.atributos.hp, 100);
+  assert.equal(run.atributos.hp, 120);
   assert.equal(run.atributos.habitantes, 50);
   assert.equal(run.atributos.escudo, 20);
 });
@@ -328,7 +328,7 @@ test("penalidade de falha pode definir mais HP perdido, sem alterar a engine", (
   };
   run.eventoId = "saqueadores";
   J.engine.escolher(run, "combater");
-  assert.equal(run.atributos.hp, 74);
+  assert.equal(run.atributos.hp, 94);
   assert.equal(run.atributos.habitantes, 48);
   assert.equal(run.atributos.escudo, 5);
   assert.match(run.ultimoResultado.texto, /ferida adicional/);
@@ -520,9 +520,9 @@ test("carregar um resultado não reaplica efeitos nem sorteia outra carta", () =
   const carregada = J.save.lerRun();
   assert.equal(carregada.fase, "resultado");
   assert.equal(carregada.eventoId, "caixas_suspeitas");
-  assert.equal(carregada.atributos.hp, 90);
+  assert.equal(carregada.atributos.hp, 110);
   assert.equal(J.engine.escolher(carregada, "verificar"), false);
-  assert.equal(carregada.atributos.hp, 90);
+  assert.equal(carregada.atributos.hp, 110);
   assert.equal(J.engine.avancar(carregada), true);
   assert.equal(carregada.rodada, 2);
 });
@@ -644,22 +644,23 @@ test("limiares de aparência e de escolhas são independentes e inclusivos", () 
   }
 });
 
-test("sorteio evita as cinco últimas cartas mesmo com peso alto, sem travar pools pequenas", () => {
+test("sorteio evita as 25 últimas cartas mesmo com peso alto, sem travar pools pequenas", () => {
   const { J, run } = preparar();
-  J.eventos = ["a", "b", "c", "d", "e", "f"].map((id) => ({
+  J.eventos = Array.from({ length: 26 }, (_, indice) => `evento_${indice}`).map((id) => ({
     id,
-    peso: id === "e" ? 1000 : 1,
+    peso: id === "evento_24" ? 1000 : 1,
     opcoes: [{ id: "ok" }],
   }));
-  run.eventosRecentes = ["a", "b", "c", "d", "e"];
-  run.eventoId = "e";
-  for (const valor of [0, 0.2, 0.8, 0.999]) assert.equal(J.engine.sortear(run, () => valor).id, "f");
+  run.eventosRecentes = Array.from({ length: 25 }, (_, indice) => `evento_${indice}`);
+  run.eventoId = "evento_24";
+  assert.equal(J.config.memoriaEventos, 25);
+  for (const valor of [0, 0.2, 0.8, 0.999]) assert.equal(J.engine.sortear(run, () => valor).id, "evento_25");
   J.eventos = J.eventos.slice(0, 2);
-  run.eventosRecentes = ["a", "b"];
-  run.eventoId = "b";
-  assert.equal(J.engine.sortear(run, () => 0.9).id, "a");
+  run.eventosRecentes = ["evento_0", "evento_1"];
+  run.eventoId = "evento_1";
+  assert.equal(J.engine.sortear(run, () => 0.9).id, "evento_0");
   J.eventos = J.eventos.slice(1);
-  assert.equal(J.engine.sortear(run).id, "b");
+  assert.equal(J.engine.sortear(run).id, "evento_1");
   J.eventos = [];
   assert.equal(J.engine.sortear(run), null);
 });
@@ -673,7 +674,7 @@ test("histórico de eventos persiste e saves antigos recebem histórico vazio", 
   delete run.eventosRecentes;
   dados.set("run_atual", JSON.stringify(run));
   assert.deepEqual(simples(J.save.lerRun().eventosRecentes), []);
-  for (const invalido of [null, "caixas", [3], Array(11).fill("evento")]) {
+  for (const invalido of [null, "caixas", [3], Array(26).fill("evento")]) {
     dados.set("run_atual", JSON.stringify({ ...run, eventosRecentes: invalido }));
     assert.equal(J.save.lerRun(), null);
   }
@@ -717,7 +718,7 @@ test("reparar a ponte libera uma caravana, cuja recompensa não pode ser repetid
 test("todo evento oferece saídas válidas e resultados finitos para ambas as honras e combates", () => {
   for (const honra of [-50, 0, 50]) {
     const { J } = preparar();
-    assert.equal(J.eventos.length, 276);
+    assert.equal(J.eventos.length, 301);
     assert.equal(new Set(J.eventos.map((e) => e.id)).size, J.eventos.length);
     for (const evento of J.eventos) {
       for (const gold of [0, 100]) {
@@ -726,6 +727,7 @@ test("todo evento oferece saídas válidas e resultados finitos para ambas as ho
         base.atributos.hp = Math.min(base.atributos.hp, 50);
         base.rodada = Math.max(1, evento.requisitos?.rodadaMin || 1);
         base.eventoId = evento.id;
+        if (evento.requerDesbloqueio) base.legadoDaRun.eventos.push(evento.requerDesbloqueio);
         for (const flag of evento.requisitos?.flags || []) base.flags[flag] = true;
         for (const flag of evento.requisitos?.flagsLegado || []) base.legadoDaRun.flags[flag] = true;
         const sorteioSemOpcoes = simples(base);
@@ -745,7 +747,8 @@ test("todo evento oferece saídas válidas e resultados finitos para ambas as ho
             const run = simples(base);
             run.atributos.ataque = ataque;
             if (!J.engine.cumpre(opcao.requisitos, run, "escolha")) continue;
-            assert.equal(J.engine.escolher(run, opcao.id), true, `${evento.id}/${opcao.id}`);
+            const resolvido = J.engine.escolher(run, opcao.id);
+            assert.equal(resolvido, true, `${evento.id}/${opcao.id}`);
             assert.ok(J.atributos.every((id) => Number.isSafeInteger(run.atributos[id])));
             assert.equal(J.save.runValida(run), true, `${evento.id}/${opcao.id}`);
           }

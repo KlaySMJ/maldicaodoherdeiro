@@ -10,8 +10,18 @@
   <!-- A escrita durante o parsing preserva defer e a ordem de execução em file://. -->
   <script>
     (() => {
-      const VERSAO_ASSETS = "20261105-24";
+      const VERSAO_ASSETS = "20261106-27";
       window.JOGO_VERSAO_ASSETS = VERSAO_ASSETS;
+      const mostrarErroDeAbertura = () => {
+        const app = document.getElementById("app");
+        if (!app || document.body?.dataset.tela) return;
+        if (!app.querySelector(".carregando") && app.childElementCount > 0) return;
+        app.innerHTML = `<section class="erro-inicializacao" role="alert"><h1>A crônica não abriu</h1><p>Um recurso falhou ao carregar. Tente abrir a página outra vez.</p><a class="botao primario" href="index.html">Tentar novamente</a></section>`;
+      };
+      window.addEventListener("error", (evento) => {
+        if (evento instanceof ErrorEvent || evento.target?.tagName === "SCRIPT") mostrarErroDeAbertura();
+      }, true);
+      window.addEventListener("unhandledrejection", mostrarErroDeAbertura);
       document.write(`<link rel="stylesheet" href="css/style.css?v=${VERSAO_ASSETS}">`);
       const arquivos = [
         "js/state.js",
@@ -37,6 +47,7 @@
         "js/events-heroi.js",
         "js/events-ajustes.js",
         "js/events-progresso.js",
+        "js/events-propostas.js",
         "js/items.js",
         "js/legacy.js",
         "js/conquistas.js",

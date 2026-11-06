@@ -4,7 +4,9 @@
   try {
     for (const chave of ["debug_jogo", "debug_forcar_druida", "debug_forcar_menino", "debug_forcar_heroi"])
       window.localStorage.removeItem(chave);
-  } catch {}
+  } catch {
+    /* O armazenamento pode estar bloqueado; os atalhos de debug são opcionais. */
+  }
   let run = Jogo.save.lerRun();
   let ocupado = false;
 
@@ -247,6 +249,12 @@
       case "menu":
         if (run?.status === "encerrada") run = null;
         Jogo.ui.menu(run);
+        break;
+      case "alternar-inventario":
+        document.querySelector("#app #painel-inventario > summary")?.click();
+        break;
+      case "alternar-progresso":
+        document.querySelector("#app #painel-progresso > summary")?.click();
         break;
       case "tentar-salvar":
         mostrarFim();

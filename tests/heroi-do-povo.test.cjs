@@ -16,14 +16,14 @@ test("a Heroína do povo começa com 5 de Ataque, 5 de Escudo e honra neutra", (
   const run = novaHeroi(J);
   assert.equal(run.traco, "heroi_do_povo");
   assert.deepEqual(simples(run.atributos), {
-    hp: 100,
+    hp: 120,
     escudo: 5,
     ataque: 5,
     honra: 0,
     habitantes: 50,
     gold: 5,
   });
-  assert.equal(run.hpMax, 100);
+  assert.equal(run.hpMax, 120);
   assert.deepEqual(simples(run.inventario), []);
 });
 

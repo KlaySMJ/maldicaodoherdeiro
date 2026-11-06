@@ -1,6 +1,6 @@
 A MALDIÇÃO DO HERDEIRO — EVENTOS E BENEFÍCIOS
 
-Catálogo atual: 223 definições de evento. Fontes: js/events.js, js/events-specials.js, js/events-cult.js, js/events-lethal.js e js/events-foundations.js. “O último habitante” é uma transição da engine e não entra no sorteio.
+Catálogo atual no jogo: 375 definições. As 74 cartas executadas de PROPOSTAS-NOVOS-EVENTOS.txt estão descritas no apêndice ao final e cadastradas em js/events-propostas.js. “O último habitante” é uma transição da engine e não entra no sorteio.
 
 Documento de consulta do autor; não é exibido ao jogador.
 
@@ -7038,3 +7038,890 @@ As probabilidades ficam ocultas antes da escolha; o desfecho é sorteado uma vez
 ==============================================================================
 EVENTOS DE FUNDAÇÃO, ESTAÇÕES E MEMÓRIA
 Companhia da vila: escolhe um companheiro passivo; construção: forja (−2 gold em armas) ou muralha (−2 dano em batalha). A carta da marca do herdeiro contém uma opção para cada traço. Primavera, verão, outono e inverno têm cartas próprias. Túmulo e criança só aparecem quando o legado contém uma run encerrada anterior.
+
+
+==============================================================================
+NOVAS CARTAS EXECUTADAS — 74 PROPOSTAS
+
+01. A árvore sobre a estrada [arvore_sobre_estrada] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma árvore tombou na curva durante a madrugada. Uma carroça já está presa entre o tronco e a vala; o cocheiro espera ajuda antes que a chuva chegue.
+Informação: A madeira serve à vila, aos carroceiros ou pode ficar onde caiu.
+Escolhas:
+  - Cortar o tronco e repartir a madeira.
+    Efeitos diretos: −1 Habitantes, −1 Gold, +2 Honra.
+  - Vender a madeira ao primeiro comprador.
+    Efeitos diretos: +5 Gold, −2 Honra.
+  - Marcar um desvio até a árvore secar.
+    Efeitos diretos: −1 Gold, +1 Honra.
+
+02. Telhas antes da chuva [telhas_antes_da_chuva] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um lote de telhas chega ao portão na mesma manhã em que as nuvens fecham o vale. O depósito não tem espaço para guardar tudo.
+Informação: Cobrir os telhados mais frágeis, cobrar pela distribuição ou vender parte do lote define quem atravessa a chuva em segurança.
+Escolhas:
+  - Consertar os telhados mais frágeis · 3 Gold.
+    Efeitos diretos: −3 Gold, +3 Honra, +4 Vida.
+  - Cobrar pelo uso de cada telha.
+    Efeitos diretos: +5 Gold, −3 Honra, −1 Habitantes.
+  - Guardar metade para o salão comunal.
+    Efeitos diretos: +2 Gold, −1 Honra.
+
+03. A medida do trigo [medida_do_trigo] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: A farinha acaba antes do esperado, embora o livro do celeiro registre sacos suficientes. Na banca, o medidor do comerciante parece menor que o usado pela vila.
+Informação: Rever a medida pode recuperar o que falta ou transformar uma suspeita em disputa pública.
+Escolhas:
+  - Conferir as medidas diante dos compradores · 1 Gold.
+    Efeitos diretos: −1 Gold, +2 Habitantes, +3 Honra.
+  - Aceitar a medida e fechar a banca.
+    Efeitos diretos: +4 Gold, −2 Habitantes, −3 Honra.
+  - Cobrar uma taxa de fiscalização.
+    Efeitos diretos: +3 Gold, −1 Honra.
+
+04. A parede de pedra [parede_de_pedra] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: A pedreira antiga ainda guarda blocos sob a encosta. Um veio aquece a mão quando o pedreiro se aproxima; acima dele, uma rachadura atravessa a parede.
+Informação: Retirar os blocos soltos, escorar a encosta ou abrir o veio aquecido trazem riscos diferentes.
+Escolhas:
+  - Retirar apenas as pedras que já cederam.
+    Efeitos diretos: +3 Gold, +1 Honra.
+  - Quebrar o veio aquecido e guardar a pedra.
+    Efeitos diretos: −3 Vida, +1 Honra.
+    Itens: amuleto_de_jaspe.
+  - Escorar a encosta antes de qualquer extração · 3 Gold.
+    Efeitos diretos: −3 Gold, +1 Escudo, +2 Honra.
+
+05. A carroça de ferramentas [carroca_de_ferramentas] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um vendedor oferece ferramentas usadas a preço baixo. Algumas ainda têm a marca da oficina de onde vieram; outras perderam o cabo ou o fio.
+Informação: Comprar o lote pode ajudar os trabalhadores, mas nem toda peça vale o preço pedido.
+Escolhas:
+  - Comprar o lote e reservar as luvas de trabalho · 4 Gold.
+    Efeitos diretos: −4 Gold, +1 Honra.
+    Itens: luvas_de_trabalho.
+  - Examinar cada peça antes de negociar.
+    Efeitos diretos: −1 Gold, +2 Honra, +1 Escudo.
+  - Recusar a oferta e avisar os artesãos.
+    Efeitos diretos: +1 Honra.
+
+06. O canal assoreado [canal_assoreado] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: O canal perde profundidade a cada cheia. A água ainda alcança os campos, mas os sulcos mais distantes já secaram antes do meio-dia.
+Informação: Um mutirão, uma cobrança aos proprietários ou uma mudança no plantio decide o próximo uso da água.
+Escolhas:
+  - Organizar um mutirão para retirar a lama.
+    Efeitos diretos: −1 Habitantes, +2 Honra, +1 Gold.
+  - Cobrar dos proprietários beneficiados.
+    Efeitos diretos: +4 Gold, −2 Honra.
+  - Mudar o plantio para perto da nascente.
+    Efeitos diretos: +1 Habitantes, +1 Honra, −2 Gold.
+
+07. O salgueiro marcado [salgueiro_marcado] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: As raízes de um salgueiro antigo levantaram as pedras da passagem. Pastores dizem que, sem a árvore, ninguém encontra o caminho de volta depois da neblina.
+Informação: A árvore pode ficar, ser podada ou perder a passagem que divide com a trilha.
+Escolhas:
+  - Proteger as raízes e refazer o caminho ao lado.
+    Efeitos diretos: −2 Gold, +3 Honra.
+  - Podar as raízes que avançaram sobre as pedras.
+    Efeitos diretos: +2 Gold, +1 Honra.
+  - Abrir outra passagem pelo campo baixo.
+    Efeitos diretos: −1 Habitantes, −1 Honra, +2 Gold.
+
+08. A caldeira emprestada [caldeira_emprestada] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma comunidade vizinha pede a caldeira usada para tingir tecidos. A oficina da vila pretende preparar uma fornada de remédios na mesma semana.
+Informação: O empréstimo pode fortalecer o acordo entre as comunidades ou atrasar o trabalho local.
+Escolhas:
+  - Emprestar a caldeira com uma peça como garantia.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Cobrar pelo uso e pela lenha.
+    Efeitos diretos: +4 Gold, −1 Honra.
+  - Reservar a caldeira para os remédios da vila.
+    Efeitos diretos: +6 Vida, +1 Honra.
+
+09. A roda que perde o eixo [roda_perde_eixo] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: A roda d'água para no meio da moagem. O eixo gasto ainda gira à mão, mas cada volta abre uma fenda maior na madeira.
+Informação: Um eixo novo custa Gold; um reparo improvisado consome tempo e pode parar o moinho de vez.
+Escolhas:
+  - Pedir um eixo novo ao carpinteiro · 4 Gold.
+    Efeitos diretos: −4 Gold, +2 Honra.
+  - Reforçar o eixo com uma cinta de ferro.
+    Efeitos diretos: −2 Gold, +1 Escudo, +1 Honra.
+  - Suspender a moagem até a próxima estação.
+    Efeitos diretos: +2 Gold, −1 Habitantes, −1 Honra.
+
+10. A ponte de corda [ponte_de_corda] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: A travessia encurta o caminho entre os campos, mas uma mula cedeu sobre as tábuas na semana passada. Os nós já estão desfiando.
+Informação: Reforçar a passagem, limitar o peso ou desmontá-la muda quem consegue atravessar.
+Escolhas:
+  - Trocar as cordas principais · 3 Gold.
+    Efeitos diretos: −3 Gold, +2 Honra.
+  - Permitir apenas pedestres e animais pequenos.
+    Efeitos diretos: +1 Honra, −1 Habitantes.
+  - Desmontar a travessia antes de outro acidente.
+    Efeitos diretos: −1 Gold, +2 Honra.
+
+11. As velas de sebo [velas_de_sebo] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: O cesto de velas está quase vazio antes da noite em que os escribas precisam terminar os registros. A guarda também pediu luz para a ronda.
+Informação: O estoque pode ser dividido, encomendado ou reservado para quem patrulha o muro.
+Escolhas:
+  - Repartir as velas entre os escribas e a guarda.
+    Efeitos diretos: −2 Gold, +2 Honra.
+  - Encomendar outro lote ao fabricante · 3 Gold.
+    Efeitos diretos: −3 Gold, +1 Escudo, +1 Honra.
+  - Guardar a cera para a guarda.
+    Efeitos diretos: −1 Honra, +1 Gold.
+
+12. O depósito de carvão [deposito_de_carvao] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um comerciante oferece carvão escuro que ficou anos sob lona. O ferreiro quebra uma pedra e encontra pó solto entre as partes.
+Informação: Testar o combustível custa uma amostra; comprar o lote inteiro pode sair caro se a brasa não durar.
+Escolhas:
+  - Pagar por uma queima de prova · 1 Gold.
+    Efeitos diretos: +3 Gold, +1 Honra.
+  - Comprar o lote sem testar.
+    Efeitos diretos: −3 Gold, −1 Honra, −2 Vida.
+  - Trocar por madeira seca da vila.
+    Efeitos diretos: +1 Gold, +1 Honra.
+
+13. A cerca de espinhos [cerca_de_espinhos] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: A cerca viva protege as hortas, mas os galhos fecharam a trilha usada por quem leva água até o moinho. O dono pede que ninguém corte a cerca sem avisá-lo.
+Informação: Podar, desviar ou compensar o trabalho deixa a passagem e a horta em condições diferentes.
+Escolhas:
+  - Podar os galhos que invadiram a trilha.
+    Efeitos diretos: −1 Habitantes, +2 Honra.
+  - Abrir uma passagem mais larga pelo campo.
+    Efeitos diretos: −1 Gold, +1 Honra, −1 Habitantes.
+  - Pagar pelo trabalho de quem mantém a cerca · 2 Gold.
+    Efeitos diretos: −2 Gold, +2 Honra.
+
+14. O lastro de cobre [lastro_de_cobre] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um carregamento de peças chega misturado a parafusos quebrados e minério sem marca. O transportador quer partir antes de conferir o peso.
+Informação: Separar o cobre leva tempo; devolver o lote evita que a vila pague por sucata.
+Escolhas:
+  - Separar o cobre antes de pesar o lote.
+    Efeitos diretos: +3 Gold, +2 Honra.
+  - Vender o lote inteiro no mercado.
+    Efeitos diretos: +6 Gold, −2 Honra.
+  - Devolver a carga e pedir uma conta corrigida.
+    Efeitos diretos: −1 Gold, +2 Honra.
+
+15. O lugar à mesa [lugar_a_mesa] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma família recém-chegada aparece quando a refeição comunal já está servida. Há espaço para mais uma cadeira, mas os sacos da cozinha foram contados para quem já mora na vila.
+Informação: Abrir a mesa custa provisões; pedir contribuição ou fechar a sala muda a primeira noite da família.
+Escolhas:
+  - Puxar outra cadeira e dividir a sopa.
+    Efeitos diretos: +2 Habitantes, +3 Honra, −1 Gold.
+  - Pedir à família que contribua com a próxima colheita.
+    Efeitos diretos: +1 Habitantes, +1 Gold, +1 Honra.
+  - Manter a contagem e fechar a sala.
+    Efeitos diretos: +2 Gold, −1 Habitantes, −2 Honra.
+
+16. A troca de turnos [troca_de_turnos] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Os vigias pedem uma escala mais leve depois de três noites na muralha. Uma troca de turnos deixaria o portão norte sem guarda por parte da madrugada.
+Informação: Reorganizar as rondas custa Gold ou horas de descanso; manter a escala força os vigias a escolher quem fica.
+Escolhas:
+  - Pagar um substituto para cobrir a madrugada · 3 Gold.
+    Efeitos diretos: −3 Gold, +1 Escudo, +2 Honra.
+  - Criar um rodízio curto entre as famílias.
+    Efeitos diretos: −1 Habitantes, +2 Honra.
+  - Manter a escala até a feira terminar.
+    Efeitos diretos: +2 Gold, −2 Honra.
+
+17. As chaves da sala comum [chaves_sala_comum] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Duas cópias da chave do salão desapareceram. Ali ficam ferramentas, sacos de farinha e os registros que o escrivão usa durante a feira.
+Informação: Um rodízio, uma pessoa responsável ou um acesso restrito define quem responde pelo espaço.
+Escolhas:
+  - Entregar uma chave por turno e registrar a troca.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Nomear uma pessoa para guardar as chaves.
+    Efeitos diretos: −2 Gold, +1 Escudo, +1 Honra.
+  - Trancar o salão fora das horas de trabalho.
+    Efeitos diretos: +3 Gold, −1 Habitantes, −1 Honra.
+
+18. O pátio dividido [patio_dividido] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Artesãos deixam tábuas secando no pátio onde os lavradores descarregam cestos. Um grupo chegou antes do outro e ninguém quer mover sua carga.
+Informação: Dividir os horários, cobrar pelo espaço ou escolher um uso permanente resolve a disputa por enquanto.
+Escolhas:
+  - Marcar períodos para cada grupo.
+    Efeitos diretos: +2 Honra, +1 Habitantes.
+  - Cobrar pelo espaço usado durante a feira.
+    Efeitos diretos: +4 Gold, −2 Honra.
+  - Reservar o pátio para a oficina.
+    Efeitos diretos: +1 Escudo, −1 Honra.
+
+19. O retrato sem dono [retrato_sem_dono] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um retrato aparece na sala comunal, coberto por um pano que ninguém lembra de ter pendurado. A moldura traz o nome de uma vila que já não aparece nos mapas.
+Informação: Guardar a pintura, leiloá-la ou pedir ajuda para localizar a família muda o destino do objeto.
+Escolhas:
+  - Guardar o retrato junto aos registros antigos.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Leiloar a moldura na próxima feira.
+    Efeitos diretos: +5 Gold, −1 Honra.
+  - Pedir aos viajantes que procurem a família.
+    Efeitos diretos: −1 Gold, +1 Habitantes, +2 Honra.
+
+20. O cão que escolheu a porta [cao_escolheu_porta] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um cão sem coleira dorme diante da mesma casa há quatro noites. A família diz que nunca o alimentou; ainda assim, ele não acompanha ninguém que tente levá-lo.
+Informação: Procurar o antigo dono, deixar que a família o acolha ou confiar a ronda ao cão dá outro lugar à sua vigília.
+Escolhas:
+  - Procurar o dono entre as carroças da feira.
+    Efeitos diretos: −1 Gold, +1 Honra.
+  - Deixar que a família o acolha.
+    Efeitos diretos: +2 Habitantes, +2 Honra.
+  - Levar o cão para a ronda do portão.
+    Efeitos diretos: +1 Escudo, +1 Honra.
+    Itens: cao_companheiro.
+
+21. A carta de recomendação [carta_recomendacao] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma jovem aprendiz pede uma carta para seguir a um ateliê distante. A oficina local também precisa de alguém que saiba remendar tecidos antes do inverno.
+Informação: Recomendar a viagem, oferecer formação na vila ou pedir que ela espere deixa uma vaga em lugares diferentes.
+Escolhas:
+  - Assinar a carta para o ateliê distante.
+    Efeitos diretos: −1 Habitantes, +3 Honra.
+  - Pagar por ferramentas e formação local · 2 Gold.
+    Efeitos diretos: −2 Gold, +2 Habitantes, +2 Honra.
+  - Pedir que ela espere mais uma estação.
+    Efeitos diretos: +1 Gold, −1 Honra.
+
+22. A herança das ferramentas [heranca_ferramentas] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um artesão morre sem deixar instruções sobre as ferramentas da oficina. Os parentes querem guardá-las; os aprendizes afirmam que ainda há trabalho pela metade.
+Informação: Fazer um inventário, entregar as peças à família ou vender tudo encerra a disputa de modos diferentes.
+Escolhas:
+  - Registrar cada ferramenta e devolver as emprestadas.
+    Efeitos diretos: −1 Gold, +3 Honra, +1 Escudo.
+  - Entregar o conjunto à família.
+    Efeitos diretos: −1 Habitantes, +1 Honra.
+  - Leiloar as ferramentas para pagar as dívidas.
+    Efeitos diretos: +6 Gold, −3 Honra.
+
+23. A cópia do registro [copia_do_registro] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: A umidade apagou parte dos nomes no livro de moradores. Um escrivão oferece copiar as páginas restantes antes que as folhas se desfaçam.
+Informação: Uma cópia completa custa mais; registrar apenas os nomes legíveis protege parte da história.
+Escolhas:
+  - Pagar pela cópia inteira · 3 Gold.
+    Efeitos diretos: −3 Gold, +2 Honra.
+  - Copiar apenas os nomes ainda legíveis · 1 Gold.
+    Efeitos diretos: −1 Gold, +2 Honra, +1 Habitantes.
+  - Deixar o registro como está.
+    Efeitos diretos: +2 Gold, −1 Honra.
+
+24. A bolsa de botões [bolsa_de_botoes] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma bolsa de botões raros cai de uma carroça antes da ponte. Alguns têm marcas de uma oficina distante; os demais foram talhados à mão.
+Informação: Encontrar o dono pode custar a venda; guardar as peças ajuda um alfaiate local.
+Escolhas:
+  - Perguntar aos carroceiros antes de vender.
+    Efeitos diretos: +1 Gold, +3 Honra.
+  - Vender as peças na feira.
+    Efeitos diretos: +4 Gold, −2 Honra.
+  - Entregar as peças ao alfaiate da vila.
+    Efeitos diretos: −1 Gold, +1 Escudo, +1 Honra.
+
+25. O carregamento de vidro [carregamento_de_vidro] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um mercador oferece placas de vidro que sobreviveram à viagem. A enfermaria tem janelas abertas; a feira pagaria bem pelas peças coloridas.
+Informação: Comprar o lote, negociar uma troca ou deixá-lo seguir preserva Gold para outros usos.
+Escolhas:
+  - Comprar placas para a enfermaria · 4 Gold.
+    Efeitos diretos: −4 Gold, +8 Vida, +2 Honra.
+  - Trocar vidro por tábuas e reparos.
+    Efeitos diretos: −1 Gold, +1 Escudo, +1 Honra.
+  - Revender as placas na feira.
+    Efeitos diretos: +5 Gold, −2 Honra.
+
+26. Farinha com limalha [farinha_com_limalha] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma família encontra pó de ferro no fundo do saco de farinha. O moleiro jura que a pedra de moer está inteira, mas não quer abrir o moinho diante da fila.
+Informação: Conferir o lote, peneirar a farinha ou vendê-la depressa muda o que chega às mesas.
+Escolhas:
+  - Fechar a venda e examinar o moinho.
+    Efeitos diretos: +2 Habitantes, +3 Honra, −1 Gold.
+  - Peneirar o lote antes de devolver as porções.
+    Efeitos diretos: +4 Vida, −2 Gold, +1 Honra.
+  - Vender o lote a quem não perguntar pela origem.
+    Efeitos diretos: +5 Gold, −2 Habitantes, −4 Honra.
+
+27. A pedra de medir distâncias [pedra_de_distancias] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma pedra junto à estrada traz marcas regulares entre dois povoados. O mapa do escrivão indica que as medidas não seguem nenhum caminho conhecido.
+Informação: Decifrar os sinais pode abrir uma rota; mover a pedra apaga o único marco que os viajantes reconhecem.
+Escolhas:
+  - Pagar ao escrivão para comparar as marcas · 2 Gold.
+    Efeitos diretos: −2 Gold, +2 Honra.
+  - Deixar a pedra como marco da estrada.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Retirar a pedra para abrir espaço à carroça.
+    Efeitos diretos: +3 Gold, −2 Honra.
+
+28. A remessa trocada [remessa_trocada] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma carroça descarrega lã onde deveriam estar os sacos de grão. O motorista diz que recebeu outro selo no último posto e quer resolver a troca antes de partir.
+Informação: Devolver a carga, negociar com o dono ou procurar o destinatário dos grãos muda o prazo da entrega.
+Escolhas:
+  - Mandar a lã de volta com o mesmo motorista.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Negociar parte da lã pelos sacos de grão.
+    Efeitos diretos: +1 Habitantes, −2 Gold, +1 Honra.
+  - Reter a lã até que alguém traga os grãos.
+    Efeitos diretos: +2 Gold, −1 Honra.
+
+29. Os cadernos do agrimensor [cadernos_agrimensor] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um agrimensor deixa três cadernos no salão antes de seguir a estrada. As anotações indicam quais terrenos alagam primeiro e onde a pedra aparece perto da superfície.
+Informação: Comprar a informação, confirmar os limites com os moradores ou devolver os cadernos afeta as próximas obras.
+Escolhas:
+  - Pagar pelos mapas dos terrenos · 3 Gold.
+    Efeitos diretos: −3 Gold, +1 Escudo, +2 Honra.
+  - Comparar as anotações com quem trabalha nos campos.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Devolver tudo antes que a tinta se apague.
+    Efeitos diretos: +1 Gold, +1 Honra.
+
+30. O mercado de ferramentas quebradas [mercado_ferramentas_quebradas] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma banca vende ferramentas com dentes partidos, cabos rachados e ferrugem nos encaixes. O vendedor garante que cada peça ainda tem algum uso.
+Informação: Comprar o lote, testar uma ferramenta ou fechar a banca decide se a sucata volta à oficina.
+Escolhas:
+  - Comprar as peças que podem ser consertadas · 3 Gold.
+    Efeitos diretos: −3 Gold, +1 Ataque, +1 Honra.
+  - Testar uma ferramenta antes de pagar.
+    Efeitos diretos: −1 Gold, +1 Escudo, +1 Honra.
+  - Mandar a guarda retirar a banca.
+    Efeitos diretos: +2 Gold, −1 Honra.
+
+31. A caixa de amostras [caixa_de_amostras] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um boticário deixa uma caixa com frascos sem rótulo. Pede que a ervateira anote qualquer reação, mas não explica de onde vieram as misturas.
+Informação: Abrir uma amostra, cobrar pelo registro ou devolver a caixa fechada evita que o conteúdo circule sem controle.
+Escolhas:
+  - Pedir à ervateira que teste uma gota.
+    Efeitos diretos: +9 Vida, +1 Honra.
+  - Cobrar pelo trabalho de catalogar os frascos · 2 Gold.
+    Efeitos diretos: +2 Gold, +1 Honra.
+  - Devolver a caixa sem abrir.
+    Efeitos diretos: +2 Honra.
+
+32. O leilão de cordas [leilao_de_cordas] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma embarcação vende cordas antes de partir. Há peças grossas para puxar carroças e cordas finas usadas para içar sacos.
+Informação: Comprar para as obras custa Gold; dividir o lote com outro comprador reduz o que fica para a vila.
+Escolhas:
+  - Comprar o lote grosso para as obras · 4 Gold.
+    Efeitos diretos: −4 Gold, +1 Escudo, +2 Honra.
+  - Dividir o preço e o lote com o barqueiro.
+    Efeitos diretos: −2 Gold, +1 Honra.
+  - Esperar por uma oferta na próxima viagem.
+    Efeitos diretos: +2 Gold, −1 Honra.
+
+33. A sombra no campanário [sombra_campanario] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Ao meio-dia, uma sombra cruza o campanário enquanto o sino permanece imóvel. Quando os vigias olham de novo, a torre está vazia.
+Informação: Subir, fechar a torre ou esperar pelo fim da tarde custa tempo de guarda.
+Escolhas:
+  - Subir com dois vigias e uma lanterna.
+    Efeitos diretos: −3 Vida, +2 Honra.
+  - Trancar a torre até que o padre examine o sino.
+    Efeitos diretos: +1 Escudo, +1 Honra.
+  - Esperar até que o sol deixe a parede.
+    Efeitos diretos: +1 Gold, −1 Honra.
+
+34. O sal que não derrete [sal_nao_derrete] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Um pote fica submerso por uma noite, mas o sal lá dentro permanece seco e solto. O oleiro diz que a tampa estava fechada; a água ainda escorre pelas laterais.
+Informação: Entregar o pote a um estudioso, vender a curiosidade ou descartá-lo evita transformar o caso em promessa de cura.
+Escolhas:
+  - Mandar o pote ao boticário para exame · 1 Gold.
+    Efeitos diretos: −1 Gold, +2 Honra, +2 Vida.
+  - Vender o pote como curiosidade na feira.
+    Efeitos diretos: +4 Gold, −2 Honra.
+  - Jogar o sal fora e quebrar o pote.
+    Efeitos diretos: +1 Honra.
+
+35. O quarto sem pegadas [quarto_sem_pegadas] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma hospedaria amanhece com a porta trancada por dentro. O pó do chão não guarda marcas, embora a cama esteja desfeita e a bacia ainda esteja morna.
+Informação: Revistar o quarto com testemunhas, chamar a guarda ou não espalhar o caso muda o que a vila acredita ter acontecido.
+Escolhas:
+  - Revistar o quarto com a estalajadeira presente.
+    Efeitos diretos: −2 Vida, +2 Honra.
+  - Deixar a guarda fechar a hospedaria por uma noite.
+    Efeitos diretos: −2 Gold, +1 Escudo, +1 Honra.
+  - Pedir que ninguém transforme o caso em rumor.
+    Efeitos diretos: −1 Habitantes, −1 Honra.
+
+36. A chuva sobre o poço seco [chuva_poco_seco] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma chuva estreita cai sobre o poço seco enquanto o restante da praça continua coberto de poeira. Pela manhã, há água até a primeira pedra.
+Informação: Recolher a água, pedir um exame ou cobrir o poço evita que a curiosidade vire uma fila perigosa.
+Escolhas:
+  - Recolher a água em recipientes limpos.
+    Efeitos diretos: +8 Vida, +2 Honra.
+  - Pedir que a ervateira examine uma amostra · 1 Gold.
+    Efeitos diretos: −1 Gold, +5 Vida, +1 Honra.
+  - Cobrir o poço até que a nascente volte.
+    Efeitos diretos: +1 Gold, −1 Honra.
+
+37. As moedas viradas [moedas_viradas] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: As moedas do cofre aparecem todas com o mesmo lado para cima. O administrador afirma que contou duas vezes e não tocou na caixa desde a noite anterior.
+Informação: Conferir o cofre, procurar o cunhador ou fechar a caixa evita que o sinal vire uma regra de mercado.
+Escolhas:
+  - Contar o cofre peça por peça.
+    Efeitos diretos: +2 Gold, +1 Honra.
+  - Chamar quem cunhou as peças.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Fechar o cofre e aceitar o ocorrido.
+    Efeitos diretos: +3 Gold, −1 Honra.
+
+38. A janela acesa na casa vazia [janela_casa_vazia] — peso 1.8; uma vez por run.
+Requisitos: nenhum.
+Cena: Uma janela mostra luz em três noites seguidas, embora a casa esteja fechada desde a partida de seus antigos moradores. Ninguém ouviu passos no caminho.
+Informação: Entrar com testemunhas, vender a propriedade ou manter a porta fechada encerra a vigília por motivos diferentes.
+Escolhas:
+  - Entrar com a guarda e conferir os cômodos.
+    Efeitos diretos: −2 Vida, +2 Honra.
+  - Vender a casa antes que a história se espalhe.
+    Efeitos diretos: +6 Gold, −2 Honra.
+  - Manter a porta fechada e dobrar a ronda.
+    Efeitos diretos: +1 Escudo, +1 Honra.
+
+39. Uma carta na encadernação [carta_na_encadernacao] — peso 0.75; uma vez por run.
+Requisitos: rodada ≥ 6; sem as marcas: carta_navegacao_encerrada.
+Cena: Um livro comprado na feira esconde uma carta de navegação dobrada entre as capas. O desenho mostra um vau que não aparece nos mapas recentes.
+Informação: Guardar a carta e procurar o autor abre uma rota; vender o papel encerra a busca.
+Escolhas:
+  - Guardar a carta e procurar o vau.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Vender o papel a um colecionador.
+    Efeitos diretos: +4 Gold, −1 Honra.
+
+40. As marcas no vau [marcas_no_vau] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: carta_navegacao_etapa2; sem as marcas: carta_navegacao_encerrada.
+Cena: A carta leva a um vau baixo, riscado por marcas recentes. A água cobre os tornozelos, mas os sinais continuam pela margem em direção ao bosque.
+Informação: Medir a travessia, pagar aos barqueiros ou seguir as marcas decide até onde a vila vai atrás do mapa.
+Escolhas:
+  - Medir o vau antes de atravessar.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Pagar aos barqueiros para continuar.
+    Efeitos diretos: −3 Gold, +1 Habitantes, +1 Honra.
+  - Deixar a carta no posto da estrada.
+    Efeitos diretos: +1 Honra.
+
+41. O posto de pedra [posto_de_pedra] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: carta_navegacao_etapa3; sem as marcas: carta_navegacao_encerrada.
+Cena: Entre as árvores surge um antigo posto de cobrança. As pedras trazem marcas de rodas e um desenho de barco, embora o rio tenha mudado de curso.
+Informação: Registrar os sinais, retirar os blocos ou procurar uma passagem por baixo da construção altera a rota.
+Escolhas:
+  - Copiar as marcas no mapa.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Levar os blocos para uma obra da vila.
+    Efeitos diretos: +5 Gold, −2 Honra.
+  - Procurar uma passagem abaixo do posto.
+    Efeitos diretos: −2 Vida, +1 Honra.
+
+42. O destino da carta [destino_da_carta] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: carta_navegacao_etapa4; sem as marcas: carta_navegacao_encerrada.
+Cena: A última marca aponta para um abrigo de pedra escondido entre as raízes. Há objetos de viagem no chão, mas nenhuma inscrição sobre quem os deixou.
+Informação: Levar os objetos, deixar uma oferta ou fechar o abrigo decide quem poderá encontrá-lo depois.
+Escolhas:
+  - Levar os objetos que ainda servem.
+    Efeitos diretos: +5 Gold, +1 Escudo, −1 Honra.
+  - Deixar provisões para a próxima pessoa que passar.
+    Efeitos diretos: −2 Gold, +3 Honra.
+  - Fechar a entrada e apagar o caminho.
+    Efeitos diretos: +2 Honra.
+
+43. Cacos sob a cinza [cacos_sob_cinza] — peso 0.75; uma vez por run.
+Requisitos: rodada ≥ 6; sem as marcas: oficio_vidreiro_encerrada.
+Cena: Uma família encontra vidro colorido entre as cinzas de um forno abandonado. As bordas estão inteiras; o forno, rachado até a base.
+Informação: Recolher as peças, chamar um vidreiro ou deixar o terreno fechado define se a oficina reabre.
+Escolhas:
+  - Recolher os cacos e levar à oficina.
+    Efeitos diretos: −1 Gold, +1 Honra.
+  - Pedir ao vidreiro que examine o forno.
+    Efeitos diretos: −2 Gold, +1 Escudo, +2 Honra.
+  - Fechar o terreno e impedir a extração.
+    Efeitos diretos: +1 Honra.
+
+44. A receita incompleta [receita_incompleta] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: oficio_vidreiro_etapa2; sem as marcas: oficio_vidreiro_encerrada.
+Cena: O vidreiro encontra a receita sem sua última medida. Os antigos aprendizes lembram de um forno de areia, mas discordam sobre a proporção do material.
+Informação: Buscar os aprendizes, testar uma mistura ou vender o caderno encerra a dúvida por caminhos diferentes.
+Escolhas:
+  - Procurar os antigos aprendizes.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Pagar por uma fornada de teste · 3 Gold.
+    Efeitos diretos: −3 Gold, −2 Vida, +1 Honra.
+  - Vender o caderno a um colecionador.
+    Efeitos diretos: +4 Gold, −2 Honra.
+
+45. O forno de areia [forno_de_areia] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: oficio_vidreiro_etapa3; sem as marcas: oficio_vidreiro_encerrada.
+Cena: Os aprendizes localizam areia fina fora das muralhas. O forno precisa de combustível e de uma parede nova antes de suportar outra fornada.
+Informação: Financiar o reparo, dividir o custo ou abandonar o trabalho decide se a oficina continua.
+Escolhas:
+  - Pagar combustível e reparos · 4 Gold.
+    Efeitos diretos: −4 Gold, +2 Honra.
+  - Dividir o custo entre a oficina e a vila.
+    Efeitos diretos: −2 Gold, +1 Habitantes, +2 Honra.
+  - Desmontar a parede e guardar os tijolos.
+    Efeitos diretos: +3 Gold, −1 Honra.
+
+46. A janela que guarda calor [janela_guarda_calor] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: oficio_vidreiro_etapa4; sem as marcas: oficio_vidreiro_encerrada.
+Cena: O primeiro lote pode fechar as janelas da enfermaria ou ser vendido para pagar o forno. O vidreiro põe as placas sobre a mesa e espera sua decisão.
+Informação: Usar o vidro na vila, reservar parte ou vender toda a produção encerra a oficina por esta estação.
+Escolhas:
+  - Fechar as janelas da enfermaria.
+    Efeitos diretos: +10 Vida, +3 Honra, −1 Gold.
+  - Reservar metade para o salão comunal.
+    Efeitos diretos: +1 Escudo, +2 Honra.
+  - Vender toda a fornada na feira.
+    Efeitos diretos: +7 Gold, −2 Honra.
+
+47. Frutos no terreno baldio [frutos_terreno_baldio] — peso 0.75; uma vez por run.
+Requisitos: rodada ≥ 6; sem as marcas: pomar_sem_placa_encerrada.
+Cena: Uma árvore carregada cresce num terreno que não aparece nos registros. Os frutos caem antes de amadurecer, e ninguém sabe quem tem direito de colhê-los.
+Informação: Colher agora, proteger a árvore ou consultar os registros decide quem cuida do terreno.
+Escolhas:
+  - Colher o que já caiu e repartir.
+    Efeitos diretos: +2 Habitantes, +2 Honra.
+  - Proteger a árvore até a próxima estação.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Vender o direito de colher ao primeiro comprador.
+    Efeitos diretos: +5 Gold, −1 Habitantes, −2 Honra.
+
+48. O enxerto recusado [enxerto_recusado] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: pomar_sem_placa_etapa2; sem as marcas: pomar_sem_placa_encerrada.
+Cena: Um jardineiro oferece enxertos, mas diz que a árvore pertence à sua família. O registro da vila não confirma nem desmente a história.
+Informação: Negociar o plantio, aceitar poucas mudas ou encerrar o acordo define o alcance do pomar.
+Escolhas:
+  - Negociar o direito de plantar no terreno.
+    Efeitos diretos: −2 Gold, +2 Honra.
+  - Aceitar apenas três mudas.
+    Efeitos diretos: +1 Habitantes, +1 Honra.
+  - Encerrar a conversa até que haja um registro.
+    Efeitos diretos: +1 Honra.
+
+49. As raízes sob a parede [raizes_sob_parede] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: pomar_sem_placa_etapa3; sem as marcas: pomar_sem_placa_encerrada.
+Cena: As raízes deslocam a parede de um quintal. Uma pedra caiu sobre o caminho; os moradores querem saber se devem cortar a árvore antes que ceda mais.
+Informação: Podar parte das raízes, reforçar a parede ou transferir a árvore tem custos distintos.
+Escolhas:
+  - Podar as raízes que empurram a parede.
+    Efeitos diretos: −1 Habitantes, +2 Honra.
+  - Reforçar a parede com pedras do depósito · 3 Gold.
+    Efeitos diretos: −3 Gold, +1 Escudo, +2 Honra.
+  - Transferir a árvore para o terreno comum.
+    Efeitos diretos: −2 Gold, +1 Honra.
+
+50. A primeira cesta do pomar [primeira_cesta_pomar] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: pomar_sem_placa_etapa4; sem as marcas: pomar_sem_placa_encerrada.
+Cena: O pomar entrega a primeira cesta inteira. Os frutos amadureceram ao mesmo tempo, e as famílias pedem que a colheita não desapareça no mercado antes do jantar.
+Informação: Repartir, guardar sementes ou vender a cesta fecha o primeiro ciclo do pomar.
+Escolhas:
+  - Dividir os frutos entre as casas.
+    Efeitos diretos: +3 Habitantes, +3 Honra.
+  - Guardar sementes para ampliar o pomar.
+    Efeitos diretos: +5 Vida, +2 Honra.
+  - Vender a cesta para financiar o cuidado das árvores.
+    Efeitos diretos: +5 Gold, +1 Honra.
+
+51. Uma página no fundo do baú [pagina_fundo_bau] — peso 0.75; uma vez por run.
+Requisitos: rodada ≥ 8; sem as marcas: livro_dividas_encerrada.
+Cena: Um inventário antigo lista dívidas que ninguém reconhece. A página está dobrada no fundo de um baú, ao lado de contas já pagas.
+Informação: Comparar assinaturas, rasgar o registro ou chamar os nomes ainda vivos abre a disputa.
+Escolhas:
+  - Comparar as assinaturas com os registros da vila.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Rasgar a página e encerrar a cobrança.
+    Efeitos diretos: +1 Honra.
+  - Convocar quem ainda aparece na lista.
+    Efeitos diretos: +1 Habitantes, +1 Honra.
+
+52. O herdeiro do cobrador [herdeiro_cobrador] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: livro_dividas_etapa2; sem as marcas: livro_dividas_encerrada.
+Cena: Um visitante afirma que herdou o direito de cobrar aquelas dívidas. Traz um selo parecido com o da página, mas não sabe quem escreveu os valores.
+Informação: Pedir prova, negociar uma quitação ou expulsar o cobrador mantém a página no centro da disputa.
+Escolhas:
+  - Pedir provas antes de aceitar qualquer cobrança.
+    Efeitos diretos: +2 Honra.
+  - Oferecer uma quantia para encerrar o assunto · 4 Gold.
+    Efeitos diretos: −4 Gold, +1 Honra.
+  - Expulsar o visitante do salão.
+    Efeitos diretos: −1 Habitantes, −2 Honra.
+
+53. As testemunhas da ponte [testemunhas_ponte] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: livro_dividas_etapa3; sem as marcas: livro_dividas_encerrada.
+Cena: Moradores lembram que parte do dinheiro pagou uma ponte que já não existe. Um antigo registro do pedágio confirma o nome do cobrador.
+Informação: Investigar a ponte, ouvir as famílias ou reconhecer o documento como inválido separa a dívida do que ela construiu.
+Escolhas:
+  - Conferir os registros da antiga ponte.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Ouvir as famílias antes de decidir.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Declarar o documento inválido.
+    Efeitos diretos: +1 Honra.
+
+54. A conta encerrada [conta_encerrada] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: livro_dividas_etapa4; sem as marcas: livro_dividas_encerrada.
+Cena: Os registros mostram quem lucrou com a cobrança. O antigo pedágio pagou uma obra que sumiu, mas parte do dinheiro ficou com quem a administrava.
+Informação: Publicar os nomes, negociar reparação ou destruir os papéis termina a cobrança.
+Escolhas:
+  - Publicar os nomes e devolver o que restou.
+    Efeitos diretos: +4 Gold, +3 Honra.
+  - Negociar reparação com os herdeiros.
+    Efeitos diretos: +1 Escudo, +2 Honra.
+  - Queimar os registros e encerrar o assunto.
+    Efeitos diretos: +2 Gold, −1 Honra.
+    Itens: tomo_do_esquecimento.
+
+55. A lanterna na colina [lanterna_colina] — peso 0.75; uma vez por run.
+Requisitos: rodada ≥ 8; sem as marcas: posto_sinais_encerrada.
+Cena: Uma luz aparece numa colina sem casas. Não pisca nem se move, mesmo quando o vento apaga as lanternas da estrada.
+Informação: Subir, responder com um sinal ou esperar a manhã define como a vila trata a luz.
+Escolhas:
+  - Subir a colina com uma lanterna própria.
+    Efeitos diretos: −2 Vida, +2 Honra.
+  - Responder com um sinal do portão.
+    Efeitos diretos: −1 Gold, +1 Honra.
+  - Esperar até o amanhecer.
+    Efeitos diretos: +1 Honra.
+
+56. Cinzas no abrigo [cinzas_no_abrigo] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: posto_sinais_etapa2; sem as marcas: posto_sinais_encerrada.
+Cena: O abrigo guarda cinzas recentes e marcas de uma vigia antiga. Há lenha empilhada, mas nenhuma ferramenta para reacender o fogo.
+Informação: Procurar o responsável, reconstruir a lareira ou usar o lugar como depósito dá outro destino ao posto.
+Escolhas:
+  - Procurar quem acendeu a lareira.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Reparar a lareira com pedra do muro · 2 Gold.
+    Efeitos diretos: −2 Gold, +4 Vida, +1 Honra.
+  - Usar o abrigo como depósito da guarda.
+    Efeitos diretos: +1 Escudo, +1 Honra.
+
+57. O código dos panos [codigo_dos_panos] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: posto_sinais_etapa3; sem as marcas: posto_sinais_encerrada.
+Cena: Faixas de pano aparecem em três pontos do vale. As cores se repetem numa ordem que o vigia diz ter visto antes, mas ninguém lembra quando.
+Informação: Decifrar o código, trocar as faixas por sinais da vila ou ignorar o recado define a rota do posto.
+Escolhas:
+  - Comparar as faixas com as marcas do mapa.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Substituir as faixas pelos sinais da guarda.
+    Efeitos diretos: +1 Escudo, +1 Honra.
+  - Retirar as faixas e não deixar resposta.
+    Efeitos diretos: +2 Gold, −1 Honra.
+
+58. O aviso recebido [aviso_recebido] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: posto_sinais_etapa4; sem as marcas: posto_sinais_encerrada.
+Cena: A sequência de sinais anuncia perigo na estrada e uma caravana atrasada. O último vigia pede ajuda para receber os viajantes antes que escureça.
+Informação: Organizar a guarda, preparar abrigo ou cobrar por uma passagem segura encerra o posto de sinais.
+Escolhas:
+  - Enviar a guarda para proteger a estrada.
+    Efeitos diretos: −2 Gold, +2 Habitantes, +3 Honra.
+  - Abrir o abrigo e dividir a lenha.
+    Efeitos diretos: +6 Vida, +2 Honra, −1 Gold.
+  - Cobrar pela passagem protegida.
+    Efeitos diretos: +5 Gold, −2 Honra.
+
+59. O desenho no barril [desenho_no_barril] — peso 0.75; uma vez por run.
+Requisitos: rodada ≥ 8; sem as marcas: aprendizes_cisterna_encerrada.
+Cena: Aprendizes encontram o desenho de uma cisterna no fundo de um barril comprado na feira. Uma marca no canto indica o terreno perto da muralha leste.
+Informação: Conferir o terreno, pagar um pedreiro ou descartar o desenho decide se a obra começa.
+Escolhas:
+  - Conferir o terreno antes de cavar.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Pedir a um pedreiro que examine o plano · 2 Gold.
+    Efeitos diretos: −2 Gold, +1 Escudo, +1 Honra.
+  - Descartar o plano e usar o barril no depósito.
+    Efeitos diretos: +2 Gold, −1 Honra.
+
+60. A camada de argila [camada_de_argila] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: aprendizes_cisterna_etapa2; sem as marcas: aprendizes_cisterna_encerrada.
+Cena: A escavação encontra uma camada de argila que pode vedar a água. O solo cede em dois pontos, e a margem da vala já está inclinada.
+Informação: Reforçar, mudar o local ou interromper o trabalho evita que os aprendizes fiquem sob a terra.
+Escolhas:
+  - Reforçar a vala com pedras · 3 Gold.
+    Efeitos diretos: −3 Gold, +2 Honra.
+  - Mudar a escavação para o terreno alto.
+    Efeitos diretos: −1 Habitantes, +1 Honra.
+  - Interromper a obra antes de outro deslizamento.
+    Efeitos diretos: +3 Vida, +2 Honra.
+
+61. A água que sobe devagar [agua_sobe_devagar] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: aprendizes_cisterna_etapa3; sem as marcas: aprendizes_cisterna_encerrada.
+Cena: A cisterna acumula água aos poucos. O fundo ainda tem barro, e os aprendizes discordam sobre quanto tempo falta para a primeira retirada.
+Informação: Reservar para a enfermaria, testar a qualidade ou ajustar o canal impede que a pressa contamine o poço.
+Escolhas:
+  - Reservar a água para a enfermaria.
+    Efeitos diretos: +8 Vida, +2 Honra.
+  - Testar a água antes de abrir a torneira · 1 Gold.
+    Efeitos diretos: −1 Gold, +1 Escudo, +2 Honra.
+  - Deixar os aprendizes ajustarem o canal.
+    Efeitos diretos: +1 Habitantes, +1 Honra.
+
+62. A primeira distribuição [primeira_distribuicao] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: aprendizes_cisterna_etapa4; sem as marcas: aprendizes_cisterna_encerrada.
+Cena: A cisterna está limpa e pode receber uma fila. As casas pedem horários; a enfermaria quer uma reserva para os dias em que o poço baixar.
+Informação: A construção permanece na vila. Distribuir por ordem, separar uma reserva ou deixar a retirada livre encerra a obra.
+Escolhas:
+  - Abrir a cisterna e marcar uma fila pública.
+    Efeitos diretos: −3 Gold, +2 Habitantes, +3 Honra.
+    Construções: cisterna_comunitaria.
+  - Separar metade para a enfermaria.
+    Efeitos diretos: −2 Gold, +5 Vida, +2 Honra.
+    Construções: cisterna_comunitaria.
+  - Deixar cada casa retirar o que puder.
+    Efeitos diretos: +1 Habitantes, −1 Honra.
+
+63. O tear desmontado [tear_desmontado] — peso 0.75; uma vez por run.
+Requisitos: rodada ≥ 8; sem as marcas: caravana_teceles_encerrada.
+Cena: Uma caravana deixa um tear desmontado ao perceber que perdeu uma roda. As peças ocupam o pátio, onde a vila guarda tábuas para o inverno.
+Informação: Guardar o tear, ajudar a procurar a peça ou cobrar pelo espaço ocupado define a passagem da caravana.
+Escolhas:
+  - Guardar as peças no salão coberto.
+    Efeitos diretos: −1 Gold, +1 Honra.
+  - Ajudar a procurar a roda perdida.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Cobrar pelo espaço ocupado no pátio.
+    Efeitos diretos: +3 Gold, −1 Honra.
+
+64. O fio de três cores [fio_tres_cores] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: caravana_teceles_etapa2; sem as marcas: caravana_teceles_encerrada.
+Cena: Com a roda recuperada, os tecelões propõem tingir fios com plantas locais. As cores ficam diferentes a cada fervura e a oficina não quer desperdiçar o estoque.
+Informação: Fornecer material, cobrar pelo pátio ou pedir parte do tecido define o acordo com a caravana.
+Escolhas:
+  - Fornecer plantas e lenha para o teste.
+    Efeitos diretos: −2 Gold, +2 Honra.
+  - Cobrar pelo uso do pátio.
+    Efeitos diretos: +3 Gold, −1 Honra.
+  - Pedir parte do tecido em troca dos materiais.
+    Efeitos diretos: +1 Escudo, +1 Honra.
+
+65. O padrão emprestado [padrao_emprestado] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: caravana_teceles_etapa3; sem as marcas: caravana_teceles_encerrada.
+Cena: Um desenho repetido no tecido pertence a uma comunidade distante. A caravana diz que aprendeu o padrão num mercado, mas não sabe quem o criou.
+Informação: Pedir autorização, criar um padrão local ou manter o desenho sem acordo muda o próximo negócio.
+Escolhas:
+  - Pedir que a caravana procure a comunidade autora.
+    Efeitos diretos: −1 Gold, +2 Honra.
+  - Criar um desenho próprio para a vila.
+    Efeitos diretos: +1 Habitantes, +2 Honra.
+  - Continuar usando o desenho sem buscar autorização.
+    Efeitos diretos: +4 Gold, −3 Honra, −1 Habitantes.
+
+66. O último rolo [ultimo_rolo] — peso 0.75; uma vez por run.
+Requisitos: marcas da run: caravana_teceles_etapa4; sem as marcas: caravana_teceles_encerrada.
+Cena: Antes de partir, a caravana oferece um rolo de tecido como pagamento. A enfermaria precisa de panos limpos; o mercado pagaria Gold por um lote inteiro.
+Informação: A construção do entreposto só está disponível se a vila não usou o padrão sem autorização.
+Escolhas:
+  - Entregar o rolo à enfermaria.
+    Efeitos diretos: +8 Vida, +3 Honra.
+  - Vender o rolo no mercado.
+    Efeitos diretos: +6 Gold, +1 Honra.
+  - Abrir um entreposto para a próxima caravana.
+    Efeitos diretos: −3 Gold, +2 Honra.
+    Construções: entreposto_comercial.
+    Requisito da opção: sem as marcas: tecelagem_padrao_sem_acordo.
+
+67. O cambista sem balança [cambista_sem_balanca] — peso 0.55; uma vez por run.
+Requisitos: rodada ≥ 8; sem as marcas: olhos_mercurio_encerrada.
+Cena: Na feira, um homem pesa moedas na palma aberta. Antes de você falar, calcula o custo de mandar uma carroça pela estrada do norte e aponta para a antiga casa de contas.
+Informação: Segui-lo abre uma sequência rara. Entregá-lo à guarda encerra a conversa.
+Escolhas:
+  - Segui-lo até a casa de contas.
+    Efeitos diretos: −1 Gold, +1 Honra.
+  - Entregá-lo à guarda.
+    Efeitos diretos: +2 Honra.
+
+68. Vidro sob a pálpebra [vidro_sob_palpebra] — peso 0.65; uma vez por run.
+Requisitos: marcas da run: olhos_mercurio_etapa2; sem as marcas: olhos_mercurio_encerrada.
+Cena: Na casa de contas, os livros estão cheios de números riscados e manchas antigas. O cambista mostra uma lente fina de mercúrio: diz que ela revela o preço em Gold e Vida escondido em cada decisão.
+Informação: Aceitar ativa Olhos de Mercúrio. A lente custa Gold e Vida; recusá-la encerra a sequência.
+Escolhas:
+  - Aceitar a lente e fixá-la sob a pálpebra.
+    Efeitos diretos: −3 Gold, −5 Vida.
+  - Recusar a lente e deixar a casa de contas.
+    Efeitos diretos: +1 Honra.
+
+69. A primeira conta [primeira_conta] — peso 0.65; uma vez por run.
+Requisitos: marcas da run: olhos_mercurio_ativo, olhos_mercurio_etapa3; sem as marcas: olhos_mercurio_encerrada.
+Cena: Uma carroça tombou na estrada. O mercador ferido oferece uma poção antes que você atravesse os destroços; a lente mostra o valor que cada gesto cobra.
+Informação: Olhos de Mercúrio exibe Gold e Vida em cada resultado, inclusive em testes de sorte.
+Escolhas:
+  - Comprar a poção · 4 Gold.
+    Efeitos diretos: −4 Gold, +12 Vida, +1 Honra.
+  - Abrir a caixa caída sem pagar.
+    Efeitos diretos: nenhum.
+    Teste de sorte (55%): sucesso — +3 Gold, +6 Vida; falha — −2 Gold, −8 Vida.
+  - Guardar a lente e seguir sem a poção.
+    Efeitos diretos: −5 Vida.
+
+70. O peso da visão [peso_da_visao] — peso 0.8; uma vez por run.
+Requisitos: marcas da run: olhos_mercurio_ativo, olhos_mercurio_etapa4; sem as marcas: olhos_mercurio_encerrada; intervalo: {"olhosMercurioInicio":16}.
+Cena: Dezesseis rodadas depois, a lente começa a arder. Gotas de mercúrio escorrem pelo rosto quando você tenta dormir; a ervateira conhece um modo de removê-la.
+Informação: Retirar custa Gold, mas devolve forças. Manter a lente conserva a previsão das escolhas.
+Escolhas:
+  - Pedir à ervateira que retire a lente · 2 Gold.
+    Efeitos diretos: −2 Gold, +5 Vida, +2 Honra.
+  - Manter a lente e suportar a dor.
+    Efeitos diretos: −5 Vida, −1 Honra.
+
+71. O olho no reboco [olho_no_reboco] — peso 0.55; uma vez por run.
+Requisitos: rodada ≥ 8; sem as marcas: olho_mil_nomes_encerrado.
+Cena: Ao derrubar uma parede de uma casa vazia, os pedreiros encontram um olho dourado preso entre as pedras. A pupila se move quando alguém fala; do outro lado, uma voz dá o nome de uma família que ainda não chegou.
+Informação: Levar a relíquia à ervateira inicia a investigação. Cobri-la com argamassa encerra o assunto.
+Escolhas:
+  - Levar a relíquia à ervateira.
+    Efeitos diretos: −1 Gold, +1 Honra.
+  - Cobrir o olho com argamassa e fechar a parede.
+    Efeitos diretos: −2 Gold, +2 Honra.
+
+72. O Olho dos Mil Nomes [olho_dos_mil_nomes] — peso 0.65; uma vez por run.
+Requisitos: marcas da run: olho_mil_nomes_etapa2; sem as marcas: olho_mil_nomes_encerrado.
+Cena: A ervateira não consegue separar a relíquia do reboco. Quando você a toca, o olho dourado se fixa sobre sua testa. As vozes deixam de vir da parede; agora anunciam quantas pessoas uma escolha pode trazer à vila.
+Informação: Aceitar ativa o Olho dos Mil Nomes. Ele mostra ganhos de Habitantes, nunca a quantidade perdida.
+Escolhas:
+  - Aceitar a transformação.
+    Efeitos diretos: −2 Gold, −5 Vida.
+  - Arrancar a relíquia e enterrá-la.
+    Efeitos diretos: +1 Honra.
+
+73. A fila no portão [fila_no_portao] — peso 0.65; uma vez por run.
+Requisitos: marcas da run: olho_mil_nomes_ativo, olho_mil_nomes_etapa3; sem as marcas: olho_mil_nomes_encerrado.
+Cena: Uma família chega depois de perder a casa numa tempestade. O Olho conta quatro vozes entre os viajantes e diz que todas podem ficar se a vila abrir espaço.
+Informação: A transformação mostra apenas ganhos positivos de Habitantes; uma perda aparece como “sem ganho de Habitantes”.
+Escolhas:
+  - Acolher a família e abrir uma casa vazia.
+    Efeitos diretos: +4 Habitantes, −3 Gold, +2 Honra.
+  - Mandar a família seguir para outra vila.
+    Efeitos diretos: −2 Habitantes, −2 Honra.
+  - Pedir que o Olho se cale e recusar sua orientação.
+    Efeitos diretos: −2 Vida.
+
+74. O olho pede silêncio [olho_pede_silencio] — peso 0.8; uma vez por run.
+Requisitos: marcas da run: olho_mil_nomes_ativo, olho_mil_nomes_etapa4; sem as marcas: olho_mil_nomes_encerrado; intervalo: {"olhoMilNomesInicio":16}.
+Cena: Dezesseis rodadas depois, as vozes continuam mesmo quando ninguém chega ao portão. A ervateira encontra um ritual capaz de soltar o Olho, mas a escolha final é sua.
+Informação: Remover a relíquia custa Gold, mas devolve forças. Aceitá-la conserva as previsões de Habitantes.
+Escolhas:
+  - Remover a relíquia com o ritual da ervateira · 2 Gold.
+    Efeitos diretos: −2 Gold, +5 Vida, +2 Honra.
+  - Aceitar o Olho como parte de você.
+    Efeitos diretos: −5 Vida, −1 Honra.
