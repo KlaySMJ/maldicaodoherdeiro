@@ -7,6 +7,7 @@ Consulte este arquivo antes de qualquer geração, edição ou avaliação de ar
 - RPG medieval narrativo; atmosfera sombria, fundo do jogo preto e artes sem moldura desenhada dentro da imagem.
 - Gravura medieval em nanquim: contornos feitos à mão e de espessuras variadas, hachuras para volume e rostos expressivos, com caricatura sutil. Evitar realismo fotográfico, anime, cartoon infantil, pixel art e 3D.
 - Paleta de preto e marfim envelhecido, com detalhes pequenos em dourado envelhecido quando fizer sentido. Evitar branco puro e grandes áreas frias; não adicionar cores vibrantes sem pedido.
+- Maus Presságios têm uma exceção de paleta aprovada pelo usuário: suas artes podem destoar das demais cartas e usar vermelho para demonstrar perigo. O vermelho pode ocupar áreas maiores, além de pequenos detalhes; a tonalidade da vila não limita esse conjunto. Preservar o traço de gravura medieval e a atmosfera sombria.
 - Ao editar uma personagem existente, use a própria arte como referência de identidade. Preserve rosto, idade, cabelo, expressão e silhueta; enriqueça roupa, materiais, acessórios e hachuras sem trocar sua aparência.
 - A arte deve manter fundo transparente quando o formato e o uso permitirem. O fundo preto pertence à interface; não desenhe uma placa ou moldura na ilustração.
 - Artes de cartas de evento podem ser convertidas para WebP com qualidade 90 e máximo de 800 px no maior lado, preservando proporções, transparência e cor. Essa mudança é apenas de formato; não redesenhar nem alterar a tonalidade. Manter PNGs compartilhados com usos fora das cartas e os retratos de herdeiro requeridos pelo caminho dinâmico da interface.
@@ -15,7 +16,8 @@ Consulte este arquivo antes de qualquer geração, edição ou avaliação de ar
 
 | Categoria | Referência principal | Uso |
 | --- | --- | --- |
-| Tonalidade das cartas de evento | `assets/vila.png` | Padrão de marfim envelhecido, sombras quentes e tinta escura para todas as artes de evento. A luz da referência fica aproximadamente em `#D6CAB6`; a própria imagem da vila é a referência final definida pelo usuário. |
+| Tonalidade das cartas de evento | `assets/vila.png` | Padrão de marfim envelhecido, sombras quentes e tinta escura para as artes de evento, com exceção da paleta própria dos Maus Presságios. A luz da referência fica aproximadamente em `#D6CAB6`; a própria imagem da vila é a referência final definida pelo usuário para as demais cartas. |
+| Maus Presságios | Direção aprovada pelo usuário: vermelho para demonstrar perigo | Artes podem destoar das demais cartas, com vermelho em áreas maiores e traço de gravura medieval. A paleta da vila não prevalece neste conjunto. |
 | Cenas de evento e objetos | A carta existente mais próxima do tema; `assets/vila.png`, `assets/caixas.png`, `assets/forja.png` e `assets/ervas.png` são referências para cenas genéricas | Preservar leitura simples da cena e a paleta da vila. Evitar detalhes incidentais que desviem o foco. |
 | Riqueza de gravura para eventos especiais | `assets/eventos-especiais/norte-odin.png`, `norte-freya.png` e `norte-loki.png` | Referência de hachuras, personalidade, silhueta e pequenos acentos dourados. Aproveitar a técnica; não copiar símbolos ou roupas sem relação com o evento. |
 | Retratos de personagens de evento | O retrato atual da mesma personagem; para acabamento, comparar `assets/eventos-pessoas/ferreiro.png`, `padre.png`, `bruxa.png` e `viuva-do-moleiro.png` | Manter a identidade do rosto e acrescentar detalhes próprios ao ofício, roupa e história. Não reutilizar o mesmo figurino ou expressão para todos. |
@@ -25,6 +27,8 @@ Consulte este arquivo antes de qualquer geração, edição ou avaliação de ar
 Algumas artes PNG de evento têm correção de cor na exibição por meio da classe `imagem-evento--tom-vila`, listada em `js/ui.js` e definida em `index.html`. Use-a quando uma nova arte ficar mais branca ou fria que `assets/vila.png`; não aplique a correção às imagens que já estiverem na tonalidade de referência.
 
 ## Decisões já definidas
+
+- Freyr segue a nova referência enviada pelo usuário: rosto anguloso, cabelo comprido solto, barba longa com duas tranças, coroa de folhas, torso à mostra e manto. O corpo deve ser um pouco mais esguio, com ombros e braços menos volumosos. Não desenhar espigas, feixes de grãos ou bastão. Adaptar para busto no traço e na paleta de Thor, sem o javali, a moldura vegetal, o disco solar, o cenário ou as inscrições da referência. Esta decisão substitui a versão anterior de barba curta e túnica com espigas.
 
 - Níðhöggr segue a referência de dragão escuro enviada pelo usuário: cabeça estreita, chifres longos, pescoço e ombros espinhosos, corpo esguio, garras e asas de membrana. Adaptar a figura para a carta no traço e na paleta de Thor, sem a raiz na boca da primeira proposta, sem cenário, caveiras, inscrições ou brilho verde.
 
@@ -45,7 +49,7 @@ Algumas artes PNG de evento têm correção de cor na exibição por meio da cla
 ## Fluxo para novas artes
 
 1. Identifique a categoria e leia esta memória.
-2. Escolha uma referência de composição/identidade da mesma categoria e uma referência de acabamento. Para eventos, a cor da referência `assets/vila.png` prevalece; os deuses nórdicos servem como referência de riqueza de traço.
+2. Escolha uma referência de composição/identidade da mesma categoria e uma referência de acabamento. Para eventos, a cor da referência `assets/vila.png` prevalece, salvo a exceção de paleta dos Maus Presságios; os deuses nórdicos servem como referência de riqueza de traço.
 3. Ao editar personagem existente, passe o retrato atual como referência de identidade e descreva quais traços devem permanecer.
 4. Acrescente detalhes que contem algo específico sobre aquela figura ou evento. Evite símbolos genéricos, adereços sem relação e mudanças não solicitadas.
 5. Para cartas de evento, usar as versões WebP otimizadas aprovadas pelo usuário; preservar PNG de origem quando outra parte do jogo ainda o usa e conservar os PNGs/SVGs dos herdeiros referenciados dinamicamente. A conversão de formato não altera a arte e não autoriza mudanças visuais adicionais.

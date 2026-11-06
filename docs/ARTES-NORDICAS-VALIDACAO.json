@@ -54,15 +54,17 @@
     {
       "nome": "freyr",
       "arquivo": "assets/eventos-especiais/norte-freyr.webp",
-      "bytes": 177428,
+      "bytes": 149866,
       "largura": 800,
       "altura": 731,
-      "transparentes": 255367,
+      "transparentes": 248856,
       "medianaClaros": [
-        247,
+        249,
         227,
-        195
-      ]
+        196
+      ],
+      "revisao": "Cabelo longo, barba em duas trancas, coroa de folhas, torso esguio e manto; sem espigas.",
+      "criterioMedianaClaros": "Pixels com alfa >= 250 e RGB >= (220, 200, 180)."
     },
     {
       "nome": "jormungand",

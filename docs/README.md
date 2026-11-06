@@ -9,6 +9,7 @@ Os caminhos de código, imagens e scripts citados nestes arquivos partem da raiz
 
 ## Planos e propostas
 
+- [Maus Presságios](PRD-MAUS-PRESSAGIOS.md): proposta de dez ameaças raras, incluindo duas para caminhos morais diferentes, com anúncio fora da rodada, preparação e debug; decisões de catálogo e balanceamento pendentes.
 - [Herdeiros prioritários: Culto, Leste e Nórdico](PLANO-HERDEIROS-PRIORITARIOS.md): mecânicas e artes nórdicas integradas; retratos dos herdeiros e revisão visual manual pendentes.
 - [Plano de melhorias](PLANO-MELHORIAS.md).
 - [Revisão da interface e do legado](PLANO-REVISAO-INTERFACE-E-LEGADO.md).

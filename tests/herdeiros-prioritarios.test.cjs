@@ -110,8 +110,8 @@ test("o Culto reduz perdas inteiras uma única vez e compõe com o Celeiro", () 
 });
 
 test("os dois caminhos de adesão preservam a reserva e a adaga ganha Escudo por 5 seguidores", () => {
-  const { J, resultado } = preparar();
   for (const convite of [false, true]) {
+    const { J, resultado } = preparar();
     const run = criar(J, "herdeiro_culto");
     if (convite) {
       run.rodada = 8;

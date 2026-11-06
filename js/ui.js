@@ -653,12 +653,6 @@
   function escolherHerdeiro(legado) {
     const disponiveis = new Set(Jogo.estado.tracosDisponiveis(legado));
     const opcoesHerdeiro = [
-      ...Object.entries(Jogo.herdeiros.novos).map(([traco, h]) => ({
-        traco,
-        nome: h.nome,
-        descricao: h.descricao,
-        imagem: null,
-      })),
       {
         traco: "corajoso",
         nome: "A Herdeira Corajosa",
@@ -697,6 +691,12 @@
         descricao: "Começa com 5 Ataque e 5 Escudo. Sua Honra não diminui nem fica abaixo de zero.",
         imagem: "heroi-do-povo",
       },
+      ...Object.entries(Jogo.herdeiros.novos).map(([traco, h]) => ({
+        traco,
+        nome: h.nome,
+        descricao: h.descricao,
+        imagem: null,
+      })),
     ];
     const dicasTraco = {
       ...Object.fromEntries(Object.entries(Jogo.herdeiros.novos).map(([id, h]) => [id, h.desbloqueio])),
@@ -1467,7 +1467,7 @@
         ${statusDruida}
         ${run.passivaNordica ? `<p class="efeito-divino-status" role="status">Passiva do dia: ${esc(run.passivaNordica.nome)} · ${esc(efeitoDivinoHover(run.passivaNordica))}</p>` : ""}
         ${run.encontroLeste ? `<p role="status">Visita do zodíaco: este encontro não passa o dia.</p>` : ""}
-        ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 14.8 8.5 22 9l-5.5 4.8 1.7 7.2-6.2-3.8-6.2 3.8 1.7-7.2L2 9l7.2-.5L12 2Z"/></svg> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"} <span class="info-hover" tabindex="0" role="img" aria-label="Informações sobre o efeito de ${esc(run.efeitoDivino.nome)}" title="${esc(efeitoDivinoHover(run.efeitoDivino))}" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}">i</span></p>` : ""}
+        ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status" tabindex="0" aria-describedby="descricao-efeito-divino" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 14.8 8.5 22 9l-5.5 4.8 1.7 7.2-6.2-3.8-6.2 3.8 1.7-7.2L2 9l7.2-.5L12 2Z"/></svg> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"}<span id="descricao-efeito-divino" class="leitor-de-tela">${esc(efeitoDivinoHover(run.efeitoDivino))}</span></p>` : ""}
         <div class="mesa">
           <div class="coluna-herdeiro">
             <article class="carta carta-herdeiro honra-${faixa}${classeCondicao}${classeTransformacao}" aria-labelledby="titulo-herdeiro">

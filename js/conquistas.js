@@ -395,7 +395,12 @@
     }
     // As transformações descobertas em crônicas anteriores ficam registradas no
     // legado; a terceira espécie pode completar a coleção numa run diferente.
-    const jaDesbloqueadas = new Set(run.conquistas?.conquistasDesbloqueadas || []);
+    const legadoSalvo = Jogo.save?.lerLegado?.();
+    const jaDesbloqueadas = new Set([
+      ...(run.legadoDaRun?.conquistasDesbloqueadas || []),
+      ...(legadoSalvo?.conquistasDesbloqueadas || []),
+      ...(run.conquistas?.conquistasDesbloqueadas || []),
+    ]);
     const novas = lista.filter((conquista) => !jaDesbloqueadas.has(conquista.id) && conquista.condicao(run));
     if (!novas.length) return [];
     run.conquistas = Jogo.legado.mesclar(run.conquistas, {

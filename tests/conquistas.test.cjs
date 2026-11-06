@@ -4,6 +4,42 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { preparar } = require("./helpers/jogo.cjs");
 
+test("conquistas do legado anterior não repetem o aviso em outra partida", () => {
+  const { J } = preparar();
+  const legado = J.legado.vazio();
+  legado.conquistasDesbloqueadas = ["ataque_10", "ataque_15"];
+  const run = J.estado.novo(legado, "corajoso");
+  run.atributos.ataque = 20;
+
+  const novas = J.conquistas.avaliar(run).map((conquista) => conquista.id);
+
+  assert.ok(!novas.includes("ataque_10"));
+  assert.ok(!novas.includes("ataque_15"));
+  assert.ok(novas.includes("ataque_20"));
+  assert.ok(!run.avisosConquistas.includes("ataque_10"));
+  assert.ok(!run.avisosConquistas.includes("ataque_15"));
+  assert.ok(run.avisosConquistas.includes("ataque_20"));
+  assert.ok(!run.conquistas.conquistasDesbloqueadas.includes("ataque_10"));
+});
+
+test("conquistas salvas não repetem o aviso após recarregar o jogo", () => {
+  const { J } = preparar();
+  const primeira = J.estado.novo(J.legado.vazio(), "corajoso");
+  primeira.atributos.ataque = 10;
+  J.conquistas.avaliar(primeira);
+  assert.ok(primeira.avisosConquistas.includes("ataque_10"));
+
+  const { J: recarregado } = preparar();
+  assert.equal(recarregado.save.importar(J.save.exportar()), true);
+  const run = recarregado.estado.novo(recarregado.legado.vazio(), "corajoso");
+  run.atributos.ataque = 10;
+
+  assert.equal(recarregado.conquistas.avaliar(run).length, 0);
+  assert.equal(run.avisosConquistas.length, 0);
+  assert.equal(run.conquistas.conquistasDesbloqueadas.length, 0);
+  assert.ok(recarregado.save.lerLegado().conquistasDesbloqueadas.includes("ataque_10"));
+});
+
 test("conquistas de crônicas e atributos são acumuladas uma vez no legado", () => {
   const { J, novaRun } = preparar();
   const run = novaRun();
