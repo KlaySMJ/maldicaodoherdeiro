@@ -1,6 +1,8 @@
 "use strict";
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const { preparar } = require("./helpers/jogo.cjs");
 
 function criar(J, traco) {
@@ -412,17 +414,50 @@ test("retomar um baú ou mercador após o zodíaco preserva os itens sorteados",
   }
 });
 
-test("a interface dos novos herdeiros usa o selo existente e descreve as passivas", () => {
-  const { J, app } = preparar();
-  for (const id of Object.keys(J.herdeiros.novos)) {
+test("os novos herdeiros exibem retratos próprios na seleção e nos quadros de honra e culto", () => {
+  const { J, app, window } = preparar();
+  window.JOGO_VERSAO_ASSETS = "quadros-teste";
+  const arquivos = {
+    herdeiro_culto: "herdeiro-culto",
+    herdeira_leste: "herdeira-leste",
+    herdeiro_nordico: "herdeiro-nordico",
+  };
+  const faixas = [
+    [0, "neutra"],
+    [30, "alta"],
+    [60, "alta-2"],
+    [90, "altissima"],
+    [-30, "baixa"],
+    [-60, "baixa-2"],
+    [-90, "baixissima"],
+  ];
+  J.ui.escolherHerdeiro(J.legado.vazio());
+  const selecao = app.innerHTML;
+  const imagemAtual = () => app.innerHTML.match(/<img class="retrato retrato-atual[^"]*" src="([^"]+)"/)?.[1];
+  for (const [id, arquivo] of Object.entries(arquivos)) {
+    const botao = selecao.match(new RegExp(`<button[^>]*data-traco="${id}"[\\s\\S]*?<\\/button>`))?.[0];
+    assert.ok(botao?.includes(`assets/herdeiros/${arquivo}-neutra.webp?v=quadros-teste`));
     const run = criar(J, id);
     J.engine.registrarSorteio(run, J.eventoPorId("caixas_suspeitas"));
-    J.ui.jogo(run);
+    for (const [honra, faixa] of faixas) {
+      run.atributos.honra = honra;
+      J.ui.jogo(run);
+      const disponivel = id === "herdeiro_culto" && honra > 0 ? "neutra" : faixa;
+      const imagem = `assets/herdeiros/${arquivo}-${disponivel}.webp`;
+      assert.equal(imagemAtual(), `${imagem}?v=quadros-teste`);
+      assert.ok(fs.existsSync(path.join(__dirname, "..", imagem)), imagem);
+      assert.match(app.innerHTML, /class="carta carta-herdeiro /);
+      assert.doesNotMatch(app.innerHTML, /Selo provisório/);
+    }
     assert.ok(app.innerHTML.includes(J.herdeiros.novos[id].nome));
-    assert.match(app.innerHTML, /src="assets\/selo.svg"/);
-    assert.doesNotMatch(app.innerHTML, /assets\/herdeiros\/herdeir[oa]-(culto|leste|nordico)/);
     if (id === "herdeiro_culto") assert.match(app.innerHTML, /Seguidores em reserva/);
     if (id === "herdeiro_nordico") assert.match(app.innerHTML, /Passiva do dia/);
+    run.cultoAtivo = true;
+    J.ui.jogo(run);
+    const imagemCulto = `assets/herdeiros/${arquivo}-culto.webp`;
+    assert.equal(imagemAtual(), `${imagemCulto}?v=quadros-teste`);
+    assert.ok(fs.existsSync(path.join(__dirname, "..", imagemCulto)), imagemCulto);
+    assert.match(app.innerHTML, /retrato-area culto-ativo/);
   }
 });
 

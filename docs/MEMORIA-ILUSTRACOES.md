@@ -11,7 +11,8 @@ Consulte este arquivo antes de qualquer geração, edição ou avaliação de ar
 - A Nuvem Faminta usa cinza médio nos gafanhotos, distinguindo os insetos do fundo preto, com marfim nas plantações. O usuário rejeitou as versões vermelha e verde e pediu uma nova composição com os gafanhotos; evitar o inseto gigante e formas decorativas de nuvem. Os corvos também não devem usar vermelho: seguir a paleta e o acabamento da carta de Odin em `assets/eventos-especiais/norte-odin.webp`, sem lua ou disco atrás das aves, e manter o telhado no preto e marfim das demais cartas. Essas duas exceções prevalecem sobre a direção geral de vermelho dos presságios.
 - Ao editar uma personagem existente, use a própria arte como referência de identidade. Preserve rosto, idade, cabelo, expressão e silhueta; enriqueça roupa, materiais, acessórios e hachuras sem trocar sua aparência.
 - A arte deve manter fundo transparente quando o formato e o uso permitirem. O fundo preto pertence à interface; não desenhe uma placa ou moldura na ilustração.
-- Artes de cartas de evento podem ser convertidas para WebP com qualidade 90 e máximo de 800 px no maior lado, preservando proporções, transparência e cor. Essa mudança é apenas de formato; não redesenhar nem alterar a tonalidade. Manter PNGs compartilhados com usos fora das cartas e os retratos de herdeiro requeridos pelo caminho dinâmico da interface.
+- Artes de cartas de evento podem ser convertidas para WebP com qualidade 90 e máximo de 800 px no maior lado, preservando proporções, transparência e cor. Essa mudança é apenas de formato; não redesenhar nem alterar a tonalidade. Manter PNGs compartilhados com usos fora das cartas.
+- Os retratos dos herdeiros são carregados pela interface em WebP com qualidade 90 e qualidade de alfa 100, mantendo a resolução original de cerca de 1254 px. A troca é apenas de formato: preserva dimensões, transparência e cor, e reduz os 100 MB de PNGs para cerca de 14,5 MB em `assets/herdeiros/`. Os PNGs originais continuam no mesmo diretório como arte-fonte, referência dos prompts e alvo das prévias em `docs/previas/`; a interface não referencia mais nenhum PNG de herdeiro.
 
 ## Referências por categoria
 
@@ -28,6 +29,8 @@ Consulte este arquivo antes de qualquer geração, edição ou avaliação de ar
 Algumas artes PNG de evento têm correção de cor na exibição por meio da classe `imagem-evento--tom-vila`, listada em `js/ui.js` e definida em `index.html`. Use-a quando uma nova arte ficar mais branca ou fria que `assets/vila.png`; não aplique a correção às imagens que já estiverem na tonalidade de referência.
 
 ## Decisões já definidas
+
+- Os retratos do Leste, do Nórdico e do Herdeiro do Culto estão integrados à seleção e aos quadros da partida em `js/ui.js`. As molduras pertencem à interface em `css/style.css`; os PNGs continuam sem moldura desenhada. A prévia `docs/previas/herdeiros-no-jogo.html` usa os quadros renderizados pela interface. Para o Herdeiro do Culto, qualquer pedido de faixa positiva usa a imagem inicial, evitando caminhos para artes que não existem.
 
 - A Sombra Coroada mantém a figura junto à cadeira e o manto vermelho, sem lua nem nuvens ao fundo. O chão usa marfim com hachuras pretas. Preservar a iluminação e os detalhes da figura; o pedido de remoção se refere à lua.
 
@@ -61,4 +64,4 @@ Algumas artes PNG de evento têm correção de cor na exibição por meio da cla
 2. Escolha uma referência de composição/identidade da mesma categoria e uma referência de acabamento. Para eventos, a cor da referência `assets/vila.png` prevalece, salvo a exceção de paleta dos Maus Presságios; os deuses nórdicos servem como referência de riqueza de traço.
 3. Ao editar personagem existente, passe o retrato atual como referência de identidade e descreva quais traços devem permanecer.
 4. Acrescente detalhes que contem algo específico sobre aquela figura ou evento. Evite símbolos genéricos, adereços sem relação e mudanças não solicitadas.
-5. Para cartas de evento, usar as versões WebP otimizadas aprovadas pelo usuário; preservar PNG de origem quando outra parte do jogo ainda o usa e conservar os PNGs/SVGs dos herdeiros referenciados dinamicamente. A conversão de formato não altera a arte e não autoriza mudanças visuais adicionais.
+5. Para cartas de evento, usar as versões WebP otimizadas aprovadas pelo usuário; preservar PNG de origem quando outra parte do jogo ainda o usa. Para herdeiros, gerar sempre o PNG de origem e convertê-lo para WebP com qualidade 90, na resolução original, antes de integrar: a interface referencia o WebP e o PNG fica como fonte. A conversão de formato não altera a arte e não autoriza mudanças visuais adicionais.

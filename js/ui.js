@@ -117,6 +117,13 @@
     },
     menino_cronista: { arquivo: "menino-cronista", descricao: "Busto do Menino da Crônica" },
     heroi_do_povo: { arquivo: "heroi-do-povo", descricao: "Busto da Heroína do povo" },
+    herdeiro_culto: {
+      arquivo: "herdeiro-culto",
+      descricao: "Busto do Herdeiro do Culto",
+      faixas: ["neutra", "baixa", "baixa-2", "baixissima"],
+    },
+    herdeira_leste: { arquivo: "herdeira-leste", descricao: "Busto da Herdeira do Leste" },
+    herdeiro_nordico: { arquivo: "herdeiro-nordico", descricao: "Busto do Herdeiro Nórdico" },
   };
   const fasesRetrato = {
     neutra: "com honra neutra",
@@ -695,7 +702,7 @@
         traco,
         nome: h.nome,
         descricao: h.descricao,
-        imagem: null,
+        imagem: retratos[traco]?.arquivo || null,
       })),
     ];
     const dicasTraco = {
@@ -716,7 +723,7 @@
               : dicasTraco[herdeiro.traco] || "Poupe o cervo branco quando ele cruzar seu caminho.";
             const descricaoAcessivel = `${nomeHerdeiro}. ${descricaoHerdeiro} ${dicaHerdeiro}`;
             const imagemBase = herdeiro.imagem
-              ? `assets/herdeiros/${herdeiro.imagem}-neutra.png`
+              ? `assets/herdeiros/${herdeiro.imagem}-neutra.webp`
               : "assets/selo.svg";
             const versaoImagem = window.JOGO_VERSAO_ASSETS
               ? `${imagemBase}?v=${encodeURIComponent(window.JOGO_VERSAO_ASSETS)}`
@@ -1082,14 +1089,14 @@
   }
 
   function caminhoRetrato(traco, faixa, cultoAtivo) {
-    if (Jogo.herdeiros.novos[traco]) return "assets/selo.svg";
     const personagem = retratos[traco] || retratos.corajoso;
+    const faixaDisponivel = personagem.faixas && !personagem.faixas.includes(faixa) ? "neutra" : faixa;
     const versao = window.JOGO_VERSAO_ASSETS;
     const comVersao = (caminho) => (versao ? `${caminho}?v=${encodeURIComponent(versao)}` : caminho);
     if (traco === "druida_herdeiro")
-      return comVersao(`assets/herdeiros/druida-herdeiro-${cultoAtivo ? "culto" : faixa}.png`);
-    if (cultoAtivo) return comVersao("assets/herdeiros/" + personagem.arquivo + "-culto.png");
-    return comVersao("assets/herdeiros/" + personagem.arquivo + "-" + faixa + ".png");
+      return comVersao(`assets/herdeiros/druida-herdeiro-${cultoAtivo ? "culto" : faixa}.webp`);
+    if (cultoAtivo) return comVersao("assets/herdeiros/" + personagem.arquivo + "-culto.webp");
+    return comVersao("assets/herdeiros/" + personagem.arquivo + "-" + faixaDisponivel + ".webp");
   }
 
   function precarregarProximaCarta(src) {
@@ -1118,10 +1125,9 @@
     const imagemAnterior = anterior
       ? caminhoRetrato(anterior.traco, anterior.faixa, anterior.cultoAtivo)
       : "";
-    const descricao = Jogo.herdeiros.novos[traco]
-      ? `Selo provisório: ${Jogo.herdeiros.novos[traco].nome}`
-      : (retratos[traco] || retratos.corajoso).descricao +
-        (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa]);
+    const descricao =
+      (retratos[traco] || retratos.corajoso).descricao +
+      (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa]);
     return (
       '<div class="retrato-area' +
       (cultoAtivo ? " culto-ativo" : "") +

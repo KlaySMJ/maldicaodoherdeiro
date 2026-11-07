@@ -104,17 +104,17 @@ Isso vale para os 4 ids atuais também.
 - As faixas de honra se distinguem principalmente pela roupa: limpa e bem cortada nas faixas altas, mais escura, gasta e remendada nas negativas. A expressão varia pouco; nas negativas fica irritada sem exagero.
 - Honra máxima usa roupa formal simples, sem louros e sem camadas volumosas. O culto tem traje vermelho próprio e sorriso discretamente malicioso.
 
-`js/ui.js:488-492` monta o caminho: `assets/herdeiros/<arquivo>-<faixa>.png`
+`caminhoRetrato` em `js/ui.js` monta o caminho: `assets/herdeiros/<arquivo>-<faixa>.webp` (o PNG de mesmo nome permanece como arte-fonte)
 
 | Peça | Qtd | Faixas (`js/ui.js:67-74`) |
 |---|---|---|
-| PNG | **8** | `neutra`, `alta`, `alta-2`, `altissima`, `baixa`, `baixa-2`, `baixissima`, `culto` |
+| WebP (interface) + PNG (fonte) | **8** | `neutra`, `alta`, `alta-2`, `altissima`, `baixa`, `baixa-2`, `baixissima`, `culto` |
 | SVG | **1** | retrato de referência (como `druida-herdeiro.svg`) |
 | **Total** | **9** | |
 
 `caminhoRetrato` tem um ramo fixo para `druida_herdeiro` (`js/ui.js:490`) — **não é preciso** adicionar ramo novo: o caminho genérico das linhas 491-492 já serve para qualquer traço com `retratos[<id>].arquivo`.
 
-Antes de qualquer arte: ler `MEMORIA-ILUSTRACOES.md` **por inteiro**. Retratos ficam em **PNG/SVG** — não converter para WebP.
+Antes de qualquer arte: ler `MEMORIA-ILUSTRACOES.md` **por inteiro**. A arte nasce em PNG e é convertida para WebP (qualidade 90, alfa 100, resolução original) para a interface; o PNG de origem permanece no mesmo diretório.
 
 ---
 
@@ -124,7 +124,7 @@ Antes de qualquer arte: ler `MEMORIA-ILUSTRACOES.md` **por inteiro**. Retratos f
 |---|---|
 | ID do traço | `viuva` |
 | Nome na UI | `A Viúva` |
-| Arquivo de arte | `viuva` (→ `viuva-alta.png`, etc.) |
+| Arquivo de arte | `viuva` (→ `viuva-alta.png` + `viuva-alta.webp`, etc.) |
 | Início | `{ ...Jogo.config.iniciais, gold: 15, honra: -10 }` |
 | Identidade | economia e legado; aguenta perda de habitantes melhor que os demais |
 | Desbloqueio | **Caminho B** — encerrar uma run com ≥ 100 gold |

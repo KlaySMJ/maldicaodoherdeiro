@@ -173,7 +173,7 @@ Testar a presença de apenas um botão de liberação, a remoção dos controles
 
 ## Artes previstas
 
-Seguir [MEMORIA-ILUSTRACOES.md](MEMORIA-ILUSTRACOES.md) por inteiro. Usar Corajoso, Avarento e Doente como referências diretas de busto, traço e tom claro; construir as variantes a partir da identidade neutra aprovada. Retratos continuam em PNG/SVG, com fundo transparente e o mesmo enquadramento do elenco.
+Seguir [MEMORIA-ILUSTRACOES.md](MEMORIA-ILUSTRACOES.md) por inteiro. Usar Corajoso, Avarento e Doente como referências diretas de busto, traço e tom claro; construir as variantes a partir da identidade neutra aprovada. A arte nasce em PNG com fundo transparente e o mesmo enquadramento do elenco, e vira WebP (qualidade 90, alfa 100, resolução original) para a interface.
 
 Conferir em `js/ui.js` as oito variantes PNG usadas atualmente: neutra, alta, alta-2, altíssima, baixa, baixa-2, baixíssima e culto, além do SVG de referência. Prever 27 arquivos para os três herdeiros. O Herdeiro do Culto precisa de identidade própria mesmo antes da adesão; a Herdeira do Leste e o Nórdico também mantêm versões de honra e culto.
 
