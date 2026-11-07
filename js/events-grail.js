@@ -13,8 +13,7 @@
       requisitos: { rodadaMin: 10, flagsAusentes: ["calice_1"] },
       imagem: "assets/cavaleiro-de-osso.webp",
       imagemAlt: "Um cavaleiro de ossos jaz sob a armadura rachada",
-      texto:
-        "Um cavaleiro de armadura rachada jaz à beira da estrada. Ele murmura sobre um cálice que cura e condena, e sobre um lugar onde dois caminhos se separam.",
+      texto: "Um cavaleiro ferido fala de um cálice que cura e condena, e de uma encruzilhada.",
       informacoes:
         "Cada palavra custa ao peito dele um suspiro. O cavaleiro não tem muito tempo. Ele só quer ser ouvido.",
       opcoes: [
@@ -62,8 +61,7 @@
       requisitos: { rodadaMin: 14, flags: ["calice_1"], flagsAusentes: ["calice_2"] },
       imagem: "assets/ponte.webp",
       imagemAlt: "Uma ponte antiga de madeira cruza o caminho sobre um rio",
-      texto:
-        "Numa pedra à beira da estrada, alguém gravou há séculos um mapa: duas trilhas que se cruzam em um círculo, e uma inscrição quase apagada pelo líquen.",
+      texto: "Uma pedra antiga mostra duas trilhas cruzadas e uma inscrição gasta.",
       informacoes: "O mapa está incompleto. A pedra, porém, parece conhecer o resto.",
       opcoes: [
         {
@@ -117,8 +115,7 @@
       },
       imagem: "assets/vila.webp",
       imagemAlt: "Uma estrada se cruza diante do portão da vila",
-      texto:
-        "Duas estradas saem do mesmo ponto. À esquerda, pedras brancas e passarinhos. À direita, pedras negras e corvos.",
+      texto: "Duas trilhas se separam: pedras brancas e pássaros à esquerda, negras e corvos à direita.",
       informacoes:
         "No centro, um marco de pedra traz uma inscrição: ‘Só passa quem é o que parece ser.’ Você sente que a estrada o escolheu antes de você escolhê-la.",
       opcoes: [
@@ -209,8 +206,7 @@
       },
       imagem: "assets/corvo.webp",
       imagemAlt: "Um corvo negro do tamanho de um homem espera sobre um altar",
-      texto:
-        "Num santuário abandonado, em meio à névoa, um corvo do tamanho de um homem espera sobre o altar. Diz que a sombra também tem um preço, e que ele cobra em coisas pequenas.",
+      texto: "Na névoa, um corvo do tamanho de um homem oferece um pacto por pequenas coisas.",
       informacoes: "Fala em voz grave e cansada. O corvo não discute. Apenas cobra.",
       opcoes: [
         {
@@ -257,8 +253,7 @@
       },
       imagem: "assets/santa-sem-nome.webp",
       imagemAlt: "Uma figura sagrada com um halo de luz",
-      texto:
-        "No alto da montanha, uma capela sem teto deixa o sol cair sobre um altar de pedra. Sobre ele, um cálice de madeira simples, gasto pelo uso.",
+      texto: "No alto da montanha, um cálice de madeira gasto repousa no altar de uma capela sem teto.",
       informacoes:
         "Não há guardião. Apenas um silêncio que parece vir de dentro do cálice. Peregrinos esperam à porta da capela, em fila. Ninguém ousa tocá-lo.",
       opcoes: [
@@ -305,8 +300,7 @@
       },
       imagem: "assets/torre-na-lagoa.webp",
       imagemAlt: "Uma torre de pedra meio submersa em águas escuras",
-      texto:
-        "Um templo meio afundado no pântano negro mostra, entre as colunas, um cálice de pedra escura, coberto de algas.",
+      texto: "Entre as colunas de um templo submerso, surge um cálice escuro coberto de algas.",
       informacoes:
         "Um guardião de lama, armadura e raiva ergue-se da água, sem dizer palavra. O ataque precisa alcançar a defesa do guardião. Seu escudo reduz o dano recebido, sem se desgastar.",
       batalha: {

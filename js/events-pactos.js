@@ -15,8 +15,7 @@
           rodadaMin: 8,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "No fim da tarde, uma mulher de cabelos que se movem contra a corrente emerge até a cintura no rio.",
+        texto: "Uma mulher de cabelos contra a corrente emerge no rio.",
         informacoes:
           "Diz que devolve tudo o que a água já levou, e que só precisa de algo que o rio ainda não tenha. Ninguém na margem ousa respirar alto. A água ao redor dela está parada.",
         opcoes: [
@@ -74,8 +73,7 @@
           rodadaMin: 6,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "Um corvo pousa na mesa do salão e cumprimenta você pelo nome, pelo nome do seu pai, e pelo nome de quem ainda não nasceu.",
+        texto: "Um corvo pousa no salão e saúda você, seu pai e seu futuro herdeiro.",
         informacoes:
           "Diz que sabe o que as pessoas pensam antes de escolher. O corvo oferece ver o que a vila não vê. Cobra pelo serviço.",
         opcoes: [
@@ -203,8 +201,7 @@
           rodadaMin: 5,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "No limite do bosque, um carvalho tão velho quanto a vila abriu uma fenda no tronco com o formato de uma boca.",
+        texto: "Um carvalho antigo abre no tronco uma fenda em forma de boca.",
         informacoes:
           "As raízes se levantaram da terra e apontam para você. Os mais velhos dizem que a árvore já pediu coisas antes, e que quem negou nunca contou o resto.",
         opcoes: [
@@ -987,8 +984,7 @@
           rodadaMin: 10,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "Um homem de aventais cheios de engrenagens chega à vila carregando um relógio que marca horas que ninguém reconhece.",
+        texto: "Um relojoeiro chega à vila com um relógio que marca horas desconhecidas.",
         informacoes:
           "Oferece consertar o que se quebrou entre as pessoas e o tempo. Ele diz que pode apagar o que foi feito. Não diz o que acontece com as consequências.",
         opcoes: [
@@ -1065,8 +1061,7 @@
         requisitos: {
           rodadaMin: 9,
         },
-        texto:
-          "Durante a noite, uma figura percorre as ruas com uma foice fina e corta algo no chão, atrás de cada morador adormecido.",
+        texto: "À noite, uma figura passa pelas casas e corta o chão junto aos adormecidos.",
         informacoes:
           "Pela manhã, ninguém lembra de ter sonhado, e as sombras parecem mais claras. Os moradores acordam descansados. Também mais silenciosos.",
         opcoes: [
@@ -1171,8 +1166,7 @@
           flagsAusentes: ["pacto_feito"],
           flagsLegado: ["sucessor_pressentido"],
         },
-        texto:
-          "Em um cômodo trancado do castelo, que ninguém abria há gerações, um homem de armadura antiga se levanta de uma cadeira.",
+        texto: "Num cômodo fechado há gerações, um homem de armadura antiga se ergue da cadeira.",
         informacoes:
           "Seu rosto lembra o seu, e o de todos os senhores que vieram antes. Ele diz que foi o primeiro a herdar a vontade, e que está cansado de esperar. A vontade que você carrega é mais antiga do que a vila. Ele quer sabê-la inteira.",
         opcoes: [

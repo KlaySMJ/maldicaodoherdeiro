@@ -6,8 +6,7 @@
     {
       id: "conselho_positivo_01",
       titulo: "A taxa esquecida",
-      texto:
-        "O conselheiro nota uma taxa esquecida nas contas da ponte e sugere cobrá-la uma única vez, sem pesar sobre as famílias.",
+      texto: "O conselheiro encontra uma taxa esquecida nas contas da ponte e sugere cobrá-la uma vez.",
       informacoes: "A cobrança única pode cobrir os reparos do portão.",
       textoOpcao: "Cobrar a taxa esquecida.",
       efeitos: { gold: 4 },
@@ -16,8 +15,7 @@
     {
       id: "conselho_positivo_02",
       titulo: "Ouvir o moleiro",
-      texto:
-        "O conselheiro recomenda perguntar ao moleiro antes de comprar farinha. O moinho pode suprir parte do estoque.",
+      texto: "O conselheiro sugere consultar o moleiro antes de comprar farinha.",
       informacoes: "O moinho pode fornecer farinha e trabalho para duas pessoas.",
       textoOpcao: "Consultar o moleiro.",
       efeitos: { habitantes: 2, gold: 2 },
@@ -26,8 +24,7 @@
     {
       id: "conselho_positivo_03",
       titulo: "Repouso antes da marcha",
-      texto:
-        "O conselheiro percebe que você mal consegue segurar a espada e pede uma noite de repouso antes da patrulha.",
+      texto: "O conselheiro nota sua fraqueza e sugere repouso antes da patrulha.",
       informacoes: "Uma noite de sono deve devolver parte das suas forças.",
       textoOpcao: "Descansar antes da patrulha.",
       efeitos: { hp: 12 },
@@ -65,8 +62,7 @@
     {
       id: "conselho_positivo_07",
       titulo: "Troca de sementes",
-      texto:
-        "O conselheiro propõe trocar sementes excedentes por ferramentas, antes que a umidade estrague ambas.",
+      texto: "O conselheiro sugere trocar sementes excedentes por ferramentas.",
       informacoes: "As sementes excedentes podem render moedas e trazer um lavrador para as terras vazias.",
       textoOpcao: "Trocar sementes por ferramentas.",
       efeitos: { gold: 3, habitantes: 1 },
@@ -75,8 +71,7 @@
     {
       id: "conselho_positivo_08",
       titulo: "Uma ronda curta",
-      texto:
-        "O conselheiro sugere uma ronda menor, mas regular, para que os guardas não abandonem os campos.",
+      texto: "O conselheiro propõe rondas curtas para poupar os guardas.",
       informacoes: "Uma ronda regular mantém os guardas nos caminhos sem afastá-los tanto dos campos.",
       textoOpcao: "Organizar uma ronda menor.",
       efeitos: { ataque: 1, honra: 1 },
@@ -113,8 +108,7 @@
     {
       id: "conselho_positivo_12",
       titulo: "Lenha mais perto",
-      texto:
-        "O conselheiro percebe que as casas mais distantes recebem menos lenha e sugere mudar a rota dos carroceiros.",
+      texto: "O conselheiro propõe levar lenha às casas mais distantes.",
       informacoes: "Mudar a rota leva lenha às casas que recebem menos.",
       textoOpcao: "Mudar a rota dos carroceiros.",
       efeitos: { honra: 3, hp: 5 },
@@ -133,7 +127,7 @@
     {
       id: "conselho_positivo_14",
       titulo: "Uma mesa comprida",
-      texto: "O conselheiro sugere reunir as famílias novas com as antigas para dividir tarefas da colheita.",
+      texto: "O conselheiro propõe dividir as tarefas da colheita entre as famílias.",
       informacoes: "Quatro trabalhadores podem ficar e terminar a colheita antes das chuvas.",
       textoOpcao: "Reunir as famílias para a colheita.",
       efeitos: { habitantes: 4, honra: 2 },
@@ -153,8 +147,7 @@
     {
       id: "conselho_negativo_01",
       titulo: "Farinha vendida cedo demais",
-      texto:
-        "O conselheiro insiste em vender toda a farinha antes da colheita, embora os celeiros ainda estejam baixos.",
+      texto: "Com os celeiros baixos, o conselheiro insiste em vender toda a farinha.",
       informacoes: "Os celeiros estão baixos; vender a farinha pode deixar quatro famílias sem pão.",
       textoOpcao: "Vender toda a farinha agora.",
       efeitos: { gold: 4, habitantes: -4 },
@@ -182,7 +175,7 @@
     {
       id: "conselho_negativo_04",
       titulo: "Reforço no lugar errado",
-      texto: "O conselheiro recomenda reforçar a parte mais bonita do escudo, não a que recebe os golpes.",
+      texto: "O conselheiro quer reforçar o lado bonito do escudo, não a rachadura.",
       informacoes: "A chapa vai cobrir o lado bonito e deixar a rachadura exposta.",
       textoOpcao: "Reforçar o lado bonito do escudo.",
       efeitos: { escudo: -1, gold: -2 },
@@ -201,7 +194,7 @@
     {
       id: "conselho_negativo_06",
       titulo: "Fechar a enfermaria",
-      texto: "O conselheiro diz que os doentes custam mais do que produzem e recomenda fechar a enfermaria.",
+      texto: "O conselheiro recomenda fechar a enfermaria para poupar recursos.",
       informacoes: "Sem atendimento, a febre continua passando de casa em casa.",
       textoOpcao: "Fechar a enfermaria.",
       efeitos: { hp: -8, honra: -3 },
@@ -219,8 +212,7 @@
     {
       id: "conselho_negativo_08",
       titulo: "Aço de origem duvidosa",
-      texto:
-        "O conselheiro encontrou aço barato e recomenda comprá-lo antes que alguém pergunte de onde veio.",
+      texto: "O conselheiro recomenda comprar aço barato de origem incerta.",
       informacoes: "Ninguém sabe de onde veio o aço, e o ferreiro não o examinou.",
       textoOpcao: "Comprar o aço barato.",
       efeitos: { gold: -4, ataque: -1 },
@@ -247,8 +239,7 @@
     {
       id: "conselho_negativo_11",
       titulo: "Arma sem teste",
-      texto:
-        "O conselheiro traz uma arma de um vendedor e recomenda entregá-la aos guardas sem testar o fio.",
+      texto: "O conselheiro quer entregar aos guardas uma arma não testada.",
       informacoes: "A lâmina não foi testada; se entortar, o vendedor já terá partido.",
       textoOpcao: "Entregar a arma sem testá-la.",
       efeitos: { gold: -3, ataque: -1 },
@@ -257,7 +248,7 @@
     {
       id: "conselho_negativo_12",
       titulo: "Portão fechado",
-      texto: "O conselheiro sugere fechar o portão para todos os viajantes, inclusive os que buscam abrigo.",
+      texto: "O conselheiro quer fechar o portão até para quem busca abrigo.",
       informacoes: "Fechar o portão também impede a entrada de quem busca abrigo.",
       textoOpcao: "Fechar o portão aos viajantes.",
       efeitos: { habitantes: -4, honra: -2 },

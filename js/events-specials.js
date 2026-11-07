@@ -109,7 +109,7 @@
       id: "tigre",
       titulo: "O ano do Tigre",
       nome: "Tigre",
-      cena: "Um tigre de olhos atentos está imóvel na neve, pintado numa carta que cheira a floresta distante.",
+      cena: "Uma carta mostra um tigre imóvel na neve, de olhos atentos.",
       info: "A carta pede coragem, mas não diz de que tipo.",
       imagem: "tigre",
       opcoes: [
@@ -137,7 +137,7 @@
       id: "coelho",
       titulo: "O ano do Coelho",
       nome: "Coelho",
-      cena: "Um coelho branco olha para a lua numa carta vermelha; ao lado, um campo quieto espera a primavera.",
+      cena: "Uma carta vermelha mostra um coelho branco olhando a lua.",
       info: "A carta sugere descanso e crescimento.",
       imagem: "coelho",
       opcoes: [
@@ -166,7 +166,7 @@
       id: "dragao",
       titulo: "O ano do Dragão",
       nome: "Dragão",
-      cena: "Um dragão de bigodes longos atravessa nuvens pintadas em ouro gasto e escarlate; o papel está morno ao toque.",
+      cena: "Um dragão cruza nuvens pintadas numa carta morna, em ouro e escarlate.",
       info: "A carta anuncia uma sorte rara. Rara demais para ser desperdiçada.",
       imagem: "dragao",
       opcoes: [
@@ -195,7 +195,7 @@
       id: "cavalo",
       titulo: "O ano do Cavalo",
       nome: "Cavalo",
-      cena: "Um cavalo de crina solta corre numa carta de papel; no estábulo, os animais relincham juntos.",
+      cena: "Um cavalo galopa numa carta; no estábulo, os animais relincham.",
       info: "A carta fala de jornadas e de pressa.",
       imagem: "cavalo",
       opcoes: [
@@ -305,7 +305,7 @@
       id: "rato",
       titulo: "O ano do Rato",
       nome: "Rato",
-      cena: "Um rato de olhos vivos carrega um grão de arroz; sombras pequenas cruzam sob a porta do celeiro.",
+      cena: "Um rato carrega arroz numa carta; sombras passam sob o celeiro.",
       info: "A carta fala de astúcia, e ninguém sabe a quem ela pertence.",
       imagem: "rato",
       opcoes: [
@@ -364,7 +364,7 @@
       id: "macaco",
       titulo: "O ano do Macaco",
       nome: "Macaco",
-      cena: "Um macaco inteligente senta no telhado com a carta enrolada na cauda e objetos perdidos ao redor.",
+      cena: "Um macaco senta no telhado, com a carta enrolada na cauda.",
       info: "A carta fala de travessura; o macaco parece orgulhoso.",
       imagem: "macaco",
       opcoes: [
@@ -1276,8 +1276,7 @@
       chanceAposAnterior: 0.25,
       imagem: "assets/eventos-especiais/mercador-vermelho.webp",
       imagemAlt: "Mercador diante de uma carroça com lanternas e envelope vermelho",
-      texto:
-        "Logo após o mercador da estrada partir, outra carroça passa pelo portão, coberta de lanternas de papel.",
+      texto: "Uma carroça coberta de lanternas chega após a partida do mercador.",
       informacoes:
         "O dono desce com um envelope vermelho e espera que você diga a primeira palavra. O mercador observa seus modos mais do que suas palavras. Uma resposta demonstra a cortesia que ele espera.",
       opcaoCorreta: "D02",

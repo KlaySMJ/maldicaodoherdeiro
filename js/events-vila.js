@@ -1142,8 +1142,7 @@
           rodadaMin: 6,
           flagsAusentes: ["arauto_decidido"],
         },
-        texto:
-          "Um arauto de tabardo limpo anuncia que o rei quer saber quantos homens a vila pode oferecer à guerra.",
+        texto: "O arauto do rei pergunta quantos homens a vila enviará à guerra.",
         informacoes:
           "A voz dele é maior que o corpo. O rei está distante, mas a convocação nunca esteve tão perto.",
         opcoes: [
@@ -2643,7 +2642,7 @@
           flags: ["poco_contaminado"],
           flagsAusentes: ["culto_resolvido"],
         },
-        texto: "Algumas pessoas passaram a rezar de joelhos ao redor do poço, dizendo que ele fala à noite.",
+        texto: "Moradores rezam junto ao poço e dizem que ele fala à noite.",
         informacoes:
           "Ninguém mais bebe daquela água, a não ser eles. A água foi contaminada por descuido. A reverência, por desespero.",
         opcoes: [
@@ -3024,7 +3023,7 @@
         requisitos: {
           rodadaMin: 4,
         },
-        texto: "O senhor da aldeia vizinha diz que a pedra do limite foi movida para dentro das terras dele.",
+        texto: "Um vizinho acusa a vila de mover a pedra do limite.",
         informacoes:
           "Pede que a coloquem de volta, ou que ele mesmo o faça. A pedra tem cem anos e muitas versões.",
         opcoes: [
@@ -3194,8 +3193,7 @@
         requisitos: {
           rodadaMin: 10,
         },
-        texto:
-          "O padre, o ferreiro e a ervateira se juntam à porta de seu salão e apresentam uma lista de nomes.",
+        texto: "O padre, o ferreiro e a ervateira trazem a lista dos mortos.",
         informacoes:
           "Pedem que você a leia em voz alta. A lista contém todos que a vila perdeu desde que você chegou.",
         opcoes: [
@@ -3325,8 +3323,7 @@
         titulo: "A lagoa proibida",
         tipo: "encontro",
         peso: 1,
-        texto:
-          "Os mais velhos dizem que a lagoa atrás do bosque é amaldiçoada. Os mais jovens dizem que há peixes.",
+        texto: "Os mais velhos temem a lagoa; os jovens dizem que há peixes.",
         informacoes: "Ambos podem estar certos. A lagoa nunca ficou seca, nem nos piores invernos.",
         opcoes: [
           {
@@ -3514,8 +3511,7 @@
           rodadaMin: 12,
           flagsAusentes: ["primo_decidido"],
         },
-        texto:
-          "Um homem de sobrenome parecido com o seu chega com uma carta e um sorriso que não olha ninguém nos olhos.",
+        texto: "Um parente distante chega com uma carta e um sorriso desconfiado.",
         informacoes: "Diz ter direitos sobre a terra. Os papéis parecem verdadeiros. Os parentescos, talvez.",
         opcoes: [
           {
@@ -3576,8 +3572,7 @@
         requisitos: {
           rodadaMin: 14,
         },
-        texto:
-          "A neve cobre as portas pela segunda vez. As reservas diminuem, e cada pessoa conta a lenha como quem conta dias.",
+        texto: "A neve cobre as portas pela segunda vez; lenha e reservas já escasseiam.",
         informacoes: "As reservas diminuem, e você só pode dividir o que ainda resta.",
         opcoes: [
           {

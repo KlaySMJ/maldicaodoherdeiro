@@ -13,8 +13,7 @@
       peso: 3,
       imagem: "assets/caixas.webp",
       imagemAlt: "Caixotes de madeira diante do portão do vilarejo, desenhados em branco sobre preto",
-      texto:
-        "Uma carroça chega ao portão. O mercador oferece mantimentos, mas um cheiro estranho escapa das caixas.",
+      texto: "Uma carroça de mantimentos chega com um cheiro estranho nas caixas.",
       informacoes:
         "O povo aguarda sua palavra. O mercador pede passagem. Ninguém sabe de onde vieram os mantimentos.",
       opcoes: [
@@ -421,8 +420,7 @@
       requisitos: { flags: ["poco_contaminado"], flagsAusentes: ["febre_resolvida"] },
       imagem: "assets/poco.webp",
       imagemAlt: "O poço de água contaminada no centro do povoado",
-      texto:
-        "Panos molhados cobrem as janelas, e a curandeira pede mãos e remédios antes que a febre tome a rua.",
+      texto: "A curandeira pede ajuda e remédios antes que a febre se espalhe.",
       informacoes:
         "A água turva cobrou sua parte. O problema deixado no poço voltou às casas. Ainda há gente que pode ser salva.",
       opcoes: [
@@ -840,8 +838,7 @@
       requisitos: { rodadaMin: 5, flagsAusentes: ["testamento_lido"] },
       imagem: "assets/caixas.webp",
       imagemAlt: "Um cofre entre os bens guardados pelo antigo senhor",
-      texto:
-        "Numa noite de chuva, você encontra o cofre do seu predecessor atrás de uma tapeçaria. Dentro há moedas contadas e uma carta que pede perdão a pessoas que você nunca conheceu.",
+      texto: "Na chuva, você encontra o cofre do predecessor e uma carta pedindo perdão.",
       informacoes: "A carta pede perdão a pessoas que você nunca conheceu. As moedas não apagam esse pedido.",
       opcoes: [
         {

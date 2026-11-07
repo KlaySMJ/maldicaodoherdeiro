@@ -44,8 +44,7 @@
       peso: 2,
       imagem: "assets/eventos-pessoas/mensageiro-sem-carta.webp",
       imagemAlt: "Um mensageiro cansado estende uma mão vazia junto à estrada",
-      texto:
-        "Um mensageiro chega a pé, com o cavalo mancando atrás. Afirma que perdeu a carta selada que carregava para o castelo.",
+      texto: "Um mensageiro chega a pé, com o cavalo mancando; perdeu a carta selada para o castelo.",
       informacoes:
         "A estrada está cheia de lama e de versões diferentes. Ele pede descanso antes que alguém descubra o extravio.",
       opcoes: [
@@ -83,8 +82,7 @@
       requisitos: { rodadaMin: 8 },
       imagem: "assets/eventos-entidade/presenca-no-caminho.webp",
       imagemAlt: "Uma figura alta e sem rosto diante de um caminho estreito",
-      texto:
-        "Uma figura espera onde a estrada cruza o bosque. Quando você se aproxima, pergunta pelo nome que recebeu ao nascer, embora ninguém na vila o conheça.",
+      texto: "No cruzamento do bosque, uma figura pergunta seu nome de nascimento, desconhecido na vila.",
       informacoes: "Não há pegadas ao redor dela. A figura promete desafios, mas não diz quando voltará.",
       opcoes: [
         {
@@ -194,8 +192,7 @@
       requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_porta_vista"] },
       imagem: "assets/eventos-entidade/porta-no-bosque.webp",
       imagemAlt: "Uma porta estreita aparece sozinha entre árvores retorcidas",
-      texto:
-        "Uma porta surge entre duas árvores. Do outro lado, alguém chama você pelo título de seu predecessor.",
+      texto: "Uma porta surge entre árvores; alguém chama você pelo título do predecessor.",
       informacoes:
         "A Entidade pergunta se deseja entrar para ouvir o que ele teria dito. O caminho atrás de você continua visível, mas parece mais distante.",
       opcoes: [
@@ -244,8 +241,7 @@
       },
       imagem: "assets/eventos-entidade/nome-guardado.webp",
       imagemAlt: "Um pergaminho sem letras repousa nas mãos de uma figura encapuzada",
-      texto:
-        "A figura estende um pergaminho sem letras. Diz que há um nome guardado ali, embora o papel esteja vazio.",
+      texto: "A figura mostra um pergaminho vazio e diz que nele há um nome.",
       informacoes:
         "A tinta não aparece, mesmo quando você o inclina contra a luz. A figura espera enquanto o papel permanece entre vocês.",
       opcoes: [
@@ -340,8 +336,7 @@
       requisitos: { rodadaMin: 8, flags: ["entidade_x_tier3"], flagsAusentes: ["entidade_x_resolvida"] },
       imagem: "assets/eventos-entidade/ultima-pergunta.webp",
       imagemAlt: "Uma figura sem rosto oferece a mão diante de uma estrada vazia",
-      texto:
-        "A Entidade surge pela última vez no caminho. Ela oferece a mão e espera que você escolha o que fazer com ela.",
+      texto: "A Entidade surge pela última vez e lhe oferece a mão.",
       informacoes: "Não há enigma, promessa ou máscara. Você sente que esta resposta encerrará o encontro.",
       opcoes: [
         {

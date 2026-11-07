@@ -15,8 +15,7 @@
         requisitos: { rodadaMin: 8, flagsAusentes: ["abissal_1"] },
         imagem: "assets/canto-das-mares.webp",
         imagemAlt: "Ondas concêntricas e uma sombra indistinta sob a água",
-        texto:
-          "Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água.",
+        texto: "Os moradores sonham com algo enorme respirando sob a água.",
         informacoes:
           "A vila está a dias de qualquer mar. Ninguém sabe explicar o sal. Os cães recusam-se a entrar no salão.",
         opcoes: [
@@ -64,8 +63,7 @@
         requisitos: { rodadaMin: 11, flags: ["abissal_1"], flagsAusentes: ["abissal_2"] },
         imagem: "assets/mare-no-poco.webp",
         imagemAlt: "Balde de poço com peixes pálidos e símbolos na água",
-        texto:
-          "A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira.",
+        texto: "Poços cheios de água salgada trazem peixes brancos, sem olhos e de dentes quase humanos.",
         informacoes:
           "As crianças brincam com eles, e as mães não conseguem impedir. A água salgada não se mistura com o rio. Circula dentro das paredes.",
         opcoes: [
@@ -114,8 +112,7 @@
         requisitos: { rodadaMin: 14, flags: ["abissal_2"], flagsAusentes: ["abissal_3"] },
         imagem: "assets/olhos-largos.webp",
         imagemAlt: "Silhuetas de moradores de olhos abertos junto à lagoa",
-        texto:
-          "Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio.",
+        texto: "À noite, moradores se reúnem em silêncio, de mãos dadas, à beira da lagoa.",
         informacoes:
           "Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou. Não parecem perigosos. Parecem felizes, o que é pior.",
         opcoes: [
@@ -163,8 +160,7 @@
         requisitos: { rodadaMin: 17, flags: ["abissal_3"], flagsAusentes: ["abissal_4"] },
         imagem: "assets/torre-na-lagoa.webp",
         imagemAlt: "Torre escura e sem janelas emergindo da lagoa",
-        texto:
-          "Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha.",
+        texto: "A lagoa baixa sem vento e revela uma torre escura, sem janelas.",
         informacoes:
           "A porta está aberta. Cada pessoa que olha por muito tempo para a torre sai do transe sem lembrar o que viu.",
         opcoes: [
@@ -214,10 +210,8 @@
         requisitos: { rodadaMin: 20, flags: ["abissal_4"], flagsAusentes: ["abissal_5"] },
         imagem: "assets/aquele-que-acorda.webp",
         imagemAlt: "Um único olho sugerido dentro de uma coluna de escuridão",
-        texto:
-          "A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. Algo imenso abre um olho.",
-        informacoes:
-          "O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Não é uma batalha. Não é uma negociação. É um momento em que a vila inteira espera o que o senhor fará com o que sabe.",
+        texto: "A lagoa ferve; uma coluna escura sobe da torre, e algo imenso abre um olho.",
+        informacoes: "O chão treme no ritmo dos seus sonhos. Os moradores se ajoelham e esperam sua decisão.",
         opcoes: [
           {
             id: "selar",

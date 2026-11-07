@@ -115,8 +115,7 @@
       requisitos: { tracos: "heroi_do_povo", rodadaMin: 20, honraMin: 30 },
       imagem: "assets/eventos-especificos/festival-dos-mortos.webp",
       imagemAlt: "Lampiões acesos diante das casas da vila",
-      texto:
-        "Acendem lampiões em cada janela e levam até a sua porta uma refeição farta, temperada com ervas.",
+      texto: "A vila enche as janelas de lampiões e leva uma refeição à sua porta.",
       informacoes:
         "É o jeito da vila de dizer que reconhece quem cuidou dela. Receber bem aproxima quem ainda hesita em bater à sua porta.",
       opcoes: [

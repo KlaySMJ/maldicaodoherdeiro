@@ -118,8 +118,7 @@
       requisitos: { flags: ["padre_aceito"], rodadaMin: 10 },
       imagem: retratos.padre.imagem,
       imagemAlt: retratos.padre.alt,
-      texto:
-        "O padre reúne os moradores na capela para uma vigília em memória de quem morreu desde sua chegada.",
+      texto: "O padre convoca uma vigília pelos mortos da vila.",
       informacoes:
         "Com poucas velas e muitos nomes, ele espera sua decisão. Uma noite de recolhimento pode aliviar o luto ou reabrir feridas.",
       opcoes: [

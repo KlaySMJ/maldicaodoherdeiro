@@ -11,8 +11,7 @@
       bauAleatorio: 3,
       imagem: "assets/bau-estrada.webp",
       imagemAlt: "Baú de madeira meio enterrado na lama",
-      texto:
-        "Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada e os objetos mudam a cada achado.",
+      texto: "Após a chuva, surge um baú quebrado com objetos que mudam a cada visita.",
       informacoes:
         "Seus homens esperam que você escolha apenas um. Os itens oferecidos são sorteados e não incluem objetos que você já possui.",
       opcoes: [

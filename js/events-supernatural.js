@@ -67,8 +67,7 @@
       peso: 0.8,
       requisitos: { rodadaMin: 9, flagsAusentes: ["condicao_decidida"] },
       marcaCondicaoDecidida: true,
-      texto:
-        "Um viajante de rosto muito claro bate ao portão depois do anoitecer. Pede pouso por uma noite, recusa a comida e prefere ficar longe dos espelhos do salão.",
+      texto: "Um viajante pálido pede pouso após o anoitecer, mas recusa comida e evita os espelhos.",
       informacoes: "Seus dentes parecem limpos demais. Ele é educado e sabe o nome de todos os seus criados.",
       imagem: "assets/vila.webp",
       imagemAlt: "Um viajante pálido aguarda diante do portão",
@@ -116,8 +115,7 @@
       peso: 0.8,
       requisitos: { rodadaMin: 9, flagsAusentes: ["condicao_decidida"] },
       marcaCondicaoDecidida: true,
-      texto:
-        "Durante a exumação de um velho cemitério, os coveiros encontram um anel de ferro no dedo de um esqueleto. O ferro ainda está quente.",
+      texto: "Na exumação, coveiros encontram um anel de ferro ainda quente num esqueleto.",
       informacoes:
         "Alguns juram que ouvem uma voz, dizendo seu nome. O anel parece valer mais do que o corpo, mas a voz também parece valer.",
       imagem: "assets/vila.webp",
@@ -161,8 +159,7 @@
       tipo: "sobrenatural",
       peso: 0,
       disparadoPelaEngine: true,
-      texto:
-        "A lua sobe grande e branca. Suas unhas pesam, os dentes doem, e a voz dentro de você já não pede licença.",
+      texto: "A lua cheia muda seu corpo: unhas pesam, dentes doem, e a voz desperta.",
       informacoes:
         "O salão parece pequeno demais. A noite dura até o amanhecer. O que você fizer, a vila lembrará.",
       imagem: "assets/vila.webp",
@@ -254,8 +251,7 @@
       tipo: "sobrenatural",
       peso: 0,
       disparadoPelaEngine: true,
-      texto:
-        "A voz fala baixo, bem perto do ouvido. Diz que sabe quem na vila mente, quem rouba, quem merece.",
+      texto: "A voz sussurra que sabe quem mente, rouba e merece punição.",
       informacoes:
         "Pede só que você faça o que ela mandar, uma vez. A voz não parece mentir. Esse é o problema.",
       imagem: "assets/vila.webp",
@@ -312,8 +308,7 @@
         rodadasDesde: { condicao: 16 },
         flagsAusentes: ["condicao_abracada", "condicao_curada"],
       },
-      texto:
-        "Uma velha de colar de dentes pede para vê-lo na lua nova. Diz que sabe o que você é e que há maneiras de mudar isso.",
+      texto: "Na lua nova, uma velha de colar de dentes oferece mudar o que você é.",
       informacoes: "Nenhuma é de graça. Ela fala sem pressa, como quem já curou outros.",
       imagem: "assets/vila.webp",
       imagemAlt: "Uma velha aguarda junto a um círculo de pedras",
@@ -432,8 +427,7 @@
         rodadasDesde: { condicao: 16 },
         flagsAusentes: ["condicao_abracada", "condicao_curada"],
       },
-      texto:
-        "A voz, hoje, fala em outra língua. Uma criança aponta para você e pergunta quem é o homem atrás do senhor.",
+      texto: "A voz muda de língua; uma criança pergunta quem está atrás do senhor.",
       informacoes:
         "Alguns moradores rezam em frente ao salão. A voz está fraca. Esta pode ser a única janela.",
       imagem: "assets/vila.webp",

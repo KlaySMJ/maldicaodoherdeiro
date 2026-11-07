@@ -297,8 +297,7 @@
       requisitos: { memoriaAnterior: true },
       imagem: "assets/eventos-sistemas/crianca.webp",
       imagemAlt: "Uma criança contando uma história para moradores reunidos",
-      texto:
-        "Uma criança conta aos moradores como o herdeiro anterior morreu na rodada {{rodada}}, com honra {{honra}}.",
+      texto: "A criança conta como o herdeiro morreu na rodada {{rodada}}, com honra {{honra}}.",
       informacoes: "Ela repete: {{motivo}} Cada pessoa acrescenta um detalhe diferente. Nenhuma muda o fim.",
       opcoes: [
         {
@@ -327,7 +326,7 @@
       requisitos: { tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente acolhido pela vila, com o traje formal de conselheiro",
-      texto: "O menino que você acolheu retorna de uma viagem com anotações sobre as famílias da estrada.",
+      texto: "O menino retorna da estrada com anotações sobre as famílias.",
       informacoes:
         "Ele reconhece o selo da vila e pede para ajudar. Uma escolha antiga volta a produzir efeitos nesta crônica.",
       opcoes: [
@@ -358,8 +357,7 @@
       requisitos: { tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente conselheiro apresenta sua primeira proposta à vila",
-      texto:
-        "Na primeira sessão formal, o adolescente estuda os pedidos das famílias e propõe começar pelos que ficaram sem abrigo.",
+      texto: "Na primeira sessão, o jovem conselheiro prioriza as famílias sem abrigo.",
       informacoes: "A nomeação do menino agora afeta as decisões da vila.",
       opcoes: [
         {

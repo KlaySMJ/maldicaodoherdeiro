@@ -344,7 +344,7 @@
     carta(
       "ponte_de_corda",
       "A ponte de corda",
-      "A travessia encurta o caminho entre os campos, mas uma mula cedeu sobre as tábuas na semana passada.",
+      "A ponte encurta a rota, mas uma mula já cedeu nas tábuas.",
       "Os nós já estão desfiando. Reforçar a passagem, limitar o peso ou desmontá-la muda quem consegue atravessar.",
       artes.ponte,
       [
@@ -371,7 +371,7 @@
     carta(
       "velas_de_sebo",
       "As velas de sebo",
-      "O cesto de velas está quase vazio antes da noite em que os escribas precisam terminar os registros.",
+      "Faltam velas para os escribas terminarem os registros esta noite.",
       "A guarda também pediu luz para a ronda. O estoque pode ser dividido, encomendado ou reservado para quem patrulha o muro.",
       artes.vela,
       [
@@ -425,7 +425,7 @@
     carta(
       "cerca_de_espinhos",
       "A cerca de espinhos",
-      "A cerca viva protege as hortas, mas os galhos fecharam a trilha usada por quem leva água até o moinho.",
+      "A cerca protege as hortas, mas fecha a trilha da água para o moinho.",
       "O dono pede que ninguém corte a cerca sem avisá-lo. Podar, desviar ou compensar o trabalho deixa a passagem e a horta em condições diferentes.",
       artes.vila,
       [
@@ -587,7 +587,7 @@
     carta(
       "retrato_sem_dono",
       "O retrato sem dono",
-      "Um retrato aparece na sala comunal, coberto por um pano que ninguém lembra de ter pendurado.",
+      "Um retrato coberto surge na sala comunal; ninguém o reconhece.",
       "A moldura traz o nome de uma vila que já não aparece nos mapas. Guardar a pintura, leiloá-la ou pedir ajuda para localizar a família muda o destino do objeto.",
       artes.retrato,
       [
@@ -1047,7 +1047,7 @@
     carta(
       "chuva_poco_seco",
       "A chuva sobre o poço seco",
-      "Uma chuva estreita cai sobre o poço seco enquanto o restante da praça continua coberto de poeira.",
+      "Uma faixa de chuva cai apenas sobre o poço seco.",
       "Pela manhã, há água até a primeira pedra. Recolher a água, pedir um exame ou cobrir o poço evita que a curiosidade vire uma fila perigosa.",
       artes.poco,
       [
@@ -1101,7 +1101,7 @@
     carta(
       "janela_casa_vazia",
       "A janela acesa na casa vazia",
-      "Uma janela mostra luz em três noites seguidas, embora a casa esteja fechada desde a partida de seus antigos moradores.",
+      "Por três noites, uma janela brilha numa casa vazia desde a partida dos antigos moradores.",
       "Ninguém ouviu passos no caminho. Entrar com testemunhas, vender a propriedade ou manter a porta fechada encerra a vigília por motivos diferentes.",
       artes.janela,
       [
@@ -2279,7 +2279,7 @@
     carta(
       "olho_no_reboco",
       "O olho no reboco",
-      "Ao derrubar uma parede de uma casa vazia, os pedreiros encontram um olho dourado preso entre as pedras.",
+      "Pedreiros encontram um olho dourado dentro da parede de uma casa vazia.",
       "A pupila se move quando alguém fala; do outro lado, uma voz dá o nome de uma família que ainda não chegou. Levar a relíquia à ervateira inicia a investigação. Cobri-la com argamassa encerra o assunto.",
       artes.olho,
       [

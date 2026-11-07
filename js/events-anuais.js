@@ -270,8 +270,7 @@
       requisitos: { ano: 3, estacao: "verao" },
       imagem: "assets/eventos-especiais/viajante-norte.webp",
       imagemAlt: "Viajantes cansados atravessam uma estrada seca durante o verão",
-      texto:
-        "Um grupo atravessa a estrada no calor e traz notícia do sul: o rio baixou tanto que os barcos já não chegam ao mercado.",
+      texto: "Viajantes do sul chegam sem barcos: o rio baixou e o mercado ficou inacessível.",
       informacoes:
         "Pedem água para continuar. Acolher quem passa, trocar mantimentos por trabalho ou fechar o acesso muda a viagem.",
       opcoes: [

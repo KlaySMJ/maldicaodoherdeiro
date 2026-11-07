@@ -44,7 +44,7 @@
     disparadoPelaEngine: true,
     imagem: "assets/eventos-culto/ultimo.webp",
     imagemAlt: "Uma chama pequena diante de uma cadeira de pedra num salão vazio",
-    texto: "As casas estão vazias e as portas, abertas. Uma chama arde no salão, e vozes repetem seu nome.",
+    texto: "As casas estão vazias; no salão, uma chama arde e vozes dizem seu nome.",
     informacoes: "Uma cadeira de pedra espera à beira do fogo.",
     opcoes: [
       {
@@ -308,7 +308,7 @@
       peso: 2,
       rodadaMin: 5,
       imagem: "templo",
-      texto: "Os administradores do culto querem cobrar uma taxa de cada casa para manter o templo aceso.",
+      texto: "O culto quer cobrar de cada casa para manter o templo aceso.",
       informacoes: "A cobrança pode fortalecer o culto ou custar a confiança da vila.",
       opcoes: [
         {
@@ -386,8 +386,7 @@
       rodadaMin: 8,
       imagem: "irmas-da-estrada",
       extra: { imagemAlt: "Duas irmãs viajantes caminham juntas, com trouxas presas aos mantos" },
-      texto:
-        "Duas irmãs chegam à vila procurando a família que perdeu contato com elas quando o culto cresceu.",
+      texto: "Duas irmãs buscam a família que perderam quando o culto cresceu.",
       informacoes: "Elas conhecem caminhos seguros e pedem que ninguém seja obrigado a ficar.",
       opcoes: [
         {
@@ -414,7 +413,7 @@
     requisitos: { tracos: "herdeiro_culto", rodadaMin: 8, cultoAtivo: false },
     imagem: "assets/eventos-culto/templo.webp",
     imagemAlt: "Templo do culto, referência provisória",
-    texto: "A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo.",
+    texto: "Uma mulher abre uma caixa de brasas e convida você ao templo.",
     informacoes:
       "Trinta mantos esperam à porta. Ao aderir, os seguidores em reserva recebem mais 50 membros.",
     opcoes: [

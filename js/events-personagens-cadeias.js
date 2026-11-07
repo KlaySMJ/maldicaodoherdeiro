@@ -52,8 +52,7 @@
       requisitos: { flagsAusentes: ["bruxa_frutos_resolvido"] },
       imagem: "assets/vila.webp",
       imagemAlt: "Um pequeno cesto deixado diante de uma porta",
-      texto:
-        "Um cesto de frutos escuros aparece diante do salão. A bruxa espera no caminho e garante que são seguros, desde que ninguém os cozinhe em ferro.",
+      texto: "A bruxa deixa frutos escuros e proíbe cozinhá-los em ferro.",
       informacoes: "O cheiro é doce. O aviso sobre a panela parece específico demais.",
       opcoes: [
         {
@@ -173,8 +172,7 @@
       },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente acolhido pela vila, vestido para servir no conselho, com um sorriso honroso",
-      texto:
-        "Ele cresceu, aprendeu a ouvir as famílias e agora os moradores o procuram antes de levar certos problemas ao salão.",
+      texto: "O menino cresceu e virou conselheiro; as famílias o procuram antes de falar com você.",
       informacoes:
         "Quarenta rodadas se passaram desde que você acolheu o menino. O nome do cargo é antigo. O trabalho, não.",
       opcoes: [
@@ -199,8 +197,7 @@
       requisitos: { flags: ["menino_conselheiro"], tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O jovem conselheiro, em vestes formais, apresenta suas contas do armazém",
-      texto:
-        "O jovem conselheiro percebe que os sacos do armazém foram contados duas vezes e propõe repartir o excedente antes que estrague.",
+      texto: "O conselheiro nota a contagem duplicada e propõe dividir o excedente.",
       informacoes: "Ele já sabe quais famílias precisam mais. Você confirma a lista.",
       opcoes: [
         {
@@ -253,8 +250,7 @@
       requisitos: { flags: ["menino_conselheiro"], tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O jovem conselheiro, em vestes formais, orienta os guardas no treino",
-      texto:
-        "O jovem conselheiro observa os guardas treinarem e aponta que os mais novos nunca praticam com escudos do mesmo tamanho.",
+      texto: "O conselheiro nota que os guardas mais novos treinam com escudos de tamanhos diferentes.",
       informacoes: "O armeiro já separou madeira para fazer os ajustes.",
       opcoes: [
         {
