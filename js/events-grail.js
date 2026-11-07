@@ -14,8 +14,9 @@
       imagem: "assets/cavaleiro-de-osso.webp",
       imagemAlt: "Um cavaleiro de ossos jaz sob a armadura rachada",
       texto:
-        "Um cavaleiro de armadura rachada jaz à beira da estrada. Ele murmura sobre um cálice que cura e condena, e sobre um lugar onde dois caminhos se separam. Cada palavra custa ao peito dele um suspiro.",
-      informacoes: "O cavaleiro não tem muito tempo. Ele só quer ser ouvido.",
+        "Um cavaleiro de armadura rachada jaz à beira da estrada. Ele murmura sobre um cálice que cura e condena, e sobre um lugar onde dois caminhos se separam.",
+      informacoes:
+        "Cada palavra custa ao peito dele um suspiro. O cavaleiro não tem muito tempo. Ele só quer ser ouvido.",
       opcoes: [
         {
           id: "ouvir",
@@ -117,8 +118,9 @@
       imagem: "assets/vila.webp",
       imagemAlt: "Uma estrada se cruza diante do portão da vila",
       texto:
-        "Duas estradas saem do mesmo ponto. À esquerda, pedras brancas e passarinhos. À direita, pedras negras e corvos. No centro, um marco de pedra traz uma inscrição: ‘Só passa quem é o que parece ser.’",
-      informacoes: "Você sente que a estrada o escolheu antes de você escolhê-la.",
+        "Duas estradas saem do mesmo ponto. À esquerda, pedras brancas e passarinhos. À direita, pedras negras e corvos.",
+      informacoes:
+        "No centro, um marco de pedra traz uma inscrição: ‘Só passa quem é o que parece ser.’ Você sente que a estrada o escolheu antes de você escolhê-la.",
       opcoes: [
         {
           id: "luz",
@@ -162,9 +164,9 @@
       },
       imagem: "assets/ervas.webp",
       imagemAlt: "Ervas, frascos e um pilão usados para cuidar de doentes",
-      texto:
-        "Numa caverna alta, um ermitão magro oferece água e três perguntas. Ele diz que o Cálice não se dá a quem quer, apenas a quem já faz o que ele pede.",
-      informacoes: "As perguntas não têm palavras. São ações.",
+      texto: "Numa caverna alta, um ermitão magro oferece água e três perguntas.",
+      informacoes:
+        "Ele diz que o Cálice não se dá a quem quer, apenas a quem já faz o que ele pede. As perguntas não têm palavras. São ações.",
       opcoes: [
         {
           id: "esmola",
@@ -208,8 +210,8 @@
       imagem: "assets/corvo.webp",
       imagemAlt: "Um corvo negro do tamanho de um homem espera sobre um altar",
       texto:
-        "Num santuário abandonado, em meio à névoa, um corvo do tamanho de um homem espera sobre o altar. Fala em voz grave e cansada. Diz que a sombra também tem um preço, e que ele cobra em coisas pequenas.",
-      informacoes: "O corvo não discute. Apenas cobra.",
+        "Num santuário abandonado, em meio à névoa, um corvo do tamanho de um homem espera sobre o altar. Diz que a sombra também tem um preço, e que ele cobra em coisas pequenas.",
+      informacoes: "Fala em voz grave e cansada. O corvo não discute. Apenas cobra.",
       opcoes: [
         {
           id: "sangue",
@@ -256,8 +258,9 @@
       imagem: "assets/santa-sem-nome.webp",
       imagemAlt: "Uma figura sagrada com um halo de luz",
       texto:
-        "No alto da montanha, uma capela sem teto deixa o sol cair sobre um altar de pedra. Sobre ele, um cálice de madeira simples, gasto pelo uso. Não há guardião. Apenas um silêncio que parece vir de dentro do cálice.",
-      informacoes: "Peregrinos esperam à porta da capela, em fila. Ninguém ousa tocá-lo.",
+        "No alto da montanha, uma capela sem teto deixa o sol cair sobre um altar de pedra. Sobre ele, um cálice de madeira simples, gasto pelo uso.",
+      informacoes:
+        "Não há guardião. Apenas um silêncio que parece vir de dentro do cálice. Peregrinos esperam à porta da capela, em fila. Ninguém ousa tocá-lo.",
       opcoes: [
         {
           id: "levar",
@@ -303,9 +306,9 @@
       imagem: "assets/torre-na-lagoa.webp",
       imagemAlt: "Uma torre de pedra meio submersa em águas escuras",
       texto:
-        "Um templo meio afundado no pântano negro mostra, entre as colunas, um cálice de pedra escura, coberto de algas. Um guardião de lama, armadura e raiva ergue-se da água, sem dizer palavra.",
+        "Um templo meio afundado no pântano negro mostra, entre as colunas, um cálice de pedra escura, coberto de algas.",
       informacoes:
-        "O ataque precisa alcançar a defesa do guardião. Seu escudo reduz o dano recebido, sem se desgastar.",
+        "Um guardião de lama, armadura e raiva ergue-se da água, sem dizer palavra. O ataque precisa alcançar a defesa do guardião. Seu escudo reduz o dano recebido, sem se desgastar.",
       batalha: {
         semAjuste: true,
         semOverrides: true,

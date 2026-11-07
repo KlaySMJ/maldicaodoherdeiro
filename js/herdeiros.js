@@ -23,6 +23,17 @@
       iniciais: { ataque: 9, escudo: 1 },
     },
   };
+  const nomes = {
+    corajoso: "Hilda",
+    avarento: "Dário",
+    doente: "Miro",
+    druida_herdeiro: "Faelan",
+    menino_cronista: "Cedric",
+    heroi_do_povo: "Ndidi",
+    herdeiro_culto: "Baltazar",
+    herdeira_leste: "Xinyue",
+    herdeiro_nordico: "Sigurd",
+  };
   const desbloqueaveis = ["druida_herdeiro", "menino_cronista", "heroi_do_povo", ...Object.keys(novos)];
   const todos = ["corajoso", "avarento", "doente", ...desbloqueaveis];
   const condicoes = {
@@ -172,6 +183,7 @@
   }
   Jogo.herdeiros = {
     novos,
+    nomes,
     todos,
     desbloqueaveis,
     condicoes,

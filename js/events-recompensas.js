@@ -10,10 +10,9 @@
       peso: 1.15,
       imagem: "assets/forja.webp",
       imagemAlt: "Uma arma e um escudo deixados junto à forja",
-      texto:
-        "Entre as ferramentas esquecidas, o ferreiro encontra uma peça que ainda serve. Ele limpa a ferrugem e espera sua decisão.",
+      texto: "Entre as ferramentas esquecidas, o ferreiro encontra uma peça que ainda serve.",
       informacoes:
-        "Se aceitar, leva um equipamento que reforça seus atributos e fica com você até o fim desta jornada.",
+        "Ele limpa a ferrugem e espera sua decisão. Se aceitar, leva um equipamento que reforça seus atributos e fica com você até o fim desta jornada.",
       opcoes: [
         {
           id: "ficar",
@@ -35,10 +34,9 @@
       peso: 0.35,
       imagem: "assets/bau-estrada.webp",
       imagemAlt: "Um embrulho antigo retirado de um baú",
-      texto:
-        "Um embrulho lacrado é encontrado sob as tábuas do salão. O selo não pertence a nenhuma família conhecida.",
+      texto: "Um embrulho lacrado é encontrado sob as tábuas do salão.",
       informacoes:
-        "O embrulho guarda um item especial, mas seu conteúdo só aparece depois que você rompe o selo.",
+        "O selo não pertence a nenhuma família conhecida. O embrulho guarda um item especial, mas seu conteúdo só aparece depois que você rompe o selo.",
       opcoes: [
         {
           id: "abrir",
@@ -61,9 +59,8 @@
       requisitos: { flags: ["cinto_vento_ativo"] },
       imagem: "assets/vila.webp",
       imagemAlt: "Um caminho vazio junto às muralhas",
-      texto:
-        "Você correu por toda a estrada antes de encontrar qualquer batalha. Quando para, o cinto já não está mais em sua cintura.",
-      informacoes: "A força durou menos que a corrida.",
+      texto: "Você correu por toda a estrada antes de encontrar qualquer batalha.",
+      informacoes: "Quando para, o cinto já não está mais em sua cintura. A força durou menos que a corrida.",
       opcoes: [
         {
           id: "seguir",

@@ -1,0 +1,76 @@
+{
+  "gerador": "Ferramenta integrada imagegen",
+  "estado": "Paleta integrada nas sete versoes neutra e de honra; honra minima em ocre muito palido e desbotado",
+  "referenciaIdentidade": "assets/herdeiros/avarento-neutra.png",
+  "previa": "docs/previas/avarento.html",
+  "invariantes": "Preservar o mesmo homem, rosto, expressao de cada faixa, cabelo claro, coroa dourada, busto, recorte, moeda segurada na mao, hachura, contornos irregulares e fundo transparente. A cor atinge apenas o tecido existente. Nao adicionar moedas, flores ou simbolos na roupa.",
+  "promptComumHonras": "Use case: identity-preserve. Edit the supplied exact state portrait of the SAME Heir Avarento. This is a clothing-color edit, not a redesign. Preserve the same face, age, sly or stern expression for that state, pale hair, gold crown, hand and single coin held in the fingers, head position, bust scale, crop, shoulder silhouette, original seams and garment structure. Preserve warm-ivory skin and hair, crown and hand-coin gold, existing small localized gold edging, black ink outlines, hatching and genuinely transparent background. Recolor only cloth according to the state palette. Do not add coins, flowers, badges or symbols to clothing, and do not add props, text, frames or scenery.",
+  "coresRoupaAprovadas": {
+    "neutra": "#8B673D",
+    "honraAlta": "#8B673D",
+    "honraMuitoAlta": "#8B673D",
+    "honraMaxima": "#8B673D",
+    "honraBaixa": "#9B8160",
+    "honraMuitoBaixa": "#B0A18B",
+    "honraMinima": "#C3BCB1",
+    "honraMinimaDescricao": "ocre muito palido e desbotado, sem matiz azulada",
+    "coroaEfeitoMoeda": "preservar em dourado",
+    "culto": "inalterado"
+  },
+  "variantes": [
+    {
+      "estado": "neutra",
+      "arquivo": "assets/herdeiros/avarento-neutra.png",
+      "cor": "#8B673D",
+      "promptEspecifico": "Neutral: recolor only the existing tunic and sleeves to aged ochre-brown near #8B673D. Preserve the crown, hand-held coin, face, hair, black hatching and transparent cutout."
+    },
+    {
+      "estado": "alta",
+      "honra": 30,
+      "arquivo": "assets/herdeiros/avarento-alta.png",
+      "cor": "#8B673D",
+      "promptEspecifico": "High honor: keep the original short mantle, gold edging and coin in hand. Recolor the main fabric of the mantle, collar and sleeves to #8B673D."
+    },
+    {
+      "estado": "alta-2",
+      "honra": 60,
+      "arquivo": "assets/herdeiros/avarento-alta-2.png",
+      "cor": "#8B673D",
+      "promptEspecifico": "Very high honor: retain the original high neckline, mantle, gold trim, hand and coin. Recolor the cloth #8B673D and leave the upper chest free of the laurel medal; do not add flowers or symbols to clothing."
+    },
+    {
+      "estado": "altissima",
+      "honra": 90,
+      "arquivo": "assets/herdeiros/avarento-altissima.png",
+      "cor": "#8B673D",
+      "promptEspecifico": "Maximum honor: retain the original ornate crown, embroidered collar and robe construction. Recolor the robe #8B673D; keep gold embroidery on the collar, cuffs and borders localized, and leave shoulders free of flower motifs."
+    },
+    {
+      "estado": "baixa",
+      "honra": -30,
+      "arquivo": "assets/herdeiros/avarento-baixa.png",
+      "cor": "#9B8160",
+      "promptEspecifico": "Low honor: keep the original sour expression, robe and repair patch. Recolor cloth to slightly faded ochre-brown near #9B8160; preserve the patch, coin, crown and all existing wear."
+    },
+    {
+      "estado": "baixa-2",
+      "honra": -60,
+      "arquivo": "assets/herdeiros/avarento-baixa-2.png",
+      "cor": "#B0A18B",
+      "promptEspecifico": "Very low honor: retain the original rumpled robe and seams. Recolor its fabric to desaturated tan-brown near #B0A18B, lighter and greyer than the -30 state."
+    },
+    {
+      "estado": "baixissima",
+      "honra": -90,
+      "arquivo": "assets/herdeiros/avarento-baixissima.png",
+      "cor": "#C3BCB1",
+      "promptEspecifico": "Extreme low honor: preserve all original tears, frayed edges, fur collar and warm-ivory repair patches. The main garment is very pale, washed-out ochre-beige near #C3BCB1, still in the approved ochre-brown family. Avoid blue or cool gray cast. Keep the crown and hand-held coin gold."
+    },
+    {
+      "estado": "culto",
+      "arquivo": "assets/herdeiros/avarento-culto.png",
+      "integrado": false,
+      "promptEspecifico": "Outside this palette; keep the existing cult portrait unchanged."
+    }
+  ]
+}

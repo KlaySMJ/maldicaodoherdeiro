@@ -1,0 +1,76 @@
+{
+  "gerador": "Ferramenta integrada imagegen",
+  "estado": "Laranja queimado integrado nas sete versões neutra e de honra",
+  "referenciaIdentidade": "assets/herdeiros/menino-cronista-neutra.png",
+  "previa": "docs/previas/menino-cronista.html",
+  "invariantes": "Preservar o mesmo menino, rosto, idade, cabelo cacheado, sardas, coroa dourada, expressão própria de cada honra, busto, escala, recorte, hachuras, contornos pretos, detalhes dourados localizados e fundo transparente. A gola alta e a túnica usam a paleta alaranjada; a capa drapeada permanece marfim. O culto não muda.",
+  "promptComumHonras": "Use case: identity-preserve. Edit the supplied exact state portrait of the SAME Menino da Crônica. This is a clothing-color/state edit, not a redesign. Preserve his exact face, age, curly hair, freckles, gold crown, expression for that honor, head position, bust scale, crop, outfit silhouette, seams, wear and patches. Keep warm-ivory skin and hair, localized gold details, black medieval ink contours and hatching, and genuinely transparent background. Recolor only existing cloth. The high collar and tunic follow the approved aged burnt-orange palette. The separate draped cape stays warm ivory #F9EEDD. Preserve each state's original cut and wear; negative honors fade in stages while remaining recognizably orange. No added symbols, props, text, frames, scenery or garment layers.",
+  "coresRoupaAprovadas": {
+    "neutra": "#B9753F",
+    "honraAlta": "#B9753F",
+    "honraMuitoAlta": "#B9753F",
+    "honraMaxima": "#B9753F",
+    "capa": "#F9EEDD",
+    "honraBaixa": "#C38A5E",
+    "honraMuitoBaixa": "#CEA17E",
+    "honraMinima": "#D3AE91",
+    "culto": "inalterado"
+  },
+  "variantes": [
+    {
+      "estado": "neutra",
+      "arquivo": "assets/herdeiros/menino-cronista-neutra.png",
+      "cor": "#B9753F",
+      "capa": "#F9EEDD",
+      "promptEspecifico": "Use the approved burnt orange #B9753F on the existing tunic and high collar. Keep the separate draped cape warm ivory #F9EEDD."
+    },
+    {
+      "estado": "alta",
+      "honra": 30,
+      "arquivo": "assets/herdeiros/menino-cronista-alta.png",
+      "cor": "#B9753F",
+      "promptEspecifico": "High honor +30: preserve this state's exact outfit cut and expression. Color only its existing high collar and tunic burnt orange #B9753F; keep the draped cape warm ivory #F9EEDD."
+    },
+    {
+      "estado": "alta-2",
+      "honra": 60,
+      "arquivo": "assets/herdeiros/menino-cronista-alta-2.png",
+      "cor": "#B9753F",
+      "promptEspecifico": "Very high honor +60: keep the exact original garment shapes and small gold clasp. Existing tunic and high collar are burnt orange #B9753F; draped cape stays warm ivory #F9EEDD."
+    },
+    {
+      "estado": "altissima",
+      "honra": 90,
+      "arquivo": "assets/herdeiros/menino-cronista-altissima.png",
+      "cor": "#B9753F",
+      "promptEspecifico": "Maximum honor +90: preserve the exact restrained tailored outfit. Existing tunic and high collar are burnt orange #B9753F; draped cape stays warm ivory #F9EEDD."
+    },
+    {
+      "estado": "baixa",
+      "honra": -30,
+      "arquivo": "assets/herdeiros/menino-cronista-baixa.png",
+      "cor": "#C38A5E",
+      "promptEspecifico": "Low honor -30: preserve the existing worn details and patches. Recolor only the tunic and high collar with faded burnt orange #C38A5E; keep the draped cape warm ivory #F9EEDD."
+    },
+    {
+      "estado": "baixa-2",
+      "honra": -60,
+      "arquivo": "assets/herdeiros/menino-cronista-baixa-2.png",
+      "cor": "#CEA17E",
+      "promptEspecifico": "Very low honor -60: retain its existing frays and repairs. Use lighter, more washed-out orange #CEA17E on the tunic and high collar. The separate cape remains warm ivory #F9EEDD."
+    },
+    {
+      "estado": "baixissima",
+      "honra": -90,
+      "arquivo": "assets/herdeiros/menino-cronista-baixissima.png",
+      "cor": "#D3AE91",
+      "promptEspecifico": "Extreme low honor -90: retain the tears and patches. Use a pale, low-saturation dusty orange #D3AE91 on the tunic and high collar, lighter and less saturated than #CEA17E but still visibly orange against the warm ivory #F9EEDD cape."
+    },
+    {
+      "estado": "culto",
+      "arquivo": "assets/herdeiros/menino-cronista-culto.png",
+      "integrado": false,
+      "promptEspecifico": "Fora desta paleta. Manter o retrato de culto existente sem alterações."
+    }
+  ]
+}

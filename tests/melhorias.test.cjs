@@ -88,6 +88,21 @@ test("seleção de herdeiro oferece retratos com detalhes disponíveis ao passar
   assert.match(app.innerHTML, /alt=""/);
 });
 
+test("todo traço tem nome próprio e o quadro da partida mostra o nome ao lado do epíteto", () => {
+  const { J, novaRun, app } = preparar();
+
+  for (const traco of J.herdeiros.todos) {
+    assert.ok(J.herdeiros.nomes[traco], `traço ${traco} sem nome próprio`);
+  }
+
+  const run = novaRun();
+  J.ui.jogo(run, { textoCompleto: true });
+  const titulo = app.innerHTML.match(/<h2 id="titulo-herdeiro">([^<]*)<\/h2>/)?.[1];
+  const epiteto = app.innerHTML.match(/class="traco-tooltip"[^>]*>([^<]*)<\/span>/)?.[1];
+  assert.equal(titulo, J.herdeiros.nomes[run.traco]);
+  assert.ok(epiteto && epiteto !== titulo);
+});
+
 test("texto da carta mantém cópia acessível sem duplicá-la na leitura visual e informa Gold no hover", () => {
   const { J, novaRun, app } = preparar();
   J.ui.jogo(novaRun(), { textoCompleto: true });

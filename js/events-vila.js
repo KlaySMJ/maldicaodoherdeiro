@@ -13,8 +13,9 @@
         requisitos: {
           flagsAusentes: ["moinho_decidido"],
         },
-        texto: "A roda do moinho parou de girar. O moleiro jura que o rio mudou de ideia; o rio não comenta.",
-        informacoes: "Sem moinho, o pão encarece e a praça esvazia.",
+        texto: "A roda do moinho parou de girar.",
+        informacoes:
+          "O moleiro jura que o rio mudou de ideia; o rio não comenta. Sem moinho, o pão encarece e a praça esvazia.",
         opcoes: [
           {
             id: "consertar",
@@ -75,9 +76,9 @@
           flags: ["moinho_reparado"],
           flagsAusentes: ["farinha_decidida"],
         },
-        texto:
-          "O moinho trabalha de novo e a farinha sai mais branca do que a vila está acostumada. Padeiros de três povoados querem comprar.",
-        informacoes: "O excedente pode virar moedas, pão ou reserva para o inverno.",
+        texto: "O moinho trabalha de novo e a farinha sai mais branca do que a vila está acostumada.",
+        informacoes:
+          "Padeiros de três povoados querem comprar. O excedente pode virar moedas, pão ou reserva para o inverno.",
         opcoes: [
           {
             id: "vender",
@@ -145,9 +146,9 @@
         requisitos: {
           flagsAusentes: ["bardo_decidido"],
         },
-        texto:
-          "Um bardo chega pedindo pouso e promete compor uma canção sobre o senhor da vila. Não diz quando, nem como ela termina.",
-        informacoes: "Canções correm mais rápido que cavalos, para o bem e para o mal.",
+        texto: "Um bardo chega pedindo pouso e promete compor uma canção sobre o senhor da vila.",
+        informacoes:
+          "Não diz quando, nem como ela termina. Canções correm mais rápido que cavalos, para o bem e para o mal.",
         opcoes: [
           {
             id: "abrigar",
@@ -202,9 +203,9 @@
           flags: ["bardo_cantou"],
           flagsAusentes: ["cancao_resolvida"],
         },
-        texto:
-          "Um estranho cantarola na praça uma canção sobre a vila. Ele erra o nome do senhor, mas acerta quase tudo o mais.",
-        informacoes: "A canção já chegou a lugares onde a vila nunca foi.",
+        texto: "Um estranho cantarola na praça uma canção sobre a vila.",
+        informacoes:
+          "Ele erra o nome do senhor, mas acerta quase tudo o mais. A canção já chegou a lugares onde a vila nunca foi.",
         opcoes: [
           {
             id: "aprender",
@@ -262,9 +263,9 @@
         titulo: "Gado perdido",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Metade do rebanho sumiu antes do amanhecer. Há pegadas de gado e de botas, mas nenhuma delas leva ao mesmo lugar.",
-        informacoes: "O rebanho alimenta a vila e paga parte dos impostos.",
+        texto: "Metade do rebanho sumiu antes do amanhecer.",
+        informacoes:
+          "Há pegadas de gado e de botas, mas nenhuma delas leva ao mesmo lugar. O rebanho alimenta a vila e paga parte dos impostos.",
         opcoes: [
           {
             id: "seguir",
@@ -310,10 +311,9 @@
         titulo: "Lobos na neve",
         tipo: "batalha",
         peso: 2,
-        texto:
-          "Lobos magros rondam o curral. Eles entram à noite e saem antes que alguém aprenda seus nomes.",
+        texto: "Lobos magros rondam o curral.",
         informacoes:
-          "O ataque precisa alcançar a defesa da matilha. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "Eles entram à noite e saem antes que alguém aprenda seus nomes. O ataque precisa alcançar a defesa da matilha. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "guardar",
@@ -371,9 +371,9 @@
             multiplicador: 5,
           },
         ],
-        texto:
-          "A tranca da cela foi arrombada por dentro. O prisioneiro foi pego na cerca, ferido, e pede para falar com você.",
-        informacoes: "Ele afirma que foi preso por roubar pão. Ninguém lembra o julgamento.",
+        texto: "A tranca da cela foi arrombada por dentro.",
+        informacoes:
+          "O prisioneiro foi pego na cerca, ferido, e pede para falar com você. Ele afirma que foi preso por roubar pão. Ninguém lembra o julgamento.",
         opcoes: [
           {
             id: "ouvir",
@@ -432,9 +432,9 @@
           flags: ["prisioneiro_solto"],
           flagsAusentes: ["prisioneiro_pago"],
         },
-        texto:
-          "O homem que você soltou volta com uma mula e um saco. Diz que deve algo a alguém, e esse alguém é você.",
-        informacoes: "Ele não parece perigoso, mas parece decidido.",
+        texto: "O homem que você soltou volta com uma mula e um saco.",
+        informacoes:
+          "Diz que deve algo a alguém, e esse alguém é você. Ele não parece perigoso, mas parece decidido.",
         opcoes: [
           {
             id: "receber",
@@ -492,9 +492,9 @@
             multiplicador: 5,
           },
         ],
-        texto:
-          "O cofre foi aberto durante a noite sem arrombar a fechadura. Apenas quem conhece o esconderijo poderia ter feito isso.",
-        informacoes: "Alguém próximo de você sabe onde guardas o ouro.",
+        texto: "O cofre foi aberto durante a noite sem arrombar a fechadura.",
+        informacoes:
+          "Apenas quem conhece o esconderijo poderia ter feito isso. Alguém próximo de você sabe onde guardas o ouro.",
         opcoes: [
           {
             id: "interrogar",
@@ -540,9 +540,9 @@
         requisitos: {
           honraMin: 30,
         },
-        texto:
-          "Dois jovens de famílias rivais querem casar sob a árvore velha. Os pais fingem que isso não está acontecendo.",
-        informacoes: "Você pode presidir a cerimônia, ceder o salão ou pedir um dote aos noivos.",
+        texto: "Dois jovens de famílias rivais querem casar sob a árvore velha.",
+        informacoes:
+          "Os pais fingem que isso não está acontecendo. Você pode presidir a cerimônia, ceder o salão ou pedir um dote aos noivos.",
         opcoes: [
           {
             id: "presidir",
@@ -586,9 +586,9 @@
         tipo: "mandatorio",
         peso: 1,
         protecaoCeleiro: true,
-        texto:
-          "As nuvens passam sem parar. Os poços descem, e os campos racham. À noite, você divide sua água com quem não tem.",
-        informacoes: "A seca não negocia. Resta decidir como atravessá-la.",
+        texto: "As nuvens passam sem parar. Os poços descem, e os campos racham.",
+        informacoes:
+          "À noite, você divide sua água com quem não tem. A seca não negocia. Resta decidir como atravessá-la.",
         opcoes: [
           {
             id: "repartir",
@@ -613,9 +613,9 @@
         requisitos: {
           flagsAusentes: ["padre_decidido"],
         },
-        texto:
-          "Um padre de batina remendada pede abrigo. Diz que sua igreja ardeu e que ainda tem fé, mas não tem teto.",
-        informacoes: "A fé pode ser um bom alicerce ou um bom pretexto.",
+        texto: "Um padre de batina remendada pede abrigo.",
+        informacoes:
+          "Diz que sua igreja ardeu e que ainda tem fé, mas não tem teto. A fé pode ser um bom alicerce ou um bom pretexto.",
         opcoes: [
           {
             id: "celeiro",
@@ -669,9 +669,9 @@
           flags: ["padre_aceito"],
           flagsAusentes: ["capela_decidida"],
         },
-        texto:
-          "O padre pede pedras e mãos para erguer uma capela de verdade. A vila discute se prefere um teto novo ou um sino.",
-        informacoes: "Você pode ajudar a erguer a capela, pagar pedreiros ou dispensar o padre.",
+        texto: "O padre pede pedras e mãos para erguer uma capela de verdade.",
+        informacoes:
+          "A vila discute se prefere um teto novo ou um sino. Você pode ajudar a erguer a capela, pagar pedreiros ou dispensar o padre.",
         opcoes: [
           {
             id: "erguer",
@@ -732,10 +732,9 @@
           flagsAusentes: ["orfao_resolvido"],
           tracosAusentes: ["menino_cronista"],
         },
-        texto:
-          "O menino que carregava sacos fez uma trouxa menor do que as dívidas que você lhe deve. Ele está parado no portão e não chora.",
+        texto: "O menino que carregava sacos fez uma trouxa menor do que as dívidas que você lhe deve.",
         informacoes:
-          "Você pode pedir que ele fique, pagar o que lhe deve ou mandar os guardas fecharem o portão.",
+          "Ele está parado no portão e não chora. Você pode pedir que ele fique, pagar o que lhe deve ou mandar os guardas fecharem o portão.",
         opcoes: [
           {
             id: "perdao",
@@ -794,9 +793,9 @@
           flags: ["praga_entrou"],
           flagsAusentes: ["cinzas_resolvidas"],
         },
-        texto:
-          "As casas dos mortos continuam fechadas. Há quem queira queimá-las, quem queira saqueá-las, e quem não queira ir lá.",
-        informacoes: "A febre passou, mas deixou perguntas.",
+        texto: "As casas dos mortos continuam fechadas.",
+        informacoes:
+          "Há quem queira queimá-las, quem queira saqueá-las, e quem não queira ir lá. A febre passou, mas deixou perguntas.",
         opcoes: [
           {
             id: "queimar",
@@ -849,9 +848,9 @@
           flags: ["praga_evitada"],
           flagsAusentes: ["imunes_decidido"],
         },
-        texto:
-          "A curandeira diz que a vila nunca esteve tão saudável. Ela pergunta, sem acusar, se o senhor sabia mais do que contou.",
-        informacoes: "A praga que não chegou ainda circula nas conversas.",
+        texto: "A curandeira diz que a vila nunca esteve tão saudável.",
+        informacoes:
+          "Ela pergunta, sem acusar, se o senhor sabia mais do que contou. A praga que não chegou ainda circula nas conversas.",
         opcoes: [
           {
             id: "verdade",
@@ -905,9 +904,9 @@
           flags: ["testamento_lido"],
           flagsAusentes: ["carta_lida"],
         },
-        texto:
-          "Um antigo servo traz um envelope que o velho senhor mandou guardar. Diz que só deveria entregá-lo quando você hesitasse.",
-        informacoes: "A carta é breve e não explica quase nada.",
+        texto: "Um antigo servo traz um envelope que o velho senhor mandou guardar.",
+        informacoes:
+          "Diz que só deveria entregá-lo quando você hesitasse. A carta é breve e não explica quase nada.",
         opcoes: [
           {
             id: "ler",
@@ -957,8 +956,9 @@
           flags: ["carta_lida"],
           flagsAusentes: ["rosto_decidido"],
         },
-        texto: "Uma velha na praça diz que você tem o olhar do senhor anterior. Não sabe se é elogio.",
-        informacoes: "Você pode ouvir as lembranças da velha, negar a semelhança ou mandá-la calar.",
+        texto: "Uma velha na praça diz que você tem o olhar do senhor anterior.",
+        informacoes:
+          "Não sabe se é elogio. Você pode ouvir as lembranças da velha, negar a semelhança ou mandá-la calar.",
         opcoes: [
           {
             id: "perguntar",
@@ -1012,9 +1012,9 @@
         titulo: "O celeiro em chamas",
         tipo: "mandatorio",
         peso: 1,
-        texto:
-          "O fogo começa no celeiro e pula para o telhado vizinho. Você corre com baldes ao lado do povo, sem saber quem acendeu.",
-        informacoes: "O fogo não pergunta quem é o senhor.",
+        texto: "O fogo começa no celeiro e pula para o telhado vizinho.",
+        informacoes:
+          "Você corre com baldes ao lado do povo, sem saber quem acendeu. O fogo não pergunta quem é o senhor.",
         opcoes: [
           {
             id: "combater",
@@ -1035,10 +1035,9 @@
         titulo: "Ladrões na estrada",
         tipo: "batalha",
         peso: 2,
-        texto:
-          "Uma carroça de grãos foi cercada na curva do bosque. O cocheiro volta a pé, sem a carroça e sem o chapéu.",
+        texto: "Uma carroça de grãos foi cercada na curva do bosque.",
         informacoes:
-          "O ataque precisa alcançar a defesa dos ladrões. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "O cocheiro volta a pé, sem a carroça e sem o chapéu. O ataque precisa alcançar a defesa dos ladrões. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "perseguir",
@@ -1091,9 +1090,9 @@
         titulo: "O torneio da aldeia",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Os jovens querem testar quem dá o melhor golpe com bastões de madeira. Um deles já escolheu seu adversário: você.",
-        informacoes: "Você pode enfrentar o rapaz, premiar o vencedor ou proibir os jogos.",
+        texto: "Os jovens querem testar quem dá o melhor golpe com bastões de madeira.",
+        informacoes:
+          "Um deles já escolheu seu adversário: você. Você pode enfrentar o rapaz, premiar o vencedor ou proibir os jogos.",
         opcoes: [
           {
             id: "aceitar",
@@ -1144,8 +1143,9 @@
           flagsAusentes: ["arauto_decidido"],
         },
         texto:
-          "Um arauto de tabardo limpo anuncia que o rei quer saber quantos homens a vila pode oferecer à guerra. A voz dele é maior que o corpo.",
-        informacoes: "O rei está distante, mas a convocação nunca esteve tão perto.",
+          "Um arauto de tabardo limpo anuncia que o rei quer saber quantos homens a vila pode oferecer à guerra.",
+        informacoes:
+          "A voz dele é maior que o corpo. O rei está distante, mas a convocação nunca esteve tão perto.",
         opcoes: [
           {
             id: "enviar",
@@ -1199,9 +1199,9 @@
         narrativamenteUnico: true,
         oncePerRun: true,
         peso: 1,
-        texto:
-          "Um forasteiro pergunta demais sobre o moinho, o celeiro e a idade dos guardas. Diz que é só curiosidade, e cada pergunta tem um carimbo diferente.",
-        informacoes: "Ele pode ser um espião, ou apenas um sujeito muito curioso.",
+        texto: "Um forasteiro pergunta demais sobre o moinho, o celeiro e a idade dos guardas.",
+        informacoes:
+          "Diz que é só curiosidade, e cada pergunta tem um carimbo diferente. Ele pode ser um espião, ou apenas um sujeito muito curioso.",
         opcoes: [
           {
             id: "seguir",
@@ -1245,9 +1245,9 @@
         tipo: "encontro",
         peso: 2,
         grupoRecorrencia: "bruxa",
-        texto:
-          "Uma mulher de olhos cansados oferece uma poção em troca de uma conversa. Os moradores a chamam de bruxa; ela não discorda nem confirma.",
-        informacoes: "Ninguém sabe se a poção cura ou apenas colore a língua.",
+        texto: "Uma mulher de olhos cansados oferece uma poção em troca de uma conversa.",
+        informacoes:
+          "Os moradores a chamam de bruxa; ela não discorda nem confirma. Ninguém sabe se a poção cura ou apenas colore a língua.",
         opcoes: [
           {
             id: "beber",
@@ -1294,10 +1294,9 @@
         requisitos: {
           honraMin: 30,
         },
-        texto:
-          "Os moradores montaram bancas sem que ninguém mandasse. Há pão, couro, ferro, e um único espelho que ninguém conseguiu vender.",
+        texto: "Os moradores montaram bancas sem que ninguém mandasse.",
         informacoes:
-          "Você pode isentar as bancas, cobrar uma taxa pequena ou comprar o espelho que ninguém quer.",
+          "Há pão, couro, ferro, e um único espelho que ninguém conseguiu vender. Você pode isentar as bancas, cobrar uma taxa pequena ou comprar o espelho que ninguém quer.",
         opcoes: [
           {
             id: "isentar",
@@ -1348,10 +1347,9 @@
             multiplicador: 5,
           },
         ],
-        texto:
-          "Um camponês acusa o vizinho de mover as pedras do limite. O vizinho jura que as pedras se moveram sozinhas.",
+        texto: "Um camponês acusa o vizinho de mover as pedras do limite.",
         informacoes:
-          "Um acusa o outro de mover as pedras. Você pode medi-las, dividir o terreno ou condenar um dos vizinhos.",
+          "O vizinho jura que as pedras se moveram sozinhas. Um acusa o outro de mover as pedras. Você pode medi-las, dividir o terreno ou condenar um dos vizinhos.",
         opcoes: [
           {
             id: "medir",
@@ -1398,9 +1396,9 @@
         titulo: "O pregador furioso",
         tipo: "desordem",
         peso: 2,
-        texto:
-          "Um homem sobe na carroça e grita que a vila vive em pecado. Metade ri; a outra metade já está silenciosa.",
-        informacoes: "A fúria do pregador cresce com a plateia.",
+        texto: "Um homem sobe na carroça e grita que a vila vive em pecado.",
+        informacoes:
+          "Metade ri; a outra metade já está silenciosa. A fúria do pregador cresce com a plateia.",
         opcoes: [
           {
             id: "ouvir",
@@ -1445,9 +1443,9 @@
         requisitos: {
           rodadaMin: 5,
         },
-        texto:
-          "Uma carroça de grades passa pelo portão. Sob a lona, rostos cansados observam em silêncio. O mercador oferece duas bocas a mais pelo preço de um jantar.",
-        informacoes: "Há coisas que não se compram, mas se vendem.",
+        texto: "Uma carroça de grades passa pelo portão. Sob a lona, rostos cansados observam em silêncio.",
+        informacoes:
+          "O mercador oferece duas bocas a mais pelo preço de um jantar. Há coisas que não se compram, mas se vendem.",
         opcoes: [
           {
             id: "libertar",
@@ -1510,10 +1508,9 @@
         requisitos: {
           rodadaMin: 9,
         },
-        texto:
-          "Um urso enorme invadiu a plantação. Os lavradores olham para você e para o urso, nessa ordem.",
+        texto: "Um urso enorme invadiu a plantação.",
         informacoes:
-          "O ataque precisa alcançar a defesa da fera. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "Os lavradores olham para você e para o urso, nessa ordem. O ataque precisa alcançar a defesa da fera. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "enfrentar",
@@ -1580,10 +1577,9 @@
           rodadaMin: 5,
           flagsAusentes: ["mina_decidida"],
         },
-        texto:
-          "Crianças acharam uma entrada coberta de cipó atrás do moinho. Dentro, há tábuas apodrecidas e um brilho que talvez seja ferro.",
+        texto: "Crianças acharam uma entrada coberta de cipó atrás do moinho.",
         informacoes:
-          "Você pode reabrir a mina com escoras, entrar sozinho para avaliá-la ou lacrar a entrada.",
+          "Dentro, há tábuas apodrecidas e um brilho que talvez seja ferro. Você pode reabrir a mina com escoras, entrar sozinho para avaliá-la ou lacrar a entrada.",
         opcoes: [
           {
             id: "reabrir",
@@ -1643,10 +1639,9 @@
           flags: ["mina_aberta"],
           flagsAusentes: ["desabamento_ocorrido"],
         },
-        texto:
-          "A terra treme sob os pés. Um som surdo vem de dentro da mina, e os gritos chegam depois. Você corre.",
+        texto: "A terra treme sob os pés. Um som surdo vem de dentro da mina, e os gritos chegam depois.",
         informacoes:
-          "Os mineiros estão presos lá dentro. Para alcançá-los, você também terá de entrar na mina instável.",
+          "Você corre. Os mineiros estão presos lá dentro. Para alcançá-los, você também terá de entrar na mina instável.",
         opcoes: [
           {
             id: "resgatar",
@@ -1671,9 +1666,9 @@
         titulo: "Os irmãos rivais",
         tipo: "desordem",
         peso: 2,
-        texto:
-          "Dois irmãos herdaram a mesma casa e o mesmo ressentimento. Levam a briga à praça, onde ela cresce como se tivesse sido semeada.",
-        informacoes: "A vila escolhe lados rápido, e o senhor, mais devagar.",
+        texto: "Dois irmãos herdaram a mesma casa e o mesmo ressentimento.",
+        informacoes:
+          "Levam a briga à praça, onde ela cresce como se tivesse sido semeada. A vila escolhe lados rápido, e o senhor, mais devagar.",
         opcoes: [
           {
             id: "dividir",
@@ -1716,9 +1711,9 @@
         titulo: "A estalajadeira",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Uma mulher quer abrir uma estalagem na estrada da vila. Já tem as panelas, o nome e a paciência; só falta a licença do senhor.",
-        informacoes: "Você pode conceder a licença, cobrar uma taxa anual ou mandá-la voltar pela estrada.",
+        texto: "Uma mulher quer abrir uma estalagem na estrada da vila.",
+        informacoes:
+          "Já tem as panelas, o nome e a paciência; só falta a licença do senhor. Você pode conceder a licença, cobrar uma taxa anual ou mandá-la voltar pela estrada.",
         opcoes: [
           {
             id: "conceder",
@@ -1757,9 +1752,9 @@
         titulo: "Ratos no celeiro",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Os ratos chegaram em ondas, mastigando sacos e dignidade. O celeireiro propõe soluções que ninguém entende.",
-        informacoes: "Um celeiro roído é um inverno mais duro.",
+        texto: "Os ratos chegaram em ondas, mastigando sacos e dignidade.",
+        informacoes:
+          "O celeireiro propõe soluções que ninguém entende. Um celeiro roído é um inverno mais duro.",
         opcoes: [
           {
             id: "gatos",
@@ -1809,9 +1804,9 @@
         requisitos: {
           flagsAusentes: ["cometa_visto"],
         },
-        texto:
-          "Uma estrela com cauda atravessa o céu por três noites. Os velhos se benzem, os jovens apontam, os cães uivam sem parar.",
-        informacoes: "Você pode passar as noites ao relento observando a estrela com o povo.",
+        texto: "Uma estrela com cauda atravessa o céu por três noites.",
+        informacoes:
+          "Os velhos se benzem, os jovens apontam, os cães uivam sem parar. Você pode passar as noites ao relento observando a estrela com o povo.",
         opcoes: [
           {
             id: "observar",
@@ -1839,10 +1834,9 @@
           flags: ["cometa_visto"],
           flagsAusentes: ["profeta_decidido"],
         },
-        texto:
-          "Um homem com olhos acesos prega que o fim chega pelo céu. Metade da praça acredita; a outra metade ainda não decidiu.",
+        texto: "Um homem com olhos acesos prega que o fim chega pelo céu.",
         informacoes:
-          "Você pode acalmar a praça, pagar para o profeta partir ou lucrar com o medo que ele espalha.",
+          "Metade da praça acredita; a outra metade ainda não decidiu. Você pode acalmar a praça, pagar para o profeta partir ou lucrar com o medo que ele espalha.",
         opcoes: [
           {
             id: "desmentir",
@@ -1899,9 +1893,9 @@
         titulo: "O guarda cansado",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Seu guarda mais antigo dorme em pé, apoiado na lança. Quando o acorda, ele pede, com a voz de quem pede uma vez só, dias de folga.",
-        informacoes: "Guardas cansados protegem menos, mas guardas descansados cobram mais.",
+        texto: "Seu guarda mais antigo dorme em pé, apoiado na lança.",
+        informacoes:
+          "Quando o acorda, ele pede, com a voz de quem pede uma vez só, dias de folga. Guardas cansados protegem menos, mas guardas descansados cobram mais.",
         opcoes: [
           {
             id: "descanso",
@@ -1949,9 +1943,9 @@
             multiplicador: 5,
           },
         ],
-        texto:
-          "Três guardas sumiram durante a noite, levando lanças e botas. Os que ficaram evitam seu olhar.",
-        informacoes: "Guardas que partem não costumam voltar, e os que ficam observam sua reação.",
+        texto: "Três guardas sumiram durante a noite, levando lanças e botas.",
+        informacoes:
+          "Os que ficaram evitam seu olhar. Guardas que partem não costumam voltar, e os que ficam observam sua reação.",
         opcoes: [
           {
             id: "recompensa",
@@ -1997,10 +1991,9 @@
         titulo: "Rumores da lavanderia",
         tipo: "desordem",
         peso: 2,
-        texto:
-          "As lavadeiras cochicham em voz baixa sobre o senhor. Cada versão do rumor é mais interessante que a anterior.",
+        texto: "As lavadeiras cochicham em voz baixa sobre o senhor.",
         informacoes:
-          "Você pode pagar por elogios, conversar com as lavadeiras ou tentar calá-las. Ignoradas, elas continuam falando.",
+          "Cada versão do rumor é mais interessante que a anterior. Você pode pagar por elogios, conversar com as lavadeiras ou tentar calá-las. Ignoradas, elas continuam falando.",
         opcoes: [
           {
             id: "ignorar",
@@ -2061,9 +2054,9 @@
         requisitos: {
           honraMin: 30,
         },
-        texto:
-          "Um cavaleiro de armadura remendada pede um dia de descanso. Diz que ouviu falar da vila numa canção, e que as canções costumam exagerar.",
-        informacoes: "Ele não pede nada além de pouso, mas observa tudo.",
+        texto: "Um cavaleiro de armadura remendada pede um dia de descanso.",
+        informacoes:
+          "Diz que ouviu falar da vila numa canção, e que as canções costumam exagerar. Ele não pede nada além de pouso, mas observa tudo.",
         opcoes: [
           {
             id: "treino",
@@ -2111,10 +2104,9 @@
         requisitos: {
           rodadaMin: 7,
         },
-        texto:
-          "Um jovem nobre diz que você ofendeu sua família ao usar o nome do pai dele numa frase. Ele exige um duelo, com testemunhas e sem pressa.",
+        texto: "Um jovem nobre diz que você ofendeu sua família ao usar o nome do pai dele numa frase.",
         informacoes:
-          "O ataque precisa alcançar a defesa do duelista. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "Ele exige um duelo, com testemunhas e sem pressa. O ataque precisa alcançar a defesa do duelista. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "aceitar",
@@ -2177,9 +2169,9 @@
         requisitos: {
           rodadaMin: 4,
         },
-        texto:
-          "Um homem de chapéu alto confere o livro de contas da vila. Corrige somas com um sorriso que não alcança os olhos.",
-        informacoes: "Ele diz que representa o rei. Ninguém viu o rei, nem o selo.",
+        texto: "Um homem de chapéu alto confere o livro de contas da vila.",
+        informacoes:
+          "Corrige somas com um sorriso que não alcança os olhos. Ele diz que representa o rei. Ninguém viu o rei, nem o selo.",
         opcoes: [
           {
             id: "pagar",
@@ -2231,9 +2223,9 @@
           rodadaMin: 6,
           flagsAusentes: ["refugiados_decidido"],
         },
-        texto:
-          "Uma fila de famílias com trouxas e crianças dorme perto do portão. Algumas têm feridas, outras só têm silêncio.",
-        informacoes: "Aceitar muitos é alimentar muitos. Recusar é escolher quem fica.",
+        texto: "Uma fila de famílias com trouxas e crianças dorme perto do portão.",
+        informacoes:
+          "Algumas têm feridas, outras só têm silêncio. Aceitar muitos é alimentar muitos. Recusar é escolher quem fica.",
         opcoes: [
           {
             id: "abrir",
@@ -2332,9 +2324,9 @@
         titulo: "O sino rachado",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "O sino da vila rachou numa manhã de geada e já não alcança as casas do lado norte. Os guardas pedem um aviso que chegue até lá antes da próxima ronda.",
-        informacoes: "Você pode substituir o sino, pagar vigias ou deixar o trecho sem aviso.",
+        texto: "O sino da vila rachou numa manhã de geada e já não alcança as casas do lado norte.",
+        informacoes:
+          "Os guardas pedem um aviso que chegue até lá antes da próxima ronda. Você pode substituir o sino, pagar vigias ou deixar o trecho sem aviso.",
         opcoes: [
           {
             id: "fundir",
@@ -2379,9 +2371,9 @@
         titulo: "O velho soldado",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Um homem manco, com um olho opaco, se apresenta como veterano de três guerras. Pede um canto para morar e um motivo para levantar de manhã.",
-        informacoes: "Ele conhece táticas que ninguém mais conhece.",
+        texto: "Um homem manco, com um olho opaco, se apresenta como veterano de três guerras.",
+        informacoes:
+          "Pede um canto para morar e um motivo para levantar de manhã. Ele conhece táticas que ninguém mais conhece.",
         opcoes: [
           {
             id: "treinar",
@@ -2430,10 +2422,9 @@
             multiplicador: 5,
           },
         ],
-        texto:
-          "A padaria fechou três dias seguidos. As filas aumentam, e os preços também. Alguém começa a vender pão por baixo do balcão.",
+        texto: "A padaria fechou três dias seguidos.",
         informacoes:
-          "Você pode abrir o celeiro, tabelar o preço do pão ou confiscar o que é vendido às escondidas.",
+          "As filas aumentam, e os preços também. Alguém começa a vender pão por baixo do balcão. Você pode abrir o celeiro, tabelar o preço do pão ou confiscar o que é vendido às escondidas.",
         opcoes: [
           {
             id: "abrir",
@@ -2481,9 +2472,8 @@
         tipo: "encontro",
         peso: 2,
         intervaloRodadas: 50,
-        texto:
-          "Uma vez por ano, os moradores acendem velas no cemitério e deixam pão nas lápides. Ninguém lembra por quê, apenas como.",
-        informacoes: "Os mortos também fazem parte da vila.",
+        texto: "Uma vez por ano, os moradores acendem velas no cemitério e deixam pão nas lápides.",
+        informacoes: "Ninguém lembra por quê, apenas como. Os mortos também fazem parte da vila.",
         opcoes: [
           {
             id: "velas",
@@ -2527,8 +2517,9 @@
         requisitos: {
           rodadaMin: 5,
         },
-        texto: "Um nobre de roupas caras e mãos vazias pede asilo. Seu cavalo é mais bem vestido que ele.",
-        informacoes: "Ele diz conhecer pessoas importantes. Elas, talvez, não o conheçam mais.",
+        texto: "Um nobre de roupas caras e mãos vazias pede asilo.",
+        informacoes:
+          "Seu cavalo é mais bem vestido que ele. Ele diz conhecer pessoas importantes. Elas, talvez, não o conheçam mais.",
         opcoes: [
           {
             id: "acolher",
@@ -2575,9 +2566,9 @@
         requisitos: {
           rodadaMin: 5,
         },
-        texto:
-          "O céu fecha à tarde, e à noite a chuva é de pedra. Telhados voam, o rio sobe, e você corre entre as casas, segurando o que consegue.",
-        informacoes: "Algumas noites não oferecem escolha, só resistência.",
+        texto: "O céu fecha à tarde, e à noite a chuva é de pedra.",
+        informacoes:
+          "Telhados voam, o rio sobe, e você corre entre as casas, segurando o que consegue. Algumas noites não oferecem escolha, só resistência.",
         opcoes: [
           {
             id: "atravessar",
@@ -2602,9 +2593,8 @@
         requisitos: {
           honraMax: -30,
         },
-        texto:
-          'Seus guardas, sem ordem clara, começaram a pedir "contribuições" nas casas. Quem nega, apanha. Quem paga, também.',
-        informacoes: "A vila aprende a ser como o senhor.",
+        texto: 'Seus guardas, sem ordem clara, começaram a pedir "contribuições" nas casas.',
+        informacoes: "Quem nega, apanha. Quem paga, também. A vila aprende a ser como o senhor.",
         opcoes: [
           {
             id: "punir",
@@ -2653,9 +2643,9 @@
           flags: ["poco_contaminado"],
           flagsAusentes: ["culto_resolvido"],
         },
-        texto:
-          "Algumas pessoas passaram a rezar de joelhos ao redor do poço, dizendo que ele fala à noite. Ninguém mais bebe daquela água, a não ser eles.",
-        informacoes: "A água foi contaminada por descuido. A reverência, por desespero.",
+        texto: "Algumas pessoas passaram a rezar de joelhos ao redor do poço, dizendo que ele fala à noite.",
+        informacoes:
+          "Ninguém mais bebe daquela água, a não ser eles. A água foi contaminada por descuido. A reverência, por desespero.",
         opcoes: [
           {
             id: "cavar",
@@ -2713,10 +2703,9 @@
         requisitos: {
           rodadaMin: 8,
         },
-        texto:
-          "Durante a ronda, o portão estava destrancado por dentro. Homens armados já estão entre as casas, e ninguém sabe quem abriu.",
+        texto: "Durante a ronda, o portão estava destrancado por dentro.",
         informacoes:
-          "O ataque precisa alcançar a defesa dos invasores. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "Homens armados já estão entre as casas, e ninguém sabe quem abriu. O ataque precisa alcançar a defesa dos invasores. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "retomar",
@@ -2764,9 +2753,9 @@
         titulo: "A viúva do soldado",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Uma mulher traz uma medalha a você. Diz que o marido a recebeu por lutar a seu serviço ou ao do seu antecessor. Os registros se contradizem.",
-        informacoes: "Ela só quer saber se a morte dele serviu a algo.",
+        texto: "Uma mulher traz uma medalha a você.",
+        informacoes:
+          "Diz que o marido a recebeu por lutar a seu serviço ou ao do seu antecessor. Os registros se contradizem. Ela só quer saber se a morte dele serviu a algo.",
         opcoes: [
           {
             id: "pensao",
@@ -2809,9 +2798,9 @@
         titulo: "O aprendiz de boticário",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Um rapaz pálido oferece xaropes de sabor discutível. Jura que seu mestre morreu sem lhe ensinar nada, exceto como misturar.",
-        informacoes: "Seus remédios podem curar, ou ao menos conservar.",
+        texto: "Um rapaz pálido oferece xaropes de sabor discutível.",
+        informacoes:
+          "Jura que seu mestre morreu sem lhe ensinar nada, exceto como misturar. Seus remédios podem curar, ou ao menos conservar.",
         opcoes: [
           {
             id: "comprar",
@@ -2852,9 +2841,9 @@
         titulo: "Pastores de passagem",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Um rebanho de ovelhas ocupa a estrada. Os pastores pedem pasto por três dias e prometem lã em troca.",
-        informacoes: "Ovelhas comem tudo o que veem, inclusive suas cercas.",
+        texto: "Um rebanho de ovelhas ocupa a estrada.",
+        informacoes:
+          "Os pastores pedem pasto por três dias e prometem lã em troca. Ovelhas comem tudo o que veem, inclusive suas cercas.",
         opcoes: [
           {
             id: "permitir",
@@ -2895,9 +2884,9 @@
         titulo: "O ladrão de cavalos",
         tipo: "desordem",
         peso: 2,
-        texto:
-          "Um rapaz foi pego sentado em um cavalo que não era seu. Jura que o animal o seguiu até a cerca.",
-        informacoes: "A vila observa, em silêncio, o que será feito do rapaz.",
+        texto: "Um rapaz foi pego sentado em um cavalo que não era seu.",
+        informacoes:
+          "Jura que o animal o seguiu até a cerca. A vila observa, em silêncio, o que será feito do rapaz.",
         opcoes: [
           {
             id: "ouvir",
@@ -2943,9 +2932,9 @@
         titulo: "O forno do oleiro",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "O oleiro quer construir um forno maior e mudar para a vila. Diz que seu barro é bom e suas pernas são ruins.",
-        informacoes: "Fornos grandes trazem moedas e fumaça.",
+        texto: "O oleiro quer construir um forno maior e mudar para a vila.",
+        informacoes:
+          "Diz que seu barro é bom e suas pernas são ruins. Fornos grandes trazem moedas e fumaça.",
         opcoes: [
           {
             id: "ajudar",
@@ -2989,9 +2978,9 @@
         titulo: "Crianças na floresta",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Três crianças desapareceram depois do jantar. Os pais cercam o portão e olham para você, não para as árvores.",
-        informacoes: "A floresta escurece rápido.",
+        texto: "Três crianças desapareceram depois do jantar.",
+        informacoes:
+          "Os pais cercam o portão e olham para você, não para as árvores. A floresta escurece rápido.",
         opcoes: [
           {
             id: "entrar",
@@ -3035,9 +3024,9 @@
         requisitos: {
           rodadaMin: 4,
         },
-        texto:
-          "O senhor da aldeia vizinha diz que a pedra do limite foi movida para dentro das terras dele. Pede que a coloquem de volta, ou que ele mesmo o faça.",
-        informacoes: "A pedra tem cem anos e muitas versões.",
+        texto: "O senhor da aldeia vizinha diz que a pedra do limite foi movida para dentro das terras dele.",
+        informacoes:
+          "Pede que a coloquem de volta, ou que ele mesmo o faça. A pedra tem cem anos e muitas versões.",
         opcoes: [
           {
             id: "medir",
@@ -3082,10 +3071,9 @@
           rodadaMin: 10,
           flagsAusentes: ["sonho_tido"],
         },
-        texto:
-          "Você dorme na poltrona do seu predecessor e sonha com uma vila que não reconhece. Ele está de pé na porta, sem rosto, e pergunta o que você fez.",
+        texto: "Você dorme na poltrona do seu predecessor e sonha com uma vila que não reconhece.",
         informacoes:
-          "O predecessor pergunta o que você fez com a vila. A resposta fica entre vocês no sonho.",
+          "Ele está de pé na porta, sem rosto, e pergunta o que você fez. O predecessor pergunta o que você fez com a vila. A resposta fica entre vocês no sonho.",
         opcoes: [
           {
             id: "responder",
@@ -3115,9 +3103,9 @@
         requisitos: {
           goldMin: 4,
         },
-        texto:
-          "O ferreiro mostra uma moeda que se desfaz sob o martelo. Três outras iguais passaram pelo cofre sem que ninguém notasse.",
-        informacoes: "Há alguém fabricando moedas na região.",
+        texto: "O ferreiro mostra uma moeda que se desfaz sob o martelo.",
+        informacoes:
+          "Três outras iguais passaram pelo cofre sem que ninguém notasse. Há alguém fabricando moedas na região.",
         opcoes: [
           {
             id: "investigar",
@@ -3162,9 +3150,9 @@
         titulo: "Os carvoeiros",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Uma família de pele escurecida de fuligem pede para queimar lenha no bosque comunal. Seus filhos parecem mais velhos que seus pais.",
-        informacoes: "Carvão aquece e vende, mas queima árvores.",
+        texto: "Uma família de pele escurecida de fuligem pede para queimar lenha no bosque comunal.",
+        informacoes:
+          "Seus filhos parecem mais velhos que seus pais. Carvão aquece e vende, mas queima árvores.",
         opcoes: [
           {
             id: "permitir",
@@ -3207,8 +3195,9 @@
           rodadaMin: 10,
         },
         texto:
-          "O padre, o ferreiro e a ervateira se juntam à porta de seu salão e apresentam uma lista de nomes. Pedem que você a leia em voz alta.",
-        informacoes: "A lista contém todos que a vila perdeu desde que você chegou.",
+          "O padre, o ferreiro e a ervateira se juntam à porta de seu salão e apresentam uma lista de nomes.",
+        informacoes:
+          "Pedem que você a leia em voz alta. A lista contém todos que a vila perdeu desde que você chegou.",
         opcoes: [
           {
             id: "ler",
@@ -3249,9 +3238,8 @@
         titulo: "O vigia da torre",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "O vigia da torre desceu para dizer que viu fumaça no horizonte três noites seguidas. Ele não sabe se é aviso ou invenção.",
-        informacoes: "Ele não está acostumado a ser ouvido.",
+        texto: "O vigia da torre desceu para dizer que viu fumaça no horizonte três noites seguidas.",
+        informacoes: "Ele não sabe se é aviso ou invenção. Ele não está acostumado a ser ouvido.",
         opcoes: [
           {
             id: "batedor",
@@ -3291,9 +3279,9 @@
         titulo: "O enxame",
         tipo: "encontro",
         peso: 2,
-        texto:
-          "Um enxame de abelhas pousou no telhado da cozinha. A cozinheira recusa-se a sair, e o enxame também.",
-        informacoes: "Abelhas podem ser sorte ou problema, dependendo do ferrão.",
+        texto: "Um enxame de abelhas pousou no telhado da cozinha.",
+        informacoes:
+          "A cozinheira recusa-se a sair, e o enxame também. Abelhas podem ser sorte ou problema, dependendo do ferrão.",
         opcoes: [
           {
             id: "fumaca",
@@ -3338,8 +3326,8 @@
         tipo: "encontro",
         peso: 1,
         texto:
-          "Os mais velhos dizem que a lagoa atrás do bosque é amaldiçoada. Os mais jovens dizem que há peixes. Ambos podem estar certos.",
-        informacoes: "A lagoa nunca ficou seca, nem nos piores invernos.",
+          "Os mais velhos dizem que a lagoa atrás do bosque é amaldiçoada. Os mais jovens dizem que há peixes.",
+        informacoes: "Ambos podem estar certos. A lagoa nunca ficou seca, nem nos piores invernos.",
         opcoes: [
           {
             id: "pescar",
@@ -3384,10 +3372,9 @@
         requisitos: {
           rodadaMin: 9,
         },
-        texto:
-          "Um mensageiro suado conta que a aldeia vizinha está sendo atacada por bandidos. Pede homens e lanças, e pede depressa.",
+        texto: "Um mensageiro suado conta que a aldeia vizinha está sendo atacada por bandidos.",
         informacoes:
-          "O ataque precisa alcançar a defesa dos bandidos. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "Pede homens e lanças, e pede depressa. O ataque precisa alcançar a defesa dos bandidos. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "marchar",
@@ -3455,10 +3442,9 @@
         requisitos: {
           rodadaMin: 12,
         },
-        texto:
-          "Os estandartes cinzentos aparecem no vale. O barão, que ninguém conhece, agora chega em pessoa, com mais homens e menos paciência.",
+        texto: "Os estandartes cinzentos aparecem no vale.",
         informacoes:
-          "O ataque precisa alcançar a defesa do exército. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "O barão, que ninguém conhece, agora chega em pessoa, com mais homens e menos paciência. O ataque precisa alcançar a defesa do exército. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "defender",
@@ -3529,8 +3515,8 @@
           flagsAusentes: ["primo_decidido"],
         },
         texto:
-          "Um homem de sobrenome parecido com o seu chega com uma carta e um sorriso que não olha ninguém nos olhos. Diz ter direitos sobre a terra.",
-        informacoes: "Os papéis parecem verdadeiros. Os parentescos, talvez.",
+          "Um homem de sobrenome parecido com o seu chega com uma carta e um sorriso que não olha ninguém nos olhos.",
+        informacoes: "Diz ter direitos sobre a terra. Os papéis parecem verdadeiros. Os parentescos, talvez.",
         opcoes: [
           {
             id: "receber",
@@ -3616,9 +3602,9 @@
         requisitos: {
           rodadaMin: 14,
         },
-        texto:
-          "Um bispo gordo e educado chega em liteira e pede para inspecionar a moral da vila. Ele traz um livro de contas diferente do coletor.",
-        informacoes: "O bispo não pede nada, apenas observa. Esse é o problema.",
+        texto: "Um bispo gordo e educado chega em liteira e pede para inspecionar a moral da vila.",
+        informacoes:
+          "Ele traz um livro de contas diferente do coletor. O bispo não pede nada, apenas observa. Esse é o problema.",
         opcoes: [
           {
             id: "humildade",
@@ -3672,9 +3658,9 @@
           rodadaMin: 20,
           flagsAusentes: ["sucessor_visto"],
         },
-        texto:
-          "Numa noite sem lua, você vê uma criança sentada no degrau do portão. Ela não responde quando você fala. Apenas olha, e parece já saber seu nome.",
-        informacoes: "Ela parece saber seu nome, mas você não sabe de onde veio.",
+        texto: "Numa noite sem lua, você vê uma criança sentada no degrau do portão.",
+        informacoes:
+          "Ela não responde quando você fala. Apenas olha, e parece já saber seu nome. Ela parece saber seu nome, mas você não sabe de onde veio.",
         opcoes: [
           {
             id: "sentar",
@@ -3707,9 +3693,9 @@
       peso: 2,
       imagem: "assets/eventos-sistemas/inverno.webp",
       imagemAlt: "Uma enfermaria fria com lenha empilhada do lado de fora",
-      texto:
-        "A lenha da enfermaria acabou antes da geada. A ervateira mantém os doentes cobertos, mas a água dos remédios esfria antes de ferver.",
-      informacoes: "Aquecer custa Gold; poupar madeira ou desmontar uma estrutura muda quem sente o frio.",
+      texto: "A lenha da enfermaria acabou antes da geada.",
+      informacoes:
+        "A ervateira mantém os doentes cobertos, mas a água dos remédios esfria antes de ferver. Aquecer custa Gold; poupar madeira ou desmontar uma estrutura muda quem sente o frio.",
       opcoes: [
         {
           id: "aquecer_enfermaria",
@@ -3742,9 +3728,9 @@
       peso: 2,
       imagem: "assets/poco.webp",
       imagemAlt: "Um poço de pedra entre duas estradas que chegam à vila",
-      texto:
-        "Uma aldeia vizinha chega com baldes vazios. A nascente que divide os dois caminhos baixou, e os moradores discutem quem deve tirar água primeiro.",
-      informacoes: "Dividir o acesso, cobrar pela água ou fechar a passagem afeta as duas comunidades.",
+      texto: "Uma aldeia vizinha chega com baldes vazios.",
+      informacoes:
+        "A nascente que divide os dois caminhos baixou, e os moradores discutem quem deve tirar água primeiro. Dividir o acesso, cobrar pela água ou fechar a passagem afeta as duas comunidades.",
       opcoes: [
         {
           id: "dividir_poco",
@@ -3775,10 +3761,9 @@
       peso: 2,
       imagem: "assets/eventos-especiais/viajante-norte.webp",
       imagemAlt: "Uma carroça carregada presa na lama de uma estrada rural",
-      texto:
-        "Uma carroça carregada afundou até o eixo num trecho de barro. O cocheiro pede ajuda para tirar a carga antes que a chuva feche a estrada.",
+      texto: "Uma carroça carregada afundou até o eixo num trecho de barro.",
       informacoes:
-        "Você pode mobilizar moradores, pagar por uma equipe ou negociar a carga sem esperar pelo dono.",
+        "O cocheiro pede ajuda para tirar a carga antes que a chuva feche a estrada. Você pode mobilizar moradores, pagar por uma equipe ou negociar a carga sem esperar pelo dono.",
       opcoes: [
         {
           id: "puxar_carroca",
@@ -3810,10 +3795,9 @@
       peso: 2,
       imagem: "assets/eventos-pessoas/conselheiro.webp",
       imagemAlt: "Um escrivão confere uma lista de mantimentos à luz de uma vela",
-      texto:
-        "Duas listas de ração não coincidem. O escrivão diz que houve erro de cópia; as famílias na fila afirmam que alguns nomes foram riscados antes da distribuição.",
+      texto: "Duas listas de ração não coincidem.",
       informacoes:
-        "Conferir os registros custa tempo; confiar ou repartir sem revisão também tem consequências.",
+        "O escrivão diz que houve erro de cópia; as famílias na fila afirmam que alguns nomes foram riscados antes da distribuição. Conferir os registros custa tempo; confiar ou repartir sem revisão também tem consequências.",
       opcoes: [
         {
           id: "conferir_racoes",
@@ -3846,10 +3830,9 @@
       peso: 2,
       imagem: "assets/vila.webp",
       imagemAlt: "Uma casa vazia com a porta aberta para a praça da vila",
-      texto:
-        "A última pessoa de uma casa partiu durante a noite. Pela manhã, duas famílias pedem a chave; a cozinha comum também precisa de um teto antes do inverno.",
+      texto: "A última pessoa de uma casa partiu durante a noite.",
       informacoes:
-        "Acolher uma família, leiloar os móveis ou reservar a casa para uso comunitário deixa marcas diferentes.",
+        "Pela manhã, duas famílias pedem a chave; a cozinha comum também precisa de um teto antes do inverno. Acolher uma família, leiloar os móveis ou reservar a casa para uso comunitário deixa marcas diferentes.",
       opcoes: [
         {
           id: "acolher_casa_vazia",

@@ -48,9 +48,9 @@
       oncePerRun: true,
       imagem: retratos.bruxa.imagem,
       imagemAlt: retratos.bruxa.alt,
-      texto:
-        "A bruxa bate ao portão antes do amanhecer. Uma tosse seca atravessa as casas, e ela traz folhas para preparar uma infusão que pode aliviar o peito.",
-      informacoes: "O remédio é amargo. A bruxa recomenda que todos bebam devagar.",
+      texto: "A bruxa bate ao portão antes do amanhecer.",
+      informacoes:
+        "Uma tosse seca atravessa as casas, e ela traz folhas para preparar uma infusão que pode aliviar o peito. O remédio é amargo. A bruxa recomenda que todos bebam devagar.",
       opcoes: [
         {
           id: "provar",
@@ -82,9 +82,9 @@
       oncePerRun: true,
       imagem: retratos.ferreiro.imagem,
       imagemAlt: retratos.ferreiro.alt,
-      texto:
-        "Uma barra do portão se parte junto à dobradiça. O ferreiro traz o pedaço à forja e propõe reaproveitar o metal antes que a entrada fique vulnerável.",
-      informacoes: "O ferro serve para reforçar a entrada ou virar ferramentas para os campos.",
+      texto: "Uma barra do portão se parte junto à dobradiça.",
+      informacoes:
+        "O ferreiro traz o pedaço à forja e propõe reaproveitar o metal antes que a entrada fique vulnerável. O ferro serve para reforçar a entrada ou virar ferramentas para os campos.",
       opcoes: [
         {
           id: "reforcar",
@@ -119,8 +119,9 @@
       imagem: retratos.padre.imagem,
       imagemAlt: retratos.padre.alt,
       texto:
-        "O padre reúne os moradores na capela para uma vigília em memória de quem morreu desde sua chegada. Com poucas velas e muitos nomes, ele espera sua decisão.",
-      informacoes: "Uma noite de recolhimento pode aliviar o luto ou reabrir feridas.",
+        "O padre reúne os moradores na capela para uma vigília em memória de quem morreu desde sua chegada.",
+      informacoes:
+        "Com poucas velas e muitos nomes, ele espera sua decisão. Uma noite de recolhimento pode aliviar o luto ou reabrir feridas.",
       opcoes: [
         {
           id: "doar",

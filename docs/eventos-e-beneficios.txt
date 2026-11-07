@@ -39,9 +39,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma carroça chega ao portão. O mercador oferece mantimentos, mas um cheiro estranho escapa das caixas. O povo aguarda sua palavra.
+Cena: Uma carroça chega ao portão. O mercador oferece mantimentos, mas um cheiro estranho escapa das caixas.
 
-Informação: O mercador pede passagem. Ninguém sabe de onde vieram os mantimentos.
+Informação: O povo aguarda sua palavra. O mercador pede passagem. Ninguém sabe de onde vieram os mantimentos.
 
 
 
@@ -115,9 +115,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: Nenhum.
 
-Cena: Cinco viajantes chegam da estrada do norte. Perderam a colheita e procuram um lugar onde possam recomeçar.
+Cena: Cinco viajantes chegam da estrada do norte.
 
-Informação: Os viajantes pedem abrigo e um pedaço de terra para cultivar.
+Informação: Perderam a colheita e procuram um lugar onde possam recomeçar. Os viajantes pedem abrigo e um pedaço de terra para cultivar.
 
 
 
@@ -165,9 +165,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: O ferreiro recuperou o aço de uma antiga armadura. Há material para reforçar uma peça de seu equipamento.
+Cena: O ferreiro recuperou o aço de uma antiga armadura.
 
-Informação: O aço pode melhorar seu ataque ou seu escudo.
+Informação: Há material para reforçar uma peça de seu equipamento. O aço pode melhorar seu ataque ou seu escudo.
 
 
 
@@ -215,9 +215,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: O frio chega antes da colheita. Na noite em que você ajuda a proteger os campos, o gelo toma a terra e a febre toma seu corpo.
+Cena: O frio chega antes da colheita.
 
-Informação: O inverno não espera uma decisão. Há coisas que nem um senhor pode impedir.
+Informação: Na noite em que você ajuda a proteger os campos, o gelo toma a terra e a febre toma seu corpo. O inverno não espera uma decisão. Há coisas que nem um senhor pode impedir.
 
 
 
@@ -243,9 +243,9 @@ Requisitos do evento: Nenhum.
 
 Peso alternativo: 5, quando Honra ≤ -30.
 
-Cena: O estoque de grãos está diminuindo. Na praça, dois vizinhos se acusam de roubo. Seus guardas esperam uma ordem.
+Cena: O estoque de grãos está diminuindo. Na praça, dois vizinhos se acusam de roubo.
 
-Informação: Há comida desaparecida e nenhuma prova contra os acusados.
+Informação: Seus guardas esperam uma ordem. Há comida desaparecida e nenhuma prova contra os acusados.
 
 
 
@@ -293,9 +293,9 @@ Tipo: mercador. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: O mercador abre seus caixotes na praça. Há remédios, armas e escudos para quem ainda tem moedas.
+Cena: O mercador abre seus caixotes na praça.
 
-Informação: Compre um produto ou siga viagem. Cada compra encarece só aquele produto em 2 gold.
+Informação: Há remédios, armas e escudos para quem ainda tem moedas. Compre um produto ou siga viagem. Cada compra encarece só aquele produto em 2 gold.
 
 
 
@@ -363,9 +363,9 @@ Tipo: batalha. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma coluna armada desce a colina. O vigia reconhece as bandeiras: saqueadores. Entre eles e as casas, apenas você e seus homens.
+Cena: Uma coluna armada desce a colina. O vigia reconhece as bandeiras: saqueadores.
 
-Informação: O ataque precisa alcançar a defesa inimiga. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: Entre eles e as casas, apenas você e seus homens. O ataque precisa alcançar a defesa inimiga. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -421,9 +421,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma mulher chega com ervas e uma agulha torta. Trata feridas há quarenta invernos; seus pacientes ainda discutem os métodos.
+Cena: Uma mulher chega com ervas e uma agulha torta.
 
-Informação: Ela aceita moedas pelo tratamento ou ajuda para colher mais ervas.
+Informação: Trata feridas há quarenta invernos; seus pacientes ainda discutem os métodos. Ela aceita moedas pelo tratamento ou ajuda para colher mais ervas.
 
 
 
@@ -471,9 +471,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: marca da run ainda ausente: ponte_reparada.
 
-Cena: A ponte do moinho cedeu. Do outro lado, carroças esperam; deste, o carpinteiro calcula quantas tábuas ainda podem ser chamadas de tábuas.
+Cena: A ponte do moinho cedeu.
 
-Informação: Reabrir a estrada pode trazer gente e comércio mais adiante.
+Informação: Do outro lado, carroças esperam; deste, o carpinteiro calcula quantas tábuas ainda podem ser chamadas de tábuas. Reabrir a estrada pode trazer gente e comércio mais adiante.
 
 
 
@@ -533,9 +533,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: marca da run ativa: ponte_reparada; marca da run ainda ausente: caravana_recebida.
 
-Cena: Uma caravana cruza a ponte reparada. A condutora oferece pagamento por um lugar no pátio; algumas famílias procuram algo mais permanente.
+Cena: Uma caravana cruza a ponte reparada.
 
-Informação: A ponte trouxe a primeira oportunidade de comércio. A caravana partirá de manhã.
+Informação: A condutora oferece pagamento por um lugar no pátio; algumas famílias procuram algo mais permanente. A ponte trouxe a primeira oportunidade de comércio. A caravana partirá de manhã.
 
 
 
@@ -589,9 +589,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: marca da run ainda ausente: poco_decidido.
 
-Cena: A água do poço tem gosto de ferro. Um pedreiro oferece limpar o fundo; na praça, alguém garante que sempre teve esse gosto.
+Cena: A água do poço tem gosto de ferro.
 
-Informação: Uma corda e algumas pedras podem custar menos que uma vila doente.
+Informação: Um pedreiro oferece limpar o fundo; na praça, alguém garante que sempre teve esse gosto. Uma corda e algumas pedras podem custar menos que uma vila doente.
 
 
 
@@ -647,9 +647,9 @@ Tipo: desordem. Peso base no sorteio: 4.
 
 Requisitos do evento: marca da run ativa: poco_contaminado; marca da run ainda ausente: febre_resolvida.
 
-Cena: A água turva cobrou sua parte. Panos molhados cobrem as janelas, e a curandeira pede mãos e remédios antes que a febre tome a rua.
+Cena: Panos molhados cobrem as janelas, e a curandeira pede mãos e remédios antes que a febre tome a rua.
 
-Informação: O problema deixado no poço voltou às casas. Ainda há gente que pode ser salva.
+Informação: A água turva cobrou sua parte. O problema deixado no poço voltou às casas. Ainda há gente que pode ser salva.
 
 
 
@@ -703,9 +703,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um viajante oferece moedas para atravessar sem abrir os sacos. Diz que transporta sal. Seu burro parece o único a acreditar.
+Cena: Um viajante oferece moedas para atravessar sem abrir os sacos.
 
-Informação: Ele paga pela discrição. Inspecionar a carga também exige seus homens.
+Informação: Diz que transporta sal. Seu burro parece o único a acreditar. Ele paga pela discrição. Inspecionar a carga também exige seus homens.
 
 
 
@@ -753,9 +753,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Os moradores ensaiam uma defesa com tampas de barril. Um veterano oferece instrução; metade da turma segura o escudo ao contrário.
+Cena: Os moradores ensaiam uma defesa com tampas de barril.
 
-Informação: O treino pode melhorar seu equipamento ou devolver braços ao trabalho da vila.
+Informação: Um veterano oferece instrução; metade da turma segura o escudo ao contrário. O treino pode melhorar seu equipamento ou devolver braços ao trabalho da vila.
 
 
 
@@ -803,9 +803,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: O rio sobe durante a noite. Você ajuda a tirar crianças e sacos de farinha das casas; a corrente não distingue um do outro.
+Cena: O rio sobe durante a noite.
 
-Informação: A água já entrou. O que resta é salvar quem ainda pode sair.
+Informação: Você ajuda a tirar crianças e sacos de farinha das casas; a corrente não distingue um do outro. A água já entrou. O que resta é salvar quem ainda pode sair.
 
 
 
@@ -829,9 +829,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: A velha pedreira ainda guarda pedra boa. Os trabalhadores pedem comida antes de entrar; o comprador quer a carga antes do próximo frio.
+Cena: A velha pedreira ainda guarda pedra boa.
 
-Informação: A obra pode render moedas, atrair trabalhadores ou esperar uma estação melhor.
+Informação: Os trabalhadores pedem comida antes de entrar; o comprador quer a carga antes do próximo frio. A obra pode render moedas, atrair trabalhadores ou esperar uma estação melhor.
 
 
 
@@ -879,9 +879,9 @@ Tipo: batalha. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 6.
 
-Cena: Soldados sem senhor acampam perto do moinho. Pedem um tributo para ir embora. Os sacos de farinha já estão junto aos seus cavalos.
+Cena: Soldados sem senhor acampam perto do moinho. Pedem um tributo para ir embora.
 
-Informação: Eles têm treino e equipamento. A farinha e as moedas do moinho estão com eles.
+Informação: Os sacos de farinha já estão junto aos seus cavalos. Eles têm treino e equipamento. A farinha e as moedas do moinho estão com eles.
 
 
 
@@ -949,9 +949,9 @@ Tipo: batalha. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Javalis entraram na plantação. O maior dorme sobre o espantalho. Os lavradores esperam que alguém lhe explique a propriedade da terra.
+Cena: Javalis entraram na plantação. O maior dorme sobre o espantalho.
 
-Informação: Salvar a colheita permite vender o excedente e manter os lavradores na vila.
+Informação: Os lavradores esperam que alguém lhe explique a propriedade da terra. Salvar a colheita permite vender o excedente e manter os lavradores na vila.
 
 
 
@@ -1019,9 +1019,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Pela primeira vez, sobrou grão. O celeireiro traz as contas; do lado de fora, alguém ensaia uma música que só lembra pela metade.
+Cena: Pela primeira vez, sobrou grão.
 
-Informação: O excedente pode virar moedas, comida para os moradores ou um breve descanso.
+Informação: O celeireiro traz as contas; do lado de fora, alguém ensaia uma música que só lembra pela metade. O excedente pode virar moedas, comida para os moradores ou um breve descanso.
 
 
 
@@ -1069,9 +1069,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: marca da run ainda ausente: orfao_decidido.
 
-Cena: Um menino sujo de cinzas espera no portão com uma trouxa menor que ele. Diz que veio da vila queimada ao sul e que conheceu seu pai. Os guardas fingem não ouvir.
+Cena: Um menino sujo de cinzas espera no portão com uma trouxa menor que ele.
 
-Informação: Ninguém pode confirmar a história do menino.
+Informação: Diz que veio da vila queimada ao sul e que conheceu seu pai. Os guardas fingem não ouvir. Ninguém pode confirmar a história do menino.
 
 
 
@@ -1145,9 +1145,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: rodada ≥ 8; marca da run ativa: orfao_acolhido; marca da run ainda ausente: orfao_resolvido.
 
-Cena: O menino cresceu, e seu galho de árvore virou espada de treino. Ele pede que você o ensine, e que ninguém conte à cozinheira.
+Cena: O menino cresceu, e seu galho de árvore virou espada de treino.
 
-Informação: A vila acompanha o que você fizer com o garoto que acolheu.
+Informação: Ele pede que você o ensine, e que ninguém conte à cozinheira. A vila acompanha o que você fizer com o garoto que acolheu.
 
 
 
@@ -1203,7 +1203,7 @@ Requisitos do evento: rodada ≥ 5; marca da run ainda ausente: testamento_lido.
 
 Cena: Numa noite de chuva, você encontra o cofre do seu predecessor atrás de uma tapeçaria. Dentro há moedas contadas e uma carta que pede perdão a pessoas que você nunca conheceu.
 
-Informação: Há heranças que chegam sem pedir licença.
+Informação: A carta pede perdão a pessoas que você nunca conheceu. As moedas não apagam esse pedido.
 
 
 
@@ -1233,9 +1233,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Honra ≥ 30.
 
-Cena: Os moradores arrastam mesas para a praça sem pedir permissão. Há pão, sopa rala e um violeiro que só sabe uma música. Guardaram o lugar da cabeceira para você.
+Cena: Os moradores arrastam mesas para a praça sem pedir permissão.
 
-Informação: O povo oferece a refeição; o que você faz com ela é decisão sua.
+Informação: Há pão, sopa rala e um violeiro que só sabe uma música. Guardaram o lugar da cabeceira para você. O povo oferece a refeição; o que você faz com ela é decisão sua.
 
 
 
@@ -1297,9 +1297,9 @@ Requisitos do evento: Nenhum.
 
 Peso alternativo: 5, quando Honra ≤ -30.
 
-Cena: Uma briga começou por causa de uma canção e acabou quando a mesa quebrou. Agora três homens se acusam, e o dono da taverna chora em cima do balcão.
+Cena: Uma briga começou por causa de uma canção e acabou quando a mesa quebrou.
 
-Informação: A vila observa quem o senhor decide proteger.
+Informação: Agora três homens se acusam, e o dono da taverna chora em cima do balcão. A vila observa quem o senhor decide proteger.
 
 
 
@@ -1359,9 +1359,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um peregrino de sandálias gastas oferece um dente de santo embrulhado em pano. Jura que traz bênçãos para quem o tocar. O pano cheira a estábulo.
+Cena: Um peregrino de sandálias gastas oferece um dente de santo embrulhado em pano.
 
-Informação: Ninguém sabe se a relíquia é verdadeira. A fé do povo vale tanto quanto a verdade, ou mais.
+Informação: Jura que traz bênçãos para quem o tocar. O pano cheira a estábulo. Ninguém sabe se a relíquia é verdadeira. A fé do povo vale tanto quanto a verdade, ou mais.
 
 
 
@@ -1409,9 +1409,9 @@ Tipo: batalha. Peso base no sorteio: 2.
 
 Requisitos do evento: rodada ≥ 4.
 
-Cena: Um cavaleiro de armadura cinza exige tributo em nome de um barão que ninguém conhece. Seus homens esperam atrás, em formação mais limpa do que a de qualquer guarda seu.
+Cena: Um cavaleiro de armadura cinza exige tributo em nome de um barão que ninguém conhece.
 
-Informação: A armadura é boa, e as ameaças também. Se não pagar, é preciso lutar ou negociar.
+Informação: Seus homens esperam atrás, em formação mais limpa do que a de qualquer guarda seu. O cavaleiro exige o tributo. A vila aguarda a sua palavra.
 
 
 
@@ -1479,9 +1479,9 @@ Tipo: desordem. Peso base no sorteio: 4.
 
 Requisitos do evento: marca da run ativa: ponte_com_pedagio; marca da run ainda ausente: pedagio_resolvido.
 
-Cena: Os viajantes reclamam do pedágio. Alguém queimou a cancela durante a noite, e a fumaça ainda sobe sobre o rio. Os guardas procuram culpados; o povo procura desculpas.
+Cena: Os viajantes reclamam do pedágio.
 
-Informação: A ponte que você cobrou voltou a cobrar de você.
+Informação: Alguém queimou a cancela durante a noite, e a fumaça ainda sobe sobre o rio. Os guardas procuram culpados; o povo procura desculpas. A ponte que você cobrou voltou a cobrar de você.
 
 
 
@@ -1535,9 +1535,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: marca da run ainda ausente: moinho_decidido.
 
-Cena: A roda do moinho parou de girar. O moleiro jura que o rio mudou de ideia; o rio não comenta.
+Cena: A roda do moinho parou de girar.
 
-Informação: Sem moinho, o pão encarece e a praça esvazia.
+Informação: O moleiro jura que o rio mudou de ideia; o rio não comenta. Sem moinho, o pão encarece e a praça esvazia.
 
 
 
@@ -1595,9 +1595,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: marca da run ativa: moinho_reparado; marca da run ainda ausente: farinha_decidida.
 
-Cena: O moinho trabalha de novo e a farinha sai mais branca do que a vila está acostumada. Padeiros de três povoados querem comprar.
+Cena: O moinho trabalha de novo e a farinha sai mais branca do que a vila está acostumada.
 
-Informação: O excedente pode virar moedas, pão ou reserva para o inverno.
+Informação: Padeiros de três povoados querem comprar. O excedente pode virar moedas, pão ou reserva para o inverno.
 
 
 
@@ -1665,9 +1665,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: marca da run ainda ausente: bardo_decidido.
 
-Cena: Um bardo chega pedindo pouso e promete compor uma canção sobre o senhor da vila. Não diz quando, nem como ela termina.
+Cena: Um bardo chega pedindo pouso e promete compor uma canção sobre o senhor da vila.
 
-Informação: Canções correm mais rápido que cavalos, para o bem e para o mal.
+Informação: Não diz quando, nem como ela termina. Canções correm mais rápido que cavalos, para o bem e para o mal.
 
 
 
@@ -1725,9 +1725,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: rodada ≥ 7; marca da run ativa: bardo_cantou; marca da run ainda ausente: cancao_resolvida.
 
-Cena: Um estranho cantarola na praça uma canção sobre a vila. Ele erra o nome do senhor, mas acerta quase tudo o mais.
+Cena: Um estranho cantarola na praça uma canção sobre a vila.
 
-Informação: A canção já chegou a lugares onde a vila nunca foi.
+Informação: Ele erra o nome do senhor, mas acerta quase tudo o mais. A canção já chegou a lugares onde a vila nunca foi.
 
 
 
@@ -1781,9 +1781,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Metade do rebanho sumiu antes do amanhecer. Há pegadas de gado e de botas, mas nenhuma delas leva ao mesmo lugar.
+Cena: Metade do rebanho sumiu antes do amanhecer.
 
-Informação: O rebanho alimenta a vila e paga parte dos impostos.
+Informação: Há pegadas de gado e de botas, mas nenhuma delas leva ao mesmo lugar. O rebanho alimenta a vila e paga parte dos impostos.
 
 
 
@@ -1831,9 +1831,9 @@ Tipo: batalha. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Lobos magros rondam o curral. Eles entram à noite e saem antes que alguém aprenda seus nomes.
+Cena: Lobos magros rondam o curral.
 
-Informação: O ataque precisa alcançar a defesa da matilha. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: Eles entram à noite e saem antes que alguém aprenda seus nomes. O ataque precisa alcançar a defesa da matilha. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -1891,9 +1891,9 @@ Requisitos do evento: marca da run ainda ausente: prisioneiro_decidido.
 
 Peso alternativo: 5, quando Honra ≤ -30.
 
-Cena: A tranca da cela foi arrombada por dentro. O prisioneiro foi pego na cerca, ferido, e pede para falar com você.
+Cena: A tranca da cela foi arrombada por dentro.
 
-Informação: Ele afirma que foi preso por roubar pão. Ninguém lembra o julgamento.
+Informação: O prisioneiro foi pego na cerca, ferido, e pede para falar com você. Ele afirma que foi preso por roubar pão. Ninguém lembra o julgamento.
 
 
 
@@ -1949,9 +1949,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: rodada ≥ 10; marca da run ativa: prisioneiro_solto; marca da run ainda ausente: prisioneiro_pago.
 
-Cena: O homem que você soltou volta com uma mula e um saco. Diz que deve algo a alguém, e esse alguém é você.
+Cena: O homem que você soltou volta com uma mula e um saco.
 
-Informação: Ele não parece perigoso, mas parece decidido.
+Informação: Diz que deve algo a alguém, e esse alguém é você. Ele não parece perigoso, mas parece decidido.
 
 
 
@@ -2007,9 +2007,9 @@ Requisitos do evento: Gold ≥ 3.
 
 Peso alternativo: 5, quando Honra ≤ -30.
 
-Cena: O cofre foi aberto durante a noite sem arrombar a fechadura. Apenas quem conhece o esconderijo poderia ter feito isso.
+Cena: O cofre foi aberto durante a noite sem arrombar a fechadura.
 
-Informação: Alguém próximo de você sabe onde guardas o ouro.
+Informação: Apenas quem conhece o esconderijo poderia ter feito isso. Alguém próximo de você sabe onde guardas o ouro.
 
 
 
@@ -2057,9 +2057,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Honra ≥ 30.
 
-Cena: Dois jovens de famílias rivais querem casar sob a árvore velha. Os pais fingem que isso não está acontecendo.
+Cena: Dois jovens de famílias rivais querem casar sob a árvore velha.
 
-Informação: Um casamento pode unir a vila ou rachá-la ao meio.
+Informação: Os pais fingem que isso não está acontecendo. Você pode presidir a cerimônia, ceder o salão ou pedir um dote aos noivos.
 
 
 
@@ -2107,9 +2107,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: As nuvens passam sem parar. Os poços descem, e os campos racham. À noite, você divide sua água com quem não tem.
+Cena: As nuvens passam sem parar. Os poços descem, e os campos racham.
 
-Informação: A seca não negocia. Resta decidir como atravessá-la.
+Informação: À noite, você divide sua água com quem não tem. A seca não negocia. Resta decidir como atravessá-la.
 
 
 
@@ -2133,9 +2133,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: marca da run ainda ausente: padre_decidido.
 
-Cena: Um padre de batina remendada pede abrigo. Diz que sua igreja ardeu e que ainda tem fé, mas não tem teto.
+Cena: Um padre de batina remendada pede abrigo.
 
-Informação: A fé pode ser um bom alicerce ou um bom pretexto.
+Informação: Diz que sua igreja ardeu e que ainda tem fé, mas não tem teto. A fé pode ser um bom alicerce ou um bom pretexto.
 
 
 
@@ -2193,9 +2193,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: rodada ≥ 8; marca da run ativa: padre_aceito; marca da run ainda ausente: capela_decidida.
 
-Cena: O padre pede pedras e mãos para erguer uma capela de verdade. A vila discute se prefere um teto novo ou um sino.
+Cena: O padre pede pedras e mãos para erguer uma capela de verdade.
 
-Informação: A capela pode trazer paz ou apenas mais uma conta.
+Informação: A vila discute se prefere um teto novo ou um sino. Você pode ajudar a erguer a capela, pagar pedreiros ou dispensar o padre.
 
 
 
@@ -2249,9 +2249,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: rodada ≥ 8; marca da run ativa: orfao_explorado; marca da run ainda ausente: orfao_resolvido.
 
-Cena: O menino que carregava sacos fez uma trouxa menor do que as dívidas que você lhe deve. Ele está parado no portão e não chora.
+Cena: O menino que carregava sacos fez uma trouxa menor do que as dívidas que você lhe deve.
 
-Informação: Os moradores esperam para ver o que o senhor fará.
+Informação: Ele está parado no portão e não chora. Você pode pedir que ele fique, pagar o que lhe deve ou mandar os guardas fecharem o portão.
 
 
 
@@ -2305,9 +2305,9 @@ Tipo: desordem. Peso base no sorteio: 4.
 
 Requisitos do evento: marca da run ativa: praga_entrou; marca da run ainda ausente: cinzas_resolvidas.
 
-Cena: As casas dos mortos continuam fechadas. Há quem queira queimá-las, quem queira saqueá-las, e quem não queira ir lá.
+Cena: As casas dos mortos continuam fechadas.
 
-Informação: A febre passou, mas deixou perguntas.
+Informação: Há quem queira queimá-las, quem queira saqueá-las, e quem não queira ir lá. A febre passou, mas deixou perguntas.
 
 
 
@@ -2361,9 +2361,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: marca da run ativa: praga_evitada; marca da run ainda ausente: imunes_decidido.
 
-Cena: A curandeira diz que a vila nunca esteve tão saudável. Ela pergunta, sem acusar, se o senhor sabia mais do que contou.
+Cena: A curandeira diz que a vila nunca esteve tão saudável.
 
-Informação: A praga que não chegou ainda circula nas conversas.
+Informação: Ela pergunta, sem acusar, se o senhor sabia mais do que contou. A praga que não chegou ainda circula nas conversas.
 
 
 
@@ -2417,9 +2417,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: rodada ≥ 8; marca da run ativa: testamento_lido; marca da run ainda ausente: carta_lida.
 
-Cena: Um antigo servo traz um envelope que o velho senhor mandou guardar. Diz que só deveria entregá-lo quando você hesitasse.
+Cena: Um antigo servo traz um envelope que o velho senhor mandou guardar.
 
-Informação: A carta é breve e não explica quase nada.
+Informação: Diz que só deveria entregá-lo quando você hesitasse. A carta é breve e não explica quase nada.
 
 
 
@@ -2479,9 +2479,9 @@ Tipo: encontro. Peso base no sorteio: 3.
 
 Requisitos do evento: rodada ≥ 12; marca da run ativa: carta_lida; marca da run ainda ausente: rosto_decidido.
 
-Cena: Uma velha na praça diz que você tem o olhar do senhor anterior. Não sabe se é elogio.
+Cena: Uma velha na praça diz que você tem o olhar do senhor anterior.
 
-Informação: Sua reputação agora tem um predecessor com quem comparar.
+Informação: Não sabe se é elogio. Você pode ouvir as lembranças da velha, negar a semelhança ou mandá-la calar.
 
 
 
@@ -2537,9 +2537,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: O fogo começa no celeiro e pula para o telhado vizinho. Você corre com baldes ao lado do povo, sem saber quem acendeu.
+Cena: O fogo começa no celeiro e pula para o telhado vizinho.
 
-Informação: O fogo não pergunta quem é o senhor.
+Informação: Você corre com baldes ao lado do povo, sem saber quem acendeu. O fogo não pergunta quem é o senhor.
 
 
 
@@ -2563,9 +2563,9 @@ Tipo: batalha. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma carroça de grãos foi cercada na curva do bosque. O cocheiro volta a pé, sem a carroça e sem o chapéu.
+Cena: Uma carroça de grãos foi cercada na curva do bosque.
 
-Informação: O ataque precisa alcançar a defesa dos ladrões. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: O cocheiro volta a pé, sem a carroça e sem o chapéu. O ataque precisa alcançar a defesa dos ladrões. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -2621,9 +2621,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Os jovens querem testar quem dá o melhor golpe com bastões de madeira. Um deles já escolheu seu adversário: você.
+Cena: Os jovens querem testar quem dá o melhor golpe com bastões de madeira.
 
-Informação: Um torneio humilde ainda é um torneio.
+Informação: Um deles já escolheu seu adversário: você. Você pode enfrentar o rapaz, premiar o vencedor ou proibir os jogos.
 
 
 
@@ -2671,9 +2671,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 6; marca da run ainda ausente: arauto_decidido.
 
-Cena: Um arauto de tabardo limpo anuncia que o rei quer saber quantos homens a vila pode oferecer à guerra. A voz dele é maior que o corpo.
+Cena: Um arauto de tabardo limpo anuncia que o rei quer saber quantos homens a vila pode oferecer à guerra.
 
-Informação: O rei está distante, mas a convocação nunca esteve tão perto.
+Informação: A voz dele é maior que o corpo. O rei está distante, mas a convocação nunca esteve tão perto.
 
 
 
@@ -2727,9 +2727,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um forasteiro pergunta demais sobre o moinho, o celeiro e a idade dos guardas. Diz que é só curiosidade, e cada pergunta tem um carimbo diferente.
+Cena: Um forasteiro pergunta demais sobre o moinho, o celeiro e a idade dos guardas.
 
-Informação: Ele pode ser um espião, ou apenas um sujeito muito curioso.
+Informação: Diz que é só curiosidade, e cada pergunta tem um carimbo diferente. Ele pode ser um espião, ou apenas um sujeito muito curioso.
 
 
 
@@ -2777,9 +2777,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma mulher de olhos cansados oferece uma poção em troca de uma conversa. Os moradores a chamam de bruxa; ela não discorda nem confirma.
+Cena: Uma mulher de olhos cansados oferece uma poção em troca de uma conversa.
 
-Informação: Ninguém sabe se a poção cura ou apenas colore a língua.
+Informação: Os moradores a chamam de bruxa; ela não discorda nem confirma. Ninguém sabe se a poção cura ou apenas colore a língua.
 
 
 
@@ -2827,9 +2827,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Honra ≥ 30.
 
-Cena: Os moradores montaram bancas sem que ninguém mandasse. Há pão, couro, ferro, e um único espelho que ninguém conseguiu vender.
+Cena: Os moradores montaram bancas sem que ninguém mandasse.
 
-Informação: A feira é pequena, mas pode ser o começo de algo.
+Informação: Há pão, couro, ferro, e um único espelho que ninguém conseguiu vender. Você pode isentar as bancas, cobrar uma taxa pequena ou comprar o espelho que ninguém quer.
 
 
 
@@ -2879,9 +2879,9 @@ Requisitos do evento: Nenhum.
 
 Peso alternativo: 5, quando Honra ≤ -30.
 
-Cena: Um camponês acusa o vizinho de mover as pedras do limite. O vizinho jura que as pedras se moveram sozinhas.
+Cena: Um camponês acusa o vizinho de mover as pedras do limite.
 
-Informação: Ninguém sabe quem mente. A vila espera uma sentença.
+Informação: O vizinho jura que as pedras se moveram sozinhas. Um acusa o outro de mover as pedras. Você pode medi-las, dividir o terreno ou condenar um dos vizinhos.
 
 
 
@@ -2929,9 +2929,9 @@ Tipo: desordem. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um homem sobe na carroça e grita que a vila vive em pecado. Metade ri; a outra metade já está silenciosa.
+Cena: Um homem sobe na carroça e grita que a vila vive em pecado.
 
-Informação: A fúria do pregador cresce com a plateia.
+Informação: Metade ri; a outra metade já está silenciosa. A fúria do pregador cresce com a plateia.
 
 
 
@@ -2979,9 +2979,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 5.
 
-Cena: Uma carroça de grades passa pelo portão. Sob a lona, rostos cansados observam em silêncio. O mercador oferece duas bocas a mais pelo preço de um jantar.
+Cena: Uma carroça de grades passa pelo portão. Sob a lona, rostos cansados observam em silêncio.
 
-Informação: Há coisas que não se compram, mas se vendem.
+Informação: O mercador oferece duas bocas a mais pelo preço de um jantar. Há coisas que não se compram, mas se vendem.
 
 
 
@@ -3041,9 +3041,9 @@ Tipo: batalha. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 9.
 
-Cena: Um urso enorme invadiu a plantação. Os lavradores olham para você e para o urso, nessa ordem.
+Cena: Um urso enorme invadiu a plantação.
 
-Informação: O ataque precisa alcançar a defesa da fera. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: Os lavradores olham para você e para o urso, nessa ordem. O ataque precisa alcançar a defesa da fera. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -3111,9 +3111,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: rodada ≥ 5; marca da run ainda ausente: mina_decidida.
 
-Cena: Crianças acharam uma entrada coberta de cipó atrás do moinho. Dentro, há tábuas apodrecidas e um brilho que talvez seja ferro.
+Cena: Crianças acharam uma entrada coberta de cipó atrás do moinho.
 
-Informação: Minas velhas guardam riqueza e armadilhas.
+Informação: Dentro, há tábuas apodrecidas e um brilho que talvez seja ferro. Você pode reabrir a mina com escoras, entrar sozinho para avaliá-la ou lacrar a entrada.
 
 
 
@@ -3171,9 +3171,9 @@ Tipo: mandatorio. Peso base no sorteio: 4.
 
 Requisitos do evento: rodada ≥ 9; marca da run ativa: mina_aberta; marca da run ainda ausente: desabamento_ocorrido.
 
-Cena: A terra treme sob os pés. Um som surdo vem de dentro da mina, e os gritos chegam depois. Você corre.
+Cena: A terra treme sob os pés. Um som surdo vem de dentro da mina, e os gritos chegam depois.
 
-Informação: Aquilo que se abre sem cuidado pode se fechar sem aviso.
+Informação: Você corre. Os mineiros estão presos lá dentro. Para alcançá-los, você também terá de entrar na mina instável.
 
 
 
@@ -3199,9 +3199,9 @@ Tipo: desordem. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Dois irmãos herdaram a mesma casa e o mesmo ressentimento. Levam a briga à praça, onde ela cresce como se tivesse sido semeada.
+Cena: Dois irmãos herdaram a mesma casa e o mesmo ressentimento.
 
-Informação: A vila escolhe lados rápido, e o senhor, mais devagar.
+Informação: Levam a briga à praça, onde ela cresce como se tivesse sido semeada. A vila escolhe lados rápido, e o senhor, mais devagar.
 
 
 
@@ -3249,9 +3249,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma mulher quer abrir uma estalagem na estrada da vila. Já tem as panelas, o nome e a paciência; só falta a licença do senhor.
+Cena: Uma mulher quer abrir uma estalagem na estrada da vila.
 
-Informação: Estalagens trazem viajantes, e viajantes trazem notícias.
+Informação: Já tem as panelas, o nome e a paciência; só falta a licença do senhor. Você pode conceder a licença, cobrar uma taxa anual ou mandá-la voltar pela estrada.
 
 
 
@@ -3299,9 +3299,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Os ratos chegaram em ondas, mastigando sacos e dignidade. O celeireiro propõe soluções que ninguém entende.
+Cena: Os ratos chegaram em ondas, mastigando sacos e dignidade.
 
-Informação: Um celeiro roído é um inverno mais duro.
+Informação: O celeireiro propõe soluções que ninguém entende. Um celeiro roído é um inverno mais duro.
 
 
 
@@ -3349,9 +3349,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: marca da run ainda ausente: cometa_visto.
 
-Cena: Uma estrela com cauda atravessa o céu por três noites. Os velhos se benzem, os jovens apontam, os cães uivam sem parar.
+Cena: Uma estrela com cauda atravessa o céu por três noites.
 
-Informação: Ninguém sabe o que ela anuncia, mas todos têm uma opinião.
+Informação: Os velhos se benzem, os jovens apontam, os cães uivam sem parar. Você pode passar as noites ao relento observando a estrela com o povo.
 
 
 
@@ -3379,9 +3379,9 @@ Tipo: desordem. Peso base no sorteio: 3.
 
 Requisitos do evento: marca da run ativa: cometa_visto; marca da run ainda ausente: profeta_decidido.
 
-Cena: Um homem com olhos acesos prega que o fim chega pelo céu. Metade da praça acredita; a outra metade ainda não decidiu.
+Cena: Um homem com olhos acesos prega que o fim chega pelo céu.
 
-Informação: O medo é a moeda mais barata e a mais cara.
+Informação: Metade da praça acredita; a outra metade ainda não decidiu. Você pode acalmar a praça, pagar para o profeta partir ou lucrar com o medo que ele espalha.
 
 
 
@@ -3435,9 +3435,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Seu guarda mais antigo dorme em pé, apoiado na lança. Quando o acorda, ele pede, com a voz de quem pede uma vez só, dias de folga.
+Cena: Seu guarda mais antigo dorme em pé, apoiado na lança.
 
-Informação: Guardas cansados protegem menos, mas guardas descansados cobram mais.
+Informação: Quando o acorda, ele pede, com a voz de quem pede uma vez só, dias de folga. Guardas cansados protegem menos, mas guardas descansados cobram mais.
 
 
 
@@ -3487,9 +3487,9 @@ Requisitos do evento: Nenhum.
 
 Peso alternativo: 5, quando Honra ≤ -30.
 
-Cena: Três guardas sumiram durante a noite, levando lanças e botas. Os que ficaram evitam seu olhar.
+Cena: Três guardas sumiram durante a noite, levando lanças e botas.
 
-Informação: Guardas que partem não costumam voltar, e os que ficam observam sua reação.
+Informação: Os que ficaram evitam seu olhar. Guardas que partem não costumam voltar, e os que ficam observam sua reação.
 
 
 
@@ -3537,9 +3537,9 @@ Tipo: desordem. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: As lavadeiras cochicham em voz baixa sobre o senhor. Cada versão do rumor é mais interessante que a anterior.
+Cena: As lavadeiras cochicham em voz baixa sobre o senhor.
 
-Informação: Não existe verdade no rumor, só repetição.
+Informação: Cada versão do rumor é mais interessante que a anterior. Você pode pagar por elogios, conversar com as lavadeiras ou tentar calá-las. Ignoradas, elas continuam falando.
 
 
 
@@ -3599,9 +3599,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Honra ≥ 30.
 
-Cena: Um cavaleiro de armadura remendada pede um dia de descanso. Diz que ouviu falar da vila numa canção, e que as canções costumam exagerar.
+Cena: Um cavaleiro de armadura remendada pede um dia de descanso.
 
-Informação: Ele não pede nada além de pouso, mas observa tudo.
+Informação: Diz que ouviu falar da vila numa canção, e que as canções costumam exagerar. Ele não pede nada além de pouso, mas observa tudo.
 
 
 
@@ -3649,9 +3649,9 @@ Tipo: batalha. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 7.
 
-Cena: Um jovem nobre diz que você ofendeu sua família ao usar o nome do pai dele numa frase. Ele exige um duelo, com testemunhas e sem pressa.
+Cena: Um jovem nobre diz que você ofendeu sua família ao usar o nome do pai dele numa frase.
 
-Informação: O ataque precisa alcançar a defesa do duelista. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: Ele exige um duelo, com testemunhas e sem pressa. O ataque precisa alcançar a defesa do duelista. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -3719,9 +3719,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: rodada ≥ 4.
 
-Cena: Um homem de chapéu alto confere o livro de contas da vila. Corrige somas com um sorriso que não alcança os olhos.
+Cena: Um homem de chapéu alto confere o livro de contas da vila.
 
-Informação: Ele diz que representa o rei. Ninguém viu o rei, nem o selo.
+Informação: Corrige somas com um sorriso que não alcança os olhos. Ele diz que representa o rei. Ninguém viu o rei, nem o selo.
 
 
 
@@ -3769,9 +3769,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: rodada ≥ 6; marca da run ainda ausente: refugiados_decidido.
 
-Cena: Uma fila de famílias com trouxas e crianças dorme perto do portão. Algumas têm feridas, outras só têm silêncio.
+Cena: Uma fila de famílias com trouxas e crianças dorme perto do portão.
 
-Informação: Aceitar muitos é alimentar muitos. Recusar é escolher quem fica.
+Informação: Algumas têm feridas, outras só têm silêncio. Aceitar muitos é alimentar muitos. Recusar é escolher quem fica.
 
 
 
@@ -3875,9 +3875,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: O sino da vila rachou numa manhã de geada, produzindo um som que lembra uma tosse. Ninguém sabe quando começar o dia.
+Cena: O sino da vila rachou numa manhã de geada e já não alcança as casas do lado norte.
 
-Informação: O sino organiza a vila. Sem ele, cada um segue o relógio que prefere.
+Informação: Os guardas pedem um aviso que chegue até lá antes da próxima ronda. Você pode substituir o sino, pagar vigias ou deixar o trecho sem aviso.
 
 
 
@@ -3925,9 +3925,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um homem manco, com um olho opaco, se apresenta como veterano de três guerras. Pede um canto para morar e um motivo para levantar de manhã.
+Cena: Um homem manco, com um olho opaco, se apresenta como veterano de três guerras.
 
-Informação: Ele conhece táticas que ninguém mais conhece.
+Informação: Pede um canto para morar e um motivo para levantar de manhã. Ele conhece táticas que ninguém mais conhece.
 
 
 
@@ -3977,9 +3977,9 @@ Requisitos do evento: Nenhum.
 
 Peso alternativo: 5, quando Honra ≤ -30.
 
-Cena: A padaria fechou três dias seguidos. As filas aumentam, e os preços também. Alguém começa a vender pão por baixo do balcão.
+Cena: A padaria fechou três dias seguidos.
 
-Informação: A fome nunca precisou de tradutor.
+Informação: As filas aumentam, e os preços também. Alguém começa a vender pão por baixo do balcão. Você pode abrir o celeiro, tabelar o preço do pão ou confiscar o que é vendido às escondidas.
 
 
 
@@ -4027,9 +4027,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma vez por ano, os moradores acendem velas no cemitério e deixam pão nas lápides. Ninguém lembra por quê, apenas como.
+Cena: Uma vez por ano, os moradores acendem velas no cemitério e deixam pão nas lápides.
 
-Informação: Os mortos também fazem parte da vila.
+Informação: Ninguém lembra por quê, apenas como. Os mortos também fazem parte da vila.
 
 
 
@@ -4077,9 +4077,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 5.
 
-Cena: Um nobre de roupas caras e mãos vazias pede asilo. Seu cavalo é mais bem vestido que ele.
+Cena: Um nobre de roupas caras e mãos vazias pede asilo.
 
-Informação: Ele diz conhecer pessoas importantes. Elas, talvez, não o conheçam mais.
+Informação: Seu cavalo é mais bem vestido que ele. Ele diz conhecer pessoas importantes. Elas, talvez, não o conheçam mais.
 
 
 
@@ -4127,9 +4127,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 5.
 
-Cena: O céu fecha à tarde, e à noite a chuva é de pedra. Telhados voam, o rio sobe, e você corre entre as casas, segurando o que consegue.
+Cena: O céu fecha à tarde, e à noite a chuva é de pedra.
 
-Informação: Algumas noites não oferecem escolha, só resistência.
+Informação: Telhados voam, o rio sobe, e você corre entre as casas, segurando o que consegue. Algumas noites não oferecem escolha, só resistência.
 
 
 
@@ -4153,9 +4153,9 @@ Tipo: desordem. Peso base no sorteio: 5.
 
 Requisitos do evento: Honra ≤ -30.
 
-Cena: Seus guardas, sem ordem clara, começaram a pedir "contribuições" nas casas. Quem nega, apanha. Quem paga, também.
+Cena: Seus guardas, sem ordem clara, começaram a pedir "contribuições" nas casas.
 
-Informação: A vila aprende a ser como o senhor.
+Informação: Quem nega, apanha. Quem paga, também. A vila aprende a ser como o senhor.
 
 
 
@@ -4203,9 +4203,9 @@ Tipo: desordem. Peso base no sorteio: 4.
 
 Requisitos do evento: rodada ≥ 8; marca da run ativa: poco_contaminado; marca da run ainda ausente: culto_resolvido.
 
-Cena: Algumas pessoas passaram a rezar de joelhos ao redor do poço, dizendo que ele fala à noite. Ninguém mais bebe daquela água, a não ser eles.
+Cena: Algumas pessoas passaram a rezar de joelhos ao redor do poço, dizendo que ele fala à noite.
 
-Informação: A água foi contaminada por descuido. A reverência, por desespero.
+Informação: Ninguém mais bebe daquela água, a não ser eles. A água foi contaminada por descuido. A reverência, por desespero.
 
 
 
@@ -4259,9 +4259,9 @@ Tipo: batalha. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 8.
 
-Cena: Durante a ronda, o portão estava destrancado por dentro. Homens armados já estão entre as casas, e ninguém sabe quem abriu.
+Cena: Durante a ronda, o portão estava destrancado por dentro.
 
-Informação: O ataque precisa alcançar a defesa dos invasores. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: Homens armados já estão entre as casas, e ninguém sabe quem abriu. O ataque precisa alcançar a defesa dos invasores. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -4317,9 +4317,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma mulher traz uma medalha a você. Diz que o marido a recebeu por lutar a seu serviço ou ao do seu antecessor. Os registros se contradizem.
+Cena: Uma mulher traz uma medalha a você.
 
-Informação: Ela só quer saber se a morte dele serviu a algo.
+Informação: Diz que o marido a recebeu por lutar a seu serviço ou ao do seu antecessor. Os registros se contradizem. Ela só quer saber se a morte dele serviu a algo.
 
 
 
@@ -4367,9 +4367,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um rapaz pálido oferece xaropes de sabor discutível. Jura que seu mestre morreu sem lhe ensinar nada, exceto como misturar.
+Cena: Um rapaz pálido oferece xaropes de sabor discutível.
 
-Informação: Seus remédios podem curar, ou ao menos conservar.
+Informação: Jura que seu mestre morreu sem lhe ensinar nada, exceto como misturar. Seus remédios podem curar, ou ao menos conservar.
 
 
 
@@ -4417,9 +4417,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um rebanho de ovelhas ocupa a estrada. Os pastores pedem pasto por três dias e prometem lã em troca.
+Cena: Um rebanho de ovelhas ocupa a estrada.
 
-Informação: Ovelhas comem tudo o que veem, inclusive suas cercas.
+Informação: Os pastores pedem pasto por três dias e prometem lã em troca. Ovelhas comem tudo o que veem, inclusive suas cercas.
 
 
 
@@ -4467,9 +4467,9 @@ Tipo: desordem. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um rapaz foi pego sentado em um cavalo que não era seu. Jura que o animal o seguiu até a cerca.
+Cena: Um rapaz foi pego sentado em um cavalo que não era seu.
 
-Informação: A vila observa, em silêncio, o que será feito do rapaz.
+Informação: Jura que o animal o seguiu até a cerca. A vila observa, em silêncio, o que será feito do rapaz.
 
 
 
@@ -4517,9 +4517,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: O oleiro quer construir um forno maior e mudar para a vila. Diz que seu barro é bom e suas pernas são ruins.
+Cena: O oleiro quer construir um forno maior e mudar para a vila.
 
-Informação: Fornos grandes trazem moedas e fumaça.
+Informação: Diz que seu barro é bom e suas pernas são ruins. Fornos grandes trazem moedas e fumaça.
 
 
 
@@ -4567,9 +4567,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Três crianças desapareceram depois do jantar. Os pais cercam o portão e olham para você, não para as árvores.
+Cena: Três crianças desapareceram depois do jantar.
 
-Informação: A floresta escurece rápido.
+Informação: Os pais cercam o portão e olham para você, não para as árvores. A floresta escurece rápido.
 
 
 
@@ -4617,9 +4617,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: rodada ≥ 4.
 
-Cena: O senhor da aldeia vizinha diz que a pedra do limite foi movida para dentro das terras dele. Pede que a coloquem de volta, ou que ele mesmo o faça.
+Cena: O senhor da aldeia vizinha diz que a pedra do limite foi movida para dentro das terras dele.
 
-Informação: A pedra tem cem anos e muitas versões.
+Informação: Pede que a coloquem de volta, ou que ele mesmo o faça. A pedra tem cem anos e muitas versões.
 
 
 
@@ -4667,9 +4667,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 10; marca da run ainda ausente: sonho_tido.
 
-Cena: Você dorme na poltrona do seu predecessor e sonha com uma vila que não reconhece. Ele está de pé na porta, sem rosto, e pergunta o que você fez.
+Cena: Você dorme na poltrona do seu predecessor e sonha com uma vila que não reconhece.
 
-Informação: Alguns sonhos exigem resposta, mesmo sem perguntas.
+Informação: Ele está de pé na porta, sem rosto, e pergunta o que você fez. O predecessor pergunta o que você fez com a vila. A resposta fica entre vocês no sonho.
 
 
 
@@ -4697,9 +4697,9 @@ Tipo: desordem. Peso base no sorteio: 2.
 
 Requisitos do evento: Gold ≥ 4.
 
-Cena: O ferreiro mostra uma moeda que se desfaz sob o martelo. Três outras iguais passaram pelo cofre sem que ninguém notasse.
+Cena: O ferreiro mostra uma moeda que se desfaz sob o martelo.
 
-Informação: Há alguém fabricando moedas na região.
+Informação: Três outras iguais passaram pelo cofre sem que ninguém notasse. Há alguém fabricando moedas na região.
 
 
 
@@ -4747,9 +4747,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Uma família de pele escurecida de fuligem pede para queimar lenha no bosque comunal. Seus filhos parecem mais velhos que seus pais.
+Cena: Uma família de pele escurecida de fuligem pede para queimar lenha no bosque comunal.
 
-Informação: Carvão aquece e vende, mas queima árvores.
+Informação: Seus filhos parecem mais velhos que seus pais. Carvão aquece e vende, mas queima árvores.
 
 
 
@@ -4797,9 +4797,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 10.
 
-Cena: O padre, o ferreiro e a ervateira se juntam à porta de seu salão e apresentam uma lista de nomes. Pedem que você a leia em voz alta.
+Cena: O padre, o ferreiro e a ervateira se juntam à porta de seu salão e apresentam uma lista de nomes.
 
-Informação: A lista contém todos que a vila perdeu desde que você chegou.
+Informação: Pedem que você a leia em voz alta. A lista contém todos que a vila perdeu desde que você chegou.
 
 
 
@@ -4847,9 +4847,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: O vigia da torre desceu para dizer que viu fumaça no horizonte três noites seguidas. Ele não sabe se é aviso ou invenção.
+Cena: O vigia da torre desceu para dizer que viu fumaça no horizonte três noites seguidas.
 
-Informação: Ele não está acostumado a ser ouvido.
+Informação: Ele não sabe se é aviso ou invenção. Ele não está acostumado a ser ouvido.
 
 
 
@@ -4897,9 +4897,9 @@ Tipo: encontro. Peso base no sorteio: 2.
 
 Requisitos do evento: Nenhum.
 
-Cena: Um enxame de abelhas pousou no telhado da cozinha. A cozinheira recusa-se a sair, e o enxame também.
+Cena: Um enxame de abelhas pousou no telhado da cozinha.
 
-Informação: Abelhas podem ser sorte ou problema, dependendo do ferrão.
+Informação: A cozinheira recusa-se a sair, e o enxame também. Abelhas podem ser sorte ou problema, dependendo do ferrão.
 
 
 
@@ -4947,9 +4947,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: Nenhum.
 
-Cena: Os mais velhos dizem que a lagoa atrás do bosque é amaldiçoada. Os mais jovens dizem que há peixes. Ambos podem estar certos.
+Cena: Os mais velhos dizem que a lagoa atrás do bosque é amaldiçoada. Os mais jovens dizem que há peixes.
 
-Informação: A lagoa nunca ficou seca, nem nos piores invernos.
+Informação: Ambos podem estar certos. A lagoa nunca ficou seca, nem nos piores invernos.
 
 
 
@@ -4997,9 +4997,9 @@ Tipo: batalha. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 9.
 
-Cena: Um mensageiro suado conta que a aldeia vizinha está sendo atacada por bandidos. Pede homens e lanças, e pede depressa.
+Cena: Um mensageiro suado conta que a aldeia vizinha está sendo atacada por bandidos.
 
-Informação: O ataque precisa alcançar a defesa dos bandidos. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: Pede homens e lanças, e pede depressa. O ataque precisa alcançar a defesa dos bandidos. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -5067,9 +5067,9 @@ Tipo: batalha. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 12.
 
-Cena: Os estandartes cinzentos aparecem no vale. O barão, que ninguém conhece, agora chega em pessoa, com mais homens e menos paciência.
+Cena: Os estandartes cinzentos aparecem no vale.
 
-Informação: O ataque precisa alcançar a defesa do exército. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: O barão, que ninguém conhece, agora chega em pessoa, com mais homens e menos paciência. O ataque precisa alcançar a defesa do exército. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -5137,9 +5137,9 @@ Tipo: desordem. Peso base no sorteio: 2.
 
 Requisitos do evento: rodada ≥ 12; marca da run ainda ausente: primo_decidido.
 
-Cena: Um homem de sobrenome parecido com o seu chega com uma carta e um sorriso que não olha ninguém nos olhos. Diz ter direitos sobre a terra.
+Cena: Um homem de sobrenome parecido com o seu chega com uma carta e um sorriso que não olha ninguém nos olhos.
 
-Informação: Os papéis parecem verdadeiros. Os parentescos, talvez.
+Informação: Diz ter direitos sobre a terra. Os papéis parecem verdadeiros. Os parentescos, talvez.
 
 
 
@@ -5195,7 +5195,7 @@ Requisitos do evento: rodada ≥ 14.
 
 Cena: A neve cobre as portas pela segunda vez. As reservas diminuem, e cada pessoa conta a lenha como quem conta dias.
 
-Informação: O inverno não faz perguntas.
+Informação: As reservas diminuem, e você só pode dividir o que ainda resta.
 
 
 
@@ -5219,9 +5219,9 @@ Tipo: encontro. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 14.
 
-Cena: Um bispo gordo e educado chega em liteira e pede para inspecionar a moral da vila. Ele traz um livro de contas diferente do coletor.
+Cena: Um bispo gordo e educado chega em liteira e pede para inspecionar a moral da vila.
 
-Informação: O bispo não pede nada, apenas observa. Esse é o problema.
+Informação: Ele traz um livro de contas diferente do coletor. O bispo não pede nada, apenas observa. Esse é o problema.
 
 
 
@@ -5269,9 +5269,9 @@ Tipo: mandatorio. Peso base no sorteio: 1.
 
 Requisitos do evento: rodada ≥ 20; marca da run ainda ausente: sucessor_visto.
 
-Cena: Numa noite sem lua, você vê uma criança sentada no degrau do portão. Ela não responde quando você fala. Apenas olha, e parece já saber seu nome.
+Cena: Numa noite sem lua, você vê uma criança sentada no degrau do portão.
 
-Informação: Nada acontece até que algo aconteça.
+Informação: Ela não responde quando você fala. Apenas olha, e parece já saber seu nome. Ela parece saber seu nome, mas você não sabe de onde veio.
 
 
 
@@ -5301,9 +5301,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 8; marca da run ainda ausente: pacto_feito.
 
-Cena: No fim da tarde, uma mulher de cabelos que se movem contra a corrente emerge até a cintura no rio. Diz que devolve tudo o que a água já levou, e que só precisa de algo que o rio ainda não tenha.
+Cena: No fim da tarde, uma mulher de cabelos que se movem contra a corrente emerge até a cintura no rio.
 
-Informação: Ninguém na margem ousa respirar alto. A água ao redor dela está parada.
+Informação: Diz que devolve tudo o que a água já levou, e que só precisa de algo que o rio ainda não tenha. Ninguém na margem ousa respirar alto. A água ao redor dela está parada.
 
 
 
@@ -5357,9 +5357,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 6; marca da run ainda ausente: pacto_feito.
 
-Cena: Um corvo pousa na mesa do salão e cumprimenta você pelo nome, pelo nome do seu pai, e pelo nome de quem ainda não nasceu. Diz que sabe o que as pessoas pensam antes de escolher.
+Cena: Um corvo pousa na mesa do salão e cumprimenta você pelo nome, pelo nome do seu pai, e pelo nome de quem ainda não nasceu.
 
-Informação: O corvo oferece ver o que a vila não vê. Cobra pelo serviço.
+Informação: Diz que sabe o que as pessoas pensam antes de escolher. O corvo oferece ver o que a vila não vê. Cobra pelo serviço.
 
 
 
@@ -5413,9 +5413,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 7; marca da run ainda ausente: pacto_feito.
 
-Cena: Um homem de sorriso fácil atravessa o pátio em pleno meio-dia, sem sombra. Abre a capa e mostra armaduras, armas e frascos. Diz que aceita qualquer moeda, menos as de ouro.
+Cena: Um homem de sorriso fácil atravessa o pátio em pleno meio-dia, sem sombra.
 
-Informação: O mercador não cobra em gold. Ele cobra naquilo que você não sabe que tem.
+Informação: Abre a capa e mostra armaduras, armas e frascos. Diz que aceita qualquer moeda, menos as de ouro. A armadura custa cinco moradores; a lâmina, seis pontos de honra. Pela sombra, ele paga quinze moedas, mas você perde vida e honra.
 
 
 
@@ -5483,9 +5483,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 5; marca da run ainda ausente: pacto_feito.
 
-Cena: No limite do bosque, um carvalho tão velho quanto a vila abriu uma fenda no tronco com o formato de uma boca. As raízes se levantaram da terra e apontam para você.
+Cena: No limite do bosque, um carvalho tão velho quanto a vila abriu uma fenda no tronco com o formato de uma boca.
 
-Informação: Os mais velhos dizem que a árvore já pediu coisas antes, e que quem negou nunca contou o resto.
+Informação: As raízes se levantaram da terra e apontam para você. Os mais velhos dizem que a árvore já pediu coisas antes, e que quem negou nunca contou o resto.
 
 
 
@@ -5539,9 +5539,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 8.
 
-Cena: Um cervo de pelagem clara e chifres que parecem osso polido cruza o campo sem pressa. Os cães não latem, e os caçadores baixam as lanças sem que ninguém ordene.
+Cena: Um cervo de pelagem clara e chifres que parecem osso polido cruza o campo sem pressa.
 
-Informação: A lenda diz que quem o abate prospera e quem o poupa é lembrado. A lenda não diz qual é melhor.
+Informação: Os cães não latem, e os caçadores baixam as lanças sem que ninguém ordene. A lenda diz que quem o abate prospera e quem o poupa é lembrado. A lenda não diz qual é melhor.
 
 
 
@@ -5591,9 +5591,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 10.
 
-Cena: Na ceia, há um prato a mais na mesa que ninguém lembra de ter posto. Uma mulher de manto cinzento senta e pede vinho, com a naturalidade de quem nunca precisou pedir.
+Cena: Na ceia, há um prato a mais na mesa que ninguém lembra de ter posto.
 
-Informação: Ela diz que veio só jantar. Os cães do pátio estão em silêncio.
+Informação: Uma mulher de manto cinzento senta e pede vinho, com a naturalidade de quem nunca precisou pedir. Ela diz que veio só jantar. Os cães do pátio estão em silêncio.
 
 
 
@@ -5643,9 +5643,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 9.
 
-Cena: Atrás de uma cortina no salão, você encontra um espelho que não tinha visto. Nele, em vez de seu rosto, aparece o do senhor anterior, de costas, olhando para algo que você não vê.
+Cena: Atrás de uma cortina no salão, você encontra um espelho que não tinha visto.
 
-Informação: O espelho não tem moldura e não reflete a sala.
+Informação: Nele, em vez de seu rosto, aparece o do senhor anterior, de costas, olhando para algo que você não vê. O espelho não tem moldura e não reflete a sala.
 
 
 
@@ -5697,9 +5697,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 10; marca da run ainda ausente: pacto_feito.
 
-Cena: Três velhas fiam sob o carvalho da praça, e ninguém sabe quando chegaram. Os fios que enrolam são de cores que não têm nome. Uma delas ergue uma tesoura e pergunta quanto tempo você acha que ainda tem.
+Cena: Três velhas fiam sob o carvalho da praça, e ninguém sabe quando chegaram.
 
-Informação: Os fios pertencem a todos os moradores. Um deles pertence a você.
+Informação: Os fios que enrolam são de cores que não têm nome. Uma delas ergue uma tesoura e pergunta quanto tempo você acha que ainda tem. Os fios pertencem a todos os moradores. Um deles pertence a você.
 
 
 
@@ -5753,9 +5753,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 8; marca da run ainda ausente: pacto_feito.
 
-Cena: Um homem muito educado deixa um pergaminho em sua mesa e desaparece pela chaminé. O papel está em branco até você tocá-lo, e então as letras surgem em vermelho, com uma caligrafia que parece a sua.
+Cena: Um homem muito educado deixa um pergaminho em sua mesa e desaparece pela chaminé.
 
-Informação: O contrato promete força, ouro e proteção. As cláusulas são longas. Há uma linha apagada.
+Informação: O papel está em branco até você tocá-lo, e então as letras surgem em vermelho, com uma caligrafia que parece a sua. O contrato promete força, ouro e proteção. As cláusulas são longas. Há uma linha apagada.
 
 
 
@@ -5823,9 +5823,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 12.
 
-Cena: Uma armadura enferrujada caminha pela estrada com um arco de ossos no lugar do rosto. Não fala. Planta a lança no chão diante do portão e espera.
+Cena: Uma armadura enferrujada caminha pela estrada com um arco de ossos no lugar do rosto.
 
-Informação: O ataque precisa alcançar a defesa do cavaleiro. Seu escudo reduz o dano recebido, sem se desgastar.
+Informação: Não fala. Planta a lança no chão diante do portão e espera. O ataque precisa alcançar a defesa do cavaleiro. Seu escudo reduz o dano recebido, sem se desgastar.
 
 
 
@@ -5897,9 +5897,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 8.
 
-Cena: Uma mulher descalça entra na vila pedindo apenas água. Onde pisa, o barro seca. As crianças a seguem em silêncio e os doentes se arrastam até a porta.
+Cena: Uma mulher descalça entra na vila pedindo apenas água.
 
-Informação: Ninguém sabe seu nome. Ela cura, mas diz que cada cura tem um dono.
+Informação: Onde pisa, o barro seca. As crianças a seguem em silêncio e os doentes se arrastam até a porta. Ninguém sabe seu nome. Ela cura, mas diz que cada cura tem um dono.
 
 
 
@@ -5949,9 +5949,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 7; marca da run ainda ausente: pacto_feito.
 
-Cena: Um lobo cinzento senta no pátio e fala em voz baixa, quase um ronronar. Oferece a proteção da matilha em troca de parte do rebanho e de um lugar à mesa.
+Cena: Um lobo cinzento senta no pátio e fala em voz baixa, quase um ronronar.
 
-Informação: Atrás dele, entre as árvores, dezenas de olhos observam sem piscar.
+Informação: Oferece a proteção da matilha em troca de parte do rebanho e de um lugar à mesa. Atrás dele, entre as árvores, dezenas de olhos observam sem piscar.
 
 
 
@@ -6003,9 +6003,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: Honra ≥ 30; rodada ≥ 12.
 
-Cena: Um homem de asas encolhidas dorme na porta do celeiro, encolhido sobre palha. Tem as mãos queimadas, as penas escuras de fuligem, e chora baixinho quando acorda.
+Cena: Um homem de asas encolhidas dorme na porta do celeiro, encolhido sobre palha.
 
-Informação: Ele diz que carregou a vontade de muitos e que agora só quer descansar. Não pede nada além de um canto.
+Informação: Tem as mãos queimadas, as penas escuras de fuligem, e chora baixinho quando acorda. Ele diz que carregou a vontade de muitos e que agora só quer descansar. Não pede nada além de um canto.
 
 
 
@@ -6055,9 +6055,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: Honra ≤ -30; Gold ≥ 5; rodada ≥ 9; marca da run ainda ausente: pacto_feito.
 
-Cena: À noite, o cofre fala. Primeiro, parece um ranger de metal; depois, uma voz clara que conta as moedas e promete multiplicá-las.
+Cena: À noite, o cofre fala.
 
-Informação: A voz não ameaça. Apenas pede que você a ouça até o fim.
+Informação: Primeiro, parece um ranger de metal; depois, uma voz clara que conta as moedas e promete multiplicá-las. A voz não ameaça. Apenas pede que você a ouça até o fim.
 
 
 
@@ -6111,9 +6111,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 14; marca da run ainda ausente: pacto_feito.
 
-Cena: Um pastor corre até o salão afirmando que a colina se abriu. Dentro, uma fila de soldados de pedra dorme em volta de um trono, e o homem que o ocupa abre os olhos quando você entra.
+Cena: Um pastor corre até o salão afirmando que a colina se abriu.
 
-Informação: O rei diz que esperou séculos por um senhor digno. Ou desesperado.
+Informação: Dentro, uma fila de soldados de pedra dorme em volta de um trono, e o homem que o ocupa abre os olhos quando você entra. O rei diz que esperou séculos por um senhor digno. Ou desesperado.
 
 
 
@@ -6179,9 +6179,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 6.
 
-Cena: Em plena madrugada, uma mão de dedos longos se apoia no parapeito da janela do seu quarto. Não bate, não puxa. Apenas espera.
+Cena: Em plena madrugada, uma mão de dedos longos se apoia no parapeito da janela do seu quarto.
 
-Informação: O quarto está no segundo andar. A mão não tem braço visível.
+Informação: Não bate, não puxa. Apenas espera. O quarto está no segundo andar. A mão não tem braço visível.
 
 
 
@@ -6231,9 +6231,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 10; marca da run ainda ausente: pacto_feito.
 
-Cena: Um homem de aventais cheios de engrenagens chega à vila carregando um relógio que marca horas que ninguém reconhece. Oferece consertar o que se quebrou entre as pessoas e o tempo.
+Cena: Um homem de aventais cheios de engrenagens chega à vila carregando um relógio que marca horas que ninguém reconhece.
 
-Informação: Ele diz que pode apagar o que foi feito. Não diz o que acontece com as consequências.
+Informação: Oferece consertar o que se quebrou entre as pessoas e o tempo. Ele diz que pode apagar o que foi feito. Não diz o que acontece com as consequências.
 
 
 
@@ -6305,9 +6305,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 9.
 
-Cena: Durante a noite, uma figura percorre as ruas com uma foice fina e corta algo no chão, atrás de cada morador adormecido. Pela manhã, ninguém lembra de ter sonhado, e as sombras parecem mais claras.
+Cena: Durante a noite, uma figura percorre as ruas com uma foice fina e corta algo no chão, atrás de cada morador adormecido.
 
-Informação: Os moradores acordam descansados. Também mais silenciosos.
+Informação: Pela manhã, ninguém lembra de ter sonhado, e as sombras parecem mais claras. Os moradores acordam descansados. Também mais silenciosos.
 
 
 
@@ -6357,9 +6357,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada.
 
 Requisitos do evento: rodada ≥ 11.
 
-Cena: Do fundo do lago atrás do bosque, um sino toca sem ninguém tocá-lo. As ondas pulsam em compasso com o som, e as crianças dizem que ele chama pelos nomes dos moradores.
+Cena: Do fundo do lago atrás do bosque, um sino toca sem ninguém tocá-lo.
 
-Informação: Ninguém lembra de uma igreja afundada naquele lago.
+Informação: As ondas pulsam em compasso com o som, e as crianças dizem que ele chama pelos nomes dos moradores. Ninguém lembra de uma igreja afundada naquele lago.
 
 
 
@@ -6409,9 +6409,9 @@ Carta especial: aparece uma vez por run, mesmo se recusada. Pacto: só aparece a
 
 Requisitos do evento: rodada ≥ 18; marca da run ainda ausente: pacto_feito; flag de legado: sucessor_pressentido.
 
-Cena: Em um cômodo trancado do castelo, que ninguém abria há gerações, um homem de armadura antiga se levanta de uma cadeira. Seu rosto lembra o seu, e o de todos os senhores que vieram antes. Ele diz que foi o primeiro a herdar a vontade, e que está cansado de esperar.
+Cena: Em um cômodo trancado do castelo, que ninguém abria há gerações, um homem de armadura antiga se levanta de uma cadeira.
 
-Informação: A vontade que você carrega é mais antiga do que a vila. Ele quer sabê-la inteira.
+Informação: Seu rosto lembra o seu, e o de todos os senhores que vieram antes. Ele diz que foi o primeiro a herdar a vontade, e que está cansado de esperar. A vontade que você carrega é mais antiga do que a vila. Ele quer sabê-la inteira.
 
 
 
@@ -6471,9 +6471,9 @@ Tipo: especial. Peso base no sorteio: 0,3.
 
 Requisitos do evento: rodada ≥ 8; marca da run ainda ausente: abissal_1.
 
-Cena: Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água. A vila está a dias de qualquer mar.
+Cena: Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água.
 
-Informação: Ninguém sabe explicar o sal. Os cães recusam-se a entrar no salão.
+Informação: A vila está a dias de qualquer mar. Ninguém sabe explicar o sal. Os cães recusam-se a entrar no salão.
 
 
 
@@ -6541,9 +6541,9 @@ Tipo: especial. Peso base no sorteio: 0,4.
 
 Requisitos do evento: rodada ≥ 11; marca da run ativa: abissal_1; marca da run ainda ausente: abissal_2.
 
-Cena: A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira. As crianças brincam com eles, e as mães não conseguem impedir.
+Cena: A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira.
 
-Informação: A água salgada não se mistura com o rio. Circula dentro das paredes.
+Informação: As crianças brincam com eles, e as mães não conseguem impedir. A água salgada não se mistura com o rio. Circula dentro das paredes.
 
 
 
@@ -6611,9 +6611,9 @@ Tipo: especial. Peso base no sorteio: 0,5.
 
 Requisitos do evento: rodada ≥ 14; marca da run ativa: abissal_2; marca da run ainda ausente: abissal_3.
 
-Cena: Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio. Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou.
+Cena: Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio.
 
-Informação: Não parecem perigosos. Parecem felizes, o que é pior.
+Informação: Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou. Não parecem perigosos. Parecem felizes, o que é pior.
 
 
 
@@ -6681,9 +6681,9 @@ Tipo: especial. Peso base no sorteio: 0,5.
 
 Requisitos do evento: rodada ≥ 17; marca da run ativa: abissal_3; marca da run ainda ausente: abissal_4.
 
-Cena: Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha. A porta está aberta.
+Cena: Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha.
 
-Informação: Cada pessoa que olha por muito tempo para a torre sai do transe sem lembrar o que viu.
+Informação: A porta está aberta. Cada pessoa que olha por muito tempo para a torre sai do transe sem lembrar o que viu.
 
 
 
@@ -6751,9 +6751,9 @@ Tipo: especial. Peso base no sorteio: 0,6.
 
 Requisitos do evento: rodada ≥ 20; marca da run ativa: abissal_4; marca da run ainda ausente: abissal_5.
 
-Cena: A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Algo imenso abre um olho.
+Cena: A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. Algo imenso abre um olho.
 
-Informação: Não é uma batalha. Não é uma negociação. É um momento em que a vila inteira espera o que o senhor fará com o que sabe.
+Informação: O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Não é uma batalha. Não é uma negociação. É um momento em que a vila inteira espera o que o senhor fará com o que sabe.
 
 
 
@@ -6860,8 +6860,8 @@ Comprar um item aleatório encerra a visita e guarda uma unidade no inventário 
 126. O BAÚ À BEIRA DA ESTRADA [bau_estrada]
 Tipo: achado. Peso base no sorteio: 2.
 Requisitos do evento: Nenhum.
-Cena: Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada, mas três objetos foram embrulhados em panos secos.
-Informação: Só dá para levar um objeto.
+Cena: Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada e os objetos mudam a cada achado.
+Informação: Seus homens esperam que você escolha apenas um. Os itens oferecidos são sorteados e não incluem objetos que você já possui.
 
   ESCOLHA: Levar a poção grande. [pocao]
     Concede item: Poção de cura grande [pocao_cura_grande].
@@ -7045,8 +7045,8 @@ NOVAS CARTAS EXECUTADAS — 74 PROPOSTAS
 
 01. A árvore sobre a estrada [arvore_sobre_estrada] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma árvore tombou na curva durante a madrugada. Uma carroça já está presa entre o tronco e a vala; o cocheiro espera ajuda antes que a chuva chegue.
-Informação: A madeira serve à vila, aos carroceiros ou pode ficar onde caiu.
+Cena: Uma árvore tombou na curva durante a madrugada.
+Informação: Uma carroça já está presa entre o tronco e a vala; o cocheiro espera ajuda antes que a chuva chegue. A madeira serve à vila, aos carroceiros ou pode ficar onde caiu.
 Escolhas:
   - Cortar o tronco e repartir a madeira.
     Efeitos diretos: −1 Habitantes, −1 Gold, +2 Honra.
@@ -7057,8 +7057,8 @@ Escolhas:
 
 02. Telhas antes da chuva [telhas_antes_da_chuva] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um lote de telhas chega ao portão na mesma manhã em que as nuvens fecham o vale. O depósito não tem espaço para guardar tudo.
-Informação: Cobrir os telhados mais frágeis, cobrar pela distribuição ou vender parte do lote define quem atravessa a chuva em segurança.
+Cena: Um lote de telhas chega ao portão na mesma manhã em que as nuvens fecham o vale.
+Informação: O depósito não tem espaço para guardar tudo. Cobrir os telhados mais frágeis, cobrar pela distribuição ou vender parte do lote define quem atravessa a chuva em segurança.
 Escolhas:
   - Consertar os telhados mais frágeis · 3 Gold.
     Efeitos diretos: −3 Gold, +3 Honra, +4 Vida.
@@ -7069,8 +7069,8 @@ Escolhas:
 
 03. A medida do trigo [medida_do_trigo] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: A farinha acaba antes do esperado, embora o livro do celeiro registre sacos suficientes. Na banca, o medidor do comerciante parece menor que o usado pela vila.
-Informação: Rever a medida pode recuperar o que falta ou transformar uma suspeita em disputa pública.
+Cena: A farinha acaba antes do esperado, embora o livro do celeiro registre sacos suficientes.
+Informação: Na banca, o medidor do comerciante parece menor que o usado pela vila. Rever a medida pode recuperar o que falta ou transformar uma suspeita em disputa pública.
 Escolhas:
   - Conferir as medidas diante dos compradores · 1 Gold.
     Efeitos diretos: −1 Gold, +2 Habitantes, +3 Honra.
@@ -7081,8 +7081,8 @@ Escolhas:
 
 04. A parede de pedra [parede_de_pedra] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: A pedreira antiga ainda guarda blocos sob a encosta. Um veio aquece a mão quando o pedreiro se aproxima; acima dele, uma rachadura atravessa a parede.
-Informação: Retirar os blocos soltos, escorar a encosta ou abrir o veio aquecido trazem riscos diferentes.
+Cena: A pedreira antiga ainda guarda blocos sob a encosta.
+Informação: Um veio aquece a mão quando o pedreiro se aproxima; acima dele, uma rachadura atravessa a parede. Retirar os blocos soltos, escorar a encosta ou abrir o veio aquecido trazem riscos diferentes.
 Escolhas:
   - Retirar apenas as pedras que já cederam.
     Efeitos diretos: +3 Gold, +1 Honra.
@@ -7094,8 +7094,8 @@ Escolhas:
 
 05. A carroça de ferramentas [carroca_de_ferramentas] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um vendedor oferece ferramentas usadas a preço baixo. Algumas ainda têm a marca da oficina de onde vieram; outras perderam o cabo ou o fio.
-Informação: Comprar o lote pode ajudar os trabalhadores, mas nem toda peça vale o preço pedido.
+Cena: Um vendedor oferece ferramentas usadas a preço baixo.
+Informação: Algumas ainda têm a marca da oficina de onde vieram; outras perderam o cabo ou o fio. Comprar o lote pode ajudar os trabalhadores, mas nem toda peça vale o preço pedido.
 Escolhas:
   - Comprar o lote e reservar as luvas de trabalho · 4 Gold.
     Efeitos diretos: −4 Gold, +1 Honra.
@@ -7107,8 +7107,8 @@ Escolhas:
 
 06. O canal assoreado [canal_assoreado] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: O canal perde profundidade a cada cheia. A água ainda alcança os campos, mas os sulcos mais distantes já secaram antes do meio-dia.
-Informação: Um mutirão, uma cobrança aos proprietários ou uma mudança no plantio decide o próximo uso da água.
+Cena: O canal perde profundidade a cada cheia.
+Informação: A água ainda alcança os campos, mas os sulcos mais distantes já secaram antes do meio-dia. Um mutirão, uma cobrança aos proprietários ou uma mudança no plantio decide o próximo uso da água.
 Escolhas:
   - Organizar um mutirão para retirar a lama.
     Efeitos diretos: −1 Habitantes, +2 Honra, +1 Gold.
@@ -7119,8 +7119,8 @@ Escolhas:
 
 07. O salgueiro marcado [salgueiro_marcado] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: As raízes de um salgueiro antigo levantaram as pedras da passagem. Pastores dizem que, sem a árvore, ninguém encontra o caminho de volta depois da neblina.
-Informação: A árvore pode ficar, ser podada ou perder a passagem que divide com a trilha.
+Cena: As raízes de um salgueiro antigo levantaram as pedras da passagem.
+Informação: Pastores dizem que, sem a árvore, ninguém encontra o caminho de volta depois da neblina. A árvore pode ficar, ser podada ou perder a passagem que divide com a trilha.
 Escolhas:
   - Proteger as raízes e refazer o caminho ao lado.
     Efeitos diretos: −2 Gold, +3 Honra.
@@ -7131,8 +7131,8 @@ Escolhas:
 
 08. A caldeira emprestada [caldeira_emprestada] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma comunidade vizinha pede a caldeira usada para tingir tecidos. A oficina da vila pretende preparar uma fornada de remédios na mesma semana.
-Informação: O empréstimo pode fortalecer o acordo entre as comunidades ou atrasar o trabalho local.
+Cena: Uma comunidade vizinha pede a caldeira usada para tingir tecidos.
+Informação: A oficina da vila pretende preparar uma fornada de remédios na mesma semana. O empréstimo pode fortalecer o acordo entre as comunidades ou atrasar o trabalho local.
 Escolhas:
   - Emprestar a caldeira com uma peça como garantia.
     Efeitos diretos: +1 Habitantes, +2 Honra.
@@ -7143,8 +7143,8 @@ Escolhas:
 
 09. A roda que perde o eixo [roda_perde_eixo] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: A roda d'água para no meio da moagem. O eixo gasto ainda gira à mão, mas cada volta abre uma fenda maior na madeira.
-Informação: Um eixo novo custa Gold; um reparo improvisado consome tempo e pode parar o moinho de vez.
+Cena: A roda d'água para no meio da moagem.
+Informação: O eixo gasto ainda gira à mão, mas cada volta abre uma fenda maior na madeira. Um eixo novo custa Gold; um reparo improvisado consome tempo e pode parar o moinho de vez.
 Escolhas:
   - Pedir um eixo novo ao carpinteiro · 4 Gold.
     Efeitos diretos: −4 Gold, +2 Honra.
@@ -7155,8 +7155,8 @@ Escolhas:
 
 10. A ponte de corda [ponte_de_corda] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: A travessia encurta o caminho entre os campos, mas uma mula cedeu sobre as tábuas na semana passada. Os nós já estão desfiando.
-Informação: Reforçar a passagem, limitar o peso ou desmontá-la muda quem consegue atravessar.
+Cena: A travessia encurta o caminho entre os campos, mas uma mula cedeu sobre as tábuas na semana passada.
+Informação: Os nós já estão desfiando. Reforçar a passagem, limitar o peso ou desmontá-la muda quem consegue atravessar.
 Escolhas:
   - Trocar as cordas principais · 3 Gold.
     Efeitos diretos: −3 Gold, +2 Honra.
@@ -7167,8 +7167,8 @@ Escolhas:
 
 11. As velas de sebo [velas_de_sebo] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: O cesto de velas está quase vazio antes da noite em que os escribas precisam terminar os registros. A guarda também pediu luz para a ronda.
-Informação: O estoque pode ser dividido, encomendado ou reservado para quem patrulha o muro.
+Cena: O cesto de velas está quase vazio antes da noite em que os escribas precisam terminar os registros.
+Informação: A guarda também pediu luz para a ronda. O estoque pode ser dividido, encomendado ou reservado para quem patrulha o muro.
 Escolhas:
   - Repartir as velas entre os escribas e a guarda.
     Efeitos diretos: −2 Gold, +2 Honra.
@@ -7179,8 +7179,8 @@ Escolhas:
 
 12. O depósito de carvão [deposito_de_carvao] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um comerciante oferece carvão escuro que ficou anos sob lona. O ferreiro quebra uma pedra e encontra pó solto entre as partes.
-Informação: Testar o combustível custa uma amostra; comprar o lote inteiro pode sair caro se a brasa não durar.
+Cena: Um comerciante oferece carvão escuro que ficou anos sob lona.
+Informação: O ferreiro quebra uma pedra e encontra pó solto entre as partes. Testar o combustível custa uma amostra; comprar o lote inteiro pode sair caro se a brasa não durar.
 Escolhas:
   - Pagar por uma queima de prova · 1 Gold.
     Efeitos diretos: +3 Gold, +1 Honra.
@@ -7191,8 +7191,8 @@ Escolhas:
 
 13. A cerca de espinhos [cerca_de_espinhos] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: A cerca viva protege as hortas, mas os galhos fecharam a trilha usada por quem leva água até o moinho. O dono pede que ninguém corte a cerca sem avisá-lo.
-Informação: Podar, desviar ou compensar o trabalho deixa a passagem e a horta em condições diferentes.
+Cena: A cerca viva protege as hortas, mas os galhos fecharam a trilha usada por quem leva água até o moinho.
+Informação: O dono pede que ninguém corte a cerca sem avisá-lo. Podar, desviar ou compensar o trabalho deixa a passagem e a horta em condições diferentes.
 Escolhas:
   - Podar os galhos que invadiram a trilha.
     Efeitos diretos: −1 Habitantes, +2 Honra.
@@ -7203,8 +7203,8 @@ Escolhas:
 
 14. O lastro de cobre [lastro_de_cobre] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um carregamento de peças chega misturado a parafusos quebrados e minério sem marca. O transportador quer partir antes de conferir o peso.
-Informação: Separar o cobre leva tempo; devolver o lote evita que a vila pague por sucata.
+Cena: Um carregamento de peças chega misturado a parafusos quebrados e minério sem marca.
+Informação: O transportador quer partir antes de conferir o peso. Separar o cobre leva tempo; devolver o lote evita que a vila pague por sucata.
 Escolhas:
   - Separar o cobre antes de pesar o lote.
     Efeitos diretos: +3 Gold, +2 Honra.
@@ -7215,8 +7215,8 @@ Escolhas:
 
 15. O lugar à mesa [lugar_a_mesa] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma família recém-chegada aparece quando a refeição comunal já está servida. Há espaço para mais uma cadeira, mas os sacos da cozinha foram contados para quem já mora na vila.
-Informação: Abrir a mesa custa provisões; pedir contribuição ou fechar a sala muda a primeira noite da família.
+Cena: Uma família recém-chegada aparece quando a refeição comunal já está servida.
+Informação: Há espaço para mais uma cadeira, mas os sacos da cozinha foram contados para quem já mora na vila. Abrir a mesa custa provisões; pedir contribuição ou fechar a sala muda a primeira noite da família.
 Escolhas:
   - Puxar outra cadeira e dividir a sopa.
     Efeitos diretos: +2 Habitantes, +3 Honra, −1 Gold.
@@ -7227,8 +7227,8 @@ Escolhas:
 
 16. A troca de turnos [troca_de_turnos] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Os vigias pedem uma escala mais leve depois de três noites na muralha. Uma troca de turnos deixaria o portão norte sem guarda por parte da madrugada.
-Informação: Reorganizar as rondas custa Gold ou horas de descanso; manter a escala força os vigias a escolher quem fica.
+Cena: Os vigias pedem uma escala mais leve depois de três noites na muralha.
+Informação: Uma troca de turnos deixaria o portão norte sem guarda por parte da madrugada. Reorganizar as rondas custa Gold ou horas de descanso; manter a escala força os vigias a escolher quem fica.
 Escolhas:
   - Pagar um substituto para cobrir a madrugada · 3 Gold.
     Efeitos diretos: −3 Gold, +1 Escudo, +2 Honra.
@@ -7239,8 +7239,8 @@ Escolhas:
 
 17. As chaves da sala comum [chaves_sala_comum] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Duas cópias da chave do salão desapareceram. Ali ficam ferramentas, sacos de farinha e os registros que o escrivão usa durante a feira.
-Informação: Um rodízio, uma pessoa responsável ou um acesso restrito define quem responde pelo espaço.
+Cena: Duas cópias da chave do salão desapareceram.
+Informação: Ali ficam ferramentas, sacos de farinha e os registros que o escrivão usa durante a feira. Um rodízio, uma pessoa responsável ou um acesso restrito define quem responde pelo espaço.
 Escolhas:
   - Entregar uma chave por turno e registrar a troca.
     Efeitos diretos: +1 Habitantes, +2 Honra.
@@ -7251,8 +7251,8 @@ Escolhas:
 
 18. O pátio dividido [patio_dividido] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Artesãos deixam tábuas secando no pátio onde os lavradores descarregam cestos. Um grupo chegou antes do outro e ninguém quer mover sua carga.
-Informação: Dividir os horários, cobrar pelo espaço ou escolher um uso permanente resolve a disputa por enquanto.
+Cena: Artesãos deixam tábuas secando no pátio onde os lavradores descarregam cestos.
+Informação: Um grupo chegou antes do outro e ninguém quer mover sua carga. Dividir os horários, cobrar pelo espaço ou escolher um uso permanente resolve a disputa por enquanto.
 Escolhas:
   - Marcar períodos para cada grupo.
     Efeitos diretos: +2 Honra, +1 Habitantes.
@@ -7263,8 +7263,8 @@ Escolhas:
 
 19. O retrato sem dono [retrato_sem_dono] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um retrato aparece na sala comunal, coberto por um pano que ninguém lembra de ter pendurado. A moldura traz o nome de uma vila que já não aparece nos mapas.
-Informação: Guardar a pintura, leiloá-la ou pedir ajuda para localizar a família muda o destino do objeto.
+Cena: Um retrato aparece na sala comunal, coberto por um pano que ninguém lembra de ter pendurado.
+Informação: A moldura traz o nome de uma vila que já não aparece nos mapas. Guardar a pintura, leiloá-la ou pedir ajuda para localizar a família muda o destino do objeto.
 Escolhas:
   - Guardar o retrato junto aos registros antigos.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7275,8 +7275,8 @@ Escolhas:
 
 20. O cão que escolheu a porta [cao_escolheu_porta] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um cão sem coleira dorme diante da mesma casa há quatro noites. A família diz que nunca o alimentou; ainda assim, ele não acompanha ninguém que tente levá-lo.
-Informação: Procurar o antigo dono, deixar que a família o acolha ou confiar a ronda ao cão dá outro lugar à sua vigília.
+Cena: Um cão sem coleira dorme diante da mesma casa há quatro noites.
+Informação: A família diz que nunca o alimentou; ainda assim, ele não acompanha ninguém que tente levá-lo. Procurar o antigo dono, deixar que a família o acolha ou confiar a ronda ao cão dá outro lugar à sua vigília.
 Escolhas:
   - Procurar o dono entre as carroças da feira.
     Efeitos diretos: −1 Gold, +1 Honra.
@@ -7288,8 +7288,8 @@ Escolhas:
 
 21. A carta de recomendação [carta_recomendacao] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma jovem aprendiz pede uma carta para seguir a um ateliê distante. A oficina local também precisa de alguém que saiba remendar tecidos antes do inverno.
-Informação: Recomendar a viagem, oferecer formação na vila ou pedir que ela espere deixa uma vaga em lugares diferentes.
+Cena: Uma jovem aprendiz pede uma carta para seguir a um ateliê distante.
+Informação: A oficina local também precisa de alguém que saiba remendar tecidos antes do inverno. Recomendar a viagem, oferecer formação na vila ou pedir que ela espere deixa uma vaga em lugares diferentes.
 Escolhas:
   - Assinar a carta para o ateliê distante.
     Efeitos diretos: −1 Habitantes, +3 Honra.
@@ -7300,8 +7300,8 @@ Escolhas:
 
 22. A herança das ferramentas [heranca_ferramentas] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um artesão morre sem deixar instruções sobre as ferramentas da oficina. Os parentes querem guardá-las; os aprendizes afirmam que ainda há trabalho pela metade.
-Informação: Fazer um inventário, entregar as peças à família ou vender tudo encerra a disputa de modos diferentes.
+Cena: Um artesão morre sem deixar instruções sobre as ferramentas da oficina.
+Informação: Os parentes querem guardá-las; os aprendizes afirmam que ainda há trabalho pela metade. Fazer um inventário, entregar as peças à família ou vender tudo encerra a disputa de modos diferentes.
 Escolhas:
   - Registrar cada ferramenta e devolver as emprestadas.
     Efeitos diretos: −1 Gold, +3 Honra, +1 Escudo.
@@ -7312,8 +7312,8 @@ Escolhas:
 
 23. A cópia do registro [copia_do_registro] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: A umidade apagou parte dos nomes no livro de moradores. Um escrivão oferece copiar as páginas restantes antes que as folhas se desfaçam.
-Informação: Uma cópia completa custa mais; registrar apenas os nomes legíveis protege parte da história.
+Cena: A umidade apagou parte dos nomes no livro de moradores.
+Informação: Um escrivão oferece copiar as páginas restantes antes que as folhas se desfaçam. Uma cópia completa custa mais; registrar apenas os nomes legíveis protege parte da história.
 Escolhas:
   - Pagar pela cópia inteira · 3 Gold.
     Efeitos diretos: −3 Gold, +2 Honra.
@@ -7324,8 +7324,8 @@ Escolhas:
 
 24. A bolsa de botões [bolsa_de_botoes] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma bolsa de botões raros cai de uma carroça antes da ponte. Alguns têm marcas de uma oficina distante; os demais foram talhados à mão.
-Informação: Encontrar o dono pode custar a venda; guardar as peças ajuda um alfaiate local.
+Cena: Uma bolsa de botões raros cai de uma carroça antes da ponte.
+Informação: Alguns têm marcas de uma oficina distante; os demais foram talhados à mão. Encontrar o dono pode custar a venda; guardar as peças ajuda um alfaiate local.
 Escolhas:
   - Perguntar aos carroceiros antes de vender.
     Efeitos diretos: +1 Gold, +3 Honra.
@@ -7336,8 +7336,8 @@ Escolhas:
 
 25. O carregamento de vidro [carregamento_de_vidro] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um mercador oferece placas de vidro que sobreviveram à viagem. A enfermaria tem janelas abertas; a feira pagaria bem pelas peças coloridas.
-Informação: Comprar o lote, negociar uma troca ou deixá-lo seguir preserva Gold para outros usos.
+Cena: Um mercador oferece placas de vidro que sobreviveram à viagem.
+Informação: A enfermaria tem janelas abertas; a feira pagaria bem pelas peças coloridas. Comprar o lote, negociar uma troca ou deixá-lo seguir preserva Gold para outros usos.
 Escolhas:
   - Comprar placas para a enfermaria · 4 Gold.
     Efeitos diretos: −4 Gold, +8 Vida, +2 Honra.
@@ -7348,8 +7348,8 @@ Escolhas:
 
 26. Farinha com limalha [farinha_com_limalha] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma família encontra pó de ferro no fundo do saco de farinha. O moleiro jura que a pedra de moer está inteira, mas não quer abrir o moinho diante da fila.
-Informação: Conferir o lote, peneirar a farinha ou vendê-la depressa muda o que chega às mesas.
+Cena: Uma família encontra pó de ferro no fundo do saco de farinha.
+Informação: O moleiro jura que a pedra de moer está inteira, mas não quer abrir o moinho diante da fila. Conferir o lote, peneirar a farinha ou vendê-la depressa muda o que chega às mesas.
 Escolhas:
   - Fechar a venda e examinar o moinho.
     Efeitos diretos: +2 Habitantes, +3 Honra, −1 Gold.
@@ -7360,8 +7360,8 @@ Escolhas:
 
 27. A pedra de medir distâncias [pedra_de_distancias] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma pedra junto à estrada traz marcas regulares entre dois povoados. O mapa do escrivão indica que as medidas não seguem nenhum caminho conhecido.
-Informação: Decifrar os sinais pode abrir uma rota; mover a pedra apaga o único marco que os viajantes reconhecem.
+Cena: Uma pedra junto à estrada traz marcas regulares entre dois povoados.
+Informação: O mapa do escrivão indica que as medidas não seguem nenhum caminho conhecido. Decifrar os sinais pode abrir uma rota; mover a pedra apaga o único marco que os viajantes reconhecem.
 Escolhas:
   - Pagar ao escrivão para comparar as marcas · 2 Gold.
     Efeitos diretos: −2 Gold, +2 Honra.
@@ -7372,8 +7372,8 @@ Escolhas:
 
 28. A remessa trocada [remessa_trocada] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma carroça descarrega lã onde deveriam estar os sacos de grão. O motorista diz que recebeu outro selo no último posto e quer resolver a troca antes de partir.
-Informação: Devolver a carga, negociar com o dono ou procurar o destinatário dos grãos muda o prazo da entrega.
+Cena: Uma carroça descarrega lã onde deveriam estar os sacos de grão.
+Informação: O motorista diz que recebeu outro selo no último posto e quer resolver a troca antes de partir. Devolver a carga, negociar com o dono ou procurar o destinatário dos grãos muda o prazo da entrega.
 Escolhas:
   - Mandar a lã de volta com o mesmo motorista.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7384,8 +7384,8 @@ Escolhas:
 
 29. Os cadernos do agrimensor [cadernos_agrimensor] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um agrimensor deixa três cadernos no salão antes de seguir a estrada. As anotações indicam quais terrenos alagam primeiro e onde a pedra aparece perto da superfície.
-Informação: Comprar a informação, confirmar os limites com os moradores ou devolver os cadernos afeta as próximas obras.
+Cena: Um agrimensor deixa três cadernos no salão antes de seguir a estrada.
+Informação: As anotações indicam quais terrenos alagam primeiro e onde a pedra aparece perto da superfície. Comprar a informação, confirmar os limites com os moradores ou devolver os cadernos afeta as próximas obras.
 Escolhas:
   - Pagar pelos mapas dos terrenos · 3 Gold.
     Efeitos diretos: −3 Gold, +1 Escudo, +2 Honra.
@@ -7396,8 +7396,8 @@ Escolhas:
 
 30. O mercado de ferramentas quebradas [mercado_ferramentas_quebradas] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma banca vende ferramentas com dentes partidos, cabos rachados e ferrugem nos encaixes. O vendedor garante que cada peça ainda tem algum uso.
-Informação: Comprar o lote, testar uma ferramenta ou fechar a banca decide se a sucata volta à oficina.
+Cena: Uma banca vende ferramentas com dentes partidos, cabos rachados e ferrugem nos encaixes.
+Informação: O vendedor garante que cada peça ainda tem algum uso. Comprar o lote, testar uma ferramenta ou fechar a banca decide se a sucata volta à oficina.
 Escolhas:
   - Comprar as peças que podem ser consertadas · 3 Gold.
     Efeitos diretos: −3 Gold, +1 Ataque, +1 Honra.
@@ -7408,8 +7408,8 @@ Escolhas:
 
 31. A caixa de amostras [caixa_de_amostras] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um boticário deixa uma caixa com frascos sem rótulo. Pede que a ervateira anote qualquer reação, mas não explica de onde vieram as misturas.
-Informação: Abrir uma amostra, cobrar pelo registro ou devolver a caixa fechada evita que o conteúdo circule sem controle.
+Cena: Um boticário deixa uma caixa com frascos sem rótulo.
+Informação: Pede que a ervateira anote qualquer reação, mas não explica de onde vieram as misturas. Abrir uma amostra, cobrar pelo registro ou devolver a caixa fechada evita que o conteúdo circule sem controle.
 Escolhas:
   - Pedir à ervateira que teste uma gota.
     Efeitos diretos: +9 Vida, +1 Honra.
@@ -7420,8 +7420,8 @@ Escolhas:
 
 32. O leilão de cordas [leilao_de_cordas] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma embarcação vende cordas antes de partir. Há peças grossas para puxar carroças e cordas finas usadas para içar sacos.
-Informação: Comprar para as obras custa Gold; dividir o lote com outro comprador reduz o que fica para a vila.
+Cena: Uma embarcação vende cordas antes de partir.
+Informação: Há peças grossas para puxar carroças e cordas finas usadas para içar sacos. Comprar para as obras custa Gold; dividir o lote com outro comprador reduz o que fica para a vila.
 Escolhas:
   - Comprar o lote grosso para as obras · 4 Gold.
     Efeitos diretos: −4 Gold, +1 Escudo, +2 Honra.
@@ -7432,8 +7432,8 @@ Escolhas:
 
 33. A sombra no campanário [sombra_campanario] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Ao meio-dia, uma sombra cruza o campanário enquanto o sino permanece imóvel. Quando os vigias olham de novo, a torre está vazia.
-Informação: Subir, fechar a torre ou esperar pelo fim da tarde custa tempo de guarda.
+Cena: Ao meio-dia, uma sombra cruza o campanário enquanto o sino permanece imóvel.
+Informação: Quando os vigias olham de novo, a torre está vazia. Subir, fechar a torre ou esperar pelo fim da tarde custa tempo de guarda.
 Escolhas:
   - Subir com dois vigias e uma lanterna.
     Efeitos diretos: −3 Vida, +2 Honra.
@@ -7444,8 +7444,8 @@ Escolhas:
 
 34. O sal que não derrete [sal_nao_derrete] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Um pote fica submerso por uma noite, mas o sal lá dentro permanece seco e solto. O oleiro diz que a tampa estava fechada; a água ainda escorre pelas laterais.
-Informação: Entregar o pote a um estudioso, vender a curiosidade ou descartá-lo evita transformar o caso em promessa de cura.
+Cena: Um pote fica submerso por uma noite, mas o sal lá dentro permanece seco e solto.
+Informação: O oleiro diz que a tampa estava fechada; a água ainda escorre pelas laterais. Entregar o pote a um estudioso, vender a curiosidade ou descartá-lo evita transformar o caso em promessa de cura.
 Escolhas:
   - Mandar o pote ao boticário para exame · 1 Gold.
     Efeitos diretos: −1 Gold, +2 Honra, +2 Vida.
@@ -7456,8 +7456,8 @@ Escolhas:
 
 35. O quarto sem pegadas [quarto_sem_pegadas] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma hospedaria amanhece com a porta trancada por dentro. O pó do chão não guarda marcas, embora a cama esteja desfeita e a bacia ainda esteja morna.
-Informação: Revistar o quarto com testemunhas, chamar a guarda ou não espalhar o caso muda o que a vila acredita ter acontecido.
+Cena: Uma hospedaria amanhece com a porta trancada por dentro.
+Informação: O pó do chão não guarda marcas, embora a cama esteja desfeita e a bacia ainda esteja morna. Revistar o quarto com testemunhas, chamar a guarda ou não espalhar o caso muda o que a vila acredita ter acontecido.
 Escolhas:
   - Revistar o quarto com a estalajadeira presente.
     Efeitos diretos: −2 Vida, +2 Honra.
@@ -7468,8 +7468,8 @@ Escolhas:
 
 36. A chuva sobre o poço seco [chuva_poco_seco] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma chuva estreita cai sobre o poço seco enquanto o restante da praça continua coberto de poeira. Pela manhã, há água até a primeira pedra.
-Informação: Recolher a água, pedir um exame ou cobrir o poço evita que a curiosidade vire uma fila perigosa.
+Cena: Uma chuva estreita cai sobre o poço seco enquanto o restante da praça continua coberto de poeira.
+Informação: Pela manhã, há água até a primeira pedra. Recolher a água, pedir um exame ou cobrir o poço evita que a curiosidade vire uma fila perigosa.
 Escolhas:
   - Recolher a água em recipientes limpos.
     Efeitos diretos: +8 Vida, +2 Honra.
@@ -7480,8 +7480,8 @@ Escolhas:
 
 37. As moedas viradas [moedas_viradas] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: As moedas do cofre aparecem todas com o mesmo lado para cima. O administrador afirma que contou duas vezes e não tocou na caixa desde a noite anterior.
-Informação: Conferir o cofre, procurar o cunhador ou fechar a caixa evita que o sinal vire uma regra de mercado.
+Cena: As moedas do cofre aparecem todas com o mesmo lado para cima.
+Informação: O administrador afirma que contou duas vezes e não tocou na caixa desde a noite anterior. Conferir o cofre, procurar o cunhador ou fechar a caixa evita que o sinal vire uma regra de mercado.
 Escolhas:
   - Contar o cofre peça por peça.
     Efeitos diretos: +2 Gold, +1 Honra.
@@ -7492,8 +7492,8 @@ Escolhas:
 
 38. A janela acesa na casa vazia [janela_casa_vazia] — peso 1.8; uma vez por run.
 Requisitos: nenhum.
-Cena: Uma janela mostra luz em três noites seguidas, embora a casa esteja fechada desde a partida de seus antigos moradores. Ninguém ouviu passos no caminho.
-Informação: Entrar com testemunhas, vender a propriedade ou manter a porta fechada encerra a vigília por motivos diferentes.
+Cena: Uma janela mostra luz em três noites seguidas, embora a casa esteja fechada desde a partida de seus antigos moradores.
+Informação: Ninguém ouviu passos no caminho. Entrar com testemunhas, vender a propriedade ou manter a porta fechada encerra a vigília por motivos diferentes.
 Escolhas:
   - Entrar com a guarda e conferir os cômodos.
     Efeitos diretos: −2 Vida, +2 Honra.
@@ -7504,8 +7504,8 @@ Escolhas:
 
 39. Uma carta na encadernação [carta_na_encadernacao] — peso 0.75; uma vez por run.
 Requisitos: rodada ≥ 6; sem as marcas: carta_navegacao_encerrada.
-Cena: Um livro comprado na feira esconde uma carta de navegação dobrada entre as capas. O desenho mostra um vau que não aparece nos mapas recentes.
-Informação: Guardar a carta e procurar o autor abre uma rota; vender o papel encerra a busca.
+Cena: Um livro comprado na feira esconde uma carta de navegação dobrada entre as capas.
+Informação: O desenho mostra um vau que não aparece nos mapas recentes. Guardar a carta e procurar o autor abre uma rota; vender o papel encerra a busca.
 Escolhas:
   - Guardar a carta e procurar o vau.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7514,8 +7514,8 @@ Escolhas:
 
 40. As marcas no vau [marcas_no_vau] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: carta_navegacao_etapa2; sem as marcas: carta_navegacao_encerrada.
-Cena: A carta leva a um vau baixo, riscado por marcas recentes. A água cobre os tornozelos, mas os sinais continuam pela margem em direção ao bosque.
-Informação: Medir a travessia, pagar aos barqueiros ou seguir as marcas decide até onde a vila vai atrás do mapa.
+Cena: A carta leva a um vau baixo, riscado por marcas recentes.
+Informação: A água cobre os tornozelos, mas os sinais continuam pela margem em direção ao bosque. Medir a travessia, pagar aos barqueiros ou seguir as marcas decide até onde a vila vai atrás do mapa.
 Escolhas:
   - Medir o vau antes de atravessar.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7526,8 +7526,8 @@ Escolhas:
 
 41. O posto de pedra [posto_de_pedra] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: carta_navegacao_etapa3; sem as marcas: carta_navegacao_encerrada.
-Cena: Entre as árvores surge um antigo posto de cobrança. As pedras trazem marcas de rodas e um desenho de barco, embora o rio tenha mudado de curso.
-Informação: Registrar os sinais, retirar os blocos ou procurar uma passagem por baixo da construção altera a rota.
+Cena: Entre as árvores surge um antigo posto de cobrança.
+Informação: As pedras trazem marcas de rodas e um desenho de barco, embora o rio tenha mudado de curso. Registrar os sinais, retirar os blocos ou procurar uma passagem por baixo da construção altera a rota.
 Escolhas:
   - Copiar as marcas no mapa.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7538,8 +7538,8 @@ Escolhas:
 
 42. O destino da carta [destino_da_carta] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: carta_navegacao_etapa4; sem as marcas: carta_navegacao_encerrada.
-Cena: A última marca aponta para um abrigo de pedra escondido entre as raízes. Há objetos de viagem no chão, mas nenhuma inscrição sobre quem os deixou.
-Informação: Levar os objetos, deixar uma oferta ou fechar o abrigo decide quem poderá encontrá-lo depois.
+Cena: A última marca aponta para um abrigo de pedra escondido entre as raízes.
+Informação: Há objetos de viagem no chão, mas nenhuma inscrição sobre quem os deixou. Levar os objetos, deixar uma oferta ou fechar o abrigo decide quem poderá encontrá-lo depois.
 Escolhas:
   - Levar os objetos que ainda servem.
     Efeitos diretos: +5 Gold, +1 Escudo, −1 Honra.
@@ -7550,8 +7550,8 @@ Escolhas:
 
 43. Cacos sob a cinza [cacos_sob_cinza] — peso 0.75; uma vez por run.
 Requisitos: rodada ≥ 6; sem as marcas: oficio_vidreiro_encerrada.
-Cena: Uma família encontra vidro colorido entre as cinzas de um forno abandonado. As bordas estão inteiras; o forno, rachado até a base.
-Informação: Recolher as peças, chamar um vidreiro ou deixar o terreno fechado define se a oficina reabre.
+Cena: Uma família encontra vidro colorido entre as cinzas de um forno abandonado.
+Informação: As bordas estão inteiras; o forno, rachado até a base. Recolher as peças, chamar um vidreiro ou deixar o terreno fechado define se a oficina reabre.
 Escolhas:
   - Recolher os cacos e levar à oficina.
     Efeitos diretos: −1 Gold, +1 Honra.
@@ -7562,8 +7562,8 @@ Escolhas:
 
 44. A receita incompleta [receita_incompleta] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: oficio_vidreiro_etapa2; sem as marcas: oficio_vidreiro_encerrada.
-Cena: O vidreiro encontra a receita sem sua última medida. Os antigos aprendizes lembram de um forno de areia, mas discordam sobre a proporção do material.
-Informação: Buscar os aprendizes, testar uma mistura ou vender o caderno encerra a dúvida por caminhos diferentes.
+Cena: O vidreiro encontra a receita sem sua última medida.
+Informação: Os antigos aprendizes lembram de um forno de areia, mas discordam sobre a proporção do material. Buscar os aprendizes, testar uma mistura ou vender o caderno encerra a dúvida por caminhos diferentes.
 Escolhas:
   - Procurar os antigos aprendizes.
     Efeitos diretos: +1 Habitantes, +2 Honra.
@@ -7574,8 +7574,8 @@ Escolhas:
 
 45. O forno de areia [forno_de_areia] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: oficio_vidreiro_etapa3; sem as marcas: oficio_vidreiro_encerrada.
-Cena: Os aprendizes localizam areia fina fora das muralhas. O forno precisa de combustível e de uma parede nova antes de suportar outra fornada.
-Informação: Financiar o reparo, dividir o custo ou abandonar o trabalho decide se a oficina continua.
+Cena: Os aprendizes localizam areia fina fora das muralhas.
+Informação: O forno precisa de combustível e de uma parede nova antes de suportar outra fornada. Financiar o reparo, dividir o custo ou abandonar o trabalho decide se a oficina continua.
 Escolhas:
   - Pagar combustível e reparos · 4 Gold.
     Efeitos diretos: −4 Gold, +2 Honra.
@@ -7586,8 +7586,8 @@ Escolhas:
 
 46. A janela que guarda calor [janela_guarda_calor] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: oficio_vidreiro_etapa4; sem as marcas: oficio_vidreiro_encerrada.
-Cena: O primeiro lote pode fechar as janelas da enfermaria ou ser vendido para pagar o forno. O vidreiro põe as placas sobre a mesa e espera sua decisão.
-Informação: Usar o vidro na vila, reservar parte ou vender toda a produção encerra a oficina por esta estação.
+Cena: O primeiro lote pode fechar as janelas da enfermaria ou ser vendido para pagar o forno.
+Informação: O vidreiro põe as placas sobre a mesa e espera sua decisão. Usar o vidro na vila, reservar parte ou vender toda a produção encerra a oficina por esta estação.
 Escolhas:
   - Fechar as janelas da enfermaria.
     Efeitos diretos: +10 Vida, +3 Honra, −1 Gold.
@@ -7598,8 +7598,8 @@ Escolhas:
 
 47. Frutos no terreno baldio [frutos_terreno_baldio] — peso 0.75; uma vez por run.
 Requisitos: rodada ≥ 6; sem as marcas: pomar_sem_placa_encerrada.
-Cena: Uma árvore carregada cresce num terreno que não aparece nos registros. Os frutos caem antes de amadurecer, e ninguém sabe quem tem direito de colhê-los.
-Informação: Colher agora, proteger a árvore ou consultar os registros decide quem cuida do terreno.
+Cena: Uma árvore carregada cresce num terreno que não aparece nos registros.
+Informação: Os frutos caem antes de amadurecer, e ninguém sabe quem tem direito de colhê-los. Colher agora, proteger a árvore ou consultar os registros decide quem cuida do terreno.
 Escolhas:
   - Colher o que já caiu e repartir.
     Efeitos diretos: +2 Habitantes, +2 Honra.
@@ -7610,8 +7610,8 @@ Escolhas:
 
 48. O enxerto recusado [enxerto_recusado] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: pomar_sem_placa_etapa2; sem as marcas: pomar_sem_placa_encerrada.
-Cena: Um jardineiro oferece enxertos, mas diz que a árvore pertence à sua família. O registro da vila não confirma nem desmente a história.
-Informação: Negociar o plantio, aceitar poucas mudas ou encerrar o acordo define o alcance do pomar.
+Cena: Um jardineiro oferece enxertos, mas diz que a árvore pertence à sua família.
+Informação: O registro da vila não confirma nem desmente a história. Negociar o plantio, aceitar poucas mudas ou encerrar o acordo define o alcance do pomar.
 Escolhas:
   - Negociar o direito de plantar no terreno.
     Efeitos diretos: −2 Gold, +2 Honra.
@@ -7622,8 +7622,8 @@ Escolhas:
 
 49. As raízes sob a parede [raizes_sob_parede] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: pomar_sem_placa_etapa3; sem as marcas: pomar_sem_placa_encerrada.
-Cena: As raízes deslocam a parede de um quintal. Uma pedra caiu sobre o caminho; os moradores querem saber se devem cortar a árvore antes que ceda mais.
-Informação: Podar parte das raízes, reforçar a parede ou transferir a árvore tem custos distintos.
+Cena: As raízes deslocam a parede de um quintal.
+Informação: Uma pedra caiu sobre o caminho; os moradores querem saber se devem cortar a árvore antes que ceda mais. Podar parte das raízes, reforçar a parede ou transferir a árvore tem custos distintos.
 Escolhas:
   - Podar as raízes que empurram a parede.
     Efeitos diretos: −1 Habitantes, +2 Honra.
@@ -7634,8 +7634,8 @@ Escolhas:
 
 50. A primeira cesta do pomar [primeira_cesta_pomar] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: pomar_sem_placa_etapa4; sem as marcas: pomar_sem_placa_encerrada.
-Cena: O pomar entrega a primeira cesta inteira. Os frutos amadureceram ao mesmo tempo, e as famílias pedem que a colheita não desapareça no mercado antes do jantar.
-Informação: Repartir, guardar sementes ou vender a cesta fecha o primeiro ciclo do pomar.
+Cena: O pomar entrega a primeira cesta inteira.
+Informação: Os frutos amadureceram ao mesmo tempo, e as famílias pedem que a colheita não desapareça no mercado antes do jantar. Repartir, guardar sementes ou vender a cesta fecha o primeiro ciclo do pomar.
 Escolhas:
   - Dividir os frutos entre as casas.
     Efeitos diretos: +3 Habitantes, +3 Honra.
@@ -7646,8 +7646,8 @@ Escolhas:
 
 51. Uma página no fundo do baú [pagina_fundo_bau] — peso 0.75; uma vez por run.
 Requisitos: rodada ≥ 8; sem as marcas: livro_dividas_encerrada.
-Cena: Um inventário antigo lista dívidas que ninguém reconhece. A página está dobrada no fundo de um baú, ao lado de contas já pagas.
-Informação: Comparar assinaturas, rasgar o registro ou chamar os nomes ainda vivos abre a disputa.
+Cena: Um inventário antigo lista dívidas que ninguém reconhece.
+Informação: A página está dobrada no fundo de um baú, ao lado de contas já pagas. Comparar assinaturas, rasgar o registro ou chamar os nomes ainda vivos abre a disputa.
 Escolhas:
   - Comparar as assinaturas com os registros da vila.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7658,8 +7658,8 @@ Escolhas:
 
 52. O herdeiro do cobrador [herdeiro_cobrador] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: livro_dividas_etapa2; sem as marcas: livro_dividas_encerrada.
-Cena: Um visitante afirma que herdou o direito de cobrar aquelas dívidas. Traz um selo parecido com o da página, mas não sabe quem escreveu os valores.
-Informação: Pedir prova, negociar uma quitação ou expulsar o cobrador mantém a página no centro da disputa.
+Cena: Um visitante afirma que herdou o direito de cobrar aquelas dívidas.
+Informação: Traz um selo parecido com o da página, mas não sabe quem escreveu os valores. Pedir prova, negociar uma quitação ou expulsar o cobrador mantém a página no centro da disputa.
 Escolhas:
   - Pedir provas antes de aceitar qualquer cobrança.
     Efeitos diretos: +2 Honra.
@@ -7670,8 +7670,8 @@ Escolhas:
 
 53. As testemunhas da ponte [testemunhas_ponte] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: livro_dividas_etapa3; sem as marcas: livro_dividas_encerrada.
-Cena: Moradores lembram que parte do dinheiro pagou uma ponte que já não existe. Um antigo registro do pedágio confirma o nome do cobrador.
-Informação: Investigar a ponte, ouvir as famílias ou reconhecer o documento como inválido separa a dívida do que ela construiu.
+Cena: Moradores lembram que parte do dinheiro pagou uma ponte que já não existe.
+Informação: Um antigo registro do pedágio confirma o nome do cobrador. Investigar a ponte, ouvir as famílias ou reconhecer o documento como inválido separa a dívida do que ela construiu.
 Escolhas:
   - Conferir os registros da antiga ponte.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7682,8 +7682,8 @@ Escolhas:
 
 54. A conta encerrada [conta_encerrada] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: livro_dividas_etapa4; sem as marcas: livro_dividas_encerrada.
-Cena: Os registros mostram quem lucrou com a cobrança. O antigo pedágio pagou uma obra que sumiu, mas parte do dinheiro ficou com quem a administrava.
-Informação: Publicar os nomes, negociar reparação ou destruir os papéis termina a cobrança.
+Cena: Os registros mostram quem lucrou com a cobrança.
+Informação: O antigo pedágio pagou uma obra que sumiu, mas parte do dinheiro ficou com quem a administrava. Publicar os nomes, negociar reparação ou destruir os papéis termina a cobrança.
 Escolhas:
   - Publicar os nomes e devolver o que restou.
     Efeitos diretos: +4 Gold, +3 Honra.
@@ -7695,8 +7695,8 @@ Escolhas:
 
 55. A lanterna na colina [lanterna_colina] — peso 0.75; uma vez por run.
 Requisitos: rodada ≥ 8; sem as marcas: posto_sinais_encerrada.
-Cena: Uma luz aparece numa colina sem casas. Não pisca nem se move, mesmo quando o vento apaga as lanternas da estrada.
-Informação: Subir, responder com um sinal ou esperar a manhã define como a vila trata a luz.
+Cena: Uma luz aparece numa colina sem casas.
+Informação: Não pisca nem se move, mesmo quando o vento apaga as lanternas da estrada. Subir, responder com um sinal ou esperar a manhã define como a vila trata a luz.
 Escolhas:
   - Subir a colina com uma lanterna própria.
     Efeitos diretos: −2 Vida, +2 Honra.
@@ -7707,8 +7707,8 @@ Escolhas:
 
 56. Cinzas no abrigo [cinzas_no_abrigo] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: posto_sinais_etapa2; sem as marcas: posto_sinais_encerrada.
-Cena: O abrigo guarda cinzas recentes e marcas de uma vigia antiga. Há lenha empilhada, mas nenhuma ferramenta para reacender o fogo.
-Informação: Procurar o responsável, reconstruir a lareira ou usar o lugar como depósito dá outro destino ao posto.
+Cena: O abrigo guarda cinzas recentes e marcas de uma vigia antiga.
+Informação: Há lenha empilhada, mas nenhuma ferramenta para reacender o fogo. Procurar o responsável, reconstruir a lareira ou usar o lugar como depósito dá outro destino ao posto.
 Escolhas:
   - Procurar quem acendeu a lareira.
     Efeitos diretos: +1 Habitantes, +2 Honra.
@@ -7719,8 +7719,8 @@ Escolhas:
 
 57. O código dos panos [codigo_dos_panos] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: posto_sinais_etapa3; sem as marcas: posto_sinais_encerrada.
-Cena: Faixas de pano aparecem em três pontos do vale. As cores se repetem numa ordem que o vigia diz ter visto antes, mas ninguém lembra quando.
-Informação: Decifrar o código, trocar as faixas por sinais da vila ou ignorar o recado define a rota do posto.
+Cena: Faixas de pano aparecem em três pontos do vale.
+Informação: As cores se repetem numa ordem que o vigia diz ter visto antes, mas ninguém lembra quando. Decifrar o código, trocar as faixas por sinais da vila ou ignorar o recado define a rota do posto.
 Escolhas:
   - Comparar as faixas com as marcas do mapa.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7731,8 +7731,8 @@ Escolhas:
 
 58. O aviso recebido [aviso_recebido] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: posto_sinais_etapa4; sem as marcas: posto_sinais_encerrada.
-Cena: A sequência de sinais anuncia perigo na estrada e uma caravana atrasada. O último vigia pede ajuda para receber os viajantes antes que escureça.
-Informação: Organizar a guarda, preparar abrigo ou cobrar por uma passagem segura encerra o posto de sinais.
+Cena: A sequência de sinais anuncia perigo na estrada e uma caravana atrasada.
+Informação: O último vigia pede ajuda para receber os viajantes antes que escureça. Organizar a guarda, preparar abrigo ou cobrar por uma passagem segura encerra o posto de sinais.
 Escolhas:
   - Enviar a guarda para proteger a estrada.
     Efeitos diretos: −2 Gold, +2 Habitantes, +3 Honra.
@@ -7743,8 +7743,8 @@ Escolhas:
 
 59. O desenho no barril [desenho_no_barril] — peso 0.75; uma vez por run.
 Requisitos: rodada ≥ 8; sem as marcas: aprendizes_cisterna_encerrada.
-Cena: Aprendizes encontram o desenho de uma cisterna no fundo de um barril comprado na feira. Uma marca no canto indica o terreno perto da muralha leste.
-Informação: Conferir o terreno, pagar um pedreiro ou descartar o desenho decide se a obra começa.
+Cena: Aprendizes encontram o desenho de uma cisterna no fundo de um barril comprado na feira.
+Informação: Uma marca no canto indica o terreno perto da muralha leste. Conferir o terreno, pagar um pedreiro ou descartar o desenho decide se a obra começa.
 Escolhas:
   - Conferir o terreno antes de cavar.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7755,8 +7755,8 @@ Escolhas:
 
 60. A camada de argila [camada_de_argila] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: aprendizes_cisterna_etapa2; sem as marcas: aprendizes_cisterna_encerrada.
-Cena: A escavação encontra uma camada de argila que pode vedar a água. O solo cede em dois pontos, e a margem da vala já está inclinada.
-Informação: Reforçar, mudar o local ou interromper o trabalho evita que os aprendizes fiquem sob a terra.
+Cena: A escavação encontra uma camada de argila que pode vedar a água.
+Informação: O solo cede em dois pontos, e a margem da vala já está inclinada. Reforçar, mudar o local ou interromper o trabalho evita que os aprendizes fiquem sob a terra.
 Escolhas:
   - Reforçar a vala com pedras · 3 Gold.
     Efeitos diretos: −3 Gold, +2 Honra.
@@ -7767,8 +7767,8 @@ Escolhas:
 
 61. A água que sobe devagar [agua_sobe_devagar] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: aprendizes_cisterna_etapa3; sem as marcas: aprendizes_cisterna_encerrada.
-Cena: A cisterna acumula água aos poucos. O fundo ainda tem barro, e os aprendizes discordam sobre quanto tempo falta para a primeira retirada.
-Informação: Reservar para a enfermaria, testar a qualidade ou ajustar o canal impede que a pressa contamine o poço.
+Cena: A cisterna acumula água aos poucos.
+Informação: O fundo ainda tem barro, e os aprendizes discordam sobre quanto tempo falta para a primeira retirada. Reservar para a enfermaria, testar a qualidade ou ajustar o canal impede que a pressa contamine o poço.
 Escolhas:
   - Reservar a água para a enfermaria.
     Efeitos diretos: +8 Vida, +2 Honra.
@@ -7779,8 +7779,8 @@ Escolhas:
 
 62. A primeira distribuição [primeira_distribuicao] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: aprendizes_cisterna_etapa4; sem as marcas: aprendizes_cisterna_encerrada.
-Cena: A cisterna está limpa e pode receber uma fila. As casas pedem horários; a enfermaria quer uma reserva para os dias em que o poço baixar.
-Informação: A construção permanece na vila. Distribuir por ordem, separar uma reserva ou deixar a retirada livre encerra a obra.
+Cena: A cisterna está limpa e pode receber uma fila.
+Informação: As casas pedem horários; a enfermaria quer uma reserva para os dias em que o poço baixar. A construção permanece na vila. Distribuir por ordem, separar uma reserva ou deixar a retirada livre encerra a obra.
 Escolhas:
   - Abrir a cisterna e marcar uma fila pública.
     Efeitos diretos: −3 Gold, +2 Habitantes, +3 Honra.
@@ -7793,8 +7793,8 @@ Escolhas:
 
 63. O tear desmontado [tear_desmontado] — peso 0.75; uma vez por run.
 Requisitos: rodada ≥ 8; sem as marcas: caravana_teceles_encerrada.
-Cena: Uma caravana deixa um tear desmontado ao perceber que perdeu uma roda. As peças ocupam o pátio, onde a vila guarda tábuas para o inverno.
-Informação: Guardar o tear, ajudar a procurar a peça ou cobrar pelo espaço ocupado define a passagem da caravana.
+Cena: Uma caravana deixa um tear desmontado ao perceber que perdeu uma roda.
+Informação: As peças ocupam o pátio, onde a vila guarda tábuas para o inverno. Guardar o tear, ajudar a procurar a peça ou cobrar pelo espaço ocupado define a passagem da caravana.
 Escolhas:
   - Guardar as peças no salão coberto.
     Efeitos diretos: −1 Gold, +1 Honra.
@@ -7805,8 +7805,8 @@ Escolhas:
 
 64. O fio de três cores [fio_tres_cores] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: caravana_teceles_etapa2; sem as marcas: caravana_teceles_encerrada.
-Cena: Com a roda recuperada, os tecelões propõem tingir fios com plantas locais. As cores ficam diferentes a cada fervura e a oficina não quer desperdiçar o estoque.
-Informação: Fornecer material, cobrar pelo pátio ou pedir parte do tecido define o acordo com a caravana.
+Cena: Com a roda recuperada, os tecelões propõem tingir fios com plantas locais.
+Informação: As cores ficam diferentes a cada fervura e a oficina não quer desperdiçar o estoque. Fornecer material, cobrar pelo pátio ou pedir parte do tecido define o acordo com a caravana.
 Escolhas:
   - Fornecer plantas e lenha para o teste.
     Efeitos diretos: −2 Gold, +2 Honra.
@@ -7817,8 +7817,8 @@ Escolhas:
 
 65. O padrão emprestado [padrao_emprestado] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: caravana_teceles_etapa3; sem as marcas: caravana_teceles_encerrada.
-Cena: Um desenho repetido no tecido pertence a uma comunidade distante. A caravana diz que aprendeu o padrão num mercado, mas não sabe quem o criou.
-Informação: Pedir autorização, criar um padrão local ou manter o desenho sem acordo muda o próximo negócio.
+Cena: Um desenho repetido no tecido pertence a uma comunidade distante.
+Informação: A caravana diz que aprendeu o padrão num mercado, mas não sabe quem o criou. Pedir autorização, criar um padrão local ou manter o desenho sem acordo muda o próximo negócio.
 Escolhas:
   - Pedir que a caravana procure a comunidade autora.
     Efeitos diretos: −1 Gold, +2 Honra.
@@ -7829,8 +7829,8 @@ Escolhas:
 
 66. O último rolo [ultimo_rolo] — peso 0.75; uma vez por run.
 Requisitos: marcas da run: caravana_teceles_etapa4; sem as marcas: caravana_teceles_encerrada.
-Cena: Antes de partir, a caravana oferece um rolo de tecido como pagamento. A enfermaria precisa de panos limpos; o mercado pagaria Gold por um lote inteiro.
-Informação: A construção do entreposto só está disponível se a vila não usou o padrão sem autorização.
+Cena: Antes de partir, a caravana oferece um rolo de tecido como pagamento.
+Informação: A enfermaria precisa de panos limpos; o mercado pagaria Gold por um lote inteiro. A construção do entreposto só está disponível se a vila não usou o padrão sem autorização.
 Escolhas:
   - Entregar o rolo à enfermaria.
     Efeitos diretos: +8 Vida, +3 Honra.
@@ -7843,8 +7843,8 @@ Escolhas:
 
 67. O cambista sem balança [cambista_sem_balanca] — peso 0.55; uma vez por run.
 Requisitos: rodada ≥ 8; sem as marcas: olhos_mercurio_encerrada.
-Cena: Na feira, um homem pesa moedas na palma aberta. Antes de você falar, calcula o custo de mandar uma carroça pela estrada do norte e aponta para a antiga casa de contas.
-Informação: Segui-lo abre uma sequência rara. Entregá-lo à guarda encerra a conversa.
+Cena: Na feira, um homem pesa moedas na palma aberta.
+Informação: Antes de você falar, calcula o custo de mandar uma carroça pela estrada do norte e aponta para a antiga casa de contas. Segui-lo abre uma sequência rara. Entregá-lo à guarda encerra a conversa.
 Escolhas:
   - Segui-lo até a casa de contas.
     Efeitos diretos: −1 Gold, +1 Honra.
@@ -7853,8 +7853,8 @@ Escolhas:
 
 68. Vidro sob a pálpebra [vidro_sob_palpebra] — peso 0.65; uma vez por run.
 Requisitos: marcas da run: olhos_mercurio_etapa2; sem as marcas: olhos_mercurio_encerrada.
-Cena: Na casa de contas, os livros estão cheios de números riscados e manchas antigas. O cambista mostra uma lente fina de mercúrio: diz que ela revela o preço em Gold e Vida escondido em cada decisão.
-Informação: Aceitar ativa Olhos de Mercúrio. A lente custa Gold e Vida; recusá-la encerra a sequência.
+Cena: Na casa de contas, os livros estão cheios de números riscados e manchas antigas.
+Informação: O cambista mostra uma lente fina de mercúrio: diz que ela revela o preço em Gold e Vida escondido em cada decisão. Aceitar ativa Olhos de Mercúrio. A lente custa Gold e Vida; recusá-la encerra a sequência.
 Escolhas:
   - Aceitar a lente e fixá-la sob a pálpebra.
     Efeitos diretos: −3 Gold, −5 Vida.
@@ -7863,8 +7863,8 @@ Escolhas:
 
 69. A primeira conta [primeira_conta] — peso 0.65; uma vez por run.
 Requisitos: marcas da run: olhos_mercurio_ativo, olhos_mercurio_etapa3; sem as marcas: olhos_mercurio_encerrada.
-Cena: Uma carroça tombou na estrada. O mercador ferido oferece uma poção antes que você atravesse os destroços; a lente mostra o valor que cada gesto cobra.
-Informação: Olhos de Mercúrio exibe Gold e Vida em cada resultado, inclusive em testes de sorte.
+Cena: Uma carroça tombou na estrada.
+Informação: O mercador ferido oferece uma poção antes que você atravesse os destroços; a lente mostra o valor que cada gesto cobra. Olhos de Mercúrio exibe Gold e Vida em cada resultado, inclusive em testes de sorte.
 Escolhas:
   - Comprar a poção · 4 Gold.
     Efeitos diretos: −4 Gold, +12 Vida, +1 Honra.
@@ -7876,8 +7876,8 @@ Escolhas:
 
 70. O peso da visão [peso_da_visao] — peso 0.8; uma vez por run.
 Requisitos: marcas da run: olhos_mercurio_ativo, olhos_mercurio_etapa4; sem as marcas: olhos_mercurio_encerrada; intervalo: {"olhosMercurioInicio":16}.
-Cena: Dezesseis rodadas depois, a lente começa a arder. Gotas de mercúrio escorrem pelo rosto quando você tenta dormir; a ervateira conhece um modo de removê-la.
-Informação: Retirar custa Gold, mas devolve forças. Manter a lente conserva a previsão das escolhas.
+Cena: Dezesseis rodadas depois, a lente começa a arder.
+Informação: Gotas de mercúrio escorrem pelo rosto quando você tenta dormir; a ervateira conhece um modo de removê-la. Retirar custa Gold, mas devolve forças. Manter a lente conserva a previsão das escolhas.
 Escolhas:
   - Pedir à ervateira que retire a lente · 2 Gold.
     Efeitos diretos: −2 Gold, +5 Vida, +2 Honra.
@@ -7886,8 +7886,8 @@ Escolhas:
 
 71. O olho no reboco [olho_no_reboco] — peso 0.55; uma vez por run.
 Requisitos: rodada ≥ 8; sem as marcas: olho_mil_nomes_encerrado.
-Cena: Ao derrubar uma parede de uma casa vazia, os pedreiros encontram um olho dourado preso entre as pedras. A pupila se move quando alguém fala; do outro lado, uma voz dá o nome de uma família que ainda não chegou.
-Informação: Levar a relíquia à ervateira inicia a investigação. Cobri-la com argamassa encerra o assunto.
+Cena: Ao derrubar uma parede de uma casa vazia, os pedreiros encontram um olho dourado preso entre as pedras.
+Informação: A pupila se move quando alguém fala; do outro lado, uma voz dá o nome de uma família que ainda não chegou. Levar a relíquia à ervateira inicia a investigação. Cobri-la com argamassa encerra o assunto.
 Escolhas:
   - Levar a relíquia à ervateira.
     Efeitos diretos: −1 Gold, +1 Honra.
@@ -7896,8 +7896,8 @@ Escolhas:
 
 72. O Olho dos Mil Nomes [olho_dos_mil_nomes] — peso 0.65; uma vez por run.
 Requisitos: marcas da run: olho_mil_nomes_etapa2; sem as marcas: olho_mil_nomes_encerrado.
-Cena: A ervateira não consegue separar a relíquia do reboco. Quando você a toca, o olho dourado se fixa sobre sua testa. As vozes deixam de vir da parede; agora anunciam quantas pessoas uma escolha pode trazer à vila.
-Informação: Aceitar ativa o Olho dos Mil Nomes. Ele mostra ganhos de Habitantes, nunca a quantidade perdida.
+Cena: A ervateira não consegue separar a relíquia do reboco.
+Informação: Quando você a toca, o olho dourado se fixa sobre sua testa. As vozes deixam de vir da parede; agora anunciam quantas pessoas uma escolha pode trazer à vila. Aceitar ativa o Olho dos Mil Nomes. Ele mostra ganhos de Habitantes, nunca a quantidade perdida.
 Escolhas:
   - Aceitar a transformação.
     Efeitos diretos: −2 Gold, −5 Vida.
@@ -7906,8 +7906,8 @@ Escolhas:
 
 73. A fila no portão [fila_no_portao] — peso 0.65; uma vez por run.
 Requisitos: marcas da run: olho_mil_nomes_ativo, olho_mil_nomes_etapa3; sem as marcas: olho_mil_nomes_encerrado.
-Cena: Uma família chega depois de perder a casa numa tempestade. O Olho conta quatro vozes entre os viajantes e diz que todas podem ficar se a vila abrir espaço.
-Informação: A transformação mostra apenas ganhos positivos de Habitantes; uma perda aparece como “sem ganho de Habitantes”.
+Cena: Uma família chega depois de perder a casa numa tempestade.
+Informação: O Olho conta quatro vozes entre os viajantes e diz que todas podem ficar se a vila abrir espaço. A transformação mostra apenas ganhos positivos de Habitantes; uma perda aparece como “sem ganho de Habitantes”.
 Escolhas:
   - Acolher a família e abrir uma casa vazia.
     Efeitos diretos: +4 Habitantes, −3 Gold, +2 Honra.
@@ -7918,8 +7918,8 @@ Escolhas:
 
 74. O olho pede silêncio [olho_pede_silencio] — peso 0.8; uma vez por run.
 Requisitos: marcas da run: olho_mil_nomes_ativo, olho_mil_nomes_etapa4; sem as marcas: olho_mil_nomes_encerrado; intervalo: {"olhoMilNomesInicio":16}.
-Cena: Dezesseis rodadas depois, as vozes continuam mesmo quando ninguém chega ao portão. A ervateira encontra um ritual capaz de soltar o Olho, mas a escolha final é sua.
-Informação: Remover a relíquia custa Gold, mas devolve forças. Aceitá-la conserva as previsões de Habitantes.
+Cena: Dezesseis rodadas depois, as vozes continuam mesmo quando ninguém chega ao portão.
+Informação: A ervateira encontra um ritual capaz de soltar o Olho, mas a escolha final é sua. Remover a relíquia custa Gold, mas devolve forças. Aceitá-la conserva as previsões de Habitantes.
 Escolhas:
   - Remover a relíquia com o ritual da ervateira · 2 Gold.
     Efeitos diretos: −2 Gold, +5 Vida, +2 Honra.
@@ -7930,7 +7930,7 @@ Escolhas:
 HERDEIROS PRIORITÁRIOS — IMPLEMENTAÇÃO DE 2026-11-06
 
 A luz entre as frestas [bencao_baldr]
-Cena: Uma luz quente atravessa as frestas do salão. As marcas nas portas desaparecem antes do amanhecer.
+Cena: Uma luz quente atravessa as frestas do salão.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Baldr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"reducaoDano":2,"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -7939,7 +7939,7 @@ Cena: Uma luz quente atravessa as frestas do salão. As marcas nas portas desapa
     Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
 
 O fio no escudo [bencao_frigg]
-Cena: Um fio claro prende a correia do seu escudo. Nenhuma mão da vila consegue desfazer o nó.
+Cena: Um fio claro prende a correia do seu escudo.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Frigg","reduzirCura":false,"manutencaoGold":0,"duracao":10,"modificadores":{"escudo":2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -7948,7 +7948,7 @@ Cena: Um fio claro prende a correia do seu escudo. Nenhuma mão da vila consegue
     Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
 
 O vigia da ponte [bencao_heimdall]
-Cena: Da ponte, um vigia conta os passos de quem entra e de quem parte. Ele sabe quantas casas cada decisão deixará vazias.
+Cena: Da ponte, um vigia conta os passos de quem entra e de quem parte.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Heimdall","reduzirCura":false,"manutencaoGold":0,"duracao":10,"revelarHonraRodadas":0,"revelarHabitantesRodadas":10}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -7957,7 +7957,7 @@ Cena: Da ponte, um vigia conta os passos de quem entra e de quem parte. Ele sabe
     Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
 
 O campo aberto [bencao_freyr]
-Cena: Sulcos aparecem no terreno abandonado. Ao amanhecer, uma família pede licença para plantar.
+Cena: Sulcos aparecem no terreno abandonado.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Freyr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"porRodada":{"efeitos":{"habitantes":1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -7966,7 +7966,7 @@ Cena: Sulcos aparecem no terreno abandonado. Ao amanhecer, uma família pede lic
     Efeitos diretos: {"honra":2}. Resultado: O visitante se afasta.
 
 O veneno no poço [maldicao_jormungand]
-Cena: Uma escama cobre a boca do poço. Mesmo depois de retirá-la, o gosto amargo fica em sua boca.
+Cena: Uma escama cobre a boca do poço.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Jormungand","reduzirCura":false,"manutencaoGold":0,"duracao":10,"porRodada":{"efeitos":{"hp":-1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -7975,7 +7975,7 @@ Cena: Uma escama cobre a boca do poço. Mesmo depois de retirá-la, o gosto amar
     Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
 
 Os dentes na ferida [maldicao_fenrir]
-Cena: Marcas de dentes aparecem na sua pele. As ataduras ficam úmidas, e a ferida torna a abrir.
+Cena: Marcas de dentes aparecem na sua pele.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Fenrir","reduzirCura":true,"manutencaoGold":0,"duracao":10,"modificadores":{"ataque":-2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -7984,7 +7984,7 @@ Cena: Marcas de dentes aparecem na sua pele. As ataduras ficam úmidas, e a feri
     Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
 
 O gelo sob a porta [maldicao_hrym]
-Cena: O gelo força as dobradiças e rompe as correias dos escudos. Toda manhã os guardas compram mais lenha.
+Cena: O gelo força as dobradiças e rompe as correias dos escudos.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Hrym","reduzirCura":false,"manutencaoGold":1,"duracao":10,"modificadores":{"escudo":-2},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -7993,7 +7993,7 @@ Cena: O gelo força as dobradiças e rompe as correias dos escudos. Toda manhã 
     Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
 
 As raízes roídas [maldicao_nidhogg]
-Cena: O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde.
+Cena: O chão cede sob uma casa.
   - Receber o efeito.
     Efeitos diretos: {}. Efeito divino: {"nome":"Níðhöggr","reduzirCura":false,"manutencaoGold":0,"duracao":10,"porRodada":{"efeitos":{"habitantes":-1}},"revelarHonraRodadas":0,"revelarHabitantesRodadas":0}. Resultado: A presença permanece na vila.
   - Oferecer lenha e alimento · 2 gold
@@ -8002,7 +8002,7 @@ Cena: O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as
     Efeitos diretos: {"hp":-6,"honra":2}. Resultado: Você suporta a dor até a presença recuar.
 
 A chama guardada [o_chamado_da_reserva]
-Cena: Trinta mantos esperam à porta. A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo.
+Cena: A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo.
   - Levar a chama ao templo.
     Efeitos diretos: {}. Adesão ao culto: soma 50 à reserva na primeira entrada. Resultado: Os trinta mantos entram com você. Outros cinquenta esperam junto ao altar; a adaga fica em suas mãos.
   - Fechar a caixa e permanecer na vila.

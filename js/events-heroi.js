@@ -15,9 +15,9 @@
       requisitos: { tracos: "heroi_do_povo", rodadaMin: 3 },
       imagem: "assets/vila.webp",
       imagemAlt: "A praça da vila ao amanhecer",
-      texto:
-        "O povo fala baixo quando você passa, mas não por medo. Reclamações, pedidos e nomes de quem precisa de justiça chegam antes do pão sair do forno.",
-      informacoes: "Atender custa sono e moedas; não atender custa a confiança que você ainda está ganhando.",
+      texto: "O povo fala baixo quando você passa, mas não por medo.",
+      informacoes:
+        "Reclamações, pedidos e nomes de quem precisa de justiça chegam antes do pão sair do forno. Atender custa sono e moedas; não atender custa a confiança que você ainda está ganhando.",
       opcoes: [
         {
           ...escolha("ouvir_todos", "Ouvir cada reclamação até o fim.", { honra: 2, hp: -3 }),
@@ -43,9 +43,9 @@
       requisitos: { tracos: "heroi_do_povo", rodadaMin: 8 },
       imagem: "assets/eventos-letais/pao.webp",
       imagemAlt: "Um pão rústico sobre uma mesa de madeira",
-      texto:
-        "O inverno chegou antes da colheita. No celeiro há grão para uma semana a mais — ou para duas famílias a menos.",
-      informacoes: "O que se divide hoje é o que se guarda amanhã.",
+      texto: "O inverno chegou antes da colheita.",
+      informacoes:
+        "No celeiro há grão para uma semana a mais — ou para duas famílias a menos. O que se divide hoje é o que se guarda amanhã.",
       opcoes: [
         {
           ...escolha("abrir_celeiro", "Abrir o celeiro para as famílias.", { gold: -5, honra: 3 }),
@@ -73,9 +73,9 @@
       requisitos: { tracos: "heroi_do_povo", rodadaMin: 12 },
       imagem: "assets/batalha.webp",
       imagemAlt: "Confronto na estrada que leva à vila",
-      texto:
-        "Um bando de desertores montou posto na estrada da ponte. Cobram passagem de quem leva grão — e de quem não leva nada.",
-      informacoes: "Seu Ataque resolve a briga; o ouro resolve em silêncio.",
+      texto: "Um bando de desertores montou posto na estrada da ponte.",
+      informacoes:
+        "Cobram passagem de quem leva grão — e de quem não leva nada. Seu Ataque resolve a briga; o ouro resolve em silêncio.",
       batalha: {
         defesa: 4,
         vitoria: {
@@ -116,8 +116,9 @@
       imagem: "assets/eventos-especificos/festival-dos-mortos.webp",
       imagemAlt: "Lampiões acesos diante das casas da vila",
       texto:
-        "Acendem lampiões em cada janela e levam até a sua porta uma refeição farta, temperada com ervas. É o jeito da vila de dizer que reconhece quem cuidou dela.",
-      informacoes: "Receber bem aproxima quem ainda hesita em bater à sua porta.",
+        "Acendem lampiões em cada janela e levam até a sua porta uma refeição farta, temperada com ervas.",
+      informacoes:
+        "É o jeito da vila de dizer que reconhece quem cuidou dela. Receber bem aproxima quem ainda hesita em bater à sua porta.",
       opcoes: [
         {
           ...escolha("convidar_todos", "Convidar a praça inteira para dentro de casa.", {
@@ -149,9 +150,9 @@
       requisitos: { tracos: "heroi_do_povo", rodadaMin: 50, honraMin: 30, cultoAtivo: false },
       imagem: "assets/eventos-culto/templo.webp",
       imagemAlt: "Uma capela de pedra com uma chama acesa no altar",
-      texto:
-        "Vêm à sua casa cobertos por mantos de lã crua. Não pedem honra baixa nem promessas baratas: querem justamente aquela que o povo ama.",
-      informacoes: "Recusar custa pouco. Aceitar muda o resto da crônica.",
+      texto: "Vêm à sua casa cobertos por mantos de lã crua.",
+      informacoes:
+        "Não pedem honra baixa nem promessas baratas: querem justamente aquela que o povo ama. Recusar custa pouco. Aceitar muda o resto da crônica.",
       opcoes: [
         {
           id: "entrar_na_capela",
@@ -192,9 +193,8 @@
       requisitos: { tracos: "heroi_do_povo", rodadaMin: 70 },
       imagem: "assets/eventos-sistemas/tumulo.webp",
       imagemAlt: "Um túmulo simples com flores secas",
-      texto:
-        "Chegam as datas dos caídos. A vila quer uma placa na ponte; a pedreira cobra por cada letra gravada.",
-      informacoes: "A honra lembra do que o ouro prefere esquecer.",
+      texto: "A vila quer uma placa na ponte; a pedreira cobra por cada letra gravada.",
+      informacoes: "Chegam as datas dos caídos. A honra lembra do que o ouro prefere esquecer.",
       opcoes: [
         {
           ...escolha("pagar_placa", "Pagar a placa e o pedreiro.", { gold: -8, honra: 4 }),

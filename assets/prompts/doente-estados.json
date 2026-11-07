@@ -1,0 +1,77 @@
+{
+  "gerador": "Ferramenta integrada imagegen",
+  "estado": "Paleta verde-salvia integrada nas sete versoes neutra e de honra",
+  "referenciaIdentidade": "assets/herdeiros/doente-neutra.png",
+  "previa": "docs/previas/doente.html",
+  "invariantes": "Preservar o mesmo rapaz, rosto, cabelo claro, coroa dourada, expressao cansada propria de cada estado, busto, recorte, roupa e acessorios de cada honra, hachura, contornos pretos e fundo transparente. Nao alterar culto.",
+  "promptComumHonras": "Use case: identity-preserve. Edit the supplied exact state portrait of the SAME Heir Doente. This is a clothing-color edit, not a redesign. Preserve the same face, age, tired expression for that state, pale hair, gold crown, head position, bust scale, crop, original garment shapes, seams, damage and accessories. Preserve warm-ivory skin and hair, localized gold, black ink contours, hatching and genuinely transparent background. Recolor only existing cloth. Use muted aged sage-gray, never bright, toxic, blue, teal or neon. No added symbols, props, text, frames, scenery or new garment layers.",
+  "coresRoupaAprovadas": {
+    "neutra": "#747661",
+    "honraAlta": "#747661",
+    "honraAltaCamisa": "#747661",
+    "honraAltaTunicaDrapeada": "#F9EEDD",
+    "honraMuitoAlta": "#747661",
+    "honraMaxima": "#747661",
+    "honraBaixa": "#858679",
+    "honraMuitoBaixa": "#9B9C90",
+    "honraMinima": "#AEB0A4",
+    "culto": "inalterado"
+  },
+  "variantes": [
+    {
+      "estado": "neutra",
+      "arquivo": "assets/herdeiros/doente-neutra.png",
+      "cor": "#747661",
+      "promptEspecifico": "Neutral: use the approved muted sage-gray near #747661 on the existing plain shirt and sleeves. Keep the gold crown and the pale hair and skin unchanged."
+    },
+    {
+      "estado": "alta",
+      "honra": 30,
+      "arquivo": "assets/herdeiros/doente-alta.png",
+      "cor": "#747661",
+      "tunicaDrapeada": "#F9EEDD",
+      "promptEspecifico": "High honor: keep the body shirt and short sleeves sage-gray #747661. Keep the existing broad diagonal draped tunic warm ivory #F9EEDD, with its exact shape and boundaries. Do not add clothing or trim."
+    },
+    {
+      "estado": "alta-2",
+      "honra": 60,
+      "arquivo": "assets/herdeiros/doente-alta-2.png",
+      "cor": "#747661",
+      "promptEspecifico": "Very high honor: retain the exact high collar, shoulder mantle, center clasp and gold borders. Recolor only the existing cloth to #747661; preserve localized gold trim."
+    },
+    {
+      "estado": "altissima",
+      "honra": 90,
+      "arquivo": "assets/herdeiros/doente-altissima.png",
+      "cor": "#747661",
+      "promptEspecifico": "Maximum honor: retain the ornate crown, high collar, original layered robe and thin gold borders. Recolor only existing cloth to #747661; keep gold details localized."
+    },
+    {
+      "estado": "baixa",
+      "honra": -30,
+      "arquivo": "assets/herdeiros/doente-baixa.png",
+      "cor": "#858679",
+      "promptEspecifico": "Low honor: preserve existing wear and repair patch. Recolor cloth to faded muted sage-gray near #858679."
+    },
+    {
+      "estado": "baixa-2",
+      "honra": -60,
+      "arquivo": "assets/herdeiros/doente-baixa-2.png",
+      "cor": "#9B9C90",
+      "promptEspecifico": "Very low honor: preserve tears, seams and patch. Recolor the fabric to a lighter, more washed-out sage-gray near #9B9C90, still faintly green."
+    },
+    {
+      "estado": "baixissima",
+      "honra": -90,
+      "arquivo": "assets/herdeiros/doente-baixissima.png",
+      "cor": "#AEB0A4",
+      "promptEspecifico": "Extreme low honor: preserve all existing tears, frayed edges and patches. Recolor cloth to very pale, nearly neutral faded sage-gray near #AEB0A4, with a slight olive-green trace and no cool blue cast."
+    },
+    {
+      "estado": "culto",
+      "arquivo": "assets/herdeiros/doente-culto.png",
+      "integrado": false,
+      "promptEspecifico": "Outside this palette; keep the existing cult portrait unchanged."
+    }
+  ]
+}

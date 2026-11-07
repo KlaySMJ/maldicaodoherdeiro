@@ -12,9 +12,9 @@
       requisitos: { flagsAusentes: ["bruxa_fio_da_vida_resolvida"] },
       imagem: "assets/ervas.webp",
       imagemAlt: "Ervas medicinais arrumadas junto a um pilão",
-      texto:
-        "A bruxa retorna com um feixe de raízes frescas. Diz que pode fechar suas feridas ou ensinar a vila a reconhecer as plantas.",
-      informacoes: "Ela não pede ouro pelo conhecimento, só que ninguém chame tudo de mato.",
+      texto: "A bruxa retorna com um feixe de raízes frescas.",
+      informacoes:
+        "Diz que pode fechar suas feridas ou ensinar a vila a reconhecer as plantas. Ela não pede ouro pelo conhecimento, só que ninguém chame tudo de mato.",
       opcoes: [
         {
           id: "tratar",
@@ -91,9 +91,9 @@
       requisitos: { flagsAusentes: ["bruxa_vela_resolvida"] },
       imagem: "assets/ervas.webp",
       imagemAlt: "Uma vela curta entre folhas secas e pequenos frascos",
-      texto:
-        "A bruxa acende uma vela no pátio. O vento a dobra, mas não a apaga. Ela oferece a chama para proteger sua próxima batalha.",
-      informacoes: "A vela cheira a cera, fumaça e alguma coisa que você prefere não nomear.",
+      texto: "A bruxa acende uma vela no pátio. O vento a dobra, mas não a apaga.",
+      informacoes:
+        "Ela oferece a chama para proteger sua próxima batalha. A vela cheira a cera, fumaça e alguma coisa que você prefere não nomear.",
       opcoes: [
         {
           id: "aceitar",
@@ -129,9 +129,9 @@
       requisitos: { flagsAusentes: ["bruxa_fonte_resolvida"] },
       imagem: "assets/poco.webp",
       imagemAlt: "Um poço de pedra com um balde de madeira",
-      texto:
-        "A bruxa encontra o poço quase seco e pede ajuda para descer um balde. Diz que precisa de água limpa para uma cura, não para um feitiço.",
-      informacoes: "O poço é fundo, e a corda foi remendada muitas vezes.",
+      texto: "A bruxa encontra o poço quase seco e pede ajuda para descer um balde.",
+      informacoes:
+        "Diz que precisa de água limpa para uma cura, não para um feitiço. O poço é fundo, e a corda foi remendada muitas vezes.",
       opcoes: [
         {
           id: "descer",
@@ -174,8 +174,9 @@
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente acolhido pela vila, vestido para servir no conselho, com um sorriso honroso",
       texto:
-        "Quarenta rodadas se passaram desde que você acolheu o menino. Ele cresceu, aprendeu a ouvir as famílias e agora os moradores o procuram antes de levar certos problemas ao salão.",
-      informacoes: "O nome do cargo é antigo. O trabalho, não.",
+        "Ele cresceu, aprendeu a ouvir as famílias e agora os moradores o procuram antes de levar certos problemas ao salão.",
+      informacoes:
+        "Quarenta rodadas se passaram desde que você acolheu o menino. O nome do cargo é antigo. O trabalho, não.",
       opcoes: [
         {
           id: "nomear",
@@ -221,9 +222,9 @@
       requisitos: { flags: ["menino_conselheiro"], tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O jovem conselheiro, em vestes formais, explica como reparar a ponte",
-      texto:
-        "O adolescente ouve os carroceiros antes de falar. Sugere consertar as tábuas soltas antes que uma roda quebre no meio da travessia.",
-      informacoes: "A obra é pequena; o desvio que ela evita, não.",
+      texto: "O adolescente ouve os carroceiros antes de falar.",
+      informacoes:
+        "Sugere consertar as tábuas soltas antes que uma roda quebre no meio da travessia. A obra é pequena; o desvio que ela evita, não.",
       opcoes: [
         {
           id: "reparar",

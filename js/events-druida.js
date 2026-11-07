@@ -13,9 +13,9 @@
       requisitos: { tracos: "druida_herdeiro", rodadaMin: 4 },
       imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Uma árvore antiga diante de uma clareira",
-      texto:
-        "Lenhadores abrem uma trilha e derrubam árvores jovens. As casas precisam de madeira, mas o bosque guarda a nascente que sustenta a vila.",
-      informacoes: "A estação mede o que a floresta pode oferecer e o que ainda precisa ficar de pé.",
+      texto: "Lenhadores abrem uma trilha e derrubam árvores jovens.",
+      informacoes:
+        "As casas precisam de madeira, mas o bosque guarda a nascente que sustenta a vila. A estação mede o que a floresta pode oferecer e o que ainda precisa ficar de pé.",
       opcoes: [
         {
           ...natureza("corte_parcial", "Permitir um corte pequeno e vigiado.", { gold: 5 }),
@@ -46,9 +46,9 @@
       requisitos: { tracos: "druida_herdeiro", rodadaMin: 5 },
       imagem: "assets/cervo-branco.webp",
       imagemAlt: "Um cervo branco entre as árvores",
-      texto:
-        "Um animal ferido se arrasta até a estrada. Há uma flecha recente em sua lateral e marcas de botas na lama.",
-      informacoes: "A floresta observa como você trata quem não pode retribuir.",
+      texto: "Um animal ferido se arrasta até a estrada.",
+      informacoes:
+        "Há uma flecha recente em sua lateral e marcas de botas na lama. A floresta observa como você trata quem não pode retribuir.",
       opcoes: [
         {
           ...natureza("tratar", "Tratar o ferimento com suas ervas.", { hp: -6, honra: 2 }),
@@ -86,10 +86,9 @@
       requisitos: { tracos: "druida_herdeiro", estacao: "inverno" },
       imagem: "assets/ervas.webp",
       imagemAlt: "Ramos secos e ervas guardadas para o frio",
-      texto:
-        "A geada chega antes da hora. Animais e famílias procuram abrigo, enquanto o frio se infiltra pelas paredes do salão.",
+      texto: "A geada chega antes da hora.",
       informacoes:
-        "O frio pode tirar mais do que conforto. Nenhuma opção muda as regras de Honra ou de culto.",
+        "Animais e famílias procuram abrigo, enquanto o frio se infiltra pelas paredes do salão. O frio pode tirar mais do que conforto. Nenhuma opção muda as regras de Honra ou de culto.",
       opcoes: [
         {
           ...natureza("lenha_viva", "Acender lenha viva para aquecer o salão.", { hp: 8 }),
@@ -131,8 +130,9 @@
       requisitos: { tracos: "druida_herdeiro", estacao: "primavera" },
       imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Uma árvore antiga coberta de brotos novos",
-      texto: "A seiva volta a correr. A vila pede um festival para celebrar o degelo e preparar o plantio.",
-      informacoes: "A festa pode unir a comunidade ou transformar a estação em lucro imediato.",
+      texto: "A vila pede um festival para celebrar o degelo e preparar o plantio.",
+      informacoes:
+        "A seiva volta a correr. A festa pode unir a comunidade ou transformar a estação em lucro imediato.",
       opcoes: [
         {
           ...natureza("dancar", "Dançar com as famílias até o amanhecer.", {
@@ -165,9 +165,9 @@
       requisitos: { tracos: "druida_herdeiro", estacao: "verao", rodadaMin: 6 },
       imagem: "assets/vila.webp",
       imagemAlt: "Fumaça sobe atrás da muralha da vila",
-      texto:
-        "O fogo salta de uma clareira para outra. As chamas cercam as casas mais próximas do bosque e o vento as empurra para a vila.",
-      informacoes: "Um companheiro pode ajudar a encontrar uma trilha segura entre as chamas.",
+      texto: "O fogo salta de uma clareira para outra.",
+      informacoes:
+        "As chamas cercam as casas mais próximas do bosque e o vento as empurra para a vila. Um companheiro pode ajudar a encontrar uma trilha segura entre as chamas.",
       opcoes: [
         {
           id: "contrafogo",
@@ -218,8 +218,8 @@
       requisitos: { tracos: "druida_herdeiro", estacao: "outono" },
       imagem: "assets/ervas.webp",
       imagemAlt: "Folhas e frutos recolhidos no outono",
-      texto: "A colheita foi farta. Antes que os celeiros fechem, uma voz sai das árvores e pede sua parte.",
-      informacoes: "O espírito promete um presente raro se a oferenda for suficiente.",
+      texto: "Antes que os celeiros fechem, uma voz sai das árvores e pede sua parte.",
+      informacoes: "A colheita foi farta. O espírito promete um presente raro se a oferenda for suficiente.",
       opcoes: [
         {
           id: "oferecer_colheita",
@@ -257,10 +257,9 @@
       requisitos: { tracos: "druida_herdeiro", rodadaMin: 24 },
       imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Uma árvore antiga, guardiã de uma clareira",
-      texto:
-        "O espírito da floresta ergue-se diante de você. Seus galhos formam uma coroa e as raízes fecham a trilha atrás de seus passos.",
+      texto: "O espírito da floresta ergue-se diante de você.",
       informacoes:
-        "A floresta observa sua Honra. Você pode receber sua bênção, enfrentá-la ou aceitar uma punição.",
+        "Seus galhos formam uma coroa e as raízes fecham a trilha atrás de seus passos. A floresta observa sua Honra. Você pode receber sua bênção, enfrentá-la ou aceitar uma punição.",
       batalha: {
         semAjuste: true,
         defesa: 6,

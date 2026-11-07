@@ -4,7 +4,7 @@ Antes de criar, editar ou revisar qualquer texto do projeto — incluindo diálo
 
 Antes de criar, editar, converter ou avaliar ilustrações deste projeto, leia `docs/MEMORIA-ILUSTRACOES.md` por inteiro e siga as referências e decisões nela registradas. Consulte-a novamente sempre que uma alteração visual depender dessas regras.
 
-Por orientação atual, as artes de cartas de evento devem usar WebP com qualidade 90 e maior lado de 800 px, preservando proporções e transparência. Retratos dos herdeiros continuam nas variantes PNG/SVG atuais; arquivos com referências dinâmicas não são órfãos.
+Por orientação atual, as artes de cartas de evento devem usar WebP com qualidade 90 e maior lado de 800 px, preservando proporções e transparência. Os retratos dos herdeiros são carregados pela interface em WebP com qualidade 90 e alfa 100, na resolução original; os PNGs de origem permanecem em `assets/herdeiros/` como arte-fonte e referência. Arquivos com referências dinâmicas não são órfãos.
 
 ## Entrega de planos
 

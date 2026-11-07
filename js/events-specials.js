@@ -276,8 +276,8 @@
       id: "porco",
       titulo: "O ano do Porco",
       nome: "Porco",
-      cena: "Um porco gordo dorme ao sol sobre uma carta. O cozinheiro jura que não o trouxe até ali.",
-      info: "A carta fala de fartura; a cozinha confirma o cheiro.",
+      cena: "Um porco gordo dorme ao sol sobre uma carta.",
+      info: "O cozinheiro jura que não o trouxe até ali. A carta fala de fartura; a cozinha confirma o cheiro.",
       imagem: "porco",
       opcoes: [
         escolha(
@@ -497,9 +497,8 @@
       name: "Thor",
       kind: "bencao",
       image: "thor",
-      scene:
-        "Um trovão rompe o céu limpo. Um martelo que você nunca viu repousa por um instante em suas mãos e desaparece.",
-      info: "O trovão anuncia força e rapidez. Os moradores guardam silêncio.",
+      scene: "Um trovão rompe o céu limpo.",
+      info: "Um martelo que você nunca viu repousa por um instante em suas mãos e desaparece. O trovão anuncia força e rapidez. Os moradores guardam silêncio.",
       options: [
         [
           "Receber o martelo do trovão.",
@@ -520,9 +519,8 @@
       name: "Odin",
       kind: "bencao",
       image: "odin",
-      scene:
-        "Dois corvos pousam na janela do salão. Um terceiro olho, que não é de corvo, observa do fundo da sombra.",
-      info: "Os corvos anunciam sabedoria, e a sabedoria costuma cobrar um preço.",
+      scene: "Dois corvos pousam na janela do salão.",
+      info: "Um terceiro olho, que não é de corvo, observa do fundo da sombra. Os corvos anunciam sabedoria, e a sabedoria costuma cobrar um preço.",
       options: [
         [
           "Aceitar o olhar de Odin.",
@@ -543,9 +541,8 @@
       name: "Freya",
       kind: "bencao",
       image: "freya",
-      scene:
-        "Flores amarelas abrem caminho entre as pedras. Uma mulher de manto de falcão observa do campo e desaparece ao vento.",
-      info: "A vila floresce onde antes havia apenas terra escura.",
+      scene: "Flores amarelas abrem caminho entre as pedras.",
+      info: "Uma mulher de manto de falcão observa do campo e desaparece ao vento. A vila floresce onde antes havia apenas terra escura.",
       options: [
         [
           "Receber a bênção de Freya.",
@@ -566,9 +563,8 @@
       name: "Týr",
       kind: "bencao",
       image: "tyr",
-      scene:
-        "Uma mão de ferro repousa sobre a mesa. A espada junto dela está partida, mas a balança não pende para lado algum.",
-      info: "Uma promessa pesa tanto quanto o braço que a sustenta.",
+      scene: "Uma mão de ferro repousa sobre a mesa.",
+      info: "A espada junto dela está partida, mas a balança não pende para lado algum. Uma promessa pesa tanto quanto o braço que a sustenta.",
       options: [
         ["Receber a bênção de Týr.", "A postura se firma quando o próximo golpe chega.", { reducaoDano: 5 }],
         [
@@ -585,8 +581,8 @@
       name: "Njord",
       kind: "bencao",
       image: "njord",
-      scene: "O cheiro do mar chega à vila. Em cada barril de água, um peixe prateado nada em círculos.",
-      info: "A água parece conter algo além de água.",
+      scene: "O cheiro do mar chega à vila.",
+      info: "Em cada barril de água, um peixe prateado nada em círculos. A água parece conter algo além de água.",
       options: [
         [
           "Receber a bênção de Njord.",
@@ -607,9 +603,8 @@
       name: "Iðunn",
       kind: "bencao",
       image: "idunn",
-      scene:
-        "Uma mulher de olhar jovem e mãos antigas deixa uma cesta de maçãs na porta. Ninguém a viu chegar.",
-      info: "A cesta só se esvazia quando alguém come.",
+      scene: "Uma mulher de olhar jovem e mãos antigas deixa uma cesta de maçãs na porta.",
+      info: "Ninguém a viu chegar. A cesta só se esvazia quando alguém come.",
       options: [
         [
           "Comer uma maçã dourada.",
@@ -630,9 +625,8 @@
       name: "Loki",
       kind: "maldicao",
       image: "loki",
-      scene:
-        "Uma risada ecoa nos corredores. Sapatos aparecem amarrados, o vinho vira água e o anel do cofre muda de bolso.",
-      info: "A brincadeira é cruel e cheira a enxofre.",
+      scene: "Uma risada ecoa nos corredores.",
+      info: "Sapatos aparecem amarrados, o vinho vira água e o anel do cofre muda de bolso. A brincadeira é cruel e cheira a enxofre.",
       options: [
         [
           "Suportar a brincadeira.",
@@ -662,9 +656,8 @@
       name: "Hel",
       kind: "maldicao",
       image: "hel",
-      scene:
-        "Metade do rosto de uma mulher emerge na sombra, uma parte viva e a outra cinzenta. O ar cheira a pedra fria.",
-      info: "O frio é verdadeiro. Cada respiração custa mais.",
+      scene: "Metade do rosto de uma mulher emerge na sombra, uma parte viva e a outra cinzenta.",
+      info: "O ar cheira a pedra fria. O frio é verdadeiro. Cada respiração custa mais.",
       options: [
         [
           "Suportar o frio.",
@@ -689,9 +682,8 @@
       name: "Skadi",
       kind: "maldicao",
       image: "skadi",
-      scene:
-        "Uma caçadora de arco longo observa do alto da muralha. A neve começa a cair apesar do céu limpo.",
-      info: "A geada se instala nas paredes e nas armaduras.",
+      scene: "Uma caçadora de arco longo observa do alto da muralha.",
+      info: "A neve começa a cair apesar do céu limpo. A geada se instala nas paredes e nas armaduras.",
       options: [
         [
           "Suportar a geada.",
@@ -716,9 +708,8 @@
       name: "Surtr",
       kind: "maldicao",
       image: "surtr",
-      scene:
-        "O horizonte avermelha. Um gigante com espada em chamas surge entre nuvens e deixa cheiro de fumaça.",
-      info: "O cheiro de queimado persiste nas casas e nos campos.",
+      scene: "Um gigante com espada em chamas surge entre nuvens e deixa cheiro de fumaça.",
+      info: "O horizonte avermelha. O cheiro de queimado persiste nas casas e nos campos.",
       options: [
         [
           "Suportar o calor.",
@@ -743,9 +734,8 @@
       name: "Höðr",
       kind: "maldicao",
       image: "hodr",
-      scene:
-        "Um homem de olhos vendados caminha pela praça. Um dardo de visco cai de sua mão sem que perceba.",
-      info: "O visco é pequeno, mas ele diz que já matou um deus.",
+      scene: "Um homem de olhos vendados caminha pela praça.",
+      info: "Um dardo de visco cai de sua mão sem que perceba. O visco é pequeno, mas ele diz que já matou um deus.",
       options: [
         [
           "Suportar a escuridão.",
@@ -770,9 +760,8 @@
       name: "Rán",
       kind: "maldicao",
       image: "ran",
-      scene:
-        "Uma rede escura aparece sobre o telhado, pingando água salgada. As moedas do bolso parecem mais leves.",
-      info: "A rede continua lá, embora ninguém mais a veja.",
+      scene: "Uma rede escura aparece sobre o telhado, pingando água salgada.",
+      info: "As moedas do bolso parecem mais leves. A rede continua lá, embora ninguém mais a veja.",
       options: [
         [
           "Suportar a rede.",
@@ -799,11 +788,10 @@
         id: "bencao_baldr",
         name: "Baldr",
         title: "A luz entre as frestas",
-        scene:
-          "Uma luz quente atravessa as frestas do salão. As marcas nas portas desaparecem antes do amanhecer.",
+        scene: "Uma luz quente atravessa as frestas do salão.",
         image: "baldr",
         kind: "bencao",
-        info: "O visitante espera sua decisão.",
+        info: "As marcas nas portas desaparecem antes do amanhecer. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -839,10 +827,10 @@
         id: "bencao_frigg",
         name: "Frigg",
         title: "O fio no escudo",
-        scene: "Um fio claro prende a correia do seu escudo. Nenhuma mão da vila consegue desfazer o nó.",
+        scene: "Um fio claro prende a correia do seu escudo.",
         image: "frigg",
         kind: "bencao",
-        info: "O visitante espera sua decisão.",
+        info: "Nenhuma mão da vila consegue desfazer o nó. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -882,11 +870,10 @@
         id: "bencao_heimdall",
         name: "Heimdall",
         title: "O vigia da ponte",
-        scene:
-          "Da ponte, um vigia conta os passos de quem entra e de quem parte. Ele sabe quantas casas cada decisão deixará vazias.",
+        scene: "Da ponte, um vigia conta os passos de quem entra e de quem parte.",
         image: "heimdall",
         kind: "bencao",
-        info: "O visitante espera sua decisão.",
+        info: "Ele sabe quantas casas cada decisão deixará vazias. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -922,10 +909,10 @@
         id: "bencao_freyr",
         name: "Freyr",
         title: "O campo aberto",
-        scene: "Sulcos aparecem no terreno abandonado. Ao amanhecer, uma família pede licença para plantar.",
+        scene: "Sulcos aparecem no terreno abandonado.",
         image: "freyr",
         kind: "bencao",
-        info: "O visitante espera sua decisão.",
+        info: "Ao amanhecer, uma família pede licença para plantar. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -969,10 +956,10 @@
         id: "maldicao_jormungand",
         name: "Jormungand",
         title: "O veneno no poço",
-        scene: "Uma escama cobre a boca do poço. Mesmo depois de retirá-la, o gosto amargo fica em sua boca.",
+        scene: "Uma escama cobre a boca do poço.",
         image: "jormungand",
         kind: "maldicao",
-        info: "O visitante espera sua decisão.",
+        info: "Mesmo depois de retirá-la, o gosto amargo fica em sua boca. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -1022,10 +1009,10 @@
         id: "maldicao_fenrir",
         name: "Fenrir",
         title: "Os dentes na ferida",
-        scene: "Marcas de dentes aparecem na sua pele. As ataduras ficam úmidas, e a ferida torna a abrir.",
+        scene: "Marcas de dentes aparecem na sua pele.",
         image: "fenrir",
         kind: "maldicao",
-        info: "O visitante espera sua decisão.",
+        info: "As ataduras ficam úmidas, e a ferida torna a abrir. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -1073,11 +1060,10 @@
         id: "maldicao_hrym",
         name: "Hrym",
         title: "O gelo sob a porta",
-        scene:
-          "O gelo força as dobradiças e rompe as correias dos escudos. Toda manhã os guardas compram mais lenha.",
+        scene: "O gelo força as dobradiças e rompe as correias dos escudos.",
         image: "hrym",
         kind: "maldicao",
-        info: "O visitante espera sua decisão.",
+        info: "Toda manhã os guardas compram mais lenha. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -1125,11 +1111,10 @@
         id: "maldicao_nidhogg",
         name: "Níðhöggr",
         title: "As raízes roídas",
-        scene:
-          "O chão cede sob uma casa. À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde.",
+        scene: "O chão cede sob uma casa.",
         image: "nidhogg",
         kind: "maldicao",
-        info: "O visitante espera sua decisão.",
+        info: "À noite, os moradores ouvem dentes raspando as raízes e partem antes que a própria porta afunde. O visitante espera sua decisão.",
         options: [
           [
             "Receber o efeito.",
@@ -1292,9 +1277,9 @@
       imagem: "assets/eventos-especiais/mercador-vermelho.webp",
       imagemAlt: "Mercador diante de uma carroça com lanternas e envelope vermelho",
       texto:
-        "Logo após o mercador da estrada partir, outra carroça passa pelo portão, coberta de lanternas de papel. O dono desce com um envelope vermelho e espera que você diga a primeira palavra.",
+        "Logo após o mercador da estrada partir, outra carroça passa pelo portão, coberta de lanternas de papel.",
       informacoes:
-        "O mercador observa seus modos mais do que suas palavras. Uma resposta demonstra a cortesia que ele espera.",
+        "O dono desce com um envelope vermelho e espera que você diga a primeira palavra. O mercador observa seus modos mais do que suas palavras. Uma resposta demonstra a cortesia que ele espera.",
       opcaoCorreta: "D02",
       poolOpcoes: dialogosMercador,
     },
@@ -1308,10 +1293,9 @@
       apenasAposIds: ["geada", "inverno_longo"],
       imagem: "assets/eventos-especiais/viajante-norte.webp",
       imagemAlt: "Viajante de manto de pele junto a um fogo e apoiado em um cajado",
-      texto:
-        "Quando o gelo cede, um viajante de manto de pele bate ao portão com a ponta do cajado. Está há dias sem comer, mas permanece de pé. Os cães ficam em silêncio.",
+      texto: "Quando o gelo cede, um viajante de manto de pele bate ao portão com a ponta do cajado.",
       informacoes:
-        "Ele diz que carrega o favor de deuses antigos. Uma das respostas o acolhe da forma que espera.",
+        "Está há dias sem comer, mas permanece de pé. Os cães ficam em silêncio. Ele diz que carrega o favor de deuses antigos. Uma das respostas o acolhe da forma que espera.",
       opcaoCorreta: "E02",
       poolOpcoes: dialogosNorte,
     },

@@ -28,9 +28,8 @@
       rodadaMin: 6,
       peso: 1.5,
       imagem: "gelo",
-      texto:
-        "O lago congelou durante a noite e uma caravana ficou presa na outra margem. Crianças gritam por ajuda, e o gelo range a cada passo.",
-      informacoes: "O gelo parece firme. Parece.",
+      texto: "O lago congelou durante a noite e uma caravana ficou presa na outra margem.",
+      informacoes: "Crianças gritam por ajuda, e o gelo range a cada passo. O gelo parece firme. Parece.",
       opcoes: [
         op("atravessar", "Atravessar com uma corda amarrada à cintura.", {}, "", {
           testeSorte: risco(
@@ -85,9 +84,9 @@
       rodadaMin: 6,
       peso: 1.5,
       imagem: "fogo",
-      texto:
-        "Uma família está presa no sótão de uma casa em chamas. O telhado já cede de um lado, e os vizinhos gritam instruções contraditórias.",
-      informacoes: "Cada segundo pesa. Cada decisão, também.",
+      texto: "Uma família está presa no sótão de uma casa em chamas.",
+      informacoes:
+        "O telhado já cede de um lado, e os vizinhos gritam instruções contraditórias. Cada segundo pesa. Cada decisão, também.",
       opcoes: [
         op("entrar", "Entrar pela janela do sótão.", {}, "", {
           testeSorte: risco(
@@ -128,9 +127,9 @@
       rodadaMin: 7,
       peso: 1.5,
       imagem: "taca",
-      texto:
-        "Um nobre ergue uma taça e propõe um brinde à paz. Um servo, ao seu lado, mexe os lábios sem som: ‘não beba’.",
-      informacoes: "O nobre sorri demais. O servo suou demais.",
+      texto: "Um nobre ergue uma taça e propõe um brinde à paz.",
+      informacoes:
+        "Um servo, ao seu lado, mexe os lábios sem som: ‘não beba’. O nobre sorri demais. O servo suou demais.",
       opcoes: [
         op("beber", "Beber primeiro, para mostrar confiança.", {}, "", {
           testeSorte: risco(
@@ -182,9 +181,9 @@
       rodadaMin: 6,
       peso: 1.5,
       imagem: "cavalo",
-      texto:
-        "Um cavalo de carga rompe o cabresto e dispara pela praça. Três crianças brincam no meio do caminho sem perceber.",
-      informacoes: "O cavalo pesa mais que três homens. Há poucos segundos.",
+      texto: "Um cavalo de carga rompe o cabresto e dispara pela praça.",
+      informacoes:
+        "Três crianças brincam no meio do caminho sem perceber. O cavalo pesa mais que três homens. Há poucos segundos.",
       opcoes: [
         op(
           "atirar",
@@ -220,9 +219,9 @@
       rodadaMin: 7,
       peso: 1.5,
       imagem: "fera",
-      texto:
-        "Algo respira alto no escuro do celeiro. A porta tem marcas de garras, os cães não se aproximam e os grãos estão lá dentro.",
-      informacoes: "Ninguém viu o que entrou. Todos têm uma teoria.",
+      texto: "Algo respira alto no escuro do celeiro.",
+      informacoes:
+        "A porta tem marcas de garras, os cães não se aproximam e os grãos estão lá dentro. Ninguém viu o que entrou. Todos têm uma teoria.",
       opcoes: [
         op("entrar", "Entrar sozinho com uma tocha.", {}, "", {
           testeSorte: risco(
@@ -262,9 +261,9 @@
       rodadaMin: 8,
       peso: 1.5,
       imagem: "rio",
-      texto:
-        "A água do rio ficou cor de ferrugem durante a noite. Os peixes boiam, mas alguns moradores juram que o gosto é apenas diferente.",
-      informacoes: "A vila inteira bebe dele. Metade já bebeu.",
+      texto: "A água do rio ficou cor de ferrugem durante a noite.",
+      informacoes:
+        "Os peixes boiam, mas alguns moradores juram que o gosto é apenas diferente. A vila inteira bebe dele. Metade já bebeu.",
       opcoes: [
         op("beber", "Beber da água diante de todos.", {}, "", {
           testeSorte: risco(
@@ -304,9 +303,9 @@
       rodadaMin: 8,
       peso: 1.5,
       imagem: "banquete",
-      texto:
-        "O senhor da aldeia vizinha o convida para um banquete. Rumores dizem que ele é amigo. Outros, que não tem amigos.",
-      informacoes: "Recusar seria uma ofensa. Aceitar pode ser uma armadilha.",
+      texto: "O senhor da aldeia vizinha o convida para um banquete.",
+      informacoes:
+        "Rumores dizem que ele é amigo. Outros, que não tem amigos. Recusar seria uma ofensa. Aceitar pode ser uma armadilha.",
       opcoes: [
         op("sozinho", "Ir sozinho, como gesto de confiança.", {}, "", {
           testeSorte: risco(
@@ -346,9 +345,9 @@
       rodadaMin: 9,
       peso: 1.5,
       imagem: "desfiladeiro",
-      texto:
-        "Os suprimentos do inverno precisam atravessar a serra. Há uma trilha curta, estreita e conhecida por emboscadas, e outra longa sob a neve.",
-      informacoes: "O tempo conta. A neve também.",
+      texto: "Os suprimentos do inverno precisam atravessar a serra.",
+      informacoes:
+        "Há uma trilha curta, estreita e conhecida por emboscadas, e outra longa sob a neve. O tempo conta. A neve também.",
       opcoes: [
         op("curta", "Pegar a trilha curta.", {}, "", {
           testeSorte: risco(
@@ -392,9 +391,9 @@
       rodadaMin: 8,
       peso: 1.5,
       imagem: "pao",
-      texto:
-        "A colheita falhou e restam sacos de grão para apenas metade da vila. O padre, o ferreiro e a ervateira esperam sua decisão.",
-      informacoes: "Alguns vão sobreviver ao inverno. Outros, não.",
+      texto: "A colheita falhou e restam sacos de grão para apenas metade da vila.",
+      informacoes:
+        "O padre, o ferreiro e a ervateira esperam sua decisão. Alguns vão sobreviver ao inverno. Outros, não.",
       opcoes: [
         op(
           "sortear",
@@ -430,9 +429,9 @@
       rodadaMin: 6,
       peso: 2,
       imagem: "barbeiro",
-      texto:
-        "Um homem de avental manchado e sorriso exagerado se oferece para tratar seus ferimentos. Seus instrumentos brilham como prata de talher.",
-      informacoes: "Ele promete cura. Os moradores trocam olhares.",
+      texto: "Um homem de avental manchado e sorriso exagerado se oferece para tratar seus ferimentos.",
+      informacoes:
+        "Seus instrumentos brilham como prata de talher. Ele promete cura. Os moradores trocam olhares.",
       opcoes: [
         op("sangria", "Aceitar a sangria.", {}, "", {
           requisitos: { hpMax: 50 },
@@ -474,9 +473,9 @@
       rodadaMin: 7,
       peso: 1,
       imagem: "dados",
-      texto:
-        "Um velho de olhos leitosos senta na praça com três dados de osso. Ele ouve as moedas na bolsa de cada passante e convida você a jogar.",
-      informacoes: "Ele não vê, mas nunca perde. Quem aposta, paga.",
+      texto: "Um velho de olhos leitosos senta na praça com três dados de osso.",
+      informacoes:
+        "Ele ouve as moedas na bolsa de cada passante e convida você a jogar. Ele não vê, mas nunca perde. Quem aposta, paga.",
       opcoes: [
         op("ouro", "Apostar 5 gold.", {}, "", {
           requisitos: { goldMin: 5 },
@@ -530,9 +529,9 @@
         rodadaMin: 7,
         peso: 1,
         imagem: "dados",
-        texto:
-          "O velho está na praça outra vez, os três dados de osso alinhados diante dele. Ele reconhece o som das moedas na sua bolsa e empurra os dados para perto.",
-        informacoes: "Desta vez, a aposta é de 10 gold. Você pode deixar a mesa sem jogar.",
+        texto: "O velho está na praça outra vez, os três dados de osso alinhados diante dele.",
+        informacoes:
+          "Ele reconhece o som das moedas na sua bolsa e empurra os dados para perto. Desta vez, a aposta é de 10 gold. Você pode deixar a mesa sem jogar.",
         opcoes: [
           op("apostar_dez", "Apostar 10 gold.", {}, "", {
             requisitos: { goldMin: 10 },
@@ -569,9 +568,9 @@
       rodadaMin: 10,
       peso: 1.5,
       imagem: "fumaca",
-      texto:
-        "Uma coluna de fumaça sobe do vale ao norte, onde ficam as plantações de duas famílias. Um mensageiro diz que é um ataque, mas não sabe de quem.",
-      informacoes: "Pode ser saque. Pode ser incêndio. Pode ser isca.",
+      texto: "Uma coluna de fumaça sobe do vale ao norte, onde ficam as plantações de duas famílias.",
+      informacoes:
+        "Um mensageiro diz que é um ataque, mas não sabe de quem. Pode ser saque. Pode ser incêndio. Pode ser isca.",
       opcoes: [
         op("cavalgar", "Cavalgar até lá, com poucos homens.", {}, "", {
           testeSorte: risco(

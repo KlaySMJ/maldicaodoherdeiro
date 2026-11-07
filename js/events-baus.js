@@ -12,8 +12,9 @@
       imagem: "assets/bau-estrada.webp",
       imagemAlt: "Baú de madeira meio enterrado na lama",
       texto:
-        "Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada e os objetos mudam a cada achado. Seus homens esperam que você escolha apenas um.",
-      informacoes: "Os itens oferecidos são sorteados e não incluem objetos que você já possui.",
+        "Depois da chuva, um baú aparece junto à estrada. A tampa está quebrada e os objetos mudam a cada achado.",
+      informacoes:
+        "Seus homens esperam que você escolha apenas um. Os itens oferecidos são sorteados e não incluem objetos que você já possui.",
       opcoes: [
         {
           id: "pocao",
@@ -44,9 +45,9 @@
       bauAleatorio: 2,
       imagem: "assets/bau-mimico.webp",
       imagemAlt: "Baú estreito preso entre duas raízes",
-      texto:
-        "Um baú estreito está preso entre duas raízes. A madeira está úmida; objetos diferentes aparecem pela fresta da tampa a cada encontro.",
-      informacoes: "Pode haver uma armadilha. Os itens sorteados não serão objetos que você já possui.",
+      texto: "Um baú estreito está preso entre duas raízes.",
+      informacoes:
+        "A madeira está úmida; objetos diferentes aparecem pela fresta da tampa a cada encontro. Pode haver uma armadilha. Os itens sorteados não serão objetos que você já possui.",
       opcoes: [
         {
           id: "frasco",

@@ -1,0 +1,80 @@
+{
+  "gerador": "Ferramenta integrada imagegen",
+  "estado": "Paleta azul-tinta integrada; honra alta-2 com capa marfim",
+  "referenciaIdentidade": "assets/herdeiros/corajoso-neutra.png",
+  "previa": "docs/previas/corajoso.html",
+  "invariantes": "Preservar a mulher aprovada: rosto, expressao de cada estado, olhos, cabelo claro ondulado, tranca lateral, tiara dourada, escala do busto, recorte, contornos de nanquim, hachuras, detalhes pequenos em ouro e fundo transparente. Alterar apenas o tecido conforme a cor do estado.",
+  "promptComumHonras": "Use case: identity-preserve. Edit the supplied exact state portrait of the SAME Herdeira Corajosa. This is a clothing-color edit, not a redesign. Preserve the same face, age, expression for that state, eyes, long pale wavy hair, single side braid, small gold tiara, head position, body scale, crop, shoulders, original garment shape and seams. Preserve warm-ivory skin and hair, gold jewelry and trim, black ink outlines, visible hatching and genuinely transparent background. Color only existing garment fabric according to the specific state. No added symbols, props, text, frame, scenery, glow or new clothing layers.",
+  "coresRoupaAprovadas": {
+    "neutra": "#46586F",
+    "honraAlta": "#46586F",
+    "honraMuitoAlta": "#46586F",
+    "honraMaxima": "#46586F",
+    "honraMuitoAltaCapa": "#F9EEDD",
+    "honraMuitoAltaV": "#F9EEDD",
+    "honraMuitoAltaPainel": "#F9EEDD",
+    "honraBaixa": "#596A7A",
+    "honraMuitoBaixa": "#75818F",
+    "honraMinima": "#8D969E",
+    "culto": "unaltered"
+  },
+  "variantes": [
+    {
+      "estado": "neutra",
+      "arquivo": "assets/herdeiros/corajoso-neutra.png",
+      "cor": "#46586F",
+      "promptEspecifico": "Neutral state: recolor only the main dress fabric, both sleeves and bodice to muted aged ink-blue near #46586F. Keep the original neckline trim, gold accents, skin, hair and tiara unchanged."
+    },
+    {
+      "estado": "alta",
+      "honra": 30,
+      "arquivo": "assets/herdeiros/corajoso-alta.png",
+      "cor": "#46586F",
+      "promptEspecifico": "High honor: keep the small draped shoulder mantle, clasp and dress design. Recolor main cloth of the mantle, bodice and sleeves to #46586F. Preserve gold edge piping and clasp."
+    },
+    {
+      "estado": "alta-2",
+      "honra": 60,
+      "arquivo": "assets/herdeiros/corajoso-alta-2.png",
+      "cor": "#46586F",
+      "capa": "#F9EEDD",
+      "v": "#F9EEDD",
+      "painel": "#F9EEDD",
+      "promptEspecifico": "Very high honor: make the short shoulder capelet warm ivory #F9EEDD, with the existing fine gold edging and central brooch. Keep lower bodice and puff sleeves #46586F. The V-shaped neckline inset/trim is warm ivory-white, and the small cloth panel between the V and cape is warm ivory #F9EEDD; preserve exposed skin."
+    },
+    {
+      "estado": "altissima",
+      "honra": 90,
+      "arquivo": "assets/herdeiros/corajoso-altissima.png",
+      "cor": "#46586F",
+      "promptEspecifico": "Maximum honor: retain the original short layered shoulder mantle, high neckline, central brooch and gold edging. Recolor all main garment fabric, including both mantle layers and high-neck dress, to #46586F. Keep gold details localized."
+    },
+    {
+      "estado": "baixa",
+      "honra": -30,
+      "arquivo": "assets/herdeiros/corajoso-baixa.png",
+      "cor": "#596A7A",
+      "promptEspecifico": "Low honor: keep the original worn dress, tears, uneven hems and expression. Recolor its fabric to a slightly faded blue-gray near #596A7A; do not add damage or change face, hair, tiara or gold details."
+    },
+    {
+      "estado": "baixa-2",
+      "honra": -60,
+      "arquivo": "assets/herdeiros/corajoso-baixa-2.png",
+      "cor": "#75818F",
+      "promptEspecifico": "Very low honor: preserve existing patches, rips and tired expression. Recolor the dress to a lighter, more desaturated steel-blue-gray near #75818F, still faintly blue."
+    },
+    {
+      "estado": "baixissima",
+      "honra": -90,
+      "arquivo": "assets/herdeiros/corajoso-baixissima.png",
+      "cor": "#8D969E",
+      "promptEspecifico": "Extreme low honor: preserve all original patches, tears, expression and silhouette. Recolor the dress to pale faded blue-gray near #8D969E. Keep warm-ivory patches, gold and black hatching."
+    },
+    {
+      "estado": "culto",
+      "arquivo": "assets/herdeiros/corajoso-culto.png",
+      "integrado": false,
+      "promptEspecifico": "Outside this palette; keep the existing cult portrait unchanged."
+    }
+  ]
+}

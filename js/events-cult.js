@@ -44,9 +44,8 @@
     disparadoPelaEngine: true,
     imagem: "assets/eventos-culto/ultimo.webp",
     imagemAlt: "Uma chama pequena diante de uma cadeira de pedra num salão vazio",
-    texto:
-      "As casas estão vazias e as portas, abertas. Uma chama arde no salão, e vozes repetem seu nome. Uma cadeira de pedra espera à beira do fogo.",
-    informacoes: "",
+    texto: "As casas estão vazias e as portas, abertas. Uma chama arde no salão, e vozes repetem seu nome.",
+    informacoes: "Uma cadeira de pedra espera à beira do fogo.",
     opcoes: [
       {
         id: "encerrar",
@@ -103,9 +102,8 @@
       peso: 4,
       rodadaMin: 5,
       imagem: "profeta",
-      texto:
-        "Outro pregador, de manto limpo e voz mansa, fala aos seus seguidores na praça. Metade escuta; a outra metade já se levanta.",
-      informacoes: "Ele não pede nada, só promete.",
+      texto: "Outro pregador, de manto limpo e voz mansa, fala aos seus seguidores na praça.",
+      informacoes: "Metade escuta; a outra metade já se levanta. Ele não pede nada, só promete.",
       opcoes: [
         {
           id: "desafiar",
@@ -135,9 +133,9 @@
       peso: 3,
       rodadaMin: 4,
       imagem: "duvida",
-      texto:
-        "Um jovem seguidor se aproxima depois da cerimônia. Diz que quer partir e que a mãe o espera na estrada.",
-      informacoes: "Os demais observam sem fingir que não ouvem.",
+      texto: "Um jovem seguidor se aproxima depois da cerimônia.",
+      informacoes:
+        "Diz que quer partir e que a mãe o espera na estrada. Os demais observam sem fingir que não ouvem.",
       opcoes: [
         {
           id: "partir",
@@ -167,9 +165,9 @@
       peso: 2,
       rodadaMin: 8,
       imagem: "templo",
-      texto:
-        "Os seguidores propõem erguer um templo no lugar onde a chama foi acesa. Trouxeram ossos, pedras e uma planta mal desenhada.",
-      informacoes: "O templo seria permanente, mas custaria caro.",
+      texto: "Os seguidores propõem erguer um templo no lugar onde a chama foi acesa.",
+      informacoes:
+        "Trouxeram ossos, pedras e uma planta mal desenhada. O templo seria permanente, mas custaria caro.",
       opcoes: [
         {
           id: "pedreiros",
@@ -237,9 +235,9 @@
       peso: 2,
       rodadaMin: 6,
       imagem: "cacador",
-      texto:
-        "Um homem de manto negro e crucifixo de ferro chega com doze soldados. Lê uma lista de nomes que pertencem aos seus fiéis.",
-      informacoes: "Seu ataque precisa alcançar a defesa do caçador. O escudo reduz o dano recebido.",
+      texto: "Um homem de manto negro e crucifixo de ferro chega com doze soldados.",
+      informacoes:
+        "Lê uma lista de nomes que pertencem aos seus fiéis. Seu ataque precisa alcançar a defesa do caçador. O escudo reduz o dano recebido.",
       opcoes: [
         { id: "combater", texto: "Defender os fiéis.", combate: true },
         {
@@ -284,9 +282,9 @@
       peso: 2,
       rodadaMin: 3,
       imagem: "duvida",
-      texto:
-        "Um capitão oferece trazer famílias para o culto à força. Algumas já estão reunidas no portão, sob guarda.",
-      informacoes: "A Honra neutra ou positiva torna esta cobrança mais visível para a vila.",
+      texto: "Um capitão oferece trazer famílias para o culto à força.",
+      informacoes:
+        "Algumas já estão reunidas no portão, sob guarda. A Honra neutra ou positiva torna esta cobrança mais visível para a vila.",
       opcoes: [
         {
           id: "aceitar",
@@ -337,9 +335,9 @@
       peso: 1.5,
       rodadaMin: 4,
       imagem: "chama",
-      texto:
-        "O culto toca os sinos durante a noite inteira. Pela manhã, ninguém consegue ouvir os próprios pensamentos.",
-      informacoes: "A vila pede que você limite as cerimônias.",
+      texto: "O culto toca os sinos durante a noite inteira.",
+      informacoes:
+        "Pela manhã, ninguém consegue ouvir os próprios pensamentos. A vila pede que você limite as cerimônias.",
       opcoes: [
         {
           id: "silencio",
@@ -362,9 +360,9 @@
       peso: 1.5,
       rodadaMin: 7,
       imagem: "fogueira",
-      texto:
-        "Uma brasa da cerimônia alcança o celeiro. O fogo ainda está baixo, mas a fumaça já cobre o pátio.",
-      informacoes: "A pressa pode salvar o grão ou as pessoas que trabalham lá.",
+      texto: "Uma brasa da cerimônia alcança o celeiro.",
+      informacoes:
+        "O fogo ainda está baixo, mas a fumaça já cobre o pátio. A pressa pode salvar o grão ou as pessoas que trabalham lá.",
       opcoes: [
         {
           id: "apagar",
@@ -416,9 +414,9 @@
     requisitos: { tracos: "herdeiro_culto", rodadaMin: 8, cultoAtivo: false },
     imagem: "assets/eventos-culto/templo.webp",
     imagemAlt: "Templo do culto, referência provisória",
-    texto:
-      "Trinta mantos esperam à porta. A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo.",
-    informacoes: "Ao aderir, os seguidores em reserva recebem mais 50 membros.",
+    texto: "A mulher que os conduz abre uma caixa com brasas e pede que você caminhe com eles até o templo.",
+    informacoes:
+      "Trinta mantos esperam à porta. Ao aderir, os seguidores em reserva recebem mais 50 membros.",
     opcoes: [
       {
         id: "aderir",

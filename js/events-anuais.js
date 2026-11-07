@@ -12,10 +12,9 @@
       requisitos: { estacao: "primavera" },
       imagem: "assets/vila.webp",
       imagemAlt: "Moradores reunidos na praça para celebrar o começo do ano",
-      texto:
-        "Viajantes do leste chegam com lanternas e um calendário marcado pelos ciclos da lua. A vila se reúne para dar as boas-vindas ao novo ano.",
+      texto: "Viajantes do leste chegam com lanternas e um calendário marcado pelos ciclos da lua.",
       informacoes:
-        "A celebração pode unir a vila, trazer prosperidade ou encher seus cofres à custa da festa.",
+        "A vila se reúne para dar as boas-vindas ao novo ano. A celebração pode unir a vila, trazer prosperidade ou encher seus cofres à custa da festa.",
       opcoes: [
         {
           id: "ano_lunar_festa",
@@ -50,10 +49,9 @@
       requisitos: { estacao: "outono" },
       imagem: "assets/ervas.webp",
       imagemAlt: "Pequenas velas acesas entre folhas de outono",
-      texto:
-        "Com a queda das folhas, as famílias acendem velas para lembrar quem já se foi. Uma procissão atravessa a vila levando nomes, canções e pequenas oferendas.",
+      texto: "Com a queda das folhas, as famílias acendem velas para lembrar quem já se foi.",
       informacoes:
-        "A lembrança dos mortos pode aproximar os vivos ou servir de desculpa para tomar o que foi deixado nos altares.",
+        "Uma procissão atravessa a vila levando nomes, canções e pequenas oferendas. A lembrança dos mortos pode aproximar os vivos ou servir de desculpa para tomar o que foi deixado nos altares.",
       opcoes: [
         {
           id: "mortos_procissao",
@@ -89,9 +87,9 @@
       requisitos: { ano: 2, estacao: "primavera" },
       imagem: "assets/eventos-sistemas/primavera.webp",
       imagemAlt: "Mudas novas esperam para ser plantadas no começo da primavera",
-      texto:
-        "Duas famílias chegam para buscar as últimas mudas guardadas no moinho. Cada uma diz ter recebido a promessa antes do inverno.",
-      informacoes: "A decisão define quem planta primeiro e quem aceita dividir o terreno.",
+      texto: "Duas famílias chegam para buscar as últimas mudas guardadas no moinho.",
+      informacoes:
+        "Cada uma diz ter recebido a promessa antes do inverno. A decisão define quem planta primeiro e quem aceita dividir o terreno.",
       opcoes: [
         {
           id: "dividir_mudas",
@@ -125,9 +123,9 @@
       requisitos: { ano: 2, estacao: "verao" },
       imagem: "assets/eventos-sistemas/verao.webp",
       imagemAlt: "Uma cisterna de pedra perde água sob o sol do verão",
-      texto:
-        "A cisterna perde água por uma rachadura larga. A fila cresceu desde o amanhecer, e os campos também precisam do que resta.",
-      informacoes: "Reparar exige Gold; organizar o uso protege a água sem consertar a pedra.",
+      texto: "A cisterna perde água por uma rachadura larga.",
+      informacoes:
+        "A fila cresceu desde o amanhecer, e os campos também precisam do que resta. Reparar exige Gold; organizar o uso protege a água sem consertar a pedra.",
       opcoes: [
         {
           id: "reparar_cisterna",
@@ -163,9 +161,9 @@
       requisitos: { ano: 2, estacao: "outono" },
       imagem: "assets/eventos-sistemas/outono.webp",
       imagemAlt: "Sacos de grãos separados para o inverno dentro de um celeiro",
-      texto:
-        "A colheita terminou com sacos a menos. As famílias se reúnem para decidir o destino do estoque comum antes da primeira geada.",
-      informacoes: "Guardar, vender ou priorizar quem perdeu o campo traz custos diferentes.",
+      texto: "A colheita terminou com sacos a menos.",
+      informacoes:
+        "As famílias se reúnem para decidir o destino do estoque comum antes da primeira geada. Guardar, vender ou priorizar quem perdeu o campo traz custos diferentes.",
       opcoes: [
         {
           id: "guardar_celeiro_comum",
@@ -198,9 +196,9 @@
       requisitos: { ano: 2, estacao: "inverno" },
       imagem: "assets/eventos-sistemas/inverno.webp",
       imagemAlt: "Uma ponte estreita coberta por gelo sobre um rio escuro",
-      texto:
-        "A ponte range sob o gelo. Duas carroças esperam na margem, e o caminho alternativo acrescenta três dias à viagem.",
-      informacoes: "Você pode reforçar a travessia, fechá-la ou guiar os viajantes pela trilha alta.",
+      texto: "Duas carroças esperam na margem, e o caminho alternativo acrescenta três dias à viagem.",
+      informacoes:
+        "A ponte range sob o gelo. Você pode reforçar a travessia, fechá-la ou guiar os viajantes pela trilha alta.",
       opcoes: [
         {
           id: "reforcar_ponte_gelo",
@@ -237,9 +235,9 @@
       requisitos: { ano: 3, estacao: "primavera" },
       imagem: "assets/eventos-sistemas/primavera.webp",
       imagemAlt: "Uma cerca de pedra antiga reaparece entre os brotos da primavera",
-      texto:
-        "O degelo revela cercas baixas sob as ervas. Elas dividem um pomar, um caminho antigo e um trecho de terra que ninguém cultiva.",
-      informacoes: "Abra a passagem, destine o terreno à vila ou restaure a cerca do pomar.",
+      texto: "O degelo revela cercas baixas sob as ervas.",
+      informacoes:
+        "Elas dividem um pomar, um caminho antigo e um trecho de terra que ninguém cultiva. Abra a passagem, destine o terreno à vila ou restaure a cerca do pomar.",
       opcoes: [
         {
           id: "abrir_caminho_cercas",
@@ -273,8 +271,9 @@
       imagem: "assets/eventos-especiais/viajante-norte.webp",
       imagemAlt: "Viajantes cansados atravessam uma estrada seca durante o verão",
       texto:
-        "Um grupo atravessa a estrada no calor e traz notícia do sul: o rio baixou tanto que os barcos já não chegam ao mercado. Pedem água para continuar.",
-      informacoes: "Acolher quem passa, trocar mantimentos por trabalho ou fechar o acesso muda a viagem.",
+        "Um grupo atravessa a estrada no calor e traz notícia do sul: o rio baixou tanto que os barcos já não chegam ao mercado.",
+      informacoes:
+        "Pedem água para continuar. Acolher quem passa, trocar mantimentos por trabalho ou fechar o acesso muda a viagem.",
       opcoes: [
         {
           id: "acolher_retirantes",
@@ -308,9 +307,9 @@
       requisitos: { ano: 3, estacao: "outono" },
       imagem: "assets/eventos-sistemas/outono.webp",
       imagemAlt: "Um moleiro coloca registros antigos sobre uma mesa de madeira",
-      texto:
-        "O moleiro traz um caderno com promessas feitas em anos anteriores. Algumas foram pagas em sacos ou dias de trabalho; falta trocar uma roda.",
-      informacoes: "Pagar, negociar um mutirão ou tomar o moinho encerra a cobrança de modos diferentes.",
+      texto: "O moleiro traz um caderno com promessas feitas em anos anteriores.",
+      informacoes:
+        "Algumas foram pagas em sacos ou dias de trabalho; falta trocar uma roda. Pagar, negociar um mutirão ou tomar o moinho encerra a cobrança de modos diferentes.",
       opcoes: [
         {
           id: "pagar_moinho",
@@ -346,9 +345,9 @@
       requisitos: { ano: 3, estacao: "inverno" },
       imagem: "assets/eventos-sistemas/inverno.webp",
       imagemAlt: "Moradores se reúnem à luz de uma fogueira na última noite do inverno",
-      texto:
-        "O último inverno chega com o depósito de lenha pela metade. As famílias reúnem as reservas e esperam sua decisão antes de fechar as portas.",
-      informacoes: "Dividir lenha, reunir recursos para uma festa ou racionar define a noite.",
+      texto: "O último inverno chega com o depósito de lenha pela metade.",
+      informacoes:
+        "As famílias reúnem as reservas e esperam sua decisão antes de fechar as portas. Dividir lenha, reunir recursos para uma festa ou racionar define a noite.",
       opcoes: [
         {
           id: "partilhar_lenha_final",

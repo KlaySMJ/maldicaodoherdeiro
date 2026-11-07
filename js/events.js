@@ -14,8 +14,9 @@
       imagem: "assets/caixas.webp",
       imagemAlt: "Caixotes de madeira diante do portão do vilarejo, desenhados em branco sobre preto",
       texto:
-        "Uma carroça chega ao portão. O mercador oferece mantimentos, mas um cheiro estranho escapa das caixas. O povo aguarda sua palavra.",
-      informacoes: "O mercador pede passagem. Ninguém sabe de onde vieram os mantimentos.",
+        "Uma carroça chega ao portão. O mercador oferece mantimentos, mas um cheiro estranho escapa das caixas.",
+      informacoes:
+        "O povo aguarda sua palavra. O mercador pede passagem. Ninguém sabe de onde vieram os mantimentos.",
       opcoes: [
         {
           id: "deixar",
@@ -60,9 +61,9 @@
       peso: 3,
       imagem: "assets/vila.webp",
       imagemAlt: "Casas e uma estrada sob as muralhas do castelo",
-      texto:
-        "Cinco viajantes chegam da estrada do norte. Perderam a colheita e procuram um lugar onde possam recomeçar.",
-      informacoes: "Os viajantes pedem abrigo e um pedaço de terra para cultivar.",
+      texto: "Cinco viajantes chegam da estrada do norte.",
+      informacoes:
+        "Perderam a colheita e procuram um lugar onde possam recomeçar. Os viajantes pedem abrigo e um pedaço de terra para cultivar.",
       opcoes: [
         {
           id: "acolher",
@@ -94,9 +95,9 @@
       peso: 2,
       imagem: "assets/forja.webp",
       imagemAlt: "Uma espada sobre a bigorna da forja",
-      texto:
-        "O ferreiro recuperou o aço de uma antiga armadura. Há material para reforçar uma peça de seu equipamento.",
-      informacoes: "O aço pode melhorar seu ataque ou seu escudo.",
+      texto: "O ferreiro recuperou o aço de uma antiga armadura.",
+      informacoes:
+        "Há material para reforçar uma peça de seu equipamento. O aço pode melhorar seu ataque ou seu escudo.",
       opcoes: [
         {
           id: "espada",
@@ -126,9 +127,9 @@
       peso: 1,
       imagem: "assets/geada.webp",
       imagemAlt: "Um campo de trigo sob o inverno",
-      texto:
-        "O frio chega antes da colheita. Na noite em que você ajuda a proteger os campos, o gelo toma a terra e a febre toma seu corpo.",
-      informacoes: "O inverno não espera uma decisão. Há coisas que nem um senhor pode impedir.",
+      texto: "O frio chega antes da colheita.",
+      informacoes:
+        "Na noite em que você ajuda a proteger os campos, o gelo toma a terra e a febre toma seu corpo. O inverno não espera uma decisão. Há coisas que nem um senhor pode impedir.",
       opcoes: [
         {
           id: "enfrentar",
@@ -147,9 +148,9 @@
       multiplicadoresPeso: [{ requisitos: { honraMax: -30 }, multiplicador: 5 }],
       imagem: "assets/caixas.webp",
       imagemAlt: "Estoques de alimentos junto a um portão de pedra",
-      texto:
-        "O estoque de grãos está diminuindo. Na praça, dois vizinhos se acusam de roubo. Seus guardas esperam uma ordem.",
-      informacoes: "Há comida desaparecida e nenhuma prova contra os acusados.",
+      texto: "O estoque de grãos está diminuindo. Na praça, dois vizinhos se acusam de roubo.",
+      informacoes:
+        "Seus guardas esperam uma ordem. Há comida desaparecida e nenhuma prova contra os acusados.",
       opcoes: [
         {
           id: "investigar",
@@ -182,9 +183,9 @@
       peso: 1,
       imagem: "assets/caixas.webp",
       imagemAlt: "Caixotes de mercadorias diante do portão do vilarejo, desenhados em branco sobre preto",
-      texto:
-        "O mercador abre seus caixotes na praça. Há remédios, armas e escudos para quem ainda tem moedas.",
-      informacoes: "Compre um produto ou siga viagem. Cada compra encarece só aquele produto em 2 gold.",
+      texto: "O mercador abre seus caixotes na praça.",
+      informacoes:
+        "Há remédios, armas e escudos para quem ainda tem moedas. Compre um produto ou siga viagem. Cada compra encarece só aquele produto em 2 gold.",
       mercadorias: [
         {
           id: "pocao_cura",
@@ -228,10 +229,9 @@
       peso: 2,
       imagem: "assets/batalha.webp",
       imagemAlt: "Espadas diante de uma torre vigiada por estandartes",
-      texto:
-        "Uma coluna armada desce a colina. O vigia reconhece as bandeiras: saqueadores. Entre eles e as casas, apenas você e seus homens.",
+      texto: "Uma coluna armada desce a colina. O vigia reconhece as bandeiras: saqueadores.",
       informacoes:
-        "O ataque precisa alcançar a defesa inimiga. Seu escudo reduz o dano recebido, sem se desgastar.",
+        "Entre eles e as casas, apenas você e seus homens. O ataque precisa alcançar a defesa inimiga. Seu escudo reduz o dano recebido, sem se desgastar.",
       batalha: {
         defesa: 3,
         vitoria: {
@@ -269,9 +269,9 @@
       peso: 2,
       imagem: "assets/ervas.webp",
       imagemAlt: "Ervas e um pilão de remédios, desenhados em branco sobre preto",
-      texto:
-        "Uma mulher chega com ervas e uma agulha torta. Trata feridas há quarenta invernos; seus pacientes ainda discutem os métodos.",
-      informacoes: "Ela aceita moedas pelo tratamento ou ajuda para colher mais ervas.",
+      texto: "Uma mulher chega com ervas e uma agulha torta.",
+      informacoes:
+        "Trata feridas há quarenta invernos; seus pacientes ainda discutem os métodos. Ela aceita moedas pelo tratamento ou ajuda para colher mais ervas.",
       opcoes: [
         {
           id: "tratamento",
@@ -305,9 +305,9 @@
       requisitos: { flagsAusentes: ["ponte_reparada"] },
       imagem: "assets/ponte.webp",
       imagemAlt: "Uma ponte de madeira partida sobre um rio",
-      texto:
-        "A ponte do moinho cedeu. Do outro lado, carroças esperam; deste, o carpinteiro calcula quantas tábuas ainda podem ser chamadas de tábuas.",
-      informacoes: "Reabrir a estrada pode trazer gente e comércio mais adiante.",
+      texto: "A ponte do moinho cedeu.",
+      informacoes:
+        "Do outro lado, carroças esperam; deste, o carpinteiro calcula quantas tábuas ainda podem ser chamadas de tábuas. Reabrir a estrada pode trazer gente e comércio mais adiante.",
       opcoes: [
         {
           id: "madeira",
@@ -344,9 +344,9 @@
       requisitos: { flags: ["ponte_reparada"], flagsAusentes: ["caravana_recebida"] },
       imagem: "assets/caixas.webp",
       imagemAlt: "Caixotes de uma caravana diante do portão",
-      texto:
-        "Uma caravana cruza a ponte reparada. A condutora oferece pagamento por um lugar no pátio; algumas famílias procuram algo mais permanente.",
-      informacoes: "A ponte trouxe a primeira oportunidade de comércio. A caravana partirá de manhã.",
+      texto: "Uma caravana cruza a ponte reparada.",
+      informacoes:
+        "A condutora oferece pagamento por um lugar no pátio; algumas famílias procuram algo mais permanente. A ponte trouxe a primeira oportunidade de comércio. A caravana partirá de manhã.",
       opcoes: [
         {
           id: "comercio",
@@ -382,9 +382,9 @@
       requisitos: { flagsAusentes: ["poco_decidido"] },
       imagem: "assets/poco.webp",
       imagemAlt: "Poço de pedra e um balde gasto na praça",
-      texto:
-        "A água do poço tem gosto de ferro. Um pedreiro oferece limpar o fundo; na praça, alguém garante que sempre teve esse gosto.",
-      informacoes: "Uma corda e algumas pedras podem custar menos que uma vila doente.",
+      texto: "A água do poço tem gosto de ferro.",
+      informacoes:
+        "Um pedreiro oferece limpar o fundo; na praça, alguém garante que sempre teve esse gosto. Uma corda e algumas pedras podem custar menos que uma vila doente.",
       opcoes: [
         {
           id: "consertar",
@@ -422,8 +422,9 @@
       imagem: "assets/poco.webp",
       imagemAlt: "O poço de água contaminada no centro do povoado",
       texto:
-        "A água turva cobrou sua parte. Panos molhados cobrem as janelas, e a curandeira pede mãos e remédios antes que a febre tome a rua.",
-      informacoes: "O problema deixado no poço voltou às casas. Ainda há gente que pode ser salva.",
+        "Panos molhados cobrem as janelas, e a curandeira pede mãos e remédios antes que a febre tome a rua.",
+      informacoes:
+        "A água turva cobrou sua parte. O problema deixado no poço voltou às casas. Ainda há gente que pode ser salva.",
       opcoes: [
         {
           id: "remedios",
@@ -459,9 +460,9 @@
       peso: 1,
       imagem: "assets/caixas.webp",
       imagemAlt: "Caixas fechadas junto à entrada da vila",
-      texto:
-        "Um viajante oferece moedas para atravessar sem abrir os sacos. Diz que transporta sal. Seu burro parece o único a acreditar.",
-      informacoes: "Ele paga pela discrição. Inspecionar a carga também exige seus homens.",
+      texto: "Um viajante oferece moedas para atravessar sem abrir os sacos.",
+      informacoes:
+        "Diz que transporta sal. Seu burro parece o único a acreditar. Ele paga pela discrição. Inspecionar a carga também exige seus homens.",
       opcoes: [
         {
           id: "aceitar",
@@ -493,9 +494,9 @@
       peso: 2,
       imagem: "assets/forja.webp",
       imagemAlt: "Lâmina e bigorna de uma oficina simples",
-      texto:
-        "Os moradores ensaiam uma defesa com tampas de barril. Um veterano oferece instrução; metade da turma segura o escudo ao contrário.",
-      informacoes: "O treino pode melhorar seu equipamento ou devolver braços ao trabalho da vila.",
+      texto: "Os moradores ensaiam uma defesa com tampas de barril.",
+      informacoes:
+        "Um veterano oferece instrução; metade da turma segura o escudo ao contrário. O treino pode melhorar seu equipamento ou devolver braços ao trabalho da vila.",
       opcoes: [
         {
           id: "instruir",
@@ -528,9 +529,9 @@
       peso: 1,
       imagem: "assets/vila.webp",
       imagemAlt: "Casas nas terras baixas do vilarejo",
-      texto:
-        "O rio sobe durante a noite. Você ajuda a tirar crianças e sacos de farinha das casas; a corrente não distingue um do outro.",
-      informacoes: "A água já entrou. O que resta é salvar quem ainda pode sair.",
+      texto: "O rio sobe durante a noite.",
+      informacoes:
+        "Você ajuda a tirar crianças e sacos de farinha das casas; a corrente não distingue um do outro. A água já entrou. O que resta é salvar quem ainda pode sair.",
       opcoes: [
         {
           id: "resgatar",
@@ -548,9 +549,9 @@
       peso: 2,
       imagem: "assets/forja.webp",
       imagemAlt: "Ferramentas de ferro usadas pelos trabalhadores",
-      texto:
-        "A velha pedreira ainda guarda pedra boa. Os trabalhadores pedem comida antes de entrar; o comprador quer a carga antes do próximo frio.",
-      informacoes: "A obra pode render moedas, atrair trabalhadores ou esperar uma estação melhor.",
+      texto: "A velha pedreira ainda guarda pedra boa.",
+      informacoes:
+        "Os trabalhadores pedem comida antes de entrar; o comprador quer a carga antes do próximo frio. A obra pode render moedas, atrair trabalhadores ou esperar uma estação melhor.",
       opcoes: [
         {
           id: "trabalhar",
@@ -584,9 +585,9 @@
       requisitos: { rodadaMin: 6 },
       imagem: "assets/batalha.webp",
       imagemAlt: "Espadas e uma torre sob estandartes",
-      texto:
-        "Soldados sem senhor acampam perto do moinho. Pedem um tributo para ir embora. Os sacos de farinha já estão junto aos seus cavalos.",
-      informacoes: "Eles têm treino e equipamento. A farinha e as moedas do moinho estão com eles.",
+      texto: "Soldados sem senhor acampam perto do moinho. Pedem um tributo para ir embora.",
+      informacoes:
+        "Os sacos de farinha já estão junto aos seus cavalos. Eles têm treino e equipamento. A farinha e as moedas do moinho estão com eles.",
       batalha: {
         defesa: 5,
         vitoria: {
@@ -632,9 +633,9 @@
       peso: 2,
       imagem: "assets/geada.webp",
       imagemAlt: "Espigas de uma plantação no campo",
-      texto:
-        "Javalis entraram na plantação. O maior dorme sobre o espantalho. Os lavradores esperam que alguém lhe explique a propriedade da terra.",
-      informacoes: "Salvar a colheita permite vender o excedente e manter os lavradores na vila.",
+      texto: "Javalis entraram na plantação. O maior dorme sobre o espantalho.",
+      informacoes:
+        "Os lavradores esperam que alguém lhe explique a propriedade da terra. Salvar a colheita permite vender o excedente e manter os lavradores na vila.",
       batalha: {
         defesa: 2,
         vitoria: {
@@ -680,9 +681,9 @@
       peso: 2,
       imagem: "assets/geada.webp",
       imagemAlt: "Espigas maduras desenhadas em branco sobre preto",
-      texto:
-        "Pela primeira vez, sobrou grão. O celeireiro traz as contas; do lado de fora, alguém ensaia uma música que só lembra pela metade.",
-      informacoes: "O excedente pode virar moedas, comida para os moradores ou um breve descanso.",
+      texto: "Pela primeira vez, sobrou grão.",
+      informacoes:
+        "O celeireiro traz as contas; do lado de fora, alguém ensaia uma música que só lembra pela metade. O excedente pode virar moedas, comida para os moradores ou um breve descanso.",
       opcoes: [
         {
           id: "vender",
@@ -715,9 +716,9 @@
       especial: true,
       imagem: "assets/eventos-sistemas/inverno.webp",
       imagemAlt: "Uma lamparina acesa numa sala aquecida durante a noite",
-      texto:
-        "O boticário percebe que você mal consegue ficar de pé. Ele afasta os curiosos, prepara água quente e pede que a vila cuide do resto até o amanhecer.",
-      informacoes: "O repouso recupera sua Vida até 70% do máximo e não custa Gold.",
+      texto: "O boticário percebe que você mal consegue ficar de pé.",
+      informacoes:
+        "Ele afasta os curiosos, prepara água quente e pede que a vila cuide do resto até o amanhecer. O repouso recupera sua Vida até 70% do máximo e não custa Gold.",
       opcoes: [
         {
           id: "repousar",
@@ -740,9 +741,9 @@
       },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O menino que espera diante do portão da vila",
-      texto:
-        "Um menino sujo de cinzas espera no portão com uma trouxa menor que ele. Diz que veio da vila queimada ao sul e que conheceu seu pai. Os guardas fingem não ouvir.",
-      informacoes: "Ninguém pode confirmar a história do menino.",
+      texto: "Um menino sujo de cinzas espera no portão com uma trouxa menor que ele.",
+      informacoes:
+        "Diz que veio da vila queimada ao sul e que conheceu seu pai. Os guardas fingem não ouvir. Ninguém pode confirmar a história do menino.",
       opcoes: [
         {
           id: "acolher",
@@ -799,9 +800,9 @@
       },
       imagem: "assets/forja.webp",
       imagemAlt: "Espada de treino junto à bigorna do ferreiro",
-      texto:
-        "O menino cresceu, e seu galho de árvore virou espada de treino. Ele pede que você o ensine, e que ninguém conte à cozinheira.",
-      informacoes: "A vila acompanha o que você fizer com o garoto que acolheu.",
+      texto: "O menino cresceu, e seu galho de árvore virou espada de treino.",
+      informacoes:
+        "Ele pede que você o ensine, e que ninguém conte à cozinheira. A vila acompanha o que você fizer com o garoto que acolheu.",
       opcoes: [
         {
           id: "treinar",
@@ -862,9 +863,9 @@
       requisitos: { honraMin: 30 },
       imagem: "assets/vila.webp",
       imagemAlt: "As casas do povoado reunidas ao redor da praça",
-      texto:
-        "Os moradores arrastam mesas para a praça sem pedir permissão. Há pão, sopa rala e um violeiro que só sabe uma música. Guardaram o lugar da cabeceira para você.",
-      informacoes: "O povo oferece a refeição; o que você faz com ela é decisão sua.",
+      texto: "Os moradores arrastam mesas para a praça sem pedir permissão.",
+      informacoes:
+        "Há pão, sopa rala e um violeiro que só sabe uma música. Guardaram o lugar da cabeceira para você. O povo oferece a refeição; o que você faz com ela é decisão sua.",
       opcoes: [
         {
           id: "sentar",
@@ -906,9 +907,9 @@
       multiplicadoresPeso: [{ requisitos: { honraMax: -30 }, multiplicador: 5 }],
       imagem: "assets/vila.webp",
       imagemAlt: "Casas de madeira junto à praça da vila",
-      texto:
-        "Uma briga começou por causa de uma canção e acabou quando a mesa quebrou. Agora três homens se acusam, e o dono da taverna chora em cima do balcão.",
-      informacoes: "A vila observa quem o senhor decide proteger.",
+      texto: "Uma briga começou por causa de uma canção e acabou quando a mesa quebrou.",
+      informacoes:
+        "Agora três homens se acusam, e o dono da taverna chora em cima do balcão. A vila observa quem o senhor decide proteger.",
       opcoes: [
         {
           id: "mediar",
@@ -950,10 +951,9 @@
       peso: 2,
       imagem: "assets/ervas.webp",
       imagemAlt: "Pequenos embrulhos e ervas de um viajante da estrada",
-      texto:
-        "Um peregrino de sandálias gastas oferece um dente de santo embrulhado em pano. Jura que traz bênçãos para quem o tocar. O pano cheira a estábulo.",
+      texto: "Um peregrino de sandálias gastas oferece um dente de santo embrulhado em pano.",
       informacoes:
-        "Ninguém sabe se a relíquia é verdadeira. A fé do povo vale tanto quanto a verdade, ou mais.",
+        "Jura que traz bênçãos para quem o tocar. O pano cheira a estábulo. Ninguém sabe se a relíquia é verdadeira. A fé do povo vale tanto quanto a verdade, ou mais.",
       opcoes: [
         {
           id: "comprar",
@@ -987,9 +987,9 @@
       requisitos: { rodadaMin: 4 },
       imagem: "assets/batalha.webp",
       imagemAlt: "Espadas e estandartes dos homens do barão",
-      texto:
-        "Um cavaleiro de armadura cinza exige tributo em nome de um barão que ninguém conhece. Seus homens esperam atrás, em formação mais limpa do que a de qualquer guarda seu.",
-      informacoes: "O cavaleiro exige o tributo. A vila aguarda a sua palavra.",
+      texto: "Um cavaleiro de armadura cinza exige tributo em nome de um barão que ninguém conhece.",
+      informacoes:
+        "Seus homens esperam atrás, em formação mais limpa do que a de qualquer guarda seu. O cavaleiro exige o tributo. A vila aguarda a sua palavra.",
       batalha: {
         forcarDerrota: true,
         encerrarAoFalhar: true,
@@ -1054,9 +1054,9 @@
       requisitos: { flags: ["ponte_com_pedagio"], flagsAusentes: ["pedagio_resolvido"] },
       imagem: "assets/ponte.webp",
       imagemAlt: "A passagem da ponte sob protestos dos viajantes",
-      texto:
-        "Os viajantes reclamam do pedágio. Alguém queimou a cancela durante a noite, e a fumaça ainda sobe sobre o rio. Os guardas procuram culpados; o povo procura desculpas.",
-      informacoes: "A ponte que você cobrou voltou a cobrar de você.",
+      texto: "Os viajantes reclamam do pedágio.",
+      informacoes:
+        "Alguém queimou a cancela durante a noite, e a fumaça ainda sobe sobre o rio. Os guardas procuram culpados; o povo procura desculpas. A ponte que você cobrou voltou a cobrar de você.",
       opcoes: [
         {
           id: "abolir",

@@ -11,8 +11,9 @@
       requisitos: { flagsAusentes: ["companhia_da_vila_visto"] },
       imagem: "assets/eventos-sistemas/companhia.webp",
       imagemAlt: "Um cão, um corvo e um gato junto ao portão",
-      texto: "Três animais passam a noite junto ao portão. Pela manhã, cada um parece ter escolhido você.",
-      informacoes: "Um deles pode acompanhar o herdeiro. Os outros voltarão à estrada.",
+      texto: "Três animais passam a noite junto ao portão.",
+      informacoes:
+        "Pela manhã, cada um parece ter escolhido você. Um deles pode acompanhar o herdeiro. Os outros voltarão à estrada.",
       opcoes: [
         {
           id: "cao",
@@ -43,9 +44,9 @@
       requisitos: { flagsAusentes: ["construcoes_da_vila_visto"] },
       imagem: "assets/eventos-sistemas/construcoes.webp",
       imagemAlt: "Uma pequena forja e muralhas de pedra em construção",
-      texto:
-        "Os mestres apresentam os planos de novas obras. O cofre só pode financiar uma delas nesta crônica.",
-      informacoes: "A construção escolhida concede um benefício visível durante esta run.",
+      texto: "Os mestres apresentam os planos de novas obras.",
+      informacoes:
+        "O cofre só pode financiar uma delas nesta crônica. A construção escolhida concede um benefício visível durante esta run.",
       opcoes: [
         {
           id: "forja",
@@ -124,9 +125,9 @@
       peso: 1,
       imagem: "assets/eventos-sistemas/traco.webp",
       imagemAlt: "Três símbolos gravados em madeira: lança, moeda e ramo de ervas",
-      texto:
-        "Um velho escriba encontra uma nota sobre o traço com que você nasceu. O povo quer saber se você ainda se reconhece nela.",
-      informacoes: "O escriba registrou três traços. A prova disponível depende de qual deles você carrega.",
+      texto: "Um velho escriba encontra uma nota sobre o traço com que você nasceu.",
+      informacoes:
+        "O povo quer saber se você ainda se reconhece nela. O escriba registrou três traços. A prova disponível depende de qual deles você carrega.",
       opcoes: [
         {
           id: "corajoso",
@@ -160,9 +161,9 @@
       requisitos: { estacao: "primavera" },
       imagem: "assets/eventos-sistemas/primavera.webp",
       imagemAlt: "Sementes nas mãos de uma criança",
-      texto:
-        "A terra amolece depois do frio. Uma criança traz sementes encontradas perto do moinho e pergunta se pode plantá-las.",
-      informacoes: "É o primeiro sinal de primavera.",
+      texto: "A terra amolece depois do frio.",
+      informacoes:
+        "Uma criança traz sementes encontradas perto do moinho e pergunta se pode plantá-las. É o primeiro sinal de primavera.",
       opcoes: [
         {
           id: "plantar",
@@ -187,9 +188,9 @@
       requisitos: { estacao: "verao" },
       imagem: "assets/eventos-sistemas/verao.webp",
       imagemAlt: "Uma roda de moradores reunida sob o sol alto",
-      texto:
-        "O sol demora a se pôr. A vila acende uma fogueira e pede que o senhor abra os celeiros para uma noite de festa.",
-      informacoes: "A noite de verão não dura para sempre.",
+      texto: "O sol demora a se pôr.",
+      informacoes:
+        "A vila acende uma fogueira e pede que o senhor abra os celeiros para uma noite de festa. A noite de verão não dura para sempre.",
       opcoes: [
         {
           id: "festejar",
@@ -214,9 +215,9 @@
       requisitos: { estacao: "outono" },
       imagem: "assets/eventos-sistemas/outono.webp",
       imagemAlt: "Um cesto de grãos sob folhas secas",
-      texto:
-        "Os últimos feixes chegam dos campos. Há grão suficiente para guardar ou vender, mas não para as duas coisas.",
-      informacoes: "A próxima estação será fria.",
+      texto: "Os últimos feixes chegam dos campos.",
+      informacoes:
+        "Há grão suficiente para guardar ou vender, mas não para as duas coisas. A próxima estação será fria.",
       opcoes: [
         {
           id: "guardar",
@@ -241,9 +242,9 @@
       requisitos: { estacao: "inverno" },
       imagem: "assets/eventos-sistemas/inverno.webp",
       imagemAlt: "Uma vela acesa numa janela coberta de neve",
-      texto:
-        "A noite parece não terminar. Uma vela aparece em cada janela, e os moradores pedem que você passe a vigília entre eles.",
-      informacoes: "No solstício, até os relógios parecem hesitar.",
+      texto: "A noite parece não terminar.",
+      informacoes:
+        "Uma vela aparece em cada janela, e os moradores pedem que você passe a vigília entre eles. No solstício, até os relógios parecem hesitar.",
       opcoes: [
         {
           id: "vigiar",
@@ -268,9 +269,9 @@
       requisitos: { memoriaAnterior: true, flagsAusentes: ["tumulo_herdeiro_visto"] },
       imagem: "assets/eventos-sistemas/tumulo.webp",
       imagemAlt: "Uma lápide simples ao lado de uma coroa enterrada",
-      texto:
-        "O povo leva você ao túmulo do herdeiro anterior. A pedra registra que ele chegou à rodada {{rodada}} com honra {{honra}}.",
-      informacoes: "A causa escrita na pedra: {{motivo}}",
+      texto: "O povo leva você ao túmulo do herdeiro anterior.",
+      informacoes:
+        "A pedra registra que ele chegou à rodada {{rodada}} com honra {{honra}}. A causa escrita na pedra: {{motivo}}",
       opcoes: [
         {
           id: "lembrar",
@@ -297,8 +298,8 @@
       imagem: "assets/eventos-sistemas/crianca.webp",
       imagemAlt: "Uma criança contando uma história para moradores reunidos",
       texto:
-        "Uma criança conta aos moradores como o herdeiro anterior morreu na rodada {{rodada}}, com honra {{honra}}. Ela repete: {{motivo}}",
-      informacoes: "Cada pessoa acrescenta um detalhe diferente. Nenhuma muda o fim.",
+        "Uma criança conta aos moradores como o herdeiro anterior morreu na rodada {{rodada}}, com honra {{honra}}.",
+      informacoes: "Ela repete: {{motivo}} Cada pessoa acrescenta um detalhe diferente. Nenhuma muda o fim.",
       opcoes: [
         {
           id: "corrigir",
@@ -326,9 +327,9 @@
       requisitos: { tracosAusentes: ["menino_cronista"] },
       imagem: "assets/eventos-pessoas/menino-conselheiro.webp",
       imagemAlt: "O adolescente acolhido pela vila, com o traje formal de conselheiro",
-      texto:
-        "O menino que você acolheu retorna de uma viagem com anotações sobre as famílias da estrada. Ele reconhece o selo da vila e pede para ajudar.",
-      informacoes: "Uma escolha antiga volta a produzir efeitos nesta crônica.",
+      texto: "O menino que você acolheu retorna de uma viagem com anotações sobre as famílias da estrada.",
+      informacoes:
+        "Ele reconhece o selo da vila e pede para ajudar. Uma escolha antiga volta a produzir efeitos nesta crônica.",
       opcoes: [
         {
           id: "formar",
@@ -387,9 +388,9 @@
       consequenciaAgendada: true,
       imagem: "assets/forja.webp",
       imagemAlt: "O ferreiro e um escudo reforçado sobre a bancada",
-      texto:
-        "O ferreiro traz o escudo que o aprendiz ajudou a reforçar. Ele pede pagamento pelas placas de metal que usou.",
-      informacoes: "A promessa feita ao menino retorna à oficina.",
+      texto: "O ferreiro traz o escudo que o aprendiz ajudou a reforçar.",
+      informacoes:
+        "Ele pede pagamento pelas placas de metal que usou. A promessa feita ao menino retorna à oficina.",
       opcoes: [
         {
           id: "pagar",
@@ -416,9 +417,9 @@
       consequenciaAgendada: true,
       imagem: "assets/eventos-sistemas/tumulo.webp",
       imagemAlt: "Uma coroa antiga diante da lápide do herdeiro anterior",
-      texto:
-        "A moeda que você deixou no túmulo reaparece na praça. Uma criança repete a causa da morte de {{herdeiro}}: {{motivo}}",
-      informacoes: "O povo quer decidir o que fazer com a memória que voltou.",
+      texto: "A moeda que você deixou no túmulo reaparece na praça.",
+      informacoes:
+        "Uma criança repete a causa da morte de {{herdeiro}}: {{motivo}} O povo quer decidir o que fazer com a memória que voltou.",
       opcoes: [
         {
           id: "memorial",
@@ -444,10 +445,9 @@
       nemesis: true,
       imagem: "assets/eventos-sistemas/tumulo.webp",
       imagemAlt: "Uma sombra armada emerge ao lado de uma coroa enterrada",
-      texto:
-        "A causa que levou {{herdeiro}} aparece diante dos portões com um rosto novo. {{adocao}} ainda vive na memória da linhagem — e a sombra veio terminar o que começou: {{motivo}}",
+      texto: "A causa que levou {{herdeiro}} aparece diante dos portões com um rosto novo.",
       informacoes:
-        "Este inimigo carrega a memória da run anterior e fica mais forte a cada derrota registrada.",
+        "{{adocao}} ainda vive na memória da linhagem — e a sombra veio terminar o que começou: {{motivo}} Este inimigo carrega a memória da run anterior e fica mais forte a cada derrota registrada.",
       batalha: {
         defesa: 4,
         vitoria: {

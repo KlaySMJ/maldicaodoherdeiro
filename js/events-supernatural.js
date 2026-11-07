@@ -10,9 +10,9 @@
       peso: 0.8,
       requisitos: { rodadaMin: 8, flagsAusentes: ["condicao_decidida"] },
       marcaCondicaoDecidida: true,
-      texto:
-        "Por três noites seguidas, uivos que não parecem de lobo vêm do bosque. Na manhã do quarto dia, as pegadas na lama são de algo que anda sobre duas e quatro patas.",
-      informacoes: "Ninguém viu a criatura. Os cães pararam de comer.",
+      texto: "Por três noites seguidas, uivos que não parecem de lobo vêm do bosque.",
+      informacoes:
+        "Na manhã do quarto dia, as pegadas na lama são de algo que anda sobre duas e quatro patas. Ninguém viu a criatura. Os cães pararam de comer.",
       imagem: "assets/vila.webp",
       imagemAlt: "O bosque escuro além das casas da vila",
       opcoes: [
@@ -68,8 +68,8 @@
       requisitos: { rodadaMin: 9, flagsAusentes: ["condicao_decidida"] },
       marcaCondicaoDecidida: true,
       texto:
-        "Um viajante de rosto muito claro bate ao portão depois do anoitecer. Pede pouso por uma noite, recusa a comida e prefere ficar longe dos espelhos do salão. Seus dentes parecem limpos demais.",
-      informacoes: "Ele é educado e sabe o nome de todos os seus criados.",
+        "Um viajante de rosto muito claro bate ao portão depois do anoitecer. Pede pouso por uma noite, recusa a comida e prefere ficar longe dos espelhos do salão.",
+      informacoes: "Seus dentes parecem limpos demais. Ele é educado e sabe o nome de todos os seus criados.",
       imagem: "assets/vila.webp",
       imagemAlt: "Um viajante pálido aguarda diante do portão",
       opcoes: [
@@ -117,8 +117,9 @@
       requisitos: { rodadaMin: 9, flagsAusentes: ["condicao_decidida"] },
       marcaCondicaoDecidida: true,
       texto:
-        "Durante a exumação de um velho cemitério, os coveiros encontram um anel de ferro no dedo de um esqueleto. O ferro ainda está quente. Alguns juram que ouvem uma voz, dizendo seu nome.",
-      informacoes: "O anel parece valer mais do que o corpo, mas a voz também parece valer.",
+        "Durante a exumação de um velho cemitério, os coveiros encontram um anel de ferro no dedo de um esqueleto. O ferro ainda está quente.",
+      informacoes:
+        "Alguns juram que ouvem uma voz, dizendo seu nome. O anel parece valer mais do que o corpo, mas a voz também parece valer.",
       imagem: "assets/vila.webp",
       imagemAlt: "Um anel de ferro repousa sobre a terra de uma sepultura",
       opcoes: [
@@ -161,8 +162,9 @@
       peso: 0,
       disparadoPelaEngine: true,
       texto:
-        "A lua sobe grande e branca. Suas unhas pesam, os dentes doem, e a voz dentro de você já não pede licença. O salão parece pequeno demais.",
-      informacoes: "A noite dura até o amanhecer. O que você fizer, a vila lembrará.",
+        "A lua sobe grande e branca. Suas unhas pesam, os dentes doem, e a voz dentro de você já não pede licença.",
+      informacoes:
+        "O salão parece pequeno demais. A noite dura até o amanhecer. O que você fizer, a vila lembrará.",
       imagem: "assets/vila.webp",
       imagemAlt: "A lua cheia ilumina o bosque ao redor da vila",
       opcoes: [
@@ -205,9 +207,9 @@
       tipo: "sobrenatural",
       peso: 0,
       disparadoPelaEngine: true,
-      texto:
-        "A fome chega como um zumbido nos ouvidos. Os criados dormem, o cavalo respira no estábulo, e o cheiro de sangue, mesmo de longe, tem gosto de lembrança.",
-      informacoes: "A sede não passa sozinha. No inventário, a Sede de sangue troca um aldeão por Vida.",
+      texto: "A fome chega como um zumbido nos ouvidos.",
+      informacoes:
+        "Os criados dormem, o cavalo respira no estábulo, e o cheiro de sangue, mesmo de longe, tem gosto de lembrança. A sede não passa sozinha. No inventário, a Sede de sangue troca um aldeão por Vida.",
       imagem: "assets/vila.webp",
       imagemAlt: "A noite cobre as casas enquanto uma janela permanece acesa",
       opcoes: [
@@ -253,8 +255,9 @@
       peso: 0,
       disparadoPelaEngine: true,
       texto:
-        "A voz fala baixo, bem perto do ouvido. Diz que sabe quem na vila mente, quem rouba, quem merece. Pede só que você faça o que ela mandar, uma vez.",
-      informacoes: "A voz não parece mentir. Esse é o problema.",
+        "A voz fala baixo, bem perto do ouvido. Diz que sabe quem na vila mente, quem rouba, quem merece.",
+      informacoes:
+        "Pede só que você faça o que ela mandar, uma vez. A voz não parece mentir. Esse é o problema.",
       imagem: "assets/vila.webp",
       imagemAlt: "Uma sombra parece sussurrar junto ao ouvido do herdeiro",
       opcoes: [
@@ -310,8 +313,8 @@
         flagsAusentes: ["condicao_abracada", "condicao_curada"],
       },
       texto:
-        "Uma velha de colar de dentes pede para vê-lo na lua nova. Diz que sabe o que você é e que há maneiras de mudar isso. Nenhuma é de graça.",
-      informacoes: "Ela fala sem pressa, como quem já curou outros.",
+        "Uma velha de colar de dentes pede para vê-lo na lua nova. Diz que sabe o que você é e que há maneiras de mudar isso.",
+      informacoes: "Nenhuma é de graça. Ela fala sem pressa, como quem já curou outros.",
       imagem: "assets/vila.webp",
       imagemAlt: "Uma velha aguarda junto a um círculo de pedras",
       opcoes: [
@@ -368,9 +371,9 @@
         rodadasDesde: { condicao: 16 },
         flagsAusentes: ["condicao_abracada", "condicao_curada"],
       },
-      texto:
-        "Um padre andarilho bate ao salão e olha para você sem medo. Diz que o reconhece e que a última coisa que ainda existe de humano em você pode ser salva, se você quiser.",
-      informacoes: "Ele traz uma cruz de madeira e um sorriso triste.",
+      texto: "Um padre andarilho bate ao salão e olha para você sem medo.",
+      informacoes:
+        "Diz que o reconhece e que a última coisa que ainda existe de humano em você pode ser salva, se você quiser. Ele traz uma cruz de madeira e um sorriso triste.",
       imagem: "assets/vila.webp",
       imagemAlt: "Um padre viajante segura uma cruz diante do salão",
       opcoes: [
@@ -430,8 +433,9 @@
         flagsAusentes: ["condicao_abracada", "condicao_curada"],
       },
       texto:
-        "A voz, hoje, fala em outra língua. Alguns moradores rezam em frente ao salão. Uma criança aponta para você e pergunta quem é o homem atrás do senhor.",
-      informacoes: "A voz está fraca. Esta pode ser a única janela.",
+        "A voz, hoje, fala em outra língua. Uma criança aponta para você e pergunta quem é o homem atrás do senhor.",
+      informacoes:
+        "Alguns moradores rezam em frente ao salão. A voz está fraca. Esta pode ser a única janela.",
       imagem: "assets/vila.webp",
       imagemAlt: "Moradores rezam diante das portas do salão",
       opcoes: [

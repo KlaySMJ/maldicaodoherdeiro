@@ -139,7 +139,7 @@ O presságio anuncia uma praga de gafanhotos. Durante 50 rodadas, o jogador prec
 
 Verificar o total investido apenas no vencimento. Se atingir 15 Gold, evitar as perdas e conceder 5 habitantes; se não atingir, aplicar a perda conjunta de 15 habitantes e 10 de Vida, respeitando as proteções habituais. Mostrar o progresso no indicador, como 9/15 Gold, sem cobrar outra vez os gastos já feitos.
 
-A implementação identifica as escolhas elegíveis no conjunto `auxilios` de `js/pressagios.js`. A carta Proteção dos moradores oferece auxílio a cada três rodadas, enquanto a meta não estiver completa, com prioridade abaixo das consequências agendadas e condições obrigatórias. Esta proposta substitui Os Sinos Enterrados e a versão anterior de A Fome sob a Terra.
+A implementação identifica as escolhas elegíveis no conjunto `auxilios` de `js/pressagios.js`. A carta Proteção dos moradores oferece auxílio a cada 10 rodadas, enquanto a meta não estiver completa, com prioridade abaixo das consequências agendadas e condições obrigatórias. Esta proposta substitui Os Sinos Enterrados e a versão anterior de A Fome sob a Terra.
 
 ### Aprovado: A Ferrugem Negra
 
@@ -201,7 +201,7 @@ Durante 50 rodadas, realizar pelo menos 12 escolhas de auxílio aos moradores. C
 
 No vencimento, verificar o total. Se houver menos de 12 auxílios, aplicar a perda conjunta de 20 de Vida e 5 habitantes, respeitando as proteções habituais. Se houver 12 ou mais, aumentar permanentemente a Vida máxima em 10 e depois recuperar 10 de Vida, respeitando o novo máximo. Salvar a resolução para impedir a repetição da recompensa ao carregar.
 
-A implementação precisa marcar as escolhas elegíveis e garantir oportunidades suficientes durante o prazo. A contagem pode compartilhar a identificação dos auxílios com A Nuvem Faminta, mas cada condição mantém sua unidade: decisões para a Procissão e Gold efetivamente gasto para a Nuvem.
+A implementação precisa marcar as escolhas elegíveis e garantir oportunidades suficientes durante o prazo. Durante a Procissão, a carta Proteção dos moradores reaparece com intervalo de 10 rodadas; outras escolhas elegíveis completam a meta. A contagem pode compartilhar a identificação dos auxílios com A Nuvem Faminta, mas cada condição mantém sua unidade: decisões para a Procissão e Gold efetivamente gasto para a Nuvem.
 
 ### Implementação inicial: A Vinda do Barão
 
@@ -312,7 +312,7 @@ Validação da entrega: 172 testes passaram, incluindo 15 específicos de press�
 | Barão | 40 Gold conquistados por decisões em 50 rodadas; as duas cartas comuns do Barão aguardam o desfecho. |
 | Caminhos morais | Intenção antes das imunidades; cartas comuns precisam oferecer saída compatível. Escolha obrigatória sem alternativa compatível não registra violação. |
 | Os corvos | Fonte nórdica própria; preserva o efeito da carta e a passiva diária. Odin dura 20 rodadas reais, maldições básicas duram 10. |
-| Auxílio à vila | 34 pares de evento/opção identificados; carta Proteção dos moradores oferece ajuda a cada três rodadas, abaixo das consequências obrigatórias. Pagamento de 1 Gold ou trabalho de 2 de Vida contam como auxílio; adiar não conta. |
+| Auxílio à vila | 34 pares de evento/opção identificados; Proteção dos moradores reaparece a cada 10 rodadas na Nuvem Faminta e na Procissão, abaixo das consequências obrigatórias. Pagamento de 1 Gold ou trabalho de 2 de Vida contam como auxílio; adiar não conta. |
 | Culto | Noite do Lamento não entra naturalmente durante o culto e cancela na conversão. Nenhum efeito troca habitantes por seguidores. |
 
 Os parâmetros iniciais de Lua Vermelha, frequência e Barão ainda precisam da avaliação do usuário em jogo. As regras de integração acima tornam a primeira versão testável sem alterar as porcentagens e metas aprovadas dos outros eventos.

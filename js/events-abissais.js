@@ -16,8 +16,9 @@
         imagem: "assets/canto-das-mares.webp",
         imagemAlt: "Ondas concêntricas e uma sombra indistinta sob a água",
         texto:
-          "Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água. A vila está a dias de qualquer mar.",
-        informacoes: "Ninguém sabe explicar o sal. Os cães recusam-se a entrar no salão.",
+          "Pela manhã, os moradores acordam com os cabelos úmidos e sal nos lábios. Todos sonharam com o mesmo som: algo grande, a muitas léguas daqui, respirando devagar debaixo d'água.",
+        informacoes:
+          "A vila está a dias de qualquer mar. Ninguém sabe explicar o sal. Os cães recusam-se a entrar no salão.",
         opcoes: [
           {
             id: "ouvir",
@@ -64,8 +65,9 @@
         imagem: "assets/mare-no-poco.webp",
         imagemAlt: "Balde de poço com peixes pálidos e símbolos na água",
         texto:
-          "A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira. As crianças brincam com eles, e as mães não conseguem impedir.",
-        informacoes: "A água salgada não se mistura com o rio. Circula dentro das paredes.",
+          "A água dos poços subiu à borda, com gosto de sal. Nos baldes, peixes brancos, sem olhos, de dentes quase humanos, batem contra a madeira.",
+        informacoes:
+          "As crianças brincam com eles, e as mães não conseguem impedir. A água salgada não se mistura com o rio. Circula dentro das paredes.",
         opcoes: [
           {
             id: "tapar",
@@ -113,8 +115,9 @@
         imagem: "assets/olhos-largos.webp",
         imagemAlt: "Silhuetas de moradores de olhos abertos junto à lagoa",
         texto:
-          "Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio. Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou.",
-        informacoes: "Não parecem perigosos. Parecem felizes, o que é pior.",
+          "Seus guardas relatam que um grupo de moradores se reúne à noite na margem da lagoa, de mãos dadas, em silêncio.",
+        informacoes:
+          "Quando o sol nasce, voltam para casa com os olhos mais abertos do que o normal e cantarolando algo que ninguém ensinou. Não parecem perigosos. Parecem felizes, o que é pior.",
         opcoes: [
           {
             id: "confrontar",
@@ -161,8 +164,9 @@
         imagem: "assets/torre-na-lagoa.webp",
         imagemAlt: "Torre escura e sem janelas emergindo da lagoa",
         texto:
-          "Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha. A porta está aberta.",
-        informacoes: "Cada pessoa que olha por muito tempo para a torre sai do transe sem lembrar o que viu.",
+          "Em uma noite sem vento, a lagoa baixa de repente, em silêncio. No fundo, coberta de lama e algas, ergue-se uma torre de pedra escura sem janelas, mais antiga que a vila, com ângulos que o olho não acompanha.",
+        informacoes:
+          "A porta está aberta. Cada pessoa que olha por muito tempo para a torre sai do transe sem lembrar o que viu.",
         opcoes: [
           {
             id: "entrar",
@@ -211,9 +215,9 @@
         imagem: "assets/aquele-que-acorda.webp",
         imagemAlt: "Um único olho sugerido dentro de uma coluna de escuridão",
         texto:
-          "A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Algo imenso abre um olho.",
+          "A lagoa ferve sem calor. Da torre, uma coluna de escuridão sobe ao céu, e as estrelas se afastam dela. Algo imenso abre um olho.",
         informacoes:
-          "Não é uma batalha. Não é uma negociação. É um momento em que a vila inteira espera o que o senhor fará com o que sabe.",
+          "O chão treme em compasso com a respiração dos seus sonhos. Os moradores se ajoelham sem que ninguém peça. Não é uma batalha. Não é uma negociação. É um momento em que a vila inteira espera o que o senhor fará com o que sabe.",
         opcoes: [
           {
             id: "selar",

@@ -12,9 +12,9 @@
       requisitos: { estacao: "primavera", rodadaMin: 5 },
       imagem: "assets/eventos-sistemas/primavera.webp",
       imagemAlt: "Sementes despertam na primeira luz da primavera",
-      texto:
-        "O degelo revela sementes que ninguém lembra de plantar. As famílias esperam que a terra dê uma resposta antes da próxima geada.",
-      informacoes: "Há tempo para semear, vender ou descobrir quem deixou os grãos no campo.",
+      texto: "O degelo revela sementes que ninguém lembra de plantar.",
+      informacoes:
+        "As famílias esperam que a terra dê uma resposta antes da próxima geada. Há tempo para semear, vender ou descobrir quem deixou os grãos no campo.",
       opcoes: [
         {
           id: "semear",
@@ -50,9 +50,9 @@
       requisitos: { estacao: "verao", rodadaMin: 5 },
       imagem: "assets/eventos-sistemas/verao.webp",
       imagemAlt: "O sol do verão cai sobre os telhados e a estrada seca",
-      texto:
-        "O calor fecha a estrada antes do meio-dia. Os viajantes pedem água; os lavradores, sombra para a colheita que ainda não terminou.",
-      informacoes: "Uma pausa pode preservar a vila. Uma aposta pode render mais do que a água custa.",
+      texto: "O calor fecha a estrada antes do meio-dia.",
+      informacoes:
+        "Os viajantes pedem água; os lavradores, sombra para a colheita que ainda não terminou. Uma pausa pode preservar a vila. Uma aposta pode render mais do que a água custa.",
       opcoes: [
         {
           id: "cisterna",
@@ -86,9 +86,9 @@
       requisitos: { estacao: "outono", rodadaMin: 5 },
       imagem: "assets/eventos-sistemas/outono.webp",
       imagemAlt: "Uma fileira de colheita permanece de pé sob folhas caídas",
-      texto:
-        "Uma fileira inteira ficou de pé enquanto o resto foi recolhido. O feitor diz que o campo está cansado; uma velha responde que ainda há pão ali.",
-      informacoes: "A última parte da colheita pode alimentar a vila ou pagar suas dívidas.",
+      texto: "Uma fileira inteira ficou de pé enquanto o resto foi recolhido.",
+      informacoes:
+        "O feitor diz que o campo está cansado; uma velha responde que ainda há pão ali. A última parte da colheita pode alimentar a vila ou pagar suas dívidas.",
       opcoes: [
         {
           id: "guardar",
@@ -125,9 +125,9 @@
       requisitos: { estacao: "inverno", rodadaMin: 5 },
       imagem: "assets/eventos-sistemas/inverno.webp",
       imagemAlt: "Lenha empilhada para manter a vigília durante o inverno",
-      texto:
-        "A lenha da capela acabou antes da última noite de vigília. O padre pede ajuda; os guardas lembram que a muralha também precisa de fogo.",
-      informacoes: "O frio vai cobrar de alguém antes do amanhecer.",
+      texto: "A lenha da capela acabou antes da última noite de vigília.",
+      informacoes:
+        "O padre pede ajuda; os guardas lembram que a muralha também precisa de fogo. O frio vai cobrar de alguém antes do amanhecer.",
       opcoes: [
         {
           id: "partilhar",
@@ -163,9 +163,9 @@
       requisitos: { tracos: "corajoso", rodadaMin: 15 },
       imagem: "assets/batalha.webp",
       imagemAlt: "Guardas aguardam junto ao portão para defender a vila",
-      texto:
-        "Os guardas treinam com uma bandeira rasgada. Quando um bando cruza a estrada, ninguém olha para o capitão: olham para você.",
-      informacoes: "O desafio pode fortalecer a guarda ou custar caro a quem vai à frente.",
+      texto: "Os guardas treinam com uma bandeira rasgada.",
+      informacoes:
+        "Quando um bando cruza a estrada, ninguém olha para o capitão: olham para você. O desafio pode fortalecer a guarda ou custar caro a quem vai à frente.",
       batalha: {
         defesa: 6,
         vitoria: {
@@ -199,9 +199,9 @@
       requisitos: { tracos: "avarento", rodadaMin: 15 },
       imagem: "assets/sussurro-do-ouro.webp",
       imagemAlt: "Uma moeda antiga repousa sobre a pedra de um cofre esquecido",
-      texto:
-        "Uma rachadura no cofre revela um compartimento que não aparece nos mapas. O administrador pede que você não conte aos guardas.",
-      informacoes: "A pedra pode esconder uma reserva ou estar sustentando mais do que o cofre.",
+      texto: "Uma rachadura no cofre revela um compartimento que não aparece nos mapas.",
+      informacoes:
+        "O administrador pede que você não conte aos guardas. A pedra pode esconder uma reserva ou estar sustentando mais do que o cofre.",
       opcoes: [
         {
           id: "abrir",
@@ -237,9 +237,9 @@
       requisitos: { tracos: "doente", rodadaMin: 15 },
       imagem: "assets/ervas.webp",
       imagemAlt: "Ervas medicinais secam em feixes junto ao fogo",
-      texto:
-        "A ervateira encontra uma planta verde sob a neve. Diz que ela pode aliviar sua febre, mas só se for colhida antes do degelo.",
-      informacoes: "A dose pode ajudar o herdeiro ou atrair quem conhece o mesmo remédio.",
+      texto: "A ervateira encontra uma planta verde sob a neve.",
+      informacoes:
+        "Diz que ela pode aliviar sua febre, mas só se for colhida antes do degelo. A dose pode ajudar o herdeiro ou atrair quem conhece o mesmo remédio.",
       opcoes: [
         {
           id: "tomar",
@@ -277,9 +277,9 @@
       requisitos: { tracos: "druida_herdeiro" },
       imagem: "assets/arvore-que-pede.webp",
       imagemAlt: "Raízes antigas cercam uma clareira onde a vila se reúne",
-      texto:
-        "As raízes do bosque formam um círculo ao redor de uma clareira. As famílias esperam que você diga se a terra será protegida ou dividida.",
-      informacoes: "A máscara do cervo abre a conversa, mas a decisão ainda pertence à vila.",
+      texto: "As raízes do bosque formam um círculo ao redor de uma clareira.",
+      informacoes:
+        "As famílias esperam que você diga se a terra será protegida ou dividida. A máscara do cervo abre a conversa, mas a decisão ainda pertence à vila.",
       opcoes: [
         {
           id: "proteger",
@@ -314,9 +314,9 @@
       requisitos: { rodadaMin: 35 },
       imagem: "assets/eventos-sistemas/tumulo.webp",
       imagemAlt: "Nomes de antigos moradores aparecem gravados numa parede de pedra",
-      texto:
-        "Uma parede atrás do salão guarda nomes de famílias que viveram aqui antes do seu avô. Alguns ainda são pronunciados à mesa.",
-      informacoes: "A pedra pode registrar os vivos ou voltar a ser apenas parte da muralha.",
+      texto: "Uma parede atrás do salão guarda nomes de famílias que viveram aqui antes do seu avô.",
+      informacoes:
+        "Alguns ainda são pronunciados à mesa. A pedra pode registrar os vivos ou voltar a ser apenas parte da muralha.",
       opcoes: [
         {
           id: "restaurar",
@@ -351,9 +351,9 @@
       requisitos: { rodadaMin: 55, flagsAusentes: ["ponte_de_taboas_resolvida"] },
       imagem: "assets/ponte.webp",
       imagemAlt: "Tábuas estreitas sustentam uma passagem sobre o rio",
-      texto:
-        "As tábuas antigas da ponte rangem quando passa a primeira carroça. O rio está cheio e os viajantes não têm outro caminho.",
-      informacoes: "Reparar a travessia custa tempo; cruzá-la às pressas pode custar mais.",
+      texto: "As tábuas antigas da ponte rangem quando passa a primeira carroça.",
+      informacoes:
+        "O rio está cheio e os viajantes não têm outro caminho. Reparar a travessia custa tempo; cruzá-la às pressas pode custar mais.",
       opcoes: [
         {
           id: "reparar",
@@ -391,9 +391,9 @@
       requisitos: { rodadaMin: 75, estacao: "inverno" },
       imagem: "assets/eventos-sistemas/inverno.webp",
       imagemAlt: "Uma faixa de fogo ilumina a neve junto aos campos",
-      texto:
-        "Um fogo aparece no campo durante a geada. Os guardas juram que ninguém saiu do portão; as famílias dizem que ouviram passos na neve.",
-      informacoes: "Apagar as chamas é simples. Descobrir quem as acendeu pode exigir outra escolha.",
+      texto: "Um fogo aparece no campo durante a geada.",
+      informacoes:
+        "Os guardas juram que ninguém saiu do portão; as famílias dizem que ouviram passos na neve. Apagar as chamas é simples. Descobrir quem as acendeu pode exigir outra escolha.",
       opcoes: [
         {
           id: "apagar",

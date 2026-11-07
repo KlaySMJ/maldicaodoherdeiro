@@ -1,5 +1,11 @@
 # Direção e revisão visual
 
+## Atualização: retratos dos herdeiros em WebP
+
+Os 66 PNGs de `assets/herdeiros/` foram convertidos para WebP com qualidade 90 e alfa 100, mantendo a resolução original de cerca de 1254 px: os 100,0 MB de PNG caem para 14,5 MB de WebP. A interface passa a referenciar os WebP na grade de seleção e em `caminhoRetrato`, incluindo os retratos do Leste, do Nórdico e do Herdeiro do Culto integrados nesta versão. Os PNGs permanecem no mesmo diretório como arte-fonte, referência dos prompts e alvo das prévias em `docs/previas/`; `AGENTS.md`, `docs/MEMORIA-ILUSTRACOES.md`, `docs/HERDEIROS-FUTUROS.md` e `docs/PLANO-HERDEIROS-PRIORITARIOS.md` foram atualizados para refletir o formato. A troca é apenas de formato, sem redesenho, mudança de cor ou alteração de composição.
+
+Validação: 172 testes e lint aprovados; nos 66 arquivos as dimensões são idênticas ao original e o canal alfa bate bit a bit; comparadas sobre fundo preto, as imagens apresentam diferença média de até 1,26/255 e PSNR mínimo de 38,2 dB. Amostras abertas lado a lado (Corajosa neutra e Nórdico em culto) não mostram perda perceptível na escala de exibição. O ganho prático: a grade de seleção cai de cerca de 9 MB para 1,3 MB e cada troca de honra de cerca de 1,5 MB para 150–300 KB. Falta a conferência manual no navegador da grade de seleção e da troca de honra/culto. Cinco PNGs são opacos na origem (`avarento-alta-2`, `avarento-altissima`, `avarento-culto`, `corajoso-culto`, `doente-culto`), característica preservada na conversão.
+
 ## Revisão dos oito eventos enviados pelo autor
 
 Os eventos 20–27 do anexo não estavam no catálogo. Foram integrados com os efeitos e textos enviados, incluindo as decisões confirmadas: quatro respostas no banquete; negociação do barão por 3 gold e 3 HP; flag `vontade_lembrada` concedida pelo testamento e persistida apenas ao terminar qualquer run. O catálogo e o TXT agora têm 27 eventos, 76 escolhas e três mercadorias.

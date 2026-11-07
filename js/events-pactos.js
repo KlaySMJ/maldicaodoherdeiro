@@ -16,8 +16,9 @@
           flagsAusentes: ["pacto_feito"],
         },
         texto:
-          "No fim da tarde, uma mulher de cabelos que se movem contra a corrente emerge até a cintura no rio. Diz que devolve tudo o que a água já levou, e que só precisa de algo que o rio ainda não tenha.",
-        informacoes: "Ninguém na margem ousa respirar alto. A água ao redor dela está parada.",
+          "No fim da tarde, uma mulher de cabelos que se movem contra a corrente emerge até a cintura no rio.",
+        informacoes:
+          "Diz que devolve tudo o que a água já levou, e que só precisa de algo que o rio ainda não tenha. Ninguém na margem ousa respirar alto. A água ao redor dela está parada.",
         opcoes: [
           {
             id: "espada",
@@ -74,8 +75,9 @@
           flagsAusentes: ["pacto_feito"],
         },
         texto:
-          "Um corvo pousa na mesa do salão e cumprimenta você pelo nome, pelo nome do seu pai, e pelo nome de quem ainda não nasceu. Diz que sabe o que as pessoas pensam antes de escolher.",
-        informacoes: "O corvo oferece ver o que a vila não vê. Cobra pelo serviço.",
+          "Um corvo pousa na mesa do salão e cumprimenta você pelo nome, pelo nome do seu pai, e pelo nome de quem ainda não nasceu.",
+        informacoes:
+          "Diz que sabe o que as pessoas pensam antes de escolher. O corvo oferece ver o que a vila não vê. Cobra pelo serviço.",
         opcoes: [
           {
             id: "aceitar",
@@ -133,10 +135,9 @@
           rodadaMin: 7,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "Um homem de sorriso fácil atravessa o pátio em pleno meio-dia, sem sombra. Abre a capa e mostra armaduras, armas e frascos. Diz que aceita qualquer moeda, menos as de ouro.",
+        texto: "Um homem de sorriso fácil atravessa o pátio em pleno meio-dia, sem sombra.",
         informacoes:
-          "A armadura custa cinco moradores; a lâmina, seis pontos de honra. Pela sombra, ele paga quinze moedas, mas você perde vida e honra.",
+          "Abre a capa e mostra armaduras, armas e frascos. Diz que aceita qualquer moeda, menos as de ouro. A armadura custa cinco moradores; a lâmina, seis pontos de honra. Pela sombra, ele paga quinze moedas, mas você perde vida e honra.",
         opcoes: [
           {
             id: "armadura",
@@ -203,9 +204,9 @@
           flagsAusentes: ["pacto_feito"],
         },
         texto:
-          "No limite do bosque, um carvalho tão velho quanto a vila abriu uma fenda no tronco com o formato de uma boca. As raízes se levantaram da terra e apontam para você.",
+          "No limite do bosque, um carvalho tão velho quanto a vila abriu uma fenda no tronco com o formato de uma boca.",
         informacoes:
-          "Os mais velhos dizem que a árvore já pediu coisas antes, e que quem negou nunca contou o resto.",
+          "As raízes se levantaram da terra e apontam para você. Os mais velhos dizem que a árvore já pediu coisas antes, e que quem negou nunca contou o resto.",
         opcoes: [
           {
             id: "sangue",
@@ -263,10 +264,9 @@
         requisitos: {
           rodadaMin: 8,
         },
-        texto:
-          "Um cervo de pelagem clara e chifres que parecem osso polido cruza o campo sem pressa. Os cães não latem, e os caçadores baixam as lanças sem que ninguém ordene.",
+        texto: "Um cervo de pelagem clara e chifres que parecem osso polido cruza o campo sem pressa.",
         informacoes:
-          "A lenda diz que quem o abate prospera e quem o poupa é lembrado. A lenda não diz qual é melhor.",
+          "Os cães não latem, e os caçadores baixam as lanças sem que ninguém ordene. A lenda diz que quem o abate prospera e quem o poupa é lembrado. A lenda não diz qual é melhor.",
         opcoes: [
           {
             id: "abater",
@@ -317,9 +317,9 @@
         requisitos: {
           rodadaMin: 10,
         },
-        texto:
-          "Na ceia, há um prato a mais na mesa que ninguém lembra de ter posto. Uma mulher de manto cinzento senta e pede vinho, com a naturalidade de quem nunca precisou pedir.",
-        informacoes: "Ela diz que veio só jantar. Os cães do pátio estão em silêncio.",
+        texto: "Na ceia, há um prato a mais na mesa que ninguém lembra de ter posto.",
+        informacoes:
+          "Uma mulher de manto cinzento senta e pede vinho, com a naturalidade de quem nunca precisou pedir. Ela diz que veio só jantar. Os cães do pátio estão em silêncio.",
         opcoes: [
           {
             id: "conversar",
@@ -370,9 +370,9 @@
         requisitos: {
           rodadaMin: 9,
         },
-        texto:
-          "Atrás de uma cortina no salão, você encontra um espelho que não tinha visto. Nele, em vez de seu rosto, aparece o do senhor anterior, de costas, olhando para algo que você não vê.",
-        informacoes: "O espelho não tem moldura e não reflete a sala.",
+        texto: "Atrás de uma cortina no salão, você encontra um espelho que não tinha visto.",
+        informacoes:
+          "Nele, em vez de seu rosto, aparece o do senhor anterior, de costas, olhando para algo que você não vê. O espelho não tem moldura e não reflete a sala.",
         opcoes: [
           {
             id: "olhar",
@@ -426,9 +426,9 @@
           rodadaMin: 10,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "Três velhas fiam sob o carvalho da praça, e ninguém sabe quando chegaram. Os fios que enrolam são de cores que não têm nome. Uma delas ergue uma tesoura e pergunta quanto tempo você acha que ainda tem.",
-        informacoes: "Os fios pertencem a todos os moradores. Um deles pertence a você.",
+        texto: "Três velhas fiam sob o carvalho da praça, e ninguém sabe quando chegaram.",
+        informacoes:
+          "Os fios que enrolam são de cores que não têm nome. Uma delas ergue uma tesoura e pergunta quanto tempo você acha que ainda tem. Os fios pertencem a todos os moradores. Um deles pertence a você.",
         opcoes: [
           {
             id: "longo",
@@ -483,10 +483,9 @@
           rodadaMin: 8,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "Um homem muito educado deixa um pergaminho em sua mesa e desaparece pela chaminé. O papel está em branco até você tocá-lo, e então as letras surgem em vermelho, com uma caligrafia que parece a sua.",
+        texto: "Um homem muito educado deixa um pergaminho em sua mesa e desaparece pela chaminé.",
         informacoes:
-          "O contrato promete força, ouro e proteção. As cláusulas são longas. Há uma linha apagada.",
+          "O papel está em branco até você tocá-lo, e então as letras surgem em vermelho, com uma caligrafia que parece a sua. O contrato promete força, ouro e proteção. As cláusulas são longas. Há uma linha apagada.",
         opcoes: [
           {
             id: "assinar",
@@ -563,10 +562,9 @@
         requisitos: {
           rodadaMin: 12,
         },
-        texto:
-          "Uma armadura enferrujada caminha pela estrada com um arco de ossos no lugar do rosto. Não fala. Planta a lança no chão diante do portão e espera.",
+        texto: "Uma armadura enferrujada caminha pela estrada com um arco de ossos no lugar do rosto.",
         informacoes:
-          "O ataque precisa alcançar a defesa do cavaleiro. Seu escudo reduz o dano recebido, sem se desgastar.",
+          "Não fala. Planta a lança no chão diante do portão e espera. O ataque precisa alcançar a defesa do cavaleiro. Seu escudo reduz o dano recebido, sem se desgastar.",
         opcoes: [
           {
             id: "enfrentar",
@@ -640,9 +638,9 @@
         requisitos: {
           rodadaMin: 8,
         },
-        texto:
-          "Uma mulher descalça entra na vila pedindo apenas água. Onde pisa, o barro seca. As crianças a seguem em silêncio e os doentes se arrastam até a porta.",
-        informacoes: "Ninguém sabe seu nome. Ela cura, mas diz que cada cura tem um dono.",
+        texto: "Uma mulher descalça entra na vila pedindo apenas água.",
+        informacoes:
+          "Onde pisa, o barro seca. As crianças a seguem em silêncio e os doentes se arrastam até a porta. Ninguém sabe seu nome. Ela cura, mas diz que cada cura tem um dono.",
         opcoes: [
           {
             id: "vila",
@@ -692,9 +690,9 @@
           rodadaMin: 7,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "Um lobo cinzento senta no pátio e fala em voz baixa, quase um ronronar. Oferece a proteção da matilha em troca de parte do rebanho e de um lugar à mesa.",
-        informacoes: "Atrás dele, entre as árvores, dezenas de olhos observam sem piscar.",
+        texto: "Um lobo cinzento senta no pátio e fala em voz baixa, quase um ronronar.",
+        informacoes:
+          "Oferece a proteção da matilha em troca de parte do rebanho e de um lugar à mesa. Atrás dele, entre as árvores, dezenas de olhos observam sem piscar.",
         opcoes: [
           {
             id: "matilha",
@@ -746,10 +744,9 @@
           honraMin: 30,
           rodadaMin: 12,
         },
-        texto:
-          "Um homem de asas encolhidas dorme na porta do celeiro, encolhido sobre palha. Tem as mãos queimadas, as penas escuras de fuligem, e chora baixinho quando acorda.",
+        texto: "Um homem de asas encolhidas dorme na porta do celeiro, encolhido sobre palha.",
         informacoes:
-          "Ele diz que carregou a vontade de muitos e que agora só quer descansar. Não pede nada além de um canto.",
+          "Tem as mãos queimadas, as penas escuras de fuligem, e chora baixinho quando acorda. Ele diz que carregou a vontade de muitos e que agora só quer descansar. Não pede nada além de um canto.",
         opcoes: [
           {
             id: "pouso",
@@ -801,9 +798,9 @@
           rodadaMin: 9,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "À noite, o cofre fala. Primeiro, parece um ranger de metal; depois, uma voz clara que conta as moedas e promete multiplicá-las.",
-        informacoes: "A voz não ameaça. Apenas pede que você a ouça até o fim.",
+        texto: "À noite, o cofre fala.",
+        informacoes:
+          "Primeiro, parece um ranger de metal; depois, uma voz clara que conta as moedas e promete multiplicá-las. A voz não ameaça. Apenas pede que você a ouça até o fim.",
         opcoes: [
           {
             id: "ouvir",
@@ -865,9 +862,9 @@
           rodadaMin: 14,
           flagsAusentes: ["pacto_feito"],
         },
-        texto:
-          "Um pastor corre até o salão afirmando que a colina se abriu. Dentro, uma fila de soldados de pedra dorme em volta de um trono, e o homem que o ocupa abre os olhos quando você entra.",
-        informacoes: "O rei diz que esperou séculos por um senhor digno. Ou desesperado.",
+        texto: "Um pastor corre até o salão afirmando que a colina se abriu.",
+        informacoes:
+          "Dentro, uma fila de soldados de pedra dorme em volta de um trono, e o homem que o ocupa abre os olhos quando você entra. O rei diz que esperou séculos por um senhor digno. Ou desesperado.",
         opcoes: [
           {
             id: "exercito",
@@ -939,9 +936,9 @@
         requisitos: {
           rodadaMin: 6,
         },
-        texto:
-          "Em plena madrugada, uma mão de dedos longos se apoia no parapeito da janela do seu quarto. Não bate, não puxa. Apenas espera.",
-        informacoes: "O quarto está no segundo andar. A mão não tem braço visível.",
+        texto: "Em plena madrugada, uma mão de dedos longos se apoia no parapeito da janela do seu quarto.",
+        informacoes:
+          "Não bate, não puxa. Apenas espera. O quarto está no segundo andar. A mão não tem braço visível.",
         opcoes: [
           {
             id: "apertar",
@@ -991,8 +988,9 @@
           flagsAusentes: ["pacto_feito"],
         },
         texto:
-          "Um homem de aventais cheios de engrenagens chega à vila carregando um relógio que marca horas que ninguém reconhece. Oferece consertar o que se quebrou entre as pessoas e o tempo.",
-        informacoes: "Ele diz que pode apagar o que foi feito. Não diz o que acontece com as consequências.",
+          "Um homem de aventais cheios de engrenagens chega à vila carregando um relógio que marca horas que ninguém reconhece.",
+        informacoes:
+          "Oferece consertar o que se quebrou entre as pessoas e o tempo. Ele diz que pode apagar o que foi feito. Não diz o que acontece com as consequências.",
         opcoes: [
           {
             id: "erros",
@@ -1068,8 +1066,9 @@
           rodadaMin: 9,
         },
         texto:
-          "Durante a noite, uma figura percorre as ruas com uma foice fina e corta algo no chão, atrás de cada morador adormecido. Pela manhã, ninguém lembra de ter sonhado, e as sombras parecem mais claras.",
-        informacoes: "Os moradores acordam descansados. Também mais silenciosos.",
+          "Durante a noite, uma figura percorre as ruas com uma foice fina e corta algo no chão, atrás de cada morador adormecido.",
+        informacoes:
+          "Pela manhã, ninguém lembra de ter sonhado, e as sombras parecem mais claras. Os moradores acordam descansados. Também mais silenciosos.",
         opcoes: [
           {
             id: "enfrentar",
@@ -1120,9 +1119,9 @@
         requisitos: {
           rodadaMin: 11,
         },
-        texto:
-          "Do fundo do lago atrás do bosque, um sino toca sem ninguém tocá-lo. As ondas pulsam em compasso com o som, e as crianças dizem que ele chama pelos nomes dos moradores.",
-        informacoes: "Ninguém lembra de uma igreja afundada naquele lago.",
+        texto: "Do fundo do lago atrás do bosque, um sino toca sem ninguém tocá-lo.",
+        informacoes:
+          "As ondas pulsam em compasso com o som, e as crianças dizem que ele chama pelos nomes dos moradores. Ninguém lembra de uma igreja afundada naquele lago.",
         opcoes: [
           {
             id: "mergulhar",
@@ -1173,8 +1172,9 @@
           flagsLegado: ["sucessor_pressentido"],
         },
         texto:
-          "Em um cômodo trancado do castelo, que ninguém abria há gerações, um homem de armadura antiga se levanta de uma cadeira. Seu rosto lembra o seu, e o de todos os senhores que vieram antes. Ele diz que foi o primeiro a herdar a vontade, e que está cansado de esperar.",
-        informacoes: "A vontade que você carrega é mais antiga do que a vila. Ele quer sabê-la inteira.",
+          "Em um cômodo trancado do castelo, que ninguém abria há gerações, um homem de armadura antiga se levanta de uma cadeira.",
+        informacoes:
+          "Seu rosto lembra o seu, e o de todos os senhores que vieram antes. Ele diz que foi o primeiro a herdar a vontade, e que está cansado de esperar. A vontade que você carrega é mais antiga do que a vila. Ele quer sabê-la inteira.",
         opcoes: [
           {
             id: "aceitar",

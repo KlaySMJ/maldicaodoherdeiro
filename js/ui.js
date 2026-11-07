@@ -88,6 +88,20 @@
     menino_cronista: "Menino da Crônica",
     heroi_do_povo: "A Heroína do povo",
   };
+  const nomesProprios = Jogo.herdeiros.nomes || {};
+  function nomeDoHerdeiro(traco) {
+    return nomesProprios[traco] || null;
+  }
+  function tituloHerdeiro(traco) {
+    const nome = nomeDoHerdeiro(traco);
+    if (nome) return nome;
+    return ["corajoso", "herdeira_leste"].includes(traco) ? "A herdeira" : "O herdeiro";
+  }
+  function rotuloHerdeiro(traco) {
+    const nome = nomeDoHerdeiro(traco);
+    const epiteto = nomesTraco[traco] || "Herdeiro";
+    return nome ? `${nome} · ${epiteto}` : epiteto;
+  }
   const condicaoNomes = { licantropia: "Licantropia", vampirismo: "Vampirismo", possessao: "Possessão" };
   const condicaoDescricoes = {
     licantropia: "+2 Ataque · recupera 1 Vida por rodada",
@@ -595,7 +609,7 @@
           .slice(0, 5)
           .map(
             (registro, indice) =>
-              `<li><span class="legado-recorde-posicao">${String(indice + 1).padStart(2, "0")}</span><div><strong>${esc(nomesTraco[registro.traco] || "Herdeiro")}</strong><span>${numero(registro.habitantes)} habitantes · ${numero(registro.gold)} Gold</span></div><strong class="legado-recorde-pontos">${numero(registro.pontuacao)} <small>pontos</small></strong></li>`,
+              `<li><span class="legado-recorde-posicao">${String(indice + 1).padStart(2, "0")}</span><div><strong>${esc(rotuloHerdeiro(registro.traco))}</strong><span>${numero(registro.habitantes)} habitantes · ${numero(registro.gold)} Gold</span></div><strong class="legado-recorde-pontos">${numero(registro.pontuacao)} <small>pontos</small></strong></li>`,
           )
           .join("")}</ol>`
       : `<p class="legado-vazio">Nenhuma crônica vitoriosa foi registrada ainda.</p>`;
@@ -1247,7 +1261,7 @@
             <article class="carta carta-herdeiro honra-${faixa} ${condicao.classe || `condicao-${condicao.id}`} previa-transformacao-carta">
               ${retrato(herdeiro.traco, faixa, null, Boolean(herdeiro.cultoAtivo))}
               ${detalheMoldura(condicao.id, runPrevia)}
-              <div class="carta-titulo herdeiro-carta-titulo"><h2>${["corajoso", "herdeira_leste"].includes(herdeiro.traco) ? "A herdeira" : "O herdeiro"}</h2></div>
+              <div class="carta-titulo herdeiro-carta-titulo"><h2>${esc(tituloHerdeiro(herdeiro.traco))}</h2></div>
             </article>
             <div class="previa-transformacao-legenda"><h3>${condicao.nome}</h3><p>${condicao.detalhe}</p></div>
           </section>`;
@@ -1335,9 +1349,11 @@
       rodada: memoriaAnterior?.rodada ?? "sem registro",
       honra: memoriaAnterior?.honra ?? "sem registro",
       motivo: memoriaAnterior?.motivo ?? "sem registro",
-      herdeiro: ["corajoso", "herdeira_leste"].includes(memoriaAnterior?.traco)
-        ? "a herdeira anterior"
-        : "o herdeiro anterior",
+      herdeiro:
+        nomeDoHerdeiro(memoriaAnterior?.traco) ||
+        (["corajoso", "herdeira_leste"].includes(memoriaAnterior?.traco)
+          ? "a herdeira anterior"
+          : "o herdeiro anterior"),
       adocao: memoriaAnterior?.meninoAdotado
         ? "o menino que a linhagem acolheu"
         : "o herdeiro que veio antes",
@@ -1534,7 +1550,7 @@
               ${retrato(run.traco, faixaDoRetrato, anterior, cultoAtivo)}
               ${molduraAtiva}
               ${condicaoId ? `<button class="condicao-info-trigger condicao-${condicaoId}" type="button" data-acao="detalhes-condicao" aria-label="Ver detalhes de ${esc(condicaoNomes[condicaoId])}${condicaoId === "licantropia" ? `. ${esc(descricaoCicloLunar(run))}` : ""}" title="${esc(`${condicaoNomes[condicaoId]}: ${descricaoDaCondicao(condicaoId, run.condicao.abracada)}. ${condicaoId === "licantropia" ? `${descricaoCicloLunar(run)} ` : ""}Toque para ver os detalhes.`)}"><span>${esc(condicaoNomes[condicaoId])} <span aria-hidden="true">ⓘ</span></span></button>` : ""}
-              <div class="carta-titulo herdeiro-carta-titulo"><h2 id="titulo-herdeiro">${["corajoso", "herdeira_leste"].includes(run.traco) ? "A herdeira" : "O herdeiro"}</h2><span class="traco-tooltip" tabindex="0" aria-label="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}" data-tooltip="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}">${esc(nomesTraco[run.traco] || "Herdeiro")}</span></div>
+              <div class="carta-titulo herdeiro-carta-titulo"><h2 id="titulo-herdeiro">${esc(tituloHerdeiro(run.traco))}</h2><span class="traco-tooltip" tabindex="0" aria-label="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}" data-tooltip="${esc(descricoesTraco[run.traco] || "Traço do herdeiro")}">${esc(nomesTraco[run.traco] || "Herdeiro")}</span></div>
             </article>
             <div class="herdeiro-detalhes">
               ${condicaoId ? `<p class="condicao-status condicao-${condicaoId}" role="status"><strong>${esc(nomesCondicoes[condicaoId])}${run.condicao.abracada ? " abraçada" : " ativa"}</strong><span>${esc(descricaoCondicoes[condicaoId])}</span></p>` : ""}
@@ -1668,7 +1684,7 @@
               .slice(0, 5)
               .map(
                 (registro) =>
-                  `<li><span>${esc(nomesTraco[registro.traco] || "Herdeiro")}</span><strong>${numero(registro.pontuacao)} pontos</strong></li>`,
+                  `<li><span>${esc(rotuloHerdeiro(registro.traco))}</span><strong>${numero(registro.pontuacao)} pontos</strong></li>`,
               )
               .join("")}</ol></section>`
           : ""

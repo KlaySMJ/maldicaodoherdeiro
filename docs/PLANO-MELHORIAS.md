@@ -86,7 +86,7 @@ Na análise original: 4 loops e **zero efeitos sonoros** (`js/audio.js:4-9`).
 8. [x] `js/save.js` — migração que degrada traços desconhecidos para Corajoso
 9. [x] `js/legacy.js` — memórias e recordes aceitam o novo traço
 
-Os retratos incluem oito PNGs e sete SVGs em `assets/herdeiros/`.
+Os retratos incluem oito PNGs (arte-fonte, convertida para WebP na interface) e sete SVGs em `assets/herdeiros/`.
 
 Na variante do Menino da Crônica, honra negativa usa expressão raivosa; honra alta não tem louros; honra máxima tem roupa contida; a variante do culto usa vermelho e expressão maligna.
 

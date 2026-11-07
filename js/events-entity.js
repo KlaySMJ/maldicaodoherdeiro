@@ -9,9 +9,9 @@
       peso: 2,
       imagem: "assets/eventos-pessoas/viuva-do-moleiro.webp",
       imagemAlt: "A viúva do moleiro segura um saco de farinha",
-      texto:
-        "A viúva de um moleiro chega à praça com as contas da última colheita. Diz que os guardas levaram mais sacos do que o combinado; o capitão afirma que ela escondeu parte da farinha.",
-      informacoes: "Os dois têm testemunhas. Nenhuma delas parece querer ser a primeira a falar.",
+      texto: "A viúva de um moleiro chega à praça com as contas da última colheita.",
+      informacoes:
+        "Diz que os guardas levaram mais sacos do que o combinado; o capitão afirma que ela escondeu parte da farinha. Os dois têm testemunhas. Nenhuma delas parece querer ser a primeira a falar.",
       opcoes: [
         {
           id: "ouvir_viuva",
@@ -45,8 +45,9 @@
       imagem: "assets/eventos-pessoas/mensageiro-sem-carta.webp",
       imagemAlt: "Um mensageiro cansado estende uma mão vazia junto à estrada",
       texto:
-        "Um mensageiro chega a pé, com o cavalo mancando atrás. Afirma que perdeu a carta selada que carregava para o castelo. A estrada está cheia de lama e de versões diferentes.",
-      informacoes: "Ele pede descanso antes que alguém descubra o extravio.",
+        "Um mensageiro chega a pé, com o cavalo mancando atrás. Afirma que perdeu a carta selada que carregava para o castelo.",
+      informacoes:
+        "A estrada está cheia de lama e de versões diferentes. Ele pede descanso antes que alguém descubra o extravio.",
       opcoes: [
         {
           id: "abrigar_mensageiro",
@@ -83,8 +84,8 @@
       imagem: "assets/eventos-entidade/presenca-no-caminho.webp",
       imagemAlt: "Uma figura alta e sem rosto diante de um caminho estreito",
       texto:
-        "Uma figura espera onde a estrada cruza o bosque. Não há pegadas ao redor dela. Quando você se aproxima, pergunta pelo nome que recebeu ao nascer, embora ninguém na vila o conheça.",
-      informacoes: "A figura promete desafios, mas não diz quando voltará.",
+        "Uma figura espera onde a estrada cruza o bosque. Quando você se aproxima, pergunta pelo nome que recebeu ao nascer, embora ninguém na vila o conheça.",
+      informacoes: "Não há pegadas ao redor dela. A figura promete desafios, mas não diz quando voltará.",
       opcoes: [
         {
           id: "ouvir_entidade",
@@ -106,9 +107,9 @@
       requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_espelho_visto"] },
       imagem: "assets/eventos-entidade/rosto-emprestado.webp",
       imagemAlt: "Um espelho rachado reflete uma figura de rosto vazio",
-      texto:
-        "A figura segura um espelho com seu rosto, mas com olhos que não são seus. Pergunta se você reconheceria um herdeiro que tivesse feito todas as escolhas ao contrário.",
-      informacoes: "A Entidade observa sua resposta em silêncio.",
+      texto: "A figura segura um espelho com seu rosto, mas com olhos que não são seus.",
+      informacoes:
+        "Pergunta se você reconheceria um herdeiro que tivesse feito todas as escolhas ao contrário. A Entidade observa sua resposta em silêncio.",
       opcoes: [
         {
           id: "guardar_espelho",
@@ -149,9 +150,9 @@
       requisitos: { rodadaMin: 8, flags: ["entidade_x_tier1"], flagsAusentes: ["entidade_x_balanca_vista"] },
       imagem: "assets/eventos-entidade/balanca-sem-pratos.webp",
       imagemAlt: "Uma balança antiga sustenta uma mão aberta de cada lado",
-      texto:
-        "A figura oferece uma balança sem pratos. Diz que pode pesar sua promessa ou a fome da vila, mas só uma das duas coisas poderá continuar leve.",
-      informacoes: "O desafio não explica o que será cobrado.",
+      texto: "A figura oferece uma balança sem pratos.",
+      informacoes:
+        "Diz que pode pesar sua promessa ou a fome da vila, mas só uma das duas coisas poderá continuar leve. O desafio não explica o que será cobrado.",
       opcoes: [
         {
           id: "pesar_promessa",
@@ -194,8 +195,9 @@
       imagem: "assets/eventos-entidade/porta-no-bosque.webp",
       imagemAlt: "Uma porta estreita aparece sozinha entre árvores retorcidas",
       texto:
-        "Uma porta surge entre duas árvores. Do outro lado, alguém chama você pelo título de seu predecessor. A Entidade pergunta se deseja entrar para ouvir o que ele teria dito.",
-      informacoes: "O caminho atrás de você continua visível, mas parece mais distante.",
+        "Uma porta surge entre duas árvores. Do outro lado, alguém chama você pelo título de seu predecessor.",
+      informacoes:
+        "A Entidade pergunta se deseja entrar para ouvir o que ele teria dito. O caminho atrás de você continua visível, mas parece mais distante.",
       opcoes: [
         {
           id: "espiar_porta",
@@ -243,8 +245,9 @@
       imagem: "assets/eventos-entidade/nome-guardado.webp",
       imagemAlt: "Um pergaminho sem letras repousa nas mãos de uma figura encapuzada",
       texto:
-        "A figura estende um pergaminho sem letras. Diz que há um nome guardado ali, embora o papel esteja vazio. A tinta não aparece, mesmo quando você o inclina contra a luz.",
-      informacoes: "A figura espera enquanto o papel permanece entre vocês.",
+        "A figura estende um pergaminho sem letras. Diz que há um nome guardado ali, embora o papel esteja vazio.",
+      informacoes:
+        "A tinta não aparece, mesmo quando você o inclina contra a luz. A figura espera enquanto o papel permanece entre vocês.",
       opcoes: [
         {
           id: "ler_nome",
@@ -274,9 +277,9 @@
       requisitos: { rodadaMin: 8, flags: ["entidade_x_nome_visto"], flagsAusentes: ["entidade_x_resolvida"] },
       imagem: "assets/eventos-entidade/sino-enterrado.webp",
       imagemAlt: "Um sino enterrado toca sob o chão diante de uma figura imóvel",
-      texto:
-        "O som de um sino vem debaixo da estrada. A figura não repete o pedido, mas cada badalada parece mover algo sob a vila.",
-      informacoes: "O toque faz os dentes vibrarem. A estrada não mostra de onde vem o som.",
+      texto: "O som de um sino vem debaixo da estrada.",
+      informacoes:
+        "A figura não repete o pedido, mas cada badalada parece mover algo sob a vila. O toque faz os dentes vibrarem. A estrada não mostra de onde vem o som.",
       opcoes: [
         {
           id: "ouvir_sino",
@@ -338,8 +341,8 @@
       imagem: "assets/eventos-entidade/ultima-pergunta.webp",
       imagemAlt: "Uma figura sem rosto oferece a mão diante de uma estrada vazia",
       texto:
-        "A Entidade surge pela última vez no caminho. Não há enigma, promessa ou máscara. Ela oferece a mão e espera que você escolha o que fazer com ela.",
-      informacoes: "Você sente que esta resposta encerrará o encontro.",
+        "A Entidade surge pela última vez no caminho. Ela oferece a mão e espera que você escolha o que fazer com ela.",
+      informacoes: "Não há enigma, promessa ou máscara. Você sente que esta resposta encerrará o encontro.",
       opcoes: [
         {
           id: "resistir_ultima",

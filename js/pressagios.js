@@ -425,9 +425,10 @@
   function eventoAuxilio(run) {
     const p = run.pressagios?.atual;
     if (!emPrazo(run) || !["nuvem_faminta", "procissao"].includes(p.id)) return null;
+    const intervaloAuxilio = 10;
     if (
       (p.id === "nuvem_faminta" ? p.progresso.gasto >= 15 : p.progresso.auxilios >= 12) ||
-      run.rodada - p.ultimaAuxilio < 3
+      run.rodada - p.ultimaAuxilio < intervaloAuxilio
     )
       return null;
     return Jogo.eventoPorId("pressagio_preparativos");
@@ -560,10 +561,11 @@
     titulo: "Proteção dos moradores",
     tipo: "comum",
     disparadoPelaEngine: true,
-    imagem: "assets/eventos-pressagios/nuvem_faminta.webp",
-    imagemAlt: "Gafanhotos sobre as plantações",
-    texto:
-      "Moradores pedem ajuda para proteger as casas e repartir os mantimentos. Há trabalho para quem pode carregar provisões e despesas que a vila não consegue pagar sozinha.",
+    imagem: "assets/eventos-especificos/uma-noite-sem-fome.webp",
+    imagemAlt: "Moradores repartem pão e colheita à mesa",
+    texto: "Moradores pedem ajuda para proteger as casas e repartir os mantimentos.",
+    informacoes:
+      "Há trabalho para quem pode carregar provisões e despesas que a vila não consegue pagar sozinha.",
     opcoes: [
       {
         id: "pagar",

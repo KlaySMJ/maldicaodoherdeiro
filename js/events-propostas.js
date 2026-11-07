@@ -99,8 +99,8 @@
     carta(
       "arvore_sobre_estrada",
       "A árvore sobre a estrada",
-      "Uma árvore tombou na curva durante a madrugada. Uma carroça já está presa entre o tronco e a vala; o cocheiro espera ajuda antes que a chuva chegue.",
-      "A madeira serve à vila, aos carroceiros ou pode ficar onde caiu.",
+      "Uma árvore tombou na curva durante a madrugada.",
+      "Uma carroça já está presa entre o tronco e a vala; o cocheiro espera ajuda antes que a chuva chegue. A madeira serve à vila, aos carroceiros ou pode ficar onde caiu.",
       artes.arvoreCaida,
       [
         opcao(
@@ -126,8 +126,8 @@
     carta(
       "telhas_antes_da_chuva",
       "Telhas antes da chuva",
-      "Um lote de telhas chega ao portão na mesma manhã em que as nuvens fecham o vale. O depósito não tem espaço para guardar tudo.",
-      "Cobrir os telhados mais frágeis, cobrar pela distribuição ou vender parte do lote define quem atravessa a chuva em segurança.",
+      "Um lote de telhas chega ao portão na mesma manhã em que as nuvens fecham o vale.",
+      "O depósito não tem espaço para guardar tudo. Cobrir os telhados mais frágeis, cobrar pela distribuição ou vender parte do lote define quem atravessa a chuva em segurança.",
       artes.construcao,
       [
         opcao(
@@ -153,8 +153,8 @@
     carta(
       "medida_do_trigo",
       "A medida do trigo",
-      "A farinha acaba antes do esperado, embora o livro do celeiro registre sacos suficientes. Na banca, o medidor do comerciante parece menor que o usado pela vila.",
-      "Rever a medida pode recuperar o que falta ou transformar uma suspeita em disputa pública.",
+      "A farinha acaba antes do esperado, embora o livro do celeiro registre sacos suficientes.",
+      "Na banca, o medidor do comerciante parece menor que o usado pela vila. Rever a medida pode recuperar o que falta ou transformar uma suspeita em disputa pública.",
       artes.caixas,
       [
         opcao(
@@ -180,8 +180,8 @@
     carta(
       "parede_de_pedra",
       "A parede de pedra",
-      "A pedreira antiga ainda guarda blocos sob a encosta. Um veio aquece a mão quando o pedreiro se aproxima; acima dele, uma rachadura atravessa a parede.",
-      "Retirar os blocos soltos, escorar a encosta ou abrir o veio aquecido trazem riscos diferentes.",
+      "A pedreira antiga ainda guarda blocos sob a encosta.",
+      "Um veio aquece a mão quando o pedreiro se aproxima; acima dele, uma rachadura atravessa a parede. Retirar os blocos soltos, escorar a encosta ou abrir o veio aquecido trazem riscos diferentes.",
       artes.construcao,
       [
         opcao(
@@ -208,8 +208,8 @@
     carta(
       "carroca_de_ferramentas",
       "A carroça de ferramentas",
-      "Um vendedor oferece ferramentas usadas a preço baixo. Algumas ainda têm a marca da oficina de onde vieram; outras perderam o cabo ou o fio.",
-      "Comprar o lote pode ajudar os trabalhadores, mas nem toda peça vale o preço pedido.",
+      "Um vendedor oferece ferramentas usadas a preço baixo.",
+      "Algumas ainda têm a marca da oficina de onde vieram; outras perderam o cabo ou o fio. Comprar o lote pode ajudar os trabalhadores, mas nem toda peça vale o preço pedido.",
       artes.forja,
       [
         opcao(
@@ -236,8 +236,8 @@
     carta(
       "canal_assoreado",
       "O canal assoreado",
-      "O canal perde profundidade a cada cheia. A água ainda alcança os campos, mas os sulcos mais distantes já secaram antes do meio-dia.",
-      "Um mutirão, uma cobrança aos proprietários ou uma mudança no plantio decide o próximo uso da água.",
+      "O canal perde profundidade a cada cheia.",
+      "A água ainda alcança os campos, mas os sulcos mais distantes já secaram antes do meio-dia. Um mutirão, uma cobrança aos proprietários ou uma mudança no plantio decide o próximo uso da água.",
       artes.poco,
       [
         opcao(
@@ -263,8 +263,8 @@
     carta(
       "salgueiro_marcado",
       "O salgueiro marcado",
-      "As raízes de um salgueiro antigo levantaram as pedras da passagem. Pastores dizem que, sem a árvore, ninguém encontra o caminho de volta depois da neblina.",
-      "A árvore pode ficar, ser podada ou perder a passagem que divide com a trilha.",
+      "As raízes de um salgueiro antigo levantaram as pedras da passagem.",
+      "Pastores dizem que, sem a árvore, ninguém encontra o caminho de volta depois da neblina. A árvore pode ficar, ser podada ou perder a passagem que divide com a trilha.",
       artes.salgueiro,
       [
         opcao(
@@ -290,8 +290,8 @@
     carta(
       "caldeira_emprestada",
       "A caldeira emprestada",
-      "Uma comunidade vizinha pede a caldeira usada para tingir tecidos. A oficina da vila pretende preparar uma fornada de remédios na mesma semana.",
-      "O empréstimo pode fortalecer o acordo entre as comunidades ou atrasar o trabalho local.",
+      "Uma comunidade vizinha pede a caldeira usada para tingir tecidos.",
+      "A oficina da vila pretende preparar uma fornada de remédios na mesma semana. O empréstimo pode fortalecer o acordo entre as comunidades ou atrasar o trabalho local.",
       artes.forja,
       [
         opcao(
@@ -317,8 +317,8 @@
     carta(
       "roda_perde_eixo",
       "A roda que perde o eixo",
-      "A roda d'água para no meio da moagem. O eixo gasto ainda gira à mão, mas cada volta abre uma fenda maior na madeira.",
-      "Um eixo novo custa Gold; um reparo improvisado consome tempo e pode parar o moinho de vez.",
+      "A roda d'água para no meio da moagem.",
+      "O eixo gasto ainda gira à mão, mas cada volta abre uma fenda maior na madeira. Um eixo novo custa Gold; um reparo improvisado consome tempo e pode parar o moinho de vez.",
       artes.rodaDagua,
       [
         opcao(
@@ -344,8 +344,8 @@
     carta(
       "ponte_de_corda",
       "A ponte de corda",
-      "A travessia encurta o caminho entre os campos, mas uma mula cedeu sobre as tábuas na semana passada. Os nós já estão desfiando.",
-      "Reforçar a passagem, limitar o peso ou desmontá-la muda quem consegue atravessar.",
+      "A travessia encurta o caminho entre os campos, mas uma mula cedeu sobre as tábuas na semana passada.",
+      "Os nós já estão desfiando. Reforçar a passagem, limitar o peso ou desmontá-la muda quem consegue atravessar.",
       artes.ponte,
       [
         opcao(
@@ -371,8 +371,8 @@
     carta(
       "velas_de_sebo",
       "As velas de sebo",
-      "O cesto de velas está quase vazio antes da noite em que os escribas precisam terminar os registros. A guarda também pediu luz para a ronda.",
-      "O estoque pode ser dividido, encomendado ou reservado para quem patrulha o muro.",
+      "O cesto de velas está quase vazio antes da noite em que os escribas precisam terminar os registros.",
+      "A guarda também pediu luz para a ronda. O estoque pode ser dividido, encomendado ou reservado para quem patrulha o muro.",
       artes.vela,
       [
         opcao(
@@ -398,8 +398,8 @@
     carta(
       "deposito_de_carvao",
       "O depósito de carvão",
-      "Um comerciante oferece carvão escuro que ficou anos sob lona. O ferreiro quebra uma pedra e encontra pó solto entre as partes.",
-      "Testar o combustível custa uma amostra; comprar o lote inteiro pode sair caro se a brasa não durar.",
+      "Um comerciante oferece carvão escuro que ficou anos sob lona.",
+      "O ferreiro quebra uma pedra e encontra pó solto entre as partes. Testar o combustível custa uma amostra; comprar o lote inteiro pode sair caro se a brasa não durar.",
       artes.forja,
       [
         opcao(
@@ -425,8 +425,8 @@
     carta(
       "cerca_de_espinhos",
       "A cerca de espinhos",
-      "A cerca viva protege as hortas, mas os galhos fecharam a trilha usada por quem leva água até o moinho. O dono pede que ninguém corte a cerca sem avisá-lo.",
-      "Podar, desviar ou compensar o trabalho deixa a passagem e a horta em condições diferentes.",
+      "A cerca viva protege as hortas, mas os galhos fecharam a trilha usada por quem leva água até o moinho.",
+      "O dono pede que ninguém corte a cerca sem avisá-lo. Podar, desviar ou compensar o trabalho deixa a passagem e a horta em condições diferentes.",
       artes.vila,
       [
         opcao(
@@ -452,8 +452,8 @@
     carta(
       "lastro_de_cobre",
       "O lastro de cobre",
-      "Um carregamento de peças chega misturado a parafusos quebrados e minério sem marca. O transportador quer partir antes de conferir o peso.",
-      "Separar o cobre leva tempo; devolver o lote evita que a vila pague por sucata.",
+      "Um carregamento de peças chega misturado a parafusos quebrados e minério sem marca.",
+      "O transportador quer partir antes de conferir o peso. Separar o cobre leva tempo; devolver o lote evita que a vila pague por sucata.",
       artes.forja,
       [
         opcao(
@@ -479,8 +479,8 @@
     carta(
       "lugar_a_mesa",
       "O lugar à mesa",
-      "Uma família recém-chegada aparece quando a refeição comunal já está servida. Há espaço para mais uma cadeira, mas os sacos da cozinha foram contados para quem já mora na vila.",
-      "Abrir a mesa custa provisões; pedir contribuição ou fechar a sala muda a primeira noite da família.",
+      "Uma família recém-chegada aparece quando a refeição comunal já está servida.",
+      "Há espaço para mais uma cadeira, mas os sacos da cozinha foram contados para quem já mora na vila. Abrir a mesa custa provisões; pedir contribuição ou fechar a sala muda a primeira noite da família.",
       artes.refeicao,
       [
         opcao(
@@ -506,8 +506,8 @@
     carta(
       "troca_de_turnos",
       "A troca de turnos",
-      "Os vigias pedem uma escala mais leve depois de três noites na muralha. Uma troca de turnos deixaria o portão norte sem guarda por parte da madrugada.",
-      "Reorganizar as rondas custa Gold ou horas de descanso; manter a escala força os vigias a escolher quem fica.",
+      "Os vigias pedem uma escala mais leve depois de três noites na muralha.",
+      "Uma troca de turnos deixaria o portão norte sem guarda por parte da madrugada. Reorganizar as rondas custa Gold ou horas de descanso; manter a escala força os vigias a escolher quem fica.",
       artes.construcao,
       [
         opcao(
@@ -533,8 +533,8 @@
     carta(
       "chaves_sala_comum",
       "As chaves da sala comum",
-      "Duas cópias da chave do salão desapareceram. Ali ficam ferramentas, sacos de farinha e os registros que o escrivão usa durante a feira.",
-      "Um rodízio, uma pessoa responsável ou um acesso restrito define quem responde pelo espaço.",
+      "Duas cópias da chave do salão desapareceram.",
+      "Ali ficam ferramentas, sacos de farinha e os registros que o escrivão usa durante a feira. Um rodízio, uma pessoa responsável ou um acesso restrito define quem responde pelo espaço.",
       artes.chaves,
       [
         opcao(
@@ -560,8 +560,8 @@
     carta(
       "patio_dividido",
       "O pátio dividido",
-      "Artesãos deixam tábuas secando no pátio onde os lavradores descarregam cestos. Um grupo chegou antes do outro e ninguém quer mover sua carga.",
-      "Dividir os horários, cobrar pelo espaço ou escolher um uso permanente resolve a disputa por enquanto.",
+      "Artesãos deixam tábuas secando no pátio onde os lavradores descarregam cestos.",
+      "Um grupo chegou antes do outro e ninguém quer mover sua carga. Dividir os horários, cobrar pelo espaço ou escolher um uso permanente resolve a disputa por enquanto.",
       artes.vila,
       [
         opcao(
@@ -587,8 +587,8 @@
     carta(
       "retrato_sem_dono",
       "O retrato sem dono",
-      "Um retrato aparece na sala comunal, coberto por um pano que ninguém lembra de ter pendurado. A moldura traz o nome de uma vila que já não aparece nos mapas.",
-      "Guardar a pintura, leiloá-la ou pedir ajuda para localizar a família muda o destino do objeto.",
+      "Um retrato aparece na sala comunal, coberto por um pano que ninguém lembra de ter pendurado.",
+      "A moldura traz o nome de uma vila que já não aparece nos mapas. Guardar a pintura, leiloá-la ou pedir ajuda para localizar a família muda o destino do objeto.",
       artes.retrato,
       [
         opcao(
@@ -614,8 +614,8 @@
     carta(
       "cao_escolheu_porta",
       "O cão que escolheu a porta",
-      "Um cão sem coleira dorme diante da mesma casa há quatro noites. A família diz que nunca o alimentou; ainda assim, ele não acompanha ninguém que tente levá-lo.",
-      "Procurar o antigo dono, deixar que a família o acolha ou confiar a ronda ao cão dá outro lugar à sua vigília.",
+      "Um cão sem coleira dorme diante da mesma casa há quatro noites.",
+      "A família diz que nunca o alimentou; ainda assim, ele não acompanha ninguém que tente levá-lo. Procurar o antigo dono, deixar que a família o acolha ou confiar a ronda ao cão dá outro lugar à sua vigília.",
       artes.vila,
       [
         opcao(
@@ -642,8 +642,8 @@
     carta(
       "carta_recomendacao",
       "A carta de recomendação",
-      "Uma jovem aprendiz pede uma carta para seguir a um ateliê distante. A oficina local também precisa de alguém que saiba remendar tecidos antes do inverno.",
-      "Recomendar a viagem, oferecer formação na vila ou pedir que ela espere deixa uma vaga em lugares diferentes.",
+      "Uma jovem aprendiz pede uma carta para seguir a um ateliê distante.",
+      "A oficina local também precisa de alguém que saiba remendar tecidos antes do inverno. Recomendar a viagem, oferecer formação na vila ou pedir que ela espere deixa uma vaga em lugares diferentes.",
       artes.documento,
       [
         opcao(
@@ -669,8 +669,8 @@
     carta(
       "heranca_ferramentas",
       "A herança das ferramentas",
-      "Um artesão morre sem deixar instruções sobre as ferramentas da oficina. Os parentes querem guardá-las; os aprendizes afirmam que ainda há trabalho pela metade.",
-      "Fazer um inventário, entregar as peças à família ou vender tudo encerra a disputa de modos diferentes.",
+      "Um artesão morre sem deixar instruções sobre as ferramentas da oficina.",
+      "Os parentes querem guardá-las; os aprendizes afirmam que ainda há trabalho pela metade. Fazer um inventário, entregar as peças à família ou vender tudo encerra a disputa de modos diferentes.",
       artes.forja,
       [
         opcao(
@@ -696,8 +696,8 @@
     carta(
       "copia_do_registro",
       "A cópia do registro",
-      "A umidade apagou parte dos nomes no livro de moradores. Um escrivão oferece copiar as páginas restantes antes que as folhas se desfaçam.",
-      "Uma cópia completa custa mais; registrar apenas os nomes legíveis protege parte da história.",
+      "A umidade apagou parte dos nomes no livro de moradores.",
+      "Um escrivão oferece copiar as páginas restantes antes que as folhas se desfaçam. Uma cópia completa custa mais; registrar apenas os nomes legíveis protege parte da história.",
       artes.documento,
       [
         opcao(
@@ -723,8 +723,8 @@
     carta(
       "bolsa_de_botoes",
       "A bolsa de botões",
-      "Uma bolsa de botões raros cai de uma carroça antes da ponte. Alguns têm marcas de uma oficina distante; os demais foram talhados à mão.",
-      "Encontrar o dono pode custar a venda; guardar as peças ajuda um alfaiate local.",
+      "Uma bolsa de botões raros cai de uma carroça antes da ponte.",
+      "Alguns têm marcas de uma oficina distante; os demais foram talhados à mão. Encontrar o dono pode custar a venda; guardar as peças ajuda um alfaiate local.",
       artes.caixas,
       [
         opcao(
@@ -750,8 +750,8 @@
     carta(
       "carregamento_de_vidro",
       "O carregamento de vidro",
-      "Um mercador oferece placas de vidro que sobreviveram à viagem. A enfermaria tem janelas abertas; a feira pagaria bem pelas peças coloridas.",
-      "Comprar o lote, negociar uma troca ou deixá-lo seguir preserva Gold para outros usos.",
+      "Um mercador oferece placas de vidro que sobreviveram à viagem.",
+      "A enfermaria tem janelas abertas; a feira pagaria bem pelas peças coloridas. Comprar o lote, negociar uma troca ou deixá-lo seguir preserva Gold para outros usos.",
       artes.construcao,
       [
         opcao(
@@ -777,8 +777,8 @@
     carta(
       "farinha_com_limalha",
       "Farinha com limalha",
-      "Uma família encontra pó de ferro no fundo do saco de farinha. O moleiro jura que a pedra de moer está inteira, mas não quer abrir o moinho diante da fila.",
-      "Conferir o lote, peneirar a farinha ou vendê-la depressa muda o que chega às mesas.",
+      "Uma família encontra pó de ferro no fundo do saco de farinha.",
+      "O moleiro jura que a pedra de moer está inteira, mas não quer abrir o moinho diante da fila. Conferir o lote, peneirar a farinha ou vendê-la depressa muda o que chega às mesas.",
       artes.caixas,
       [
         opcao(
@@ -804,8 +804,8 @@
     carta(
       "pedra_de_distancias",
       "A pedra de medir distâncias",
-      "Uma pedra junto à estrada traz marcas regulares entre dois povoados. O mapa do escrivão indica que as medidas não seguem nenhum caminho conhecido.",
-      "Decifrar os sinais pode abrir uma rota; mover a pedra apaga o único marco que os viajantes reconhecem.",
+      "Uma pedra junto à estrada traz marcas regulares entre dois povoados.",
+      "O mapa do escrivão indica que as medidas não seguem nenhum caminho conhecido. Decifrar os sinais pode abrir uma rota; mover a pedra apaga o único marco que os viajantes reconhecem.",
       artes.mapa,
       [
         opcao(
@@ -831,8 +831,8 @@
     carta(
       "remessa_trocada",
       "A remessa trocada",
-      "Uma carroça descarrega lã onde deveriam estar os sacos de grão. O motorista diz que recebeu outro selo no último posto e quer resolver a troca antes de partir.",
-      "Devolver a carga, negociar com o dono ou procurar o destinatário dos grãos muda o prazo da entrega.",
+      "Uma carroça descarrega lã onde deveriam estar os sacos de grão.",
+      "O motorista diz que recebeu outro selo no último posto e quer resolver a troca antes de partir. Devolver a carga, negociar com o dono ou procurar o destinatário dos grãos muda o prazo da entrega.",
       artes.caixas,
       [
         opcao(
@@ -858,8 +858,8 @@
     carta(
       "cadernos_agrimensor",
       "Os cadernos do agrimensor",
-      "Um agrimensor deixa três cadernos no salão antes de seguir a estrada. As anotações indicam quais terrenos alagam primeiro e onde a pedra aparece perto da superfície.",
-      "Comprar a informação, confirmar os limites com os moradores ou devolver os cadernos afeta as próximas obras.",
+      "Um agrimensor deixa três cadernos no salão antes de seguir a estrada.",
+      "As anotações indicam quais terrenos alagam primeiro e onde a pedra aparece perto da superfície. Comprar a informação, confirmar os limites com os moradores ou devolver os cadernos afeta as próximas obras.",
       artes.mapa,
       [
         opcao(
@@ -885,8 +885,8 @@
     carta(
       "mercado_ferramentas_quebradas",
       "O mercado de ferramentas quebradas",
-      "Uma banca vende ferramentas com dentes partidos, cabos rachados e ferrugem nos encaixes. O vendedor garante que cada peça ainda tem algum uso.",
-      "Comprar o lote, testar uma ferramenta ou fechar a banca decide se a sucata volta à oficina.",
+      "Uma banca vende ferramentas com dentes partidos, cabos rachados e ferrugem nos encaixes.",
+      "O vendedor garante que cada peça ainda tem algum uso. Comprar o lote, testar uma ferramenta ou fechar a banca decide se a sucata volta à oficina.",
       artes.forja,
       [
         opcao(
@@ -912,8 +912,8 @@
     carta(
       "caixa_de_amostras",
       "A caixa de amostras",
-      "Um boticário deixa uma caixa com frascos sem rótulo. Pede que a ervateira anote qualquer reação, mas não explica de onde vieram as misturas.",
-      "Abrir uma amostra, cobrar pelo registro ou devolver a caixa fechada evita que o conteúdo circule sem controle.",
+      "Um boticário deixa uma caixa com frascos sem rótulo.",
+      "Pede que a ervateira anote qualquer reação, mas não explica de onde vieram as misturas. Abrir uma amostra, cobrar pelo registro ou devolver a caixa fechada evita que o conteúdo circule sem controle.",
       artes.ervas,
       [
         opcao(
@@ -939,8 +939,8 @@
     carta(
       "leilao_de_cordas",
       "O leilão de cordas",
-      "Uma embarcação vende cordas antes de partir. Há peças grossas para puxar carroças e cordas finas usadas para içar sacos.",
-      "Comprar para as obras custa Gold; dividir o lote com outro comprador reduz o que fica para a vila.",
+      "Uma embarcação vende cordas antes de partir.",
+      "Há peças grossas para puxar carroças e cordas finas usadas para içar sacos. Comprar para as obras custa Gold; dividir o lote com outro comprador reduz o que fica para a vila.",
       artes.ponte,
       [
         opcao(
@@ -966,8 +966,8 @@
     carta(
       "sombra_campanario",
       "A sombra no campanário",
-      "Ao meio-dia, uma sombra cruza o campanário enquanto o sino permanece imóvel. Quando os vigias olham de novo, a torre está vazia.",
-      "Subir, fechar a torre ou esperar pelo fim da tarde custa tempo de guarda.",
+      "Ao meio-dia, uma sombra cruza o campanário enquanto o sino permanece imóvel.",
+      "Quando os vigias olham de novo, a torre está vazia. Subir, fechar a torre ou esperar pelo fim da tarde custa tempo de guarda.",
       artes.sino,
       [
         opcao(
@@ -993,8 +993,8 @@
     carta(
       "sal_nao_derrete",
       "O sal que não derrete",
-      "Um pote fica submerso por uma noite, mas o sal lá dentro permanece seco e solto. O oleiro diz que a tampa estava fechada; a água ainda escorre pelas laterais.",
-      "Entregar o pote a um estudioso, vender a curiosidade ou descartá-lo evita transformar o caso em promessa de cura.",
+      "Um pote fica submerso por uma noite, mas o sal lá dentro permanece seco e solto.",
+      "O oleiro diz que a tampa estava fechada; a água ainda escorre pelas laterais. Entregar o pote a um estudioso, vender a curiosidade ou descartá-lo evita transformar o caso em promessa de cura.",
       artes.poco,
       [
         opcao(
@@ -1020,8 +1020,8 @@
     carta(
       "quarto_sem_pegadas",
       "O quarto sem pegadas",
-      "Uma hospedaria amanhece com a porta trancada por dentro. O pó do chão não guarda marcas, embora a cama esteja desfeita e a bacia ainda esteja morna.",
-      "Revistar o quarto com testemunhas, chamar a guarda ou não espalhar o caso muda o que a vila acredita ter acontecido.",
+      "Uma hospedaria amanhece com a porta trancada por dentro.",
+      "O pó do chão não guarda marcas, embora a cama esteja desfeita e a bacia ainda esteja morna. Revistar o quarto com testemunhas, chamar a guarda ou não espalhar o caso muda o que a vila acredita ter acontecido.",
       artes.vila,
       [
         opcao(
@@ -1047,8 +1047,8 @@
     carta(
       "chuva_poco_seco",
       "A chuva sobre o poço seco",
-      "Uma chuva estreita cai sobre o poço seco enquanto o restante da praça continua coberto de poeira. Pela manhã, há água até a primeira pedra.",
-      "Recolher a água, pedir um exame ou cobrir o poço evita que a curiosidade vire uma fila perigosa.",
+      "Uma chuva estreita cai sobre o poço seco enquanto o restante da praça continua coberto de poeira.",
+      "Pela manhã, há água até a primeira pedra. Recolher a água, pedir um exame ou cobrir o poço evita que a curiosidade vire uma fila perigosa.",
       artes.poco,
       [
         opcao(
@@ -1074,8 +1074,8 @@
     carta(
       "moedas_viradas",
       "As moedas viradas",
-      "As moedas do cofre aparecem todas com o mesmo lado para cima. O administrador afirma que contou duas vezes e não tocou na caixa desde a noite anterior.",
-      "Conferir o cofre, procurar o cunhador ou fechar a caixa evita que o sinal vire uma regra de mercado.",
+      "As moedas do cofre aparecem todas com o mesmo lado para cima.",
+      "O administrador afirma que contou duas vezes e não tocou na caixa desde a noite anterior. Conferir o cofre, procurar o cunhador ou fechar a caixa evita que o sinal vire uma regra de mercado.",
       artes.ouro,
       [
         opcao(
@@ -1101,8 +1101,8 @@
     carta(
       "janela_casa_vazia",
       "A janela acesa na casa vazia",
-      "Uma janela mostra luz em três noites seguidas, embora a casa esteja fechada desde a partida de seus antigos moradores. Ninguém ouviu passos no caminho.",
-      "Entrar com testemunhas, vender a propriedade ou manter a porta fechada encerra a vigília por motivos diferentes.",
+      "Uma janela mostra luz em três noites seguidas, embora a casa esteja fechada desde a partida de seus antigos moradores.",
+      "Ninguém ouviu passos no caminho. Entrar com testemunhas, vender a propriedade ou manter a porta fechada encerra a vigília por motivos diferentes.",
       artes.janela,
       [
         opcao(
@@ -1155,9 +1155,9 @@
       const dados = [
         {
           titulo: "Uma carta na encadernação",
-          texto:
-            "Um livro comprado na feira esconde uma carta de navegação dobrada entre as capas. O desenho mostra um vau que não aparece nos mapas recentes.",
-          informacoes: "Guardar a carta e procurar o autor abre uma rota; vender o papel encerra a busca.",
+          texto: "Um livro comprado na feira esconde uma carta de navegação dobrada entre as capas.",
+          informacoes:
+            "O desenho mostra um vau que não aparece nos mapas recentes. Guardar a carta e procurar o autor abre uma rota; vender o papel encerra a busca.",
           arte: artes.mapa,
           opcoes: [
             {
@@ -1182,10 +1182,9 @@
         },
         {
           titulo: "As marcas no vau",
-          texto:
-            "A carta leva a um vau baixo, riscado por marcas recentes. A água cobre os tornozelos, mas os sinais continuam pela margem em direção ao bosque.",
+          texto: "A carta leva a um vau baixo, riscado por marcas recentes.",
           informacoes:
-            "Medir a travessia, pagar aos barqueiros ou seguir as marcas decide até onde a vila vai atrás do mapa.",
+            "A água cobre os tornozelos, mas os sinais continuam pela margem em direção ao bosque. Medir a travessia, pagar aos barqueiros ou seguir as marcas decide até onde a vila vai atrás do mapa.",
           arte: artes.ponte,
           opcoes: [
             {
@@ -1219,10 +1218,9 @@
         },
         {
           titulo: "O posto de pedra",
-          texto:
-            "Entre as árvores surge um antigo posto de cobrança. As pedras trazem marcas de rodas e um desenho de barco, embora o rio tenha mudado de curso.",
+          texto: "Entre as árvores surge um antigo posto de cobrança.",
           informacoes:
-            "Registrar os sinais, retirar os blocos ou procurar uma passagem por baixo da construção altera a rota.",
+            "As pedras trazem marcas de rodas e um desenho de barco, embora o rio tenha mudado de curso. Registrar os sinais, retirar os blocos ou procurar uma passagem por baixo da construção altera a rota.",
           arte: artes.tumulo,
           opcoes: [
             {
@@ -1256,10 +1254,9 @@
         },
         {
           titulo: "O destino da carta",
-          texto:
-            "A última marca aponta para um abrigo de pedra escondido entre as raízes. Há objetos de viagem no chão, mas nenhuma inscrição sobre quem os deixou.",
+          texto: "A última marca aponta para um abrigo de pedra escondido entre as raízes.",
           informacoes:
-            "Levar os objetos, deixar uma oferta ou fechar o abrigo decide quem poderá encontrá-lo depois.",
+            "Há objetos de viagem no chão, mas nenhuma inscrição sobre quem os deixou. Levar os objetos, deixar uma oferta ou fechar o abrigo decide quem poderá encontrá-lo depois.",
           arte: artes.caixas,
           opcoes: [
             opcao(
@@ -1290,10 +1287,9 @@
       const dados = [
         {
           titulo: "Cacos sob a cinza",
-          texto:
-            "Uma família encontra vidro colorido entre as cinzas de um forno abandonado. As bordas estão inteiras; o forno, rachado até a base.",
+          texto: "Uma família encontra vidro colorido entre as cinzas de um forno abandonado.",
           informacoes:
-            "Recolher as peças, chamar um vidreiro ou deixar o terreno fechado define se a oficina reabre.",
+            "As bordas estão inteiras; o forno, rachado até a base. Recolher as peças, chamar um vidreiro ou deixar o terreno fechado define se a oficina reabre.",
           arte: artes.construcao,
           opcoes: [
             {
@@ -1327,10 +1323,9 @@
         },
         {
           titulo: "A receita incompleta",
-          texto:
-            "O vidreiro encontra a receita sem sua última medida. Os antigos aprendizes lembram de um forno de areia, mas discordam sobre a proporção do material.",
+          texto: "O vidreiro encontra a receita sem sua última medida.",
           informacoes:
-            "Buscar os aprendizes, testar uma mistura ou vender o caderno encerra a dúvida por caminhos diferentes.",
+            "Os antigos aprendizes lembram de um forno de areia, mas discordam sobre a proporção do material. Buscar os aprendizes, testar uma mistura ou vender o caderno encerra a dúvida por caminhos diferentes.",
           arte: artes.forja,
           opcoes: [
             {
@@ -1364,10 +1359,9 @@
         },
         {
           titulo: "O forno de areia",
-          texto:
-            "Os aprendizes localizam areia fina fora das muralhas. O forno precisa de combustível e de uma parede nova antes de suportar outra fornada.",
+          texto: "Os aprendizes localizam areia fina fora das muralhas.",
           informacoes:
-            "Financiar o reparo, dividir o custo ou abandonar o trabalho decide se a oficina continua.",
+            "O forno precisa de combustível e de uma parede nova antes de suportar outra fornada. Financiar o reparo, dividir o custo ou abandonar o trabalho decide se a oficina continua.",
           arte: artes.construcao,
           opcoes: [
             {
@@ -1401,10 +1395,9 @@
         },
         {
           titulo: "A janela que guarda calor",
-          texto:
-            "O primeiro lote pode fechar as janelas da enfermaria ou ser vendido para pagar o forno. O vidreiro põe as placas sobre a mesa e espera sua decisão.",
+          texto: "O primeiro lote pode fechar as janelas da enfermaria ou ser vendido para pagar o forno.",
           informacoes:
-            "Usar o vidro na vila, reservar parte ou vender toda a produção encerra a oficina por esta estação.",
+            "O vidreiro põe as placas sobre a mesa e espera sua decisão. Usar o vidro na vila, reservar parte ou vender toda a produção encerra a oficina por esta estação.",
           arte: artes.vila,
           opcoes: [
             opcao(
@@ -1436,10 +1429,9 @@
         const dados = [
           {
             titulo: "Frutos no terreno baldio",
-            texto:
-              "Uma árvore carregada cresce num terreno que não aparece nos registros. Os frutos caem antes de amadurecer, e ninguém sabe quem tem direito de colhê-los.",
+            texto: "Uma árvore carregada cresce num terreno que não aparece nos registros.",
             informacoes:
-              "Colher agora, proteger a árvore ou consultar os registros decide quem cuida do terreno.",
+              "Os frutos caem antes de amadurecer, e ninguém sabe quem tem direito de colhê-los. Colher agora, proteger a árvore ou consultar os registros decide quem cuida do terreno.",
             arte: artes.frutos,
             opcoes: [
               {
@@ -1473,10 +1465,9 @@
           },
           {
             titulo: "O enxerto recusado",
-            texto:
-              "Um jardineiro oferece enxertos, mas diz que a árvore pertence à sua família. O registro da vila não confirma nem desmente a história.",
+            texto: "Um jardineiro oferece enxertos, mas diz que a árvore pertence à sua família.",
             informacoes:
-              "Negociar o plantio, aceitar poucas mudas ou encerrar o acordo define o alcance do pomar.",
+              "O registro da vila não confirma nem desmente a história. Negociar o plantio, aceitar poucas mudas ou encerrar o acordo define o alcance do pomar.",
             arte: artes.frutos,
             opcoes: [
               {
@@ -1510,10 +1501,9 @@
           },
           {
             titulo: "As raízes sob a parede",
-            texto:
-              "As raízes deslocam a parede de um quintal. Uma pedra caiu sobre o caminho; os moradores querem saber se devem cortar a árvore antes que ceda mais.",
+            texto: "As raízes deslocam a parede de um quintal.",
             informacoes:
-              "Podar parte das raízes, reforçar a parede ou transferir a árvore tem custos distintos.",
+              "Uma pedra caiu sobre o caminho; os moradores querem saber se devem cortar a árvore antes que ceda mais. Podar parte das raízes, reforçar a parede ou transferir a árvore tem custos distintos.",
             arte: artes.salgueiro,
             opcoes: [
               {
@@ -1547,9 +1537,9 @@
           },
           {
             titulo: "A primeira cesta do pomar",
-            texto:
-              "O pomar entrega a primeira cesta inteira. Os frutos amadureceram ao mesmo tempo, e as famílias pedem que a colheita não desapareça no mercado antes do jantar.",
-            informacoes: "Repartir, guardar sementes ou vender a cesta fecha o primeiro ciclo do pomar.",
+            texto: "O pomar entrega a primeira cesta inteira.",
+            informacoes:
+              "Os frutos amadureceram ao mesmo tempo, e as famílias pedem que a colheita não desapareça no mercado antes do jantar. Repartir, guardar sementes ou vender a cesta fecha o primeiro ciclo do pomar.",
             arte: artes.frutos,
             opcoes: [
               opcao(
@@ -1581,10 +1571,9 @@
       const dados = [
         {
           titulo: "Uma página no fundo do baú",
-          texto:
-            "Um inventário antigo lista dívidas que ninguém reconhece. A página está dobrada no fundo de um baú, ao lado de contas já pagas.",
+          texto: "Um inventário antigo lista dívidas que ninguém reconhece.",
           informacoes:
-            "Comparar assinaturas, rasgar o registro ou chamar os nomes ainda vivos abre a disputa.",
+            "A página está dobrada no fundo de um baú, ao lado de contas já pagas. Comparar assinaturas, rasgar o registro ou chamar os nomes ainda vivos abre a disputa.",
           arte: artes.bau,
           opcoes: [
             {
@@ -1618,10 +1607,9 @@
         },
         {
           titulo: "O herdeiro do cobrador",
-          texto:
-            "Um visitante afirma que herdou o direito de cobrar aquelas dívidas. Traz um selo parecido com o da página, mas não sabe quem escreveu os valores.",
+          texto: "Um visitante afirma que herdou o direito de cobrar aquelas dívidas.",
           informacoes:
-            "Pedir prova, negociar uma quitação ou expulsar o cobrador mantém a página no centro da disputa.",
+            "Traz um selo parecido com o da página, mas não sabe quem escreveu os valores. Pedir prova, negociar uma quitação ou expulsar o cobrador mantém a página no centro da disputa.",
           arte: artes.ouro,
           opcoes: [
             {
@@ -1655,10 +1643,9 @@
         },
         {
           titulo: "As testemunhas da ponte",
-          texto:
-            "Moradores lembram que parte do dinheiro pagou uma ponte que já não existe. Um antigo registro do pedágio confirma o nome do cobrador.",
+          texto: "Moradores lembram que parte do dinheiro pagou uma ponte que já não existe.",
           informacoes:
-            "Investigar a ponte, ouvir as famílias ou reconhecer o documento como inválido separa a dívida do que ela construiu.",
+            "Um antigo registro do pedágio confirma o nome do cobrador. Investigar a ponte, ouvir as famílias ou reconhecer o documento como inválido separa a dívida do que ela construiu.",
           arte: artes.ponte,
           opcoes: [
             {
@@ -1692,9 +1679,9 @@
         },
         {
           titulo: "A conta encerrada",
-          texto:
-            "Os registros mostram quem lucrou com a cobrança. O antigo pedágio pagou uma obra que sumiu, mas parte do dinheiro ficou com quem a administrava.",
-          informacoes: "Publicar os nomes, negociar reparação ou destruir os papéis termina a cobrança.",
+          texto: "Os registros mostram quem lucrou com a cobrança.",
+          informacoes:
+            "O antigo pedágio pagou uma obra que sumiu, mas parte do dinheiro ficou com quem a administrava. Publicar os nomes, negociar reparação ou destruir os papéis termina a cobrança.",
           arte: artes.documento,
           opcoes: [
             opcao(
@@ -1726,9 +1713,9 @@
       const dados = [
         {
           titulo: "A lanterna na colina",
-          texto:
-            "Uma luz aparece numa colina sem casas. Não pisca nem se move, mesmo quando o vento apaga as lanternas da estrada.",
-          informacoes: "Subir, responder com um sinal ou esperar a manhã define como a vila trata a luz.",
+          texto: "Uma luz aparece numa colina sem casas.",
+          informacoes:
+            "Não pisca nem se move, mesmo quando o vento apaga as lanternas da estrada. Subir, responder com um sinal ou esperar a manhã define como a vila trata a luz.",
           arte: artes.lanterna,
           opcoes: [
             {
@@ -1762,10 +1749,9 @@
         },
         {
           titulo: "Cinzas no abrigo",
-          texto:
-            "O abrigo guarda cinzas recentes e marcas de uma vigia antiga. Há lenha empilhada, mas nenhuma ferramenta para reacender o fogo.",
+          texto: "O abrigo guarda cinzas recentes e marcas de uma vigia antiga.",
           informacoes:
-            "Procurar o responsável, reconstruir a lareira ou usar o lugar como depósito dá outro destino ao posto.",
+            "Há lenha empilhada, mas nenhuma ferramenta para reacender o fogo. Procurar o responsável, reconstruir a lareira ou usar o lugar como depósito dá outro destino ao posto.",
           arte: artes.construcao,
           opcoes: [
             {
@@ -1799,10 +1785,9 @@
         },
         {
           titulo: "O código dos panos",
-          texto:
-            "Faixas de pano aparecem em três pontos do vale. As cores se repetem numa ordem que o vigia diz ter visto antes, mas ninguém lembra quando.",
+          texto: "Faixas de pano aparecem em três pontos do vale.",
           informacoes:
-            "Decifrar o código, trocar as faixas por sinais da vila ou ignorar o recado define a rota do posto.",
+            "As cores se repetem numa ordem que o vigia diz ter visto antes, mas ninguém lembra quando. Decifrar o código, trocar as faixas por sinais da vila ou ignorar o recado define a rota do posto.",
           arte: artes.panos,
           opcoes: [
             {
@@ -1836,10 +1821,9 @@
         },
         {
           titulo: "O aviso recebido",
-          texto:
-            "A sequência de sinais anuncia perigo na estrada e uma caravana atrasada. O último vigia pede ajuda para receber os viajantes antes que escureça.",
+          texto: "A sequência de sinais anuncia perigo na estrada e uma caravana atrasada.",
           informacoes:
-            "Organizar a guarda, preparar abrigo ou cobrar por uma passagem segura encerra o posto de sinais.",
+            "O último vigia pede ajuda para receber os viajantes antes que escureça. Organizar a guarda, preparar abrigo ou cobrar por uma passagem segura encerra o posto de sinais.",
           arte: artes.caravana,
           opcoes: [
             opcao(
@@ -1871,10 +1855,9 @@
         const dados = [
           {
             titulo: "O desenho no barril",
-            texto:
-              "Aprendizes encontram o desenho de uma cisterna no fundo de um barril comprado na feira. Uma marca no canto indica o terreno perto da muralha leste.",
+            texto: "Aprendizes encontram o desenho de uma cisterna no fundo de um barril comprado na feira.",
             informacoes:
-              "Conferir o terreno, pagar um pedreiro ou descartar o desenho decide se a obra começa.",
+              "Uma marca no canto indica o terreno perto da muralha leste. Conferir o terreno, pagar um pedreiro ou descartar o desenho decide se a obra começa.",
             arte: artes.barril,
             opcoes: [
               {
@@ -1908,10 +1891,9 @@
           },
           {
             titulo: "A camada de argila",
-            texto:
-              "A escavação encontra uma camada de argila que pode vedar a água. O solo cede em dois pontos, e a margem da vala já está inclinada.",
+            texto: "A escavação encontra uma camada de argila que pode vedar a água.",
             informacoes:
-              "Reforçar, mudar o local ou interromper o trabalho evita que os aprendizes fiquem sob a terra.",
+              "O solo cede em dois pontos, e a margem da vala já está inclinada. Reforçar, mudar o local ou interromper o trabalho evita que os aprendizes fiquem sob a terra.",
             arte: artes.construcao,
             opcoes: [
               {
@@ -1945,10 +1927,9 @@
           },
           {
             titulo: "A água que sobe devagar",
-            texto:
-              "A cisterna acumula água aos poucos. O fundo ainda tem barro, e os aprendizes discordam sobre quanto tempo falta para a primeira retirada.",
+            texto: "A cisterna acumula água aos poucos.",
             informacoes:
-              "Reservar para a enfermaria, testar a qualidade ou ajustar o canal impede que a pressa contamine o poço.",
+              "O fundo ainda tem barro, e os aprendizes discordam sobre quanto tempo falta para a primeira retirada. Reservar para a enfermaria, testar a qualidade ou ajustar o canal impede que a pressa contamine o poço.",
             arte: artes.poco,
             opcoes: [
               {
@@ -1982,10 +1963,9 @@
           },
           {
             titulo: "A primeira distribuição",
-            texto:
-              "A cisterna está limpa e pode receber uma fila. As casas pedem horários; a enfermaria quer uma reserva para os dias em que o poço baixar.",
+            texto: "A cisterna está limpa e pode receber uma fila.",
             informacoes:
-              "A construção permanece na vila. Distribuir por ordem, separar uma reserva ou deixar a retirada livre encerra a obra.",
+              "As casas pedem horários; a enfermaria quer uma reserva para os dias em que o poço baixar. A construção permanece na vila. Distribuir por ordem, separar uma reserva ou deixar a retirada livre encerra a obra.",
             arte: artes.poco,
             opcoes: [
               opcao(
@@ -2019,10 +1999,9 @@
       const dados = [
         {
           titulo: "O tear desmontado",
-          texto:
-            "Uma caravana deixa um tear desmontado ao perceber que perdeu uma roda. As peças ocupam o pátio, onde a vila guarda tábuas para o inverno.",
+          texto: "Uma caravana deixa um tear desmontado ao perceber que perdeu uma roda.",
           informacoes:
-            "Guardar o tear, ajudar a procurar a peça ou cobrar pelo espaço ocupado define a passagem da caravana.",
+            "As peças ocupam o pátio, onde a vila guarda tábuas para o inverno. Guardar o tear, ajudar a procurar a peça ou cobrar pelo espaço ocupado define a passagem da caravana.",
           arte: artes.tear,
           opcoes: [
             {
@@ -2056,10 +2035,9 @@
         },
         {
           titulo: "O fio de três cores",
-          texto:
-            "Com a roda recuperada, os tecelões propõem tingir fios com plantas locais. As cores ficam diferentes a cada fervura e a oficina não quer desperdiçar o estoque.",
+          texto: "Com a roda recuperada, os tecelões propõem tingir fios com plantas locais.",
           informacoes:
-            "Fornecer material, cobrar pelo pátio ou pedir parte do tecido define o acordo com a caravana.",
+            "As cores ficam diferentes a cada fervura e a oficina não quer desperdiçar o estoque. Fornecer material, cobrar pelo pátio ou pedir parte do tecido define o acordo com a caravana.",
           arte: artes.fiandeiras,
           opcoes: [
             {
@@ -2093,10 +2071,9 @@
         },
         {
           titulo: "O padrão emprestado",
-          texto:
-            "Um desenho repetido no tecido pertence a uma comunidade distante. A caravana diz que aprendeu o padrão num mercado, mas não sabe quem o criou.",
+          texto: "Um desenho repetido no tecido pertence a uma comunidade distante.",
           informacoes:
-            "Pedir autorização, criar um padrão local ou manter o desenho sem acordo muda o próximo negócio.",
+            "A caravana diz que aprendeu o padrão num mercado, mas não sabe quem o criou. Pedir autorização, criar um padrão local ou manter o desenho sem acordo muda o próximo negócio.",
           arte: artes.fiandeiras,
           opcoes: [
             {
@@ -2131,10 +2108,9 @@
         },
         {
           titulo: "O último rolo",
-          texto:
-            "Antes de partir, a caravana oferece um rolo de tecido como pagamento. A enfermaria precisa de panos limpos; o mercado pagaria Gold por um lote inteiro.",
+          texto: "Antes de partir, a caravana oferece um rolo de tecido como pagamento.",
           informacoes:
-            "A construção do entreposto só está disponível se a vila não usou o padrão sem autorização.",
+            "A enfermaria precisa de panos limpos; o mercado pagaria Gold por um lote inteiro. A construção do entreposto só está disponível se a vila não usou o padrão sem autorização.",
           arte: artes.fiandeiras,
           opcoes: [
             opcao(
@@ -2171,8 +2147,8 @@
     carta(
       "cambista_sem_balanca",
       "O cambista sem balança",
-      "Na feira, um homem pesa moedas na palma aberta. Antes de você falar, calcula o custo de mandar uma carroça pela estrada do norte e aponta para a antiga casa de contas.",
-      "Segui-lo abre uma sequência rara. Entregá-lo à guarda encerra a conversa.",
+      "Na feira, um homem pesa moedas na palma aberta.",
+      "Antes de você falar, calcula o custo de mandar uma carroça pela estrada do norte e aponta para a antiga casa de contas. Segui-lo abre uma sequência rara. Entregá-lo à guarda encerra a conversa.",
       artes.ouro,
       [
         opcao(
@@ -2195,8 +2171,8 @@
     carta(
       "vidro_sob_palpebra",
       "Vidro sob a pálpebra",
-      "Na casa de contas, os livros estão cheios de números riscados e manchas antigas. O cambista mostra uma lente fina de mercúrio: diz que ela revela o preço em Gold e Vida escondido em cada decisão.",
-      "Aceitar ativa Olhos de Mercúrio. A lente custa Gold e Vida; recusá-la encerra a sequência.",
+      "Na casa de contas, os livros estão cheios de números riscados e manchas antigas.",
+      "O cambista mostra uma lente fina de mercúrio: diz que ela revela o preço em Gold e Vida escondido em cada decisão. Aceitar ativa Olhos de Mercúrio. A lente custa Gold e Vida; recusá-la encerra a sequência.",
       artes.lente,
       [
         opcao(
@@ -2225,8 +2201,8 @@
     carta(
       "primeira_conta",
       "A primeira conta",
-      "Uma carroça tombou na estrada. O mercador ferido oferece uma poção antes que você atravesse os destroços; a lente mostra o valor que cada gesto cobra.",
-      "Olhos de Mercúrio exibe Gold e Vida em cada resultado, inclusive em testes de sorte.",
+      "Uma carroça tombou na estrada.",
+      "O mercador ferido oferece uma poção antes que você atravesse os destroços; a lente mostra o valor que cada gesto cobra. Olhos de Mercúrio exibe Gold e Vida em cada resultado, inclusive em testes de sorte.",
       artes.caravana,
       [
         opcao(
@@ -2272,8 +2248,8 @@
     carta(
       "peso_da_visao",
       "O peso da visão",
-      "Dezesseis rodadas depois, a lente começa a arder. Gotas de mercúrio escorrem pelo rosto quando você tenta dormir; a ervateira conhece um modo de removê-la.",
-      "Retirar custa Gold, mas devolve forças. Manter a lente conserva a previsão das escolhas.",
+      "Dezesseis rodadas depois, a lente começa a arder.",
+      "Gotas de mercúrio escorrem pelo rosto quando você tenta dormir; a ervateira conhece um modo de removê-la. Retirar custa Gold, mas devolve forças. Manter a lente conserva a previsão das escolhas.",
       artes.lente,
       [
         opcao(
@@ -2303,8 +2279,8 @@
     carta(
       "olho_no_reboco",
       "O olho no reboco",
-      "Ao derrubar uma parede de uma casa vazia, os pedreiros encontram um olho dourado preso entre as pedras. A pupila se move quando alguém fala; do outro lado, uma voz dá o nome de uma família que ainda não chegou.",
-      "Levar a relíquia à ervateira inicia a investigação. Cobri-la com argamassa encerra o assunto.",
+      "Ao derrubar uma parede de uma casa vazia, os pedreiros encontram um olho dourado preso entre as pedras.",
+      "A pupila se move quando alguém fala; do outro lado, uma voz dá o nome de uma família que ainda não chegou. Levar a relíquia à ervateira inicia a investigação. Cobri-la com argamassa encerra o assunto.",
       artes.olho,
       [
         opcao(
@@ -2327,8 +2303,8 @@
     carta(
       "olho_dos_mil_nomes",
       "O Olho dos Mil Nomes",
-      "A ervateira não consegue separar a relíquia do reboco. Quando você a toca, o olho dourado se fixa sobre sua testa. As vozes deixam de vir da parede; agora anunciam quantas pessoas uma escolha pode trazer à vila.",
-      "Aceitar ativa o Olho dos Mil Nomes. Ele mostra ganhos de Habitantes, nunca a quantidade perdida.",
+      "A ervateira não consegue separar a relíquia do reboco.",
+      "Quando você a toca, o olho dourado se fixa sobre sua testa. As vozes deixam de vir da parede; agora anunciam quantas pessoas uma escolha pode trazer à vila. Aceitar ativa o Olho dos Mil Nomes. Ele mostra ganhos de Habitantes, nunca a quantidade perdida.",
       artes.olho,
       [
         opcao(
@@ -2357,8 +2333,8 @@
     carta(
       "fila_no_portao",
       "A fila no portão",
-      "Uma família chega depois de perder a casa numa tempestade. O Olho conta quatro vozes entre os viajantes e diz que todas podem ficar se a vila abrir espaço.",
-      "A transformação mostra apenas ganhos positivos de Habitantes; uma perda aparece como “sem ganho de Habitantes”.",
+      "Uma família chega depois de perder a casa numa tempestade.",
+      "O Olho conta quatro vozes entre os viajantes e diz que todas podem ficar se a vila abrir espaço. A transformação mostra apenas ganhos positivos de Habitantes; uma perda aparece como “sem ganho de Habitantes”.",
       artes.vila,
       [
         opcao(
@@ -2394,8 +2370,8 @@
     carta(
       "olho_pede_silencio",
       "O olho pede silêncio",
-      "Dezesseis rodadas depois, as vozes continuam mesmo quando ninguém chega ao portão. A ervateira encontra um ritual capaz de soltar o Olho, mas a escolha final é sua.",
-      "Remover a relíquia custa Gold, mas devolve forças. Aceitá-la conserva as previsões de Habitantes.",
+      "Dezesseis rodadas depois, as vozes continuam mesmo quando ninguém chega ao portão.",
+      "A ervateira encontra um ritual capaz de soltar o Olho, mas a escolha final é sua. Remover a relíquia custa Gold, mas devolve forças. Aceitá-la conserva as previsões de Habitantes.",
       artes.olho,
       [
         opcao(
