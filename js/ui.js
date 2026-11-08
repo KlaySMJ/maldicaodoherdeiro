@@ -200,10 +200,10 @@
   };
   const descricoesTraco = {
     ...Object.fromEntries(Object.entries(Jogo.herdeiros.novos).map(([id, h]) => [id, h.descricao])),
-    corajoso: "Corajosa: começa com +1 Ataque.",
+    corajoso: "Corajosa: começa com 3 Ataque e recebe +2 nas rolagens de batalha.",
     avarento: "Avarento: começa com 10 Gold.",
     doente:
-      "Doente: começa com 90 Vida e 4 Escudo; sua Vida máxima inicial também é 90. Reduz a Defesa inimiga em 1.",
+      "Doente: começa com 90 Vida e 4 Escudo; sua Vida máxima inicial também é 90. Reduz a Defesa inimiga em 2.",
     druida_herdeiro:
       "Druida-Herdeiro: começa com o Cajado de carvalho vivo e recebe a passiva de um companheiro aleatório a cada rodada. A Raposa melhora sua rolagem de combate. As quatro estações seguem o ciclo de 25 rodadas.",
     menino_cronista:
@@ -228,8 +228,16 @@
     },
     herdeira_leste: { arquivo: "herdeira-leste", descricao: "Busto da Herdeira do Leste" },
     herdeiro_nordico: { arquivo: "herdeiro-nordico", descricao: "Busto do Herdeiro Nórdico" },
-    coringa: { arquivo: null, descricao: "Selo do Bufão" },
-    bruxo: { arquivo: null, descricao: "Selo da Bruxa" },
+    coringa: {
+      arquivo: null,
+      placeholder: "assets/eventos-pessoas/mensageiro-sem-carta.webp",
+      descricao: "Retrato temporário do Coringa",
+    },
+    bruxo: {
+      arquivo: null,
+      placeholder: "assets/eventos-pessoas/bruxa.webp",
+      descricao: "Retrato temporário da Bruxa",
+    },
   };
   const fasesRetrato = {
     neutra: "com honra neutra",
@@ -966,7 +974,7 @@
       {
         traco: "corajoso",
         nome: "A Herdeira Corajosa",
-        descricao: "+1 Ataque no início.",
+        descricao: "3 Ataque base e +2 nas rolagens de batalha.",
         imagem: "corajoso",
       },
       {
@@ -978,7 +986,7 @@
       {
         traco: "doente",
         nome: "O Herdeiro Doente",
-        descricao: "Começa com 90 Vida e 4 Escudo. Sua Vida máxima inicial também é 90.",
+        descricao: "Começa com 90 Vida e 4 Escudo. Reduz a Defesa inimiga em 2.",
         imagem: "doente",
       },
       {
@@ -1005,7 +1013,7 @@
         traco,
         nome: h.nome,
         descricao: h.descricao,
-        imagem: retratos[traco]?.arquivo || null,
+        imagem: retratos[traco]?.placeholder || retratos[traco]?.arquivo || null,
       })),
     ];
     const dicasTraco = {
@@ -1026,7 +1034,9 @@
               : dicasTraco[herdeiro.traco] || "Poupe o cervo branco quando ele cruzar seu caminho.";
             const descricaoAcessivel = `${nomeHerdeiro}. ${descricaoHerdeiro} ${dicaHerdeiro}`;
             const imagemBase = herdeiro.imagem
-              ? `assets/herdeiros/${herdeiro.imagem}-neutra.webp`
+              ? herdeiro.imagem.startsWith("assets/")
+                ? herdeiro.imagem
+                : `assets/herdeiros/${herdeiro.imagem}-neutra.webp`
               : "assets/selo.svg";
             const versaoImagem = window.JOGO_VERSAO_ASSETS
               ? `${imagemBase}?v=${encodeURIComponent(window.JOGO_VERSAO_ASSETS)}`
@@ -1421,6 +1431,7 @@
     const personagem = retratos[traco];
     const versao = window.JOGO_VERSAO_ASSETS;
     const comVersao = (caminho) => (versao ? `${caminho}?v=${encodeURIComponent(versao)}` : caminho);
+    if (personagem?.placeholder) return comVersao(personagem.placeholder);
     if (!personagem?.arquivo) return comVersao("assets/selo.svg");
     const faixaDisponivel = personagem.faixas && !personagem.faixas.includes(faixa) ? "neutra" : faixa;
     if (traco === "druida_herdeiro")

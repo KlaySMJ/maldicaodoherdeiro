@@ -325,9 +325,9 @@ Trechos atuais em `js/ui.js`. Os identificadores abaixo servem para localizar ca
 | ID | Nome | Descrição atual |
 |---|---|---|
 | `selecao.titulo` | Cabeçalho da seleção | A linhagem continua. Quem herda a vila? Passe o cursor ou toque uma vez no retrato para ver o que muda e como desbloqueá-lo. |
-| `selecao.corajoso` | A Herdeira Corajosa | +1 Ataque no início. |
+| `selecao.corajoso` | A Herdeira Corajosa | 3 Ataque base e +2 nas rolagens de batalha. |
 | `selecao.avarento` | O Herdeiro Avarento | Começa com 10 Gold. |
-| `selecao.doente` | O Herdeiro Doente | Começa com 70 Vida e 4 Escudo. Sua Vida máxima inicial também é 70. |
+| `selecao.doente` | O Herdeiro Doente | Começa com 90 Vida e 4 Escudo. Reduz a Defesa inimiga em 2. |
 | `selecao.druida_herdeiro` | O Filho da Floresta | Começa com 110 Vida, 4 Ataque, 2 Escudo e 3 Gold. O Cajado de Carvalho Vivo dá +2 Ataque e ganha +1 em cada primavera a partir do segundo ano, até +5. A cada rodada, um companheiro aleatório concede uma passiva: Lobo dá +2 Ataque em batalhas; Corvo revela o tipo do evento e a Honra de uma opção; Cervo recupera 3 Vida, ou 4 com a Máscara do Cervo. |
 | `selecao.menino_cronista` | O Menino da Crônica | Começa com 70 Vida, 3 Escudo e 30 Honra. A vila o acolheu quando chegou órfão; hoje, ele é seu conselheiro. Dica: Acolha o órfão com Honra e permita que ele se torne conselheiro. |
 | `selecao.heroi_do_povo` | A Heroína do povo | Começa com 5 Ataque e 5 Escudo. Sua Honra não diminui nem fica abaixo de zero. Dica: Alcance 400 de Honra em uma crônica. |

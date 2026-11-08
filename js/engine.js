@@ -330,7 +330,7 @@
 
   function batalhaAjustada(run, batalha) {
     if (!batalha) return batalha;
-    const penalidadeDoente = run.traco === "doente" ? 1 : 0;
+    const penalidadeDoente = run.traco === "doente" ? 2 : 0;
     if (batalha.semAjuste)
       return {
         ...batalha,
@@ -894,6 +894,7 @@
     const fontesDesvantagem = fontesDesvantagemInimiga(run, pendente);
     const fonteTerceiraDesvantagem = fontesDesvantagem >= 3 ? 1 : 0;
     const bonusCoringaAtaque = run.traco === "coringa" && pendente?.coringa === 2 ? 2 : 0;
+    const bonusCorajosaAtaque = run.traco === "corajoso" ? 2 : 0;
     const bonusCoringaDado = run.traco === "coringa" && pendente?.coringa === 1 ? 1 : 0;
     const bonusDadosVantagem = Math.max(
       run.efeitoDivino?.bonusDadosCombate || 0,
@@ -902,6 +903,7 @@
     return {
       ataque:
         run.atributos.ataque +
+        bonusCorajosaAtaque +
         (preparados.bonusAtaqueProximaBatalha || 0) +
         (Jogo.druida?.bonusAtaqueCombate(run) || 0) +
         bonusCoringaAtaque,
@@ -1099,8 +1101,6 @@
   function resolverCombate(run, batalha, rolagem) {
     batalha = batalhaAjustada(run, batalha);
     const preparados = run.efeitosPreparados || {};
-    const bonusAtaque = preparados.bonusAtaqueProximaBatalha || 0;
-    const bonusAtaqueDruida = Jogo.druida?.bonusAtaqueCombate(run) || 0;
     const bonusEscudo = preparados.bonusEscudoProximaBatalha || 0;
     const perfil = perfilCombate(run);
     const dadosHerdeiro =
@@ -1114,8 +1114,7 @@
     const dadoHerdeiro = Math.max(...dadosHerdeiro);
     const fontesDesvantagem = fontesDesvantagemInimiga(run);
     const dadoInimigo = fontesDesvantagem ? Math.min(...dadosInimigo) : Math.max(...dadosInimigo);
-    const bonusCoringaAtaque = run.traco === "coringa" && run.combatePendente?.coringa === 2 ? 2 : 0;
-    const ataqueTotal = run.atributos.ataque + bonusAtaque + bonusAtaqueDruida + bonusCoringaAtaque;
+    const ataqueTotal = perfil.ataque;
     const bonusResultado = temItem(run, "trevo_da_sorte") ? 5 : 0;
     const defesaInimiga = perfil?.defesa ?? batalha.defesa;
     const totalHerdeiro = dadoHerdeiro + ataqueTotal + bonusResultado;
