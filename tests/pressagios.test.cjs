@@ -209,6 +209,8 @@ test("auxílios contam ações e gastos efetivos sem incluir renda, passivas ou 
   ativar(J, r, "nuvem_faminta");
   r.atributos.gold = 50;
   rodada(J, r, 4);
+  assert.equal(J.pressagios.eventoAuxilio(r), null);
+  rodada(J, r, 11);
   assert.equal(J.pressagios.eventoAuxilio(r).id, "pressagio_preparativos");
   J.engine.registrarSorteio(r, J.eventoPorId("pressagio_preparativos"));
   assert.equal(J.engine.escolher(r, "pagar"), true);

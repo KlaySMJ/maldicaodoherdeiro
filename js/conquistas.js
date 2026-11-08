@@ -51,6 +51,160 @@
   const raridades = [...new Set(Jogo.itens.map((item) => item.raridade).filter(Boolean))];
   const zodiacos = Jogo.eventos.filter((evento) => evento.zodiaco);
   const deusesNordicos = Jogo.eventos.filter((evento) => evento.divino);
+  const novosPressagios = [
+    ["lua_vermelha", "Uma noite sem luto", "A Lua Vermelha"],
+    ["cometa_cinzas", "Cinzas sobre o cofre", "O Cometa de Cinzas"],
+    ["nuvem_faminta", "A colheita resistiu", "A Nuvem Faminta"],
+    ["ferrugem_negra", "Ferro que não cede", "A Ferrugem Negra"],
+    ["corvos", "Uma pena por resposta", "Os corvos"],
+    ["noite_lamento", "Mais vozes ao amanhecer", "A Noite do Lamento"],
+    ["procissao", "Portas abertas", "A Procissão sem Rostos"],
+    ["vinda_barao", "Os cofres ficaram", "A Vinda do Barão"],
+    ["sombra_coroada", "Um trono sem clemência", "A Sombra Coroada"],
+    ["testemunha_pedra", "As mãos limpas", "A Testemunha de Pedra"],
+  ];
+  const novasCadeias = [
+    ["carta_navegacao", "A última marca do mapa", "Uma carta na encadernação"],
+    ["oficio_vidreiro", "Vidro contra o frio", "Cacos sob a cinza"],
+    ["pomar_sem_placa", "A primeira colheita", "Frutos no terreno baldio"],
+    ["livro_dividas", "A dívida teve resposta", "Uma página no fundo do baú"],
+    ["posto_sinais", "Um sinal na colina", "A lanterna na colina"],
+    ["aprendizes_cisterna", "Água para a vila", "O desenho no barril"],
+    ["caravana_teceles", "O último fio", "O tear desmontado"],
+  ];
+  const venceuPressagio = (run, id) =>
+    run.pressagios?.historico?.some((registro) => registro.id === id && registro.sucesso === true) === true;
+  const completouCadeia = (run, id) =>
+    run.flags?.[`${id}_etapa4`] === true && run.flags?.[`${id}_encerrada`] === true;
+  const conquistouAntes = (run, id, contexto) =>
+    contexto?.desbloqueadas?.has(id) === true ||
+    run.legadoDaRun?.conquistasDesbloqueadas?.includes(id) === true ||
+    run.conquistas?.conquistasDesbloqueadas?.includes(id) === true;
+  const chegouAoFimDaVisao = (run, id, flagFinal, manter) =>
+    run.flags?.[`${id}_etapa4`] === true &&
+    run.flags?.[flagFinal] === true &&
+    run.flags?.[`${id}_ativo`] === manter;
+  const encontrosVistos = (run, ids) => {
+    const vistos = progressoLegado(run);
+    return ids.every((id) => vistos[`visto_${id}`] === true);
+  };
+  const conquistasRecentes = [
+    ...novosPressagios.map(([id, nome, pressagio]) => ({
+      id: `pressagio_${id}`,
+      nome,
+      descricao: `Encerre “${pressagio}” com sucesso.`,
+      categoria: "pressagios",
+      condicao: (run) => venceuPressagio(run, id),
+    })),
+    {
+      id: "pressagios_todos_superados",
+      nome: "O amanhã foi outro",
+      descricao: "Supere os dez Maus Presságios. O progresso acumula entre crônicas.",
+      categoria: "pressagios",
+      condicao: (run, contexto) =>
+        novosPressagios.every(
+          ([id]) => venceuPressagio(run, id) || conquistouAntes(run, `pressagio_${id}`, contexto),
+        ),
+    },
+    ...novasCadeias.map(([id, nome, inicio]) => ({
+      id: `cadeia_${id}`,
+      nome,
+      descricao: `Conclua os quatro encontros da história iniciada em “${inicio}”.`,
+      categoria: "historias",
+      condicao: (run) => completouCadeia(run, id),
+    })),
+    {
+      id: "cadeias_sete_historias",
+      nome: "Histórias levadas ao fim",
+      descricao:
+        "Conclua as histórias da carta, do vidro, do pomar, das dívidas, dos sinais, da cisterna e dos tecelões. O progresso acumula entre crônicas.",
+      categoria: "historias",
+      condicao: (run, contexto) =>
+        novasCadeias.every(
+          ([id]) => completouCadeia(run, id) || conquistouAntes(run, `cadeia_${id}`, contexto),
+        ),
+    },
+    {
+      id: "visao_mercurio_aceita",
+      nome: "Ver o preço de tudo",
+      descricao: "Aceite a lente e ative os Olhos de Mercúrio.",
+      categoria: "transformacoes",
+      condicao: (run) => run.flags?.olhos_mercurio_ativo === true,
+    },
+    {
+      id: "visao_mercurio_removida",
+      nome: "Só os próprios olhos",
+      descricao: "Retire a lente de Mercúrio em “O peso da visão”.",
+      categoria: "transformacoes",
+      condicao: (run) => chegouAoFimDaVisao(run, "olhos_mercurio", "olhos_mercurio_encerrada", false),
+    },
+    {
+      id: "visao_mercurio_mantida",
+      nome: "O preço de continuar vendo",
+      descricao: "Chegue à decisão final dos Olhos de Mercúrio e escolha manter a lente.",
+      categoria: "transformacoes",
+      condicao: (run) => chegouAoFimDaVisao(run, "olhos_mercurio", "olhos_mercurio_encerrada", true),
+    },
+    {
+      id: "visao_mil_nomes_aceita",
+      nome: "Os nomes antes da chegada",
+      descricao: "Aceite e ative o Olho dos Mil Nomes.",
+      categoria: "transformacoes",
+      condicao: (run) => run.flags?.olho_mil_nomes_ativo === true,
+    },
+    {
+      id: "visao_mil_nomes_removida",
+      nome: "O silêncio dos nomes",
+      descricao: "Remova a relíquia em “O olho pede silêncio”.",
+      categoria: "transformacoes",
+      condicao: (run) => chegouAoFimDaVisao(run, "olho_mil_nomes", "olho_mil_nomes_encerrado", false),
+    },
+    {
+      id: "visao_mil_nomes_mantida",
+      nome: "Uma voz que fica",
+      descricao: "Chegue à decisão final do Olho dos Mil Nomes e escolha conservar a relíquia.",
+      categoria: "transformacoes",
+      condicao: (run) => chegouAoFimDaVisao(run, "olho_mil_nomes", "olho_mil_nomes_encerrado", true),
+    },
+    {
+      id: "visoes_simultaneas",
+      nome: "Duas maneiras de ver",
+      descricao: "Mantenha os Olhos de Mercúrio e o Olho dos Mil Nomes ativos ao mesmo tempo.",
+      categoria: "transformacoes",
+      condicao: (run) => run.flags?.olhos_mercurio_ativo === true && run.flags?.olho_mil_nomes_ativo === true,
+    },
+    {
+      id: "obra_cisterna_comunitaria",
+      nome: "Água de reserva",
+      descricao: "Construa a Cisterna comunitária na história dos aprendizes.",
+      categoria: "vila",
+      condicao: (run) => run.construcoes?.includes("cisterna_comunitaria") === true,
+    },
+    {
+      id: "obra_entreposto_comercial",
+      nome: "Um lugar para trocar",
+      descricao: "Construa o Entreposto comercial ao concluir a história dos tecelões.",
+      categoria: "vila",
+      condicao: (run) => run.construcoes?.includes("entreposto_comercial") === true,
+    },
+    {
+      id: "norte_quatro_bencaos",
+      nome: "Quatro bênçãos do Norte",
+      descricao: "Veja os encontros de Baldr, Frigg, Heimdall e Freyr. O progresso acumula entre crônicas.",
+      categoria: "historias",
+      condicao: (run) =>
+        encontrosVistos(run, ["bencao_baldr", "bencao_frigg", "bencao_heimdall", "bencao_freyr"]),
+    },
+    {
+      id: "norte_quatro_ameacas",
+      nome: "Quando o Norte ameaça",
+      descricao:
+        "Veja os encontros de Jormungand, Fenrir, Hrym e Níðhöggr. O progresso acumula entre crônicas.",
+      categoria: "historias",
+      condicao: (run) =>
+        encontrosVistos(run, ["maldicao_jormungand", "maldicao_fenrir", "maldicao_hrym", "maldicao_nidhogg"]),
+    },
+  ];
   const lista = [
     {
       id: "fortuna_do_leste",
@@ -197,7 +351,7 @@
     {
       id: "vitorias_com_todos_herdeiros",
       nome: "Toda a linhagem",
-      descricao: "Vença uma crônica com cada um dos seis herdeiros. O progresso acumula entre crônicas.",
+      descricao: `Vença uma crônica com cada um dos ${herdeiros.length} herdeiros. O progresso acumula entre crônicas.`,
       condicao: (run) => todosHerdeirosVenceram(run),
     },
     {
@@ -250,6 +404,7 @@
       condicao: (run) =>
         run.status === "encerrada" && run.fim?.tipo === "derrota" && run.eventoId === "travessia_do_gelo",
     },
+    ...conquistasRecentes,
     ...condicoes.flatMap(([id, flag, titulo]) => [
       {
         id: `condicao_${id}_abracada`,
@@ -401,7 +556,10 @@
       ...(legadoSalvo?.conquistasDesbloqueadas || []),
       ...(run.conquistas?.conquistasDesbloqueadas || []),
     ]);
-    const novas = lista.filter((conquista) => !jaDesbloqueadas.has(conquista.id) && conquista.condicao(run));
+    const contexto = { desbloqueadas: jaDesbloqueadas };
+    const novas = lista.filter(
+      (conquista) => !jaDesbloqueadas.has(conquista.id) && conquista.condicao(run, contexto),
+    );
     if (!novas.length) return [];
     run.conquistas = Jogo.legado.mesclar(run.conquistas, {
       versao: 1,

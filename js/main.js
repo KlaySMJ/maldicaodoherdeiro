@@ -218,6 +218,9 @@
           }
         }
         break;
+      case "debug-conquista":
+        if (Jogo.ui.modoDebug()) Jogo.ui.preverConquista();
+        break;
       case "debug-transformacoes":
         Jogo.ui.preverTransformacoes(run);
         break;

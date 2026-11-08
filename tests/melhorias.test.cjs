@@ -111,9 +111,9 @@ test("texto da carta mantém cópia acessível sem duplicá-la na leitura visual
     app.innerHTML,
     /class="leitor-de-tela">[^<]+<\/span><span data-texto-visual aria-hidden="true">/,
   );
-  assert.match(app.innerHTML, /class="recurso-contador gold-contador"[^>]*data-tooltip="[^"]+"/);
-  const gold = app.innerHTML.match(/<div class="recurso-contador gold-contador"[\s\S]*?<\/div>/)?.[0] || "";
-  assert.match(gold, /<dt>Gold<\/dt><dd>\d+<\/dd>/);
+  assert.match(app.innerHTML, /data-atributo="gold"[^>]*data-tooltip="[^"]+"/);
+  const gold = app.innerHTML.match(/<div data-atributo="gold"[\s\S]*?<\/div>/)?.[0] || "";
+  assert.match(gold, /<span class="leitor-de-tela">Gold<\/span><\/dt><dd>\d+<\/dd>/);
   assert.doesNotMatch(gold, /info-hover|>i</);
 });
 

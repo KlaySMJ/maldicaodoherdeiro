@@ -322,6 +322,7 @@
     s.historico.push({ id: p.id, rodada: run.rodada, sucesso, debug: p.debug });
     s.historico = s.historico.slice(-20);
     Jogo.engine.avaliarConsequenciaPressagio(run);
+    if (run.status === "ativa") Jogo.legado.avaliar(run);
     return true;
   }
   function passagem(run, aleatorio = Math.random) {

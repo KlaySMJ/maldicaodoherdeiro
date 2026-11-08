@@ -10,7 +10,7 @@
   <!-- A escrita durante o parsing preserva defer e a ordem de execução em file://. -->
   <script>
     (() => {
-      const VERSAO_ASSETS = "20261107-41";
+      const VERSAO_ASSETS = "20261107-52";
       window.JOGO_VERSAO_ASSETS = VERSAO_ASSETS;
       const mostrarErroDeAbertura = () => {
         const app = document.getElementById("app");
@@ -94,5 +94,6 @@
     <noscript>Ative o JavaScript do navegador para jogar.</noscript>
   </div>
   <p id="aviso-save" class="aviso-save" role="status" hidden></p>
+  <div class="notificacoes-conquistas" data-notificacoes-conquistas role="status" aria-live="polite" aria-atomic="true"></div>
 </body>
 </html>

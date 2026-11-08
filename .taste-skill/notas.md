@@ -119,3 +119,170 @@ As opções designadas na proposta concedem `senhor_compreendido`, `vontade_ouvi
 ## Eventos especiais 101–120
 
 Incluídas as 20 cartas especiais da proposta. A engine registra `especial_<id>` no momento do sorteio, inclusive se o jogador recusar; eventos de pacto saem da pool após `pacto_feito`. O Relojoeiro define HONRA como zero. O pacto do Corvo revela a variação de honra das opções nas cinco rodadas seguintes; esse prazo fica salvo na run e saves antigos recebem zero. “O Primeiro Herdeiro” exige a flag de legado `sucessor_pressentido` do evento 100. Opções propostas no Espelho e no Primeiro Herdeiro gravam suas flags persistentes no encerramento. A cadeia abissal 121–125 usa marcas da run para manter a ordem. Os achados 126–127 concedem itens; o baú mímico esconde sua armadilha até a resolução. O catálogo e o TXT passam a listar 127 eventos.
+
+## Dano e conquistas: 7 de novembro de 2026
+
+Alteração localizada nos efeitos da interface, seguindo a composição, a tipografia e a paleta existentes. A queda de Vida provoca um recuo curto do retrato, um clarão vermelho e o destaque do valor perdido. Uma conquista revela o selo dourado e seu nome numa faixa temporária; várias conquistas entram em sequência. A faixa ocupa o canto inferior no desktop e o topo em telas de até 900 px, onde o rodapé cobriria as escolhas.
+
+- [x] Disparar o dano pela diferença real de Vida, sem repetir ao redesenhar a tela, curar ou carregar uma crônica.
+- [x] Consumir e salvar os avisos de conquista, preservar a fila ao avançar e evitar recriar o save de uma crônica já encerrada.
+- [x] Permitir dispensar o aviso, pausar seu prazo com foco ou cursor e respeitar movimento reduzido.
+- [x] Conferir as capturas e o comportamento em 1440, 768 e 390 px, incluindo movimento reduzido em 390 px.
+
+Resumo: os efeitos acompanham os acontecimentos da partida e mantêm as escolhas disponíveis. Nenhuma pendência desta alteração.
+
+Validações: 27 testes de interface, conquistas e controlador passaram, assim como ESLint, Prettier e a conferência de whitespace. O navegador confirmou a fila sem duplicatas, saída automática, pausa com foco, reabertura sem repetir avisos e ausência de erros JavaScript ou rolagem horizontal. As capturas dos efeitos e da tela de batalha foram abertas para revisão; o relatório final da batalha registrou zero falhas em três larguras. A sombra do nome sobre a arte foi permitida como parte do desenho existente; o aviso de textos auxiliares pequenos também pertence à interface anterior. O scanner estático amplo continua apontando os gradientes do fundo e o símbolo lunar já presentes no jogo. Relatórios e capturas ficam em `.taste-skill/qa/feedback-after/` e `.taste-skill/inspect-feedback-final/`.
+
+## Coleção de conquistas: 7 de novembro de 2026
+
+A tela responde quais conquistas faltam e como encontrá-las. As 81 entradas foram distribuídas entre Crônicas, Herdeiros, Histórias e encontros, Transformações, Vila e recursos e Combate. O resumo mostra a fração conquistada, a porcentagem e quantas faltam; cada tema também mostra seu progresso. A busca considera nome e condição, sem distinguir acentos ou maiúsculas. Os filtros de estado e categoria funcionam em conjunto e permanecem ao alternar as abas.
+
+A revisão das capturas levou à redução do cabeçalho no celular, onde o botão de retorno usa uma seta e as categorias aparecem num seletor. No desktop, uma lista lateral permite trocar de tema. Os nomes e as condições ganharam tamanho, os selos deixaram as caixas decorativas e o dourado indica conquistas obtidas. A paleta e as margens seguem as do jogo; os números vêm do catálogo e do legado, sem estimar progresso individual que o save não registra.
+
+- [x] Organizar todas as conquistas em seis temas, com contagem sem IDs antigos ou duplicados.
+- [x] Acrescentar busca, filtros combinados, limpeza e estado sem resultados.
+- [x] Melhorar a leitura e a navegação nas três larguras, preservando as condições de desbloqueio.
+- [x] Conferir coleção vazia, parcial e completa, navegação por teclado e troca entre Conquistas, Jornada e Recordes.
+
+Resumo: a aba permite encontrar uma meta e acompanhar a coleção com menos rolagem. Nenhuma pendência desta alteração.
+
+Validações: 31 testes de interface, melhorias e conquistas passaram, assim como ESLint, Prettier e a conferência de whitespace. O navegador confirmou os filtros em 1440, 768 e 390 px, sem erros JavaScript ou rolagem horizontal. A inspeção final registrou zero falhas; os avisos de marfim e margem de 14 px correspondem à paleta e ao alinhamento existentes. Todas as capturas finais foram abertas para revisão. Os dados parciais e completos usados nas capturas são de ensaio e não alteram o progresso do jogador. Capturas e relatórios ficam em `.taste-skill/qa/conquistas-after/` e `.taste-skill/inspect-conquistas-final/`.
+
+## Prévia de conquista no debug
+
+- [x] Adicionar o botão “Debug: animação de conquista” ao menu e “Conquista” aos controles de debug da partida.
+- [x] Reutilizar a animação e a fila existentes, com o rótulo “Prévia de conquista”, sem registrar desbloqueios ou gravar a partida.
+- [x] Conferir o acionamento, a repetição e o bloqueio fora do modo debug.
+
+Resumo: clicar na imagem da vila revela os controles; o botão de conquista reproduz o aviso de “Um ano inteiro”. Nenhuma pendência desta alteração.
+
+Validações: 30 testes de controlador, interface e conquistas passaram, assim como ESLint, Prettier e a conferência de whitespace. No navegador em 1440, 768 e 390 px, os botões do menu e da partida acionaram a prévia, a repetição entrou na fila e o legado e o save permaneceram iguais. Não houve erros JavaScript nem rolagem horizontal. As três capturas foram abertas para revisão e ficam em `.taste-skill/qa/debug-conquista/`.
+
+## Conquistas das adições recentes
+
+A coleção passa de 81 para 111 conquistas. A aba ganha o tema Maus Presságios; as demais entradas seguem nas categorias existentes.
+
+| Conteúdo | Novas conquistas | Condição |
+| --- | ---: | --- |
+| Maus Presságios | 11 | Superar cada um dos dez e completar a coleção entre crônicas. |
+| Histórias em quatro encontros | 8 | Concluir cada uma das sete histórias e completar o conjunto entre crônicas. |
+| Olhos de Mercúrio e Olho dos Mil Nomes | 7 | Aceitar cada transformação, removê-la ou mantê-la na decisão final, além de ativar ambas na mesma partida. |
+| Obras | 2 | Construir a Cisterna comunitária e o Entreposto comercial. |
+| Encontros nórdicos recentes | 2 | Ver Baldr, Frigg, Heimdall e Freyr; ver Jormungand, Fenrir, Hrym e Níðhöggr. Cada grupo acumula entre crônicas. |
+
+As histórias exigem a chegada ao quarto encontro e uma escolha de desfecho. A flag de encerramento também aparece nos abandonos anteriores, portanto não basta para obter a conquista. Nos olhos, desistir no terceiro encontro não conta como manter a transformação na decisão final. As metas coletivas de histórias e presságios usam as conquistas individuais já salvas, sem depender de todo o histórico permanecer na partida atual.
+
+Resolver um presságio avalia e salva o desbloqueio naquele momento. O aviso aguarda o retorno à vila para preservar a leitura do resultado no celular. O seletor móvel mostra apenas o nome da categoria; o cabeçalho da lista mantém a contagem. A descrição de “Toda a linhagem” acompanha os nove herdeiros que a condição já exigia.
+
+ROUND 1
+Seen in one second: uma coleção filtrada de presságios, com metas obtidas e pendentes.
+Idea (one sentence): os acontecimentos recentes viram metas com condições ligadas às decisões da crônica.
+Live thing: busca, filtros combinados e desbloqueios que acionam o aviso existente.
+Layout words by section: resumo=progresso / filtros=busca e tema / lista=nome e condição.
+Scores: design 8 · usability 8 · creativity 7 · content 9 → overall 8.0
+Caps applied: nenhuma.
+Top three problems (most visible first), each with the screenshot it shows in and the fix:
+1. O aviso escondia o título do presságio em `390-new-toast.jpg`; a fila agora aguarda o retorno à vila.
+2. A contagem cortava o nome do seletor em `390-pressagios.jpg`; o seletor mostra só o nome, com a contagem no cabeçalho.
+3. Nenhum outro problema desta alteração nas capturas finais. Os avisos de marfim e margem de 14 px mantêm a paleta e o alinhamento existentes.
+
+- [x] Criar as 30 conquistas e integrar as sete categorias à busca e aos filtros.
+- [x] Verificar desfechos reais, abandonos, persistência, coleção entre partidas e ausência de avisos repetidos.
+- [x] Conferir a categoria e o aviso em 1440, 768 e 390 px, incluindo o retorno do resultado à vila.
+- [x] Executar a suíte completa, ESLint, Prettier e a conferência de whitespace.
+
+Resumo: as adições recentes têm metas próprias e aproveitam a animação de conquista já existente. Nenhuma decisão em aberto. A conferência manual não incluiu uma partida completa de 300 rodadas; os testes exercitam os prazos e as escolhas pela engine real.
+
+Validações: 187 testes passaram. ESLint e Prettier aprovaram os arquivos alterados, e a conferência de whitespace passou. O navegador confirmou os filtros, coleções vazia e completa, persistência e aviso de uma conquista nova, sem erros JavaScript ou rolagem horizontal. A inspeção registrou zero falhas e os dois avisos já justificados. As capturas finais da inspeção e dos avisos foram abertas para revisão; os relatórios ficam em `.taste-skill/qa/conquistas-after/` e `.taste-skill/inspect-conquistas-recentes/`.
+
+## Animação de conquista no centro
+
+O aviso ocupa o centro da janela em todas as larguras. O selo aparece acima do nome, com a condição abaixo; o painel mantém o fundo escuro e o dourado do jogo. A entrada dura 640 ms, com escala discreta e deslocamento de 18 px. Selo e texto chegam com pequenos atrasos. A saída dura 320 ms e parte da opacidade e da posição atuais, mesmo quando o jogador fecha o aviso durante a entrada. A fila avança ao terminar a animação; um prazo de reserva cobre a ausência do evento de término.
+
+ROUND 1
+Seen in one second: um aviso de conquista no centro, com selo e nome em destaque.
+Idea (one sentence): a conquista recebe um momento próprio sobre a partida, como o usuário pediu.
+Live thing: dispensar o aviso ou deixar a fila seguir automaticamente; foco e cursor pausam a leitura.
+Layout words by section: aviso=selo, nome e condição / partida=conteúdo existente ao fundo.
+Scores: design 8 · usability 8 · creativity 7 · content 8 → overall 7.8
+Caps applied: a sobreposição temporária cobre partes da partida por decisão explícita do usuário.
+Top three problems (most visible first), each with the screenshot it shows in and the fix:
+1. O aviso anterior ficava num canto; as capturas `*-center.jpg` confirmam o centro horizontal e vertical.
+2. Fechar durante a entrada podia substituir a posição por um quadro inicial diferente; o fechamento agora começa no estado calculado do painel. O ensaio comparou a opacidade antes e depois da interrupção.
+3. Nenhum outro problema desta alteração nas capturas finais. O painel flutuante pode cobrir conteúdo durante a leitura; o botão de fechar e o prazo automático continuam disponíveis.
+
+A inspeção final permite `heavy-shadow` para a sombra do aviso flutuante, `covered-text` para sua posição central solicitada e `text-shadow` para o nome sobre o retrato já existente. Os avisos de marfim, bordas e textos pequenos pertencem à paleta e aos controles do jogo; o novo aviso usa corpo de 15 px e nome de 26 px no desktop, 23 px no celular.
+
+- [x] Centralizar o aviso, ampliar o nome e reorganizar o selo e os textos.
+- [x] Suavizar entrada e saída, incluindo o fechamento antes do fim da entrada.
+- [x] Preservar fila, fechamento automático, pausa com foco e movimento reduzido.
+- [x] Conferir desktop, tablet, celular e tela horizontal, além dos testes e da inspeção visual.
+
+Resumo: o aviso de conquista aparece no centro com movimento contínuo. Nenhuma pendência desta alteração.
+
+Validações: 39 testes de interface, controlador e conquistas passaram; ESLint, Prettier e a conferência de whitespace também passaram. O navegador confirmou centralização com erro menor que 1 px, ausência de rolagem horizontal, foco, fila, fechamento automático e interrupção da entrada em 1440×900, 768×1024, 390×844 e 640×320. O ensaio com movimento reduzido manteve o conteúdo estático. As capturas finais foram abertas; a inspeção registrou zero falhas com as permissões acima. Arquivos de ensaio e relatórios ficam em `.taste-skill/qa/conquista-central/` e `.taste-skill/inspect-conquista-central-final/`.
+
+## Aviso compacto com saída automática
+
+O usuário pediu uma faixa menor, só com a estrela ao lado do nome. O aviso mantém o centro da janela, usa estrela de 24 px e nome de 18 px (17 px no celular), com altura mínima de 56 px. A largura acompanha o nome até 420 px; nomes maiores podem quebrar linha. O aviso inteiro funciona como botão para dispensar, com contexto de conquista ou prévia no nome acessível. A interface não mostra o rótulo, a descrição nem o botão separado de fechar.
+
+O aviso começa a sair após 3 segundos e conclui a animação em mais 320 ms. Cursor e foco não interrompem esse prazo, conforme o pedido seguinte do usuário. Clicar ou tocar permite fechá-lo antes. A fila continua com uma conquista por vez.
+
+ROUND 1
+Seen in one second: estrela e nome numa faixa curta no centro.
+Idea (one sentence): reconhecer a conquista com um aviso pequeno sobre a partida.
+Live thing: tocar na faixa para dispensar ou aguardar a saída automática.
+Layout words by section: aviso=estrela ao lado do nome / partida=conteúdo ao fundo.
+Scores: design 8 · usability 8 · creativity 7 · content 8 → overall 7.8
+Caps applied: a posição central mantém a sobreposição temporária solicitada.
+Top three problems (most visible first), each with the screenshot it shows in and the fix:
+1. O painel anterior ocupava espaço demais; as capturas finais mostram a faixa com apenas uma linha para “Um ano inteiro”.
+2. A pausa com cursor ou foco podia manter o aviso aberto; o prazo agora é fixo e o navegador confirmou a saída com ambos sobre o aviso.
+3. Nenhum outro problema desta alteração nas capturas finais. A revisão também removeu a sombra da faixa.
+
+- [x] Colocar a estrela ao lado do nome e retirar os textos extras.
+- [x] Reduzir o tamanho e preservar o centro e a animação suave.
+- [x] Dispensar por clique ou toque e sair automaticamente após 3 segundos.
+- [x] Conferir fila, foco, cursor, movimento reduzido e as larguras de desktop, tablet, celular e tela horizontal.
+
+Resumo: a conquista aparece numa faixa compacta e desaparece sozinha. Nenhuma pendência desta alteração.
+
+Validações: 15 testes de interface e controlador passaram, assim como ESLint, Prettier e a conferência de whitespace. O ensaio no navegador passou em quatro tamanhos de janela e em movimento reduzido; o teste adicional confirmou a saída automática com cursor e foco sobre a faixa. A inspeção visual registrou zero falhas e dois avisos da paleta e dos textos auxiliares existentes. As permissões `text-shadow` e `covered-text` correspondem ao nome do retrato e à sobreposição central já solicitada. As capturas finais foram abertas e ficam em `.taste-skill/inspect-conquista-compacta-final/`; o ensaio de comportamento fica em `.taste-skill/qa/conquista-compacta/`.
+
+## Brilho de desbloqueio
+
+O pedido seguinte acrescenta brilho à faixa compacta. A estrela entra com giro curto e um pulso dourado, enquanto uma onda circular se expande e desaparece. Um reflexo diagonal atravessa a faixa uma vez; a borda também ilumina por um instante. Os efeitos terminam antes da saída automática, que continua começando após 3 segundos. A faixa mantém o tamanho, o centro e apenas o nome ao lado da estrela. Movimento reduzido oculta as camadas de luz e mantém o conteúdo estático.
+
+ROUND 1
+Seen in one second: uma conquista com estrela iluminada e reflexo dourado.
+Idea (one sentence): o brilho marca o instante do desbloqueio sem ampliar a faixa.
+Live thing: dispensar por clique ou aguardar a saída automática.
+Layout words by section: aviso=estrela e nome / luz=pulso e reflexo breve.
+Scores: design 8 · usability 8 · creativity 8 · content 8 → overall 8.0
+Caps applied: nenhuma nova; a sobreposição central permanece por pedido do usuário.
+Top three problems (most visible first), each with the screenshot it shows in and the fix:
+1. A faixa anterior tinha pouco destaque; o quadro de 650 ms mostra o reflexo e a estrela iluminada.
+2. Efeitos contínuos poderiam disputar a leitura; o reflexo atravessa a faixa uma vez e as ondas desaparecem.
+3. Nenhum outro problema nas capturas finais. O texto permanece legível durante o brilho.
+
+O brilho e o gradiente do reflexo atendem ao pedido explícito do usuário, que prevalece sobre a regra visual geral da skill. A inspeção permite `gradient` para esse reflexo; `text-shadow` e `covered-text` continuam restritos ao retrato existente e à posição central solicitada. O quadro de inspeção congela uma cópia do aviso em 650 ms para permitir a comparação entre larguras; o ensaio de comportamento usa o aviso real com seu prazo normal.
+
+- [x] Acrescentar pulso na estrela, onda circular e reflexo dourado na faixa.
+- [x] Preservar tamanho compacto, nome e posição central.
+- [x] Manter saída após 3 segundos, fila, dispensa por clique e movimento reduzido.
+- [x] Conferir as animações no navegador e abrir as capturas da inspeção nas três larguras.
+
+Resumo: o aviso ganha um brilho breve de desbloqueio sem aumentar de tamanho. Nenhuma pendência desta alteração.
+
+Validações: 15 testes de interface e controlador passaram, assim como ESLint, Prettier e a conferência de whitespace. O navegador confirmou fila, centralização, fechamento antecipado e saída automática, inclusive com cursor e foco, em desktop, tablet, celular, tela horizontal e movimento reduzido. Não houve erros JavaScript nem rolagem horizontal. A inspeção registrou zero falhas e os dois avisos existentes de paleta e textos auxiliares. Capturas e relatórios ficam em `.taste-skill/qa/conquista-brilho/` e `.taste-skill/inspect-conquista-brilho/`.
+
+## Correção da rolagem no aviso
+
+O quadro ainda usava `overflow-y: auto`, que podia transformar a expansão dos efeitos em rolagem. O quadro agora deixa os efeitos visíveis; apenas a camada do reflexo usa `overflow: clip`. O nome define a altura necessária, e a coluna da grade respeita a largura da janela. Essa última correção evita que o nome mais longo ultrapasse as bordas no celular.
+
+- [x] Remover a área rolável do quadro, preservando o brilho e a saída automática.
+- [x] Conferir o maior nome do catálogo em cinco momentos da animação, nas larguras de 1440, 768, 390 e 320 px.
+
+Resumo: o aviso não cria barra de rolagem e mantém o nome completo, com quebra de linha quando necessário. Nenhuma pendência desta correção.
+
+Validações: o navegador confirmou ausência de deslocamento interno nos dois eixos, nome dentro do quadro, quadro dentro da janela e saída automática nas quatro larguras. As quatro capturas foram abertas e não houve erros JavaScript ou rolagem horizontal da página. A conferência de whitespace passou. O ensaio está em `.taste-skill/qa/conquista-sem-scroll/`; a inspeção do quadro registrou zero falhas, com as permissões de brilho e sobreposição já documentadas.

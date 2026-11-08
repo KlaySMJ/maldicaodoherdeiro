@@ -51,6 +51,9 @@ function preparar() {
     menu: (run) => Object.assign(tela, { nome: "inicio", run }),
     intro: () => Object.assign(tela, { nome: "intro" }),
     tutorial() {},
+    preverConquista: () => {
+      tela.previasConquista = (tela.previasConquista || 0) + 1;
+    },
     jogo: (run) => Object.assign(tela, { nome: "jogo", run }),
     fim: (run) => Object.assign(tela, { nome: "fim", run }),
     confirmarNovaRun: async () => true,
@@ -81,6 +84,20 @@ test("debug libera todos os personagens sem forçar outro início ou conceder co
   assert.equal(dados.has("debug_forcar_heroi"), false);
   assert.equal(J.save.lerLegado().conquistasDesbloqueadas.length, 0);
   assert.equal(J.save.lerRun(), null);
+});
+
+test("debug de conquista exibe a prévia sem salvar nem alterar a partida", async () => {
+  const { J, dados, tela, novaRun, clicar, iniciarControlador } = preparar();
+  J.save.gravarRun(novaRun(8));
+  iniciarControlador();
+  const antes = [...dados.entries()];
+  await clicar({ acao: "debug-conquista" });
+  assert.equal(tela.previasConquista, 1);
+  assert.deepEqual([...dados.entries()], antes);
+  J.ui.modoDebug = () => false;
+  await clicar({ acao: "debug-conquista" });
+  assert.equal(tela.previasConquista, 1);
+  assert.deepEqual([...dados.entries()], antes);
 });
 
 test("Carregar lê o save atual no clique, sem retomar a cópia antiga do menu", async () => {
