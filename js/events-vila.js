@@ -179,13 +179,12 @@
           },
           {
             id: "improvisar",
-            texto: "Completar a canção do bardo com um verso próprio · teste d20 + 1.",
+            texto: "Completar a canção do bardo com um verso próprio.",
             flags: { bardo_decidido: true, bardo_cantou: true },
             testeDados: {
               bonus: 1,
               dificuldade: 14,
               limiteCusto: 10,
-              previsao: "Sucesso: +3 Honra e +2 Gold. Com custo: +1 Honra. Falha: −2 Honra. Abrigar o bardo custa 1 Gold e é seguro.",
               sucesso: {
                 efeitos: { honra: 3, gold: 2 },
                 resultado: "O bardo aproveita o verso e o repete na praça. A vila acrescenta seu nome à canção.",
@@ -1129,6 +1128,20 @@
               "Você perde dois rounds e ganha o terceiro por teimosia. A praça aplaude, e seu ombro, não.",
           },
           {
+            id: "duelo_de_dados",
+            texto: "Desafiar o jovem para uma disputa de dados.",
+            dueloDados: {
+              sucesso: {
+                efeitos: { honra: 2, ataque: 1, gold: 2 },
+                resultado: "Seu dado vence. O jovem pede que você o treine antes do próximo torneio.",
+              },
+              falha: {
+                efeitos: { honra: 1, hp: -2 },
+                resultado: "O jovem vence por pouco. Você reconhece o golpe e fica para assistir à final.",
+              },
+            },
+          },
+          {
             id: "premiar",
             texto: "Premiar o vencedor · 3 gold",
             requisitos: {
@@ -1638,6 +1651,30 @@
             },
           },
           {
+            id: "sondar_escoras",
+            texto: "Testar as escoras antes de entrar na galeria.",
+            testeDados: {
+              bonus: 0,
+              dificuldade: 14,
+              limiteCusto: 9,
+              sucesso: {
+                efeitos: { habitantes: 2, honra: 2, gold: 3 },
+                flags: { mina_decidida: true, mina_aberta: true },
+                resultado: "As escoras aguentam. Você encontra ferro e dois mineiros prontos para trabalhar.",
+              },
+              sucessoComCusto: {
+                efeitos: { gold: 1, hp: -4 },
+                flags: { mina_decidida: true },
+                resultado: "A entrada cede antes de você avançar. Você recolhe um pouco de minério e fecha a passagem.",
+              },
+              falha: {
+                efeitos: { hp: -8 },
+                flags: { mina_decidida: true },
+                resultado: "Uma tábua se parte. Você escapa da entrada, que fica lacrada sob as pedras.",
+              },
+            },
+          },
+          {
             id: "lacrar",
             texto: "Lacrar a entrada.",
             efeitos: {
@@ -1678,6 +1715,28 @@
               "Você tira cinco homens da escuridão. Quatro outros ficam para sempre. A mina é lacrada pela segunda vez.",
             flags: {
               desabamento_ocorrido: true,
+            },
+          },
+          {
+            id: "abrir_passagem_lateral",
+            texto: "Escorar a entrada e abrir uma passagem lateral.",
+            flags: { desabamento_ocorrido: true },
+            testeDados: {
+              bonus: 1,
+              dificuldade: 14,
+              limiteCusto: 9,
+              sucesso: {
+                efeitos: { honra: 5, hp: -6 },
+                resultado: "Você alcança os mineiros por uma fenda e os guia para fora antes que o teto ceda.",
+              },
+              sucessoComCusto: {
+                efeitos: { honra: 3, hp: -10, habitantes: -1 },
+                resultado: "Você abre a passagem, mas um mineiro não sobrevive à retirada e uma viga atinge seu ombro.",
+              },
+              falha: {
+                efeitos: { honra: 1, hp: -18, habitantes: -4 },
+                resultado: "A galeria cede. Você escapa com vida; quatro mineiros não conseguem sair.",
+              },
             },
           },
         ],
@@ -1802,6 +1861,27 @@
             },
             resultado:
               'A noite é longa e ridícula. Você leva três mordidas e um título secreto: "Senhor dos Ratos".',
+          },
+          {
+            id: "fechar_tocas",
+            texto: "Fechar as tocas e retirar os sacos roídos.",
+            testeDados: {
+              bonus: 1,
+              dificuldade: 13,
+              limiteCusto: 8,
+              sucesso: {
+                efeitos: { habitantes: 2, honra: 2, gold: 2 },
+                resultado: "As tocas ficam bloqueadas. O celeireiro recupera parte dos grãos e ajuda a vigiar o estoque.",
+              },
+              sucessoComCusto: {
+                efeitos: { gold: 1, hp: -3 },
+                resultado: "Você fecha a maior parte das tocas, mas alguns sacos já não podem ser aproveitados.",
+              },
+              falha: {
+                efeitos: { gold: -2, hp: -6, habitantes: -1 },
+                resultado: "Os ratos se espalham enquanto você trabalha. O celeiro perde grãos e uma família parte.",
+              },
+            },
           },
           {
             id: "queimar",
@@ -2094,6 +2174,21 @@
               "O cavaleiro ensina três lições e uma dor nas costelas. Parte na manhã, sem dizer adeus.",
           },
           {
+            id: "provar_forcas",
+            texto: "Pedir ao cavaleiro uma disputa de dados e golpes.",
+            dueloDados: {
+              bonusOponente: 2,
+              sucesso: {
+                efeitos: { ataque: 1, honra: 2, hp: -2 },
+                resultado: "Seu dado vence. O cavaleiro mostra um movimento que completa o treino.",
+              },
+              falha: {
+                efeitos: { hp: -5, honra: 1 },
+                resultado: "O cavaleiro vence e corrige sua postura. Você termina a disputa com as costelas doloridas.",
+              },
+            },
+          },
+          {
             id: "guarda",
             texto: "Propor que ele fique como guarda.",
             efeitos: {
@@ -2155,6 +2250,21 @@
               gold: -4,
             },
             resultado: "O campeão vence sem esforço. A vila aplaude e comenta que você deixou outro lutar.",
+          },
+          {
+            id: "disputa_de_dados",
+            texto: "Propor um duelo de dados diante das testemunhas.",
+            dueloDados: {
+              bonusOponente: 1,
+              sucesso: {
+                efeitos: { honra: 3, gold: 4 },
+                resultado: "Seu dado vence. O jovem paga a aposta e aceita encerrar a disputa sem ferimentos.",
+              },
+              falha: {
+                efeitos: { honra: -1, gold: -3 },
+                resultado: "O dado do jovem vence. Você paga a aposta; os padrinhos encerram a discussão.",
+              },
+            },
           },
         ],
         batalha: {
@@ -2603,6 +2713,27 @@
             },
             resultado:
               "Na manhã, os telhados voltam a ser cobertos por braços. Duas famílias, sem casa, partem.",
+          },
+          {
+            id: "firmar_telhados",
+            texto: "Reforçar os telhados antes que o rio transborde.",
+            testeDados: {
+              bonus: 1,
+              dificuldade: 14,
+              limiteCusto: 9,
+              sucesso: {
+                efeitos: { honra: 3, hp: -3 },
+                resultado: "As lonas e travessas seguram. Você atravessa a noite sem perder casas ou moradores.",
+              },
+              sucessoComCusto: {
+                efeitos: { honra: 2, hp: -7, habitantes: -1 },
+                resultado: "A maioria dos telhados aguenta. Uma casa cede, e você se fere ao tirar a família de dentro.",
+              },
+              falha: {
+                efeitos: { hp: -14, habitantes: -4 },
+                resultado: "A água rompe as amarras. Você tira algumas famílias da rua, mas quatro moradores partem.",
+              },
+            },
           },
         ],
         imagem: "assets/geada.webp",
@@ -3285,6 +3416,27 @@
               "A subida é longa e o horizonte, vazio. O vigia suspira aliviado por ter sido levado a sério.",
           },
           {
+            id: "seguir_fumaca",
+            texto: "Seguir a fumaça até o alto do morro.",
+            testeDados: {
+              bonus: 0,
+              dificuldade: 14,
+              limiteCusto: 9,
+              sucesso: {
+                efeitos: { honra: 2, escudo: 2 },
+                resultado: "Você confirma que a fumaça vem de uma forja distante e volta antes do anoitecer.",
+              },
+              sucessoComCusto: {
+                efeitos: { escudo: 1, hp: -4 },
+                resultado: "A subida demora. Você volta com um aviso útil e uma torção no tornozelo.",
+              },
+              falha: {
+                efeitos: { hp: -8, honra: -1 },
+                resultado: "A trilha termina num barranco. O horizonte continua escondido quando você retorna.",
+              },
+            },
+          },
+          {
             id: "ignorar",
             texto: "Ignorar o aviso.",
             efeitos: {
@@ -3315,6 +3467,27 @@
             },
             resultado:
               "Você leva meia dúzia de picadas e um pote de mel. O enxame se muda para a colmeia do pátio.",
+          },
+          {
+            id: "orientar_enxame",
+            texto: "Guiar o enxame até uma colmeia vazia.",
+            testeDados: {
+              bonus: 1,
+              dificuldade: 13,
+              limiteCusto: 8,
+              sucesso: {
+                efeitos: { gold: 4, honra: 2, hp: -1 },
+                resultado: "As abelhas seguem a fumaça até a colmeia. Você recolhe um pote de mel sem ferir a cozinheira.",
+              },
+              sucessoComCusto: {
+                efeitos: { gold: 2, hp: -4 },
+                resultado: "Parte do enxame muda de lugar. Você leva algumas picadas e salva um pouco de mel.",
+              },
+              falha: {
+                efeitos: { hp: -9, honra: -1 },
+                resultado: "As abelhas se dispersam pela cozinha. Você protege a cozinheira, mas o enxame fica.",
+              },
+            },
           },
           {
             id: "apicultor",
@@ -3792,12 +3965,11 @@
         },
         {
           id: "erguer_eixo_carroca",
-          texto: "Erguer o eixo antes que a chuva alcance a estrada · teste d20 + 2.",
+          texto: "Erguer o eixo antes que a chuva alcance a estrada.",
           testeDados: {
             bonus: 2,
             dificuldade: 15,
             limiteCusto: 11,
-            previsao: "Sucesso: +5 Gold e +2 Honra. Com custo: +2 Gold e −3 Vida. Falha: −8 Vida e −1 Honra. Pagar 3 Gold garante a ajuda do ferreiro.",
             sucesso: {
               efeitos: { gold: 5, honra: 2 },
               resultado: "A roda se solta sem quebrar. O cocheiro paga pela ajuda e entrega parte da carga.",

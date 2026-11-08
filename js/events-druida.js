@@ -62,12 +62,18 @@
         {
           id: "caçar_cacador",
           texto: "Seguir as marcas e procurar o caçador.",
-          testeSorte: {
-            chance: 50,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 11,
             sucesso: {
               efeitos: { honra: 3, gold: 4 },
               resultado:
                 "Você encontra o caçador, toma seu arco e o expulsa das terras. No caminho de volta, ele deixa cair uma bolsa de moedas.",
+            },
+            sucessoComCusto: {
+              efeitos: { honra: 1, gold: 1, hp: -4 },
+              resultado: "Você expulsa o caçador, mas a bolsa que ele deixa cair tem poucas moedas.",
             },
             falha: {
               efeitos: { hp: -8 },
@@ -105,12 +111,18 @@
         {
           id: "dividir_calor",
           texto: "Dividir seu manto e passar a noite com todos.",
-          testeSorte: {
-            chance: 60,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 9,
             sucesso: {
               efeitos: { hp: -5, honra: 3, habitantes: 2 },
               resultado:
                 "A vigília atravessa a noite. Ao amanhecer, duas famílias decidem ficar e cuidar dos animais.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -8, honra: 1, habitantes: -1 },
+              resultado: "A geada dura até o amanhecer. Você passa a noite ferido, mas uma família decide ficar.",
             },
             falha: {
               efeitos: { hp: -12, habitantes: -3 },
@@ -172,11 +184,17 @@
         {
           id: "contrafogo",
           texto: "Abrir uma faixa de contrafogo.",
-          testeSorte: {
-            chance: 55,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 10,
             sucesso: {
               efeitos: { hp: -6, honra: 2 },
               resultado: "A faixa segura. O fogo perde força antes de alcançar as casas.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -14, honra: 1, habitantes: -1 },
+              resultado: "A faixa segura parte do campo. Você se queima e uma família perde a casa mais próxima do bosque.",
             },
             falha: {
               efeitos: { hp: -25, habitantes: -4 },
@@ -193,12 +211,18 @@
         {
           id: "animal_incendio",
           texto: "Entrar no fogo com seu animal.",
-          testeSorte: {
-            chance: 55,
+          testeDados: {
+            bonus: 1,
+            dificuldade: 15,
+            limiteCusto: 12,
             sucesso: {
               efeitos: { hp: -10, honra: 4, habitantes: 3 },
               resultado:
                 "O animal encontra uma passagem entre as chamas. Você guia três famílias para fora e salva parte do bosque.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -18, honra: 2, habitantes: 1 },
+              resultado: "Seu animal encontra uma passagem estreita. Uma família escapa, mas a fumaça o fere gravemente.",
             },
             falha: {
               efeitos: { hp: -30 },
@@ -226,13 +250,21 @@
           texto: "Oferecer três Gold e quatro Habitantes.",
           requisitos: { goldMin: 3, habitantesMin: 4 },
           efeitos: { gold: -3, habitantes: -4, honra: 2 },
-          testeSorte: {
-            chance: 30,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 17,
+            limiteCusto: 14,
             sucesso: {
               itens: ["manto_de_folhas"],
               resultado: "A floresta aceita a colheita e devolve um manto de folhas que não seca.",
             },
-            falha: { resultado: "A oferenda é aceita. O espírito não oferece nada em troca." },
+            sucessoComCusto: {
+              efeitos: { gold: 1 },
+              resultado: "A floresta devolve algumas moedas escondidas nas raízes, mas guarda o manto para outro dia.",
+            },
+            falha: {
+              resultado: "A oferenda é aceita. O espírito não oferece nada em troca.",
+            },
           },
           resultado: "Você deixa a oferenda entre as raízes.",
         },

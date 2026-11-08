@@ -207,7 +207,13 @@
     )
       return false;
     if (
-      !Jogo.atributos.every((id) => inteiro(run.atributos[id]) && (id === "honra" || run.atributos[id] >= 0))
+      !Jogo.atributos.every(
+        (id) =>
+          inteiro(run.atributos[id]) &&
+          (id === "honra" ||
+            run.atributos[id] >= 0 ||
+            (id === "escudo" && run.traco === "bruxo" && run.atributos[id] === -1)),
+      )
     )
       return false;
     if (
@@ -311,7 +317,122 @@
         Array.isArray(dados) &&
         dados.length === quantidade &&
         dados.every((dado) => inteiro(dado) && dado >= 1 && dado <= 20);
-      if (
+      if (pendente?.ehTesteDados === true) {
+        const definicao = opcaoCombate?.testeDados;
+        const rolagem = pendente.rolagemTesteDados;
+        const face = Array.isArray(pendente.dadosHerdeiro) && pendente.dadosHerdeiro.length
+          ? Math.max(...pendente.dadosHerdeiro)
+          : null;
+        const bonus = definicao?.bonus || 0;
+        const total = face + bonus;
+        const desfechoEsperado =
+          face === 20
+            ? "sucesso"
+            : face === 1
+              ? "falha"
+              : total >= definicao?.dificuldade
+                ? "sucesso"
+                : total >= definicao?.limiteCusto
+                  ? "sucessoComCusto"
+                  : "falha";
+        if (
+          run.status !== "ativa" ||
+          run.ultimoResultado !== null ||
+          !objeto(pendente) ||
+          pendente.eventoId !== run.eventoId ||
+          !definicao ||
+          opcaoCombate.combate ||
+          opcaoCombate.dueloDados ||
+          !["preparacao", "resultado"].includes(pendente.etapa) ||
+          !Array.isArray(pendente.dadosHerdeiro) ||
+          !Array.isArray(pendente.dadosInimigo) ||
+          !inteiro(pendente.rerrolagens) ||
+          pendente.rerrolagens < 0 ||
+          pendente.rerrolagens > 100 ||
+          !inteiro(pendente.rerrolagensGratis) ||
+          pendente.rerrolagensGratis < 0 ||
+          pendente.rerrolagensGratis > 10 ||
+          !inteiro(pendente.coringa) ||
+          pendente.coringa !== 0 ||
+          !inteiro(pendente.rerrolagemCoringa) ||
+          pendente.rerrolagemCoringa !== 0 ||
+          pendente.tracoInimigo !== "" ||
+          pendente.ehBoss === true ||
+          typeof pendente.dadoLascadoUsado !== "boolean" ||
+          (pendente.etapa === "preparacao" &&
+            (pendente.dadosHerdeiro.length !== 0 ||
+              pendente.dadosInimigo.length !== 0 ||
+              pendente.rerrolagens !== 0 ||
+              pendente.rolagemTesteDados !== null)) ||
+          (pendente.etapa === "resultado" &&
+            (!valoresValidos(pendente.dadosHerdeiro, Jogo.engine.quantidadeDadosTesteDados(run)) ||
+              pendente.dadosInimigo.length !== 0 ||
+              !objeto(rolagem) ||
+              !inteiro(definicao.dificuldade) ||
+              (definicao.bonus !== undefined && !inteiro(definicao.bonus)) ||
+              rolagem.face !== face ||
+              rolagem.bonus !== bonus ||
+              rolagem.total !== total ||
+              rolagem.dificuldade !== definicao.dificuldade ||
+              rolagem.limiteCusto !== definicao.limiteCusto ||
+              rolagem.desfecho !== desfechoEsperado))
+        )
+          return false;
+      } else if (pendente?.ehDueloDados === true) {
+        const definicao = opcaoCombate?.dueloDados;
+        const rolagem = pendente.rolagemDueloDados;
+        const face = Array.isArray(pendente.dadosHerdeiro) && pendente.dadosHerdeiro.length
+          ? Math.max(...pendente.dadosHerdeiro)
+          : null;
+        const faceOponente = pendente.dadosInimigo?.[0];
+        const bonusOponente = definicao?.bonusOponente || 0;
+        const totalOponente = faceOponente + bonusOponente;
+        const desfechoEsperado =
+          face === 20 ? "sucesso" : face === 1 ? "falha" : face > totalOponente ? "sucesso" : "falha";
+        if (
+          run.status !== "ativa" ||
+          run.ultimoResultado !== null ||
+          !objeto(pendente) ||
+          pendente.eventoId !== run.eventoId ||
+          !definicao?.sucesso ||
+          !definicao?.falha ||
+          opcaoCombate.combate ||
+          opcaoCombate.testeDados ||
+          !["preparacao", "resultado"].includes(pendente.etapa) ||
+          !Array.isArray(pendente.dadosHerdeiro) ||
+          !Array.isArray(pendente.dadosInimigo) ||
+          !inteiro(pendente.rerrolagens) ||
+          pendente.rerrolagens < 0 ||
+          pendente.rerrolagens > 100 ||
+          !inteiro(pendente.rerrolagensGratis) ||
+          pendente.rerrolagensGratis < 0 ||
+          pendente.rerrolagensGratis > 10 ||
+          !inteiro(pendente.coringa) ||
+          pendente.coringa !== 0 ||
+          !inteiro(pendente.rerrolagemCoringa) ||
+          pendente.rerrolagemCoringa !== 0 ||
+          pendente.tracoInimigo !== "" ||
+          pendente.ehBoss === true ||
+          typeof pendente.dadoLascadoUsado !== "boolean" ||
+          (definicao.bonusOponente !== undefined &&
+            (!inteiro(definicao.bonusOponente) || definicao.bonusOponente < 0 || definicao.bonusOponente > 1)) ||
+          (pendente.etapa === "preparacao" &&
+            (pendente.dadosHerdeiro.length !== 0 ||
+              pendente.dadosInimigo.length !== 0 ||
+              pendente.rerrolagens !== 0 ||
+              pendente.rolagemDueloDados !== null)) ||
+          (pendente.etapa === "resultado" &&
+            (!valoresValidos(pendente.dadosHerdeiro, Jogo.engine.quantidadeDadosTesteDados(run)) ||
+              !valoresValidos(pendente.dadosInimigo, 1) ||
+              !objeto(rolagem) ||
+              rolagem.face !== face ||
+              rolagem.faceOponente !== faceOponente ||
+              rolagem.bonusOponente !== bonusOponente ||
+              rolagem.totalOponente !== totalOponente ||
+              rolagem.desfecho !== desfechoEsperado))
+        )
+          return false;
+      } else if (
         run.status !== "ativa" ||
         run.ultimoResultado !== null ||
         !objeto(pendente) ||

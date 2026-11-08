@@ -233,11 +233,23 @@
       case "debug-transformacoes":
         Jogo.ui.preverTransformacoes(run);
         break;
+      case "debug-mao-do-destino":
+        if (Jogo.ui.modoDebug() && Jogo.engine.debugAlternarMaoDoDestino(run)) {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        }
+        break;
       case "detalhes-condicao":
         Jogo.ui.mostrarDetalhesCondicao(run);
         break;
       case "debug-alternar-combates":
         if (Jogo.ui.modoDebug() && Jogo.engine.debugAlternarCombates(run)) {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        }
+        break;
+      case "debug-alternar-eventos-d20":
+        if (Jogo.ui.modoDebug() && Jogo.engine.debugAlternarEventosD20(run)) {
           Jogo.save.gravarRun(run);
           mostrarJogo();
         }

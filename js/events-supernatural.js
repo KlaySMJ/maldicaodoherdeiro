@@ -19,12 +19,18 @@
         {
           id: "cacar",
           texto: "Caçar a fera com os guardas.",
-          testeSorte: {
-            chance: 55,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 9,
             sucesso: {
               efeitos: { honra: 4, gold: 6 },
               resultado:
                 "A fera cai com uma lança no flanco. A pele rende 6 Gold, e os guardas voltam com histórias demais para uma só noite.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -8, honra: 1 },
+              resultado: "A fera foge ferida. Você retorna mordido, mas a ferida não muda seu corpo.",
             },
             falha: {
               efeitos: { hp: -14 },
@@ -38,11 +44,17 @@
           id: "oferenda",
           texto: "Deixar carne na orla do bosque · 2 Gold.",
           requisitos: { goldMin: 2 },
-          testeSorte: {
-            chance: 75,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 11,
+            limiteCusto: 7,
             sucesso: {
               efeitos: { honra: 1, gold: -2 },
               resultado: "A carne some, e os uivos cessam. Algo na floresta parece ter entendido.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: -2, hp: -2 },
+              resultado: "A fera leva a carne e rasga sua mão. A ferida fecha antes que a mudança comece.",
             },
             falha: {
               efeitos: { gold: -2, hp: -6 },
@@ -75,12 +87,18 @@
         {
           id: "conversar",
           texto: "Dar-lhe pouso e conversar a noite toda.",
-          testeSorte: {
-            chance: 60,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 9,
             sucesso: {
               efeitos: { gold: 6, honra: 2 },
               resultado:
                 "Ele deixa um saco de moedas antigas e uma frase sobre a hospitalidade. Ao amanhecer, a cama está intacta.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -5 },
+              resultado: "Você conversa com o viajante até o amanhecer. Ele parte sem deixar moedas, e você acorda com o pescoço dolorido.",
             },
             falha: {
               efeitos: { hp: -10 },
@@ -124,12 +142,18 @@
         {
           id: "colocar",
           texto: "Colocar o anel no dedo.",
-          testeSorte: {
-            chance: 55,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 9,
             sucesso: {
               efeitos: { gold: 8, ataque: 1 },
               resultado:
                 "A voz cala. O anel esfria e se ajusta ao dedo como uma velha amizade. Por alguns dias, tudo parece mais fácil.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, hp: -4 },
+              resultado: "A voz cessa por um instante. O anel rende algumas moedas, mas pesa no dedo.",
             },
             falha: {
               efeitos: { hp: -8 },
@@ -273,12 +297,18 @@
         {
           id: "barganhar",
           texto: "Barganhar com a voz.",
-          testeSorte: {
-            chance: 50,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 15,
+            limiteCusto: 11,
             sucesso: {
               efeitos: { gold: 14 },
               resultado:
                 "A voz aceita o acordo. Você sente uma risada que não é sua. As moedas aparecem em lugares onde ninguém as colocou.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 5, hp: -6, honra: -1 },
+              resultado: "A voz aceita uma parte do acordo. As moedas aparecem, mas você sente a cobrança no peito.",
             },
             falha: {
               efeitos: { hp: -12, honra: -3 },
@@ -326,13 +356,19 @@
         {
           id: "aconito",
           texto: "Beber o chá de acônito.",
-          testeSorte: {
-            chance: 50,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 15,
+            limiteCusto: 11,
             sucesso: {
               efeitos: { honra: 2, hp: -8 },
               curarCondicao: true,
               resultado:
                 "O chá é amargo e escuro. A noite passa em convulsões, e ao amanhecer só resta o cansaço.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -15 },
+              resultado: "O chá reduz a febre por pouco tempo. A noite termina, mas a condição permanece.",
             },
             falha: {
               efeitos: { hp: -25 },
@@ -385,13 +421,19 @@
         {
           id: "sol",
           texto: "Esperar o sol nascer sem abrigo.",
-          testeSorte: {
-            chance: 45,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 16,
+            limiteCusto: 12,
             sucesso: {
               efeitos: { honra: 3, hp: -10 },
               curarCondicao: true,
               resultado:
                 "A pele arde, e a sede desfalece. O sol toca você como um perdão, e não uma sentença.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -20 },
+              resultado: "Você chega vivo à manhã, com queimaduras profundas. A sede e a condição não cedem.",
             },
             falha: {
               efeitos: { hp: -30 },
@@ -448,13 +490,19 @@
           texto: "Aspergir água benta sobre a cabeça.",
           requisitos: { itens: ["agua_benta"] },
           consumirItens: ["agua_benta"],
-          testeSorte: {
-            chance: 70,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 12,
+            limiteCusto: 7,
             sucesso: {
               efeitos: { honra: 2 },
               curarCondicao: true,
               resultado:
                 "A água chia na sua testa, e a voz se desfaz em fumaça. Você chora sem entender de quê.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -5 },
+              resultado: "A água fere sua testa, e a voz recua por algumas horas. Ao anoitecer, ela retorna.",
             },
             falha: { efeitos: { hp: -10 }, resultado: "A voz ri, baixinho. A água escorre sem efeito." },
           },

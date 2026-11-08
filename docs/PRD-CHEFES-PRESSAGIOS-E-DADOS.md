@@ -26,7 +26,7 @@ Ao vencer, o herdeiro recebe 10 Gold e 5 de Honra. Cartas futuras do culto deixa
 
 ### Entidade
 
-O jogo marca recusas explícitas em encontros com a Entidade. A terceira recusa inicia **A Entidade exige uma resposta**, uma luta até a morte. As recusas anteriores não podem matar o herdeiro por sorteio. A Entidade tem 100 pontos de Vida, recebe 25 de dano por acerto e causa 22 de dano por contra-ataque antes das reduções. Vencer encerra a perseguição e concede o Selo da Recusa; perder encerra a crônica.
+Ao iniciar a perseguição, o jogo sorteia qual recusa irritará a Entidade além do limite. Se o herdeiro escolher essa recusa, ela bloqueia a estrada e inicia **A Entidade exige uma resposta**, uma luta até a morte. O confronto pode começar após uma recusa ou mais tarde na cadeia; não há uma contagem fixa. As outras recusas não matam o herdeiro por sorteio. A Entidade tem 100 pontos de Vida, recebe 25 de dano por acerto e causa 22 de dano por contra-ataque antes das reduções. Vencer encerra a perseguição e concede o Selo da Recusa; perder encerra a crônica.
 
 ### Crônica Abissal
 
@@ -38,9 +38,13 @@ Cada rolagem resolve um turno. Se o herdeiro vencer, o chefe perde Vida; se perd
 
 ### Testes de evento
 
-Cada teste usa um d20 e um bônus fixo indicado na opção. Total 14 ou maior dá sucesso; total 10 a 13 dá sucesso com custo; abaixo de 10 dá falha. Um 20 natural garante sucesso e um 1 natural causa falha. A regra vale para eventos, não para confrontos até a morte.
+Cada teste usa um d20 e o bônus indicado na opção. As dificuldades e os limites de sucesso com custo variam por teste: atingir a dificuldade dá sucesso; atingir apenas o limite de custo dá sucesso com custo; ficar abaixo dele dá falha. Um 20 natural garante sucesso e um 1 natural causa falha. A regra vale para eventos, não para confrontos até a morte.
 
-Há testes no encontro do bardo e na carroça atolada. A interface mostra bônus, dificuldade, limiar de custo e resultado rolado.
+Além do bardo e da carroça atolada, testes de d20 resolvem a travessia do lago, as rotas do desfiladeiro, a escolta pela ponte congelada, o resgate na casa em chamas e a reação ao cavalo desembestado. São tentativas do herdeiro sem rolagem de oponente; as opções seguras ou com custo conhecido continuam disponíveis nas cartas. Antes da escolha, a interface não antecipa bônus, dificuldade, limiar de custo nem desfechos. Depois da rolagem, mostra o resultado obtido.
+
+Os testes de sorte das cartas de progresso, do Druida-Herdeiro e dos encontros sobrenaturais foram substituídos por testes de d20 com sucesso, sucesso com custo e falha. Falhas que ativariam uma condição agora têm um resultado intermediário de ferimento sem transformação. Também há novas opções com d20 no desabamento da mina, na tempestade, no enxame, na mina esquecida, nos ratos do celeiro, no vigia da torre, na cisterna rachada, nas cercas antigas, na última vigília e na noite dos lampiões. As alternativas anteriores continuam disponíveis. A guarda da estrada permanece uma batalha.
+
+O torneio da aldeia, o duelo de honra e o cavaleiro errante oferecem disputas de dados um contra um. O debug **Só eventos com dados** inclui testes de d20 e duelos de dados; opções de combate continuam resolvidas pelas regras próprias de batalha.
 
 ### Linhagem e debug
 
@@ -54,9 +58,14 @@ Os controles de debug ficam em **Especial → Testar lutas de chefes**. Eles abr
 - [x] A luta do Barão apresenta aviso de fatalidade e sua vitória encerra a crônica por uma rota alternativa.
 - [x] Honra 30 habilita o recrutamento do líder; recusar inicia combate fatal mais fácil que os demais.
 - [x] Derrotar o líder concede o bônus único e remove cartas futuras do culto.
-- [x] A terceira recusa marcada à Entidade inicia combate fatal.
+- [x] Uma recusa sorteada na cadeia da Entidade inicia combate fatal; o gatilho não depende de uma contagem fixa.
 - [x] A conclusão da quinta etapa abissal habilita o chefe e sua rota de vitória.
 - [x] Testes de evento usam um d20, três resultados possíveis, 20 natural como sucesso e 1 natural como falha.
+- [x] Travessias, resgate de incêndio e reação ao cavalo usam testes de d20 sem dado de oponente, mantendo alternativas determinísticas.
+- [x] Converter testes de sorte de progresso, do Druida-Herdeiro e sobrenaturais em testes de d20 com sucesso com custo.
+- [x] Acrescentar opções de d20 a eventos de risco físico, mantendo as escolhas existentes.
+- [x] Acrescentar disputas um contra um com dados ao torneio, duelo de honra e cavaleiro errante.
+- [x] O filtro de debug inclui testes de d20 e duelos de dados, sem tratar batalhas como testes de evento.
 - [x] As quatro lutas podem ser abertas pelo painel de debug.
 - [x] A vida de cada chefe aparece numa barra abaixo do nome durante o combate.
 - [x] Lutas de chefes usam turnos sucessivos e encerram quando a Vida do herdeiro ou do chefe chega a zero.
@@ -68,9 +77,13 @@ Os controles de debug ficam em **Especial → Testar lutas de chefes**. Eles abr
 
 - [x] Implementar gatilho, prazo de um ano e confronto do Barão.
 - [x] Implementar recrutamento e confronto do líder do culto.
-- [x] Implementar a terceira recusa como gatilho do combate da Entidade.
+- [x] Implementar a recusa sorteada como gatilho do combate da Entidade.
 - [x] Ligar o chefe à conclusão da cadeia abissal.
 - [x] Implementar testes de evento com resultados naturais e resultado com custo.
+- [x] Ampliar os testes individuais de d20 para travessias, rotas de serra, resgate de incêndio e reação a perigo imediato.
+- [x] Converter os testes de sorte selecionados em progresso, Druida-Herdeiro e eventos sobrenaturais.
+- [x] Acrescentar testes de d20 a novas opções de eventos e preservar as alternativas anteriores.
+- [x] Usar duelos de dados em desafios individuais e incluí-los no filtro de debug.
 - [x] Adicionar botões de debug para os quatro chefes.
 - [x] Mostrar a vida dos chefes numa barra que se esvazia quando são derrotados.
 - [x] Resolver ataques e contra-ataques por turno, encerrando a luta apenas quando um dos lados chega a zero de Vida.
@@ -78,6 +91,6 @@ Os controles de debug ficam em **Especial → Testar lutas de chefes**. Eles abr
 - [x] Atualizar persistência e registro de vitória para os novos resultados.
 - [ ] Fazer uma sessão manual de jogo para avaliar dificuldade, fluxo e interface.
 
-**Resumo:** os chefes têm combates por turnos com Vida própria, dano acumulado e contra-ataques mitigados pelos atributos do herdeiro. O prazo do Barão começa quando **A Vinda do Barão** é resolvido.
+**Resumo:** os chefes têm combates por turnos com Vida própria e dano acumulado. Testes de d20 resolvem ações incertas em eventos, e disputas de dados adicionam um formato um contra um a três desafios. O prazo do Barão começa quando **A Vinda do Barão** é resolvido.
 
 **Validação:** código e alterações revisados. Testes automatizados não foram executados. A sessão manual para conferir dificuldade e interface está pendente.

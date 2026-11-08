@@ -149,6 +149,27 @@
           resultado:
             "A colheita recebe a água. Duas famílias seguem para o rio antes de esperar outra distribuição.",
         },
+        {
+          id: "calafetar_cisterna",
+          texto: "Calafetar a rachadura com barro e fibras.",
+          testeDados: {
+            bonus: 1,
+            dificuldade: 14,
+            limiteCusto: 9,
+            sucesso: {
+              efeitos: { escudo: 1, honra: 2 },
+              resultado: "O remendo segura a água. O pedreiro marca a cisterna para um reparo definitivo no outono.",
+            },
+            sucessoComCusto: {
+              efeitos: { honra: 1, hp: -4 },
+              resultado: "A rachadura diminui, mas você se corta na pedra. A água ainda precisa ser dividida com cuidado.",
+            },
+            falha: {
+              efeitos: { hp: -8, habitantes: -2 },
+              resultado: "A pressão rompe a parede da cisterna. Você contém o vazamento, mas duas famílias seguem para o rio.",
+            },
+          },
+        },
       ],
     },
     {
@@ -218,10 +239,27 @@
         },
         {
           id: "guiar_rota_gelo",
-          texto: "Guiar os viajantes pela trilha alta e cobrar pela escolta.",
-          efeitos: { gold: 5, honra: -2, hp: -3 },
-          resultado:
-            "A trilha chega ao outro lado antes do escuro. A escolta retorna cansada, com algumas moedas.",
+          texto: "Guiar os viajantes pela trilha alta.",
+          testeDados: {
+            bonus: 2,
+            dificuldade: 12,
+            limiteCusto: 8,
+            sucesso: {
+              efeitos: { gold: 5, honra: -2 },
+              resultado:
+                "A trilha chega ao outro lado antes do escuro. A escolta retorna sem ferimentos, com algumas moedas.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, honra: -1, hp: -5 },
+              resultado:
+                "A neve cobre os marcos. A escolta encontra o caminho, mas você volta ferido e recebe menos moedas.",
+            },
+            falha: {
+              efeitos: { gold: -2, honra: -3, hp: -12 },
+              resultado:
+                "A trilha termina num desnível escondido. A escolta recua sem as moedas, e você volta machucado.",
+            },
+          },
         },
       ],
     },
@@ -257,6 +295,27 @@
           efeitos: { gold: -3, escudo: 1, honra: 1 },
           resultado:
             "As pedras voltam ao lugar e os animais ficam do lado de fora. O caminho segue aberto por outra entrada.",
+        },
+        {
+          id: "limpar_caminho_antigo",
+          texto: "Retirar as raízes que prendem o caminho antigo.",
+          testeDados: {
+            bonus: 0,
+            dificuldade: 13,
+            limiteCusto: 8,
+            sucesso: {
+              efeitos: { habitantes: 3, honra: 2, gold: 1 },
+              resultado: "As raízes saem sem mover as pedras da cerca. As carroças voltam a usar o caminho curto.",
+            },
+            sucessoComCusto: {
+              efeitos: { habitantes: 1, hp: -4 },
+              resultado: "Você abre passagem para uma carroça e machuca as mãos retirando as raízes mais grossas.",
+            },
+            falha: {
+              efeitos: { hp: -7, honra: -1 },
+              resultado: "Uma raiz levanta parte da cerca. Você interrompe o trabalho antes que o pomar seja atingido.",
+            },
+          },
         },
       ],
     },
@@ -368,6 +427,27 @@
           texto: "Racionar a lenha até o degelo.",
           efeitos: { gold: 3, hp: -6, habitantes: -2, honra: -2 },
           resultado: "Os feixes duram mais alguns dias. A vila atravessa a noite em silêncio.",
+        },
+        {
+          id: "buscar_lenha_vigilia",
+          texto: "Buscar lenha caída antes que a estrada feche.",
+          testeDados: {
+            bonus: 1,
+            dificuldade: 13,
+            limiteCusto: 8,
+            sucesso: {
+              efeitos: { hp: 5, habitantes: 2, honra: 2 },
+              resultado: "Você volta com lenha suficiente. As casas ficam aquecidas, e duas famílias ajudam a acender a fogueira.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: -4, gold: -1, habitantes: 1 },
+              resultado: "A lenha dá para algumas casas. Você volta ferido e compra o restante de um viajante.",
+            },
+            falha: {
+              efeitos: { hp: -9, habitantes: -2 },
+              resultado: "A neve cobre a trilha. Você retorna sem lenha, e duas famílias partem antes do amanhecer.",
+            },
+          },
         },
       ],
     },

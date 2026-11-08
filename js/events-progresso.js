@@ -25,12 +25,18 @@
         {
           id: "vender",
           texto: "Levar os grãos à estrada e negociar.",
-          testeSorte: {
-            chance: 55,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 10,
             sucesso: {
               efeitos: { gold: 6, honra: 1 },
               resultado:
                 "Um comprador paga pela colheita adiantada e leva a notícia de que a vila ainda tem futuro.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, habitantes: -1 },
+              resultado: "O comprador leva parte da colheita e paga menos do que o combinado.",
             },
             falha: {
               efeitos: { gold: -2, habitantes: -2 },
@@ -63,11 +69,17 @@
         {
           id: "pedagio",
           texto: "Cobrar pela água e pelo abrigo.",
-          testeSorte: {
-            chance: 50,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 15,
+            limiteCusto: 11,
             sucesso: {
               efeitos: { gold: 5, honra: -2 },
               resultado: "Os viajantes pagam sem reclamar, mas seguem antes que a vila esfrie.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 1, honra: -1 },
+              resultado: "Os viajantes pagam pela água, mas a cobrança deixa um gosto amargo.",
             },
             falha: {
               efeitos: { gold: -2, habitantes: -2, honra: -1 },
@@ -100,12 +112,18 @@
         {
           id: "cortar",
           texto: "Colher depressa antes que chova.",
-          testeSorte: {
-            chance: 55,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 9,
             sucesso: {
               efeitos: { gold: 5, habitantes: 1 },
               resultado:
                 "A chuva espera. A colheita chega seca à estrada e um comprador paga o preço combinado.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, hp: -3, habitantes: -1 },
+              resultado: "A chuva começa antes do fim. Parte da colheita chega à estrada, mas o barro atrasa as carroças.",
             },
             falha: {
               efeitos: { hp: -6, habitantes: -2 },
@@ -139,11 +157,17 @@
         {
           id: "cortar",
           texto: "Buscar lenha no bosque antes do escuro.",
-          testeSorte: {
-            chance: 50,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 15,
+            limiteCusto: 11,
             sucesso: {
               efeitos: { gold: 3, honra: 2 },
               resultado: "Você encontra madeira seca e uma bolsa esquecida entre as raízes.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 1, hp: -5, honra: 1 },
+              resultado: "Você volta com alguns feixes e um corte no braço. A capela e a muralha recebem lenha suficiente para a noite.",
             },
             falha: {
               efeitos: { hp: -9, habitantes: -2 },
@@ -206,12 +230,18 @@
         {
           id: "abrir",
           texto: "Forçar a pedra e procurar a reserva.",
-          testeSorte: {
-            chance: 55,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 9,
             sucesso: {
               efeitos: { gold: 7, honra: -1 },
               resultado:
                 "O compartimento guarda moedas antigas. Você as conta duas vezes antes de fechar a pedra.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 3, hp: -2, honra: -1 },
+              resultado: "Você encontra algumas moedas, mas a pedra prende sua mão antes de ceder.",
             },
             falha: {
               efeitos: { gold: -3, hp: -5 },
@@ -244,12 +274,18 @@
         {
           id: "tomar",
           texto: "Tomar a primeira dose e guardar o resto.",
-          testeSorte: {
-            chance: 60,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 14,
+            limiteCusto: 9,
             sucesso: {
               efeitos: { hp: 15, escudo: 1 },
               resultado:
                 "O calor volta aos dedos. A ervateira guarda o restante para quando a febre regressar.",
+            },
+            sucessoComCusto: {
+              efeitos: { hp: 5 },
+              resultado: "A dose reduz a febre por algumas horas, mas não fortalece seu corpo.",
             },
             falha: {
               efeitos: { hp: -8, habitantes: -1 },
@@ -291,11 +327,17 @@
         {
           id: "partilhar",
           texto: "Dividir a clareira entre lavoura e bosque.",
-          testeSorte: {
-            chance: 50,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 15,
+            limiteCusto: 11,
             sucesso: {
               efeitos: { gold: 6, habitantes: 2 },
               resultado: "A primeira colheita cresce junto às raízes e rende mais do que o esperado.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, habitantes: 1 },
+              resultado: "A terra aceita uma pequena lavoura. Uma família fica, embora a colheita não baste para todos.",
             },
             falha: {
               efeitos: { honra: -3, habitantes: -2 },
@@ -329,11 +371,17 @@
         {
           id: "procurar",
           texto: "Buscar uma inscrição que tenha valor para o cofre.",
-          testeSorte: {
-            chance: 45,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 16,
+            limiteCusto: 12,
             sucesso: {
               efeitos: { gold: 8, honra: -2 },
               resultado: "Uma placa escondida atrás dos nomes contém o selo de um antigo cobrador.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 3, honra: -1 },
+              resultado: "Você encontra uma inscrição menor e leva a placa ao ferreiro, sem descobrir quem a deixou.",
             },
             falha: {
               efeitos: { hp: -4, honra: -1 },
@@ -366,12 +414,19 @@
         {
           id: "cruzar",
           texto: "Atravessar antes que o rio suba.",
-          testeSorte: {
-            chance: 50,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 15,
+            limiteCusto: 11,
             sucesso: {
               efeitos: { gold: 5, habitantes: 2 },
               flags: { ponte_de_taboas_resolvida: true },
               resultado: "A carroça chega ao outro lado e deixa parte da carga como pagamento.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, hp: -5 },
+              flags: { ponte_de_taboas_resolvida: true },
+              resultado: "A carroça atravessa devagar. Você se fere, e o pagamento mal cobre a viagem.",
             },
             falha: {
               efeitos: { hp: -10, habitantes: -2 },
@@ -404,12 +459,18 @@
         {
           id: "seguir",
           texto: "Seguir as pegadas para além da muralha.",
-          testeSorte: {
-            chance: 45,
+          testeDados: {
+            bonus: 0,
+            dificuldade: 16,
+            limiteCusto: 12,
             sucesso: {
               efeitos: { gold: 7, ataque: 1 },
               resultado:
                 "Você alcança o incendiário antes que deixe a estrada. A recompensa paga a ronda da vila.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, hp: -5 },
+              resultado: "Você encontra o rastro do incendiário, mas ele escapa e a trilha termina numa armadilha.",
             },
             falha: {
               efeitos: { hp: -12, habitantes: -2 },

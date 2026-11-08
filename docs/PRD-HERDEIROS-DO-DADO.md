@@ -208,7 +208,7 @@ Implementação: a rolagem acontece na resolução da escolha, sem fase pendente
 
 Quase tudo é automático a partir de `novos` em `js/herdeiros.js`: `todos` e `desbloqueaveis`, `TRACOS_VALIDOS` do save, legado, atributos iniciais, nomes, descrições da interface e listas de conquistas. Os desbloqueios novos são avaliados durante a crônica: o Coringa exige um 20 natural em qualquer dado de combate; o Bruxo exige oito vitórias na mesma crônica. Os testes cobrem ambas as condições e seus atributos.
 
-1. A entrada em `novos` com `nome`, `descricao`, `desbloqueio` e `iniciais` (o Bruxo leva `hp: 70` e `escudo: 4`).
+1. A entrada em `novos` com `nome`, `descricao`, `desbloqueio` e `iniciais` (o Bruxo leva `hp: 70` e `escudo: -1`).
 2. O nome próprio em `nomes` (`js/herdeiros.js:26`).
 3. A condição de desbloqueio em `condicoes` (`js/herdeiros.js:39`).
 4. Os retratos em `retratos` (`js/ui.js`); enquanto não há arquivo de arte, a interface usa o selo existente.

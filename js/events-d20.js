@@ -433,14 +433,14 @@
       imagem: "assets/eventos-letais/dados.webp",
       imagemAlt: "Dados de vinte lados sobre uma superfície escura",
       texto: "Um dado rola sozinho pela estrada e para aos seus pés. No marfim, a sombra de uma mão aponta para a próxima batalha.",
-      informacoes: "A transformação Mão do Destino concede uma rerrolagem completa gratuita em cada batalha desta crônica.",
+      informacoes: "A transformação Mão do Destino revela sua chance de vencer cada embate e concede uma rerrolagem completa gratuita por batalha.",
       opcoes: [
         {
           id: "aceitar_mao_do_destino",
           texto: "Aceitar a transformação.",
           efeitos: { honra: 1 },
           flags: { mao_do_destino_ativa: true },
-          resultado: "A marca fica na palma da mão. A partir de agora, você poderá rerrolar todos os seus dados uma vez por batalha.",
+          resultado: "A marca fica na palma da mão. A partir de agora, você verá a chance de vitória antes de cada embate e poderá rerrolar todos os seus dados uma vez por batalha.",
         },
         {
           id: "recusar_mao_do_destino",

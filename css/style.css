@@ -320,6 +320,7 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 }
 .coluna-herdeiro, .coluna-evento { display: contents; }
 .evento-detalhes { display: block; grid-column: 3; grid-row: 2 / span 2; width: min(100%, calc(var(--altura-cartas) * .75)); justify-self: end; margin-top: var(--distancia-descricao-carta); }
+.vida-chefe-carta { width: 100%; margin-bottom: 10px; }
 .carta { position: relative; width: min(100%, calc(var(--altura-cartas) * .75)); aspect-ratio: 3 / 4; justify-self: center; border: 1px solid var(--secundaria); background: var(--papel); overflow: hidden; }
 .evento-detalhes-acionar { display: none; position: absolute; z-index: 2; inset: 0; width: 100%; min-height: 0; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .carta-herdeiro { grid-column: 1; grid-row: 1; }
@@ -414,6 +415,7 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .carta-herdeiro.condicao-possessao { border-color: #9eabb8; outline: 2px dashed #9eabb8; }
 .carta-herdeiro.transformacao-olhos-mercurio { border-color: #a7aaa0; outline: 2px solid #858b83; box-shadow: 0 0 16px rgba(179,187,177,.2); }
 .carta-herdeiro.transformacao-olho-mil-nomes { border-color: #b38a36; outline: 2px double #80611e; box-shadow: 0 0 16px rgba(179,138,54,.2); }
+.carta-herdeiro.transformacao-mao-do-destino { border-color: #d5b65d; outline: 2px double #80611e; box-shadow: 0 0 18px rgba(213,182,93,.24); }
 .moldura-mercurio, .moldura-mil-nomes { position: absolute; z-index: 5; inset: 0; overflow: hidden; pointer-events: none; }
 .moldura-mercurio i { position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; border: 1px solid #c2c8bf; border-radius: 50%; box-shadow: 0 0 10px rgba(213,221,211,.45), inset 0 0 5px rgba(213,221,211,.4); }
 .moldura-mercurio i::after { position: absolute; inset: 5px; border: 1px solid rgba(213,221,211,.85); border-radius: 50%; content: ""; }
@@ -423,6 +425,7 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .transformacao-status strong { color: var(--tinta); }
 .transformacao-status.transformacao-olhos-mercurio { border-color: #a7aaa0; }
 .transformacao-status.transformacao-olho-mil-nomes { border-color: #b38a36; }
+.transformacao-status.transformacao-mao-do-destino { border-color: #d5b65d; }
 .herdeiro-detalhes > .condicao-status { display: none; }
 .condicao-info-trigger { position: absolute; z-index: 3; inset: 0; display: flex; justify-content: flex-end; align-items: flex-start; padding: 8px; border: 0; background: transparent; color: var(--tinta); text-align: right; cursor: help; }
 .condicao-info-trigger > span { padding: 4px 6px; border: 1px solid currentColor; background: rgb(0 0 0 / 78%); font-size: 11px; line-height: 1.2; }
@@ -491,8 +494,6 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .escolha-conteudo { display: grid; min-width: 0; gap: 4px; overflow-wrap: anywhere; hyphens: auto; }
 .honra-revelada { color: var(--secundaria); font-size: .78em; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .escolha:not(:disabled):hover .honra-revelada { color: inherit; }
-.teste-dados-previa { color: var(--secundaria); font-size: .78em; line-height: 1.25; }
-.escolha:not(:disabled):hover .teste-dados-previa { color: inherit; }
 .coluna-escolhas > .nota { margin-top: 14px; }
 .mercadorias { margin-bottom: 10px; }
 .mercadoria .preco { font-size: .9em; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -964,19 +965,37 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 .cronica--combate .botao-inventario { display: none; }
 .disputa-combate-conteudo { padding: 16px 0 0; }
 .disputa-combate h1 { font-size: clamp(20px, 2.4vw, 27px); }
+.mao-destino-chance { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 76px; margin: 10px 0 14px; padding: 10px 14px; border: 1px solid #665439; border-left: 3px solid #b28c4e; background: #171411; color: var(--tinta); }
+.mao-destino-selo { display: grid; place-items: center; color: #d8bd76; }
+.mao-destino-selo svg { display: block; width: 29px; height: 29px; fill: none; stroke: currentColor; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+.mao-destino-leitura { display: grid; min-width: 0; gap: 2px; }
+.mao-destino-nome { color: #d8bd76; font-size: 12px; line-height: 1.2; }
+.mao-destino-rotulo { color: var(--tinta); font-size: 14px; line-height: 1.2; }
+.mao-destino-chance > strong { display: flex; align-items: baseline; justify-self: end; gap: 2px; color: #f1d796; font: 400 30px/1 var(--fonte); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mao-destino-chance > strong small { color: var(--secundaria); font-size: 15px; }
 .disputa-efeito-coringa { margin: 4px 0 8px; color: #d8bd76; font-size: 13px; text-align: center; }
 .disputa-participantes { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: clamp(6px, 1.5vw, 16px); margin: 6px 0 12px; }
+.disputa-teste-dados .disputa-participantes { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.disputa-teste-dados .disputa-lado { width: min(100%, 280px); }
+.disputa-teste-dados.disputa-duelo-dados .disputa-participantes { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+.disputa-teste-dados.disputa-duelo-dados .disputa-lado { width: 100%; }
+.disputa-teste-dados .dado-combate { width: 82px; }
+.disputa-teste-dados .disputa-dados-teste-info { margin: 6px auto; color: var(--secundaria); font-size: 12px; text-align: center; }
+.disputa-teste-dados .disputa-dificuldade-previa { color: var(--tinta); font-size: 14px; }
+.disputa-teste-total { display: grid; justify-items: center; gap: 2px; margin: 8px 0; color: var(--secundaria); font-size: 13px; }
+.disputa-teste-total strong { color: var(--tinta); font: 600 23px/1.2 Arial, sans-serif; font-variant-numeric: tabular-nums; }
+.disputa-texto-teste { max-width: 620px; margin: 12px auto 2px; color: var(--tinta); font-size: 16px; line-height: 1.45; text-align: left; }
 .disputa-lado { min-width: 0; align-self: start; text-align: center; }
 .disputa-inimigo-coluna { display: flex; min-width: 0; flex-direction: column; align-items: center; }
 .disputa-inimigo-coluna .disputa-inimigo { width: 100%; }
 .disputa-lado h2 { display: flex; min-height: 27px; margin: 0; justify-content: center; align-items: center; gap: 5px; color: var(--secundaria); font-size: 13px; }
 .barra-vida-chefe { width: min(100%, 210px); height: 9px; margin: 7px auto 2px; overflow: hidden; border: 1px solid #80534b; border-radius: 99px; background: #321f1d; box-shadow: inset 0 1px 3px rgb(0 0 0 / 70%); }
-.barra-vida-chefe--carta { width: min(calc(100% - 1rem), 340px); margin: 8px auto 2px; }
-.barra-vida-chefe > span { display: block; width: var(--vida-chefe, 100%); height: 100%; border-radius: inherit; background: linear-gradient(90deg, #9b302b, #dc6754); box-shadow: 0 0 7px rgb(220 103 84 / 45%); }
+.barra-vida-chefe--carta { width: 100%; height: 13px; margin: 0 auto 4px; border-color: #8c463a; border-radius: 2px; background: linear-gradient(180deg, #2b1715, #140d0c); box-shadow: inset 0 1px 2px rgb(0 0 0 / 70%), 0 1px 0 rgb(216 189 118 / 18%); }
+.barra-vida-chefe > span { display: block; width: var(--vida-chefe, 100%); height: 100%; border-radius: inherit; background: linear-gradient(180deg, #e16c59 0%, #b83e33 52%, #842920 100%); box-shadow: inset 0 1px 0 rgb(255 222 194 / 35%), 0 0 9px rgb(220 103 84 / 38%); }
 .barra-vida-chefe-danificada > span { animation: barra-chefe-danificar 900ms cubic-bezier(.18,.68,.32,1) both; }
 .resumo-troca-chefe { margin: 8px auto 12px; color: var(--secundaria); font-size: 13px; line-height: 1.45; text-align: center; }
 .barra-vida-chefe-valor { display: block; color: var(--secundaria); font: 10px/1.3 Arial, sans-serif; font-variant-numeric: tabular-nums; }
-.barra-vida-chefe-valor--carta { margin-bottom: 8px; text-align: center; }
+.barra-vida-chefe-valor--carta { margin-bottom: 0; color: var(--tinta); font: 11px/1.3 Georgia, serif; letter-spacing: .08em; text-align: center; }
 @keyframes barra-chefe-danificar { from { width: var(--vida-chefe-anterior, 100%); } to { width: var(--vida-chefe, 0%); } }
 .disputa-traco-inimigo { padding: 2px 5px; color: #d8bd76; font: 10px/1 Arial, sans-serif; letter-spacing: .04em; text-transform: uppercase; }
 .disputa-lado p { margin-top: 10px; color: var(--secundaria); font: 13px/1.4 Arial, sans-serif; }
@@ -1005,6 +1024,8 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 .dado-combate-maior .dado-combate-canvas, .dado-combate-maior .dado-combate-svg { filter: drop-shadow(0 0 5px #d8b960) drop-shadow(0 4px 5px rgb(0 0 0 / 60%)); }
 .dado-combate-vinte .dado-combate-contorno { stroke: #d8bd76; }
 .dado-combate-estatico { animation: none; }
+.dado-combate-pulso { animation: dado-impacto-pulso 420ms cubic-bezier(.2,.8,.25,1); }
+@keyframes dado-impacto-pulso { 0% { transform: scale(1); filter: drop-shadow(0 0 0 rgb(216 189 118 / 0%)); } 42% { transform: scale(1.14); filter: drop-shadow(0 0 10px rgb(216 189 118 / 88%)); } 72% { transform: scale(.98); } 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgb(216 189 118 / 35%)); } }
 .resultado-disputa { margin: 12px 0; padding: 10px 12px; border-block: 1px solid #514733; text-align: center; animation: disputa-aparecer 240ms ease-out both; }
 .resultado-duelo-dados { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 10px auto 14px; text-align: center; }
 .resultado-duelo-dados > div { display: grid; min-width: 96px; justify-items: center; gap: 3px; color: var(--secundaria); font-size: 13px; }
@@ -1023,6 +1044,7 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 .disputa-itens { margin-top: 12px; }
 .disputa-itens > h2 { margin-bottom: 8px; color: #c6aa75; font-size: 15px; }
 .disputa-itens[inert], .disputa-acoes[inert] { pointer-events: none; }
+.disputa-teste-dados .disputa-itens[inert] { visibility: hidden; }
 .disputa-combate .inventario { margin: 0; padding: 0; border: 0; }
 .disputa-combate .inventario > summary { display: none; }
 .disputa-combate .inventario ul { max-height: min(18dvh, 145px); overflow: auto; padding: 0 4px 4px; }
@@ -1038,9 +1060,15 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 @keyframes disputa-aparecer { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 @media (max-width: 520px) {
   .disputa-combate-conteudo { padding: 12px 0 0; }
+  .mao-destino-chance { grid-template-columns: 26px minmax(0, 1fr) auto; gap: 8px; min-height: 70px; padding: 9px 10px; }
+  .mao-destino-selo svg { width: 25px; height: 25px; }
+  .mao-destino-nome { font-size: 11px; }
+  .mao-destino-rotulo { font-size: 13px; }
+  .mao-destino-chance > strong { font-size: 26px; }
   .disputa-participantes { gap: 4px; margin-block: 8px 10px; }
   .disputa-lado h2 { min-height: 30px; font-size: 11px; }
   .dado-combate { width: 60px; font-size: 17px; }
+  .disputa-teste-dados .dado-combate { width: 74px; }
   .dados-combate { gap: 2px; }
   .disputa-versus { font-size: 16px; }
   .disputa-totais { gap: 9px; }

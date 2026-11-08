@@ -145,7 +145,11 @@
   }
 
   function definirContexto(novoContexto) {
-    if (!arquivos[novoContexto] || novoContexto === contexto) return;
+    if (!arquivos[novoContexto]) return;
+    if (novoContexto === contexto) {
+      if (desbloqueada && habilitada && (!atual || atual.paused)) iniciarFaixa();
+      return;
+    }
     contexto = novoContexto;
     if (desbloqueada && habilitada) iniciarFaixa();
   }

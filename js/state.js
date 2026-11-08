@@ -197,7 +197,7 @@
         janelaZodiaco: null,
         efeitoDivino: null,
         pressagios: Jogo.pressagios?.vazio(),
-        flags: {},
+        flags: { debugApenasEventosD20: false },
         condicao: {
           ativa: null,
           rodada: null,

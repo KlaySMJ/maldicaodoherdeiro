@@ -83,7 +83,7 @@
       bossId: "entidade",
       imagem: "assets/eventos-entidade/presenca-no-caminho.webp",
       imagemAlt: "A Entidade bloqueia a estrada diante do herdeiro",
-      texto: "Depois de três recusas, a Entidade bloqueia a estrada e não aceita outra evasiva.",
+      texto: "Sua recusa basta. A Entidade bloqueia a estrada e exige uma resposta.",
       informacoes: "O confronto é até a morte. Vencer encerra a perseguição nesta crônica.",
       opcoes: [{ id: "combater", texto: "Enfrentar a Entidade.", combate: true }],
       batalha: {

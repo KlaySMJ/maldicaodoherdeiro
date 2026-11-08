@@ -136,6 +136,27 @@
           resultado:
             "Você come, dorme e acorda com os ombros descansados. Lá embaixo, os lampiões continuam acesos.",
         },
+        {
+          id: "levar_lampioes",
+          texto: "Levar lampiões e comida às casas mais afastadas.",
+          testeDados: {
+            bonus: 1,
+            dificuldade: 13,
+            limiteCusto: 8,
+            sucesso: {
+              efeitos: { honra: 3, habitantes: 2, hp: -2 },
+              resultado: "Você alcança todas as casas antes da meia-noite. Duas famílias decidem ficar perto da vila.",
+            },
+            sucessoComCusto: {
+              efeitos: { honra: 2, habitantes: 1, hp: -5 },
+              resultado: "A comida chega a algumas casas. Você termina a ronda cansado, e uma família se aproxima da vila.",
+            },
+            falha: {
+              efeitos: { honra: 1, hp: -7 },
+              resultado: "A chuva apaga parte dos lampiões. Você volta molhado, mas ninguém fica sem a refeição.",
+            },
+          },
+        },
       ],
     },
     {

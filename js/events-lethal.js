@@ -32,18 +32,25 @@
       informacoes: "Crianças gritam por ajuda, e o gelo range a cada passo. O gelo parece firme. Parece.",
       opcoes: [
         op("atravessar", "Atravessar com uma corda amarrada à cintura.", {}, "", {
-          testeSorte: risco(
-            60,
-            {
+          testeDados: {
+            bonus: 1,
+            dificuldade: 10,
+            limiteCusto: 7,
+            sucesso: {
               efeitos: { habitantes: 8, honra: 3 },
               resultado:
                 "A corda segura. Você leva todos para a margem, um a um. Oito pessoas pedem para ficar.",
             },
-            {
+            sucessoComCusto: {
+              efeitos: { habitantes: 4, honra: 1, hp: -10 },
+              resultado:
+                "A corda segura, mas o gelo abre uma fenda. Quatro viajantes chegam à margem; você volta com o ombro ferido.",
+            },
+            falha: {
               efeitos: { hp: -30, habitantes: -2 },
               resultado: "O gelo cede. A corda o salva, mas dois viajantes não resistem à água.",
             },
-          ),
+          },
           flags: marca("travessia_decidida"),
         }),
         op(
@@ -60,19 +67,26 @@
           "O boi atravessa, mas cinco viajantes não resistem ao frio da noite.",
           { flags: marca("travessia_decidida") },
         ),
-        op("fila", "Atravessar deitados sobre tábuas, com seus homens segurando a corda.", {}, "", {
+        op("fila", "Atravessar sobre tábuas, com os homens segurando a corda.", {}, "", {
           requisitos: { honraMin: 50 },
-          testeSorte: risco(
-            80,
-            {
+          testeDados: {
+            bonus: 2,
+            dificuldade: 7,
+            limiteCusto: 4,
+            sucesso: {
               efeitos: { habitantes: 8, honra: 4 },
               resultado: "O peso se espalha e o gelo aguenta. A caravana atravessa sob suas ordens.",
             },
-            {
+            sucessoComCusto: {
+              efeitos: { habitantes: 4, honra: 2, hp: -5 },
+              resultado:
+                "As tábuas cedem numa ponta, mas a corda segura. Parte da caravana chega; você atravessa com o braço ferido.",
+            },
+            falha: {
               efeitos: { hp: -15 },
               resultado: "Uma tábua cede. As cordas seguram, mas você chega encharcado e ferido.",
             },
-          ),
+          },
           flags: marca("travessia_decidida"),
         }),
       ],
@@ -89,13 +103,20 @@
         "O telhado já cede de um lado, e os vizinhos gritam instruções contraditórias. Cada segundo pesa. Cada decisão, também.",
       opcoes: [
         op("entrar", "Entrar pela janela do sótão.", {}, "", {
-          testeSorte: risco(
-            55,
-            {
-              efeitos: { habitantes: 3, honra: 4, hp: -8 },
-              resultado: "Você tira os três pelo telhado, com as roupas fumegando. A vila chora e aplaude.",
+          testeDados: {
+            bonus: 1,
+            dificuldade: 11,
+            limiteCusto: 7,
+            sucesso: {
+              efeitos: { habitantes: 3, honra: 4 },
+              resultado: "Você tira os três pelo telhado antes que as vigas cedam. A vila chora e aplaude.",
             },
-            {
+            sucessoComCusto: {
+              efeitos: { habitantes: 2, honra: 2, hp: -18 },
+              resultado:
+                "Você alcança o sótão e retira duas pessoas. A terceira fica presa quando as vigas cedem; a fumaça queima seus braços.",
+            },
+            falha: {
               efeitos: { hp: -35 },
               resultado:
                 "O telhado cede sob seus pés. Os guardas chegam a tempo de ver a chama tomar a escada — e a família com ela.",
@@ -105,7 +126,7 @@
                   "Você entrou pela janela do sótão em chamas. O telhado não esperou pelos guardas, nem pela família.",
               },
             },
-          ),
+          },
         }),
         op(
           "parede",
@@ -192,18 +213,25 @@
           "O impacto o joga contra uma parede. As crianças ficam ilesas; você acorda cercado de rostos em lágrimas.",
         ),
         op("gritar", "Gritar para dispersar as crianças.", {}, "", {
-          testeSorte: risco(
-            60,
-            {
+          testeDados: {
+            bonus: 1,
+            dificuldade: 10,
+            limiteCusto: 7,
+            sucesso: {
               efeitos: { honra: 1 },
               resultado:
                 "As crianças correm para os lados no último instante. O cavalo passa, e a vila respira.",
             },
-            {
+            sucessoComCusto: {
+              efeitos: { gold: -2, honra: -1 },
+              resultado:
+                "As crianças saem do caminho, mas o cavalo derruba uma banca. O dono cobra o prejuízo diante da praça.",
+            },
+            falha: {
               efeitos: { habitantes: -1, honra: -4 },
               resultado: "Uma criança demora a se mexer. O silêncio dura mais que o relinchar.",
             },
-          ),
+          },
         }),
         op(
           "abater",
@@ -350,17 +378,24 @@
         "Há uma trilha curta, estreita e conhecida por emboscadas, e outra longa sob a neve. O tempo conta. A neve também.",
       opcoes: [
         op("curta", "Pegar a trilha curta.", {}, "", {
-          testeSorte: risco(
-            55,
-            {
+          testeDados: {
+            bonus: 0,
+            dificuldade: 10,
+            limiteCusto: 6,
+            sucesso: {
               efeitos: { gold: 8, honra: 2 },
               resultado: "Os suprimentos chegam a tempo. Os mercadores pagam mais pela pressa.",
             },
-            {
+            sucessoComCusto: {
+              efeitos: { gold: 3, hp: -10 },
+              resultado:
+                "A caravana passa pela trilha estreita, mas as pedras ferem seu ombro e parte da carga se perde.",
+            },
+            falha: {
               efeitos: { hp: -28, gold: -4 },
               resultado: "Flechas vêm das rochas. Você escapa com a carga rasgada e uma flecha no ombro.",
             },
-          ),
+          },
         }),
         op(
           "longa",
@@ -368,20 +403,27 @@
           { hp: -8, gold: -2 },
           "A neve chega aos joelhos, e uma mula cai no abismo. O resto chega inteiro.",
         ),
-        op("guia", "Contratar um guia local · 4 gold.", {}, "", {
+        op("guia", "Contratar um guia local · 4 Gold.", { gold: -4 }, "", {
           requisitos: { goldMin: 4 },
-          testeSorte: risco(
-            80,
-            {
-              efeitos: { gold: 2 },
+          testeDados: {
+            bonus: 2,
+            dificuldade: 7,
+            limiteCusto: 4,
+            sucesso: {
+              efeitos: { gold: 6 },
               resultado:
                 "O guia conhece cada pedra. A carga chega inteira e os mercadores pagam a diferença.",
             },
-            {
-              efeitos: { gold: -8, hp: -30 },
+            sucessoComCusto: {
+              efeitos: { hp: -6 },
+              resultado:
+                "O guia encontra a passagem, mas a neve atrasa a caravana. A carga chega incompleta, e você se fere no caminho.",
+            },
+            falha: {
+              efeitos: { gold: -4, hp: -30 },
               resultado: "O guia entrega a caravana aos bandidos. Você acorda sem a carga e ferido.",
             },
-          ),
+          },
         }),
       ],
     }),

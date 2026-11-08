@@ -23,16 +23,16 @@
       iniciais: { ataque: 9, escudo: 1 },
     },
     coringa: {
-      nome: "O Coringa",
+      nome: "Bobo da Corte",
       descricao: "120 Vida, 2 Ataque e 5 Escudo. Cada batalha começa com um efeito aleatório de d6.",
       desbloqueio: "Role um 20 natural em qualquer dado de uma disputa, em uma crônica.",
       iniciais: {},
     },
     bruxo: {
-      nome: "O Bruxo",
-      descricao: "70 Vida, 2 Ataque e 4 Escudo. O inimigo rola um d20 extra e fica com o menor resultado.",
+      nome: "Bruxa dos Dados",
+      descricao: "70 Vida, 2 Ataque e −1 Escudo. O inimigo rola um d20 extra e fica com o menor resultado.",
       desbloqueio: "Vença 8 batalhas em uma mesma crônica.",
-      iniciais: { hp: 70, escudo: 4 },
+      iniciais: { hp: 70, escudo: -1 },
     },
   };
   const nomes = {
@@ -45,8 +45,8 @@
     herdeiro_culto: "Baltazar",
     herdeira_leste: "Xinyue",
     herdeiro_nordico: "Sigurd",
-    coringa: "Jester",
-    bruxo: "Morgana",
+    coringa: "O Bufão",
+    bruxo: "A Bruxa",
   };
   const desbloqueaveis = ["druida_herdeiro", "menino_cronista", "heroi_do_povo", ...Object.keys(novos)];
   const todos = ["corajoso", "avarento", "doente", ...desbloqueaveis];
