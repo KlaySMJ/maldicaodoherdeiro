@@ -999,7 +999,8 @@
 
   function alteracoes(resultado) {
     const mudancas = Object.entries(resultado.alteracoes).filter(([, valor]) => valor !== 0);
-    return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li><span>${nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("") || "<li>Nenhum atributo foi alterado.</li>"}</ul>`;
+    if (!mudancas.length) return "";
+    return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li><span>${nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("")}</ul>`;
   }
 
   function resultado(run) {
@@ -1019,14 +1020,12 @@
             ? `Renda da vila: +${numero(economia.variacaoRenda)} gold.`
             : economia.renda < 0
               ? `Manutenção da vila: ${assinado(economia.variacaoRenda)} gold.`
-              : "Sem renda nesta rodada.",
+              : "",
         ]
           .filter(Boolean)
           .join(" ")
       : "";
     return `<div class="resultado" role="status">
-      <h2>Assim foi feito.</h2>
-      <p class="escolha-feita">“${esc(r.escolha)}”</p>
       ${r.combate ? `<p class="desfecho-combate">${r.combate.venceu ? "Vitória em batalha" : "Ataque malsucedido"} · ${numero(r.combate.dano)} de dano após o escudo</p>` : ""}
       <p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
       <button class="botao primario" data-acao="continuar">Continuar <span aria-hidden="true">→</span></button>
@@ -1085,7 +1084,8 @@
       run.lancaHeroiBatalhas ? `Lança do Herói: ${numero(run.lancaHeroiBatalhas)} batalhas restantes` : "",
       run.flags.cinto_vento_ativo ? "Cinto dos ventos: aguardando batalha" : "",
     ].filter(Boolean);
-    return `<details id="painel-inventario" class="inventario" ${run.inventarioAberto ? "open" : ""}><summary>Inventário <span>${numero(itens.length)} ${itens.length === 1 ? "item" : "itens"} conquistados</span></summary>
+    const quantidadeItens = run.inventario.length;
+    return `<details id="painel-inventario" class="inventario" ${run.inventarioAberto ? "open" : ""}><summary>Inventário <span>${numero(quantidadeItens)} ${quantidadeItens === 1 ? "item" : "itens"}</span></summary>
       ${
         itens.length
           ? `<ul>${itens
@@ -1649,6 +1649,7 @@
         ? nomesConstrucoes[id]
         : { nome: id, bonus: "Bônus registrado nesta crônica" }),
     }));
+    const quantidadeItensInventario = run.inventario.length;
     const passivaDruida = Jogo.druida?.passivas[run.druidaPassiva] || {
       nome: "Companheiro",
       descricao: "A floresta acompanha esta rodada.",
@@ -1661,18 +1662,7 @@
     mostrar(
       `
       <section class="cronica${resolvido ? " cronica--resultado" : ""}${run.aguardaDecisaoCulto ? " cronica--decisao-culto" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}${run.historicoCronicaAberto ? " historico-aberto" : ""}" aria-labelledby="titulo-jogo">
-        <div class="titulo-run"><div class="titulo-run-identificacao"><div class="titulo-run-linha"><h1 id="titulo-jogo">A sua crônica</h1>
-          <details class="construcoes-resumo">
-            <summary aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila e seus bônus" title="Construções da vila: ver o que foi feito e seus bônus">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg>
-              <span>${numero(construcoesRun.length)}</span>
-            </summary>
-            <div class="construcoes-resumo-painel">
-              <h2>Construções da vila</h2>
-              ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
-            </div>
-          </details>
-        </div><p class="linha-calendario">Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]} <span class="marcador-estacoes" role="img" aria-label="Ciclo das estações. Atual: ${esc(nomesEstacao[run.estacao])}."><i class="marca-estacao marca-primavera${run.estacao === "primavera" ? " ativa" : ""}"></i><i class="marca-estacao marca-verao${run.estacao === "verao" ? " ativa" : ""}"></i><i class="marca-estacao marca-outono${run.estacao === "outono" ? " ativa" : ""}"></i><i class="marca-estacao marca-inverno${run.estacao === "inverno" ? " ativa" : ""}"></i></span> · Ano ${numero(Jogo.anoDaRodada(run.rodada))}</p></div>
+        <div class="titulo-run"><div class="titulo-run-identificacao"><div class="titulo-run-linha"><h1 id="titulo-jogo">A sua crônica</h1></div><p class="linha-calendario">Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]} <span class="marcador-estacoes" role="img" aria-label="Ciclo das estações. Atual: ${esc(nomesEstacao[run.estacao])}."><i class="marca-estacao marca-primavera${run.estacao === "primavera" ? " ativa" : ""}"></i><i class="marca-estacao marca-verao${run.estacao === "verao" ? " ativa" : ""}"></i><i class="marca-estacao marca-outono${run.estacao === "outono" ? " ativa" : ""}"></i><i class="marca-estacao marca-inverno${run.estacao === "inverno" ? " ativa" : ""}"></i></span> · Ano ${numero(Jogo.anoDaRodada(run.rodada))}</p></div>
           <dl class="recursos-vila" aria-label="Recursos da vila">
             <div class="recurso-contador vila-contador"><dt>Habitantes da vila</dt><dd>${numero(run.atributos.habitantes)}</dd></div>
             ${run.traco === "herdeiro_culto" && !run.cultoAtivo ? `<div class="recurso-contador"><dt>Seguidores em reserva</dt><dd>${numero(run.seguidoresCulto)}</dd><small>Disponíveis ao aderir ao culto</small></div>` : ""}
@@ -1720,7 +1710,17 @@
           </dl>
           <nav class="titulo-run-acoes" aria-label="Ações da crônica">
             <button class="botao botao-tutorial" data-acao="tutorial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5c2.8-1.3 5.3-.4 7 1.1v14c-1.7-1.5-4.2-2.4-7-1.1zM19 4.5c-2.8-1.3-5.3-.4-7 1.1v14c1.7-1.5 4.2-2.4 7-1.1z"/><path d="M7.5 8h2M7.5 11h2M14.5 8h2M14.5 11h2"/></svg><span>Tutorial</span></button>
-            <button class="botao botao-icone" data-acao="alternar-inventario" aria-label="Abrir Inventário" title="Inventário" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg></button>
+            <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(quantidadeItensInventario)}</span></button>
+            <details class="construcoes-resumo">
+              <summary aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila e seus bônus" title="Construções da vila: ver o que foi feito e seus bônus">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg>
+                <span>${numero(construcoesRun.length)}</span>
+              </summary>
+              <div class="construcoes-resumo-painel">
+                <h2>Construções da vila</h2>
+                ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
+              </div>
+            </details>
             <button class="botao botao-icone" data-acao="alternar-progresso" aria-label="Ver Progresso da crônica" title="Progresso" aria-controls="painel-progresso" aria-expanded="${run.historicoCronicaAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19.5h16M5 16l4-4 3 2 6-7"/><path d="M14.5 7H18v3.5"/></svg></button>
             ${run.pressagios?.atual ? `<button type="button" class="botao botao-icone pressagio-indicador" data-acao="pressagio-detalhes" aria-label="Mau presságio: ${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}. Ver condição e prazo" title="${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}"><span aria-hidden="true">☾</span><small>${Math.max(0, run.pressagios.atual.fim - run.rodada)}</small></button>` : ""}
           </nav>

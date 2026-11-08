@@ -336,7 +336,7 @@
         opcao(
           "parar_moagem",
           "Suspender a moagem até a próxima estação.",
-          "Os sacos seguem para outro moinho. A vila economiza o conserto, mas perde parte do serviço.",
+          "Os sacos vão a outro moinho; a vila perde parte do serviço.",
           { gold: 2, habitantes: -1, honra: -1 },
         ),
       ],

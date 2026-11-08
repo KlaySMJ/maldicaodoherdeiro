@@ -297,8 +297,8 @@
       requisitos: { memoriaAnterior: true },
       imagem: "assets/eventos-sistemas/crianca.webp",
       imagemAlt: "Uma criança contando uma história para moradores reunidos",
-      texto: "A criança conta como o herdeiro morreu na rodada {{rodada}}, com honra {{honra}}.",
-      informacoes: "Ela repete: {{motivo}} Cada pessoa acrescenta um detalhe diferente. Nenhuma muda o fim.",
+      texto: "A criança conta a história do herdeiro para quem se reúne ao redor. Cada pessoa parece lembrar de um desfecho diferente.",
+      informacoes: "Alguns completam o relato em voz baixa. Outros preferem apenas escutar.",
       opcoes: [
         {
           id: "corrigir",
