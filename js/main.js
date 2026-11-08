@@ -137,7 +137,6 @@
         Jogo.ui.menu(run);
         break;
       case "iniciar":
-        if (run?.status === "ativa" && !(await Jogo.ui.confirmarNovaRun())) return;
         if (run?.status === "ativa") Jogo.save.registrarRotacaoRun(run);
         Jogo.ui.escolherHerdeiro(Jogo.save.lerLegado());
         break;
@@ -227,6 +226,12 @@
       case "detalhes-condicao":
         Jogo.ui.mostrarDetalhesCondicao(run);
         break;
+      case "debug-alternar-combates":
+        if (Jogo.ui.modoDebug() && Jogo.engine.debugAlternarCombates(run)) {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        }
+        break;
       case "debug-especial-entidade":
         ativarEventoEspecialDebug("entidade");
         break;
@@ -275,6 +280,21 @@
           }
         }
         break;
+      case "combate-rolar":
+        if (Jogo.engine.rolarCombate(run)) {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run);
+        }
+        break;
+      case "combate-continuar":
+        if (Jogo.engine.continuarCombate(run)) {
+          if (run.status === "encerrada") mostrarFim();
+          else {
+            Jogo.save.gravarRun(run);
+            Jogo.ui.jogo(run);
+          }
+        }
+        break;
       case "juntar-culto":
         if (Jogo.engine.juntarCulto(run)) {
           Jogo.save.gravarRun(run);
@@ -293,6 +313,12 @@
         break;
       case "alternar-progresso":
         document.querySelector("#app #painel-progresso > summary")?.click();
+        break;
+      case "alternar-construcoes":
+        Jogo.ui.alternarConstrucoes(run);
+        break;
+      case "fechar-construcoes":
+        Jogo.ui.alternarConstrucoes(run, false);
         break;
       case "tentar-salvar":
         mostrarFim();
@@ -341,7 +367,7 @@
         : botao.dataset.usarItem;
       if (run && itemUsadoId && Jogo.engine.usarItem(run, itemUsadoId, itemSacrificio)) {
         const item = Jogo.itens.find((candidato) => candidato.id === itemUsadoId);
-        run.inventarioAberto = true;
+        run.inventarioAberto = run.fase !== "combate";
         run.avisoInventario =
           itemUsadoId === "adaga_cerimonial" && run.flags.adaga_herdeiro_culto
             ? "Adaga cerimonial: 5 seguidores por +10 Ataque e +5 Escudo."

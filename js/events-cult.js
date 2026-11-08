@@ -256,6 +256,7 @@
       ],
       extra: {
         batalha: {
+          dadosInimigo: 2,
           defesa: 5,
           vitoria: {
             dano: 16,

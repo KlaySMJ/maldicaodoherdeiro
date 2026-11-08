@@ -286,3 +286,49 @@ O quadro ainda usava `overflow-y: auto`, que podia transformar a expansão dos e
 Resumo: o aviso não cria barra de rolagem e mantém o nome completo, com quebra de linha quando necessário. Nenhuma pendência desta correção.
 
 Validações: o navegador confirmou ausência de deslocamento interno nos dois eixos, nome dentro do quadro, quadro dentro da janela e saída automática nas quatro larguras. As quatro capturas foram abertas e não houve erros JavaScript ou rolagem horizontal da página. A conferência de whitespace passou. O ensaio está em `.taste-skill/qa/conquista-sem-scroll/`; a inspeção do quadro registrou zero falhas, com as permissões de brilho e sobreposição já documentadas.
+
+## Revisão de design do jogo inteiro: 8 de novembro de 2026
+
+Rodada feita só com capturas e medições do jogo rodando; nenhum arquivo de `css/`, `js/` ou `index.html` foi tocado. Os scripts e as imagens ficam em `.taste-skill/qa/`, começando por `varrer-cortes.mjs`, `repetir-caso.mjs`, `medir-colunas-estreitas.mjs`, `medir-celular.mjs`, `medir-composicao.mjs`, `medir-secundarios2.mjs`, `capturar-corte-real.mjs`, `achar-fundo.mjs`, `varrer-vazio.mjs` e `testar-travamento.mjs`.
+
+ROUND 1
+Seen in one second: uma mesa preta de três colunas, com o retrato do herdeiro à esquerda e a decisão no centro pedindo um clique.
+Idea (one sentence): a crônica é um livro-caixa preto onde o herdeiro e as consequências do governo dele ficam frente a frente, com a honra como único sinal de cor.
+Live thing: a quantidade e o tamanho das opções mudam a cada sorteio, e a borda do retrato acompanha a honra.
+Layout words by section: início=arte e lista de ações em duas colunas / jogo=retrato, decisão, evento / resultado=consequências e "Continuar →" / legado=progresso, busca e categorias.
+Scores: design 7 · usability 5 · creativity 7 · content 8 → overall 6.5
+Caps applied: conteúdo cortado fora da tela limita usability a 5, pelas capturas de 1024×600 e 1366×625.
+Top three problems (most visible first), each with the screenshot it shows in and the fix:
+1. A última escolha fica cortada em janela baixa. Em `.taste-skill/qa/corte-real-1024x600-mercador.png` o botão "Seguir sem comprar." termina em 644 px contra 600 px de janela e a `.mesa` vai a 659 px; em `corte-real-1366x625-obras.png` as sete opções empurram o último botão para 665 px contra 625 px. Acima de 900 px o `body` fica com `overflow: hidden` (css/style.css:23), então quem recebe o corte não alcança o botão nem com rolagem. Correção: liberar rolagem vertical em janela baixa (`@media (min-width:901px) and (max-height:700px)`) ou dar `min-height: 0` às linhas de `.mesa` e um `overflow-y: auto` à `.coluna-escolhas`.
+2. A fileira de atributos do celular colide. Em `.taste-skill/qa/celular-atributos-390.png` a `.herdeiro-detalhes` tem 165 px com `grid-template-columns: repeat(5, 33px)`; "120 / 120" mede 67 px e termina em x=180, atravessando a coluna Escudo que começa em x=146; "+50" quebra em duas linhas de 48 px e sobe o ícone 7 px, desalinhando a fileira. A causa é `width: min(100%, calc(var(--altura-cartas)*.75))` (css/style.css:333) sem contrapartida nos blocos de ≤600 px (linhas 655-687 e 688-750). Correção: `width: 100%` nesses blocos, `repeat(5, minmax(0,1fr))` em `.atributos` e `dd` sem quebra de linha com fonte menor.
+3. As colunas laterais viram fita de uma palavra por linha em janela baixa. Na mesma captura de 1024×600 a grade é `313px 298px 313px`, mas `.carta-herdeiro` e `.evento-detalhes` têm 144 px porque a largura deriva da altura do cartão; `.informacoes` cai para 144 px em 8 linhas, enquanto 169 px de cada trilho lateral ficam vazios e o centro recebe só 298 px. Correção: largura de coluna vinda do trilho (`width: 100%` com `clamp` no `max-width`) em vez de `--altura-cartas`, e `align-content: center` em `.mesa`.
+
+Achados secundários, com medição:
+
+- Em 1920×1080 a `.mesa` termina em y=760 e a janela tem 1080 px, o que deixa 320 px vazios embaixo; em 1440×900 sobram 146 px. A `.marca` começa em x=284 e a `.mesa` em x=360, diferença fixa de 76 px que aparece também em 1440 (x=44 contra x=120).
+- Cada linha de atributo põe o ícone em x=167 e o valor terminando em x=477: 202 px de nada entre "120 / 120" e o resto, 282 px na linha do escudo (`justify-content: space-between`, css/style.css:377).
+- "Habitantes da vila" quebra em duas linhas em 1440 porque o `dt` tem `max-width: 100px` (css/style.css:282).
+- No resultado, cada item das consequências ocupa os 372 px da coluna com rótulos de seis caracteres ("Honra-3", "Gold+4"), medido em 1440×900.
+- Em 768×1024 as linhas da `.mesa` ficam `240px 166px 145px 0px 281px`: existe uma linha de 0 px, provavelmente um item de grade morto. Correção do registro anterior: não há vazio de 181 px entre atributos e escolhas nessa largura, porque `.evento-detalhes` ocupa y=598–733 e as escolhas começam em y=757, gap de 24 px.
+- Varredura completa dos 385 eventos em 19 resoluções, um sorteio por caso: corte real em 1024×600 (3 eventos), 1000×650 (1), 960×600 (8) e 1280×720 (1, um rótulo de resultado 13 px abaixo da dobra). Em 1440×900, 1920×1080, 1536×864, 1600×900, 1024×768 e 1280×800 nenhum elemento saiu da tela.
+- Sorteio repetido oito vezes no mesmo caso: mercador em 1024×600 cortou 8 de 8, com o último botão em 644 ou 665 px; resultado de `vidro_sob_palpebra` em 1366×768 cortou 6 de 8 com a `.mesa` em 771 px; `construcoes_da_vila` em 1366×625 cortou 2 de 8, sempre com sete opções sorteadas.
+- Em ≤900 px o conteúdo abaixo da dobra é comum (683 casos em 768×800, 186 em 900×1000), mas `body { overflow-y: auto }` (css/style.css:657) deixa a rolagem alcançar tudo; o corte só é travamento acima de 900 px.
+- O gate `.taste-skill/qa/sem-scroll.mjs` está quebrado: na linha 51 ele lê `Jogo.engine.opcoes(evento,cenario)[0].id` e recebe `undefined` para `cirurgiao_barbeiro`, porque as três opções exigem `requisitos: { hpMax: 50 }` (js/events-lethal.js:437, 448 e 466) e `cumpre` lê `hpMax` como "vida atual ≤ 50" (js/engine.js:161-166) numa run nova de 120 de vida. A porta nunca termina, e foi assim que os cortes passaram. O mesmo gate ainda usa `document.documentElement.scrollHeight` como prova de corte: em 1280×720, 768 dos 770 cenários têm `docH` maior que a janela sem nenhum elemento fora da tela, porque o excedente vem da `.cronica`.
+- O sorteio usa `Math.random()` sem semente em todo o engine (js/engine.js:360, 631 e 2212), então o mesmo caso corta em um sorteio e passa limpo no outro. Repetido, o teste só acerta o pior caso.
+- Forçando eventos fora do sorteio, 5 casos de 385 eventos em 5 estados renderizam zero botões: `profeta_do_cometa` e `bispo` com gold 0, e `cirurgiao_barbeiro` com vida cheia, com o texto "As opções estão disponíveis" sobre nada. O sorteio normal exclui esses eventos (js/engine.js:466), então não achei travamento em partida real; a interface ainda não tem estado vazio para o dia em que um caminho agendado entregar um deles.
+- O que está medido e bom: em 1440×900 os botões do cabeçalho têm todos 44 px de altura (Tutorial 93×44, ícones 44×44, y=81–125), o menu empilha quatro botões de 430×44 com passo de 54 px, e a barra do legado mede 1080×119 com progresso de 873×6.
+
+- [x] Capturar e medir o jogo em 1920×1080, 1440×900, 1366×768, 1366×625, 1280×720, 1100×700, 1024×600, 1000×650, 960×600, 900×1000, 768×1024, 768×800 e 390×844.
+- [x] Rodar os 385 eventos nas 19 resoluções separando corte real de `docH` inflado.
+- [x] Repetir os casos suspeitos oito vezes para medir a frequência do corte.
+- [x] Achar a causa do gate quebrado e do `hpMax`.
+- [x] Conferir os secundários: grade de herdeiros em repouso, barra do legado, consequências do resultado, botões do cabeçalho e menu.
+- [x] Gravar as capturas de corte real em `.taste-skill/qa/`.
+- [x] Corrigir os cortes em janela baixa, a fileira de atributos do celular e a largura das colunas laterais.
+- [x] Consertar `sem-scroll.mjs` com guarda para zero opções e medição por retângulos, e rodá-lo de novo.
+- [x] Verificar o resultado em 1366×768 e confirmar que “Continuar” fica acessível pela rolagem.
+- [x] Definir `hpMax` no barbeiro como o limite da Vida atual ferida: o evento aparece com 50 de Vida ou menos.
+
+Resumo: janelas de desktop baixas agora permitem rolagem vertical; a faixa de atributos ocupa a largura disponível no celular e alinha os valores junto aos ícones no desktop; as informações do evento usam a largura do trilho lateral. O barbeiro exige Vida atual de até 50, coerente com a oferta de tratar ferimentos.
+
+Validações: `sem-scroll.mjs` percorreu 14.877 cenários em 19 resoluções, sem cortes inacessíveis, overflow horizontal, erros de console ou eventos sem opções. No Edge, o resultado em 1366×768 ficou acessível após rolar 72 px; no mercador em 1024×600, a última oferta ficou visível após 59 px. As capturas foram abertas para revisão. Nenhuma decisão ficou pendente; não houve teste em aparelho físico.

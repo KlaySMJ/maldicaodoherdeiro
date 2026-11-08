@@ -344,6 +344,15 @@
     });
   }
 
+  function alinharIdentificacaoComMoldura() {
+    const identificacao = app.querySelector(".titulo-run-identificacao");
+    const moldura = app.querySelector(".carta-herdeiro");
+    if (!identificacao || !moldura) return;
+    identificacao.style.removeProperty("transform");
+    const deslocamento = moldura.getBoundingClientRect().left - identificacao.getBoundingClientRect().left;
+    identificacao.style.transform = `translateX(${deslocamento}px)`;
+  }
+
   function mostrar(html, tela, contextoMusica = tela === "intro" ? "intro" : "menu") {
     if (temporizadorTextoEvento) window.clearInterval(temporizadorTextoEvento);
     temporizadorTextoEvento = 0;
@@ -593,13 +602,11 @@
         <button type="button" class="abertura-arte" data-acao="debug-alternar" aria-pressed="${modoDebug()}" aria-label="Imagem da vila: clique para ${modoDebug() ? "ocultar" : "mostrar"} os controles de debug"><img src="assets/vila.webp" alt="Uma vila medieval sob a vigília de um castelo" width="1024" height="1024"></button>
         <div class="abertura-texto">
           <h1 id="titulo-inicio">A maldição do Herdeiro</h1>
-          <p class="subtitulo">A terra será sua.<br>As consequências, de todos.</p>
-          <p>Um jovem senhor. Uma vila distante. A cada decisão, uma história que o próximo herdeiro talvez nunca conheça.</p>
           <div class="acoes-menu">
-            <button class="botao primario" data-acao="iniciar">Escolher herdeiro <span aria-hidden="true">→</span></button>
-            <button class="botao" data-acao="tutorial">Como jogar</button>
+            <button class="botao primario" data-acao="iniciar">Iniciar <span aria-hidden="true">→</span></button>
             <button class="botao" data-acao="carregar" ${run ? "" : "disabled"}>Carregar${run ? ` <span>Rodada ${numero(run.rodada)}</span>` : ""}</button>
-            <button id="abrir-legado" class="botao painel-legado-abrir" data-acao="abrir-legado">Conquistas e legado <span aria-hidden="true">→</span></button>
+            <button id="abrir-legado" class="botao painel-legado-abrir" data-acao="abrir-legado">Conquistas <span aria-hidden="true">→</span></button>
+            <button class="botao" data-acao="tutorial">Como jogar</button>
             <details class="painel-backup">
               <summary>Backup de progresso</summary>
               <div><button class="botao" data-acao="exportar-progresso">Exportar arquivo</button><button class="botao" data-acao="importar-progresso">Importar arquivo</button></div>
@@ -676,7 +683,7 @@
       const id = conquista.id;
       if (id.startsWith("condicao_") || ["primeira_transformacao", "todas_transformacoes"].includes(id))
         return "transformacoes";
-      if (/^(ataque|escudo|batalhas_vencidas)_/.test(id)) return "combate";
+      if (/^(ataque|escudo|batalhas_vencidas|d20_natural|vitoria_com_desvantagem|vitoria_com_rerrolagem)_/.test(id)) return "combate";
       if (/^(gold|habitantes|seguidores)_/.test(id) || daVila.has(id)) return "vila";
       if (historias.has(id)) return "historias";
       if (
@@ -963,7 +970,7 @@
         const ehHonra = id === "honra";
         const ehGold = id === "gold";
         return `<div data-atributo="${id}" class="atributo ${ehHonra ? `honra-${Jogo.estado.faixaHonra(run.atributos.honra)}${mudouHonra ? " honra-mudou" : ""}` : ""}${ehGold ? " gold-contador" : ""}${id === "hp" && danoRecebido > 0 ? " vida-perdida" : ""}" ${id === "hp" && danoRecebido > 0 ? `data-dano="${numero(danoRecebido)}"` : ""} ${ehHonra && mudouHonra ? `data-mudanca-honra="${variacaoHonra > 0 ? "subiu" : "caiu"}"` : ""} ${ehHonra && variacaoHonra > 0 ? `data-ganho-honra="${numero(variacaoHonra)}"` : ""} ${ehGold ? `role="group" tabindex="0" aria-label="Gold: ${numero(run.atributos.gold)}" aria-describedby="descricao-renda-gold" data-tooltip="${esc(descricaoRenda)}"` : ""}>
-      <dt><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icones[id]}</svg><span class="leitor-de-tela">${nomes[id]}</span></dt><dd>${ehHonra ? assinado(run.atributos[id]) : id === "hp" ? `${numero(run.atributos.hp)} / ${numero(run.hpMax)}` : numero(run.atributos[id])}</dd>${ehGold ? `<span id="descricao-renda-gold" class="leitor-de-tela">${esc(descricaoRenda)}</span>` : ""}
+      <dt><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icones[id]}</svg><span class="leitor-de-tela">${nomes[id]}</span></dt><dd>${ehHonra ? assinado(run.atributos[id]) : id === "hp" ? `<span class="vida-atual">${numero(run.atributos.hp)}</span><span class="vida-separador" aria-hidden="true">/</span><span class="vida-maxima">${numero(run.hpMax)}</span><span class="leitor-de-tela">${numero(run.atributos.hp)} de ${numero(run.hpMax)}</span>` : numero(run.atributos[id])}</dd>${ehGold ? `<span id="descricao-renda-gold" class="leitor-de-tela">${esc(descricaoRenda)}</span>` : ""}
     </div>`;
       })
       .join("")}</dl>`;
@@ -1003,6 +1010,11 @@
     return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li><span>${nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("")}</ul>`;
   }
 
+  function resumoRolagemCombate(combate) {
+    if (!Array.isArray(combate.dadosHerdeiro) || !Array.isArray(combate.dadosInimigo)) return "";
+    return `<p class="resumo-rolagem-combate"><strong>Rolagem:</strong> seus dados ${combate.dadosHerdeiro.join(" · ")} (maior ${combate.dadoHerdeiro}) + Ataque ${numero(combate.ataque)} = ${numero(combate.totalHerdeiro)} · inimigo ${combate.dadosInimigo.join(" · ")} (maior ${combate.dadoInimigo}) + Defesa ${numero(combate.defesa)} = ${numero(combate.totalInimigo)}${combate.rerrolagens ? ` · ${numero(combate.rerrolagens)} rerrolagem${combate.rerrolagens === 1 ? "" : "s"}` : ""}.</p>`;
+  }
+
   function resultado(run) {
     const r = run.ultimoResultado;
     if (run.aguardaDecisaoCulto)
@@ -1026,6 +1038,7 @@
           .join(" ")
       : "";
     return `<div class="resultado" role="status">
+      ${r.combate ? resumoRolagemCombate(r.combate) : ""}
       ${r.combate ? `<p class="desfecho-combate">${r.combate.venceu ? "Vitória em batalha" : "Ataque malsucedido"} · ${numero(r.combate.dano)} de dano após o escudo</p>` : ""}
       <p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
       <button class="botao primario" data-acao="continuar">Continuar <span aria-hidden="true">→</span></button>
@@ -1047,7 +1060,7 @@
       .join("")}</div>`;
   }
 
-  function inventario(run) {
+  function inventario(run, { somenteCombate = false } = {}) {
     const contagem = run.inventario.reduce((grupos, id) => {
       grupos[id] = (grupos[id] || 0) + 1;
       return grupos;
@@ -1063,10 +1076,14 @@
             quantidade === 0 &&
             Number.isSafeInteger(run.itensConsumidosEm?.[item.id]) &&
             run.itensConsumidosEm[item.id] < run.rodada
-          ),
+          ) &&
+          (!somenteCombate || (quantidade > 0 && Jogo.engine.podeUsarItem(run, item.id))),
       );
     const efeitos = run.efeitosPreparados || {};
     const preparados = [
+      efeitos.bonusDadosCombateProximaBatalha
+        ? `Dados extras: +${numero(efeitos.bonusDadosCombateProximaBatalha)} na próxima batalha`
+        : "",
       efeitos.bloquearDanoProximaBatalha ? "Amuleto: próximo dano de batalha anulado" : "",
       efeitos.bonusAtaqueProximaBatalha
         ? `Ataque: +${numero(efeitos.bonusAtaqueProximaBatalha)} na próxima batalha`
@@ -1085,7 +1102,7 @@
       run.flags.cinto_vento_ativo ? "Cinto dos ventos: aguardando batalha" : "",
     ].filter(Boolean);
     const quantidadeItens = run.inventario.length;
-    return `<details id="painel-inventario" class="inventario" ${run.inventarioAberto ? "open" : ""}><summary>Inventário <span>${numero(quantidadeItens)} ${quantidadeItens === 1 ? "item" : "itens"}</span></summary>
+    return `<details id="painel-inventario" class="inventario" ${run.inventarioAberto ? "open" : ""}><summary><span class="painel-titulo">Inventário <span>${numero(quantidadeItens)} ${quantidadeItens === 1 ? "item" : "itens"}</span></span><span class="painel-voltar-link">← Voltar</span></summary>
       ${
         itens.length
           ? `<ul>${itens
@@ -1129,7 +1146,9 @@
                 return `<li><span class="item-descricao"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong><small>${esc(estado)} · ${esc(item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto" ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque." : item.descricao)}</small></span>${usoItem}</li>`;
               })
               .join("")}</ul>`
-          : "<p>Nenhum item conquistado nesta run.</p>"
+          : somenteCombate
+            ? "<p>Nenhum item pode ser usado nesta etapa.</p>"
+            : "<p>Nenhum item conquistado nesta run.</p>"
       }
       ${run.avisoInventario ? `<p class="aviso-inventario" role="status">${esc(run.avisoInventario)}</p>` : ""}
       ${preparados.length ? `<p class="efeitos-preparados">${preparados.map(esc).join(" · ")}</p>` : ""}</details>
@@ -1162,7 +1181,7 @@
   ) {
     const registros = (run.historicoCronica || []).slice();
     if (recentesPrimeiro) registros.reverse();
-    return `<details id="${esc(id)}" class="historico-cronica" ${expandido ? "open" : ""}><summary>${esc(titulo)} <span>${registros.length} ${registros.length === 1 ? "escolha" : "escolhas"}</span></summary>
+    return `<details id="${esc(id)}" class="historico-cronica" ${expandido ? "open" : ""}><summary><span class="painel-titulo">${esc(titulo)} <span>${registros.length} ${registros.length === 1 ? "escolha" : "escolhas"}</span></span><span class="painel-voltar-link">← Voltar</span></summary>
       ${
         registros.length
           ? `<ol>${registros
@@ -1518,12 +1537,115 @@
       "pressagio-detalhes",
     );
   }
+
+  function facesDados(valores, maior, animar = true) {
+    return `<div class="dados-combate" aria-label="Resultados dos dados">${valores
+      .map(
+        (valor) =>
+          `<span class="dado-combate${valor === maior ? " dado-combate-maior" : ""}${valor === 20 ? " dado-combate-vinte" : valor === 1 ? " dado-combate-um" : ""}${animar ? "" : " dado-combate-estatico"}" aria-label="${valor === maior ? `Maior resultado: ${valor}` : `Resultado: ${valor}`}">${valor}</span>`,
+      )
+      .join("")}</div>`;
+  }
+
+  function telaCombate(run) {
+    const evento = Jogo.eventoPorId(run.eventoId);
+    const pendente = run.combatePendente;
+    const perfil = Jogo.engine.perfilCombate(run);
+    if (!evento?.batalha || !pendente || !perfil) return;
+    const resultado = pendente.etapa === "resultado";
+    const maiorHerdeiro = resultado ? Math.max(...pendente.dadosHerdeiro) : null;
+    const maiorInimigo = resultado ? Math.max(...pendente.dadosInimigo) : null;
+    const totalHerdeiro = resultado ? maiorHerdeiro + perfil.ataque : null;
+    const totalInimigo = resultado ? maiorInimigo + perfil.defesa : null;
+    const venceuNaRolagem = resultado && totalHerdeiro >= totalInimigo;
+    const lancaAtiva = !perfil.batalha.semOverrides && run.lancaHeroiBatalhas > 0;
+    const adagaAtiva = !perfil.batalha.semOverrides && run.inventario.includes("adaga_amaldicoada");
+    const venceu =
+      resultado &&
+      !perfil.batalha.forcarDerrota &&
+      (lancaAtiva || adagaAtiva || venceuNaRolagem);
+    const desfechoForcado = resultado
+      ? perfil.batalha.forcarDerrota
+        ? "Esta batalha determina a derrota, independentemente dos dados."
+        : lancaAtiva
+          ? "A Lança do Herói garante a vitória nesta batalha."
+          : adagaAtiva && !venceuNaRolagem
+            ? "A Adaga amaldiçoada garante a vitória, mas mantém o dano de derrota."
+            : venceuNaRolagem && totalHerdeiro === totalInimigo
+              ? "Empate: o herdeiro vence."
+              : ""
+      : "";
+    const dadoHeroi = resultado
+      ? facesDados(pendente.dadosHerdeiro, maiorHerdeiro)
+      : `<div class="dados-combate" aria-label="${perfil.dadosHerdeiro} dados do herdeiro">${Array.from({ length: perfil.dadosHerdeiro }, () => '<span class="dado-combate dado-combate-aguardando" aria-hidden="true">?</span>').join("")}</div>`;
+    const dadoInimigo = resultado
+      ? facesDados(pendente.dadosInimigo, maiorInimigo, pendente.rerrolagens === 0)
+      : `<div class="dados-combate" aria-label="${perfil.dadosInimigo} dados do inimigo">${Array.from({ length: perfil.dadosInimigo }, () => '<span class="dado-combate dado-combate-aguardando" aria-hidden="true">?</span>').join("")}</div>`;
+    const resumoResultado = resultado
+      ? `<section class="resultado-disputa ${venceu ? "resultado-disputa-vitoria" : "resultado-disputa-derrota"}" aria-live="polite">
+          <p class="disputa-veredito">${venceu ? "Vitória" : "Derrota"}</p>
+          <p class="disputa-totais"><span>Herdeiro <strong>${numero(totalHerdeiro)}</strong></span><span aria-hidden="true">×</span><span>Inimigo <strong>${numero(totalInimigo)}</strong></span></p>
+          <p class="disputa-formula">${numero(maiorHerdeiro)} no dado + ${numero(perfil.ataque)} Ataque · ${numero(maiorInimigo)} no dado + ${numero(perfil.defesa)} Defesa</p>
+          ${desfechoForcado ? `<p class="disputa-regra">${esc(desfechoForcado)}</p>` : ""}
+        </section>`
+      : `<p class="disputa-instrucao">Prepare seu combate com os itens disponíveis e role os dados.</p>`;
+    mostrar(
+      `<dialog class="disputa-combate" aria-labelledby="titulo-disputa-combate">
+        <div class="disputa-combate-conteudo">
+          <p class="disputa-sobretitulo">Rodada ${numero(run.rodada)} · Disputa</p>
+          <h1 id="titulo-disputa-combate">${esc(evento.titulo)}</h1>
+          <p class="disputa-confronto"><span>${esc(tituloHerdeiro(run.traco))}</span><span aria-hidden="true">contra</span><span>${esc(evento.batalha.inimigo || "Inimigo")}</span></p>
+          <p class="disputa-regra">Compare o maior d20 de cada conjunto somado ao Ataque e à Defesa. Empate favorece o herdeiro.</p>
+          <div class="disputa-participantes">
+            <section class="disputa-lado disputa-herdeiro" aria-label="Rolagem do herdeiro">
+              <h2>Seu conjunto · ${perfil.dadosHerdeiro} ${perfil.dadosHerdeiro === 1 ? "dado" : "dados"}</h2>
+              ${dadoHeroi}
+              <p>Ataque <strong>+${numero(perfil.ataque)}</strong></p>
+            </section>
+            <span class="disputa-versus" aria-hidden="true">×</span>
+            <section class="disputa-lado disputa-inimigo" aria-label="Rolagem do inimigo">
+              <h2>Inimigo · ${perfil.dadosInimigo} ${perfil.dadosInimigo === 1 ? "dado" : "dados"}</h2>
+              ${dadoInimigo}
+              <p>Defesa <strong>+${numero(perfil.defesa)}</strong></p>
+            </section>
+          </div>
+          ${resumoResultado}
+          <section class="disputa-itens" aria-label="Itens disponíveis para este combate">
+            <h2>${resultado ? "Itens de rerrolagem" : "Preparação"}</h2>
+            ${inventario(run, { somenteCombate: true })}
+          </section>
+          <div class="disputa-acoes">
+            ${resultado ? '<button class="botao primario" data-acao="combate-continuar">Continuar</button>' : '<button class="botao primario" data-acao="combate-rolar">Rolar dados</button>'}
+          </div>
+        </div>
+      </dialog>`,
+      "jogo",
+      "jogo",
+    );
+    const dialogo = app.querySelector(".disputa-combate");
+    dialogo?.addEventListener("cancel", (acao) => acao.preventDefault());
+    dialogo?.showModal();
+    const inventarioCombate = dialogo?.querySelector("#painel-inventario");
+    if (inventarioCombate) inventarioCombate.open = true;
+    const continuar = dialogo?.querySelector('[data-acao="combate-continuar"]');
+    if (continuar && !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      continuar.disabled = true;
+      window.setTimeout(() => {
+        if (continuar.isConnected) continuar.disabled = false;
+      }, 760);
+    }
+  }
+
   function jogo(run, { textoCompleto = false } = {}) {
     if (Jogo.pressagios?.bloqueia(run) && !run.aguardaDecisaoCulto) {
       cenaPressagio(run);
       return;
     }
     Jogo.engine.sincronizarItemVampirismo(run);
+    if (run.fase === "combate") {
+      telaCombate(run);
+      return;
+    }
     const eventoDaRun = Jogo.eventoPorId(run.eventoId);
     const eventoBase = run.aguardaDecisaoCulto ? Jogo.eventoPorId("ultimo_habitante") : eventoDaRun;
     const memoriaAnterior = run.legadoDaRun.memorias?.at(-1);
@@ -1661,7 +1783,7 @@
       : "";
     mostrar(
       `
-      <section class="cronica${resolvido ? " cronica--resultado" : ""}${run.aguardaDecisaoCulto ? " cronica--decisao-culto" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}${run.historicoCronicaAberto ? " historico-aberto" : ""}" aria-labelledby="titulo-jogo">
+      <section class="cronica${resolvido ? " cronica--resultado" : ""}${run.aguardaDecisaoCulto ? " cronica--decisao-culto" : ""}${evento.mercadorias ? " cronica--mercador" : ""}${evento.id === "construcoes_da_vila" ? " cronica--obras-vila" : ""}${!resolvido && escolhas.length > 3 ? " cronica--quatro-escolhas" : ""}${run.inventarioAberto ? " inventario-aberto" : ""}${run.historicoCronicaAberto ? " historico-aberto" : ""}${run.construcoesAbertas ? " construcoes-aberto" : ""}" aria-labelledby="titulo-jogo">
         <div class="titulo-run"><div class="titulo-run-identificacao"><div class="titulo-run-linha"><h1 id="titulo-jogo">A sua crônica</h1></div><p class="linha-calendario">Rodada ${numero(run.rodada)} · ${nomesEstacao[run.estacao]} <span class="marcador-estacoes" role="img" aria-label="Ciclo das estações. Atual: ${esc(nomesEstacao[run.estacao])}."><i class="marca-estacao marca-primavera${run.estacao === "primavera" ? " ativa" : ""}"></i><i class="marca-estacao marca-verao${run.estacao === "verao" ? " ativa" : ""}"></i><i class="marca-estacao marca-outono${run.estacao === "outono" ? " ativa" : ""}"></i><i class="marca-estacao marca-inverno${run.estacao === "inverno" ? " ativa" : ""}"></i></span> · Ano ${numero(Jogo.anoDaRodada(run.rodada))}</p></div>
           <dl class="recursos-vila" aria-label="Recursos da vila">
             <div class="recurso-contador vila-contador"><dt>Habitantes da vila</dt><dd>${numero(run.atributos.habitantes)}</dd></div>
@@ -1673,6 +1795,7 @@
               <button class="controle-honra" data-acao="honra-menos" ${run.aguardaDecisaoCulto ? "disabled" : ""} aria-label="Perder 30 de honra para testes" title="Perder 30 de honra para testes">−30</button>
               <button class="controle-honra" data-acao="debug-transformacoes" aria-label="Ver prévia das transformações do herdeiro" title="Ver as transformações sem avançar a história">Transformações</button>
               <button class="controle-honra" data-acao="debug-conquista" title="Ver a animação sem registrar uma conquista">Conquista</button>
+              <button class="controle-honra" data-acao="debug-alternar-combates" aria-pressed="${Boolean(run.flags.debugSempreCombate)}" title="Força os sorteios comuns a escolher cartas de combate" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Forçar combate: ${run.flags.debugSempreCombate ? "Ativo" : "Inativo"}</button>
               <details class="debug-eventos">
                 <summary class="controle-honra" aria-label="Ativar evento especial para debug" title="Ativar uma carta especial para debug">Especial</summary>
                 <div class="debug-eventos-opcoes" aria-label="Cartas especiais para debug">
@@ -1709,20 +1832,11 @@
             </dd></div>
           </dl>
           <nav class="titulo-run-acoes" aria-label="Ações da crônica">
-            <button class="botao botao-tutorial" data-acao="tutorial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5c2.8-1.3 5.3-.4 7 1.1v14c-1.7-1.5-4.2-2.4-7-1.1zM19 4.5c-2.8-1.3-5.3-.4-7 1.1v14c1.7-1.5 4.2-2.4 7-1.1z"/><path d="M7.5 8h2M7.5 11h2M14.5 8h2M14.5 11h2"/></svg><span>Tutorial</span></button>
-            <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(quantidadeItensInventario)}</span></button>
-            <details class="construcoes-resumo">
-              <summary aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila e seus bônus" title="Construções da vila: ver o que foi feito e seus bônus">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg>
-                <span>${numero(construcoesRun.length)}</span>
-              </summary>
-              <div class="construcoes-resumo-painel">
-                <h2>Construções da vila</h2>
-                ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
-              </div>
-            </details>
-            <button class="botao botao-icone" data-acao="alternar-progresso" aria-label="Ver Progresso da crônica" title="Progresso" aria-controls="painel-progresso" aria-expanded="${run.historicoCronicaAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19.5h16M5 16l4-4 3 2 6-7"/><path d="M14.5 7H18v3.5"/></svg></button>
             ${run.pressagios?.atual ? `<button type="button" class="botao botao-icone pressagio-indicador" data-acao="pressagio-detalhes" aria-label="Mau presságio: ${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}. Ver condição e prazo" title="${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}"><span aria-hidden="true">☾</span><small>${Math.max(0, run.pressagios.atual.fim - run.rodada)}</small></button>` : ""}
+            <button class="botao botao-icone botao-construcoes" data-acao="alternar-construcoes" aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila" title="Construções da vila" aria-controls="painel-construcoes" aria-expanded="${Boolean(run.construcoesAbertas)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg><span aria-hidden="true">${numero(construcoesRun.length)}</span></button>
+            <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(quantidadeItensInventario)}</span></button>
+            <button class="botao botao-icone botao-cronicas" data-acao="alternar-progresso" aria-label="Ver crônicas" title="Crônicas" aria-controls="painel-progresso" aria-expanded="${run.historicoCronicaAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19.5h16M5 16l4-4 3 2 6-7"/><path d="M14.5 7H18v3.5"/></svg></button>
+            <button class="botao botao-icone botao-tutorial" data-acao="tutorial" aria-label="Tutorial" title="Tutorial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5c2.8-1.3 5.3-.4 7 1.1v14c-1.7-1.5-4.2-2.4-7-1.1zM19 4.5c-2.8-1.3-5.3-.4-7 1.1v14c1.7-1.5 4.2-2.4 7-1.1z"/><path d="M7.5 8h2M7.5 11h2M14.5 8h2M14.5 11h2"/></svg></button>
           </nav>
         </div>
         ${statusDruida}
@@ -1749,10 +1863,11 @@
             <article class="carta carta-evento honra-${faixa} tipo-evento-${categoriaEvento.classe}" aria-labelledby="titulo-evento">
               <span class="rotulo-tipo-evento">${esc(categoriaEvento.nome)}</span>
               <img class="imagem-evento${imagensComTomDaVila.has(evento.imagem) ? " imagem-evento--tom-vila" : ""}" src="${esc(evento.imagem)}" width="1024" height="1024" loading="lazy" decoding="async" alt="${esc(evento.imagemAlt)}">
+              <button type="button" class="evento-detalhes-acionar" aria-label="Mostrar detalhes do evento" aria-controls="informacoes-evento" aria-expanded="false"></button>
             </article>
             <div class="evento-detalhes">
               <div class="evento-texto"><div class="carta-titulo evento-titulo"><h2 id="titulo-evento">${esc(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade">A Entidade</span>' : ""}</div><p>${esc(evento.texto)}</p></div>
-              <aside class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>${run.previsaoCorvo ? `<p class="previsao-corvo" role="status">Seu corvo prevê: ${esc(run.previsaoCorvo)}.</p>` : ""}
+              <aside id="informacoes-evento" class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>${run.previsaoCorvo ? `<p class="previsao-corvo" role="status">Seu corvo prevê: ${esc(run.previsaoCorvo)}.</p>` : ""}
                 ${batalhaLeitura && evento.batalha.mostrarLeitura !== false ? `<p class="batalha-leitura">Seu Ataque: <strong>${numero(run.atributos.ataque + (run.efeitosPreparados.bonusAtaqueProximaBatalha || 0) + (Jogo.druida?.bonusAtaqueCombate(run) || 0))}</strong>. Defesa inimiga: <strong>${numero(batalhaLeitura.defesa)}</strong>. Dano antes das reduções: <strong>${numero(batalhaLeitura.vitoria.dano)} na vitória</strong> ou <strong>${numero(batalhaLeitura.derrota.dano)} na derrota</strong>. ${run.efeitoDivino?.reducaoDano ? `O efeito de ${esc(run.efeitoDivino.nome)} reduz mais ${numero(run.efeitoDivino.reducaoDano)} de dano.` : ""} ${batalhaLeitura.estagio ? `A dificuldade aumentou ${numero(batalhaLeitura.estagio)} ${batalhaLeitura.estagio === 1 ? "estágio" : "estágios"}.` : ""}</p>` : ""}
                 ${leituraBatalhaLateral ? `<p class="batalha-escudo-lateral">Seu Escudo previsto: <strong>${numero(escudoPrevisto)}</strong>.</p>` : ""}
               </aside>
@@ -1778,13 +1893,29 @@
                     .join("")}</div></div>`
             }
             ${inventario(run)}${historicoCronica(run)}
+            <section id="painel-construcoes" class="construcoes-painel" aria-labelledby="titulo-construcoes">
+              <header class="construcoes-painel-cabecalho"><h2 id="titulo-construcoes">Construções da vila</h2><button class="painel-voltar-link construcoes-voltar" type="button" data-acao="fechar-construcoes" aria-label="Voltar à crônica">← Voltar</button></header>
+              ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
+            </section>
           </section>
         </div>
       </section>`,
       "jogo",
       cultoAtivo ? "culto" : evento.batalha ? "batalha" : run.estacao,
     );
+    window.requestAnimationFrame(alinharIdentificacaoComMoldura);
     digitarTextoEvento(evento.texto, animarTexto);
+    const acionadorDetalhesEvento = document.querySelector("#app .evento-detalhes-acionar");
+    acionadorDetalhesEvento?.addEventListener("click", () => {
+      const aberto = acionadorDetalhesEvento
+        .closest(".cronica")
+        ?.classList.toggle("evento-detalhes-abertos");
+      acionadorDetalhesEvento.setAttribute("aria-expanded", String(Boolean(aberto)));
+      acionadorDetalhesEvento.setAttribute(
+        "aria-label",
+        aberto ? "Ocultar detalhes do evento" : "Mostrar detalhes do evento",
+      );
+    });
     Jogo.audio?.definirDucking(resolvido || Boolean(evento.batalha));
     if (
       tutorialForcado ||
@@ -1803,6 +1934,9 @@
         ?.setAttribute("aria-expanded", String(painelInventario.open));
       if (painelInventario.open) {
         const historico = document.querySelector("#app .historico-cronica");
+        run.construcoesAbertas = false;
+        cronica?.classList.remove("construcoes-aberto");
+        document.querySelector('#app [data-acao="alternar-construcoes"]')?.setAttribute("aria-expanded", "false");
         run.historicoCronicaAberto = false;
         if (historico) historico.open = false;
         document
@@ -1822,6 +1956,9 @@
         ?.setAttribute("aria-expanded", String(painelHistorico.open));
       if (painelHistorico.open) {
         const inventario = document.querySelector("#app .inventario");
+        run.construcoesAbertas = false;
+        cronica?.classList.remove("construcoes-aberto");
+        document.querySelector('#app [data-acao="alternar-construcoes"]')?.setAttribute("aria-expanded", "false");
         run.inventarioAberto = false;
         if (inventario) inventario.open = false;
         document
@@ -1882,28 +2019,6 @@
     notificarConquistas(run, !legadoSalvo);
   }
 
-  function confirmarNovaRun() {
-    const dialogo = document.createElement("dialog");
-    dialogo.className = "confirmacao";
-    dialogo.setAttribute("aria-labelledby", "titulo-confirmacao");
-    dialogo.innerHTML = `<h2 id="titulo-confirmacao">Começar outra história?</h2><p>Há uma run em andamento. Iniciar outro herdeiro substitui essa run. As conquistas dela só entram no legado quando ela termina.</p><form method="dialog"><button class="botao" value="cancelar" autofocus>Continuar minha história</button><button class="botao primario" value="iniciar">Iniciar outro herdeiro</button></form>`;
-    document.body.append(dialogo);
-    dialogo.addEventListener("click", (evento) => {
-      if (evento.target === dialogo) dialogo.close("cancelar");
-    });
-    return new Promise((resolve) => {
-      dialogo.addEventListener(
-        "close",
-        () => {
-          resolve(dialogo.returnValue === "iniciar");
-          dialogo.remove();
-        },
-        { once: true },
-      );
-      dialogo.showModal();
-    });
-  }
-
   function confirmarImportacao() {
     const dialogo = document.createElement("dialog");
     dialogo.className = "confirmacao";
@@ -1926,6 +2041,25 @@
     });
   }
 
+  function alternarConstrucoes(run, aberta = !run.construcoesAbertas) {
+    run.construcoesAbertas = aberta;
+    const cronica = document.querySelector("#app .cronica");
+    if (aberta) {
+      run.inventarioAberto = false;
+      run.historicoCronicaAberto = false;
+      const inventario = document.querySelector("#app .inventario");
+      const historico = document.querySelector("#app .historico-cronica");
+      if (inventario) inventario.open = false;
+      if (historico) historico.open = false;
+      cronica?.classList.remove("inventario-aberto", "historico-aberto");
+      document.querySelector('#app [data-acao="alternar-inventario"]')?.setAttribute("aria-expanded", "false");
+      document.querySelector('#app [data-acao="alternar-progresso"]')?.setAttribute("aria-expanded", "false");
+    }
+    cronica?.classList.toggle("construcoes-aberto", aberta);
+    document.querySelector('#app [data-acao="alternar-construcoes"]')?.setAttribute("aria-expanded", String(aberta));
+    ajustarTela();
+  }
+
   window.addEventListener("jogo:aviso", (evento) => {
     const aviso = document.getElementById("aviso-save");
     aviso.textContent = evento.detail;
@@ -1935,6 +2069,7 @@
 
   function redimensionarTela() {
     ajustarTela();
+    window.requestAnimationFrame(alinharIdentificacaoComMoldura);
     const painel = camadaTutorial?.querySelector(".tutorial-painel");
     const alvo = alvoTutorial;
     if (painel && alvo) window.requestAnimationFrame(() => posicionarTutorial(painel, alvo));
@@ -1945,6 +2080,7 @@
 
   Jogo.ui = {
     detalhesPressagio,
+    alternarConstrucoes,
     modoDebug,
     menu,
     alternarDebug,
@@ -1953,7 +2089,6 @@
     intro,
     jogo,
     fim,
-    confirmarNovaRun,
     confirmarImportacao,
     preverTransformacoes,
     preverConquista,

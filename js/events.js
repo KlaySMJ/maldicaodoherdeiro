@@ -587,6 +587,7 @@
       informacoes:
         "Os sacos de farinha já estão junto aos seus cavalos. Eles têm treino e equipamento. A farinha e as moedas do moinho estão com eles.",
       batalha: {
+        dadosInimigo: 2,
         defesa: 5,
         vitoria: {
           dano: 16,

@@ -308,6 +308,30 @@
       condicao: (run) => run.batalhasVencidas >= valor,
     })),
     {
+      id: "d20_natural_20",
+      nome: "Face perfeita",
+      descricao: "Escolha um 20 natural como maior resultado em um combate.",
+      condicao: (run) => run.dadosNaturais20Combate >= 1,
+    },
+    {
+      id: "d20_natural_1",
+      nome: "A pior face",
+      descricao: "Escolha um 1 natural como maior resultado em um combate.",
+      condicao: (run) => run.dadosNaturais1Combate >= 1,
+    },
+    {
+      id: "vitoria_com_desvantagem_ataque",
+      nome: "Contra a força do inimigo",
+      descricao: "Vença uma disputa mesmo com Ataque menor que a Defesa inimiga.",
+      condicao: (run) => run.vitoriasComDesvantagem >= 1,
+    },
+    {
+      id: "vitoria_com_rerrolagem_dados",
+      nome: "Uma segunda chance",
+      descricao: "Use um item ou habilidade de rerrolagem e vença a disputa.",
+      condicao: (run) => run.vitoriasComRerrolagem >= 1,
+    },
+    {
       id: "cinco_compras_diferentes",
       nome: "O mercador já sabe seu nome",
       descricao: "Compre cinco mercadorias diferentes em uma crônica.",

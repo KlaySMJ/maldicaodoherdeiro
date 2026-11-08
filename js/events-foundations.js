@@ -447,6 +447,7 @@
       informacoes:
         "{{adocao}} ainda vive na memória da linhagem — e a sombra veio terminar o que começou: {{motivo}} Este inimigo carrega a memória da run anterior e fica mais forte a cada derrota registrada.",
       batalha: {
+        dadosInimigo: 2,
         defesa: 4,
         vitoria: {
           dano: 12,

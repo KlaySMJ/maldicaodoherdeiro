@@ -116,7 +116,7 @@
   function runValida(run) {
     if (!objeto(run) || run.versao !== Jogo.config.versao || typeof run.id !== "string" || !run.id)
       return false;
-    if (!["ativa", "encerrada"].includes(run.status) || !["escolha", "resultado"].includes(run.fase))
+    if (!["ativa", "encerrada"].includes(run.status) || !["escolha", "combate", "resultado"].includes(run.fase))
       return false;
     if (!Jogo.herdeiros.camposValidos(run)) return false;
     if (Jogo.pressagios && !Jogo.pressagios.camposValidos(run)) return false;
@@ -129,7 +129,18 @@
       run.cultoRendaPorRodada < 0 ||
       run.cultoRendaPorRodada > 2 ||
       !inteiro(run.batalhasVencidas) ||
-      run.batalhasVencidas < 0
+      run.batalhasVencidas < 0 ||
+      !inteiro(run.dadosNaturais20Combate) ||
+      run.dadosNaturais20Combate < 0 ||
+      !inteiro(run.dadosNaturais1Combate) ||
+      run.dadosNaturais1Combate < 0 ||
+      !inteiro(run.vitoriasComDesvantagem) ||
+      run.vitoriasComDesvantagem < 0 ||
+      !inteiro(run.vitoriasComRerrolagem) ||
+      run.vitoriasComRerrolagem < 0 ||
+      !inteiro(run.dadosCombatePermanentes) ||
+      run.dadosCombatePermanentes < 0 ||
+      run.dadosCombatePermanentes > 19
     )
       return false;
     if (
@@ -261,6 +272,9 @@
       typeof run.efeitosPreparados.bloquearDanoProximaBatalha !== "boolean" ||
       !inteiro(run.efeitosPreparados.bonusAtaqueProximaBatalha) ||
       run.efeitosPreparados.bonusAtaqueProximaBatalha < 0 ||
+      !inteiro(run.efeitosPreparados.bonusDadosCombateProximaBatalha) ||
+      run.efeitosPreparados.bonusDadosCombateProximaBatalha < 0 ||
+      run.efeitosPreparados.bonusDadosCombateProximaBatalha > 19 ||
       !inteiro(run.efeitosPreparados.bonusEscudoProximaBatalha) ||
       run.efeitosPreparados.bonusEscudoProximaBatalha < 0 ||
       !inteiro(run.efeitosPreparados.bonusGoldProximaRecompensa) ||
@@ -273,6 +287,37 @@
       run.efeitosPreparados.escudoFeCooldown > 10
     )
       return false;
+    if (run.fase === "combate") {
+      const pendente = run.combatePendente;
+      const opcaoCombate = Jogo.engine.opcaoCombatePendente(run);
+      const perfil = Jogo.engine.perfilCombate(run);
+      const valoresValidos = (dados, quantidade) =>
+        Array.isArray(dados) &&
+        dados.length === quantidade &&
+        dados.every((dado) => inteiro(dado) && dado >= 1 && dado <= 20);
+      if (
+        run.status !== "ativa" ||
+        run.ultimoResultado !== null ||
+        !objeto(pendente) ||
+        pendente.eventoId !== run.eventoId ||
+        !opcaoCombate?.combate ||
+        !perfil ||
+        !["preparacao", "resultado"].includes(pendente.etapa) ||
+        !Array.isArray(pendente.dadosHerdeiro) ||
+        !Array.isArray(pendente.dadosInimigo) ||
+        !inteiro(pendente.rerrolagens) ||
+        pendente.rerrolagens < 0 ||
+        pendente.rerrolagens > 100 ||
+        (pendente.etapa === "preparacao" &&
+          (pendente.dadosHerdeiro.length !== 0 ||
+            pendente.dadosInimigo.length !== 0 ||
+            pendente.rerrolagens !== 0)) ||
+        (pendente.etapa === "resultado" &&
+          (!valoresValidos(pendente.dadosHerdeiro, perfil.dadosHerdeiro) ||
+            !valoresValidos(pendente.dadosInimigo, perfil.dadosInimigo)))
+      )
+        return false;
+    } else if (run.combatePendente !== null) return false;
     if (!ids(run.eventosRecentes) || run.eventosRecentes.length > Jogo.config.memoriaEventos) return false;
     if (
       run.historicoCronica !== undefined &&
@@ -356,9 +401,10 @@
     if (Jogo.engine.motivoDerrota(run) || run.fim !== null) return false;
     const evento = Jogo.eventoPorId(run.eventoId);
     const disponivel =
+      run.fase === "combate" ||
       Jogo.engine.pools(run).eventos.includes(evento) ||
       (evento?.disparadoPelaEngine &&
-        (run.fase === "resultado" || Jogo.engine.eventoCondicaoDevido(run)?.id === evento.id));
+        (run.fase === "resultado" || run.fase === "combate" || Jogo.engine.eventoCondicaoDevido(run)?.id === evento.id));
     // A honra determina o sorteio; os controles de teste podem mudá-la depois
     // sem descartar a carta já aberta. Os demais requisitos continuam validados.
     const requisitosSalvos = { ...evento?.requisitos };
@@ -368,7 +414,7 @@
     return Boolean(
       evento &&
       disponivel &&
-      (run.fase === "resultado" ||
+      (run.fase === "resultado" || run.fase === "combate" ||
         (Jogo.engine.cumpre(requisitosSalvos, run) && Jogo.engine.opcoes(evento, run).length > 0)),
     );
   }
@@ -390,6 +436,16 @@
     if (!Object.hasOwn(dados, "comprasMercador")) dados.comprasMercador = {};
     if (!Number.isSafeInteger(dados.batalhasVencidas) || dados.batalhasVencidas < 0)
       dados.batalhasVencidas = 0;
+    for (const campo of [
+      "dadosNaturais20Combate",
+      "dadosNaturais1Combate",
+      "vitoriasComDesvantagem",
+      "vitoriasComRerrolagem",
+      "dadosCombatePermanentes",
+    ]) {
+      if (!Number.isSafeInteger(dados[campo]) || dados[campo] < 0) dados[campo] = 0;
+    }
+    if (!Object.hasOwn(dados, "combatePendente")) dados.combatePendente = null;
     if (!Array.isArray(dados.mercadoriasCompradas)) dados.mercadoriasCompradas = [];
     dados.mercadoriasCompradas = [
       ...new Set(dados.mercadoriasCompradas.filter((id) => typeof id === "string")),
@@ -452,6 +508,7 @@
       dados.efeitosPreparados = {
         bloquearDanoProximaBatalha: false,
         bonusAtaqueProximaBatalha: 0,
+        bonusDadosCombateProximaBatalha: 0,
         bonusEscudoProximaBatalha: 0,
         bonusGoldProximaRecompensa: 0,
       };
@@ -461,6 +518,11 @@
       !Object.hasOwn(dados.efeitosPreparados, "bonusEscudoProximaBatalha")
     )
       dados.efeitosPreparados.bonusEscudoProximaBatalha = 0;
+    if (
+      objeto(dados.efeitosPreparados) &&
+      !Object.hasOwn(dados.efeitosPreparados, "bonusDadosCombateProximaBatalha")
+    )
+      dados.efeitosPreparados.bonusDadosCombateProximaBatalha = 0;
     if (objeto(dados.efeitosPreparados) && !Object.hasOwn(dados.efeitosPreparados, "bacamarteBatalhas"))
       dados.efeitosPreparados.bacamarteBatalhas = 0;
     if (objeto(dados.efeitosPreparados) && !Object.hasOwn(dados.efeitosPreparados, "escudoFeCooldown"))

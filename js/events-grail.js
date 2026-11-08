@@ -307,6 +307,7 @@
         semAjuste: true,
         semOverrides: true,
         somenteEscudo: true,
+        dadosInimigo: 2,
         defesa: 6,
         vitoria: {
           dano: 20,

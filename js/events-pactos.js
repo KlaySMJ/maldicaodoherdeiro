@@ -600,6 +600,7 @@
         imagem: "assets/cavaleiro-de-osso.webp",
         imagemAlt: "Cavaleiro de ossos com elmo e espada enferrujada",
         batalha: {
+          dadosInimigo: 2,
           defesa: 7,
           vitoria: {
             dano: 22,
