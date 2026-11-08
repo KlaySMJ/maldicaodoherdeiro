@@ -47,7 +47,7 @@
   const todosHerdeirosVenceram = (run) =>
     herdeiros.every((id) => progressoLegado(run)[`herdeiro_vitorioso_${id}`] === true);
   const todosCompanheirosDoDruida = (run) =>
-    ["lobo", "corvo", "cervo"].every((id) => progressoLegado(run)[`companheiro_visto_${id}`] === true);
+    ["lobo", "corvo", "cervo", "raposa"].every((id) => progressoLegado(run)[`companheiro_visto_${id}`] === true);
   const raridades = [...new Set(Jogo.itens.map((item) => item.raridade).filter(Boolean))];
   const zodiacos = Jogo.eventos.filter((evento) => evento.zodiaco);
   const deusesNordicos = Jogo.eventos.filter((evento) => evento.divino);
@@ -382,8 +382,15 @@
       id: "companheiros_druida",
       nome: "O bosque tem muitos olhos",
       descricao:
-        "Conheça o Lobo, o Corvo e o Cervo como Druida-Herdeiro. O progresso acumula entre crônicas.",
+        "Conheça o Lobo, o Corvo, o Cervo e a Raposa como Druida-Herdeiro. O progresso acumula entre crônicas.",
       condicao: (run) => todosCompanheirosDoDruida(run),
+    },
+    {
+      id: "mao_do_destino_aceita",
+      nome: "A mão que muda os dados",
+      descricao: "Aceite a transformação Mão do Destino e receba uma rerrolagem grátis por batalha.",
+      categoria: "transformacoes",
+      condicao: (run) => run.flags?.mao_do_destino_ativa === true,
     },
     {
       id: "barão_resolvido_sobreviveu",

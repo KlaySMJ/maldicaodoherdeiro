@@ -237,7 +237,7 @@
           dano: 10,
           efeitos: { honra: 3, gold: 3 },
           resultado:
-            "Sua lâmina rompe a linha inimiga. Os saqueadores recuam, deixando 3 gold. A vila está de pé; você retorna ferido.",
+            "Sua lâmina rompe a linha inimiga. Os saqueadores recuam, deixando 3 gold. A vila está de pé; você retorna sem ferimentos.",
         },
         derrota: {
           dano: 24,

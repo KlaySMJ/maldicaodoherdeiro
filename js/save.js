@@ -116,7 +116,10 @@
   function runValida(run) {
     if (!objeto(run) || run.versao !== Jogo.config.versao || typeof run.id !== "string" || !run.id)
       return false;
-    if (!["ativa", "encerrada"].includes(run.status) || !["escolha", "combate", "resultado"].includes(run.fase))
+    if (
+      !["ativa", "encerrada"].includes(run.status) ||
+      !["escolha", "combate", "resultado"].includes(run.fase)
+    )
       return false;
     if (!Jogo.herdeiros.camposValidos(run)) return false;
     if (Jogo.pressagios && !Jogo.pressagios.camposValidos(run)) return false;
@@ -130,6 +133,13 @@
       run.cultoRendaPorRodada > 2 ||
       !inteiro(run.batalhasVencidas) ||
       run.batalhasVencidas < 0 ||
+      !inteiro(run.ultimaBatalhaRodada) ||
+      run.ultimaBatalhaRodada < 0 ||
+      run.ultimaBatalhaRodada > run.rodada ||
+      !inteiro(run.debugFaceCoringa) ||
+      run.debugFaceCoringa < 0 ||
+      run.debugFaceCoringa > 6 ||
+      !["aleatorio", "nenhum", "veloz", "cego", "feroz"].includes(run.debugTracoInimigo) ||
       !inteiro(run.dadosNaturais20Combate) ||
       run.dadosNaturais20Combate < 0 ||
       !inteiro(run.dadosNaturais1Combate) ||
@@ -275,6 +285,10 @@
       !inteiro(run.efeitosPreparados.bonusDadosCombateProximaBatalha) ||
       run.efeitosPreparados.bonusDadosCombateProximaBatalha < 0 ||
       run.efeitosPreparados.bonusDadosCombateProximaBatalha > 19 ||
+      !inteiro(run.efeitosPreparados.rerrolagensGratisProximaBatalha) ||
+      run.efeitosPreparados.rerrolagensGratisProximaBatalha < 0 ||
+      run.efeitosPreparados.rerrolagensGratisProximaBatalha > 10 ||
+      typeof run.efeitosPreparados.desvantagemInimigaProximaBatalha !== "boolean" ||
       !inteiro(run.efeitosPreparados.bonusEscudoProximaBatalha) ||
       run.efeitosPreparados.bonusEscudoProximaBatalha < 0 ||
       !inteiro(run.efeitosPreparados.bonusGoldProximaRecompensa) ||
@@ -291,6 +305,8 @@
       const pendente = run.combatePendente;
       const opcaoCombate = Jogo.engine.opcaoCombatePendente(run);
       const perfil = Jogo.engine.perfilCombate(run);
+      const eventoChefe = Jogo.eventoPorId(run.eventoId);
+      const ehBoss = Boolean(eventoChefe?.bossId);
       const valoresValidos = (dados, quantidade) =>
         Array.isArray(dados) &&
         dados.length === quantidade &&
@@ -302,19 +318,48 @@
         pendente.eventoId !== run.eventoId ||
         !opcaoCombate?.combate ||
         !perfil ||
-        !["preparacao", "resultado"].includes(pendente.etapa) ||
+        !["preparacao", "resultado", "desfecho"].includes(pendente.etapa) ||
         !Array.isArray(pendente.dadosHerdeiro) ||
         !Array.isArray(pendente.dadosInimigo) ||
         !inteiro(pendente.rerrolagens) ||
         pendente.rerrolagens < 0 ||
         pendente.rerrolagens > 100 ||
+        !inteiro(pendente.rerrolagensGratis) ||
+        pendente.rerrolagensGratis < 0 ||
+        pendente.rerrolagensGratis > 10 ||
+        !inteiro(pendente.coringa) ||
+        pendente.coringa < 0 ||
+        pendente.coringa > 6 ||
+        !inteiro(pendente.rerrolagemCoringa) ||
+        pendente.rerrolagemCoringa < 0 ||
+        pendente.rerrolagemCoringa > 1 ||
+        !["", "veloz", "cego", "feroz"].includes(pendente.tracoInimigo) ||
+        typeof pendente.dadoLascadoUsado !== "boolean" ||
         (pendente.etapa === "preparacao" &&
           (pendente.dadosHerdeiro.length !== 0 ||
             pendente.dadosInimigo.length !== 0 ||
             pendente.rerrolagens !== 0)) ||
-        (pendente.etapa === "resultado" &&
+        ((pendente.etapa === "resultado" || pendente.etapa === "desfecho") &&
           (!valoresValidos(pendente.dadosHerdeiro, perfil.dadosHerdeiro) ||
-            !valoresValidos(pendente.dadosInimigo, perfil.dadosInimigo)))
+            !valoresValidos(pendente.dadosInimigo, perfil.dadosInimigo))) ||
+        (!ehBoss && pendente.ehBoss === true) ||
+        (ehBoss &&
+          (pendente.ehBoss !== true ||
+            !inteiro(pendente.vidaChefe) ||
+            pendente.vidaChefe < 0 ||
+            pendente.vidaChefe > (eventoChefe.batalha.vidaMaxima || 100) ||
+            pendente.vidaChefeMaxima !== (eventoChefe.batalha.vidaMaxima || 100) ||
+            !inteiro(pendente.turnosChefe) ||
+            pendente.turnosChefe < 0 ||
+            pendente.turnosChefe > 100000 ||
+            typeof pendente.ultimaTrocaChefe !== "string" ||
+            pendente.ultimaTrocaChefe.length > 200 ||
+            !inteiro(pendente.vidaChefeAntes) ||
+            pendente.vidaChefeAntes < pendente.vidaChefe ||
+            pendente.vidaChefeAntes > (eventoChefe.batalha.vidaMaxima || 100) ||
+            typeof pendente.bloqueioChefeUsado !== "boolean" ||
+            typeof pendente.bacamarteChefeUsado !== "boolean")) ||
+        (pendente.etapa === "desfecho" && (!ehBoss || pendente.vidaChefe !== 0))
       )
         return false;
     } else if (run.combatePendente !== null) return false;
@@ -363,7 +408,11 @@
           typeof run.efeitoDivino.nome !== "string" ||
           !inteiro(run.efeitoDivino.restantes) ||
           run.efeitoDivino.restantes < 1 ||
-          run.efeitoDivino.restantes > 10))
+          run.efeitoDivino.restantes > 20 ||
+          (run.efeitoDivino.bonusDadosCombate !== undefined &&
+            (!inteiro(run.efeitoDivino.bonusDadosCombate) ||
+              run.efeitoDivino.bonusDadosCombate < 0 ||
+              run.efeitoDivino.bonusDadosCombate > 19))))
     )
       return false;
     if (run.fase === "resultado") {
@@ -390,11 +439,43 @@
           resultado.combate.dano < 0)
       )
         return false;
+      if (
+        resultado.dueloDados !== undefined &&
+        (!objeto(resultado.dueloDados) ||
+          !inteiro(resultado.dueloDados.dadoHerdeiro) ||
+          resultado.dueloDados.dadoHerdeiro < 1 ||
+          resultado.dueloDados.dadoHerdeiro > 20 ||
+          !inteiro(resultado.dueloDados.dadoOponente) ||
+          resultado.dueloDados.dadoOponente < 1 ||
+          resultado.dueloDados.dadoOponente > 20 ||
+          !inteiro(resultado.dueloDados.bonusOponente) ||
+          resultado.dueloDados.bonusOponente < 0 ||
+          resultado.dueloDados.bonusOponente > 1 ||
+          resultado.dueloDados.totalHerdeiro !== resultado.dueloDados.dadoHerdeiro ||
+          resultado.dueloDados.totalOponente !==
+            resultado.dueloDados.dadoOponente + resultado.dueloDados.bonusOponente ||
+          !["herdeiro", "oponente"].includes(resultado.dueloDados.vencedor))
+      )
+        return false;
+      if (
+        resultado.testeDados !== undefined &&
+        (!objeto(resultado.testeDados) ||
+          !inteiro(resultado.testeDados.face) ||
+          resultado.testeDados.face < 1 ||
+          resultado.testeDados.face > 20 ||
+          !inteiro(resultado.testeDados.bonus) ||
+          !inteiro(resultado.testeDados.total) ||
+          resultado.testeDados.total !== resultado.testeDados.face + resultado.testeDados.bonus ||
+          !inteiro(resultado.testeDados.dificuldade) ||
+          !inteiro(resultado.testeDados.limiteCusto) ||
+          !["sucesso", "sucessoComCusto", "falha"].includes(resultado.testeDados.desfecho))
+      )
+        return false;
     } else if (run.ultimoResultado !== null) return false;
     if (run.status === "encerrada") {
       return (
         objeto(run.fim) &&
-        ["derrota", "vitoria", "vitoria_culto", "vitoria_honra"].includes(run.fim.tipo) &&
+        ["derrota", "vitoria", "vitoria_culto", "vitoria_honra", "vitoria_barao", "vitoria_abissal"].includes(run.fim.tipo) &&
         typeof run.fim.motivo === "string"
       );
     }
@@ -404,7 +485,9 @@
       run.fase === "combate" ||
       Jogo.engine.pools(run).eventos.includes(evento) ||
       (evento?.disparadoPelaEngine &&
-        (run.fase === "resultado" || run.fase === "combate" || Jogo.engine.eventoCondicaoDevido(run)?.id === evento.id));
+        (run.fase === "resultado" ||
+          run.fase === "combate" ||
+          Jogo.engine.eventoCondicaoDevido(run)?.id === evento.id));
     // A honra determina o sorteio; os controles de teste podem mudá-la depois
     // sem descartar a carta já aberta. Os demais requisitos continuam validados.
     const requisitosSalvos = { ...evento?.requisitos };
@@ -414,7 +497,8 @@
     return Boolean(
       evento &&
       disponivel &&
-      (run.fase === "resultado" || run.fase === "combate" ||
+      (run.fase === "resultado" ||
+        run.fase === "combate" ||
         (Jogo.engine.cumpre(requisitosSalvos, run) && Jogo.engine.opcoes(evento, run).length > 0)),
     );
   }
@@ -436,6 +520,16 @@
     if (!Object.hasOwn(dados, "comprasMercador")) dados.comprasMercador = {};
     if (!Number.isSafeInteger(dados.batalhasVencidas) || dados.batalhasVencidas < 0)
       dados.batalhasVencidas = 0;
+    if (!Number.isSafeInteger(dados.ultimaBatalhaRodada) || dados.ultimaBatalhaRodada < 0)
+      dados.ultimaBatalhaRodada = 0;
+    if (
+      !Number.isSafeInteger(dados.debugFaceCoringa) ||
+      dados.debugFaceCoringa < 0 ||
+      dados.debugFaceCoringa > 6
+    )
+      dados.debugFaceCoringa = 0;
+    if (!["aleatorio", "nenhum", "veloz", "cego", "feroz"].includes(dados.debugTracoInimigo))
+      dados.debugTracoInimigo = "aleatorio";
     for (const campo of [
       "dadosNaturais20Combate",
       "dadosNaturais1Combate",
@@ -446,6 +540,44 @@
       if (!Number.isSafeInteger(dados[campo]) || dados[campo] < 0) dados[campo] = 0;
     }
     if (!Object.hasOwn(dados, "combatePendente")) dados.combatePendente = null;
+    if (objeto(dados.combatePendente)) {
+      if (!Number.isSafeInteger(dados.combatePendente.coringa)) dados.combatePendente.coringa = 0;
+      if (!Number.isSafeInteger(dados.combatePendente.rerrolagemCoringa))
+        dados.combatePendente.rerrolagemCoringa = 0;
+      if (!Number.isSafeInteger(dados.combatePendente.rerrolagensGratis))
+        dados.combatePendente.rerrolagensGratis = 0;
+      if (typeof dados.combatePendente.tracoInimigo !== "string") dados.combatePendente.tracoInimigo = "";
+      if (typeof dados.combatePendente.dadoLascadoUsado !== "boolean")
+        dados.combatePendente.dadoLascadoUsado = false;
+      const eventoChefe = Jogo.eventoPorId(dados.combatePendente.eventoId);
+      if (eventoChefe?.bossId) {
+        const vidaMaxima = eventoChefe.batalha.vidaMaxima || 100;
+        dados.combatePendente.ehBoss = true;
+        if (
+          !Number.isSafeInteger(dados.combatePendente.vidaChefe) ||
+          dados.combatePendente.vidaChefe < 0 ||
+          dados.combatePendente.vidaChefe > vidaMaxima
+        )
+          dados.combatePendente.vidaChefe =
+            dados.combatePendente.etapa === "desfecho" ? 0 : vidaMaxima;
+        dados.combatePendente.vidaChefeMaxima = vidaMaxima;
+        if (!Number.isSafeInteger(dados.combatePendente.turnosChefe) || dados.combatePendente.turnosChefe < 0)
+          dados.combatePendente.turnosChefe = 0;
+        if (typeof dados.combatePendente.ultimaTrocaChefe !== "string")
+          dados.combatePendente.ultimaTrocaChefe = "";
+        if (
+          !Number.isSafeInteger(dados.combatePendente.vidaChefeAntes) ||
+          dados.combatePendente.vidaChefeAntes < (dados.combatePendente.vidaChefe || 0) ||
+          dados.combatePendente.vidaChefeAntes > vidaMaxima
+        )
+          dados.combatePendente.vidaChefeAntes =
+            dados.combatePendente.etapa === "desfecho" ? vidaMaxima : dados.combatePendente.vidaChefe;
+        if (typeof dados.combatePendente.bloqueioChefeUsado !== "boolean")
+          dados.combatePendente.bloqueioChefeUsado = false;
+        if (typeof dados.combatePendente.bacamarteChefeUsado !== "boolean")
+          dados.combatePendente.bacamarteChefeUsado = false;
+      }
+    }
     if (!Array.isArray(dados.mercadoriasCompradas)) dados.mercadoriasCompradas = [];
     dados.mercadoriasCompradas = [
       ...new Set(dados.mercadoriasCompradas.filter((id) => typeof id === "string")),
@@ -509,6 +641,8 @@
         bloquearDanoProximaBatalha: false,
         bonusAtaqueProximaBatalha: 0,
         bonusDadosCombateProximaBatalha: 0,
+        rerrolagensGratisProximaBatalha: 0,
+        desvantagemInimigaProximaBatalha: false,
         bonusEscudoProximaBatalha: 0,
         bonusGoldProximaRecompensa: 0,
       };
@@ -523,6 +657,16 @@
       !Object.hasOwn(dados.efeitosPreparados, "bonusDadosCombateProximaBatalha")
     )
       dados.efeitosPreparados.bonusDadosCombateProximaBatalha = 0;
+    if (
+      objeto(dados.efeitosPreparados) &&
+      !Object.hasOwn(dados.efeitosPreparados, "rerrolagensGratisProximaBatalha")
+    )
+      dados.efeitosPreparados.rerrolagensGratisProximaBatalha = 0;
+    if (
+      objeto(dados.efeitosPreparados) &&
+      !Object.hasOwn(dados.efeitosPreparados, "desvantagemInimigaProximaBatalha")
+    )
+      dados.efeitosPreparados.desvantagemInimigaProximaBatalha = false;
     if (objeto(dados.efeitosPreparados) && !Object.hasOwn(dados.efeitosPreparados, "bacamarteBatalhas"))
       dados.efeitosPreparados.bacamarteBatalhas = 0;
     if (objeto(dados.efeitosPreparados) && !Object.hasOwn(dados.efeitosPreparados, "escudoFeCooldown"))
@@ -654,6 +798,15 @@
     if (!Object.hasOwn(dados, "calendarioLeste")) dados.calendarioLeste = [];
     if (!Object.hasOwn(dados, "encontroLeste")) dados.encontroLeste = null;
     if (!Object.hasOwn(dados, "passivaNordica")) dados.passivaNordica = null;
+    if (objeto(dados.passivaNordica)) {
+      const definicao = Jogo.efeitosNordicos?.find((efeito) => efeito.eventoId === dados.passivaNordica.eventoId);
+      if (
+        definicao &&
+        Object.hasOwn(definicao, "bonusDadosCombate") &&
+        !Object.hasOwn(dados.passivaNordica, "bonusDadosCombate")
+      )
+        dados.passivaNordica.bonusDadosCombate = definicao.bonusDadosCombate;
+    }
     while (Number.isSafeInteger(dados.versao)) {
       const migracao = migracoesRun[dados.versao];
       if (!migracao) return;

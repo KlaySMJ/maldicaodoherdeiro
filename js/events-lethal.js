@@ -473,24 +473,23 @@
       rodadaMin: 7,
       peso: 1,
       imagem: "dados",
-      texto: "Um velho de olhos leitosos senta na praça com três dados de osso.",
+      texto: "Um velho de olhos leitosos senta na praça com um dado de osso.",
       informacoes:
         "Ele ouve as moedas na bolsa de cada passante e convida você a jogar. Ele não vê, mas nunca perde. Quem aposta, paga.",
       opcoes: [
         op("ouro", "Apostar 5 gold.", {}, "", {
           requisitos: { goldMin: 5 },
-          testeSorte: risco(
-            50,
-            {
+          dueloDados: {
+            sucesso: {
               efeitos: { gold: 5 },
               flags: { dados_revanche_disponivel: true },
-              resultado: "Os dados rolam, e o velho sorri. Ele paga dez moedas e pede revanche.",
+              resultado: "Seu dado supera o do velho. Ele paga dez moedas e pede revanche.",
             },
-            {
+            falha: {
               efeitos: { gold: -5 },
-              resultado: "Os dados rolam, e o velho sorri mais ainda. Recolhe as moedas sem tocá-las.",
+              resultado: "O dado do velho vence. Ele recolhe as moedas sem tocá-las.",
             },
-          ),
+          },
           flags: marca("dados_decididos"),
         }),
         op("sangue", "Apostar o sangue.", {}, "", {
@@ -529,26 +528,25 @@
         rodadaMin: 7,
         peso: 1,
         imagem: "dados",
-        texto: "O velho está na praça outra vez, os três dados de osso alinhados diante dele.",
+        texto: "O velho está na praça outra vez, o dado de osso entre vocês.",
         informacoes:
           "Ele reconhece o som das moedas na sua bolsa e empurra os dados para perto. Desta vez, a aposta é de 10 gold. Você pode deixar a mesa sem jogar.",
         opcoes: [
           op("apostar_dez", "Apostar 10 gold.", {}, "", {
             requisitos: { goldMin: 10 },
-            testeSorte: risco(
-              50,
-              {
+            dueloDados: {
+              bonusOponente: 1,
+              sucesso: {
                 efeitos: { gold: 10 },
                 flags: { dados_revanche_disponivel: false, dados_revanche_concluida: true },
-                resultado: "Os dados param no mesmo número. O velho paga vinte moedas e recolhe os ossos.",
+                resultado: "Seu dado supera até o bônus do velho. Ele paga vinte moedas e recolhe o osso.",
               },
-              {
+              falha: {
                 efeitos: { gold: -10 },
                 flags: { dados_revanche_disponivel: false, dados_revanche_concluida: true },
-                resultado:
-                  "O velho recolhe as dez moedas sem tocá-las. Os dados ficam sobre a mesa, imóveis.",
+                resultado: "O dado do velho vence. Ele recolhe as dez moedas e guarda o osso.",
               },
-            ),
+            },
           }),
           op(
             "deixar_mesa",

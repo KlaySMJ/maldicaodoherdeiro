@@ -62,6 +62,7 @@ function preparar() {
     "events-heroi",
     "events-ajustes",
     "events-progresso",
+    "events-d20",
     "items",
     "legacy",
     "conquistas",
@@ -79,6 +80,14 @@ function preparar() {
   return { J, run, dados, falhas, avisos };
 }
 const simples = (valor) => JSON.parse(JSON.stringify(valor));
+
+function resolverBatalha(J, run, opcaoId = "combater") {
+  run.debugTracoInimigo = "nenhum";
+  assert.equal(J.engine.escolher(run, opcaoId), true);
+  assert.equal(run.fase, "combate");
+  assert.equal(J.engine.rolarCombate(run), true);
+  assert.equal(J.engine.continuarCombate(run), true);
+}
 
 test("novos herdeiros começam com os valores acordados, sem itens herdados", () => {
   const { J } = preparar();
@@ -300,7 +309,7 @@ test("caixas oferecem no máximo três opções, com variantes por honra", () =>
 test("ataque malsucedido aplica dano mitigado e penalidade adicional do evento", () => {
   const { J, run } = preparar();
   run.eventoId = "saqueadores";
-  J.engine.escolher(run, "combater");
+  resolverBatalha(J, run);
   assert.equal(run.atributos.hp, 101);
   assert.equal(run.atributos.habitantes, 38);
   assert.equal(run.atributos.escudo, 5);
@@ -313,11 +322,24 @@ test("ataque igual à defesa vence; o dano nunca fica negativo", () => {
   run.eventoId = "saqueadores";
   run.atributos.ataque = 3;
   run.atributos.escudo = 20;
-  J.engine.escolher(run, "combater");
+  resolverBatalha(J, run);
   assert.equal(run.ultimoResultado.combate.venceu, true);
+  assert.equal(run.ultimoResultado.combate.dano, 0);
   assert.equal(run.atributos.hp, 120);
   assert.equal(run.atributos.habitantes, 50);
   assert.equal(run.atributos.escudo, 20);
+});
+
+test("a Adaga garante a vitória sem aplicar dano de combate", () => {
+  const { J, run } = preparar();
+  run.eventoId = "saqueadores";
+  run.atributos.ataque = 0;
+  J.engine.concederItem(run, "adaga_amaldicoada");
+  resolverBatalha(J, run);
+  assert.equal(run.ultimoResultado.combate.venceu, true);
+  assert.equal(run.ultimoResultado.combate.dano, 0);
+  assert.equal(run.atributos.hp, 120);
+  assert.doesNotMatch(run.ultimoResultado.texto, /dano de uma derrota/);
 });
 
 test("penalidade de falha pode definir mais HP perdido, sem alterar a engine", () => {
@@ -328,7 +350,7 @@ test("penalidade de falha pode definir mais HP perdido, sem alterar a engine", (
     texto: "Você sofre uma ferida adicional.",
   };
   run.eventoId = "saqueadores";
-  J.engine.escolher(run, "combater");
+  resolverBatalha(J, run);
   assert.equal(run.atributos.hp, 94);
   assert.equal(run.atributos.habitantes, 48);
   assert.equal(run.atributos.escudo, 5);
@@ -340,7 +362,7 @@ test("derrotas por HP ou habitantes encerram a run após a consequência inteira
     const { J, run } = preparar();
     run.eventoId = "saqueadores";
     run.atributos[atributo] = 1;
-    J.engine.escolher(run, "combater");
+    resolverBatalha(J, run);
     assert.equal(run.atributos[atributo], 0);
     assert.equal(run.status, "encerrada");
     assert.equal(run.fim.tipo, "derrota");
@@ -719,7 +741,7 @@ test("reparar a ponte libera uma caravana, cuja recompensa não pode ser repetid
 test("todo evento oferece saídas válidas e resultados finitos para ambas as honras e combates", () => {
   for (const honra of [-50, 0, 50]) {
     const { J } = preparar();
-    assert.equal(J.eventos.length, 310);
+    assert.equal(J.eventos.length, 322);
     assert.equal(new Set(J.eventos.map((e) => e.id)).size, J.eventos.length);
     for (const evento of J.eventos) {
       for (const gold of [0, 100]) {

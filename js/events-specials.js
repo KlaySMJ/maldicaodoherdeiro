@@ -378,8 +378,11 @@
           "banana",
           "Dar-lhe uma banana · 1 gold",
           { gold: -1, honra: -1 },
-          "O macaco aceita a oferta, devolve a bolsa e some.",
-          { requisitos: { goldMin: 1 } },
+          "O macaco aceita a oferta, devolve a bolsa e deixa uma rerrolagem grátis para a próxima batalha.",
+          {
+            requisitos: { goldMin: 1 },
+            prepararCombate: { rerrolagensGratisProximaBatalha: 1 },
+          },
         ),
         escolha(
           "cacar",
@@ -795,7 +798,7 @@
         options: [
           [
             "Receber o efeito.",
-            "A presença permanece na vila.",
+            "As marcas nas portas desaparecem antes do amanhecer.",
             {
               reducaoDano: 2,
             },
@@ -876,10 +879,12 @@
         info: "Ele sabe quantas casas cada decisão deixará vazias. O visitante espera sua decisão.",
         options: [
           [
-            "Receber o efeito.",
-            "A presença permanece na vila.",
+            "Aceitar a vigília: +1 dado nas batalhas por 20 rodadas.",
+            "Por 20 rodadas, você rola um dado extra nos combates. A vigília de Heimdall também revela quantas casas cada decisão deixará vazias.",
             {
               revealHabitantes: true,
+              bonusDadosCombate: 1,
+              duracao: 20,
             },
           ],
           [
@@ -1215,6 +1220,7 @@
         efeito.reducaoGanhoGold ||
         efeito.revealHonra ||
         efeito.revealHabitantes ||
+        efeito.bonusDadosCombate ||
         efeito.reduzirCura ||
         efeito.manutencaoGold
       ) {
@@ -1230,6 +1236,7 @@
           reducaoGanhoGold: efeito.reducaoGanhoGold,
           revelarHonraRodadas: efeito.revealHonra ? duracao : 0,
           revelarHabitantesRodadas: efeito.revealHabitantes ? duracao : 0,
+          bonusDadosCombate: efeito.bonusDadosCombate || 0,
         };
       }
       extra.resultado = resultado;

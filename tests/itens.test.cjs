@@ -30,7 +30,8 @@ test("todos os outros consumíveis oferecem uso nas duas telas, respeitando a ba
       const { J, app } = ambiente;
       const item = J.itens.find((candidato) => candidato.id === id);
       const run = runComItem(ambiente, id, fase);
-      const permitido = id !== "tomo_do_esquecimento" || fase === "escolha";
+      const rerrolagemDeCombate = Boolean(item.uso.rerrolarCombate || item.uso.rerrolarMenorDadoCombate);
+      const permitido = (id !== "tomo_do_esquecimento" || fase === "escolha") && !rerrolagemDeCombate;
       const antes = JSON.stringify(run);
       assert.equal(J.engine.podeUsarItem(run, id), permitido, `${id}: ${fase}`);
       J.ui.jogo(run);
@@ -69,7 +70,12 @@ test("Escudo da fé preserva a carga de cada consumível reutilizável e inicia 
   const ids = preparar()
     .J.itens.filter(
       (item) =>
-        item.uso && !item.uso.umaVezPorRun && !item.uso.ignorarEscudoDaFe && item.id !== "adaga_cerimonial",
+        item.uso &&
+        !item.uso.umaVezPorRun &&
+        !item.uso.ignorarEscudoDaFe &&
+        item.id !== "adaga_cerimonial" &&
+        !item.uso.rerrolarCombate &&
+        !item.uso.rerrolarMenorDadoCombate,
     )
     .map((item) => item.id);
   for (const id of ids)
@@ -84,6 +90,24 @@ test("Escudo da fé preserva a carga de cada consumível reutilizável e inicia 
       assert.equal(run.efeitosPreparados.escudoFeCooldown, 10, `${id}: inicia recarga em ${fase}`);
       assert.equal(J.save.runValida(run), true, id);
     }
+});
+
+test("rerrolagens só ficam disponíveis depois que os dados do combate aparecem", () => {
+  for (const id of ["dado_do_destino", "dado_lascado"]) {
+    const { J, novaRun } = preparar();
+    const run = novaRun();
+    run.eventoId = "saqueadores";
+    run.debugTracoInimigo = "nenhum";
+    J.engine.concederItem(run, id);
+    assert.equal(J.engine.podeUsarItem(run, id), false, `${id}: fora de combate`);
+    assert.equal(J.engine.escolher(run, "combater"), true, `${id}: iniciar`);
+    assert.equal(J.engine.podeUsarItem(run, id), false, `${id}: antes da rolagem`);
+    assert.equal(J.engine.rolarCombate(run), true, `${id}: rolar`);
+    assert.equal(J.engine.podeUsarItem(run, id), true, `${id}: após a rolagem`);
+    assert.equal(J.engine.usarItem(run, id), true, `${id}: usar`);
+    assert.equal(run.combatePendente.rerrolagens, 1, `${id}: registrar rerrolagem`);
+    assert.equal(J.save.runValida(run), true, `${id}: save durante disputa`);
+  }
 });
 
 test("um consumível bloqueado pela recarga não pode executar efeitos nem perder carga", () => {

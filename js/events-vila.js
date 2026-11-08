@@ -178,6 +178,29 @@
             },
           },
           {
+            id: "improvisar",
+            texto: "Completar a canção do bardo com um verso próprio · teste d20 + 1.",
+            flags: { bardo_decidido: true, bardo_cantou: true },
+            testeDados: {
+              bonus: 1,
+              dificuldade: 14,
+              limiteCusto: 10,
+              previsao: "Sucesso: +3 Honra e +2 Gold. Com custo: +1 Honra. Falha: −2 Honra. Abrigar o bardo custa 1 Gold e é seguro.",
+              sucesso: {
+                efeitos: { honra: 3, gold: 2 },
+                resultado: "O bardo aproveita o verso e o repete na praça. A vila acrescenta seu nome à canção.",
+              },
+              sucessoComCusto: {
+                efeitos: { honra: 1 },
+                resultado: "O verso encontra lugar na canção, embora o bardo peça uma moeda pelo arranjo.",
+              },
+              falha: {
+                efeitos: { honra: -2 },
+                resultado: "O verso não encaixa. O bardo segue viagem sem usar a sua contribuição.",
+              },
+            },
+          },
+          {
             id: "recusar",
             texto: "Mandá-lo embora.",
             efeitos: {
@@ -3766,6 +3789,28 @@
           texto: "Reunir moradores para tirar a carroça da lama.",
           efeitos: { gold: 4, habitantes: -1, honra: 2 },
           resultado: "A roda sai do barro presa a uma corda. O cocheiro deixa parte da carga como pagamento.",
+        },
+        {
+          id: "erguer_eixo_carroca",
+          texto: "Erguer o eixo antes que a chuva alcance a estrada · teste d20 + 2.",
+          testeDados: {
+            bonus: 2,
+            dificuldade: 15,
+            limiteCusto: 11,
+            previsao: "Sucesso: +5 Gold e +2 Honra. Com custo: +2 Gold e −3 Vida. Falha: −8 Vida e −1 Honra. Pagar 3 Gold garante a ajuda do ferreiro.",
+            sucesso: {
+              efeitos: { gold: 5, honra: 2 },
+              resultado: "A roda se solta sem quebrar. O cocheiro paga pela ajuda e entrega parte da carga.",
+            },
+            sucessoComCusto: {
+              efeitos: { gold: 2, hp: -3 },
+              resultado: "O eixo cede, mas uma peça se parte e machuca sua mão. O cocheiro paga pelo trabalho.",
+            },
+            falha: {
+              efeitos: { hp: -8, honra: -1 },
+              resultado: "A roda afunda mais. O esforço machuca seus braços, e a chuva leva a carga estrada abaixo.",
+            },
+          },
         },
         {
           id: "pagar_carroca",

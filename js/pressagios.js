@@ -165,7 +165,7 @@
   const metaEscudo = (p) => p.referencias.escudo + Math.max(2, Math.ceil(p.referencias.escudo * 0.5));
   function disponivel(run, item) {
     return (
-      run.rodada + item.duracao <= Jogo.config.rodadasVitoria &&
+      run.rodada + item.duracao + (item.id === "vinda_barao" ? 100 : 0) <= Jogo.config.rodadasVitoria &&
       (item.honraMin === undefined || run.atributos.honra >= item.honraMin) &&
       (item.honraMax === undefined || run.atributos.honra <= item.honraMax) &&
       !(run.cultoAtivo && item.id === "noite_lamento")
@@ -321,6 +321,19 @@
     s.ultimaResolucao = run.rodada;
     s.historico.push({ id: p.id, rodada: run.rodada, sucesso, debug: p.debug });
     s.historico = s.historico.slice(-20);
+    if (p.id === "vinda_barao") {
+      run.flags.barao_pressagio_resolvido = true;
+      run.consequenciasAgendadas ||= [];
+      run.consequenciasAgendadas = run.consequenciasAgendadas.filter(
+        (consequencia) => consequencia.eventoId !== "embate_barao",
+      );
+      run.consequenciasAgendadas.push({
+        id: `${run.id}:vinda_barao:${run.rodada}`,
+        eventoId: "embate_barao",
+        rodada: run.rodada + 100,
+        origem: "vinda_barao",
+      });
+    }
     Jogo.engine.avaliarConsequenciaPressagio(run);
     if (run.status === "ativa") Jogo.legado.avaliar(run);
     return true;

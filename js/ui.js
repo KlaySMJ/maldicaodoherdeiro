@@ -2,6 +2,95 @@
   "use strict";
   const Jogo = window.Jogo;
   const app = document.getElementById("app");
+  const DURACAO_ANIMACAO_DADO = 1600;
+  let renderDisputaAtual = 0;
+  const coresPrincipaisHerdeiros = {
+    corajoso: "#46586F",
+    avarento: "#8B673D",
+    doente: "#747661",
+    druida_herdeiro: "#963B32",
+    menino_cronista: "#B9753F",
+    heroi_do_povo: "#6C596D",
+    herdeiro_culto: "#000000",
+    herdeira_leste: "#B23A30",
+    herdeiro_nordico: "#59656F",
+    coringa: "#70484E",
+    bruxo: "#4C5C4D",
+  };
+  const iconesDisputa = {
+    espada:
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14 4 6-2-2 7-9 9-4-4 9-9Z"/><path d="m7 14 3 3m-6 5 5-5"/></svg>',
+    escudo:
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 20 5v6c0 5-3.2 8.3-8 11-4.8-2.7-8-6-8-11V5l8-3Z"/></svg>',
+    dado: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 9 6-3 12H6L3 8l9-6Z"/><path d="M12 2v10m0 0 9-4m-9 4-6 8m6-8L3 8m9 4 6 8"/></svg>',
+  };
+  const facesD20 = (() => {
+    const phi = (1 + Math.sqrt(5)) / 2;
+    const vertices = [];
+    for (const sinal of [-1, 1]) {
+      for (const outroSinal of [-1, 1]) {
+        vertices.push(
+          [0, sinal, outroSinal * phi],
+          [sinal, outroSinal * phi, 0],
+          [outroSinal * phi, 0, sinal],
+        );
+      }
+    }
+    const raio = Math.sqrt(1 + phi ** 2);
+    for (let indice = 0; indice < vertices.length; indice++)
+      vertices[indice] = vertices[indice].map((coordenada) => coordenada / raio);
+    const faces = [];
+    const distanciaQuadrada = (a, b) => (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2;
+    for (let a = 0; a < vertices.length - 2; a++) {
+      for (let b = a + 1; b < vertices.length - 1; b++) {
+        if (Math.abs(distanciaQuadrada(vertices[a], vertices[b]) - 4 / raio ** 2) > 0.0001) continue;
+        for (let c = b + 1; c < vertices.length; c++) {
+          if (
+            Math.abs(distanciaQuadrada(vertices[a], vertices[c]) - 4 / raio ** 2) > 0.0001 ||
+            Math.abs(distanciaQuadrada(vertices[b], vertices[c]) - 4 / raio ** 2) > 0.0001
+          )
+            continue;
+          let indiceB = b;
+          let indiceC = c;
+          const ab = vertices[b].map((coordenada, indice) => coordenada - vertices[a][indice]);
+          const ac = vertices[c].map((coordenada, indice) => coordenada - vertices[a][indice]);
+          let normal = [
+            ab[1] * ac[2] - ab[2] * ac[1],
+            ab[2] * ac[0] - ab[0] * ac[2],
+            ab[0] * ac[1] - ab[1] * ac[0],
+          ];
+          let positivo = false;
+          let negativo = false;
+          for (let outro = 0; outro < vertices.length; outro++) {
+            if (outro === a || outro === b || outro === c) continue;
+            const deslocamento = vertices[outro].map(
+              (coordenada, indice) => coordenada - vertices[a][indice],
+            );
+            const lado = normal.reduce(
+              (soma, coordenada, indice) => soma + coordenada * deslocamento[indice],
+              0,
+            );
+            positivo ||= lado > 0.0001;
+            negativo ||= lado < -0.0001;
+          }
+          if (positivo && negativo) continue;
+          const centro = [0, 1, 2].map(
+            (indice) => (vertices[a][indice] + vertices[b][indice] + vertices[c][indice]) / 3,
+          );
+          if (normal.reduce((soma, coordenada, indice) => soma + coordenada * centro[indice], 0) < 0) {
+            [indiceB, indiceC] = [indiceC, indiceB];
+            normal = normal.map((coordenada) => -coordenada);
+          }
+          const tamanhoNormal = Math.hypot(...normal);
+          faces.push({
+            vertices: [a, indiceB, indiceC],
+            normal: normal.map((coordenada) => coordenada / tamanhoNormal),
+          });
+        }
+      }
+    }
+    return { vertices, faces: faces.map((face, indice) => ({ ...face, valor: indice + 1 })) };
+  })();
   let debugRevelado = false;
   const imagensComTomDaVila = new Set([
     "assets/geada.webp",
@@ -113,11 +202,12 @@
     ...Object.fromEntries(Object.entries(Jogo.herdeiros.novos).map(([id, h]) => [id, h.descricao])),
     corajoso: "Corajosa: começa com +1 Ataque.",
     avarento: "Avarento: começa com 10 Gold.",
-    doente: "Doente: começa com 70 Vida e 4 Escudo; sua Vida máxima inicial também é 70.",
+    doente:
+      "Doente: começa com 90 Vida e 4 Escudo; sua Vida máxima inicial também é 90. Reduz a Defesa inimiga em 1.",
     druida_herdeiro:
-      "Druida-Herdeiro: começa com o Cajado de carvalho vivo e recebe a passiva de um companheiro aleatório a cada rodada. As quatro estações seguem o ciclo de 25 rodadas.",
+      "Druida-Herdeiro: começa com o Cajado de carvalho vivo e recebe a passiva de um companheiro aleatório a cada rodada. A Raposa melhora sua rolagem de combate. As quatro estações seguem o ciclo de 25 rodadas.",
     menino_cronista:
-      "Menino da Crônica: começa com 70 Vida, 3 Escudo e 30 Honra. A vila o acolheu quando ele chegou órfão; hoje, ele registra a história de quem o recebeu.",
+      "Menino da Crônica: começa com 90 Vida, 3 Escudo e 30 Honra. A vila o acolheu quando ele chegou órfão; hoje, ele registra a história de quem o recebeu.",
     heroi_do_povo:
       "Heroína do povo: começa com 5 Ataque e 5 Escudo. A honra dela nunca cai e nunca fica negativa — nem sob a espada da verdade nem sob o chamado do culto.",
   };
@@ -138,6 +228,8 @@
     },
     herdeira_leste: { arquivo: "herdeira-leste", descricao: "Busto da Herdeira do Leste" },
     herdeiro_nordico: { arquivo: "herdeiro-nordico", descricao: "Busto do Herdeiro Nórdico" },
+    coringa: { arquivo: null, descricao: "Selo do Coringa" },
+    bruxo: { arquivo: null, descricao: "Selo do Bruxo" },
   };
   const fasesRetrato = {
     neutra: "com honra neutra",
@@ -209,7 +301,7 @@
       seletor: ".evento-leitura",
       titulo: "Leia antes de escolher",
       texto:
-        "Leia a cena e compare as opções. Em batalhas, o painel à direita mostra seu Ataque, a Defesa inimiga e o dano previsto para vitória ou derrota; logo abaixo, indica o Escudo considerado.",
+        "Em batalhas, compare os totais dos dados com Ataque e Defesa. O Bruxo força o inimigo a ficar com a menor face; o Coringa recebe um efeito de d6. Itens e habilidades podem liberar rerrolagens.",
     },
     {
       seletor: ".coluna-escolhas",
@@ -683,7 +775,12 @@
       const id = conquista.id;
       if (id.startsWith("condicao_") || ["primeira_transformacao", "todas_transformacoes"].includes(id))
         return "transformacoes";
-      if (/^(ataque|escudo|batalhas_vencidas|d20_natural|vitoria_com_desvantagem|vitoria_com_rerrolagem)_/.test(id)) return "combate";
+      if (
+        /^(ataque|escudo|batalhas_vencidas|d20_natural|vitoria_com_desvantagem|vitoria_com_rerrolagem)_/.test(
+          id,
+        )
+      )
+        return "combate";
       if (/^(gold|habitantes|seguidores)_/.test(id) || daVila.has(id)) return "vila";
       if (historias.has(id)) return "historias";
       if (
@@ -881,21 +978,21 @@
       {
         traco: "doente",
         nome: "O Herdeiro Doente",
-        descricao: "Começa com 70 Vida e 4 Escudo. Sua Vida máxima inicial também é 70.",
+        descricao: "Começa com 90 Vida e 4 Escudo. Sua Vida máxima inicial também é 90.",
         imagem: "doente",
       },
       {
         traco: "druida_herdeiro",
         nome: "O Filho da Floresta",
         descricao:
-          "Começa com 110 Vida, 4 Ataque, 2 Escudo e 3 Gold. O Cajado de Carvalho Vivo dá +2 Ataque e ganha +1 em cada primavera a partir do segundo ano, até +5. A cada rodada, um companheiro aleatório concede uma passiva: Lobo dá +2 Ataque em batalhas; Corvo revela o tipo do evento e a Honra de uma opção; Cervo recupera 3 Vida, ou 4 com a Máscara do Cervo.",
+          "Começa com 110 Vida, 4 Ataque, 2 Escudo e 3 Gold. O Cajado de Carvalho Vivo dá +2 Ataque e ganha +1 em cada primavera a partir do segundo ano, até +5. A cada rodada, um companheiro aleatório concede uma passiva: Lobo dá +2 Ataque em batalhas; Raposa dá +1 dado; Corvo revela o tipo do evento e a Honra de uma opção; Cervo recupera 3 Vida, ou 4 com a Máscara do Cervo.",
         imagem: "druida-herdeiro",
       },
       {
         traco: "menino_cronista",
         nome: "O Menino da Crônica",
         descricao:
-          "Começa com 70 Vida, 3 Escudo e 30 Honra. A vila o acolheu quando chegou órfão; hoje, ele é seu conselheiro.",
+          "Começa com 90 Vida, 3 Escudo e 30 Honra. A vila o acolheu quando chegou órfão; hoje, ele é seu conselheiro.",
         imagem: "menino-cronista",
       },
       {
@@ -998,6 +1095,7 @@
     if (efeito.reduzirCura) detalhes.push("reduz a cura de Vida pela metade");
     if (efeito.manutencaoGold) detalhes.push("cobra 1 Gold por dia");
     if (efeito.reducaoDano) detalhes.push(`reduz ${numero(efeito.reducaoDano)} de dano em batalha`);
+    if (efeito.bonusDadosCombate) detalhes.push(`rola ${numero(efeito.bonusDadosCombate)} dado a mais em batalha`);
     if (efeito.reducaoGanhoGold) detalhes.push(`reduz em ${numero(efeito.reducaoGanhoGold)} o gold recebido`);
     if (efeito.revelarHonraRodadas) detalhes.push("revela sua Honra enquanto durar");
     if (efeito.revelarHabitantesRodadas) detalhes.push("revela o número de Habitantes enquanto durar");
@@ -1008,11 +1106,6 @@
     const mudancas = Object.entries(resultado.alteracoes).filter(([, valor]) => valor !== 0);
     if (!mudancas.length) return "";
     return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li><span>${nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("")}</ul>`;
-  }
-
-  function resumoRolagemCombate(combate) {
-    if (!Array.isArray(combate.dadosHerdeiro) || !Array.isArray(combate.dadosInimigo)) return "";
-    return `<p class="resumo-rolagem-combate"><strong>Rolagem:</strong> seus dados ${combate.dadosHerdeiro.join(" · ")} (maior ${combate.dadoHerdeiro}) + Ataque ${numero(combate.ataque)} = ${numero(combate.totalHerdeiro)} · inimigo ${combate.dadosInimigo.join(" · ")} (maior ${combate.dadoInimigo}) + Defesa ${numero(combate.defesa)} = ${numero(combate.totalInimigo)}${combate.rerrolagens ? ` · ${numero(combate.rerrolagens)} rerrolagem${combate.rerrolagens === 1 ? "" : "s"}` : ""}.</p>`;
   }
 
   function resultado(run) {
@@ -1037,10 +1130,15 @@
           .filter(Boolean)
           .join(" ")
       : "";
+    const dueloDados = r.dueloDados
+      ? `<section class="resultado-duelo-dados" aria-label="Resultado do duelo de dados"><div><span>${esc(tituloHerdeiro(run.traco))}</span>${facesDados([r.dueloDados.dadoHerdeiro], r.dueloDados.dadoHerdeiro, { cor: coresPrincipaisHerdeiros[run.traco] || "#8B673D", lado: "jogador", animar: false })}<strong>${numero(r.dueloDados.totalHerdeiro)}</strong></div><span aria-hidden="true">×</span><div><span>Velho cego</span>${facesDados([r.dueloDados.dadoOponente], r.dueloDados.dadoOponente, { cor: "#F9EEDD", lado: "inimigo", animar: false })}<strong>${numero(r.dueloDados.dadoOponente)}${r.dueloDados.bonusOponente ? ` + ${numero(r.dueloDados.bonusOponente)}` : ""}</strong></div></section>`
+      : "";
+    const testeDados = r.testeDados
+      ? `<section class="resultado-duelo-dados" aria-label="Resultado do teste de dados"><div><span>Teste de d20</span>${facesDados([r.testeDados.face], r.testeDados.face, { cor: coresPrincipaisHerdeiros[run.traco] || "#8B673D", lado: "jogador", animar: false })}<strong>${numero(r.testeDados.total)}</strong><small>Dado ${numero(r.testeDados.face)}${r.testeDados.bonus ? ` + ${numero(r.testeDados.bonus)}` : ""} · dificuldade ${numero(r.testeDados.dificuldade)} · ${r.testeDados.desfecho === "sucesso" ? "sucesso" : r.testeDados.desfecho === "sucessoComCusto" ? "sucesso com custo" : "falha"}</small></div></section>`
+      : "";
     return `<div class="resultado" role="status">
-      ${r.combate ? resumoRolagemCombate(r.combate) : ""}
       ${r.combate ? `<p class="desfecho-combate">${r.combate.venceu ? "Vitória em batalha" : "Ataque malsucedido"} · ${numero(r.combate.dano)} de dano após o escudo</p>` : ""}
-      <p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
+      ${dueloDados}${testeDados}<p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
       <button class="botao primario" data-acao="continuar">Continuar <span aria-hidden="true">→</span></button>
     </div>`;
   }
@@ -1060,7 +1158,7 @@
       .join("")}</div>`;
   }
 
-  function inventario(run, { somenteCombate = false } = {}) {
+  function inventario(run, { somenteCombate = false, manterAberto = false } = {}) {
     const contagem = run.inventario.reduce((grupos, id) => {
       grupos[id] = (grupos[id] || 0) + 1;
       return grupos;
@@ -1079,6 +1177,7 @@
           ) &&
           (!somenteCombate || (quantidade > 0 && Jogo.engine.podeUsarItem(run, item.id))),
       );
+    if (somenteCombate && !itens.length) return "";
     const efeitos = run.efeitosPreparados || {};
     const preparados = [
       efeitos.bonusDadosCombateProximaBatalha
@@ -1100,9 +1199,13 @@
       efeitos.escudoFeCooldown ? `Escudo da fé: ${numero(efeitos.escudoFeCooldown)} rodadas de recarga` : "",
       run.lancaHeroiBatalhas ? `Lança do Herói: ${numero(run.lancaHeroiBatalhas)} batalhas restantes` : "",
       run.flags.cinto_vento_ativo ? "Cinto dos ventos: aguardando batalha" : "",
+      efeitos.rerrolagensGratisProximaBatalha
+        ? `Rerrolagem grátis: próxima batalha`
+        : "",
+      efeitos.desvantagemInimigaProximaBatalha ? "Inimigo com desvantagem na próxima batalha" : "",
     ].filter(Boolean);
     const quantidadeItens = run.inventario.length;
-    return `<details id="painel-inventario" class="inventario" ${run.inventarioAberto ? "open" : ""}><summary><span class="painel-titulo">Inventário <span>${numero(quantidadeItens)} ${quantidadeItens === 1 ? "item" : "itens"}</span></span><span class="painel-voltar-link">← Voltar</span></summary>
+    return `<details id="painel-inventario" class="inventario" ${run.inventarioAberto || manterAberto ? "open" : ""}><summary><span class="painel-titulo">Inventário <span>${numero(quantidadeItens)} ${quantidadeItens === 1 ? "item" : "itens"}</span></span><span class="painel-voltar-link">← Voltar</span></summary>
       ${
         itens.length
           ? `<ul>${itens
@@ -1304,10 +1407,11 @@
   }
 
   function caminhoRetrato(traco, faixa, cultoAtivo) {
-    const personagem = retratos[traco] || retratos.corajoso;
-    const faixaDisponivel = personagem.faixas && !personagem.faixas.includes(faixa) ? "neutra" : faixa;
+    const personagem = retratos[traco];
     const versao = window.JOGO_VERSAO_ASSETS;
     const comVersao = (caminho) => (versao ? `${caminho}?v=${encodeURIComponent(versao)}` : caminho);
+    if (!personagem?.arquivo) return comVersao("assets/selo.svg");
+    const faixaDisponivel = personagem.faixas && !personagem.faixas.includes(faixa) ? "neutra" : faixa;
     if (traco === "druida_herdeiro")
       return comVersao(`assets/herdeiros/druida-herdeiro-${cultoAtivo ? "culto" : faixa}.webp`);
     if (cultoAtivo) return comVersao("assets/herdeiros/" + personagem.arquivo + "-culto.webp");
@@ -1340,9 +1444,10 @@
     const imagemAnterior = anterior
       ? caminhoRetrato(anterior.traco, anterior.faixa, anterior.cultoAtivo)
       : "";
-    const descricao =
-      (retratos[traco] || retratos.corajoso).descricao +
-      (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa]);
+    const personagem = retratos[traco];
+    const descricao = personagem?.arquivo
+      ? personagem.descricao + (cultoAtivo ? ", com vestes rituais do culto" : ", " + fasesRetrato[faixa])
+      : personagem?.descricao || "Selo do herdeiro";
     return (
       '<div class="retrato-area' +
       (cultoAtivo ? " culto-ativo" : "") +
@@ -1538,102 +1643,343 @@
     );
   }
 
-  function facesDados(valores, maior, animar = true) {
-    return `<div class="dados-combate" aria-label="Resultados dos dados">${valores
-      .map(
-        (valor) =>
-          `<span class="dado-combate${valor === maior ? " dado-combate-maior" : ""}${valor === 20 ? " dado-combate-vinte" : valor === 1 ? " dado-combate-um" : ""}${animar ? "" : " dado-combate-estatico"}" aria-label="${valor === maior ? `Maior resultado: ${valor}` : `Resultado: ${valor}`}">${valor}</span>`,
+  function marcadorDado(valor, classes, rotulo = "", cor = "#F9EEDD") {
+    return `<span class="${classes.join(" ")}" style="--dado-cor:${cor}" data-valor="${esc(valor)}" data-cor="${cor}" ${rotulo ? `role="img" aria-label="${esc(rotulo)}"` : 'aria-hidden="true"'}>
+      <svg class="dado-combate-svg" viewBox="0 0 84 84" aria-hidden="true" focusable="false">
+        <path class="dado-combate-contorno" d="M42 4 76 28 63 72 21 72 8 28Z" />
+        <path class="dado-combate-malha" d="M42 4 42 42 76 28M76 28 42 42 63 72M63 72 42 42 21 72M21 72 42 42 8 28M8 28 42 42 42 4" />
+      </svg><span class="dado-combate-valor" aria-hidden="true">${valor}</span><canvas class="dado-combate-canvas" width="72" height="72" aria-hidden="true"></canvas></span>`;
+  }
+
+  function misturarCores(hexA, hexB, proporcao) {
+    const parseHex = (hex) => [1, 3, 5].map((inicio) => Number.parseInt(hex.slice(inicio, inicio + 2), 16));
+    const a = parseHex(hexA);
+    const b = parseHex(hexB);
+    return `#${a
+      .map((canal, indice) =>
+        Math.round(canal + (b[indice] - canal) * proporcao)
+          .toString(16)
+          .padStart(2, "0"),
       )
+      .join("")}`;
+  }
+
+  function rodarPonto([x, y, z], angulos) {
+    const cosY = Math.cos(angulos.y);
+    const sinY = Math.sin(angulos.y);
+    const giradoX = x * cosY + z * sinY;
+    const giradoZ = -x * sinY + z * cosY;
+    const cosX = Math.cos(angulos.x);
+    const sinX = Math.sin(angulos.x);
+    const giradoY = y * cosX - giradoZ * sinX;
+    const profundidade = y * sinX + giradoZ * cosX;
+    const cosZ = Math.cos(angulos.z);
+    const sinZ = Math.sin(angulos.z);
+    return [giradoX * cosZ - giradoY * sinZ, giradoX * sinZ + giradoY * cosZ, profundidade];
+  }
+
+  function angulosParaFace(indiceFace) {
+    const normal = facesD20.faces[indiceFace]?.normal || facesD20.faces[0].normal;
+    const y = Math.atan2(-normal[0], normal[2]);
+    const zDepoisY = -normal[0] * Math.sin(y) + normal[2] * Math.cos(y);
+    return { x: Math.atan2(normal[1], zDepoisY), y, z: 0 };
+  }
+
+  function desenharDado3D(canvas, corBase, indiceFace, angulos, destaque, escala = 1, mostrarValores = true) {
+    const contextoDado = canvas.getContext("2d");
+    if (!contextoDado) return false;
+    const largura = canvas.clientWidth || 64;
+    const altura = canvas.clientHeight || 64;
+    const proporcaoPixel = Math.min(window.devicePixelRatio || 1, 2);
+    const larguraPixel = Math.round(largura * proporcaoPixel);
+    const alturaPixel = Math.round(altura * proporcaoPixel);
+    if (canvas.width !== larguraPixel || canvas.height !== alturaPixel) {
+      canvas.width = larguraPixel;
+      canvas.height = alturaPixel;
+    }
+    contextoDado.setTransform(proporcaoPixel, 0, 0, proporcaoPixel, 0, 0);
+    contextoDado.clearRect(0, 0, largura, altura);
+    const raio = Math.min(largura, altura) * 0.41 * escala;
+    const camera = 4.2;
+    const transformados = facesD20.vertices.map((vertice) => rodarPonto(vertice, angulos));
+    const projetados = transformados.map(([x, y, z]) => {
+      const perspectiva = camera / (camera - z);
+      return [largura / 2 + x * raio * perspectiva, altura / 2 - y * raio * perspectiva, z];
+    });
+    const luz = [0.38, 0.52, 0.76];
+    const facesVisiveis = facesD20.faces
+      .map((face, indice) => {
+        const normal = rodarPonto(face.normal, angulos);
+        const pontos = face.vertices.map((indiceVertice) => projetados[indiceVertice]);
+        const profundidade = pontos.reduce((soma, ponto) => soma + ponto[2], 0) / pontos.length;
+        const intensidade = normal.reduce((soma, canal, indiceCanal) => soma + canal * luz[indiceCanal], 0);
+        return { ...face, indice, normal, pontos, profundidade, intensidade };
+      })
+      .sort((a, b) => a.profundidade - b.profundidade);
+    for (const face of facesVisiveis) {
+      const escolhida = face.indice === indiceFace;
+      const baseEscura = corBase.toUpperCase() === "#000000";
+      const sombra = Math.max(0, -face.intensidade) * 0.5;
+      const luzMarfim = Math.max(0, face.intensidade) * 0.34 + 0.08;
+      let corFace = misturarCores(corBase, "#17130F", sombra);
+      corFace = misturarCores(corFace, "#F9EEDD", luzMarfim);
+      contextoDado.beginPath();
+      contextoDado.moveTo(face.pontos[0][0], face.pontos[0][1]);
+      contextoDado.lineTo(face.pontos[1][0], face.pontos[1][1]);
+      contextoDado.lineTo(face.pontos[2][0], face.pontos[2][1]);
+      contextoDado.closePath();
+      contextoDado.fillStyle = corFace;
+      contextoDado.fill();
+      contextoDado.strokeStyle = escolhida && destaque ? "#D8BD76" : baseEscura ? "#B8AA91" : "#241E17";
+      contextoDado.lineWidth = escolhida && destaque ? 1.5 : 0.9;
+      contextoDado.stroke();
+      if (mostrarValores) {
+        const centroX = face.pontos.reduce((soma, ponto) => soma + ponto[0], 0) / 3;
+        const centroY = face.pontos.reduce((soma, ponto) => soma + ponto[1], 0) / 3;
+        contextoDado.textAlign = "center";
+        contextoDado.textBaseline = "middle";
+        contextoDado.font = `${escolhida ? "700 11px" : "600 6px"} Georgia, serif`;
+        contextoDado.lineWidth = escolhida ? 1.4 : 0.8;
+        contextoDado.strokeStyle = corBase === "#F9EEDD" ? "#F9EEDD" : baseEscura ? "#000000" : "#241E17";
+        contextoDado.fillStyle = corBase === "#F9EEDD" ? "#241E17" : "#F9EEDD";
+        contextoDado.strokeText(String(face.valor), centroX, centroY);
+        contextoDado.fillText(String(face.valor), centroX, centroY);
+      }
+    }
+    return true;
+  }
+
+  function desenharDadosCombate(movimentoReduzido) {
+    const animacoes = [];
+    app.querySelectorAll?.(".dado-combate")?.forEach((dado) => {
+      const canvas = dado.querySelector(".dado-combate-canvas");
+      if (!canvas || !canvas.getContext("2d")) return;
+      dado.classList.add("dado-combate--3d");
+      const valor = Number(dado.dataset.valor);
+      const resultado = Number.isInteger(valor) && valor >= 1 && valor <= 20;
+      const indiceFace = resultado ? valor - 1 : 0;
+      const alvo = angulosParaFace(indiceFace);
+      const cor = dado.dataset.cor || "#F9EEDD";
+      const destaque = dado.classList.contains("dado-combate-maior");
+      const rolar =
+        !movimentoReduzido &&
+        resultado &&
+        !dado.classList.contains("dado-combate-estatico") &&
+        !dado.classList.contains("dado-combate-aguardando");
+      if (!rolar) {
+        desenharDado3D(canvas, cor, indiceFace, alvo, destaque);
+        return;
+      }
+      const volta = Math.PI * 2;
+      const inicio = {
+        x: (Math.random() - 0.5) * volta,
+        y: (Math.random() - 0.5) * volta,
+        z: (Math.random() - 0.5) * volta,
+      };
+      const completarVoltas = (atual, final) => {
+        const diferenca = (((final - atual) % volta) + volta) % volta;
+        return atual + diferenca + volta * 2;
+      };
+      const fim = {
+        x: completarVoltas(inicio.x, alvo.x),
+        y: completarVoltas(inicio.y, alvo.y),
+        z: completarVoltas(inicio.z, alvo.z),
+      };
+      const comeco = performance.now();
+      animacoes.push(
+        new Promise((concluir) => {
+          function quadro(agora) {
+            if (!canvas.isConnected) {
+              concluir();
+              return;
+            }
+            const progresso = Math.min(1, (agora - comeco) / DURACAO_ANIMACAO_DADO);
+            const desaceleracao = 1 - (1 - progresso) ** 3;
+            const angulos = {
+              x: inicio.x + (fim.x - inicio.x) * desaceleracao,
+              y: inicio.y + (fim.y - inicio.y) * desaceleracao,
+              z: inicio.z + (fim.z - inicio.z) * desaceleracao,
+            };
+            const balanço = 1 + Math.sin(progresso * Math.PI * 4) * 0.07 * (1 - progresso);
+            desenharDado3D(canvas, cor, indiceFace, angulos, destaque, balanço, false);
+            if (progresso < 1) window.requestAnimationFrame(quadro);
+            else {
+              desenharDado3D(canvas, cor, indiceFace, alvo, destaque);
+              concluir();
+            }
+          }
+          window.requestAnimationFrame(quadro);
+        }),
+      );
+    });
+    return Promise.all(animacoes);
+  }
+
+  function facesDados(valores, escolhido, { cor, lado, animar = true, selecionaMenor = false }) {
+    return `<div class="dados-combate" aria-label="Resultados dos dados">${valores
+      .map((valor) => {
+        const classes = ["dado-combate", `dado-combate-${lado}`];
+        if (valor === escolhido) classes.push("dado-combate-maior");
+        if (valor === 20) classes.push("dado-combate-vinte");
+        if (valor === 1) classes.push("dado-combate-um");
+        if (!animar) classes.push("dado-combate-estatico");
+        const rotulo =
+          valor === escolhido
+            ? `${selecionaMenor ? "Menor" : "Maior"} resultado usado: ${valor}`
+            : `Resultado: ${valor}`;
+        return marcadorDado(valor, classes, rotulo, cor);
+      })
       .join("")}</div>`;
   }
 
-  function telaCombate(run) {
+  function telaCombate(run, movimentoReduzido) {
     const evento = Jogo.eventoPorId(run.eventoId);
     const pendente = run.combatePendente;
     const perfil = Jogo.engine.perfilCombate(run);
     if (!evento?.batalha || !pendente || !perfil) return;
-    const resultado = pendente.etapa === "resultado";
+    const inimigo = evento.batalha.inimigo || "Inimigo";
+    const resultado = ["resultado", "desfecho"].includes(pendente.etapa);
+    const corDadoHerdeiro = coresPrincipaisHerdeiros[run.traco] || "#8B673D";
+    const corDadoInimigo = "#F9EEDD";
+    const bonusAtaqueItem = run.efeitosPreparados?.bonusAtaqueProximaBatalha || 0;
+    const bonusDadosItem =
+      (run.efeitosPreparados?.bonusDadosCombateProximaBatalha || 0) + (run.dadosCombatePermanentes || 0);
+    const marcaBonusAtaqueItem = bonusAtaqueItem
+      ? `<span class="disputa-origem-item" role="img" aria-label="Bônus de item no ataque: ${assinado(bonusAtaqueItem)}" title="Bônus de item no ataque: ${assinado(bonusAtaqueItem)}">${iconesDisputa.dado}</span>`
+      : "";
+    const marcaBonusDadosItem = bonusDadosItem
+      ? `<span class="disputa-origem-item" role="img" aria-label="${numero(bonusDadosItem)} dados extras de item" title="${numero(bonusDadosItem)} dados extras de item">${iconesDisputa.dado}</span>`
+      : "";
     const maiorHerdeiro = resultado ? Math.max(...pendente.dadosHerdeiro) : null;
-    const maiorInimigo = resultado ? Math.max(...pendente.dadosInimigo) : null;
-    const totalHerdeiro = resultado ? maiorHerdeiro + perfil.ataque : null;
+    const maiorInimigo = resultado
+      ? perfil.inimigoEscolheMenor
+        ? Math.min(...pendente.dadosInimigo)
+        : Math.max(...pendente.dadosInimigo)
+      : null;
+    const totalHerdeiro = resultado ? maiorHerdeiro + perfil.ataque + perfil.bonusResultado : null;
     const totalInimigo = resultado ? maiorInimigo + perfil.defesa : null;
-    const venceuNaRolagem = resultado && totalHerdeiro >= totalInimigo;
+    const venceuNaRolagem =
+      resultado &&
+      (perfil.tracoInimigo === "veloz" ? totalHerdeiro > totalInimigo : totalHerdeiro >= totalInimigo);
     const lancaAtiva = !perfil.batalha.semOverrides && run.lancaHeroiBatalhas > 0;
     const adagaAtiva = !perfil.batalha.semOverrides && run.inventario.includes("adaga_amaldicoada");
     const venceu =
       resultado &&
-      !perfil.batalha.forcarDerrota &&
-      (lancaAtiva || adagaAtiva || venceuNaRolagem);
+      (pendente.ehBoss
+        ? pendente.etapa === "desfecho" || (!perfil.batalha.forcarDerrota && venceuNaRolagem)
+        : !perfil.batalha.forcarDerrota && (lancaAtiva || adagaAtiva || venceuNaRolagem));
+    const vidaChefeMaxima = Math.max(1, evento.batalha.vidaMaxima || 100);
+    const vidaChefeAtual = Math.max(0, Math.min(vidaChefeMaxima, pendente.vidaChefe ?? vidaChefeMaxima));
+    const percentualVidaChefe = Math.round((vidaChefeAtual / vidaChefeMaxima) * 100);
+    const percentualVidaChefeAntes = Math.round(
+      (Math.max(0, Math.min(vidaChefeMaxima, pendente.vidaChefeAntes ?? vidaChefeAtual)) / vidaChefeMaxima) * 100,
+    );
+    const chefeRecebeuDano = pendente.ehBoss && vidaChefeAtual < (pendente.vidaChefeAntes ?? vidaChefeAtual);
+    const indicadorVidaChefe = evento.bossId
+      ? `<div class="barra-vida-chefe${chefeRecebeuDano ? " barra-vida-chefe-danificada" : ""}" role="progressbar" aria-label="Vida de ${esc(inimigo)}" aria-valuemin="0" aria-valuemax="${vidaChefeMaxima}" aria-valuenow="${vidaChefeAtual}" aria-valuetext="${vidaChefeAtual} de ${vidaChefeMaxima}" style="--vida-chefe-anterior:${percentualVidaChefeAntes}%"><span style="--vida-chefe:${percentualVidaChefe}%"></span></div><small class="barra-vida-chefe-valor">${numero(vidaChefeAtual)} / ${numero(vidaChefeMaxima)} Vida</small>`
+      : "";
+    const danoDerrota =
+      resultado && !venceu ? perfil.batalha.derrota.dano + (perfil.tracoInimigo === "feroz" ? 6 : 0) : null;
     const desfechoForcado = resultado
       ? perfil.batalha.forcarDerrota
         ? "Esta batalha determina a derrota, independentemente dos dados."
         : lancaAtiva
           ? "A Lança do Herói garante a vitória nesta batalha."
           : adagaAtiva && !venceuNaRolagem
-            ? "A Adaga amaldiçoada garante a vitória, mas mantém o dano de derrota."
+            ? "A Adaga amaldiçoada garante a vitória nesta batalha."
             : venceuNaRolagem && totalHerdeiro === totalInimigo
               ? "Empate: o herdeiro vence."
               : ""
       : "";
     const dadoHeroi = resultado
-      ? facesDados(pendente.dadosHerdeiro, maiorHerdeiro)
-      : `<div class="dados-combate" aria-label="${perfil.dadosHerdeiro} dados do herdeiro">${Array.from({ length: perfil.dadosHerdeiro }, () => '<span class="dado-combate dado-combate-aguardando" aria-hidden="true">?</span>').join("")}</div>`;
+      ? facesDados(pendente.dadosHerdeiro, maiorHerdeiro, { cor: corDadoHerdeiro, lado: "jogador" })
+      : `<div class="dados-combate" aria-label="${perfil.dadosHerdeiro} dados do herdeiro">${Array.from({ length: perfil.dadosHerdeiro }, () => marcadorDado("?", ["dado-combate", "dado-combate-jogador", "dado-combate-aguardando"], "", corDadoHerdeiro)).join("")}</div>`;
     const dadoInimigo = resultado
-      ? facesDados(pendente.dadosInimigo, maiorInimigo, pendente.rerrolagens === 0)
-      : `<div class="dados-combate" aria-label="${perfil.dadosInimigo} dados do inimigo">${Array.from({ length: perfil.dadosInimigo }, () => '<span class="dado-combate dado-combate-aguardando" aria-hidden="true">?</span>').join("")}</div>`;
+      ? facesDados(pendente.dadosInimigo, maiorInimigo, {
+          cor: corDadoInimigo,
+          lado: "inimigo",
+          animar: pendente.rerrolagens === 0,
+          selecionaMenor: perfil.inimigoEscolheMenor,
+        })
+      : `<div class="dados-combate" aria-label="${perfil.dadosInimigo} dados do inimigo">${Array.from({ length: perfil.dadosInimigo }, () => marcadorDado("?", ["dado-combate", "dado-combate-inimigo", "dado-combate-aguardando"], "", corDadoInimigo)).join("")}</div>`;
+    const vereditoResultado = pendente.ehBoss
+      ? pendente.etapa === "desfecho"
+        ? "Chefe derrotado"
+        : venceu
+          ? "Acerto no chefe"
+          : "Contra-ataque do chefe"
+      : venceu
+        ? "Vitória"
+        : "Derrota";
     const resumoResultado = resultado
-      ? `<section class="resultado-disputa ${venceu ? "resultado-disputa-vitoria" : "resultado-disputa-derrota"}" aria-live="polite">
-          <p class="disputa-veredito">${venceu ? "Vitória" : "Derrota"}</p>
-          <p class="disputa-totais"><span>Herdeiro <strong>${numero(totalHerdeiro)}</strong></span><span aria-hidden="true">×</span><span>Inimigo <strong>${numero(totalInimigo)}</strong></span></p>
-          <p class="disputa-formula">${numero(maiorHerdeiro)} no dado + ${numero(perfil.ataque)} Ataque · ${numero(maiorInimigo)} no dado + ${numero(perfil.defesa)} Defesa</p>
+      ? `<section class="resultado-disputa ${venceu ? "resultado-disputa-vitoria" : "resultado-disputa-derrota"}"${movimentoReduzido ? "" : ' data-aguardando-rolagem aria-hidden="true"'} aria-live="polite">
+          <p class="disputa-veredito">${vereditoResultado}</p>
+          <p class="disputa-totais"><span>${esc(tituloHerdeiro(run.traco))}<strong>${numero(maiorHerdeiro)} ${perfil.ataque < 0 ? "−" : "+"} ${numero(Math.abs(perfil.ataque))}${perfil.bonusResultado ? ` + ${numero(perfil.bonusResultado)}` : ""}</strong></span><span aria-hidden="true">×</span><span>${esc(inimigo)}<strong>${numero(maiorInimigo)} ${perfil.defesa < 0 ? "−" : "+"} ${numero(Math.abs(perfil.defesa))}</strong></span></p>
+          ${danoDerrota !== null ? `<p class="disputa-dano-derrota">Dano antes das reduções: ${numero(danoDerrota)}</p>` : ""}
           ${desfechoForcado ? `<p class="disputa-regra">${esc(desfechoForcado)}</p>` : ""}
         </section>`
-      : `<p class="disputa-instrucao">Prepare seu combate com os itens disponíveis e role os dados.</p>`;
-    mostrar(
-      `<dialog class="disputa-combate" aria-labelledby="titulo-disputa-combate">
+      : "";
+    const resumoTrocaChefe =
+      pendente.ehBoss && pendente.etapa === "preparacao" && pendente.ultimaTrocaChefe
+        ? `<p class="resumo-troca-chefe" aria-live="polite">${esc(pendente.ultimaTrocaChefe)}</p>`
+        : "";
+    const itensCombate = inventario(run, { somenteCombate: true, manterAberto: true });
+    const rerrolagemCoringaDisponivel =
+      pendente.etapa === "resultado" &&
+      (pendente.rerrolagemCoringa === 1 || pendente.rerrolagensGratis > 0) &&
+      !perfil.batalha.forcarDerrota;
+    const nomeTracoInimigo = {
+      veloz: "Veloz",
+      cego: "Cego",
+      feroz: "Feroz",
+    }[perfil.tracoInimigo];
+    const efeitosCoringa = {
+      1: "+1 dado",
+      2: "+2 Ataque",
+      3: "Inimigo com desvantagem",
+      4: "Rerrolagem grátis",
+      5: "Defesa inimiga −1",
+      6: "Sem efeito",
+    };
+    const avisoCoringa =
+      run.traco === "coringa" && pendente.coringa
+        ? `<p class="disputa-efeito-coringa">D6 ${numero(pendente.coringa)} · ${esc(efeitosCoringa[pendente.coringa])}</p>`
+        : "";
+    const bonusTrevo = perfil.bonusResultado
+      ? `<span class="disputa-origem-item" role="img" aria-label="Bônus do Trevo da sorte: +${numero(perfil.bonusResultado)} no total" title="Bônus do Trevo da sorte: +${numero(perfil.bonusResultado)} no total">${iconesDisputa.dado}</span>`
+      : "";
+    const itensDaDisputa = itensCombate
+      ? `<section class="disputa-itens" aria-label="Itens disponíveis para este combate"${resultado && !movimentoReduzido ? " inert" : ""}><h2>${resultado ? "Itens de rerrolagem" : "Itens de combate"}</h2>${itensCombate}</section>`
+      : "";
+    return `<section class="disputa-combate" aria-labelledby="titulo-disputa-combate">
         <div class="disputa-combate-conteudo">
-          <p class="disputa-sobretitulo">Rodada ${numero(run.rodada)} · Disputa</p>
           <h1 id="titulo-disputa-combate">${esc(evento.titulo)}</h1>
-          <p class="disputa-confronto"><span>${esc(tituloHerdeiro(run.traco))}</span><span aria-hidden="true">contra</span><span>${esc(evento.batalha.inimigo || "Inimigo")}</span></p>
-          <p class="disputa-regra">Compare o maior d20 de cada conjunto somado ao Ataque e à Defesa. Empate favorece o herdeiro.</p>
+          ${avisoCoringa}
           <div class="disputa-participantes">
             <section class="disputa-lado disputa-herdeiro" aria-label="Rolagem do herdeiro">
-              <h2>Seu conjunto · ${perfil.dadosHerdeiro} ${perfil.dadosHerdeiro === 1 ? "dado" : "dados"}</h2>
+              <h2>${esc(tituloHerdeiro(run.traco))}${marcaBonusDadosItem}${bonusTrevo}</h2>
               ${dadoHeroi}
-              <p>Ataque <strong>+${numero(perfil.ataque)}</strong></p>
+              <p class="disputa-bonus"><span>Ataque <strong>${assinado(perfil.ataque)}</strong></span><span class="disputa-bonus-marcas"><span class="disputa-bonus-tipo" role="img" aria-label="Bônus de Ataque aplicado à rolagem" title="Bônus de Ataque aplicado à rolagem">${iconesDisputa.espada}</span>${marcaBonusAtaqueItem}</span></p>
             </section>
             <span class="disputa-versus" aria-hidden="true">×</span>
-            <section class="disputa-lado disputa-inimigo" aria-label="Rolagem do inimigo">
-              <h2>Inimigo · ${perfil.dadosInimigo} ${perfil.dadosInimigo === 1 ? "dado" : "dados"}</h2>
-              ${dadoInimigo}
-              <p>Defesa <strong>+${numero(perfil.defesa)}</strong></p>
-            </section>
+            <div class="disputa-inimigo-coluna">
+              <section class="disputa-lado disputa-inimigo" aria-label="Rolagem do inimigo">
+                <h2>${esc(inimigo)}${nomeTracoInimigo ? `<span class="disputa-traco-inimigo">${nomeTracoInimigo}</span>` : ""}</h2>
+                ${dadoInimigo}
+                <p class="disputa-bonus"><span>Defesa <strong>${assinado(perfil.defesa)}</strong></span><span class="disputa-bonus-marcas"><span class="disputa-bonus-tipo" role="img" aria-label="Bônus de Defesa do inimigo aplicado à rolagem" title="Bônus de Defesa do inimigo aplicado à rolagem">${iconesDisputa.escudo}</span></span></p>
+              </section>
+              ${indicadorVidaChefe}
+            </div>
           </div>
+          ${resumoTrocaChefe}
           ${resumoResultado}
-          <section class="disputa-itens" aria-label="Itens disponíveis para este combate">
-            <h2>${resultado ? "Itens de rerrolagem" : "Preparação"}</h2>
-            ${inventario(run, { somenteCombate: true })}
-          </section>
-          <div class="disputa-acoes">
-            ${resultado ? '<button class="botao primario" data-acao="combate-continuar">Continuar</button>' : '<button class="botao primario" data-acao="combate-rolar">Rolar dados</button>'}
+          ${itensDaDisputa}
+          <div class="disputa-acoes"${resultado && !movimentoReduzido ? " inert" : ""}>
+            ${rerrolagemCoringaDisponivel ? '<button type="button" class="botao disputa-acao-secundaria" data-acao="combate-rerrolar-livre" aria-label="Rolar novamente todos os dados do duelo" title="Rolar novamente todos os dados do duelo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5V2L8 6l4 4V7a5 5 0 1 1-5 5"/></svg></button>' : ""}
+            ${resultado ? `<button class="botao primario" data-acao="combate-continuar">${pendente.ehBoss ? (pendente.etapa === "desfecho" ? "Concluir luta" : "Aplicar turno") : "Continuar"}</button>` : '<button class="botao primario" data-acao="combate-rolar">Rolar dados</button>'}
           </div>
         </div>
-      </dialog>`,
-      "jogo",
-      "jogo",
-    );
-    const dialogo = app.querySelector(".disputa-combate");
-    dialogo?.addEventListener("cancel", (acao) => acao.preventDefault());
-    dialogo?.showModal();
-    const inventarioCombate = dialogo?.querySelector("#painel-inventario");
-    if (inventarioCombate) inventarioCombate.open = true;
-    const continuar = dialogo?.querySelector('[data-acao="combate-continuar"]');
-    if (continuar && !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      continuar.disabled = true;
-      window.setTimeout(() => {
-        if (continuar.isConnected) continuar.disabled = false;
-      }, 760);
-    }
+      </section>`;
   }
 
   function jogo(run, { textoCompleto = false } = {}) {
@@ -1642,10 +1988,6 @@
       return;
     }
     Jogo.engine.sincronizarItemVampirismo(run);
-    if (run.fase === "combate") {
-      telaCombate(run);
-      return;
-    }
     const eventoDaRun = Jogo.eventoPorId(run.eventoId);
     const eventoBase = run.aguardaDecisaoCulto ? Jogo.eventoPorId("ultimo_habitante") : eventoDaRun;
     const memoriaAnterior = run.legadoDaRun.memorias?.at(-1);
@@ -1686,6 +2028,30 @@
           informacoes: `${eventoComConselheiro.informacoes} A Marca da Entidade drena 1 ponto de Vida a cada rodada.`,
         }
       : eventoComConselheiro;
+    const vidaChefeMaximaCarta = evento?.bossId ? Math.max(1, evento.batalha?.vidaMaxima || 100) : 0;
+    const marcaChefeDerrotado = {
+      barao: "barao_derrotado",
+      culto: "lider_culto_derrotado",
+      entidade: "entidade_derrotada",
+      abissal: "senhor_do_abismo_derrotado",
+    }[evento?.bossId];
+    const vidaChefeAtualCarta = run.flags?.[marcaChefeDerrotado]
+      ? 0
+      : Math.max(0, Math.min(vidaChefeMaximaCarta, run.combatePendente?.vidaChefe ?? vidaChefeMaximaCarta));
+    const vidaChefeAntesCarta = Math.max(
+      0,
+      Math.min(vidaChefeMaximaCarta, run.combatePendente?.vidaChefeAntes ?? vidaChefeAtualCarta),
+    );
+    const percentualVidaChefeCarta = vidaChefeMaximaCarta
+      ? Math.round((vidaChefeAtualCarta / vidaChefeMaximaCarta) * 100)
+      : 0;
+    const percentualVidaChefeAntesCarta = vidaChefeMaximaCarta
+      ? Math.round((vidaChefeAntesCarta / vidaChefeMaximaCarta) * 100)
+      : 0;
+    const chefeRecebeuDanoCarta = vidaChefeAtualCarta < vidaChefeAntesCarta;
+    const indicadorVidaChefeCarta = evento?.bossId
+      ? `<div class="barra-vida-chefe barra-vida-chefe--carta${chefeRecebeuDanoCarta ? " barra-vida-chefe-danificada" : ""}${vidaChefeAtualCarta === 0 ? " barra-vida-chefe-esgotada" : ""}" role="progressbar" aria-label="Vida de ${esc(evento.batalha.inimigo)}" aria-valuemin="0" aria-valuemax="${vidaChefeMaximaCarta}" aria-valuenow="${vidaChefeAtualCarta}" aria-valuetext="${vidaChefeAtualCarta} de ${vidaChefeMaximaCarta}" style="--vida-chefe-anterior:${percentualVidaChefeAntesCarta}%"><span style="--vida-chefe:${percentualVidaChefeCarta}%"></span></div><small class="barra-vida-chefe-valor barra-vida-chefe-valor--carta">${numero(vidaChefeAtualCarta)} / ${numero(vidaChefeMaximaCarta)} Vida</small>`
+      : "";
     const descricaoRenda = textoDaRendaProxima(run);
     precarregarProximaCarta(evento?.imagem);
     const faixa = Jogo.estado.faixaHonra(run.atributos.honra);
@@ -1710,6 +2076,11 @@
         classe: "transformacao-olho-mil-nomes",
         nome: "Olho dos Mil Nomes",
         detalhe: "Mostra ganhos positivos de Habitantes antes da escolha.",
+      },
+      run.flags?.mao_do_destino_ativa && {
+        classe: "transformacao-mao-do-destino",
+        nome: "Mão do Destino",
+        detalhe: "Concede uma rerrolagem completa grátis em cada batalha.",
       },
     ].filter(Boolean);
     const classeTransformacao = transformacoesAtivas
@@ -1743,20 +2114,13 @@
     if (variacaoHonra !== 0 && !cultoAtivo)
       precarregarProximoRetrato(run.traco, faixaDoRetrato, cultoAtivo, Math.sign(variacaoHonra));
     const resolvido = run.fase === "resultado";
+    const emCombate = run.fase === "combate";
     const categoriaEvento = categoriaVisualEvento(evento);
     const movimentoReduzido =
       !window.matchMedia || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const animarTexto = !resolvido && !textoCompleto && !movimentoReduzido;
+    const renderDisputa = ++renderDisputaAtual;
+    const animarTexto = !resolvido && !emCombate && !textoCompleto && !movimentoReduzido;
     const escolhas = Jogo.engine.opcoes(evento, run);
-    const batalhaLeitura = evento.batalha ? Jogo.engine.batalhaAjustada(run, evento.batalha) : null;
-    const leituraBatalha =
-      batalhaLeitura && evento.batalha.mostrarLeitura !== false
-        ? `<p class="batalha-leitura">Seu Ataque: <strong>${numero(run.atributos.ataque + (run.efeitosPreparados.bonusAtaqueProximaBatalha || 0) + (Jogo.druida?.bonusAtaqueCombate(run) || 0))}</strong>. Defesa inimiga: <strong>${numero(batalhaLeitura.defesa)}</strong>. Dano antes das reduções: <strong>${numero(batalhaLeitura.vitoria.dano)} na vitória</strong> ou <strong>${numero(batalhaLeitura.derrota.dano)} na derrota</strong>. ${run.efeitoDivino?.reducaoDano ? `O efeito de ${esc(run.efeitoDivino.nome)} reduz mais ${numero(run.efeitoDivino.reducaoDano)} de dano.` : ""} ${batalhaLeitura.estagio ? `A dificuldade aumentou ${numero(batalhaLeitura.estagio)} ${batalhaLeitura.estagio === 1 ? "estágio" : "estágios"}.` : ""}</p>`
-        : "";
-    const leituraBatalhaLateral = leituraBatalha.replace(
-      'class="batalha-leitura"',
-      'class="batalha-leitura-lateral"',
-    );
     const escudoPrevisto =
       run.atributos.escudo +
       (run.efeitosPreparados.bonusEscudoProximaBatalha || 0) +
@@ -1799,6 +2163,13 @@
               <details class="debug-eventos">
                 <summary class="controle-honra" aria-label="Ativar evento especial para debug" title="Ativar uma carta especial para debug">Especial</summary>
                 <div class="debug-eventos-opcoes" aria-label="Cartas especiais para debug">
+                  <details>
+                    <summary class="controle-honra">Testar lutas de chefes</summary>
+                    <button class="controle-honra" data-acao="debug-boss-barao" ${run.aguardaDecisaoCulto || run.fase === "combate" ? "disabled" : ""}>Embate com o Barão</button>
+                    <button class="controle-honra" data-acao="debug-boss-culto" ${run.aguardaDecisaoCulto || run.fase === "combate" ? "disabled" : ""}>Líder do culto</button>
+                    <button class="controle-honra" data-acao="debug-boss-entidade" ${run.aguardaDecisaoCulto || run.fase === "combate" ? "disabled" : ""}>Combate contra a Entidade</button>
+                    <button class="controle-honra" data-acao="debug-boss-abissal" ${run.aguardaDecisaoCulto || run.fase === "combate" ? "disabled" : ""}>Senhor sob a lagoa</button>
+                  </details>
                   <button class="controle-honra" data-acao="debug-especial-entidade" ${run.aguardaDecisaoCulto ? "disabled" : ""}>A Entidade</button>
                   <button class="controle-honra" data-acao="debug-especial-abissal" ${run.aguardaDecisaoCulto ? "disabled" : ""}>História abissal</button>
                   <button class="controle-honra" data-acao="debug-especial-zodiaco" ${run.aguardaDecisaoCulto ? "disabled" : ""}>Zodíaco chinês</button>
@@ -1865,34 +2236,43 @@
               <img class="imagem-evento${imagensComTomDaVila.has(evento.imagem) ? " imagem-evento--tom-vila" : ""}" src="${esc(evento.imagem)}" width="1024" height="1024" loading="lazy" decoding="async" alt="${esc(evento.imagemAlt)}">
               <button type="button" class="evento-detalhes-acionar" aria-label="Mostrar detalhes do evento" aria-controls="informacoes-evento" aria-expanded="false"></button>
             </article>
+            ${indicadorVidaChefeCarta}
             <div class="evento-detalhes">
               <div class="evento-texto"><div class="carta-titulo evento-titulo"><h2 id="titulo-evento">${esc(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade">A Entidade</span>' : ""}</div><p>${esc(evento.texto)}</p></div>
               <aside id="informacoes-evento" class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>${run.previsaoCorvo ? `<p class="previsao-corvo" role="status">Seu corvo prevê: ${esc(run.previsaoCorvo)}.</p>` : ""}
-                ${batalhaLeitura && evento.batalha.mostrarLeitura !== false ? `<p class="batalha-leitura">Seu Ataque: <strong>${numero(run.atributos.ataque + (run.efeitosPreparados.bonusAtaqueProximaBatalha || 0) + (Jogo.druida?.bonusAtaqueCombate(run) || 0))}</strong>. Defesa inimiga: <strong>${numero(batalhaLeitura.defesa)}</strong>. Dano antes das reduções: <strong>${numero(batalhaLeitura.vitoria.dano)} na vitória</strong> ou <strong>${numero(batalhaLeitura.derrota.dano)} na derrota</strong>. ${run.efeitoDivino?.reducaoDano ? `O efeito de ${esc(run.efeitoDivino.nome)} reduz mais ${numero(run.efeitoDivino.reducaoDano)} de dano.` : ""} ${batalhaLeitura.estagio ? `A dificuldade aumentou ${numero(batalhaLeitura.estagio)} ${batalhaLeitura.estagio === 1 ? "estágio" : "estágios"}.` : ""}</p>` : ""}
-                ${leituraBatalhaLateral ? `<p class="batalha-escudo-lateral">Seu Escudo previsto: <strong>${numero(escudoPrevisto)}</strong>.</p>` : ""}
+                ${evento.batalha && evento.batalha.mostrarLeitura !== false ? `<p class="batalha-escudo-lateral">Seu Escudo previsto: <strong>${numero(escudoPrevisto)}</strong>.</p>` : ""}
               </aside>
               ${resumoCombateResultado}
             </div>
           </div>
-          <section class="coluna-escolhas" aria-label="${resolvido ? "Resultado da sua decisão" : "Sua decisão"}">
-            ${resolvido ? "" : `<div class="evento-leitura"><div class="evento-leitura-titulo"><h2>${textoComNomesEspeciais(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade nome-especial-tremendo">A Entidade</span>' : ""}</div><p class="texto-evento-digitado" aria-live="off"><span class="leitor-de-tela">${esc(evento.texto)}</span><span data-texto-visual aria-hidden="true">${animarTexto ? "" : esc(evento.texto)}</span></p>${leituraBatalha}</div>`}
+          <section class="coluna-escolhas" aria-label="${emCombate ? "Disputa de combate" : resolvido ? "Resultado da sua decisão" : "Sua decisão"}">
+            ${emCombate ? telaCombate(run, movimentoReduzido) : ""}
+            ${resolvido || emCombate ? "" : `<div class="evento-leitura"><div class="evento-leitura-titulo"><h2>${textoComNomesEspeciais(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade nome-especial-tremendo">A Entidade</span>' : ""}</div><p class="texto-evento-digitado" aria-live="off"><span class="leitor-de-tela">${esc(evento.texto)}</span><span data-texto-visual aria-hidden="true">${animarTexto ? "" : esc(evento.texto)}</span></p></div>`}
             ${
-              resolvido
-                ? resultado(run)
-                : `<div class="decisao-evento" data-decisao-evento ${animarTexto ? "hidden" : ""}><p class="leitor-de-tela" role="status" data-opcoes-disponiveis hidden>As opções estão disponíveis.</p><h2>${evento.mercadorias ? "O mercador oferece" : "Qual é a sua palavra?"}</h2>${ofertas(evento, run)}<div class="escolhas">${escolhas
-                    .map((opcao, indice) => {
-                      const previaHonra = [honraRevelada(opcao, evento, run), previsaoVisualOpcao(opcao, run)]
-                        .filter(Boolean)
-                        .join(" · ");
-                      const itemPremio = Jogo.itens.find((item) => (opcao.itens || []).includes(item.id));
-                      const raridadePremio = itemPremio?.raridade
-                        ? `<small class="nome-raridade raridade-${esc(itemPremio.raridade)}"> (${esc(nomesRaridade[itemPremio.raridade])})</small>`
-                        : "";
-                      return `<button class="escolha${opcao.id === "juntar" && evento.id === "ultimo_habitante" ? " escolha-chamado" : ""}${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 9 ? `aria-keyshortcuts="${indice + 1}"` : ""}><span class="escolha-conteudo">${textoComNomesEspeciais(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}</span><span aria-hidden="true">→</span></button>`;
-                    })
-                    .join("")}</div></div>`
+              emCombate
+                ? ""
+                : resolvido
+                  ? resultado(run)
+                  : `<div class="decisao-evento" data-decisao-evento ${animarTexto ? "hidden" : ""}><p class="leitor-de-tela" role="status" data-opcoes-disponiveis hidden>As opções estão disponíveis.</p><h2>${evento.mercadorias ? "O mercador oferece" : "Qual é a sua palavra?"}</h2>${ofertas(evento, run)}<div class="escolhas">${escolhas
+                      .map((opcao, indice) => {
+                        const previaHonra = [
+                          honraRevelada(opcao, evento, run),
+                          previsaoVisualOpcao(opcao, run),
+                        ]
+                          .filter(Boolean)
+                          .join(" · ");
+                        const itemPremio = Jogo.itens.find((item) => (opcao.itens || []).includes(item.id));
+                        const raridadePremio = itemPremio?.raridade
+                          ? `<small class="nome-raridade raridade-${esc(itemPremio.raridade)}"> (${esc(nomesRaridade[itemPremio.raridade])})</small>`
+                          : "";
+                        const previaTesteDados = opcao.testeDados
+                          ? `<small class="teste-dados-previa">d20 + ${numero(opcao.testeDados.bonus)} · dificuldade ${numero(opcao.testeDados.dificuldade)} · custo a partir de ${numero(opcao.testeDados.limiteCusto)} · 20 natural vence; 1 natural falha. ${esc(opcao.testeDados.previsao)}</small>`
+                          : "";
+                        return `<button class="escolha${opcao.id === "juntar" && evento.id === "ultimo_habitante" ? " escolha-chamado" : ""}${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 9 ? `aria-keyshortcuts="${indice + 1}"` : ""}><span class="escolha-conteudo">${textoComNomesEspeciais(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}${previaTesteDados}</span><span aria-hidden="true">→</span></button>`;
+                      })
+                      .join("")}</div></div>`
             }
-            ${inventario(run)}${historicoCronica(run)}
+            ${emCombate ? "" : inventario(run)}${emCombate ? "" : historicoCronica(run)}
             <section id="painel-construcoes" class="construcoes-painel" aria-labelledby="titulo-construcoes">
               <header class="construcoes-painel-cabecalho"><h2 id="titulo-construcoes">Construções da vila</h2><button class="painel-voltar-link construcoes-voltar" type="button" data-acao="fechar-construcoes" aria-label="Voltar à crônica">← Voltar</button></header>
               ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
@@ -1901,15 +2281,36 @@
         </div>
       </section>`,
       "jogo",
-      cultoAtivo ? "culto" : evento.batalha ? "batalha" : run.estacao,
+      evento.bossId ? `chefe_${evento.bossId}` : cultoAtivo ? "culto" : evento.batalha ? "batalha" : run.estacao,
     );
+    if (emCombate) app.querySelector(".cronica")?.classList.add("cronica--combate");
+    let animacaoDados = Promise.resolve();
+    if (emCombate) {
+      animacaoDados = desenharDadosCombate(movimentoReduzido);
+      const resultadoAguardando = app.querySelector(".resultado-disputa[data-aguardando-rolagem]");
+      if (resultadoAguardando) {
+        animacaoDados.then(() => {
+          if (renderDisputa !== renderDisputaAtual || !resultadoAguardando.isConnected) return;
+          resultadoAguardando.removeAttribute("data-aguardando-rolagem");
+          resultadoAguardando.setAttribute("aria-hidden", "false");
+          app.querySelector(".disputa-itens[inert]")?.removeAttribute("inert");
+          app.querySelector(".disputa-acoes[inert]")?.removeAttribute("inert");
+        });
+      }
+    } else if (run.ultimoResultado?.dueloDados) desenharDadosCombate(true);
+    const continuarCombate = app.querySelector('.disputa-combate [data-acao="combate-continuar"]');
+    if (continuarCombate && !movimentoReduzido) {
+      continuarCombate.disabled = true;
+      animacaoDados.then(() => {
+        if (renderDisputa === renderDisputaAtual && continuarCombate.isConnected)
+          continuarCombate.disabled = false;
+      });
+    }
     window.requestAnimationFrame(alinharIdentificacaoComMoldura);
     digitarTextoEvento(evento.texto, animarTexto);
     const acionadorDetalhesEvento = document.querySelector("#app .evento-detalhes-acionar");
     acionadorDetalhesEvento?.addEventListener("click", () => {
-      const aberto = acionadorDetalhesEvento
-        .closest(".cronica")
-        ?.classList.toggle("evento-detalhes-abertos");
+      const aberto = acionadorDetalhesEvento.closest(".cronica")?.classList.toggle("evento-detalhes-abertos");
       acionadorDetalhesEvento.setAttribute("aria-expanded", String(Boolean(aberto)));
       acionadorDetalhesEvento.setAttribute(
         "aria-label",
@@ -1927,6 +2328,10 @@
     if (etapaTutorial !== null) desenharEtapaTutorial();
     const painelInventario = document.querySelector("#app .inventario");
     painelInventario?.addEventListener("toggle", () => {
+      if (run.fase === "combate") {
+        painelInventario.open = true;
+        return;
+      }
       const cronica = painelInventario.closest(".cronica");
       run.inventarioAberto = painelInventario.open;
       document
@@ -1936,7 +2341,9 @@
         const historico = document.querySelector("#app .historico-cronica");
         run.construcoesAbertas = false;
         cronica?.classList.remove("construcoes-aberto");
-        document.querySelector('#app [data-acao="alternar-construcoes"]')?.setAttribute("aria-expanded", "false");
+        document
+          .querySelector('#app [data-acao="alternar-construcoes"]')
+          ?.setAttribute("aria-expanded", "false");
         run.historicoCronicaAberto = false;
         if (historico) historico.open = false;
         document
@@ -1958,7 +2365,9 @@
         const inventario = document.querySelector("#app .inventario");
         run.construcoesAbertas = false;
         cronica?.classList.remove("construcoes-aberto");
-        document.querySelector('#app [data-acao="alternar-construcoes"]')?.setAttribute("aria-expanded", "false");
+        document
+          .querySelector('#app [data-acao="alternar-construcoes"]')
+          ?.setAttribute("aria-expanded", "false");
         run.inventarioAberto = false;
         if (inventario) inventario.open = false;
         document
@@ -1985,6 +2394,8 @@
     vitoria: "Uma crônica cumprida.",
     vitoria_culto: "A crônica do chamado.",
     vitoria_honra: "A crônica do povo.",
+    vitoria_barao: "O Barão foi derrotado.",
+    vitoria_abissal: "A crônica das profundezas.",
   };
 
   function fim(run, legadoSalvo) {
@@ -2052,11 +2463,15 @@
       if (inventario) inventario.open = false;
       if (historico) historico.open = false;
       cronica?.classList.remove("inventario-aberto", "historico-aberto");
-      document.querySelector('#app [data-acao="alternar-inventario"]')?.setAttribute("aria-expanded", "false");
+      document
+        .querySelector('#app [data-acao="alternar-inventario"]')
+        ?.setAttribute("aria-expanded", "false");
       document.querySelector('#app [data-acao="alternar-progresso"]')?.setAttribute("aria-expanded", "false");
     }
     cronica?.classList.toggle("construcoes-aberto", aberta);
-    document.querySelector('#app [data-acao="alternar-construcoes"]')?.setAttribute("aria-expanded", String(aberta));
+    document
+      .querySelector('#app [data-acao="alternar-construcoes"]')
+      ?.setAttribute("aria-expanded", String(aberta));
     ajustarTela();
   }
 

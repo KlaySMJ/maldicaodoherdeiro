@@ -101,7 +101,7 @@ test("combates no fim da run mantêm um teto de dano e não derrubam um herdeiro
   const { J } = preparar();
   const combates = J.eventos.filter((evento) => evento.batalha);
   const restantes = new Map(tracos.map((traco) => [traco, Infinity]));
-  assert.equal(combates.length, 18);
+  assert.equal(combates.length, 30);
 
   for (const evento of combates) {
     for (const traco of tracos) {

@@ -26,6 +26,14 @@
     }
   }
 
+  function ativarChefeDebug(eventoId) {
+    if (!Jogo.ui.modoDebug()) return;
+    if (Jogo.engine.debugAtivarChefe(run, eventoId)) {
+      Jogo.save.gravarRun(run);
+      mostrarJogo();
+    }
+  }
+
   function ativarContagioDebug(eventoId) {
     if (Jogo.engine.debugAtivarContagio(run, eventoId)) {
       Jogo.save.gravarRun(run);
@@ -82,6 +90,8 @@
         "debug-pressagio-limpar",
         "menu",
         "carregar",
+        "debug-alternar",
+        "debug-liberar-personagens",
         "juntar-culto",
         "encerrar-culto",
       ].includes(acao)
@@ -232,8 +242,32 @@
           mostrarJogo();
         }
         break;
+      case "debug-face-coringa":
+        if (Jogo.ui.modoDebug() && Jogo.engine.debugDefinirDisputa(run, Number(botao.dataset.face), null)) {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        }
+        break;
+      case "debug-traco-inimigo":
+        if (Jogo.ui.modoDebug() && Jogo.engine.debugDefinirDisputa(run, null, botao.dataset.traco)) {
+          Jogo.save.gravarRun(run);
+          mostrarJogo();
+        }
+        break;
       case "debug-especial-entidade":
         ativarEventoEspecialDebug("entidade");
+        break;
+      case "debug-boss-barao":
+        ativarChefeDebug("embate_barao");
+        break;
+      case "debug-boss-culto":
+        ativarChefeDebug("lider_culto");
+        break;
+      case "debug-boss-entidade":
+        ativarChefeDebug("entidade_x_confronto");
+        break;
+      case "debug-boss-abissal":
+        ativarChefeDebug("senhor_do_abismo_confronto");
         break;
       case "debug-especial-abissal":
         ativarEventoEspecialDebug("abissal");
@@ -282,6 +316,12 @@
         break;
       case "combate-rolar":
         if (Jogo.engine.rolarCombate(run)) {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run);
+        }
+        break;
+      case "combate-rerrolar-livre":
+        if (Jogo.engine.rerrolarCombateGratuito(run)) {
           Jogo.save.gravarRun(run);
           Jogo.ui.jogo(run);
         }
@@ -359,6 +399,8 @@
     } else if (botao.dataset.mercadoria) Jogo.audio?.sfx("moedas");
     else if (botao.dataset.acao === "continuar") Jogo.audio?.sfx("carta");
     else if (botao.dataset.acao === "juntar-culto") Jogo.audio?.sfx("sino");
+    else if (["combate-rolar", "combate-rerrolar-livre"].includes(botao.dataset.acao))
+      Jogo.audio?.sfx("dados");
     ocupado = true;
     try {
       const itemSacrificio = botao.dataset.itemSacrificio;
@@ -367,6 +409,7 @@
         : botao.dataset.usarItem;
       if (run && itemUsadoId && Jogo.engine.usarItem(run, itemUsadoId, itemSacrificio)) {
         const item = Jogo.itens.find((candidato) => candidato.id === itemUsadoId);
+        if (item?.uso?.rerrolarCombate || item?.uso?.rerrolarMenorDadoCombate) Jogo.audio?.sfx("dados");
         run.inventarioAberto = run.fase !== "combate";
         run.avisoInventario =
           itemUsadoId === "adaga_cerimonial" && run.flags.adaga_herdeiro_culto

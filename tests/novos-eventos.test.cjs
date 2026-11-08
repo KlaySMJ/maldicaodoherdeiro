@@ -229,7 +229,10 @@ test("barão força a derrota no combate e mantém o escudo após a penalidade",
   ]) {
     const { J, run } = preparar("barao");
     Object.assign(run.atributos, { ataque, escudo });
-    J.engine.escolher(run, "combater");
+    run.debugTracoInimigo = "nenhum";
+    assert.equal(J.engine.escolher(run, "combater"), true);
+    assert.equal(J.engine.rolarCombate(run), true);
+    assert.equal(J.engine.continuarCombate(run), true);
     assert.deepEqual(simples(run.atributos), { hp, escudo, ataque, honra, habitantes, gold });
     assert.equal(run.ultimoResultado.combate.venceu, false);
   }

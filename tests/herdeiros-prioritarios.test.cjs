@@ -51,6 +51,32 @@ test("os três herdeiros têm os atributos acordados e permanecem bloqueados sem
   }
 });
 
+test("Coringa e Bruxo têm atributos corretos e desbloqueios por run", () => {
+  const { J } = preparar();
+  const coringa = criar(J, "coringa");
+  assert.equal(coringa.atributos.hp, 120);
+  assert.equal(coringa.hpMax, 120);
+  assert.equal(coringa.atributos.ataque, 2);
+  assert.equal(coringa.atributos.escudo, 5);
+  assert.equal(J.herdeiros.condicoes.coringa(coringa), false);
+  coringa.dadosNaturais20Combate = 1;
+  assert.equal(J.herdeiros.condicoes.coringa(coringa), true);
+  J.legado.avaliar(coringa);
+  assert.equal(coringa.conquistas.flags.coringa, true);
+
+  const bruxo = criar(J, "bruxo");
+  assert.equal(bruxo.atributos.hp, 70);
+  assert.equal(bruxo.hpMax, 70);
+  assert.equal(bruxo.atributos.ataque, 2);
+  assert.equal(bruxo.atributos.escudo, 4);
+  bruxo.batalhasVencidas = 7;
+  assert.equal(J.herdeiros.condicoes.bruxo(bruxo), false);
+  bruxo.batalhasVencidas = 8;
+  assert.equal(J.herdeiros.condicoes.bruxo(bruxo), true);
+  J.legado.avaliar(bruxo);
+  assert.equal(bruxo.conquistas.flags.bruxo, true);
+});
+
 test("vitória cultista libera o herdeiro e uma conquista antiga também o concede", () => {
   const { J, resultado } = preparar();
   const run = criar(J, "corajoso");
@@ -311,7 +337,7 @@ test("debug é um botão único e não altera run, conquistas ou objetivos", () 
   assert.equal(J.save.liberarPersonagens(), true);
   assert.equal(JSON.stringify(J.save.lerRun()), antes);
   const legado = J.save.lerLegado();
-  assert.equal(J.estado.tracosDisponiveis(legado).length, 9);
+  assert.equal(J.estado.tracosDisponiveis(legado).length, 11);
   assert.equal(legado.conquistasDesbloqueadas.length, 0);
   assert.equal(legado.objetivosConcluidos.length, 0);
   window.localStorage.setItem = () => {
@@ -386,7 +412,7 @@ test("debug no controlador salva todos os desbloqueios e preserva a run atual", 
   assert.equal(J.save.lerLegado().flags.herdeiro_culto, undefined);
   J.ui.alternarDebug();
   await clicar({ acao: "debug-liberar-personagens" });
-  assert.equal(J.estado.tracosDisponiveis(J.save.lerLegado()).length, 9);
+  assert.equal(J.estado.tracosDisponiveis(J.save.lerLegado()).length, 11);
   assert.equal(JSON.stringify(J.save.lerRun()), antes);
   assert.equal((app.innerHTML.match(/data-acao="debug-liberar-personagens"/g) || []).length, 1);
 });
@@ -459,6 +485,25 @@ test("os novos herdeiros exibem retratos próprios na seleção e nos quadros de
     assert.ok(fs.existsSync(path.join(__dirname, "..", imagemCulto)), imagemCulto);
     assert.match(app.innerHTML, /retrato-area culto-ativo/);
   }
+});
+
+test("Coringa e Bruxo usam o selo existente enquanto os retratos não existem", () => {
+  const { J, app, window } = preparar();
+  window.JOGO_VERSAO_ASSETS = "sem-artes";
+  J.ui.escolherHerdeiro(J.legado.vazio());
+  assert.match(app.innerHTML, /Começa com 90 Vida e 4 Escudo/);
+  assert.match(app.innerHTML, /Começa com 90 Vida, 3 Escudo e 30 Honra/);
+  assert.doesNotMatch(app.innerHTML, /Começa com 70 Vida/);
+  const selecao = app.innerHTML;
+  for (const id of ["coringa", "bruxo"]) {
+    assert.ok(selecao.includes(`data-traco="${id}"`));
+    const run = criar(J, id);
+    J.engine.registrarSorteio(run, J.eventoPorId("caixas_suspeitas"));
+    J.ui.jogo(run);
+    assert.match(app.innerHTML, /src="assets\/selo\.svg\?v=sem-artes"/);
+    assert.doesNotMatch(app.innerHTML, /assets\/herdeiros\/(coringa|bruxo)-/);
+  }
+  assert.equal((selecao.match(/assets\/selo\.svg\?v=sem-artes/g) || []).length, 2);
 });
 
 test("uma transição ao culto durante a visita extra permite salvar e retomar a carta normal", () => {

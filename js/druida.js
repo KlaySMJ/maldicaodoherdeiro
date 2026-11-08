@@ -6,11 +6,13 @@
     lobo: { nome: "Lobo", singular: "o lobo", imagem: "assets/lobo-pactuario.png" },
     corvo: { nome: "Corvo", singular: "o corvo", imagem: "assets/corvo.png" },
     cervo: { nome: "Cervo", singular: "o cervo", imagem: "assets/cervo-branco.png" },
+    raposa: { nome: "Raposa", singular: "a raposa" },
   };
   const passivas = {
     lobo: { nome: "Lobo", descricao: "+2 Ataque em batalhas nesta rodada." },
     corvo: { nome: "Corvo", descricao: "Revela o tipo do evento e a Honra de uma opção." },
     cervo: { nome: "Cervo", descricao: "Recupera 3 Vida ao iniciar a rodada; 4 com a Máscara do Cervo." },
+    raposa: { nome: "Raposa", descricao: "+1 dado de combate nesta rodada." },
   };
   const ehDruida = (run) => run?.traco === TRACO;
   const temItem = (run, id) => run?.itensConquistados?.includes(id) || run?.inventario?.includes(id);
@@ -21,7 +23,7 @@
 
   function iniciar(run) {
     if (!ehDruida(run)) return;
-    const tipos = Object.keys(passivas);
+    const tipos = ["lobo", "raposa", "corvo", "cervo"];
     run.druidaPassiva = tipos[Math.floor(Math.random() * tipos.length)];
     Jogo.legado?.conceder(run, { flags: [`companheiro_visto_${run.druidaPassiva}`] });
     run.previsaoCorvo = null;
@@ -48,6 +50,10 @@
 
   function bonusAtaqueCombate(run) {
     return ehDruida(run) && run.druidaPassiva === "lobo" ? 2 : 0;
+  }
+
+  function bonusDadosCombate(run) {
+    return ehDruida(run) && run.druidaPassiva === "raposa" ? 1 : 0;
   }
 
   function prepararEvento(run, evento) {
@@ -97,6 +103,7 @@
     estacaoDaRodada,
     iniciar,
     bonusAtaqueCombate,
+    bonusDadosCombate,
     prepararEvento,
     plantarBosque,
     registrarAno,

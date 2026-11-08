@@ -9,6 +9,10 @@
     jogo: "assets/musica/jogo-entre-decisoes.wav",
     culto: "assets/musica/culto-pacto.wav",
     batalha: "assets/musica/batalha.wav",
+    chefe_barao: "assets/musica/chefe-barao.wav",
+    chefe_culto: "assets/musica/chefe-culto.wav",
+    chefe_entidade: "assets/musica/chefe-entidade.wav",
+    chefe_abissal: "assets/musica/chefe-abissal.wav",
     primavera: "assets/musica/primavera.wav",
     verao: "assets/musica/verao.wav",
     outono: "assets/musica/outono.wav",
@@ -36,6 +40,7 @@
     impacto: "assets/musica/sfx-impacto.wav",
     moedas: "assets/musica/sfx-moedas.wav",
     sino: "assets/musica/sfx-sino-culto.wav",
+    dados: "assets/musica/sfx-dados-wood-3.flac",
   };
   let contexto = "menu";
   let habilitada = true;
@@ -155,8 +160,24 @@
     if (habilitada && (!atual || atual.paused)) iniciarFaixa();
   }
 
+  function tocarSomDados() {
+    if (typeof Audio === "undefined") return;
+    const som = new Audio(efeitos.dados);
+    som.preload = "auto";
+    som.volume = (volumeEfeitosAtual / 100) * 0.8;
+    efeitosAtivos.add(som);
+    som.addEventListener?.("ended", () => efeitosAtivos.delete(som), { once: true });
+    som.addEventListener?.("error", () => efeitosAtivos.delete(som), { once: true });
+    som.play().catch(() => efeitosAtivos.delete(som));
+  }
+
   function tocarEfeito(nome) {
-    if (volumeEfeitosAtual === 0 || !efeitos[nome] || typeof Audio === "undefined") return;
+    if (volumeEfeitosAtual === 0) return;
+    if (nome === "dados") {
+      tocarSomDados();
+      return;
+    }
+    if (!efeitos[nome] || typeof Audio === "undefined") return;
     if (efeitoEmReproducao && !efeitoEmReproducao.paused) {
       if (nome === "honra" && !filaEfeitos.includes(nome)) filaEfeitos.push(nome);
       return;

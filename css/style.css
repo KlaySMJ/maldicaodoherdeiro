@@ -480,8 +480,6 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .titulo-run-acoes .botao-tutorial { width: 44px; min-width: 44px; height: 44px; padding: 0; justify-content: center; }
 .botao-tutorial svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
 .botao-tutorial:not(:disabled):hover { background: #2b2418; color: #f1d796; }
-.evento-leitura .batalha-leitura { margin-top: 12px; padding-top: 10px; border-top: 1px solid #555; color: var(--secundaria); font-size: calc(14px * var(--fator-texto)); line-height: 1.4; }
-.evento-leitura .batalha-leitura strong { color: var(--tinta); }
 .legado-cabecalho .botao { flex: 0 0 auto; }
 .escolhas { display: grid; gap: 10px; }
 .cronica--obras-vila .coluna-escolhas > .escolhas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
@@ -493,6 +491,8 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .escolha-conteudo { display: grid; min-width: 0; gap: 4px; overflow-wrap: anywhere; hyphens: auto; }
 .honra-revelada { color: var(--secundaria); font-size: .78em; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .escolha:not(:disabled):hover .honra-revelada { color: inherit; }
+.teste-dados-previa { color: var(--secundaria); font-size: .78em; line-height: 1.25; }
+.escolha:not(:disabled):hover .teste-dados-previa { color: inherit; }
 .coluna-escolhas > .nota { margin-top: 14px; }
 .mercadorias { margin-bottom: 10px; }
 .mercadoria .preco { font-size: .9em; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -571,11 +571,8 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .informacoes p { font-size: calc(14px * var(--fator-texto)); line-height: 1.4; }
 .evento-detalhes .informacoes p { font-size: calc(13px * var(--fator-texto)); }
 .informacoes p + p { margin-top: 8px; }
-.informacoes .batalha-leitura { display: none; }
-.informacoes .batalha-leitura-lateral { display: block; }
 .informacoes .batalha-escudo-lateral { color: var(--secundaria); }
 .informacoes strong { color: var(--tinta); }
-.cronica--resultado .informacoes .batalha-leitura-lateral,
 .cronica--resultado .informacoes .batalha-escudo-lateral { display: none; }
 .batalha-resultado-lateral { margin-top: 10px; padding-top: 8px; border-top: 1px solid #555; color: var(--secundaria); font-size: calc(13px * var(--fator-texto)); line-height: 1.35; }
 .batalha-resultado-lateral strong { color: var(--tinta); }
@@ -737,7 +734,6 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .evento-texto p, .resultado > p { font-size: calc(15px * var(--fator-texto)); line-height: 1.4; }
   .evento-leitura-titulo h2 { font-size: calc(23px * var(--fator-texto)); }
   .evento-leitura > p { font-size: calc(16px * var(--fator-texto)); line-height: 1.4; }
-  .evento-leitura .batalha-leitura { font-size: calc(13px * var(--fator-texto)); }
   .informacoes p { font-size: calc(13px * var(--fator-texto)); }
   .escolhas { gap: 8px; }
   .cronica--quatro-escolhas .coluna-escolhas > .escolhas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -817,7 +813,6 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .evento-texto p, .resultado > p { font-size: calc(14px * var(--fator-texto)); line-height: 1.35; }
   .evento-leitura-titulo h2 { font-size: calc(21px * var(--fator-texto)); }
   .evento-leitura > p { font-size: calc(14px * var(--fator-texto)); line-height: 1.35; }
-  .evento-leitura .batalha-leitura { font-size: calc(13px * var(--fator-texto)); line-height: 1.35; }
   .informacoes { margin-top: 10px; }
   .informacoes p { font-size: calc(13px * var(--fator-texto)); line-height: 1.35; }
   .coluna-escolhas { grid-column: 4; grid-row: 1 / span 2; padding: 0; }
@@ -951,70 +946,111 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .pressagio-cena::before { display: none; }
   .pressagio-caixa { animation: none; }
 }
-.disputa-combate[open] {
-  width: min(760px, calc(100vw - 28px));
-  max-height: calc(100dvh - 28px);
-  overflow: auto;
-  margin: auto;
+.disputa-combate {
+  width: 100%;
+  max-height: none;
+  overflow: visible;
+  margin: 0;
   padding: 0;
-  border: 1px solid #8e7955;
-  background: linear-gradient(155deg, #17130f, #090807 72%);
+  border: 0;
+  background: transparent;
   color: var(--tinta);
-  box-shadow: 0 22px 90px rgb(0 0 0 / 82%);
+  box-shadow: none;
 }
-.disputa-combate::backdrop { background: rgb(0 0 0 / 78%); backdrop-filter: blur(3px); }
-.disputa-combate-conteudo { padding: clamp(18px, 4vw, 34px); }
-.disputa-sobretitulo { margin-bottom: 8px; color: #c6aa75; font: 11px/1.4 Arial, sans-serif; letter-spacing: .16em; text-transform: uppercase; }
-.disputa-combate h1 { font-size: clamp(24px, 4vw, 34px); }
-.disputa-confronto { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; margin-top: 16px; color: var(--secundaria); font-size: 14px; }
-.disputa-confronto span:first-child { color: #c4ceaa; }
-.disputa-confronto span:last-child { color: #d49a8e; }
-.disputa-participantes { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(8px, 3vw, 26px); margin: 24px 0 18px; }
-.disputa-lado { min-width: 0; text-align: center; }
-.disputa-lado h2 { min-height: 27px; color: var(--secundaria); font-size: 14px; }
+.cronica--combate .coluna-escolhas > :not(.disputa-combate) { display: none; }
+.cronica--combate .coluna-escolhas { align-self: start; }
+.cronica.cronica--combate.inventario-aberto .coluna-escolhas > .disputa-combate { display: block; }
+.cronica--combate .disputa-combate .inventario { display: block; }
+.cronica--combate .botao-inventario { display: none; }
+.disputa-combate-conteudo { padding: 16px 0 0; }
+.disputa-combate h1 { font-size: clamp(20px, 2.4vw, 27px); }
+.disputa-efeito-coringa { margin: 4px 0 8px; color: #d8bd76; font-size: 13px; text-align: center; }
+.disputa-participantes { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: clamp(6px, 1.5vw, 16px); margin: 6px 0 12px; }
+.disputa-lado { min-width: 0; align-self: start; text-align: center; }
+.disputa-inimigo-coluna { display: flex; min-width: 0; flex-direction: column; align-items: center; }
+.disputa-inimigo-coluna .disputa-inimigo { width: 100%; }
+.disputa-lado h2 { display: flex; min-height: 27px; margin: 0; justify-content: center; align-items: center; gap: 5px; color: var(--secundaria); font-size: 13px; }
+.barra-vida-chefe { width: min(100%, 210px); height: 9px; margin: 7px auto 2px; overflow: hidden; border: 1px solid #80534b; border-radius: 99px; background: #321f1d; box-shadow: inset 0 1px 3px rgb(0 0 0 / 70%); }
+.barra-vida-chefe--carta { width: min(calc(100% - 1rem), 340px); margin: 8px auto 2px; }
+.barra-vida-chefe > span { display: block; width: var(--vida-chefe, 100%); height: 100%; border-radius: inherit; background: linear-gradient(90deg, #9b302b, #dc6754); box-shadow: 0 0 7px rgb(220 103 84 / 45%); }
+.barra-vida-chefe-danificada > span { animation: barra-chefe-danificar 900ms cubic-bezier(.18,.68,.32,1) both; }
+.resumo-troca-chefe { margin: 8px auto 12px; color: var(--secundaria); font-size: 13px; line-height: 1.45; text-align: center; }
+.barra-vida-chefe-valor { display: block; color: var(--secundaria); font: 10px/1.3 Arial, sans-serif; font-variant-numeric: tabular-nums; }
+.barra-vida-chefe-valor--carta { margin-bottom: 8px; text-align: center; }
+@keyframes barra-chefe-danificar { from { width: var(--vida-chefe-anterior, 100%); } to { width: var(--vida-chefe, 0%); } }
+.disputa-traco-inimigo { padding: 2px 5px; color: #d8bd76; font: 10px/1 Arial, sans-serif; letter-spacing: .04em; text-transform: uppercase; }
 .disputa-lado p { margin-top: 10px; color: var(--secundaria); font: 13px/1.4 Arial, sans-serif; }
 .disputa-lado p strong { color: var(--tinta); }
+.disputa-lado .disputa-bonus { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.disputa-bonus-marcas { display: inline-flex; min-height: 14px; justify-content: center; align-items: center; gap: 5px; color: #c9b995; }
+.disputa-bonus-marcas svg { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.disputa-bonus-tipo { display: inline-flex; width: 14px; height: 14px; flex: 0 0 auto; justify-content: center; align-items: center; color: #c9b995; vertical-align: middle; }
+.disputa-bonus-tipo svg { display: block; width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.disputa-origem-item { display: inline-flex; width: 14px; height: 14px; flex: 0 0 auto; justify-content: center; align-items: center; color: #d8bd76; vertical-align: middle; }
+.disputa-origem-item svg { display: block; width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .disputa-versus { color: #8e7955; font-size: 20px; }
-.dados-combate { display: flex; min-height: 56px; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin-top: 10px; }
-.dado-combate { display: grid; width: 48px; aspect-ratio: 1; place-items: center; border: 1px solid #c8b994; border-radius: 9px; background: linear-gradient(145deg, #f0e5ce, #c9b894); box-shadow: inset 0 1px 2px rgb(255 255 255 / 78%), 0 4px 9px rgb(0 0 0 / 40%); color: #17120d; font: 700 22px/1 Arial, sans-serif; font-variant-numeric: tabular-nums; animation: dado-rolar 720ms cubic-bezier(.16,.7,.25,1) both; }
-.dado-combate-aguardando { border-color: #625743; background: #211c15; box-shadow: none; color: #8b7d65; animation: none; }
-.dado-combate-maior { outline: 2px solid #c9a85d; outline-offset: 3px; }
-.dado-combate-vinte { background: linear-gradient(145deg, #f4e3ad, #d7b45c); }
-.dado-combate-um { border-color: #a9554c; background: linear-gradient(145deg, #f1d4ca, #c8887d); }
+.dados-combate { display: flex; min-height: 64px; flex-wrap: wrap; justify-content: center; align-items: center; gap: 5px; margin-top: 0; }
+.dado-combate { position: relative; display: grid; width: 72px; aspect-ratio: 1; flex: 0 0 auto; place-items: center; color: #21180c; font: 700 20px/1 Arial, sans-serif; font-variant-numeric: tabular-nums; }
+.dado-combate-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 4px 5px rgb(0 0 0 / 60%)); }
+.dado-combate-contorno { fill: var(--dado-cor, #F9EEDD); stroke: #241e17; stroke-width: 2; stroke-linejoin: round; }
+.dado-combate-malha { fill: none; stroke: #241e17; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; opacity: .92; }
+.dado-combate[data-cor="#000000"] .dado-combate-contorno { stroke: #b8aa91; }
+.dado-combate[data-cor="#000000"] .dado-combate-malha { stroke: #b8aa91; }
+.dado-combate-valor { position: relative; z-index: 1; text-shadow: 0 1px 1px rgb(255 245 213 / 70%); }
+.dado-combate-jogador .dado-combate-valor { color: #F9EEDD; text-shadow: -1px 0 #241e17, 1px 0 #241e17, 0 -1px #241e17, 0 1px #241e17; }
+.dado-combate-inimigo .dado-combate-valor { color: #241e17; text-shadow: 0 1px 1px rgb(255 255 255 / 55%); }
+.dado-combate-canvas { position: absolute; z-index: 2; inset: 0; display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 3px 3px rgb(0 0 0 / 65%)); }
+.dado-combate--3d .dado-combate-svg, .dado-combate--3d .dado-combate-valor { display: none; }
+.dado-combate-aguardando { opacity: .72; }
+.dado-combate-maior .dado-combate-canvas, .dado-combate-maior .dado-combate-svg { filter: drop-shadow(0 0 5px #d8b960) drop-shadow(0 4px 5px rgb(0 0 0 / 60%)); }
+.dado-combate-vinte .dado-combate-contorno { stroke: #d8bd76; }
 .dado-combate-estatico { animation: none; }
-.resultado-disputa { margin: 18px 0; padding: 14px 16px; border-block: 1px solid #514733; text-align: center; animation: disputa-aparecer 240ms ease-out both; }
+.resultado-disputa { margin: 12px 0; padding: 10px 12px; border-block: 1px solid #514733; text-align: center; animation: disputa-aparecer 240ms ease-out both; }
+.resultado-duelo-dados { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 10px auto 14px; text-align: center; }
+.resultado-duelo-dados > div { display: grid; min-width: 96px; justify-items: center; gap: 3px; color: var(--secundaria); font-size: 13px; }
+.resultado-duelo-dados .dados-combate { min-height: 52px; }
+.resultado-duelo-dados .dado-combate { width: 52px; font-size: 16px; }
+.resultado-duelo-dados > div > strong { color: var(--tinta); font: 600 18px/1.2 Arial, sans-serif; }
+.resultado-duelo-dados > div > small { max-width: 300px; color: var(--secundaria); font-size: 12px; line-height: 1.35; }
+.resultado-disputa[data-aguardando-rolagem] { visibility: hidden; animation: none; }
 .resultado-disputa-vitoria .disputa-veredito { color: #d9c48c; }
 .resultado-disputa-derrota .disputa-veredito { color: #d49a8e; }
 .disputa-veredito { font-size: 24px; }
 .disputa-totais { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; color: var(--secundaria); font-size: 13px; }
 .disputa-totais strong { display: block; margin-top: 2px; color: var(--tinta); font: 600 24px/1.2 Arial, sans-serif; }
-.disputa-formula, .disputa-regra, .disputa-instrucao { margin-top: 8px; color: var(--secundaria); font-size: 13px; line-height: 1.5; }
-.disputa-itens { margin-top: 20px; padding-top: 16px; border-top: 1px solid #39332a; }
-.disputa-itens > h2 { margin-bottom: 10px; color: #c6aa75; font-size: 16px; }
+.disputa-dano-derrota { margin-top: 8px; color: var(--secundaria); font-size: 13px; }
+.disputa-regra { margin-top: 8px; color: var(--secundaria); font-size: 13px; line-height: 1.5; }
+.disputa-itens { margin-top: 12px; }
+.disputa-itens > h2 { margin-bottom: 8px; color: #c6aa75; font-size: 15px; }
+.disputa-itens[inert], .disputa-acoes[inert] { pointer-events: none; }
 .disputa-combate .inventario { margin: 0; padding: 0; border: 0; }
 .disputa-combate .inventario > summary { display: none; }
-.disputa-combate .inventario ul { max-height: min(24dvh, 220px); overflow: auto; padding: 0 4px 4px; }
+.disputa-combate .inventario ul { max-height: min(18dvh, 145px); overflow: auto; padding: 0 4px 4px; }
 .disputa-combate .inventario li { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; }
 .disputa-combate .registro-itens { display: none; }
 .disputa-combate .acoes-item { display: flex; flex-wrap: wrap; justify-content: end; gap: 6px; }
 .disputa-combate .acoes-item .botao, .disputa-combate .usar-item { min-height: 38px; padding: 6px 10px; font-size: 13px; }
-.disputa-acoes { display: flex; justify-content: center; margin-top: 18px; }
-.disputa-acoes .botao { min-width: min(100%, 220px); min-height: 48px; }
-.resumo-rolagem-combate { margin-bottom: 8px; color: var(--secundaria); font-size: 13px; line-height: 1.5; }
-.resumo-rolagem-combate strong { color: var(--tinta); }
-@keyframes dado-rolar { 0% { transform: rotate(0) translateY(-12px) scale(.76); opacity: .3; } 40% { transform: rotate(190deg) translateY(3px) scale(1.08); opacity: 1; } 72% { transform: rotate(330deg) translateY(-2px) scale(.96); } 100% { transform: rotate(360deg) translateY(0) scale(1); } }
+.disputa-acoes { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 14px; }
+.disputa-acoes .botao { width: min(100%, 220px); min-height: 48px; justify-content: center; }
+.disputa-acoes .disputa-acao-secundaria { width: 44px; height: 48px; min-height: 48px; flex: 0 0 44px; padding: 8px; border-color: #514a40; background: transparent; color: var(--secundaria); }
+.disputa-acoes .disputa-acao-secundaria:hover { border-color: var(--tinta); background: var(--tinta); color: var(--papel); }
+.disputa-acao-secundaria svg { width: 18px; height: 18px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 @keyframes disputa-aparecer { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 @media (max-width: 520px) {
-  .disputa-combate[open] { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
-  .disputa-combate-conteudo { padding: 18px 14px; }
-  .disputa-participantes { gap: 6px; margin-block: 20px 14px; }
-  .disputa-lado h2 { font-size: 12px; }
-  .dado-combate { width: 40px; border-radius: 7px; font-size: 19px; }
+  .disputa-combate-conteudo { padding: 12px 0 0; }
+  .disputa-participantes { gap: 4px; margin-block: 8px 10px; }
+  .disputa-lado h2 { min-height: 30px; font-size: 11px; }
+  .dado-combate { width: 60px; font-size: 17px; }
+  .dados-combate { gap: 2px; }
   .disputa-versus { font-size: 16px; }
   .disputa-totais { gap: 9px; }
   .disputa-combate .inventario li { grid-template-columns: 1fr; }
   .disputa-combate .acoes-item { justify-content: start; }
 }
+@media (max-width: 600px) {
+  .cronica--combate .coluna-escolhas { grid-column: 1 / -1; grid-row: 4; }
+  .cronica--combate .evento-texto p { display: block; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .dado-combate, .resultado-disputa { animation: none; }
+  .dado-combate, .resultado-disputa, .barra-vida-chefe-danificada > span { animation: none; }
 }

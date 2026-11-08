@@ -22,6 +22,18 @@
       desbloqueio: "Receba uma bênção ou maldição de uma carta nórdica.",
       iniciais: { ataque: 9, escudo: 1 },
     },
+    coringa: {
+      nome: "O Coringa",
+      descricao: "120 Vida, 2 Ataque e 5 Escudo. Cada batalha começa com um efeito aleatório de d6.",
+      desbloqueio: "Role um 20 natural em qualquer dado de uma disputa, em uma crônica.",
+      iniciais: {},
+    },
+    bruxo: {
+      nome: "O Bruxo",
+      descricao: "70 Vida, 2 Ataque e 4 Escudo. O inimigo rola um d20 extra e fica com o menor resultado.",
+      desbloqueio: "Vença 8 batalhas em uma mesma crônica.",
+      iniciais: { hp: 70, escudo: 4 },
+    },
   };
   const nomes = {
     corajoso: "Hilda",
@@ -33,6 +45,8 @@
     herdeiro_culto: "Baltazar",
     herdeira_leste: "Xinyue",
     herdeiro_nordico: "Sigurd",
+    coringa: "Jester",
+    bruxo: "Morgana",
   };
   const desbloqueaveis = ["druida_herdeiro", "menino_cronista", "heroi_do_povo", ...Object.keys(novos)];
   const todos = ["corajoso", "avarento", "doente", ...desbloqueaveis];
@@ -40,6 +54,8 @@
     herdeiro_culto: (run) => run.fim?.tipo === "vitoria_culto",
     herdeira_leste: (run) => run.flags.ano_novo_ativo === true && run.flags.bencao_zodiacal_recebida === true,
     herdeiro_nordico: (run) => run.flags.efeito_nordico_recebido === true,
+    coringa: (run) => run.dadosNaturais20Combate >= 1,
+    bruxo: (run) => run.batalhasVencidas >= 8,
   };
   function calendario(run) {
     if (run.traco !== "herdeira_leste") return;
@@ -163,6 +179,7 @@
         "manutencaoGold",
         "revelarHonraRodadas",
         "revelarHabitantesRodadas",
+        "bonusDadosCombate",
         "porRodada",
         "modificadores",
       ]) {

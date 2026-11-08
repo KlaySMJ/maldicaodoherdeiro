@@ -49,7 +49,11 @@ function preparar() {
     },
   });
   contexto.__valorAleatorio = 0.25;
-  vm.runInContext("Math.random = () => __valorAleatorio;", contexto);
+  contexto.__valoresAleatorios = [];
+  vm.runInContext(
+    "Math.random = () => __valoresAleatorios.length ? __valoresAleatorios.shift() : __valorAleatorio;",
+    contexto,
+  );
   const executar = (nome) =>
     vm.runInContext(fs.readFileSync(path.join(__dirname, `../../js/${nome}.js`), "utf8"), contexto);
   for (const nome of [
@@ -78,6 +82,7 @@ function preparar() {
     "events-ajustes",
     "events-progresso",
     "events-propostas",
+    "events-d20",
     "items",
     "legacy",
     "conquistas",
@@ -139,6 +144,9 @@ function preparar() {
     clicar,
     definirAleatorio: (valor) => {
       contexto.__valorAleatorio = valor;
+    },
+    definirAleatorios: (valores) => {
+      contexto.__valoresAleatorios = [...valores];
     },
     iniciar: () => executar("main"),
   };

@@ -1,6 +1,6 @@
 A MALDIÇÃO DO HERDEIRO — EVENTOS E BENEFÍCIOS
 
-Catálogo atual no jogo: 384 definições. As 74 cartas executadas de PROPOSTAS-NOVOS-EVENTOS.txt estão descritas no apêndice ao final e cadastradas em js/events-propostas.js. “O último habitante” é uma transição da engine e não entra no sorteio.
+Catálogo atual no jogo: 397 definições. As 74 cartas executadas de PROPOSTAS-NOVOS-EVENTOS.txt estão descritas no apêndice ao final e cadastradas em js/events-propostas.js. Doze encontros de combate usam arte já existente em js/events-d20.js. “O último habitante” é uma transição da engine e não entra no sorteio.
 
 Documento de consulta do autor; não é exibido ao jogador.
 

@@ -64,6 +64,7 @@ const camposOpcao = new Set([
   "curarCondicao",
   "definir",
   "desbloqueia",
+  "dueloDados",
   "dissolverCulto",
   "efeitoContinuo",
   "efeitoDivino",
@@ -100,7 +101,7 @@ function percorrer(valor, visitar) {
 
 test("o catálogo completo mantém IDs e índice únicos", () => {
   const { J } = preparar();
-  assert.equal(J.eventos.length, 385);
+  assert.equal(J.eventos.length, 397);
   assert.equal(J.eventosPorId.size, J.eventos.length);
   assert.equal(J.validarCatalogoEventos(), true);
 

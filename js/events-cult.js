@@ -33,6 +33,7 @@
       },
       opcoes,
       oncePerRun: true,
+      cartaCulto: true,
       ...propriedades,
     });
   };
@@ -411,6 +412,7 @@
     tipo: "culto",
     peso: 2,
     oncePerRun: true,
+    cartaCulto: true,
     requisitos: { tracos: "herdeiro_culto", rodadaMin: 8, cultoAtivo: false },
     imagem: "assets/eventos-culto/templo.webp",
     imagemAlt: "Templo do culto, referência provisória",

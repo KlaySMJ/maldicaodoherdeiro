@@ -119,6 +119,7 @@
         {
           id: "recusar_espelho",
           texto: "Deixar o espelho onde está.",
+          entidadeXRecusa: true,
           flags: { entidade_x_tier2: true, entidade_x_espelho_visto: true },
           testeSorte: {
             chance: 78,
@@ -163,6 +164,7 @@
         {
           id: "recusar_balanca",
           texto: "Aguardar que o prato se mova.",
+          entidadeXRecusa: true,
           flags: { entidade_x_tier2: true, entidade_x_balanca_vista: true },
           testeSorte: {
             chance: 78,
@@ -207,6 +209,7 @@
         {
           id: "recusar_porta",
           texto: "Voltar pelo caminho de onde veio.",
+          entidadeXRecusa: true,
           flags: { entidade_x_tier2: true, entidade_x_porta_vista: true },
           testeSorte: {
             chance: 78,
@@ -256,6 +259,7 @@
         {
           id: "devolver_nome",
           texto: "Devolver o papel sem abri-lo.",
+          entidadeXRecusa: true,
           efeitos: { honra: 1 },
           flags: { entidade_x_nome_visto: true },
           resultado: "A figura aceita o pergaminho. O espaço vazio entre vocês parece maior do que antes.",
@@ -306,6 +310,7 @@
         {
           id: "fugir_sino",
           texto: "Voltar à vila antes do último toque.",
+          entidadeXRecusa: true,
           flags: { entidade_x_tier3: true },
           testeSorte: {
             chance: 72,
@@ -342,6 +347,7 @@
         {
           id: "resistir_ultima",
           texto: "Deixar a mão oferecida suspensa.",
+          entidadeXRecusa: true,
           testeSorte: {
             chance: 68,
             sucesso: {

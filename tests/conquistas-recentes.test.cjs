@@ -50,8 +50,8 @@ function completar(J, run, chave, eventos, ultimaOpcao) {
 
 test("as adições têm 30 conquistas, sem IDs repetidos ou títulos de histórias incorretos", () => {
   const { J } = preparar();
-  assert.equal(J.conquistas.lista.length, 111);
-  assert.equal(new Set(J.conquistas.lista.map((c) => c.id)).size, 111);
+  assert.equal(J.conquistas.lista.length, 121);
+  assert.equal(new Set(J.conquistas.lista.map((c) => c.id)).size, 121);
   assert.equal(J.conquistas.lista.filter((c) => c.categoria).length, 30);
   for (const [chave, eventos] of cadeias) {
     const conquista = J.conquistas.lista.find((c) => c.id === `cadeia_${chave}`);
