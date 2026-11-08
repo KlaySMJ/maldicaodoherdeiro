@@ -471,7 +471,7 @@
     if (recorrenteCondicao) return recorrenteCondicao;
     const auxilioPressagio = apenasEventosD20 ? null : Jogo.pressagios?.eventoAuxilio(run);
     if (auxilioPressagio) return auxilioPressagio;
-    if (!apenasEventosD20 && run.nemesis && !run.nemesis.enfrentado && run.rodada >= 5) {
+    if (!apenasEventosD20 && run.nemesis && !run.nemesis.enfrentado && run.rodada >= 30) {
       const inimigo = Jogo.eventos.find((evento) => evento.nemesis);
       if (inimigo) return inimigo;
     }
@@ -1101,6 +1101,7 @@
   function resolverCombate(run, batalha, rolagem) {
     batalha = batalhaAjustada(run, batalha);
     const preparados = run.efeitosPreparados || {};
+    const bonusAtaque = preparados.bonusAtaqueProximaBatalha || 0;
     const bonusEscudo = preparados.bonusEscudoProximaBatalha || 0;
     const perfil = perfilCombate(run);
     const dadosHerdeiro =

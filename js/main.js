@@ -339,6 +339,7 @@
         }
         break;
       case "combate-continuar":
+        await Jogo.ui.aguardarAnimacaoDisputa();
         if (Jogo.engine.continuarCombate(run)) {
           if (run.status === "encerrada") mostrarFim();
           else {

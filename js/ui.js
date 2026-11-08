@@ -4,6 +4,7 @@
   const app = document.getElementById("app");
   const DURACAO_ANIMACAO_DADO = 1600;
   let renderDisputaAtual = 0;
+  let animacaoDisputaAtual = Promise.resolve();
   const coresPrincipaisHerdeiros = {
     corajoso: "#46586F",
     avarento: "#8B673D",
@@ -2088,7 +2089,7 @@
           ${resumoTrocaChefe}
           ${resumoResultado}
           ${itensDaDisputa}
-          <div class="disputa-acoes"${resultado && !movimentoReduzido ? " inert" : ""}>
+          <div class="disputa-acoes">
             ${rerrolagemCoringaDisponivel ? '<button type="button" class="botao disputa-acao-secundaria" data-acao="combate-rerrolar-livre" aria-label="Rolar novamente todos os dados do duelo" title="Rolar novamente todos os dados do duelo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5V2L8 6l4 4V7a5 5 0 1 1-5 5"/></svg></button>' : ""}
             ${resultado ? `<button class="botao primario" data-acao="combate-continuar">${pendente.ehBoss ? (pendente.etapa === "desfecho" ? "Concluir luta" : "Aplicar turno") : "Continuar"}</button>` : '<button class="botao primario" data-acao="combate-rolar">Rolar dados</button>'}
           </div>
@@ -2397,9 +2398,9 @@
       evento.bossId ? `chefe_${evento.bossId}` : cultoAtivo ? "culto" : evento.batalha ? "batalha" : run.estacao,
     );
     if (emCombate) app.querySelector(".cronica")?.classList.add("cronica--combate");
-    let animacaoDados = Promise.resolve();
     if (emCombate) {
-      animacaoDados = desenharDadosCombate(movimentoReduzido);
+      const animacaoDados = desenharDadosCombate(movimentoReduzido);
+      animacaoDisputaAtual = animacaoDados;
       const resultadoAguardando = app.querySelector(".resultado-disputa[data-aguardando-rolagem]");
       if (resultadoAguardando) {
         animacaoDados.then(() => {
@@ -2407,17 +2408,11 @@
           resultadoAguardando.removeAttribute("data-aguardando-rolagem");
           resultadoAguardando.setAttribute("aria-hidden", "false");
           app.querySelector(".disputa-itens[inert]")?.removeAttribute("inert");
-          app.querySelector(".disputa-acoes[inert]")?.removeAttribute("inert");
         });
       }
-    } else if (run.ultimoResultado?.dueloDados) desenharDadosCombate(true);
-    const continuarCombate = app.querySelector('.disputa-combate [data-acao="combate-continuar"]');
-    if (continuarCombate && !movimentoReduzido) {
-      continuarCombate.disabled = true;
-      animacaoDados.then(() => {
-        if (renderDisputa === renderDisputaAtual && continuarCombate.isConnected)
-          continuarCombate.disabled = false;
-      });
+    } else {
+      animacaoDisputaAtual = Promise.resolve();
+      if (run.ultimoResultado?.dueloDados) desenharDadosCombate(true);
     }
     window.requestAnimationFrame(alinharIdentificacaoComMoldura);
     digitarTextoEvento(evento.texto, animarTexto);
@@ -2588,6 +2583,10 @@
     ajustarTela();
   }
 
+  function aguardarAnimacaoDisputa() {
+    return animacaoDisputaAtual;
+  }
+
   window.addEventListener("jogo:aviso", (evento) => {
     const aviso = document.getElementById("aviso-save");
     aviso.textContent = evento.detail;
@@ -2621,6 +2620,7 @@
     preverTransformacoes,
     preverConquista,
     mostrarDetalhesCondicao,
+    aguardarAnimacaoDisputa,
     tutorial,
     completarTextoEvento,
   };
