@@ -1276,7 +1276,11 @@
                             Jogo.engine.podeUsarItem(run, item.id)
                           ? `<button class="botao usar-item" data-usar-item="${esc(item.id)}">Usar</button>`
                           : "";
-                return `<li><span class="item-descricao"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong><small>${esc(estado)} · ${esc(item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto" ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque." : item.descricao)}</small></span>${usoItem}</li>`;
+                const efeitoItem =
+                  item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto"
+                    ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque."
+                    : [item.texto, item.descricao].filter(Boolean).join(". ");
+                return `<li><span class="item-descricao"><span class="item-efeito"><button type="button" class="item-efeito-acionar" aria-describedby="efeito-item-${esc(item.id)}"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong></button><span class="item-efeito-tooltip" role="tooltip" id="efeito-item-${esc(item.id)}">${esc(efeitoItem)}</span></span><small>${esc(estado)} · ${esc(item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto" ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque." : item.descricao)}</small></span>${usoItem}</li>`;
               })
               .join("")}</ul>`
           : somenteCombate
@@ -2075,11 +2079,11 @@
           .join(
             "",
           )}</div><p id="descricao-postura-combate">${esc(perfil.postura.descricao)}</p><details class="disputa-regra-margem"><summary>Dano nas derrotas</summary><p>Diferença de até 2 pontos: metade do dano. De 3 a 5: 75% do dano. Depois entram a postura, o Escudo e as proteções.</p></details></fieldset>`;
-    const danoPorAcerto = Math.max(1, perfil.batalha.danoPorAcerto || 25);
+    const danoPorAcerto = Jogo.engine.danoAcertoChefe(run, perfil, totalHerdeiro || 0, totalInimigo || 0);
     const acertosRestantes = pendente.ehBoss ? Math.ceil(pendente.vidaChefe / danoPorAcerto) : 0;
     const objetivoChefe =
       pendente.ehBoss && pendente.etapa !== "desfecho"
-        ? `<p class="disputa-objetivo-chefe">${numero(danoPorAcerto)} de dano por acerto · ${numero(acertosRestantes)} ${acertosRestantes === 1 ? "acerto restante" : "acertos restantes"}</p>`
+        ? `<p class="disputa-objetivo-chefe">${["resiliente", "fragil"].includes(perfil.tracoInimigo) ? "Dano varia com a margem da vitória" : `${numero(danoPorAcerto)} de dano por acerto`} · ${["resiliente", "fragil", "sentinela", "tenaz"].includes(perfil.tracoInimigo) ? "Acertos dependem da característica" : `${numero(acertosRestantes)} ${acertosRestantes === 1 ? "acerto restante" : "acertos restantes"}`}</p>`
         : "";
     const derrotaFatal =
       !pendente.ehBoss && Boolean(evento.letal || perfil.batalha.letal || perfil.batalha.encerrarAoFalhar);
@@ -2140,16 +2144,11 @@
       pendente.etapa === "resultado" &&
       (pendente.rerrolagemCoringa === 1 || pendente.rerrolagensGratis > 0) &&
       !perfil.batalha.forcarDerrota;
-    const nomeTracoInimigo = {
-      veloz: "Veloz",
-      cego: "Cego",
-      feroz: "Feroz",
-    }[perfil.tracoInimigo];
-    const descricaoTracoInimigo = {
-      veloz: "Empates nos totais favorecem o inimigo.",
-      cego: "O inimigo usa o menor resultado entre os dados que rolar.",
-      feroz: "Se você perder, sofre 6 de dano adicional antes do Escudo e das reduções.",
-    }[perfil.tracoInimigo];
+    const caracteristica = Jogo.engine.caracteristicasCombate[perfil.tracoInimigo];
+    const nomeTracoInimigo = caracteristica?.nome;
+    const premio = Jogo.itens.find((item) => item.id === pendente.premioItemId);
+    const descricaoTracoInimigo =
+      (caracteristica?.descricao || "") + (premio ? " Recompensa: " + premio.nome + "." : "");
     const efeitosCoringa = {
       1: "+1 dado",
       2: "+2 Ataque",
@@ -2183,7 +2182,7 @@
             <span class="disputa-versus" aria-hidden="true">×</span>
             <div class="disputa-inimigo-coluna">
               <section class="disputa-lado disputa-inimigo" aria-label="Rolagem do inimigo">
-                <h2>${esc(inimigo)}${nomeTracoInimigo ? `<span class="disputa-traco-inimigo${descricaoTracoInimigo ? " traco-tooltip" : ""}"${descricaoTracoInimigo ? ` tabindex="0" aria-label="${esc(`${nomeTracoInimigo}: ${descricaoTracoInimigo}`)}" data-tooltip="${esc(descricaoTracoInimigo)}"` : ""}>${nomeTracoInimigo}</span>` : ""}</h2>
+                <h2>${esc(inimigo)}${nomeTracoInimigo ? `<button type="button" class="disputa-traco-inimigo${descricaoTracoInimigo ? " traco-tooltip" : ""}"${descricaoTracoInimigo ? ` tabindex="0" aria-label="${esc(`${nomeTracoInimigo}: ${descricaoTracoInimigo}`)}" data-tooltip="${esc(descricaoTracoInimigo)}"` : ""} aria-expanded="false" aria-controls="resumo-caracteristica-combate" data-acao="combate-caracteristica">${nomeTracoInimigo}</button>` : ""}</h2>
                 ${dadoInimigo}
                 <p class="disputa-bonus"><span class="traco-tooltip" tabindex="0" aria-label="Defesa ${assinado(perfil.defesa)}: valor somado ao dado escolhido do inimigo" data-tooltip="Este valor é somado ao dado escolhido do inimigo.">Defesa <strong>${assinado(perfil.defesa)}</strong></span><span class="disputa-bonus-marcas"><span class="disputa-bonus-tipo" role="img" aria-label="Bônus de Defesa do inimigo aplicado à rolagem" title="Bônus de Defesa do inimigo aplicado à rolagem">${iconesDisputa.escudo}</span></span></p>
               </section>
@@ -2191,6 +2190,8 @@
           </div>
           ${resumoTrocaChefe}
           ${posturas}
+          ${!resultado && perfil.tracoInimigo === "distraido" ? `<button type="button" class="botao" data-acao="combate-distrair" ${pendente.distracaoPaga || run.atributos.gold < 1 ? "disabled" : ""}>${pendente.distracaoPaga ? "Distração paga: -3 Defesa" : "Distrair: 1 Gold por -3 Defesa"}</button>` : ""}
+          <p id="resumo-caracteristica-combate" class="disputa-caracteristica-resumo" hidden>${esc(descricaoTracoInimigo)}</p>
           ${resumoResultado}
           ${itensDaDisputa}
           <div class="disputa-acoes">

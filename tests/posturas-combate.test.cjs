@@ -241,3 +241,29 @@ test("golpe final no chefe mostra os dados sem repetir a animacao", () => {
   assert.equal(J.engine.continuarCombate(run), true);
   assert.equal(run.combatePendente, null);
 });
+
+test("novas caracteristicas alteram o perfil e o dano sem trocar na rolagem", () => {
+  for (const traco of ["encouracado", "imprudente", "preciso"]) {
+    const contexto = combate();
+    const { J, run, app } = contexto;
+    run.atributos.ataque = 20;
+    run.atributos.escudo = 9;
+    run.combatePendente.tracoInimigo = "";
+    const base = J.engine.perfilCombate(run);
+    const danoBase = J.engine.calcularDanoDerrota(run, base, 0, 30);
+    run.combatePendente.tracoInimigo = traco;
+    const perfil = J.engine.perfilCombate(run);
+    const dano = J.engine.calcularDanoDerrota(run, perfil, 0, 30);
+    if (traco === "encouracado") assert.equal(perfil.ataque, base.ataque - 5);
+    if (traco === "imprudente") {
+      assert.equal(perfil.defesa, Math.max(0, base.defesa - 3));
+      assert.equal(dano.danoBase, danoBase.danoBase + 4);
+    }
+    if (traco === "preciso") assert.equal(dano.escudo, 4);
+    rolar(contexto, 10, 10);
+    assert.equal(run.combatePendente.tracoInimigo, traco);
+    J.ui.jogo(run);
+    assert.match(app.innerHTML, /data-tooltip=/);
+    assert.equal(JSON.parse(JSON.stringify(run)).combatePendente.tracoInimigo, traco);
+  }
+});

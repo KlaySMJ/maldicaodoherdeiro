@@ -1105,3 +1105,13 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .dado-combate, .resultado-disputa, .barra-vida-chefe-danificada > span { animation: none; }
 }
+
+.item-efeito { position: relative; min-width: 0; }
+.item-efeito-acionar { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: help; }
+.item-efeito-acionar:focus-visible { outline: 1px solid var(--secundaria); outline-offset: 3px; }
+.item-efeito-tooltip { position: absolute; z-index: 90; left: 0; bottom: calc(100% + 8px); width: max-content; max-width: min(320px, calc(100vw - 64px)); padding: 9px 11px; border: 1px solid var(--secundaria); background: #100e0c; color: var(--tinta); font: 13px/1.4 var(--fonte); white-space: normal; opacity: 0; visibility: hidden; pointer-events: none; }
+.item-efeito:hover .item-efeito-tooltip, .item-efeito:focus-within .item-efeito-tooltip { opacity: 1; visibility: visible; }
+
+button.disputa-traco-inimigo { background: transparent; border: 0; padding: 0; font-family: inherit; }
+.disputa-traco-inimigo:focus::after { opacity: 1; visibility: visible; }
+.disputa-caracteristica-resumo { color: var(--secundaria); font-size: 14px; }

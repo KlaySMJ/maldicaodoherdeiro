@@ -8,7 +8,7 @@
       {
         id: "selo_guardioes",
         texto: "Aceitar o Selo dos guardiões.",
-        requisitos: { honraMin: 91 },
+        requisitos: { honraMin: 91, itensAusentes: ["selo_do_povo"] },
         itens: ["selo_do_povo"],
         resultado:
           "O ferreiro reconhece a confiança do povo e grava seu selo no aço. A peça reforça seu corpo e seu equipamento.",

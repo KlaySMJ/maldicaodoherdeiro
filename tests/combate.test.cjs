@@ -189,16 +189,17 @@ test("pausa batalhas por quatro rodadas, mas o modo de debug continua sorteando 
   assert.equal(J.engine.sortear(run, () => 0)?.id, "saqueadores");
 });
 
-test("escalonamento para nos limites de Defesa +4 e dano de derrota +8", () => {
+test("escalonamento preserva a base e aumenta a Defesa e o dano a cada ano", () => {
   const { J } = preparar();
   const run = novaRun(J);
   const batalha = J.eventoPorId("saqueadores").batalha;
   for (const rodada of [60, 100, 250]) {
     run.rodada = rodada;
     const ajustada = J.engine.batalhaAjustada(run, batalha);
-    assert.equal(ajustada.defesa, batalha.defesa + 4);
+    const anos = J.anoDaRodada(rodada) - 1;
+    assert.equal(ajustada.defesa, batalha.defesa + 4 + anos * 3);
     assert.equal(ajustada.vitoria.dano, 0);
-    assert.equal(ajustada.derrota.dano, batalha.derrota.dano + 8);
+    assert.equal(ajustada.derrota.dano, batalha.derrota.dano + 8 + anos * 2);
   }
 });
 
@@ -255,4 +256,34 @@ test("duelo do velho registra os dois d20, o bônus e as chances combinadas", ()
   assert.equal(J.save.runValida(run), true);
   J.ui.jogo(run);
   assert.match(app.innerHTML, /resultado-duelo-dados/);
+});
+
+test("Defesa acompanha uma parcela pequena do Ataque permanente", () => {
+  const { J } = preparar();
+  const run = novaRun(J);
+  const batalha = J.eventoPorId("saqueadores").batalha;
+  run.rodada = 100;
+  for (const [ataque, bonus] of [
+    [-5, 0],
+    [5, 0],
+    [9, 0],
+    [10, 1],
+    [20, 3],
+    [30, 5],
+  ]) {
+    run.atributos.ataque = ataque;
+    assert.equal(J.engine.batalhaAjustada(run, batalha).defesa, batalha.defesa + 4 + bonus);
+  }
+  run.atributos.ataque = 20;
+  for (const [rodada, bonus] of [
+    [100, 7],
+    [101, 10],
+    [200, 10],
+    [201, 13],
+  ]) {
+    run.rodada = rodada;
+    assert.equal(J.engine.batalhaAjustada(run, batalha).defesa, batalha.defesa + bonus);
+  }
+  const fixa = J.engine.batalhaAjustada(run, { ...batalha, semAjuste: true });
+  assert.equal(fixa.defesa, batalha.defesa);
 });

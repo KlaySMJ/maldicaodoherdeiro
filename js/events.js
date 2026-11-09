@@ -717,7 +717,7 @@
       imagemAlt: "Uma lamparina acesa numa sala aquecida durante a noite",
       texto: "O boticário percebe que você mal consegue ficar de pé.",
       informacoes:
-        "Ele afasta os curiosos, prepara água quente e pede que a vila cuide do resto até o amanhecer. O repouso recupera sua Vida até 70% do máximo e não custa Gold.",
+        "Ele afasta os curiosos, prepara água quente e pede que a vila cuide do resto até o amanhecer. O repouso recupera 15% da Vida máxima, até 20 pontos, sem custo em Gold. Outra oferta de cuidados só poderá aparecer após 25 rodadas.",
       opcoes: [
         {
           id: "repousar",

@@ -251,3 +251,28 @@ test("Sede de sangue só existe enquanto o vampirismo não foi abraçado", () =>
   J.engine.sincronizarItemVampirismo(run);
   assert.equal(run.inventario.includes("sede_de_sangue"), false);
 });
+
+test("selo dos guardioes so pode ser recebido uma vez por partida", () => {
+  const { J, novaRun } = preparar();
+  const run = novaRun();
+  const evento = J.eventoPorId("ferreiro");
+  const opcao = evento.opcoes.find((item) => item.id === "selo_guardioes");
+  run.atributos.honra = 100;
+  J.engine.registrarSorteio(run, evento);
+  assert.equal(J.engine.cumpre(opcao.requisitos, run), true);
+  assert.equal(J.engine.escolher(run, opcao.id), true);
+  assert.ok(run.itensConquistados.includes("selo_do_povo"));
+  const atributos = JSON.stringify(run.atributos);
+  const hpMax = run.hpMax;
+  J.engine.registrarSorteio(run, evento);
+  assert.equal(J.engine.cumpre(opcao.requisitos, run), false);
+  assert.equal(J.engine.escolher(run, opcao.id), false);
+  assert.equal(JSON.stringify(run.atributos), atributos);
+  assert.equal(run.hpMax, hpMax);
+  const salvo = JSON.parse(JSON.stringify(run));
+  assert.equal(J.engine.cumpre(opcao.requisitos, salvo), false);
+  const antigo = novaRun();
+  antigo.atributos.honra = 100;
+  antigo.inventario.push("selo_do_povo");
+  assert.equal(J.engine.cumpre(opcao.requisitos, antigo), false);
+});

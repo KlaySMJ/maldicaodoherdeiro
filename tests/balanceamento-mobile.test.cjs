@@ -37,8 +37,55 @@ test("cura crítica aparece primeiro e restaura Vida sem custo", () => {
   assert.equal(evento.id, "cura_critica");
   J.engine.registrarSorteio(run, evento);
   assert.equal(J.engine.escolher(run, "repousar"), true);
-  assert.equal(run.atributos.hp, 84);
+  assert.equal(run.atributos.hp, 54);
   assert.equal(run.atributos.gold, 5);
+});
+
+test("cura crítica espera 25 rodadas mesmo com Vida baixa ou recuperação intermediária", () => {
+  const { J } = preparar();
+  const run = J.estado.novo(J.legado.vazio(), "corajoso");
+  run.rodada = 10;
+  run.atributos.hp = 1;
+  const evento = J.engine.sortear(run);
+  J.engine.registrarSorteio(run, evento);
+  J.engine.escolher(run, "repousar");
+  assert.equal(run.atributos.hp, 19);
+  assert.equal(run.marcos.curaCriticaUltimaRodada, 10);
+  for (const rodada of [11, 20, 34]) {
+    run.rodada = rodada;
+    run.atributos.hp = 1;
+    assert.notEqual(J.engine.sortear(run)?.id, "cura_critica");
+    assert.equal(J.engine.eventoDisponivel(evento, run), false);
+  }
+  run.atributos.hp = run.hpMax;
+  J.engine.sortear(run);
+  run.atributos.hp = 1;
+  J.save.gravarRun(run);
+  const salva = J.save.lerRun();
+  assert.ok(salva);
+  assert.equal(salva.marcos.curaCriticaUltimaRodada, 10);
+  assert.notEqual(J.engine.sortear(salva)?.id, "cura_critica");
+  salva.rodada = 35;
+  assert.equal(J.engine.sortear(salva).id, "cura_critica");
+  J.engine.registrarSorteio(salva, evento);
+  assert.equal(salva.marcos.curaCriticaUltimaRodada, 35);
+});
+
+test("cura crítica tem teto de 20 e migra a espera em saves anteriores", () => {
+  const { J } = preparar();
+  const run = J.estado.novo(J.legado.vazio(), "corajoso");
+  run.hpMax = 300;
+  run.atributos.hp = 1;
+  run.rodada = 40;
+  J.engine.registrarSorteio(run, J.eventoPorId("cura_critica"));
+  J.engine.escolher(run, "repousar");
+  assert.equal(run.atributos.hp, 21);
+  delete run.marcos.curaCriticaUltimaRodada;
+  J.save.gravarRun(run);
+  const salva = J.save.lerRun();
+  assert.ok(salva);
+  assert.equal(salva.marcos.curaCriticaUltimaRodada, 40);
+  assert.notEqual(J.engine.sortear(salva)?.id, "cura_critica");
 });
 
 test("a colheita espera duas mudanças de estação e mantém o marco no save", () => {

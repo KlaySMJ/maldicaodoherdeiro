@@ -139,7 +139,9 @@
       !inteiro(run.debugFaceCoringa) ||
       run.debugFaceCoringa < 0 ||
       run.debugFaceCoringa > 6 ||
-      !["aleatorio", "nenhum", "veloz", "cego", "feroz"].includes(run.debugTracoInimigo) ||
+      !["aleatorio", "nenhum", ...Object.keys(Jogo.engine.caracteristicasCombate)].includes(
+        run.debugTracoInimigo,
+      ) ||
       !inteiro(run.dadosNaturais20Combate) ||
       run.dadosNaturais20Combate < 0 ||
       !inteiro(run.dadosNaturais1Combate) ||
@@ -313,6 +315,30 @@
       const perfil = Jogo.engine.perfilCombate(run);
       const eventoChefe = Jogo.eventoPorId(run.eventoId);
       const ehBoss = Boolean(eventoChefe?.bossId);
+      if (
+        objeto(pendente) &&
+        (["retaliacao", "tenacidadeUsada", "distracaoPaga", "saqueAplicado", "marcouVinte"].some(
+          (campo) => pendente[campo] !== undefined && typeof pendente[campo] !== "boolean",
+        ) ||
+          ["acertosRecebidos", "impaciencia"].some(
+            (campo) =>
+              pendente[campo] !== undefined &&
+              (!inteiro(pendente[campo]) ||
+                pendente[campo] < 0 ||
+                pendente[campo] > (campo === "impaciencia" ? 3 : 100000)),
+          ) ||
+          (pendente.posturaAnterior !== undefined &&
+            !["", "equilibrada", "defensiva", "agressiva"].includes(pendente.posturaAnterior)) ||
+          (pendente.premioItemId !== undefined &&
+            pendente.premioItemId !== "" &&
+            !Jogo.itens.some(
+              (item) =>
+                item.id === pendente.premioItemId &&
+                ["comum", "raro"].includes(item.raridade) &&
+                !item.especialSorteavel,
+            )))
+      )
+        return false;
       const valoresValidos = (dados, quantidade) =>
         Array.isArray(dados) &&
         dados.length === quantidade &&
@@ -459,7 +485,7 @@
         !inteiro(pendente.rerrolagemCoringa) ||
         pendente.rerrolagemCoringa < 0 ||
         pendente.rerrolagemCoringa > 1 ||
-        !["", "veloz", "cego", "feroz"].includes(pendente.tracoInimigo) ||
+        !["", ...Object.keys(Jogo.engine.caracteristicasCombate)].includes(pendente.tracoInimigo) ||
         typeof pendente.dadoLascadoUsado !== "boolean" ||
         (pendente.etapa === "preparacao" &&
           (pendente.dadosHerdeiro.length !== 0 ||
@@ -656,7 +682,11 @@
       dados.debugFaceCoringa > 6
     )
       dados.debugFaceCoringa = 0;
-    if (!["aleatorio", "nenhum", "veloz", "cego", "feroz"].includes(dados.debugTracoInimigo))
+    if (
+      !["aleatorio", "nenhum", ...Object.keys(Jogo.engine.caracteristicasCombate)].includes(
+        dados.debugTracoInimigo,
+      )
+    )
       dados.debugTracoInimigo = "aleatorio";
     for (const campo of [
       "dadosNaturais20Combate",
@@ -675,6 +705,21 @@
         dados.combatePendente.rerrolagemCoringa = 0;
       if (!Number.isSafeInteger(dados.combatePendente.rerrolagensGratis))
         dados.combatePendente.rerrolagensGratis = 0;
+      for (const campo of [
+        "retaliacao",
+        "tenacidadeUsada",
+        "distracaoPaga",
+        "saqueAplicado",
+        "marcouVinte",
+      ]) {
+        if (!Object.hasOwn(dados.combatePendente, campo)) dados.combatePendente[campo] = false;
+      }
+      for (const campo of ["acertosRecebidos", "impaciencia"]) {
+        if (!Object.hasOwn(dados.combatePendente, campo)) dados.combatePendente[campo] = 0;
+      }
+      if (!Object.hasOwn(dados.combatePendente, "posturaAnterior"))
+        dados.combatePendente.posturaAnterior = "";
+      if (!Object.hasOwn(dados.combatePendente, "premioItemId")) dados.combatePendente.premioItemId = "";
       if (typeof dados.combatePendente.tracoInimigo !== "string") dados.combatePendente.tracoInimigo = "";
       if (typeof dados.combatePendente.dadoLascadoUsado !== "boolean")
         dados.combatePendente.dadoLascadoUsado = false;
@@ -803,6 +848,15 @@
       dados.itensConquistados = Array.isArray(dados.inventario) ? [...new Set(dados.inventario)] : [];
     }
     if (!Object.hasOwn(dados, "marcos")) dados.marcos = {};
+    if (
+      objeto(dados.marcos) &&
+      !Object.hasOwn(dados.marcos, "curaCriticaUltimaRodada") &&
+      (dados.flags?.cura_critica_oferecida ||
+        dados.flags?.especial_cura_critica ||
+        dados.eventoId === "cura_critica")
+    ) {
+      dados.marcos.curaCriticaUltimaRodada = dados.rodada;
+    }
     if (
       !Object.hasOwn(dados.marcos, "colheitaUltimaRodada") &&
       (dados.eventoId === "colheita" || dados.eventosRecentes?.includes("colheita"))

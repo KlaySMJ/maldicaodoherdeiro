@@ -149,3 +149,16 @@ test("contadores do inventário incluem efeitos permanentes e unidades guardadas
   run.rodada += 1;
   conferir(1, "item");
 });
+
+test("inventario oferece o efeito do jaspe no nome acessivel por foco ou clique", () => {
+  const { J, app, novaRun } = preparar();
+  const run = novaRun();
+  J.engine.concederItem(run, "amuleto_de_jaspe");
+  J.ui.jogo(run, { textoCompleto: true });
+  assert.match(
+    app.innerHTML,
+    /<button type="button" class="item-efeito-acionar" aria-describedby="efeito-item-amuleto_de_jaspe"/,
+  );
+  assert.match(app.innerHTML, /role="tooltip" id="efeito-item-amuleto_de_jaspe">[^<]*\+15 Vida m/);
+  assert.doesNotMatch(app.innerHTML, /data-usar-item="amuleto_de_jaspe"/);
+});

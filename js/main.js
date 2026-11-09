@@ -326,6 +326,20 @@
           }
         }
         break;
+      case "combate-caracteristica": {
+        const resumo = document.querySelector(".disputa-caracteristica-resumo");
+        if (resumo) {
+          resumo.hidden = !resumo.hidden;
+          botao.setAttribute("aria-expanded", String(!resumo.hidden));
+        }
+        break;
+      }
+      case "combate-distrair":
+        if (Jogo.engine.distrairInimigo(run)) {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run);
+        }
+        break;
       case "combate-postura":
         if (Jogo.engine.definirPosturaCombate(run, botao.dataset.postura)) {
           Jogo.save.gravarRun(run);

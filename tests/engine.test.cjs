@@ -780,3 +780,21 @@ test("todo evento oferece saídas válidas e resultados finitos para ambas as ho
     }
   }
 });
+
+test("sorteio prioriza cartas ainda nao vistas no ano e libera repeticao ao esgotar", () => {
+  const { J, run } = preparar();
+  J.eventos = ["a", "b", "c"].map((id) => ({ id, peso: id === "a" ? 10000 : 1, opcoes: [{ id: "ok" }] }));
+  run.rodada = 99;
+  J.engine.registrarSorteio(run, J.eventos[0]);
+  const salvo = JSON.parse(JSON.stringify(run));
+  assert.equal(salvo.marcos.ano_evento_a, 1);
+  assert.equal(J.engine.sortear(salvo, () => 0).id, "b");
+  J.engine.registrarSorteio(run, J.eventos[1]);
+  assert.equal(J.engine.sortear(run, () => 0).id, "c");
+  J.engine.registrarSorteio(run, J.eventos[2]);
+  assert.ok(J.engine.sortear(run, () => 0));
+  run.rodada = 101;
+  run.eventosRecentes = [];
+  run.eventoId = null;
+  assert.equal(J.engine.sortear(run, () => 0).id, "a");
+});
