@@ -320,9 +320,10 @@
       if (pendente?.ehTesteDados === true) {
         const definicao = opcaoCombate?.testeDados;
         const rolagem = pendente.rolagemTesteDados;
-        const face = Array.isArray(pendente.dadosHerdeiro) && pendente.dadosHerdeiro.length
-          ? Math.max(...pendente.dadosHerdeiro)
-          : null;
+        const face =
+          Array.isArray(pendente.dadosHerdeiro) && pendente.dadosHerdeiro.length
+            ? Math.max(...pendente.dadosHerdeiro)
+            : null;
         const bonus = definicao?.bonus || 0;
         const total = face + bonus;
         const desfechoEsperado =
@@ -381,9 +382,10 @@
       } else if (pendente?.ehDueloDados === true) {
         const definicao = opcaoCombate?.dueloDados;
         const rolagem = pendente.rolagemDueloDados;
-        const face = Array.isArray(pendente.dadosHerdeiro) && pendente.dadosHerdeiro.length
-          ? Math.max(...pendente.dadosHerdeiro)
-          : null;
+        const face =
+          Array.isArray(pendente.dadosHerdeiro) && pendente.dadosHerdeiro.length
+            ? Math.max(...pendente.dadosHerdeiro)
+            : null;
         const faceOponente = pendente.dadosInimigo?.[0];
         const bonusOponente = definicao?.bonusOponente || 0;
         const totalOponente = faceOponente + bonusOponente;
@@ -415,7 +417,9 @@
           pendente.ehBoss === true ||
           typeof pendente.dadoLascadoUsado !== "boolean" ||
           (definicao.bonusOponente !== undefined &&
-            (!inteiro(definicao.bonusOponente) || definicao.bonusOponente < 0 || definicao.bonusOponente > 1)) ||
+            (!inteiro(definicao.bonusOponente) ||
+              definicao.bonusOponente < 0 ||
+              definicao.bonusOponente > 1)) ||
           (pendente.etapa === "preparacao" &&
             (pendente.dadosHerdeiro.length !== 0 ||
               pendente.dadosInimigo.length !== 0 ||
@@ -438,6 +442,7 @@
         !objeto(pendente) ||
         pendente.eventoId !== run.eventoId ||
         !opcaoCombate?.combate ||
+        !Object.hasOwn(Jogo.engine.posturasCombate, pendente.postura) ||
         !perfil ||
         !["preparacao", "resultado", "desfecho"].includes(pendente.etapa) ||
         !Array.isArray(pendente.dadosHerdeiro) ||
@@ -596,7 +601,9 @@
     if (run.status === "encerrada") {
       return (
         objeto(run.fim) &&
-        ["derrota", "vitoria", "vitoria_culto", "vitoria_honra", "vitoria_barao", "vitoria_abissal"].includes(run.fim.tipo) &&
+        ["derrota", "vitoria", "vitoria_culto", "vitoria_honra", "vitoria_barao", "vitoria_abissal"].includes(
+          run.fim.tipo,
+        ) &&
         typeof run.fim.motivo === "string"
       );
     }
@@ -662,6 +669,7 @@
     }
     if (!Object.hasOwn(dados, "combatePendente")) dados.combatePendente = null;
     if (objeto(dados.combatePendente)) {
+      if (!Object.hasOwn(dados.combatePendente, "postura")) dados.combatePendente.postura = "equilibrada";
       if (!Number.isSafeInteger(dados.combatePendente.coringa)) dados.combatePendente.coringa = 0;
       if (!Number.isSafeInteger(dados.combatePendente.rerrolagemCoringa))
         dados.combatePendente.rerrolagemCoringa = 0;
@@ -679,8 +687,7 @@
           dados.combatePendente.vidaChefe < 0 ||
           dados.combatePendente.vidaChefe > vidaMaxima
         )
-          dados.combatePendente.vidaChefe =
-            dados.combatePendente.etapa === "desfecho" ? 0 : vidaMaxima;
+          dados.combatePendente.vidaChefe = dados.combatePendente.etapa === "desfecho" ? 0 : vidaMaxima;
         dados.combatePendente.vidaChefeMaxima = vidaMaxima;
         if (!Number.isSafeInteger(dados.combatePendente.turnosChefe) || dados.combatePendente.turnosChefe < 0)
           dados.combatePendente.turnosChefe = 0;
@@ -920,7 +927,9 @@
     if (!Object.hasOwn(dados, "encontroLeste")) dados.encontroLeste = null;
     if (!Object.hasOwn(dados, "passivaNordica")) dados.passivaNordica = null;
     if (objeto(dados.passivaNordica)) {
-      const definicao = Jogo.efeitosNordicos?.find((efeito) => efeito.eventoId === dados.passivaNordica.eventoId);
+      const definicao = Jogo.efeitosNordicos?.find(
+        (efeito) => efeito.eventoId === dados.passivaNordica.eventoId,
+      );
       if (
         definicao &&
         Object.hasOwn(definicao, "bonusDadosCombate") &&

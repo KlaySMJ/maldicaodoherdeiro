@@ -326,6 +326,12 @@
           }
         }
         break;
+      case "combate-postura":
+        if (Jogo.engine.definirPosturaCombate(run, botao.dataset.postura)) {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run);
+        }
+        break;
       case "combate-rolar":
         if (Jogo.engine.rolarCombate(run)) {
           Jogo.save.gravarRun(run);
@@ -333,6 +339,7 @@
         }
         break;
       case "combate-rerrolar-livre":
+        await Jogo.ui.aguardarAnimacaoDisputa();
         if (Jogo.engine.rerrolarCombateGratuito(run)) {
           Jogo.save.gravarRun(run);
           Jogo.ui.jogo(run);

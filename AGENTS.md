@@ -10,6 +10,10 @@ Por orientação atual, as artes de cartas de evento devem usar WebP com qualida
 
 Todo plano criado ou executado neste projeto deve terminar com uma checklist item a item, marcando o que foi concluído e o que ficou pendente, seguida de um resumo curto do resultado e das validações. Destaque claramente qualquer decisão em aberto ou verificação manual que ainda não foi feita.
 
+## Testes e simulações
+
+Em testes repetidos e simulações, execute no máximo 500 repetições por tarefa, somando todos os cenários e novas rodadas de verificação. Distribua esse limite entre os cenários necessários.
+
 ## Git
 
 Quando o usuário pedir para adicionar ou commitar mudanças, prepare todo o repositório em uma única chamada de `git add --all`. O alias local `git addall` também deve adicionar todos os arquivos rastreados e novos, respeitando o `.gitignore`.

@@ -1,6 +1,26 @@
 (function () {
   "use strict";
   const Jogo = window.Jogo;
+  const posturasCombate = {
+    equilibrada: {
+      nome: "Equilibrada",
+      ataque: 0,
+      fatorDano: 1,
+      descricao: "Ataque e dano recebido sem ajustes.",
+    },
+    agressiva: {
+      nome: "Agressiva",
+      ataque: 2,
+      fatorDano: 1.25,
+      descricao: "+2 Ataque; recebe 25% mais dano antes do Escudo.",
+    },
+    defensiva: {
+      nome: "Defensiva",
+      ataque: -2,
+      fatorDano: 0.65,
+      descricao: "−2 Ataque; recebe 35% menos dano antes do Escudo.",
+    },
+  };
   const modificadoresCondicao = {
     licantropia: { ataque: 2 },
     vampirismo: { ataque: 3, escudo: 2 },
@@ -836,7 +856,8 @@
   function calcularDueloDados(definicao, face, faceOponente) {
     const bonusOponente = definicao.bonusOponente || 0;
     const totalOponente = faceOponente + bonusOponente;
-    const desfecho = face === 20 ? "sucesso" : face === 1 ? "falha" : face > totalOponente ? "sucesso" : "falha";
+    const desfecho =
+      face === 20 ? "sucesso" : face === 1 ? "falha" : face > totalOponente ? "sucesso" : "falha";
     return { face, faceOponente, bonusOponente, totalOponente, desfecho };
   }
 
@@ -891,6 +912,9 @@
     const ajustada = batalhaAjustada(run, batalha);
     const preparados = run.efeitosPreparados || {};
     const pendente = run.combatePendente;
+    const postura = Object.hasOwn(posturasCombate, pendente?.postura)
+      ? posturasCombate[pendente.postura]
+      : posturasCombate.equilibrada;
     const fontesDesvantagem = fontesDesvantagemInimiga(run, pendente);
     const fonteTerceiraDesvantagem = fontesDesvantagem >= 3 ? 1 : 0;
     const bonusCoringaAtaque = run.traco === "coringa" && pendente?.coringa === 2 ? 2 : 0;
@@ -903,6 +927,7 @@
     return {
       ataque:
         run.atributos.ataque +
+        postura.ataque +
         bonusCorajosaAtaque +
         (preparados.bonusAtaqueProximaBatalha || 0) +
         (Jogo.druida?.bonusAtaqueCombate(run) || 0) +
@@ -928,6 +953,66 @@
       tracoInimigo: pendente?.tracoInimigo || "",
       coringa: pendente?.coringa || 0,
       batalha: ajustada,
+      postura,
+    };
+  }
+
+  function definirPosturaCombate(run, postura) {
+    const pendente = run?.combatePendente;
+    if (
+      run?.status !== "ativa" ||
+      run.fase !== "combate" ||
+      pendente?.etapa !== "preparacao" ||
+      pendente.eventoId !== run.eventoId ||
+      pendente.ehTesteDados ||
+      pendente.ehDueloDados ||
+      !Object.hasOwn(posturasCombate, postura) ||
+      !Jogo.eventoPorId(run.eventoId)?.batalha
+    )
+      return false;
+    pendente.postura = postura;
+    return true;
+  }
+
+  function calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo, { semBloqueio = false } = {}) {
+    const batalha = perfil.batalha;
+    const preparados = run.efeitosPreparados || {};
+    const pendente = run.combatePendente;
+    const diferenca = Math.max(0, totalInimigo - totalHerdeiro);
+    const fatorMargem = batalha.forcarDerrota ? 1 : diferenca <= 2 ? 0.5 : diferenca <= 5 ? 0.75 : 1;
+    const danoBase = batalha.derrota.dano + (perfil.tracoInimigo === "feroz" ? 6 : 0);
+    const danoAposMargem = Math.ceil(danoBase * fatorMargem);
+    const danoAntesEscudo = Math.ceil(danoAposMargem * perfil.postura.fatorDano);
+    const manto = temItem(run, "manto_de_folhas") ? (run.estacao === "inverno" ? 4 : 3) : 0;
+    const escudo = run.atributos.escudo + (preparados.bonusEscudoProximaBatalha || 0) + manto;
+    const reducaoDivina = batalha.somenteEscudo ? 0 : Jogo.herdeiros.valorEfeito(run, "reducaoDano");
+    const reducaoPassiva = batalha.somenteEscudo
+      ? 0
+      : (temItem(run, "cao_companheiro") ? 2 : 0) +
+        (run.construcoes?.includes("muralha") ? 2 : 0) +
+        (run.construcoes?.includes("torre_vigia") ? 3 : 0);
+    const bloqueioPreparadoAtivo = Boolean(
+      preparados.bloquearDanoProximaBatalha && !(pendente?.ehBoss && pendente.bloqueioChefeUsado),
+    );
+    const bacamarteAtivo =
+      (preparados.bacamarteBatalhas || 0) > 0 && !(pendente?.ehBoss && pendente.bacamarteChefeUsado);
+    const lancaAtiva = !batalha.semOverrides && run.lancaHeroiBatalhas > 0;
+    const danoAnulado = !semBloqueio && (lancaAtiva || bloqueioPreparadoAtivo || bacamarteAtivo);
+    return {
+      diferenca,
+      fatorMargem,
+      danoBase,
+      danoAposMargem,
+      reducaoMargem: danoBase - danoAposMargem,
+      ajustePostura: danoAntesEscudo - danoAposMargem,
+      danoAntesEscudo,
+      escudo,
+      reducaoDivina,
+      reducaoPassiva,
+      bloqueioPreparadoAtivo,
+      bacamarteAtivo,
+      danoAnulado: Boolean(danoAnulado),
+      dano: danoAnulado ? 0 : Math.max(0, danoAntesEscudo - escudo - reducaoDivina - reducaoPassiva),
     };
   }
 
@@ -944,11 +1029,7 @@
 
   function chanceVitoriaContraFace(perfil, faceInimigo, minimoHerdeiro = 1) {
     const empateVence = perfil.tracoInimigo !== "veloz";
-    const distribuicaoHerdeiro = distribuicaoDadoExtremo(
-      perfil.dadosHerdeiro,
-      minimoHerdeiro,
-      20,
-    );
+    const distribuicaoHerdeiro = distribuicaoDadoExtremo(perfil.dadosHerdeiro, minimoHerdeiro, 20);
     const totalInimigo = faceInimigo + perfil.defesa;
     return distribuicaoHerdeiro.reduce((chance, resultado) => {
       const totalHerdeiro = resultado.face + perfil.ataque + perfil.bonusResultado;
@@ -988,27 +1069,30 @@
     }
 
     const danoChefe = Math.max(1, perfil.batalha.danoPorAcerto || evento.batalha.danoPorAcerto || 25);
-    const vidaChefeInicial = Math.max(
-      1,
-      pendente?.vidaChefe ?? evento.batalha.vidaMaxima ?? 100,
-    );
+    const vidaChefeInicial = pendente?.vidaChefe ?? evento.batalha.vidaMaxima ?? 100;
     const vidaHerdeiroInicial = Math.max(0, run.atributos?.hp || 0);
     const preparados = run.efeitosPreparados || {};
-    const tracoInimigo = pendente?.tracoInimigo || "";
-    const danoBase = perfil.batalha.derrota.dano + (tracoInimigo === "feroz" ? 6 : 0);
-    const manto = temItem(run, "manto_de_folhas") ? (run.estacao === "inverno" ? 4 : 3) : 0;
-    const escudo = (run.atributos?.escudo || 0) + (preparados.bonusEscudoProximaBatalha || 0) + manto;
-    const somenteEscudo = Boolean(perfil.batalha.somenteEscudo);
-    const reducaoDivina = somenteEscudo ? 0 : Jogo.herdeiros.valorEfeito(run, "reducaoDano");
-    const reducaoPassiva = somenteEscudo
-      ? 0
-      : (temItem(run, "cao_companheiro") ? 2 : 0) +
-        (run.construcoes?.includes("muralha") ? 2 : 0) +
-        (run.construcoes?.includes("torre_vigia") ? 3 : 0);
-    const danoHerdeiro = Math.max(0, danoBase - escudo - reducaoDivina - reducaoPassiva);
+    const distribuicaoHerdeiro = distribuicaoDadoExtremo(perfil.dadosHerdeiro, minimoHerdeiro, 20);
+    const rolagens = distribuicaoInimigo.map(({ face, chance }) => {
+      const resultados = new Map();
+      for (const herdeiro of distribuicaoHerdeiro) {
+        const totalHerdeiro = herdeiro.face + perfil.ataque + perfil.bonusResultado;
+        const totalInimigo = face + perfil.defesa;
+        const acerto =
+          perfil.tracoInimigo === "veloz" ? totalHerdeiro > totalInimigo : totalHerdeiro >= totalInimigo;
+        const dano = acerto
+          ? 0
+          : calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo, { semBloqueio: true }).dano;
+        const chave = `${Number(acerto)}|${dano}`;
+        const resultado = resultados.get(chave) || { acerto, dano, chance: 0 };
+        resultado.chance += herdeiro.chance;
+        resultados.set(chave, resultado);
+      }
+      return { face, chance, resultados: [...resultados.values()] };
+    });
     const protecaoInicial = Boolean(
       (preparados.bloquearDanoProximaBatalha && !pendente?.bloqueioChefeUsado) ||
-        ((preparados.bacamarteBatalhas || 0) > 0 && !pendente?.bacamarteChefeUsado),
+      ((preparados.bacamarteBatalhas || 0) > 0 && !pendente?.bacamarteChefeUsado),
     );
     const memo = new Map();
     const memoFalha = new Map();
@@ -1019,82 +1103,59 @@
       const chave = `${vidaChefe}|${vidaHerdeiro}|${Number(protecao)}|${rerrolagensRestantes}`;
       if (memo.has(chave)) return memo.get(chave);
 
-      const aposAcerto = chanceEstado(
-        vidaChefe - danoChefe,
-        vidaHerdeiro,
-        protecao,
-        rerrolagensRestantes,
-      );
-      const vidaAposFalha = vidaHerdeiro - (protecao ? 0 : danoHerdeiro);
-      const aposFalha = vidaAposFalha <= 0
-        ? 0
-        : chanceEstado(vidaChefe, vidaAposFalha, false, rerrolagensRestantes);
-      const chance = distribuicaoInimigo.reduce((total, { face, chance: peso }) => {
-        const chanceRolagem = chancePorFace.get(face) || 0;
-        const aposFalhaComEscolha =
-          chanceRolagem > 0 && rerrolagensRestantes > 0
-            ? Math.max(
-                aposFalha,
-                valorFalhaRerrolando(
-                  face,
-                  vidaChefe,
-                  vidaHerdeiro,
-                  protecao,
-                  rerrolagensRestantes,
-                  chanceRolagem,
-                ),
-              )
-            : aposFalha;
-        return total + peso * (chanceRolagem * aposAcerto + (1 - chanceRolagem) * aposFalhaComEscolha);
-      }, 0);
+      const aposAcerto = chanceEstado(vidaChefe - danoChefe, vidaHerdeiro, protecao, rerrolagensRestantes);
+      let parcelaFixa = 0;
+      const semDano = [];
+      for (const rolagem of rolagens) {
+        const rerrolar =
+          rerrolagensRestantes > 0
+            ? valorFalhaRerrolando(rolagem, vidaChefe, vidaHerdeiro, protecao, rerrolagensRestantes)
+            : 0;
+        for (const resultado of rolagem.resultados) {
+          const peso = rolagem.chance * resultado.chance;
+          if (resultado.acerto) parcelaFixa += peso * aposAcerto;
+          else if (!protecao && resultado.dano === 0) semDano.push({ peso, rerrolar });
+          else {
+            const vida = vidaHerdeiro - (protecao ? 0 : resultado.dano);
+            const aceitar = vida <= 0 ? 0 : chanceEstado(vidaChefe, vida, false, rerrolagensRestantes);
+            parcelaFixa += peso * Math.max(aceitar, rerrolar);
+          }
+        }
+      }
+      // Uma falha sem dano pode devolver o mesmo estado. Resolva esse ciclo antes de memoizar.
+      semDano.sort((a, b) => a.rerrolar - b.rerrolar);
+      let constante =
+        parcelaFixa + semDano.reduce((soma, resultado) => soma + resultado.peso * resultado.rerrolar, 0);
+      let pesoRepeticao = 0;
+      let chance = constante;
+      for (const resultado of semDano) {
+        if (chance + 1e-12 < resultado.rerrolar) break;
+        constante -= resultado.peso * resultado.rerrolar;
+        pesoRepeticao += resultado.peso;
+        chance = 1 - pesoRepeticao > 1e-12 ? constante / (1 - pesoRepeticao) : 0;
+      }
+      chance = Math.max(0, Math.min(1, chance));
       memo.set(chave, chance);
       return chance;
     };
 
-    const valorFalhaRerrolando = (
-      faceInimigo,
-      vidaChefe,
-      vidaHerdeiro,
-      protecao,
-      rerrolagensRestantes,
-      chanceRolagem,
-    ) => {
-      const chave = `${faceInimigo}|${vidaChefe}|${vidaHerdeiro}|${Number(protecao)}|${rerrolagensRestantes}`;
+    const valorFalhaRerrolando = (rolagem, vidaChefe, vidaHerdeiro, protecao, rerrolagensRestantes) => {
+      const chave = `${rolagem.face}|${vidaChefe}|${vidaHerdeiro}|${Number(protecao)}|${rerrolagensRestantes}`;
       if (memoFalha.has(chave)) return memoFalha.get(chave);
-      const vidaAposFalha = vidaHerdeiro - (protecao ? 0 : danoHerdeiro);
-      const aposFalha = vidaAposFalha <= 0
-        ? 0
-        : chanceEstado(vidaChefe, vidaAposFalha, false, rerrolagensRestantes);
-      const aposAcerto = chanceEstado(
-        vidaChefe - danoChefe,
-        vidaHerdeiro,
-        protecao,
-        rerrolagensRestantes - 1,
-      );
-      const continuar = rerrolagensRestantes > 1
-        ? valorFalhaRerrolando(
-            faceInimigo,
-            vidaChefe,
-            vidaHerdeiro,
-            protecao,
-            rerrolagensRestantes - 1,
-            chanceRolagem,
-          )
-        : vidaAposFalha <= 0
-          ? 0
-          : chanceEstado(vidaChefe, vidaAposFalha, false, rerrolagensRestantes - 1);
-      const valor = Math.max(aposFalha, chanceRolagem * aposAcerto + (1 - chanceRolagem) * continuar);
+      const restantes = rerrolagensRestantes - 1;
+      const aposAcerto = chanceEstado(vidaChefe - danoChefe, vidaHerdeiro, protecao, restantes);
+      const continuar =
+        restantes > 0 ? valorFalhaRerrolando(rolagem, vidaChefe, vidaHerdeiro, protecao, restantes) : 0;
+      const valor = rolagem.resultados.reduce((soma, resultado) => {
+        if (resultado.acerto) return soma + resultado.chance * aposAcerto;
+        const vida = vidaHerdeiro - (protecao ? 0 : resultado.dano);
+        const aceitar = vida <= 0 ? 0 : chanceEstado(vidaChefe, vida, false, restantes);
+        return soma + resultado.chance * Math.max(aceitar, continuar);
+      }, 0);
       memoFalha.set(chave, valor);
       return valor;
     };
 
-    if (danoHerdeiro === 0) {
-      const chanceAcerto = distribuicaoInimigo.reduce(
-        (total, { face, chance }) => total + chance * (chancePorFace.get(face) || 0),
-        0,
-      );
-      return chanceAcerto > 0 ? 1 : 0;
-    }
     return chanceEstado(vidaChefeInicial, vidaHerdeiroInicial, protecaoInicial, rerrolagens);
   }
 
@@ -1135,24 +1196,11 @@
     if (venceu) run.batalhasVencidas = (run.batalhasVencidas || 0) + 1;
     run.ultimaBatalhaRodada = run.rodada;
     const desfecho = venceu ? batalha.vitoria : batalha.derrota;
-    const danoBase = venceu
-      ? 0
-      : batalha.derrota.dano + (run.combatePendente?.tracoInimigo === "feroz" ? 6 : 0);
-    const manto = temItem(run, "manto_de_folhas") ? (run.estacao === "inverno" ? 4 : 3) : 0;
-    const escudoUsado = run.atributos.escudo + bonusEscudo + manto;
+    const leituraDano = calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo);
+    const escudoUsado = leituraDano.escudo;
     const pendente = run.combatePendente;
-    const bloqueioPreparadoAtivo =
-      preparados.bloquearDanoProximaBatalha && !(pendente?.ehBoss && pendente.bloqueioChefeUsado);
-    const bacamarteAtivo =
-      (preparados.bacamarteBatalhas || 0) > 0 && !(pendente?.ehBoss && pendente.bacamarteChefeUsado);
-    const danoAnulado = lancaAtiva || bloqueioPreparadoAtivo || bacamarteAtivo;
-    const reducaoDivina = batalha.somenteEscudo ? 0 : Jogo.herdeiros.valorEfeito(run, "reducaoDano");
-    const reducaoPassiva = batalha.somenteEscudo
-      ? 0
-      : (temItem(run, "cao_companheiro") ? 2 : 0) +
-        (run.construcoes?.includes("muralha") ? 2 : 0) +
-        (run.construcoes?.includes("torre_vigia") ? 3 : 0);
-    const dano = danoAnulado ? 0 : Math.max(0, danoBase - escudoUsado - reducaoDivina - reducaoPassiva);
+    const { bloqueioPreparadoAtivo, danoAnulado } = leituraDano;
+    const dano = venceu ? 0 : leituraDano.dano;
     let efeitos = aplicarBonusDeRecompensa(run, desfecho.efeitos || {});
     let danoHonraCulto = 0;
     if (danoAnulado && efeitos.hp < 0) efeitos = { ...efeitos, hp: 0 };
@@ -1244,6 +1292,10 @@
         dadoInimigo,
         defesa: defesaInimiga,
         totalInimigo,
+        diferenca: totalHerdeiro - totalInimigo,
+        postura: pendente?.postura || "equilibrada",
+        reducaoMargem: venceu ? 0 : leituraDano.reducaoMargem,
+        ajustePostura: venceu ? 0 : leituraDano.ajustePostura,
         venceuNaRolagem,
         bonusResultado,
         tracoInimigo: run.combatePendente?.tracoInimigo || "",
@@ -1350,7 +1402,8 @@
     let danoHonraCulto = 0;
     let sucessoCriticoDados = false;
     if (opcao.dueloDados) {
-      const rolagemDuelo = rolagemCombate?.dueloDados || calcularDueloDados(opcao.dueloDados, rolarDado20(), rolarDado20());
+      const rolagemDuelo =
+        rolagemCombate?.dueloDados || calcularDueloDados(opcao.dueloDados, rolarDado20(), rolarDado20());
       sucessoCriticoDados = rolagemDuelo.face === 20;
       const sucesso = rolagemDuelo.desfecho === "sucesso";
       const desfecho = sucesso ? opcao.dueloDados.sucesso : opcao.dueloDados.falha;
@@ -1369,8 +1422,7 @@
         },
       };
     } else if (opcao.testeDados) {
-      const rolagemTeste =
-        rolagemCombate?.testeDados || calcularTesteDados(opcao.testeDados, rolarDado20());
+      const rolagemTeste = rolagemCombate?.testeDados || calcularTesteDados(opcao.testeDados, rolarDado20());
       sucessoCriticoDados = rolagemTeste.face === 20;
       const desfecho = opcao.testeDados[rolagemTeste.desfecho];
       desfechoEscolhido = desfecho;
@@ -1613,8 +1665,7 @@
             : 100;
       preparados[campo] = Math.min(limite, (preparados[campo] || 0) + efeitos[campo]);
     }
-    if (efeitos.desvantagemInimigaProximaBatalha === true)
-      preparados.desvantagemInimigaProximaBatalha = true;
+    if (efeitos.desvantagemInimigaProximaBatalha === true) preparados.desvantagemInimigaProximaBatalha = true;
     run.efeitosPreparados = preparados;
   }
 
@@ -1891,8 +1942,7 @@
     calcularEconomia(contexto);
     if (contexto.sucessoCriticoDados && run.atributos.hp < contexto.antes.hp) {
       run.atributos.hp = Math.min(run.hpMax, contexto.antes.hp);
-      if (run.ultimoResultado)
-        run.ultimoResultado.alteracoes.hp = run.atributos.hp - contexto.antes.hp;
+      if (run.ultimoResultado) run.ultimoResultado.alteracoes.hp = run.atributos.hp - contexto.antes.hp;
     }
     const resolvida = verificarEncerramento(contexto);
     if (resolvida) registrarEscolhaNaCronica(run, evento, opcao);
@@ -1922,6 +1972,7 @@
       eventoId: evento.id,
       opcaoId: opcao.id,
       etapa: "preparacao",
+      postura: "equilibrada",
       dadosHerdeiro: [],
       dadosInimigo: [],
       rerrolagens: 0,
@@ -2108,26 +2159,12 @@
       return true;
     }
 
-    const preparados = run.efeitosPreparados || {};
-    const danoBase =
-      perfil.batalha.derrota.dano + (pendente.tracoInimigo === "feroz" ? 6 : 0);
-    const manto = temItem(run, "manto_de_folhas") ? (run.estacao === "inverno" ? 4 : 3) : 0;
-    const escudo = run.atributos.escudo + (preparados.bonusEscudoProximaBatalha || 0) + manto;
-    const reducaoDivina = perfil.batalha.somenteEscudo
-      ? 0
-      : Jogo.herdeiros.valorEfeito(run, "reducaoDano");
-    const reducaoPassiva = perfil.batalha.somenteEscudo
-      ? 0
-      : (temItem(run, "cao_companheiro") ? 2 : 0) +
-        (run.construcoes?.includes("muralha") ? 2 : 0) +
-        (run.construcoes?.includes("torre_vigia") ? 3 : 0);
-    const bloqueioDisponivel =
-      preparados.bloquearDanoProximaBatalha && !pendente.bloqueioChefeUsado;
-    const bacamarteDisponivel =
-      (preparados.bacamarteBatalhas || 0) > 0 && !pendente.bacamarteChefeUsado;
-    const dano = bloqueioDisponivel || bacamarteDisponivel
-      ? 0
-      : Math.max(0, danoBase - escudo - reducaoDivina - reducaoPassiva);
+    const leituraDano = calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo);
+    const {
+      dano,
+      bloqueioPreparadoAtivo: bloqueioDisponivel,
+      bacamarteAtivo: bacamarteDisponivel,
+    } = leituraDano;
     if (bloqueioDisponivel) pendente.bloqueioChefeUsado = true;
     if (bacamarteDisponivel) pendente.bacamarteChefeUsado = true;
     const hpAntes = run.atributos.hp;
@@ -2168,7 +2205,9 @@
       const ehDueloDados = pendente.ehDueloDados === true;
       if (
         pendente.etapa !== "resultado" ||
-        (ehDueloDados ? !opcao?.dueloDados || !pendente.rolagemDueloDados || pendente.dadosInimigo.length !== 1 : !opcao?.testeDados || !pendente.rolagemTesteDados) ||
+        (ehDueloDados
+          ? !opcao?.dueloDados || !pendente.rolagemDueloDados || pendente.dadosInimigo.length !== 1
+          : !opcao?.testeDados || !pendente.rolagemTesteDados) ||
         !pendente.dadosHerdeiro.length ||
         (ehDueloDados ? pendente.rolagemDueloDados.face : pendente.rolagemTesteDados.face) !==
           Math.max(...pendente.dadosHerdeiro)
@@ -2997,11 +3036,7 @@
   }
 
   function debugAlternarMaoDoDestino(run) {
-    if (
-      run?.status !== "ativa" ||
-      !["escolha", "resultado"].includes(run.fase) ||
-      run.aguardaDecisaoCulto
-    )
+    if (run?.status !== "ativa" || !["escolha", "resultado"].includes(run.fase) || run.aguardaDecisaoCulto)
       return false;
     run.flags ||= {};
     run.flags.mao_do_destino_ativa = !run.flags.mao_do_destino_ativa;
@@ -3334,6 +3369,9 @@
   }
 
   Jogo.engine = {
+    posturasCombate,
+    definirPosturaCombate,
+    calcularDanoDerrota,
     avaliarConsequenciaPressagio,
     iniciarPassivaNordica,
     debugDefinirDisputa,

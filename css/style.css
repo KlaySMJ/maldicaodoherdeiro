@@ -986,6 +986,17 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 .disputa-teste-total strong { color: var(--tinta); font: 600 23px/1.2 Arial, sans-serif; font-variant-numeric: tabular-nums; }
 .disputa-texto-teste { max-width: 620px; margin: 12px auto 2px; color: var(--tinta); font-size: 16px; line-height: 1.45; text-align: left; }
 .disputa-lado { min-width: 0; align-self: start; text-align: center; }
+.disputa-posturas { min-width: 0; max-width: 420px; margin: 14px auto; padding: 0; border: 0; }
+.disputa-posturas legend { width: 100%; margin-bottom: 8px; color: var(--secundaria); font-size: 14px; text-align: center; }
+.disputa-posturas-opcoes { display: flex; gap: 6px; }
+.disputa-posturas-opcoes button { min-width: 0; min-height: 44px; flex: 1; padding: 8px 6px; border: 1px solid #514733; background: transparent; color: var(--secundaria); font: inherit; font-size: 14px; cursor: pointer; }
+.disputa-posturas-opcoes button[aria-pressed="true"] { border-color: var(--secundaria); background: #26231e; color: var(--tinta); }
+.disputa-posturas-opcoes button:focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
+.disputa-posturas > p { margin-top: 8px; color: var(--secundaria); font-size: 13px; line-height: 1.4; text-align: center; }
+.disputa-regra-margem { margin-top: 4px; color: var(--secundaria); font-size: 13px; text-align: center; }
+.disputa-regra-margem summary { display: list-item; width: fit-content; min-height: 44px; margin: 0 auto; padding: 12px 4px; cursor: pointer; }
+.disputa-regra-margem p { line-height: 1.5; text-align: left; }
+.disputa-objetivo-chefe, .disputa-postura-resumo { margin-top: 6px; color: var(--secundaria); font-size: 13px; text-align: center; }
 .disputa-inimigo-coluna { display: flex; min-width: 0; flex-direction: column; align-items: center; }
 .disputa-inimigo-coluna .disputa-inimigo { width: 100%; }
 .disputa-lado h2 { display: flex; min-height: 27px; margin: 0; justify-content: center; align-items: center; gap: 5px; color: var(--secundaria); font-size: 13px; }
@@ -1024,6 +1035,7 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 .dado-combate-maior .dado-combate-canvas, .dado-combate-maior .dado-combate-svg { filter: drop-shadow(0 0 5px #d8b960) drop-shadow(0 4px 5px rgb(0 0 0 / 60%)); }
 .dado-combate-vinte .dado-combate-contorno { stroke: #d8bd76; }
 .dado-combate-estatico { animation: none; }
+.dado-combate-descartado { opacity: .5; }
 .dado-combate-pulso { animation: dado-impacto-pulso 420ms cubic-bezier(.2,.8,.25,1); }
 @keyframes dado-impacto-pulso { 0% { transform: scale(1); filter: drop-shadow(0 0 0 rgb(216 189 118 / 0%)); } 42% { transform: scale(1.14); filter: drop-shadow(0 0 10px rgb(216 189 118 / 88%)); } 72% { transform: scale(.98); } 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgb(216 189 118 / 35%)); } }
 .resultado-disputa { margin: 12px 0; padding: 10px 12px; border-block: 1px solid #514733; text-align: center; animation: disputa-aparecer 240ms ease-out both; }
@@ -1039,6 +1051,17 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 .disputa-veredito { font-size: 24px; }
 .disputa-totais { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; color: var(--secundaria); font-size: 13px; }
 .disputa-totais strong { display: block; margin-top: 2px; color: var(--tinta); font: 600 24px/1.2 Arial, sans-serif; }
+.disputa-totais small { display: block; margin-top: 3px; color: var(--secundaria); font: 13px/1.4 Arial, sans-serif; }
+.disputa-margem { margin-top: 10px; color: var(--tinta); font-size: 15px; }
+.disputa-dano-final { margin-top: 12px; color: var(--tinta); font-size: 15px; }
+.disputa-dano-final strong { font: 600 24px/1.2 Arial, sans-serif; font-variant-numeric: tabular-nums; }
+.disputa-vida-prevista { margin-top: 5px; color: var(--secundaria); font-size: 13px; }
+.disputa-calculo-dano { max-width: 340px; margin: 4px auto 0; color: var(--secundaria); font-size: 13px; }
+.disputa-calculo-dano summary { display: list-item; width: fit-content; min-height: 44px; margin: 0 auto; padding: 12px 4px; cursor: pointer; }
+.disputa-calculo-dano dl { margin: 2px 0 8px; }
+.disputa-calculo-dano dl > div { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; }
+.disputa-calculo-dano dt { text-align: left; }
+.disputa-calculo-dano dd { margin: 0; color: var(--tinta); font-variant-numeric: tabular-nums; text-align: right; }
 .disputa-dano-derrota { margin-top: 8px; color: var(--secundaria); font-size: 13px; }
 .disputa-regra { margin-top: 8px; color: var(--secundaria); font-size: 13px; line-height: 1.5; }
 .disputa-itens { margin-top: 12px; }

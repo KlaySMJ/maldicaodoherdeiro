@@ -26,7 +26,7 @@ function novaRun(J, traco = "corajoso") {
   return J.estado.novo(J.legado.vazio(), traco);
 }
 
-test("vitória não causa dano; derrota mantém dano, Escudo e o bônus Feroz", () => {
+test("vitória não causa dano; derrota apertada reduz o golpe Feroz antes do Escudo", () => {
   const vitoria = preparar();
   const runVitoria = novaRun(vitoria.J);
   const combateVencido = resolver(vitoria.J, runVitoria);
@@ -43,8 +43,8 @@ test("vitória não causa dano; derrota mantém dano, Escudo e o bônus Feroz", 
   runDerrota.atributos.ataque = 0;
   const combatePerdido = resolver(derrota.J, runDerrota, "saqueadores", "combater", "feroz");
   assert.equal(combatePerdido.venceu, false);
-  assert.equal(combatePerdido.dano, 25);
-  assert.equal(runDerrota.atributos.hp, 95);
+  assert.equal(combatePerdido.dano, 10);
+  assert.equal(runDerrota.atributos.hp, 110);
 });
 
 test("Doente reduz Defesa na primeira rodada e em batalhas sem ajuste", () => {

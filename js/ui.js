@@ -1106,7 +1106,8 @@
     if (efeito.reduzirCura) detalhes.push("reduz a cura de Vida pela metade");
     if (efeito.manutencaoGold) detalhes.push("cobra 1 Gold por dia");
     if (efeito.reducaoDano) detalhes.push(`reduz ${numero(efeito.reducaoDano)} de dano em batalha`);
-    if (efeito.bonusDadosCombate) detalhes.push(`rola ${numero(efeito.bonusDadosCombate)} dado a mais em batalha`);
+    if (efeito.bonusDadosCombate)
+      detalhes.push(`rola ${numero(efeito.bonusDadosCombate)} dado a mais em batalha`);
     if (efeito.reducaoGanhoGold) detalhes.push(`reduz em ${numero(efeito.reducaoGanhoGold)} o gold recebido`);
     if (efeito.revelarHonraRodadas) detalhes.push("revela sua Honra enquanto durar");
     if (efeito.revelarHabitantesRodadas) detalhes.push("revela o número de Habitantes enquanto durar");
@@ -1210,12 +1211,11 @@
       efeitos.escudoFeCooldown ? `Escudo da fé: ${numero(efeitos.escudoFeCooldown)} rodadas de recarga` : "",
       run.lancaHeroiBatalhas ? `Lança do Herói: ${numero(run.lancaHeroiBatalhas)} batalhas restantes` : "",
       run.flags.cinto_vento_ativo ? "Cinto dos ventos: aguardando batalha" : "",
-      efeitos.rerrolagensGratisProximaBatalha
-        ? `Rerrolagem grátis: próxima batalha`
-        : "",
+      efeitos.rerrolagensGratisProximaBatalha ? `Rerrolagem grátis: próxima batalha` : "",
       efeitos.desvantagemInimigaProximaBatalha ? "Inimigo com desvantagem na próxima batalha" : "",
     ].filter(Boolean);
-    const testeDados = run.combatePendente?.ehTesteDados === true || run.combatePendente?.ehDueloDados === true;
+    const testeDados =
+      run.combatePendente?.ehTesteDados === true || run.combatePendente?.ehDueloDados === true;
     const preparadosVisiveis = testeDados
       ? [
           efeitos.bonusDadosCombateProximaBatalha
@@ -1568,7 +1568,8 @@
         id: "mao-do-destino",
         classe: "transformacao-mao-do-destino",
         nome: "Mão do Destino",
-        detalhe: "Mostra a chance de vitória antes de cada embate e concede uma rerrolagem grátis por batalha.",
+        detalhe:
+          "Mostra a chance de vitória antes de cada embate e concede uma rerrolagem grátis por batalha.",
       },
     ];
     const dialogo = document.createElement("dialog");
@@ -1782,8 +1783,24 @@
   function desenharDadosCombate(movimentoReduzido) {
     const animacoes = [];
     app.querySelectorAll?.(".dado-combate")?.forEach((dado) => {
+      const destaque =
+        dado.classList.contains("dado-combate-maior") ||
+        dado.classList.contains("dado-combate-destaque-pendente");
+      const revelarSelecao = () => {
+        if (dado.classList.contains("dado-combate-destaque-pendente")) {
+          dado.classList.remove("dado-combate-destaque-pendente");
+          dado.classList.add("dado-combate-maior");
+        }
+        if (dado.classList.contains("dado-combate-descarte-pendente")) {
+          dado.classList.remove("dado-combate-descarte-pendente");
+          dado.classList.add("dado-combate-descartado");
+        }
+      };
       const canvas = dado.querySelector(".dado-combate-canvas");
-      if (!canvas || !canvas.getContext("2d")) return;
+      if (!canvas || !canvas.getContext("2d")) {
+        revelarSelecao();
+        return;
+      }
       const valor = Number(dado.dataset.valor);
       const resultado = Number.isInteger(valor) && valor >= 1 && valor <= 20;
       if (dado.closest(".disputa-teste-dados") && !resultado) return;
@@ -1791,16 +1808,18 @@
       const indiceFace = resultado ? valor - 1 : 0;
       const alvo = angulosParaFace(indiceFace);
       const cor = dado.dataset.cor || "#F9EEDD";
-      const destaque = dado.classList.contains("dado-combate-maior");
       const rolar =
         !movimentoReduzido &&
         resultado &&
         !dado.classList.contains("dado-combate-estatico") &&
         !dado.classList.contains("dado-combate-aguardando");
       if (!rolar) {
+        revelarSelecao();
         desenharDado3D(canvas, cor, indiceFace, alvo, destaque);
         return;
       }
+      const rotuloFinal = dado.getAttribute("aria-label");
+      dado.setAttribute("aria-label", "Dado em rolagem");
       const volta = Math.PI * 2;
       const inicio = {
         x: (Math.random() - 0.5) * volta,
@@ -1832,13 +1851,17 @@
               z: inicio.z + (fim.z - inicio.z) * desaceleracao,
             };
             const balanço = 1 + Math.sin(progresso * Math.PI * 4) * 0.07 * (1 - progresso);
-            desenharDado3D(canvas, cor, indiceFace, angulos, destaque, balanço, false);
+            desenharDado3D(canvas, cor, indiceFace, angulos, false, balanço, false);
             if (progresso < 1) window.requestAnimationFrame(quadro);
             else {
+              revelarSelecao();
+              if (rotuloFinal) dado.setAttribute("aria-label", rotuloFinal);
               desenharDado3D(canvas, cor, indiceFace, alvo, destaque);
               dado.classList.add("dado-combate-pulso");
-              window.setTimeout(() => dado.classList.remove("dado-combate-pulso"), 520);
-              concluir();
+              window.setTimeout(() => {
+                dado.classList.remove("dado-combate-pulso");
+                concluir();
+              }, 520);
             }
           }
           window.requestAnimationFrame(quadro);
@@ -1850,16 +1873,24 @@
 
   function facesDados(valores, escolhido, { cor, lado, animar = true, selecionaMenor = false }) {
     return `<div class="dados-combate" aria-label="Resultados dos dados">${valores
-      .map((valor) => {
+      .map((valor, indice) => {
         const classes = ["dado-combate", `dado-combate-${lado}`];
-        if (valor === escolhido) classes.push("dado-combate-maior");
+        const usado = indice === valores.indexOf(escolhido);
+        classes.push(
+          usado
+            ? animar
+              ? "dado-combate-destaque-pendente"
+              : "dado-combate-maior"
+            : animar
+              ? "dado-combate-descarte-pendente"
+              : "dado-combate-descartado",
+        );
         if (valor === 20) classes.push("dado-combate-vinte");
         if (valor === 1) classes.push("dado-combate-um");
         if (!animar) classes.push("dado-combate-estatico");
-        const rotulo =
-          valor === escolhido
-            ? `${selecionaMenor ? "Menor" : "Maior"} resultado usado: ${valor}`
-            : `Resultado: ${valor}`;
+        const rotulo = usado
+          ? `${selecionaMenor ? "Menor" : "Maior"} resultado usado: ${valor}`
+          : `Resultado descartado: ${valor}`;
         return marcadorDado(valor, classes, rotulo, cor);
       })
       .join("")}</div>`;
@@ -1877,7 +1908,9 @@
     const desfecho = rolagem && definicao[rolagem.desfecho];
     if (resultado && (!rolagem || !desfecho)) return;
     const corDado = coresPrincipaisHerdeiros[run.traco] || "#8B673D";
-    const quantidadeDados = resultado ? pendente.dadosHerdeiro.length : Jogo.engine.quantidadeDadosTesteDados(run);
+    const quantidadeDados = resultado
+      ? pendente.dadosHerdeiro.length
+      : Jogo.engine.quantidadeDadosTesteDados(run);
     const dadosHerdeiro = resultado
       ? facesDados(pendente.dadosHerdeiro, rolagem.face, { cor: corDado, lado: "jogador" })
       : `<div class="dados-combate" aria-label="${numero(quantidadeDados)} ${quantidadeDados === 1 ? "dado" : "dados"} de vinte faces">${Array.from({ length: quantidadeDados }, () => marcadorDado("?", ["dado-combate", "dado-combate-jogador", "dado-combate-aguardando"], "", corDado)).join("")}</div>`;
@@ -1909,12 +1942,33 @@
     const total = !resultado
       ? ""
       : duelo
-        ? `<p class="disputa-totais"><span>${esc(tituloHerdeiro(run.traco))}<strong>${numero(rolagem.face)}</strong></span><span aria-hidden="true">×</span><span>Velho cego<strong>${numero(rolagem.faceOponente)}${rolagem.bonusOponente ? ` + ${numero(rolagem.bonusOponente)}` : ""}</strong></span></p>`
+        ? `<p class="disputa-totais"><span>${esc(tituloHerdeiro(run.traco))}<strong>${numero(rolagem.face)}</strong></span><span aria-hidden="true">×</span><span>Oponente<strong>${numero(rolagem.totalOponente)}</strong><small>${numero(rolagem.faceOponente)}${rolagem.bonusOponente ? ` + ${numero(rolagem.bonusOponente)}` : ""}</small></span></p>`
         : `<p class="disputa-teste-total"><strong>${numero(rolagem.face)} ${rolagem.bonus < 0 ? "−" : "+"} ${numero(Math.abs(rolagem.bonus))} = ${numero(rolagem.total)}</strong><span>Dificuldade ${numero(rolagem.dificuldade)}</span></p>`;
+    const diferencaTeste = resultado
+      ? duelo
+        ? rolagem.face - rolagem.totalOponente
+        : rolagem.total - rolagem.dificuldade
+      : 0;
+    const leituraTeste = !resultado
+      ? ""
+      : rolagem.face === 20
+        ? "20 natural: sucesso crítico."
+        : rolagem.face === 1
+          ? "1 natural: falha crítica."
+          : duelo
+            ? diferencaTeste === 0
+              ? "Empate: o oponente vence."
+              : `Você ${diferencaTeste > 0 ? "venceu" : "perdeu"} por ${numero(Math.abs(diferencaTeste))} ${Math.abs(diferencaTeste) === 1 ? "ponto" : "pontos"}.`
+            : diferencaTeste === 0
+              ? "Você alcançou a dificuldade."
+              : diferencaTeste > 0
+                ? `Você superou a dificuldade por ${numero(diferencaTeste)} ${diferencaTeste === 1 ? "ponto" : "pontos"}.`
+                : `${Math.abs(diferencaTeste) === 1 ? "Faltou 1 ponto" : `Faltaram ${numero(Math.abs(diferencaTeste))} pontos`} para o sucesso completo.`;
     const resumoResultado = resultado
       ? `<section class="resultado-disputa ${rolagem.desfecho === "falha" ? "resultado-disputa-derrota" : "resultado-disputa-vitoria"}${movimentoReduzido ? "" : ' data-aguardando-rolagem aria-hidden="true"'} aria-live="polite">
           <p class="disputa-veredito">${veredito}</p>
           ${total}
+          <p class="disputa-margem">${leituraTeste}</p>
           <p class="disputa-texto-teste">${esc(desfecho.resultado)}</p>
         </section>`
       : "";
@@ -1988,8 +2042,49 @@
       (pendente.ehBoss
         ? pendente.etapa === "desfecho" || (!perfil.batalha.forcarDerrota && venceuNaRolagem)
         : !perfil.batalha.forcarDerrota && (lancaAtiva || adagaAtiva || venceuNaRolagem));
-    const danoDerrota =
-      resultado && !venceu ? perfil.batalha.derrota.dano + (perfil.tracoInimigo === "feroz" ? 6 : 0) : null;
+    const leituraDano =
+      resultado && !venceu ? Jogo.engine.calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo) : null;
+    const diferenca = resultado ? totalHerdeiro - totalInimigo : 0;
+    const leituraMargem = !resultado
+      ? ""
+      : diferenca === 0
+        ? `Empate: ${perfil.tracoInimigo === "veloz" ? "o inimigo" : "você"} vence.`
+        : `Sua rolagem ${diferenca > 0 ? "venceu" : "perdeu"} por ${numero(Math.abs(diferenca))} ${Math.abs(diferenca) === 1 ? "ponto" : "pontos"}.`;
+    const detalhesDano = !leituraDano
+      ? ""
+      : `<details class="disputa-calculo-dano"><summary>Como o dano foi calculado</summary><dl>
+      <div><dt>Dano base</dt><dd>${numero(leituraDano.danoBase)}</dd></div>
+      ${leituraDano.reducaoMargem ? `<div><dt>Derrota por pouca diferença</dt><dd>−${numero(leituraDano.reducaoMargem)}</dd></div>` : ""}
+      ${leituraDano.ajustePostura ? `<div><dt>Postura ${esc(perfil.postura.nome.toLowerCase())}</dt><dd>${assinado(leituraDano.ajustePostura)}</dd></div>` : ""}
+      <div><dt>Escudo</dt><dd>${assinado(-leituraDano.escudo)}</dd></div>
+      ${leituraDano.reducaoDivina + leituraDano.reducaoPassiva ? `<div><dt>Outras proteções</dt><dd>−${numero(leituraDano.reducaoDivina + leituraDano.reducaoPassiva)}</dd></div>` : ""}
+      ${leituraDano.danoAnulado ? "<div><dt>Proteção ativa</dt><dd>Golpe anulado</dd></div>" : ""}
+    </dl></details>`;
+    const posturas = resultado
+      ? ""
+      : `<fieldset class="disputa-posturas" aria-describedby="descricao-postura-combate"><legend>Postura de combate</legend><div class="disputa-posturas-opcoes">${Object.entries(
+          Jogo.engine.posturasCombate,
+        )
+          .map(
+            ([id, postura]) =>
+              `<button type="button" data-acao="combate-postura" data-postura="${id}" aria-pressed="${(pendente.postura || "equilibrada") === id}">${esc(postura.nome)}</button>`,
+          )
+          .join(
+            "",
+          )}</div><p id="descricao-postura-combate">${esc(perfil.postura.descricao)}</p><details class="disputa-regra-margem"><summary>Dano nas derrotas</summary><p>Diferença de até 2 pontos: metade do dano. De 3 a 5: 75% do dano. Depois entram a postura, o Escudo e as proteções.</p></details></fieldset>`;
+    const danoPorAcerto = Math.max(1, perfil.batalha.danoPorAcerto || 25);
+    const acertosRestantes = pendente.ehBoss ? Math.ceil(pendente.vidaChefe / danoPorAcerto) : 0;
+    const objetivoChefe =
+      pendente.ehBoss && pendente.etapa !== "desfecho"
+        ? `<p class="disputa-objetivo-chefe">${numero(danoPorAcerto)} de dano por acerto · ${numero(acertosRestantes)} ${acertosRestantes === 1 ? "acerto restante" : "acertos restantes"}</p>`
+        : "";
+    const derrotaFatal =
+      !pendente.ehBoss && Boolean(evento.letal || perfil.batalha.letal || perfil.batalha.encerrarAoFalhar);
+    const previsaoDano = leituraDano
+      ? `<p class="disputa-dano-final">Dano do golpe: <strong>${numero(leituraDano.dano)}</strong> Vida</p>${derrotaFatal ? '<p class="disputa-regra">A derrota neste confronto é fatal.</p>' : `<p class="disputa-vida-prevista">Vida após o golpe: ${numero(Math.max(0, run.atributos.hp - leituraDano.dano))} / ${numero(run.hpMax)}</p>`}${detalhesDano}`
+      : pendente.ehBoss
+        ? `<p class="disputa-dano-final">${pendente.etapa === "desfecho" ? "Vida do chefe: 0" : `Dano no chefe: <strong>${numero(Math.min(danoPorAcerto, pendente.vidaChefe))}</strong> Vida`}</p>`
+        : '<p class="disputa-dano-final">Dano do golpe: <strong>0</strong> Vida</p>';
     const desfechoForcado = resultado
       ? perfil.batalha.forcarDerrota
         ? "Esta batalha determina a derrota, independentemente dos dados."
@@ -2024,8 +2119,10 @@
     const resumoResultado = resultado
       ? `<section class="resultado-disputa ${venceu ? "resultado-disputa-vitoria" : "resultado-disputa-derrota"}"${movimentoReduzido ? "" : ' data-aguardando-rolagem aria-hidden="true"'} aria-live="polite">
           <p class="disputa-veredito">${vereditoResultado}</p>
-          <p class="disputa-totais"><span>${esc(tituloHerdeiro(run.traco))}<strong>${numero(maiorHerdeiro)} ${perfil.ataque < 0 ? "−" : "+"} ${numero(Math.abs(perfil.ataque))}${perfil.bonusResultado ? ` + ${numero(perfil.bonusResultado)}` : ""}</strong></span><span aria-hidden="true">×</span><span>${esc(inimigo)}<strong>${numero(maiorInimigo)} ${perfil.defesa < 0 ? "−" : "+"} ${numero(Math.abs(perfil.defesa))}</strong></span></p>
-          ${danoDerrota !== null ? `<p class="disputa-dano-derrota">Dano antes das reduções: ${numero(danoDerrota)}</p>` : ""}
+          <p class="disputa-totais"><span>${esc(tituloHerdeiro(run.traco))}<strong>${numero(totalHerdeiro)}</strong><small>${numero(maiorHerdeiro)} ${perfil.ataque < 0 ? "−" : "+"} ${numero(Math.abs(perfil.ataque))}${perfil.bonusResultado ? ` + ${numero(perfil.bonusResultado)}` : ""}</small></span><span aria-hidden="true">×</span><span>${esc(inimigo)}<strong>${numero(totalInimigo)}</strong><small>${numero(maiorInimigo)} ${perfil.defesa < 0 ? "−" : "+"} ${numero(Math.abs(perfil.defesa))}</small></span></p>
+          <p class="disputa-margem">${leituraMargem}</p>
+          <p class="disputa-postura-resumo">Postura ${esc(perfil.postura.nome.toLowerCase())}</p>
+          ${previsaoDano}
           ${desfechoForcado ? `<p class="disputa-regra">${esc(desfechoForcado)}</p>` : ""}
         </section>`
       : "";
@@ -2069,6 +2166,7 @@
     return `<section class="disputa-combate" aria-labelledby="titulo-disputa-combate">
         <div class="disputa-combate-conteudo">
           <h1 id="titulo-disputa-combate">${esc(evento.titulo)}</h1>
+          ${objetivoChefe}
           ${previsaoDestino}
           ${avisoCoringa}
           <div class="disputa-participantes">
@@ -2087,6 +2185,7 @@
             </div>
           </div>
           ${resumoTrocaChefe}
+          ${posturas}
           ${resumoResultado}
           ${itensDaDisputa}
           <div class="disputa-acoes">
@@ -2356,9 +2455,13 @@
             <div class="evento-detalhes">
               ${indicadorVidaChefeCarta}
               ${evento.bossId ? "" : `<div class="evento-texto"><div class="carta-titulo evento-titulo"><h2 id="titulo-evento">${esc(evento.titulo)}</h2>${evento.entidadeX || evento.entidadeXInicio ? '<span class="marca-entidade">A Entidade</span>' : ""}</div><p>${esc(evento.texto)}</p></div>`}
-              ${evento.bossId ? "" : `<aside id="informacoes-evento" class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>${run.previsaoCorvo ? `<p class="previsao-corvo" role="status">Seu corvo prevê: ${esc(run.previsaoCorvo)}.</p>` : ""}
+              ${
+                evento.bossId
+                  ? ""
+                  : `<aside id="informacoes-evento" class="informacoes" aria-label="Informações do evento"><p>${esc(evento.informacoes)}</p>${run.previsaoCorvo ? `<p class="previsao-corvo" role="status">Seu corvo prevê: ${esc(run.previsaoCorvo)}.</p>` : ""}
                 ${evento.batalha && evento.batalha.mostrarLeitura !== false ? `<p class="batalha-escudo-lateral">Seu Escudo previsto: <strong>${numero(escudoPrevisto)}</strong>.</p>` : ""}
-              </aside>`}
+              </aside>`
+              }
               ${evento.bossId ? "" : resumoCombateResultado}
             </div>
           </div>
@@ -2395,7 +2498,13 @@
         </div>
       </section>`,
       "jogo",
-      evento.bossId ? `chefe_${evento.bossId}` : cultoAtivo ? "culto" : evento.batalha ? "batalha" : run.estacao,
+      evento.bossId
+        ? `chefe_${evento.bossId}`
+        : cultoAtivo
+          ? "culto"
+          : evento.batalha
+            ? "batalha"
+            : run.estacao,
     );
     if (emCombate) app.querySelector(".cronica")?.classList.add("cronica--combate");
     if (emCombate) {

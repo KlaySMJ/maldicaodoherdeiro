@@ -13,6 +13,7 @@ Os caminhos de código, imagens e scripts citados nestes arquivos partem da raiz
 - [Maus Presságios](PRD-MAUS-PRESSAGIOS.md): dez ameaças raras implementadas, com anúncio fora da rodada, preparação, salvamento e debug; balanceamento jogável pendente.
 - [Herdeiros prioritários: Culto, Leste e Nórdico](PLANO-HERDEIROS-PRIORITARIOS.md): mecânicas e artes nórdicas integradas; retratos dos herdeiros e revisão visual manual pendentes.
 - [Plano de melhorias](PLANO-MELHORIAS.md).
+- [Plano de sistemas e consequências](PLANO-SISTEMAS-E-CONSEQUENCIAS.md): melhorias dos sistemas, mercador contextual, interface e tutorial de combate com acesso pelo “?”; implementação pendente.
 - [Revisão da interface e do legado](PLANO-REVISAO-INTERFACE-E-LEGADO.md).
 - [Balanceamento e mobile](PRD-BALANCEAMENTO-E-MOBILE.md).
 - [Revisão dos textos de eventos](PRD-REVISAO-TEXTOS-EVENTOS.md).
