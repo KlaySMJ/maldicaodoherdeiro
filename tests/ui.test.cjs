@@ -123,3 +123,29 @@ test("coleção vazia mantém resumo válido e explica a ausência de conquistas
   assert.match(app.innerHTML, /Nenhuma conquista cadastrada/);
   assert.doesNotMatch(app.innerHTML, /NaN|Infinity|data-conquista-item=/);
 });
+
+test("contadores do inventário incluem efeitos permanentes e unidades guardadas", () => {
+  const { J, app, novaRun } = preparar();
+  const run = novaRun();
+  run.inventario = [];
+  run.itensConquistados = [];
+  const permanente = J.itens.find((item) => item.aoReceber && !item.guardarAposReceber);
+  const consumivel = J.itens.find((item) => item.tipo === "uso" && !item.aoReceber);
+  const conferir = (total, rotulo) => {
+    J.ui.jogo(run, { textoCompleto: true });
+    assert.ok(app.innerHTML.includes('aria-label="Inventário: ' + total + " " + rotulo + '"'));
+    assert.ok(app.innerHTML.includes("Inventário <span>" + total + " " + rotulo + "</span>"));
+  };
+  conferir(0, "itens");
+  J.engine.concederItem(run, permanente.id);
+  assert.equal(run.inventario.length, 0);
+  conferir(1, "item");
+  J.engine.concederItem(run, consumivel.id);
+  J.engine.concederItem(run, consumivel.id);
+  conferir(3, "itens");
+  run.inventario = [];
+  run.itensConsumidosEm = { [consumivel.id]: run.rodada };
+  conferir(2, "itens");
+  run.rodada += 1;
+  conferir(1, "item");
+});

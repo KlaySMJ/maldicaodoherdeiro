@@ -204,7 +204,7 @@ test("chance contra chefe preserva a face inimiga na rerrolagem e consome a prot
   assert.ok(Math.abs(contexto.J.engine.chanceVitoriaCombate(contexto.run) - (1 - 0.475 ** 2)) < 1e-10);
 });
 
-test("resultado mostra totais, margem e dano real; só um dado empatado conta como escolhido", () => {
+test("resultado mostra totais sem margem, postura ou dano do golpe; só um dado empatado conta como escolhido", () => {
   const contexto = combate();
   const { J, run, app } = contexto;
   J.ui.jogo(run);
@@ -213,10 +213,31 @@ test("resultado mostra totais, margem e dano real; só um dado empatado conta co
   J.ui.jogo(run);
   assert.match(app.innerHTML, /<strong>12<\/strong>/);
   assert.match(app.innerHTML, /<strong>13<\/strong>/);
-  assert.match(app.innerHTML, /perdeu por 1 ponto/);
-  assert.match(app.innerHTML, /Dano do golpe: <strong>7<\/strong>/);
+  assert.doesNotMatch(app.innerHTML, /disputa-margem|disputa-postura-resumo/);
+  assert.doesNotMatch(app.innerHTML, /Dano do golpe:/);
   assert.doesNotMatch(app.innerHTML, /data-acao="combate-postura"/);
   run.combatePendente.dadosHerdeiro = [10, 10];
   J.ui.jogo(run);
   assert.match(app.innerHTML, /Resultado descartado: 10/);
+});
+
+test("golpe final no chefe mostra os dados sem repetir a animacao", () => {
+  const contexto = chefeCurto(50, 0);
+  const { J, run, app } = contexto;
+  rolar(contexto, 20, 1);
+  J.ui.jogo(run);
+  assert.match(app.innerHTML, /dado-combate-destaque-pendente/);
+  assert.equal(J.engine.continuarCombate(run), true);
+  assert.equal(run.combatePendente.vidaChefe, 0);
+  assert.equal(run.combatePendente.etapa, "desfecho");
+  assert.equal(J.engine.rolarCombate(run), false);
+  J.ui.jogo(run);
+  assert.match(app.innerHTML, /dado-combate-estatico/);
+  assert.doesNotMatch(
+    app.innerHTML,
+    /dado-combate-destaque-pendente|dado-combate-descarte-pendente|data-aguardando-rolagem/,
+  );
+  assert.match(app.innerHTML, /Concluir luta/);
+  assert.equal(J.engine.continuarCombate(run), true);
+  assert.equal(run.combatePendente, null);
 });

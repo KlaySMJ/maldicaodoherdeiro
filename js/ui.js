@@ -1170,13 +1170,13 @@
       .join("")}</div>`;
   }
 
-  function inventario(run, { somenteCombate = false, manterAberto = false } = {}) {
+  function itensInventario(run, somenteCombate = false) {
     const contagem = run.inventario.reduce((grupos, id) => {
       grupos[id] = (grupos[id] || 0) + 1;
       return grupos;
     }, {});
     const idsConquistados = [...new Set([...(run.itensConquistados || []), ...Object.keys(contagem)])];
-    const itens = idsConquistados
+    return idsConquistados
       .map((id) => ({ item: Jogo.itens.find((item) => item.id === id), quantidade: contagem[id] || 0 }))
       .filter(
         ({ item, quantidade }) =>
@@ -1189,6 +1189,14 @@
           ) &&
           (!somenteCombate || (quantidade > 0 && Jogo.engine.podeUsarItem(run, item.id))),
       );
+  }
+
+  function quantidadeItensInventario(run) {
+    return itensInventario(run).reduce((total, { quantidade }) => total + Math.max(1, quantidade), 0);
+  }
+
+  function inventario(run, { somenteCombate = false, manterAberto = false } = {}) {
+    const itens = itensInventario(run, somenteCombate);
     if (somenteCombate && !itens.length) return "";
     const efeitos = run.efeitosPreparados || {};
     const preparados = [
@@ -1226,7 +1234,7 @@
             : "",
         ].filter(Boolean)
       : preparados;
-    const quantidadeItens = run.inventario.length;
+    const quantidadeItens = quantidadeItensInventario(run);
     return `<details id="painel-inventario" class="inventario" ${run.inventarioAberto || manterAberto ? "open" : ""}><summary><span class="painel-titulo">Inventário <span>${numero(quantidadeItens)} ${quantidadeItens === 1 ? "item" : "itens"}</span></span><span class="painel-voltar-link">← Voltar</span></summary>
       ${
         itens.length
@@ -2013,6 +2021,7 @@
         : `<p class="mao-destino-chance" role="status"><span class="mao-destino-selo" aria-hidden="true">${iconesDisputa.dado}</span><span class="mao-destino-leitura"><span class="mao-destino-nome">A Mão do Destino</span><span class="mao-destino-rotulo">${pendente.ehBoss ? "Chance de derrotar o chefe" : "Chance de vencer este embate"}</span></span><strong><span>${numero(Math.round(chanceDestino * 1000) / 10)}</span><small>%</small></strong></p>`;
     const inimigo = evento.batalha.inimigo || "Inimigo";
     const resultado = ["resultado", "desfecho"].includes(pendente.etapa);
+    const animarRolagem = pendente.etapa !== "desfecho";
     const corDadoHerdeiro = coresPrincipaisHerdeiros[run.traco] || "#8B673D";
     const corDadoInimigo = "#F9EEDD";
     const bonusAtaqueItem = run.efeitosPreparados?.bonusAtaqueProximaBatalha || 0;
@@ -2044,12 +2053,6 @@
         : !perfil.batalha.forcarDerrota && (lancaAtiva || adagaAtiva || venceuNaRolagem));
     const leituraDano =
       resultado && !venceu ? Jogo.engine.calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo) : null;
-    const diferenca = resultado ? totalHerdeiro - totalInimigo : 0;
-    const leituraMargem = !resultado
-      ? ""
-      : diferenca === 0
-        ? `Empate: ${perfil.tracoInimigo === "veloz" ? "o inimigo" : "você"} vence.`
-        : `Sua rolagem ${diferenca > 0 ? "venceu" : "perdeu"} por ${numero(Math.abs(diferenca))} ${Math.abs(diferenca) === 1 ? "ponto" : "pontos"}.`;
     const detalhesDano = !leituraDano
       ? ""
       : `<details class="disputa-calculo-dano"><summary>Como o dano foi calculado</summary><dl>
@@ -2081,10 +2084,10 @@
     const derrotaFatal =
       !pendente.ehBoss && Boolean(evento.letal || perfil.batalha.letal || perfil.batalha.encerrarAoFalhar);
     const previsaoDano = leituraDano
-      ? `<p class="disputa-dano-final">Dano do golpe: <strong>${numero(leituraDano.dano)}</strong> Vida</p>${derrotaFatal ? '<p class="disputa-regra">A derrota neste confronto é fatal.</p>' : `<p class="disputa-vida-prevista">Vida após o golpe: ${numero(Math.max(0, run.atributos.hp - leituraDano.dano))} / ${numero(run.hpMax)}</p>`}${detalhesDano}`
+      ? `${derrotaFatal ? '<p class="disputa-regra">A derrota neste confronto é fatal.</p>' : `<p class="disputa-vida-prevista">Vida após o golpe: ${numero(Math.max(0, run.atributos.hp - leituraDano.dano))} / ${numero(run.hpMax)}</p>`}${detalhesDano}`
       : pendente.ehBoss
         ? `<p class="disputa-dano-final">${pendente.etapa === "desfecho" ? "Vida do chefe: 0" : `Dano no chefe: <strong>${numero(Math.min(danoPorAcerto, pendente.vidaChefe))}</strong> Vida`}</p>`
-        : '<p class="disputa-dano-final">Dano do golpe: <strong>0</strong> Vida</p>';
+        : "";
     const desfechoForcado = resultado
       ? perfil.batalha.forcarDerrota
         ? "Esta batalha determina a derrota, independentemente dos dados."
@@ -2097,13 +2100,17 @@
               : ""
       : "";
     const dadoHeroi = resultado
-      ? facesDados(pendente.dadosHerdeiro, maiorHerdeiro, { cor: corDadoHerdeiro, lado: "jogador" })
+      ? facesDados(pendente.dadosHerdeiro, maiorHerdeiro, {
+          cor: corDadoHerdeiro,
+          lado: "jogador",
+          animar: animarRolagem,
+        })
       : `<div class="dados-combate" aria-label="${perfil.dadosHerdeiro} dados do herdeiro">${Array.from({ length: perfil.dadosHerdeiro }, () => marcadorDado("?", ["dado-combate", "dado-combate-jogador", "dado-combate-aguardando"], "", corDadoHerdeiro)).join("")}</div>`;
     const dadoInimigo = resultado
       ? facesDados(pendente.dadosInimigo, maiorInimigo, {
           cor: corDadoInimigo,
           lado: "inimigo",
-          animar: pendente.rerrolagens === 0,
+          animar: animarRolagem && pendente.rerrolagens === 0,
           selecionaMenor: perfil.inimigoEscolheMenor,
         })
       : `<div class="dados-combate" aria-label="${perfil.dadosInimigo} dados do inimigo">${Array.from({ length: perfil.dadosInimigo }, () => marcadorDado("?", ["dado-combate", "dado-combate-inimigo", "dado-combate-aguardando"], "", corDadoInimigo)).join("")}</div>`;
@@ -2117,11 +2124,9 @@
         ? "Vitória"
         : "Derrota";
     const resumoResultado = resultado
-      ? `<section class="resultado-disputa ${venceu ? "resultado-disputa-vitoria" : "resultado-disputa-derrota"}"${movimentoReduzido ? "" : ' data-aguardando-rolagem aria-hidden="true"'} aria-live="polite">
+      ? `<section class="resultado-disputa ${venceu ? "resultado-disputa-vitoria" : "resultado-disputa-derrota"}"${movimentoReduzido || !animarRolagem ? "" : ' data-aguardando-rolagem aria-hidden="true"'} aria-live="polite">
           <p class="disputa-veredito">${vereditoResultado}</p>
           <p class="disputa-totais"><span>${esc(tituloHerdeiro(run.traco))}<strong>${numero(totalHerdeiro)}</strong><small>${numero(maiorHerdeiro)} ${perfil.ataque < 0 ? "−" : "+"} ${numero(Math.abs(perfil.ataque))}${perfil.bonusResultado ? ` + ${numero(perfil.bonusResultado)}` : ""}</small></span><span aria-hidden="true">×</span><span>${esc(inimigo)}<strong>${numero(totalInimigo)}</strong><small>${numero(maiorInimigo)} ${perfil.defesa < 0 ? "−" : "+"} ${numero(Math.abs(perfil.defesa))}</small></span></p>
-          <p class="disputa-margem">${leituraMargem}</p>
-          <p class="disputa-postura-resumo">Postura ${esc(perfil.postura.nome.toLowerCase())}</p>
           ${previsaoDano}
           ${desfechoForcado ? `<p class="disputa-regra">${esc(desfechoForcado)}</p>` : ""}
         </section>`
@@ -2161,7 +2166,7 @@
       ? `<span class="disputa-origem-item" role="img" aria-label="Bônus do Trevo da sorte: +${numero(perfil.bonusResultado)} no total" title="Bônus do Trevo da sorte: +${numero(perfil.bonusResultado)} no total">${iconesDisputa.dado}</span>`
       : "";
     const itensDaDisputa = itensCombate
-      ? `<section class="disputa-itens" aria-label="Itens disponíveis para este combate"${resultado && !movimentoReduzido ? " inert" : ""}><h2>${resultado ? "Itens de rerrolagem" : "Itens de combate"}</h2>${itensCombate}</section>`
+      ? `<section class="disputa-itens" aria-label="Itens disponíveis para este combate"${resultado && animarRolagem && !movimentoReduzido ? " inert" : ""}><h2>${resultado ? "Itens de rerrolagem" : "Itens de combate"}</h2>${itensCombate}</section>`
       : "";
     return `<section class="disputa-combate" aria-labelledby="titulo-disputa-combate">
         <div class="disputa-combate-conteudo">
@@ -2349,7 +2354,7 @@
         ? nomesConstrucoes[id]
         : { nome: id, bonus: "Bônus registrado nesta crônica" }),
     }));
-    const quantidadeItensInventario = run.inventario.length;
+    const totalItensInventario = quantidadeItensInventario(run);
     const passivaDruida = Jogo.druida?.passivas[run.druidaPassiva] || {
       nome: "Companheiro",
       descricao: "A floresta acompanha esta rodada.",
@@ -2421,7 +2426,7 @@
           <nav class="titulo-run-acoes" aria-label="Ações da crônica">
             ${run.pressagios?.atual ? `<button type="button" class="botao botao-icone pressagio-indicador" data-acao="pressagio-detalhes" aria-label="Mau presságio: ${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}. Ver condição e prazo" title="${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}"><span aria-hidden="true">☾</span><small>${Math.max(0, run.pressagios.atual.fim - run.rodada)}</small></button>` : ""}
             <button class="botao botao-icone botao-construcoes" data-acao="alternar-construcoes" aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila" title="Construções da vila" aria-controls="painel-construcoes" aria-expanded="${Boolean(run.construcoesAbertas)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg><span aria-hidden="true">${numero(construcoesRun.length)}</span></button>
-            <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(quantidadeItensInventario)} ${quantidadeItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(quantidadeItensInventario)}</span></button>
+            <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(totalItensInventario)}</span></button>
             <button class="botao botao-icone botao-cronicas" data-acao="alternar-progresso" aria-label="Ver crônicas" title="Crônicas" aria-controls="painel-progresso" aria-expanded="${run.historicoCronicaAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19.5h16M5 16l4-4 3 2 6-7"/><path d="M14.5 7H18v3.5"/></svg></button>
             <button class="botao botao-icone botao-tutorial" data-acao="tutorial" aria-label="Tutorial" title="Tutorial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5c2.8-1.3 5.3-.4 7 1.1v14c-1.7-1.5-4.2-2.4-7-1.1zM19 4.5c-2.8-1.3-5.3-.4-7 1.1v14c1.7-1.5 4.2-2.4 7-1.1z"/><path d="M7.5 8h2M7.5 11h2M14.5 8h2M14.5 11h2"/></svg></button>
           </nav>
