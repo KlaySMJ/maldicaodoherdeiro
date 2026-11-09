@@ -33,6 +33,10 @@ As 26 propostas selecionadas foram implementadas. O sorteio escolhe uma caracter
 
 Os ajustes de dano base entram antes da margem de derrota, da postura, do Escudo e das demais proteções. Os efeitos não se acumulam entre características: cada inimigo recebe apenas uma.
 
+O sorteio verifica as condições iniciais: Sanguinário exige Vida positiva de até 25% do máximo; Encouraçado exige ao menos 4 de Ataque; Preciso e Perseguidor exigem Escudo, incluindo preparos e o Manto de folhas. Distraído e Saqueador exigem Gold. Agourento não aparece com o Dado viciado. Generoso exige Vida faltando nas lutas comuns; nos chefes, pode curar o dano recebido durante a luta. Colecionador exige uma recompensa disponível.
+
+Condições que dependem dos turnos, das posturas ou dos resultados dos dados continuam previstas desde o início. Berserker e Encurralado, por exemplo, aguardam a redução da Vida do chefe. A característica sorteada não muda quando o estado da luta muda.
+
 O nome permite consultar o resumo por hover, foco de teclado ou seleção por clique e toque. Distraído oferece um botão separado para o pagamento. Colecionador anuncia o item antes da rolagem. Os chefes informam a sobrevivência de Tenaz antes de abrir outro turno.
 
 A Mão do Destino calcula as chances com os estados da característica, a postura e os preparos atuais. Considera o uso das rerrolagens gratuitas e uma proteção preparada; não pressupõe troca de postura nem novos consumíveis em turnos futuros.

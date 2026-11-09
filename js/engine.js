@@ -111,9 +111,38 @@
     },
   };
 
-  function tracosElegiveis(evento) {
+  function premiosColecionador(run) {
+    return Jogo.itens.filter(
+      (item) =>
+        ["comum", "raro"].includes(item.raridade) &&
+        !item.especialSorteavel &&
+        (!temItem(run, item.id) || item.tipo === "uso") &&
+        Jogo.legado.disponivel(item, "itens", run.legadoDaRun),
+    );
+  }
+
+  function tracosElegiveis(evento, run) {
+    const escudo = run
+      ? run.atributos.escudo +
+        (run.efeitosPreparados?.bonusEscudoProximaBatalha || 0) +
+        (temItem(run, "manto_de_folhas") ? (run.estacao === "inverno" ? 4 : 3) : 0)
+      : 0;
+    const condicoes = run
+      ? {
+          sanguinario: run.atributos.hp > 0 && run.atributos.hp * 4 <= run.hpMax,
+          encouracado: run.atributos.ataque >= 4,
+          preciso: escudo > 0,
+          perseguidor: escudo > 0,
+          distraido: run.atributos.gold >= 1,
+          saqueador: run.atributos.gold > 0,
+          agourento: !temItem(run, "dado_viciado"),
+          generoso: Boolean(evento.bossId) || run.atributos.hp < run.hpMax,
+          colecionador: premiosColecionador(run).length > 0,
+        }
+      : {};
     return Object.keys(caracteristicasCombate).filter(
       (id) =>
+        condicoes[id] !== false &&
         (!caracteristicasCombate[id].chefe || evento.bossId) &&
         !(
           id === "piedoso" &&
@@ -2361,7 +2390,7 @@
           ? run.debugFaceCoringa
           : Math.floor(Math.random() * 6) + 1
         : 0;
-    const elegiveis = tracosElegiveis(evento);
+    const elegiveis = tracosElegiveis(evento, run);
     const tracoInimigo = evento.batalha.forcarDerrota
       ? ""
       : run.debugTracoInimigo === "nenhum"
@@ -2369,13 +2398,7 @@
         : elegiveis.includes(run.debugTracoInimigo)
           ? run.debugTracoInimigo
           : elegiveis[Math.floor(Math.random() * elegiveis.length)];
-    const premios = Jogo.itens.filter(
-      (item) =>
-        ["comum", "raro"].includes(item.raridade) &&
-        !item.especialSorteavel &&
-        (!temItem(run, item.id) || item.tipo === "uso") &&
-        Jogo.legado.disponivel(item, "itens", run.legadoDaRun),
-    );
+    const premios = tracoInimigo === "colecionador" ? premiosColecionador(run) : [];
     const premioItemId =
       tracoInimigo === "colecionador" && premios.length
         ? premios[Math.floor(Math.random() * premios.length)].id

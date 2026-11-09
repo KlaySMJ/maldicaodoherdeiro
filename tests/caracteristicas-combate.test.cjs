@@ -25,6 +25,8 @@ function criar(traco, chefe = false) {
   run.debugTracoInimigo = traco;
   run.atributos.ataque = 6;
   run.atributos.escudo = 0;
+  if (["preciso", "perseguidor"].includes(traco)) run.atributos.escudo = 8;
+  if (["generoso", "sanguinario"].includes(traco)) run.atributos.hp = 30;
   J.engine.registrarSorteio(run, evento);
   assert.equal(J.engine.escolher(run, evento.opcoes.find((o) => o.combate).id), true);
   return { ...contexto, run, evento };
@@ -249,4 +251,46 @@ test("estados confirmados persistem e uma rerrolagem preserva a característica"
   carregada.combatePendente.impaciencia = 99;
   c.J.save.gravarRun(carregada);
   assert.notEqual(c.J.save.lerRun()?.combatePendente?.impaciencia, 99);
+});
+
+test("sorteio exclui características sem condição inicial e respeita os limites", () => {
+  const c = criar("nenhum");
+  const elegiveis = () => c.J.engine.tracosElegiveis(c.evento, c.run);
+  c.run.atributos.hp = c.run.hpMax;
+  c.run.atributos.ataque = 3;
+  c.run.atributos.escudo = 0;
+  c.run.atributos.gold = 0;
+  for (const id of [
+    "sanguinario",
+    "encouracado",
+    "preciso",
+    "perseguidor",
+    "distraido",
+    "saqueador",
+    "generoso",
+  ]) {
+    assert.equal(elegiveis().includes(id), false, id);
+  }
+  c.run.atributos.hp = c.run.hpMax / 4 + 1;
+  assert.equal(elegiveis().includes("sanguinario"), false);
+  c.run.atributos.hp -= 1;
+  c.run.atributos.ataque = 4;
+  c.run.atributos.gold = 1;
+  c.run.efeitosPreparados.bonusEscudoProximaBatalha = 1;
+  for (const id of [
+    "sanguinario",
+    "encouracado",
+    "preciso",
+    "perseguidor",
+    "distraido",
+    "saqueador",
+    "generoso",
+  ]) {
+    assert.equal(elegiveis().includes(id), true, id);
+  }
+  c.J.engine.concederItem(c.run, "dado_viciado");
+  assert.equal(elegiveis().includes("agourento"), false);
+  const chefe = criar("berserker", true);
+  const chefes = chefe.J.engine.tracosElegiveis(chefe.evento, chefe.run);
+  for (const id of ["berserker", "encurralado", "adaptavel", "vingativo"]) assert.ok(chefes.includes(id));
 });
