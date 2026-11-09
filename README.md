@@ -23,12 +23,10 @@ A run é salva ao começar, a cada decisão e ao avançar. Recarregar depois de 
 - O visual muda em +30 ou mais (honra alta, azul) e −30 ou menos (honra baixa, vermelha); fica neutro de −29 a +29. Em +90 e −90, aparecem retratos extremos e novas opções. A borda e o número acompanham a faixa.
 - As respostas especiais exigem +50 ou mais para honra alta, ou −50 ou menos para honra baixa. Opções com `nao_baixa` são bloqueadas em −50 ou menos. Os pesos e requisitos de estado dos eventos continuam usando a faixa visual de ±30.
 - As respostas não antecipam suas mudanças de honra. A exceção é o pacto do corvo: por cinco rodadas, as opções mostram apenas a variação de honra antes da decisão.
-- Batalha: ATAQUE maior ou igual à defesa inimiga vence. O dano de cada desfecho vem do evento; o recebido é `Math.max(0, dano - escudo)`. O escudo não é consumido.
-- A cada dez rodadas completas, a defesa de inimigos aumenta em 1 e o dano em caso de vitória ou derrota aumenta em 2. A carta mostra os valores ajustados antes da decisão.
-- Um ataque malsucedido também aplica `batalha.penalidadeFalha`, definida por evento. No exemplo, além do dano mitigado, a vila perde 12 habitantes. Outro evento pode definir perda adicional de HP ou outros efeitos.
+- Combates comuns e disputas usam dados de vinte faces. Nos combates, o maior resultado do herdeiro soma-se ao Ataque e é comparado com o maior resultado inimigo somado à Defesa; em empate, o herdeiro vence, exceto contra inimigos com o traço Veloz. Veja [Combate e chefes](#combate-e-chefes).
 - A condição de vitória é completar `Jogo.config.rodadasVitoria` rodadas. O fim do ano pode sair como `vitoria`, `vitoria_culto` (culto ativo) ou `vitoria_honra` (Honra ≥ 90); todas as variantes entram no ranking de melhores runs. Desfechos com `encerramento` também podem terminar a crônica antes do tempo, inclusive em eventos letais.
 
-O visual da interface usa fundo preto com textos, bordas e desenhos brancos. A seleção oferece Corajosa, Avarento e Doente, além dos seis herdeiros desbloqueáveis; o personagem escolhido ajusta os atributos iniciais e o retrato; as ilustrações acompanham as faixas de honra. A estação muda a cada 25 rodadas, com cartas sazonais. O catálogo contém 384 definições, incluindo 12 escolhas letais bloqueadas antes da rodada 6 e eventos próprios do culto; uma definição é a transição do último habitante e só é disparada pela engine. As opções visíveis são embaralhadas ao abrir cada carta e a ordem fica salva ao carregar. Nenhum recurso externo é necessário.
+O visual da interface usa fundo preto com textos, bordas e desenhos brancos. A seleção oferece Corajosa, Avarento e Doente, além dos herdeiros desbloqueáveis; o personagem escolhido ajusta os atributos iniciais e o retrato; as ilustrações acompanham as faixas de honra. A estação muda a cada 25 rodadas, com cartas sazonais. O catálogo reúne eventos comuns e especiais, escolhas letais, disputas com dados e batalhas contra chefes. As opções visíveis são embaralhadas ao abrir cada carta e a ordem fica salva ao carregar. Nenhum recurso externo é necessário.
 
 Os companheiros são passivos: o cão reduz 2 de dano em batalhas, o corvo acrescenta 1 gold às recompensas positivas e o gato recupera 1 HP por rodada. Construções duram até o fim da run: ponte (+1 gold em cada renda), moinho (+1 HP por rodada), capela (+1 Escudo), forja (−2 gold no preço da arma), muralha (−2 dano em batalha), cisterna (+1 Habitante a cada 3 rodadas após a obra) e entreposto (+1 Gold a cada 2 rodadas após a obra). O legado registra a rodada, honra final e causa do fim de cada herdeiro; cartas de memória podem reapresentar o registro à geração seguinte.
 
@@ -42,7 +40,7 @@ As sequências da própria run incluem a ponte e sua caravana, o poço e a febre
 
 O testamento pode ser sorteado a partir da rodada 5, uma vez por run. Lê-lo concede 6 gold, reduz a honra em 3 e registra `vontade_lembrada` em `run.conquistas`; essa flag só entra no legado no encerramento, inclusive em derrota. Não concede moedas automaticamente a outros herdeiros.
 
-O banquete exige honra ≥30 para entrar no sorteio, e sua resposta especial exige ≥50. Em celulares baixos, cartas com quatro respostas as mostram em duas colunas. A taverna tem peso maior em honra ≤−30 e uma resposta exclusiva em ≤−50. O barão aparece a partir da rodada 4: negociar exige honra ≥50 e 3 gold, custa 3 gold e 3 HP diretos. Seus combates usam defesa 4 e as mesmas regras de mitigação e penalidade de falha dos demais eventos.
+O banquete exige honra ≥30 para entrar no sorteio, e sua resposta especial exige ≥50. Em celulares baixos, cartas com quatro respostas as mostram em duas colunas. A taverna tem peso maior em honra ≤−30 e uma resposta exclusiva em ≤−50. O barão aparece a partir da rodada 4: negociar exige honra ≥50 e custa 3 gold e 3 HP diretos. O confronto posterior é uma luta de chefe em vários turnos; veja [Combate e chefes](#combate-e-chefes).
 
 As novas cadeias acompanham o moinho e a farinha, o bardo e sua canção, o prisioneiro, o padre e a capela, a praga, a mina, o cometa e o poço. Outras cartas entram a partir de rodadas específicas, incluindo batalhas contra a fera, invasores e o retorno do barão. As escolhas de três eventos registram `senhor_compreendido`, `vontade_ouvida` e `sucessor_pressentido` no legado ao fim da run. `sucessor_pressentido`, vindo do evento 100, libera “O Primeiro Herdeiro” a partir da rodada 18.
 
@@ -51,6 +49,22 @@ As cartas 101–120 são especiais, pesam 0,3 no sorteio (o Primeiro Herdeiro, 0
 As cartas 130–155 abrem duas cadeias raras. O Mercador de vermelho surge com 25% de chance logo após uma visita de mercador; seus diálogos mostram a resposta correta e duas alternativas em ordem aleatória. Aceitá-lo corretamente agenda uma carta do zodíaco a cada 50 rodadas, elegível durante uma janela de 10 rodadas. O Viajante do Norte pode surgir depois da Geada ou do Inverno Longo; se acolhido, libera um evento divino no máximo a cada 40 rodadas. O catálogo tem 12 cartas do zodíaco e 20 cartas divinas. As oito novas entidades nórdicas têm artes próprias, com traço e cor baseados na carta de Thor. Os efeitos divinos duram de cinco a dez rodadas, aparecem no indicador da run e podem modificar atributos, ganhos de gold, população, cura, dano de batalha ou informação das escolhas. As cartas não identificam a bênção ou maldição antes da decisão.
 
 O sorteio evita as últimas 25 cartas, mantendo os pesos por honra entre as elegíveis. Se restarem poucas cartas, libera a mais antiga primeiro para continuar o jogo. O histórico é salvo; carregar não reinicia esse intervalo. A referência de escolhas e consequências está em [eventos-e-beneficios.txt](docs/eventos-e-beneficios.txt).
+
+## Combate e chefes
+
+Nos combates comuns, o herdeiro e o inimigo rolam d20; cada lado usa a maior face, somada ao Ataque ou à Defesa. Se os totais empatam, o herdeiro vence, salvo quando o inimigo tem o traço Veloz. Bônus de atributos, dados extras, efeitos de itens e rerrolagens podem alterar a disputa. A interface mostra as faces e os totais.
+
+Antes de cada combate comum, escolha uma postura: **Equilibrada** não altera valores; **Agressiva** concede +2 Ataque e aumenta em 25% o dano recebido antes do Escudo; **Defensiva** reduz Ataque em 2 e o dano recebido antes do Escudo em 35%. A postura vale apenas para aquela luta. A derrota calcula o dano conforme a diferença entre os totais, aplica o ajuste da postura e depois considera Escudo e proteções. A vitória não causa dano de combate; a carta ainda pode ter consequências próprias.
+
+Chefes têm uma barra de Vida própria e exigem vários acertos: cada vitória na disputa causa dano ao chefe, e a luta continua até derrotá-lo ou perder. O herdeiro pode escolher uma postura antes de cada turno. Alguns confrontos são até a morte e podem encerrar a crônica se o herdeiro falhar. Entre os chefes estão o Barão, o líder do culto, a Entidade e o Senhor sob a lagoa; suas cartas e regras ficam em [js/events-bosses.js](js/events-bosses.js). O estado do confronto é salvo para permitir retomar a luta.
+
+Para testar, ative o debug durante uma run e abra **Especial → Testar lutas de chefes**. O menu oferece um caso de teste para cada um dos quatro chefes. O controle **Forçar combate** faz os sorteios comuns priorizarem cartas de batalha.
+
+## Maus Presságios
+
+São dez ameaças raras que aparecem em uma cena própria, escurecem a tela e não consomem uma rodada. Apenas uma pode ficar ativa; cada uma apresenta condição e prazo. Cumpri-la evita a penalidade e concede uma recompensa pequena. Um indicador acompanha o progresso junto às informações de Inventário e Cronologia. Os parâmetros de frequência, condições, desfechos e limitações atuais estão em [docs/PRD-MAUS-PRESSAGIOS.md](docs/PRD-MAUS-PRESSAGIOS.md); as artes ficam em `assets/eventos-pressagios/`.
+
+O debug de presságios fica em **Especial → Maus Presságios** e permite abrir cada um dos dez casos, simular sucesso ou falha e limpar o presságio de teste.
 
 ## Herdeiros prioritários
 
@@ -105,6 +119,8 @@ Quatro faixas instrumentais em loop acompanham o menu, a mensagem antes de inici
 | `js/state.js` | Valores iniciais, faixas de honra e criação da run |
 | `js/events.js`, `js/events-vila.js` | Eventos iniciais e narrativas da vila |
 | `js/events-pactos.js`, `js/events-abissais.js`, `js/events-specials.js` | Pactos, cadeia abissal, zodíaco e deuses nórdicos |
+| `js/events-d20.js`, `js/events-bosses.js` | Disputas com dados e confrontos contra chefes |
+| `js/pressagios.js` | Catálogo, prazos, condições e efeitos dos Maus Presságios |
 | `js/events-baus.js`, `js/events-recompensas.js` | Baús, equipamentos e achados |
 | `js/events-personagens.js`, `js/events-personagens-cadeias.js`, `js/events-conselheiro.js` | Personagens, suas sequências e conselhos do menino |
 | `js/events-lethal.js`, `js/events-cult.js`, `js/events-foundations.js`, `js/events-entity.js`, `js/events-supernatural.js`, `js/events-grail.js`, `js/events-druida.js`, `js/events-anuais.js`, `js/events-artes-especificas.js` | Eventos letais, culto, entidades, estações, Druida, cadeias e artes específicas |
