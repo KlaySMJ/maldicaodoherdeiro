@@ -505,7 +505,7 @@
         visual.textContent = caracteres.slice(0, indice).join("");
         if (indice >= caracteres.length) completar();
       },
-      Math.min(30, 4000 / Math.max(1, caracteres.length)),
+      Jogo.ui.preferenciaTexto?.() === "rapido" ? 8 : Math.min(30, 4000 / Math.max(1, caracteres.length)),
     );
   }
 
@@ -597,6 +597,7 @@
         <h2 id="tutorial-titulo">${esc(etapa.titulo)}</h2>
         <p id="tutorial-texto">${esc(etapa.texto)}</p>
         <div class="tutorial-acoes">
+          <button class="botao" type="button" data-tutorial-combate>Ajuda de combate</button>
           <button class="botao tutorial-voltar" type="button" data-tutorial-voltar ${etapaTutorial === 0 ? "disabled" : ""}>Voltar</button>
           <button class="botao tutorial-pular" type="button" data-tutorial-pular>Pular tutorial</button>
           <button class="botao primario tutorial-avancar" type="button" data-tutorial-avancar>${etapaTutorial === etapasTutorial.length - 1 ? "Concluir" : "Próximo"}<span aria-hidden="true">→</span></button>
@@ -613,6 +614,10 @@
       evento.stopPropagation();
       const botao = evento.target.closest("button");
       if (!botao || botao.disabled) return;
+      if (botao.hasAttribute("data-tutorial-combate")) {
+        Jogo.ui.tutorialCombate?.();
+        return;
+      }
       if (botao.hasAttribute("data-tutorial-pular")) {
         encerrarTutorial();
         return;
@@ -1078,7 +1083,7 @@
         const ehHonra = id === "honra";
         const ehGold = id === "gold";
         return `<div data-atributo="${id}" class="atributo ${ehHonra ? `honra-${Jogo.estado.faixaHonra(run.atributos.honra)}${mudouHonra ? " honra-mudou" : ""}` : ""}${ehGold ? " gold-contador" : ""}${id === "hp" && danoRecebido > 0 ? " vida-perdida" : ""}" ${id === "hp" && danoRecebido > 0 ? `data-dano="${numero(danoRecebido)}"` : ""} ${ehHonra && mudouHonra ? `data-mudanca-honra="${variacaoHonra > 0 ? "subiu" : "caiu"}"` : ""} ${ehHonra && variacaoHonra > 0 ? `data-ganho-honra="${numero(variacaoHonra)}"` : ""} ${ehGold ? `role="group" tabindex="0" aria-label="Gold: ${numero(run.atributos.gold)}" aria-describedby="descricao-renda-gold" data-tooltip="${esc(descricaoRenda)}"` : ""}>
-      <dt><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icones[id]}</svg><span class="leitor-de-tela">${nomes[id]}</span></dt><dd>${ehHonra ? assinado(run.atributos[id]) : id === "hp" ? `<span class="vida-atual">${numero(run.atributos.hp)}</span><span class="vida-separador" aria-hidden="true">/</span><span class="vida-maxima">${numero(run.hpMax)}</span><span class="leitor-de-tela">${numero(run.atributos.hp)} de ${numero(run.hpMax)}</span>` : numero(run.atributos[id])}</dd>${ehGold ? `<span id="descricao-renda-gold" class="leitor-de-tela">${esc(descricaoRenda)}</span>` : ""}
+      <dt><button class="atributo-consulta" type="button" data-acao="detalhes-atributo" data-atributo="${id}" aria-label="Consultar ${esc(nomes[id])}"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icones[id]}</svg><span class="leitor-de-tela">${nomes[id]}</span></button></dt><dd>${ehHonra ? assinado(run.atributos[id]) : id === "hp" ? `<span class="vida-atual">${numero(run.atributos.hp)}</span><span class="vida-separador" aria-hidden="true">/</span><span class="vida-maxima">${numero(run.hpMax)}</span><span class="leitor-de-tela">${numero(run.atributos.hp)} de ${numero(run.hpMax)}</span>` : numero(run.atributos[id])}</dd>${ehGold ? `<span id="descricao-renda-gold" class="leitor-de-tela">${esc(descricaoRenda)}</span>` : ""}
     </div>`;
       })
       .join("")}</dl>`;
@@ -1149,8 +1154,8 @@
       ? `<section class="resultado-duelo-dados" aria-label="Resultado do teste de dados"><div>${facesDados([r.testeDados.face], r.testeDados.face, { cor: coresPrincipaisHerdeiros[run.traco] || "#8B673D", lado: "jogador", animar: false })}<strong>${numero(r.testeDados.total)}</strong><small>Dado ${numero(r.testeDados.face)}${r.testeDados.bonus ? ` + ${numero(r.testeDados.bonus)}` : ""} · dificuldade ${numero(r.testeDados.dificuldade)} · ${r.testeDados.desfecho === "sucesso" ? "sucesso" : r.testeDados.desfecho === "sucessoComCusto" ? "sucesso com custo" : "falha"}</small></div></section>`
       : "";
     return `<div class="resultado" role="status">
-      ${r.combate ? `<p class="desfecho-combate">${r.combate.venceu ? "Vitória em batalha" : "Ataque malsucedido"} · ${numero(r.combate.dano)} de dano após o escudo</p>` : ""}
-      ${dueloDados}${testeDados}<p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
+      ${r.combate ? `<p class="desfecho-combate">${r.combate.venceu ? "Vitória em batalha" : "Ataque malsucedido"}</p><p class="resultado-dano">Dano após as proteções: ${numero(r.combate.dano)}.</p><button class="botao ajuda-combate" type="button" data-acao="ajuda-combate" aria-label="Ajuda de combate">?</button>${r.combate.protecaoConsumida ? `<p class="efeito-consumido">${esc(r.combate.protecaoConsumida)}</p>` : ""}` : ""}
+      ${Jogo.sistemasUI?.principal(run) || ""}${dueloDados}${testeDados}<p>${esc(r.texto)}</p>${r.informativoCulto ? `<p class="aviso-culto" role="status">${esc(r.informativoCulto)}</p>` : ""}${movimento ? `<p class="movimento-gold">${esc(movimento)}</p>` : ""}${alteracoes(r)}
       <button class="botao primario" data-acao="continuar">Continuar <span aria-hidden="true">→</span></button>
     </div>`;
   }
@@ -1165,7 +1170,7 @@
       .filter((item) => Jogo.engine.cumpre(item.requisitos, run))
       .map(
         (item) =>
-          `<button class="escolha mercadoria${item.raridade ? ` item-raridade-${esc(item.raridade)}` : ""}" data-mercadoria="${esc(item.id)}" ${Jogo.engine.podePagar(run, item) ? "" : 'disabled title="Gold insuficiente"'}><span>${esc(item.texto)}${item.raridade ? `<small class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</small>` : ""}</span><span class="preco">${numero(Jogo.engine.precoMercadoria(run, item))} gold</span></button>`,
+          `<button class="escolha mercadoria${item.raridade ? ` item-raridade-${esc(item.raridade)}` : ""}" data-mercadoria="${esc(item.id)}" ${Jogo.engine.podePagar(run, item) ? "" : `disabled title="${esc(Jogo.sistemasUI?.requisitos(run, { goldMin: Jogo.engine.precoMercadoria(run, item) }) || "Gold insuficiente")}"`}><span>${esc(item.texto)}<small>${item.tipo === "uso" ? "Vai para a mochila" : "Efeito aplicado ao comprar"}${Jogo.sistemas?.pesoMercador(run, item) > 1 ? " · favorecido pelas necessidades atuais" : ""}</small>${item.raridade ? `<small class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</small>` : ""}</span><span class="preco">${numero(Jogo.engine.precoMercadoria(run, item))} gold</span></button>`,
       )
       .join("")}</div>`;
   }
@@ -1280,7 +1285,7 @@
                   item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto"
                     ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque."
                     : [item.texto, item.descricao].filter(Boolean).join(". ");
-                return `<li><span class="item-descricao"><span class="item-efeito"><button type="button" class="item-efeito-acionar" aria-describedby="efeito-item-${esc(item.id)}"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong></button><span class="item-efeito-tooltip" role="tooltip" id="efeito-item-${esc(item.id)}">${esc(efeitoItem)}</span></span><small>${esc(estado)} · ${esc(item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto" ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque." : item.descricao)}</small></span>${usoItem}</li>`;
+                return `<li><span class="item-descricao"><span class="item-efeito"><button type="button" class="item-efeito-acionar" aria-describedby="efeito-item-${esc(item.id)}"><strong>${esc(item.nome)}${item.raridade ? `<span class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</span>` : ""}${quantidade > 1 ? ` ×${numero(quantidade)}` : ""}</strong></button><span class="item-efeito-tooltip" role="tooltip" id="efeito-item-${esc(item.id)}">${esc(efeitoItem)}</span></span><small>${esc(estado)} · ${esc(item.id === "adaga_cerimonial" && run.traco === "herdeiro_culto" ? "Uso único: 5 seguidores por +10 Ataque e +5 Escudo, ou 5 habitantes por +10 Ataque." : item.descricao)}${Jogo.sistemas?.animais.includes(item.id) ? ` ${esc(Jogo.sistemas.descricaoVinculo(run, item.id))}` : ""}</small></span>${usoItem}</li>`;
               })
               .join("")}</ul>`
           : somenteCombate
@@ -1989,7 +1994,7 @@
       resultado && (pendente.rerrolagensGratis > 0 || pendente.rerrolagemCoringa === 1);
     return `<section class="disputa-combate disputa-teste-dados${duelo ? " disputa-duelo-dados" : ""}" aria-labelledby="titulo-disputa-combate">
         <div class="disputa-combate-conteudo">
-          <h1 id="titulo-disputa-combate">${esc(evento.titulo)}</h1>
+          <div class="disputa-titulo"><h1 id="titulo-disputa-combate">${esc(evento.titulo)}</h1><button type="button" class="botao ajuda-combate" data-acao="ajuda-combate" aria-label="Ajuda de combate">?</button></div><p class="regra-empate">${esc(Jogo.sistemasUI?.regraEmpate(run) || "")}</p>
           <div class="disputa-participantes${duelo ? "" : " disputa-participantes-teste"}">
             <section class="disputa-lado disputa-herdeiro" aria-label="Rolagem do herdeiro">
               <h2>${esc(tituloHerdeiro(run.traco))}</h2>
@@ -2137,7 +2142,7 @@
       : "";
     const resumoTrocaChefe =
       pendente.ehBoss && pendente.etapa === "preparacao" && pendente.ultimaTrocaChefe
-        ? `<p class="resumo-troca-chefe" aria-live="polite">${esc(pendente.ultimaTrocaChefe)}</p>`
+        ? `<p class="resumo-troca-chefe" aria-live="polite">${esc(pendente.ultimaTrocaChefe)}</p>${pendente.protecaoConsumida ? `<p class="efeito-consumido">${esc(pendente.protecaoConsumida)}</p>` : ""}`
         : "";
     const itensCombate = inventario(run, { somenteCombate: true, manterAberto: true });
     const rerrolagemCoringaDisponivel =
@@ -2169,7 +2174,7 @@
       : "";
     return `<section class="disputa-combate" aria-labelledby="titulo-disputa-combate">
         <div class="disputa-combate-conteudo">
-          <h1 id="titulo-disputa-combate">${esc(evento.titulo)}</h1>
+          <div class="disputa-titulo"><h1 id="titulo-disputa-combate">${esc(evento.titulo)}</h1><button type="button" class="botao ajuda-combate" data-acao="ajuda-combate" aria-label="Ajuda de combate">?</button></div><p class="regra-empate">${esc(Jogo.sistemasUI?.regraEmpate(run) || "")}</p>
           ${objetivoChefe}
           ${previsaoDestino}
           ${avisoCoringa}
@@ -2339,7 +2344,12 @@
     const movimentoReduzido =
       !window.matchMedia || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const renderDisputa = ++renderDisputaAtual;
-    const animarTexto = !resolvido && !emCombate && !textoCompleto && !movimentoReduzido;
+    const animarTexto =
+      !resolvido &&
+      !emCombate &&
+      !textoCompleto &&
+      !movimentoReduzido &&
+      Jogo.ui.preferenciaTexto?.() !== "imediato";
     const escolhas = Jogo.engine.opcoes(evento, run);
     const escudoPrevisto =
       run.atributos.escudo +
@@ -2424,7 +2434,7 @@
               </details>
             </dd></div>
           </dl>
-          <nav class="titulo-run-acoes" aria-label="Ações da crônica">
+          <nav class="titulo-run-acoes" aria-label="Ações da crônica"><button class="botao botao-icone velocidade-texto" type="button" data-acao="velocidade-texto" aria-label="Velocidade do texto: ${esc(Jogo.ui.preferenciaTexto?.() || "normal")}" title="Texto: ${esc(Jogo.ui.preferenciaTexto?.() || "normal")}">Aa</button>
             ${run.pressagios?.atual ? `<button type="button" class="botao botao-icone pressagio-indicador" data-acao="pressagio-detalhes" aria-label="Mau presságio: ${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}. Ver condição e prazo" title="${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}"><span aria-hidden="true">☾</span><small>${Math.max(0, run.pressagios.atual.fim - run.rodada)}</small></button>` : ""}
             <button class="botao botao-icone botao-construcoes" data-acao="alternar-construcoes" aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila" title="Construções da vila" aria-controls="painel-construcoes" aria-expanded="${Boolean(run.construcoesAbertas)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg><span aria-hidden="true">${numero(construcoesRun.length)}</span></button>
             <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(totalItensInventario)}</span></button>
@@ -2433,7 +2443,7 @@
           </nav>
         </div>
         ${statusDruida}
-        ${run.pressagios?.efeito ? `<p class="efeito-divino-status" role="status">Presságio: ${esc(run.pressagios.efeito.nome)} · ${Math.max(0, run.pressagios.efeito.fim - run.rodada)} rodadas · ${esc(efeitoDivinoHover(run.pressagios.efeito))}</p>` : ""}
+        ${Jogo.sistemasUI?.companheiros(run) || ""}${run.sistemas?.transicao ? `<p class="transicao-estacao" role="status">${esc(run.sistemas.transicao)}</p>` : ""}${run.pressagios?.atual ? `<details class="progresso-pressagio"><summary>Condição do presságio · ${Math.max(0, run.pressagios.atual.fim - run.rodada)} rodadas</summary><p>${esc(Jogo.pressagios.progresso(run))}</p></details>` : ""}${run.pressagios?.efeito ? `<p class="efeito-divino-status" role="status">Presságio: ${esc(run.pressagios.efeito.nome)} · ${Math.max(0, run.pressagios.efeito.fim - run.rodada)} rodadas · ${esc(efeitoDivinoHover(run.pressagios.efeito))}</p>` : ""}
         ${run.passivaNordica ? `<p class="efeito-divino-status" role="status">Passiva do dia: ${esc(run.passivaNordica.nome)} · ${esc(efeitoDivinoHover(run.passivaNordica))}</p>` : ""}
         ${run.encontroLeste ? `<p role="status">Visita do zodíaco: este encontro não passa o dia.</p>` : ""}
         ${run.efeitoDivino ? `<p class="efeito-divino-status" role="status" tabindex="0" aria-describedby="descricao-efeito-divino" data-tooltip="${esc(efeitoDivinoHover(run.efeitoDivino))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 14.8 8.5 22 9l-5.5 4.8 1.7 7.2-6.2-3.8-6.2 3.8 1.7-7.2L2 9l7.2-.5L12 2Z"/></svg> ${esc(run.efeitoDivino.nome)} · ${numero(run.efeitoDivino.restantes)} ${run.efeitoDivino.restantes === 1 ? "rodada restante" : "rodadas restantes"}<span id="descricao-efeito-divino" class="leitor-de-tela">${esc(efeitoDivinoHover(run.efeitoDivino))}</span></p>` : ""}
@@ -2491,14 +2501,14 @@
                         const raridadePremio = itemPremio?.raridade
                           ? `<small class="nome-raridade raridade-${esc(itemPremio.raridade)}"> (${esc(nomesRaridade[itemPremio.raridade])})</small>`
                           : "";
-                        return `<button class="escolha${opcao.id === "juntar" && evento.id === "ultimo_habitante" ? " escolha-chamado" : ""}${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 9 ? `aria-keyshortcuts="${indice + 1}"` : ""}><span class="escolha-conteudo">${textoComNomesEspeciais(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}</span><span aria-hidden="true">→</span></button>`;
+                        return `<button class="escolha${opcao.id === "juntar" && evento.id === "ultimo_habitante" ? " escolha-chamado" : ""}${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 9 ? `aria-keyshortcuts="${indice + 1}"` : ""}><span class="escolha-conteudo">${opcao.combate ? '<span class="acao-simbolo" aria-label="Combate">&#9876;</span> ' : opcao.consumirItens?.length ? '<span class="acao-simbolo" aria-label="Uso de item">&#9671;</span> ' : ""}${textoComNomesEspeciais(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}</span><span aria-hidden="true">→</span></button>`;
                       })
                       .join("")}</div></div>`
             }
             ${emCombate ? "" : inventario(run)}${emCombate ? "" : historicoCronica(run)}
             <section id="painel-construcoes" class="construcoes-painel" aria-labelledby="titulo-construcoes">
               <header class="construcoes-painel-cabecalho"><h2 id="titulo-construcoes">Construções da vila</h2><button class="painel-voltar-link construcoes-voltar" type="button" data-acao="fechar-construcoes" aria-label="Voltar à crônica">← Voltar</button></header>
-              ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
+              ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}${construcao.id === "moinho" && run.sistemas?.especializacao ? ` · Função ${esc(run.sistemas.especializacao)}: ${run.sistemas.especializacao === "comunitario" ? "+1 Vida por dia" : "+1 Gold a cada 5 dias"}` : ""}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
             </section>
           </section>
         </div>
@@ -2626,7 +2636,7 @@
     const tituloFim = titulosFim[run.fim.tipo] || (venceu ? "Uma crônica cumprida." : "Um herdeiro se vai.");
     const melhoresRuns = Jogo.save.lerLegado().melhoresRuns || [];
     mostrar(
-      `<section class="fim" aria-labelledby="titulo-fim">
+      `<section class="fim fim--${esc(run.fim.tipo)}" aria-labelledby="titulo-fim">
       <img class="fim-selo" src="assets/selo.svg" width="72" height="84" alt="">
       <h1 id="titulo-fim">${tituloFim}</h1>
       <p class="subtitulo">${esc(run.fim.motivo)}</p>

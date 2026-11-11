@@ -230,6 +230,7 @@
         Jogo.druida?.novaRun(run);
       }
       Jogo.herdeiros.novaRun(run);
+      Jogo.sistemas?.estado(run);
       return run;
     },
     faixaHonra(honra) {

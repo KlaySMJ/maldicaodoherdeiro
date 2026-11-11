@@ -1115,3 +1115,38 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 button.disputa-traco-inimigo { background: transparent; border: 0; padding: 0; font-family: inherit; }
 .disputa-traco-inimigo:focus::after { opacity: 1; visibility: visible; }
 .disputa-caracteristica-resumo { color: var(--secundaria); font-size: 14px; }
+/* Consultas de regras e continuidade da crônica. */
+.sistemas-dialogo {
+  color: #f9eedd;
+  background: #171410;
+  border: 1px solid #9e8054;
+  border-radius: 8px;
+  max-width: min(540px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: 24px;
+  line-height: 1.6;
+}
+.sistemas-dialogo::backdrop { background: #080706d9; }
+.sistemas-acoes { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+.atributo-consulta { display: inline-flex; align-items: center; justify-content: center; color: inherit; background: transparent; border: 0; min-width: 30px; min-height: 30px; padding: 0; cursor: pointer; }
+.atributo-consulta:focus-visible { outline: 2px solid #c9a96c; outline-offset: 2px; }
+.regra-empate { font-size: .85rem; color: #dac9ad; }
+.ajuda-combate { min-width: 44px; min-height: 44px; }
+.disputa-titulo { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.disputa-titulo .ajuda-combate { flex: 0 0 44px; justify-content: center; padding: 0; font-size: 18px; }
+.companheiros-status, .progresso-pressagio { font-size: .85rem; padding: 6px 12px; }
+.companheiros-status p { max-width: 72ch; }
+.velocidade-texto { font-size: .75rem; padding: 4px 10px; min-height: 32px; }
+.consequencia-principal { border-left: 3px solid #c9a96c; padding-left: 12px; font-weight: bold; }
+.transicao-estacao { margin: 6px 0; color: #dac9ad; }
+.efeito-consumido { padding: 8px; border: 1px dotted #c9a96c; }
+.transicao-estacao--nova, .efeito-consumido--novo { animation: estacao-chega .35s ease-out; }
+.mercadoria small { display: block; font-size: .72rem; }
+.fim--vitoria_barao { border-top: 3px double #b19060; }
+.fim--vitoria_abissal { border-top: 3px double #779799; }
+.fim--vitoria_culto { border-top: 3px double #b65b57; }
+.fim--vitoria_honra { border-top: 3px double #c9b985; }
+@keyframes estacao-chega { from { opacity: .4; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .transicao-estacao, .efeito-consumido { animation: none; } }
+@media (hover: none) { .atributo-consulta { min-width: 44px; min-height: 44px; } }

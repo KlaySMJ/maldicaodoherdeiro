@@ -335,11 +335,13 @@
     const ativos = [];
     for (const efeito of run.efeitosTemporarios || []) {
       if (efeito.aplicado && run.rodada > efeito.fimRodada) {
-        aplicarEfeitos(run, { [efeito.atributo]: -efeito.valor });
+        aplicarEfeitos(run, { [efeito.atributo]: -(efeito.valorAplicado ?? efeito.valor) });
         continue;
       }
       if (!efeito.aplicado && run.rodada >= efeito.inicioRodada) {
+        const antes = run.atributos[efeito.atributo];
         aplicarEfeitos(run, { [efeito.atributo]: efeito.valor });
+        efeito.valorAplicado = run.atributos[efeito.atributo] - antes;
         efeito.aplicado = true;
       }
       ativos.push(efeito);
@@ -392,6 +394,7 @@
     if (requisitos.cultoAtivo !== undefined && Boolean(run.cultoAtivo) !== requisitos.cultoAtivo)
       return false;
     if (requisitos.itens?.some((id) => !run.inventario.includes(id))) return false;
+    if (requisitos.itensPermanentes?.some((id) => !temItem(run, id))) return false;
     if (requisitos.itensAusentes?.some((id) => temItem(run, id))) return false;
     if (
       requisitos.itensProntos?.some((id) => !run.inventario.includes(id) || recargaItemRestante(run, id) > 0)
@@ -420,7 +423,8 @@
 
   function catalogoOpcoes(evento, run) {
     if (run.recompensasBau?.eventoId === evento.id) return run.recompensasBau.opcoes;
-    return evento.poolOpcoes || evento.opcoes;
+    const base = evento.poolOpcoes || evento.opcoes;
+    return Jogo.sistemas ? Jogo.sistemas.opcoes(run, evento, base) : base;
   }
 
   function opcoes(evento, run, usarOpcoesSorteadas = true) {
@@ -541,7 +545,7 @@
         evento.id === "ultimo_habitante")
         ? 2
         : 1;
-    return base * multiplicador * ajusteAbissal * culto;
+    return base * multiplicador * ajusteAbissal * culto * (Jogo.sistemas?.peso(run, evento) || 1);
   }
 
   function eventoComum(evento) {
@@ -741,6 +745,8 @@
         ? cartasDeCombate
         : [Jogo.eventoPorId("saqueadores")].filter(Boolean);
     }
+    if (!apenasEventosD20 && !run.flags.debugSempreCombate && Jogo.sistemas)
+      candidatos = Jogo.sistemas.filtrar(run, candidatos);
     const eventosProgramados = candidatos.filter((evento) => evento.forcarSorteioQuandoElegivel);
     if (eventosProgramados.length) candidatos = eventosProgramados;
     const anuaisDevidos = candidatos.filter(
@@ -1312,7 +1318,17 @@
         retaliacao: estado.retaliacao,
         posturaAnterior: estado.repetiu ? inicial.postura : "",
       };
-      const virtual = { ...run, atributos: { ...run.atributos, hp: estado.hp }, combatePendente: p };
+      const virtual = {
+        ...run,
+        atributos: { ...run.atributos, hp: estado.hp },
+        combatePendente: p,
+        sistemas: run.sistemas
+          ? {
+              ...run.sistemas,
+              vinculos: { ...run.sistemas.vinculos, cao_companheiro: estado.cao ? "ativo" : "usado" },
+            }
+          : undefined,
+      };
       const perfil = perfilCombate(virtual);
       const herdeiros = distribuicaoDadoExtremo(perfil.dadosHerdeiro, minimoHerdeiro, 20);
       const inimigos = distribuicaoDadoExtremo(perfil.dadosInimigo, 1, 20, perfil.inimigoEscolheMenor);
@@ -1333,7 +1349,10 @@
             proximo.retaliacao = true;
           } else {
             const leitura = calcularDanoDerrota(virtual, perfil, th, ti, { semBloqueio: true });
-            const dano = estado.protecao ? 0 : leitura.dano;
+            const dano = estado.protecao
+              ? 0
+              : (Jogo.sistemas?.proteger(virtual, leitura.dano) ?? leitura.dano);
+            if (!estado.protecao && dano < leitura.dano) proximo.cao = false;
             if (perfil.tracoInimigo === "piedoso" && !estado.protecao && leitura.danoSemPiedade >= estado.hp)
               return { chance: herdeiro.chance, valor: 0, acerto };
             proximo.hp -= dano;
@@ -1396,7 +1415,17 @@
         retaliacao: estado.retaliacao,
         posturaAnterior: estado.repetiu ? inicial.postura : "",
       };
-      const virtual = { ...run, atributos: { ...run.atributos, hp: estado.hp }, combatePendente: p };
+      const virtual = {
+        ...run,
+        atributos: { ...run.atributos, hp: estado.hp },
+        combatePendente: p,
+        sistemas: run.sistemas
+          ? {
+              ...run.sistemas,
+              vinculos: { ...run.sistemas.vinculos, cao_companheiro: estado.cao ? "ativo" : "usado" },
+            }
+          : undefined,
+      };
       const perfil = perfilCombate(virtual);
       const continuar = estado.r > 0 ? valorRerrolagem({ ...estado, r: estado.r - 1 }, face) : 0;
       const valor = distribuicaoDadoExtremo(perfil.dadosHerdeiro, minimoHerdeiro, 20).reduce((soma, h) => {
@@ -1417,7 +1446,9 @@
           const leitura = calcularDanoDerrota(virtual, perfil, th, ti, { semBloqueio: true });
           if (perfil.tracoInimigo === "piedoso" && !estado.protecao && leitura.danoSemPiedade >= estado.hp)
             return soma + h.chance * continuar;
-          proximo.hp -= estado.protecao ? 0 : leitura.dano;
+          const dano = estado.protecao ? 0 : (Jogo.sistemas?.proteger(virtual, leitura.dano) ?? leitura.dano);
+          proximo.hp -= dano;
+          if (!estado.protecao && dano < leitura.dano) proximo.cao = false;
           proximo.protecao = false;
           proximo.retaliacao = false;
           proximo.impaciencia =
@@ -1445,6 +1476,7 @@
       tenaz: Boolean(inicial.tenacidadeUsada),
       impaciencia: id === "impaciente" ? inicial.impaciencia || 0 : 0,
       retaliacao: id === "vingativo" && Boolean(inicial.retaliacao),
+      cao: temItem(run, "cao_companheiro") && run.sistemas?.vinculos.cao_companheiro === "ativo",
     });
   }
 
@@ -1458,7 +1490,11 @@
       Math.min(11, (pendente?.rerrolagensGratis || 0) + Number(pendente?.rerrolagemCoringa === 1)),
     );
     const minimoHerdeiro = temItem(run, "dado_viciado") ? 5 : 1;
-    if (evento.bossId && caracteristicasCombate[perfil.tracoInimigo])
+    if (
+      evento.bossId &&
+      (caracteristicasCombate[perfil.tracoInimigo] ||
+        (temItem(run, "cao_companheiro") && run.sistemas?.vinculos.cao_companheiro === "ativo"))
+    )
       return chanceChefeComCaracteristica(run, rerrolagens, minimoHerdeiro);
     const distribuicaoInimigo = distribuicaoDadoExtremo(
       perfil.dadosInimigo,
@@ -1616,7 +1652,7 @@
     const escudoUsado = leituraDano.escudo;
     const pendente = run.combatePendente;
     const { bloqueioPreparadoAtivo, danoAnulado } = leituraDano;
-    const dano = venceu ? 0 : leituraDano.dano;
+    const dano = venceu ? 0 : (Jogo.sistemas?.proteger(run, leituraDano.dano, true) ?? leituraDano.dano);
     if (!venceu && pendente?.tracoInimigo === "saqueador" && !pendente.saqueAplicado) {
       aplicarEfeitos(run, { gold: -Math.min(2, run.atributos.gold) });
       pendente.saqueAplicado = true;
@@ -1632,6 +1668,7 @@
     let explosaoBacamarte = false;
     if (lancaAtiva && efeitos.honra < 0) efeitos = { ...efeitos, honra: 0 };
     let texto = desfecho.resultado;
+    if (!venceu && dano < leituraDano.dano) texto += ` ${run.sistemas.intervencao}`;
     if (venceu && pendente?.tracoInimigo === "generoso") texto += " Generoso: você recupera até 8 de Vida.";
     if (venceu && pendente?.tracoInimigo === "marcado" && (dadoHerdeiro === 20 || pendente.marcouVinte))
       texto += " Marcado: o resultado 20 concede mais 2 Gold.";
@@ -1733,6 +1770,14 @@
         tracoInimigo: run.combatePendente?.tracoInimigo || "",
         rerrolagens,
         danoAnulado: Boolean(danoAnulado),
+        protecaoConsumida:
+          !venceu && dano < leituraDano.dano
+            ? "Cão de guarda: intervenção do vínculo usada."
+            : bloqueioPreparadoAtivo
+              ? "Amuleto de última guarda: proteção consumida."
+              : leituraDano.bacamarteAtivo
+                ? "Bacamarte: uma carga consumida."
+                : "",
         encerrarRun: !venceu && Boolean(batalha.encerrarAoFalhar),
         tipoVitoria: venceu ? batalha.tipoVitoria || null : null,
         motivoVitoria: venceu ? batalha.motivoVitoria || null : null,
@@ -1765,6 +1810,8 @@
       fontes.push({ nome: "Mercado coberto", valor: 1 });
     if (run.construcoes.includes("praca_forca") && rodada % 6 === 0)
       fontes.push({ nome: "Praça da Forca", valor: 1 });
+    if (run.sistemas?.especializacao === "comercial" && rodada % 5 === 0)
+      fontes.push({ nome: "Moinho comercial", valor: 1 });
     const rodadaEntreposto = run.marcos?.entrepostoComercialRodada;
     if (
       run.construcoes.includes("entreposto_comercial") &&
@@ -2280,12 +2327,14 @@
         ? 1
         : 0;
     const extra = Boolean(run.encontroLeste);
-    const renda = extra ? 0 : rendaRegular + rendaMercado + rendaPraca + rendaEntreposto;
+    const rendaMoinho = Jogo.sistemas?.renda(run) || 0;
+    const renda = extra ? 0 : rendaRegular + rendaMercado + rendaPraca + rendaEntreposto + rendaMoinho;
     const saldoAntesDaRenda = run.atributos.gold;
     aplicarEfeitos(run, { gold: renda });
     if (!extra && rendaMercado) resultado.texto += " O Mercado coberto rende 1 Gold.";
     if (!extra && rendaPraca) resultado.texto += " A Praça da Forca rende 1 Gold.";
     if (!extra && rendaEntreposto) resultado.texto += " O Entreposto comercial rende 1 Gold.";
+    if (!extra && rendaMoinho) resultado.texto += " O moinho comercial rende 1 Gold.";
     const rodadaCisterna = run.marcos?.cisternaConstruidaRodada;
     const habitanteCisterna =
       run.construcoes.includes("cisterna_comunitaria") &&
@@ -2371,6 +2420,7 @@
     const contexto = prepararResolucaoOpcao(run, evento, opcao, gasto, rolagemCombate);
     aplicarEfeitosBase(contexto);
     aplicarEfeitosEspeciais(contexto);
+    Jogo.sistemas?.resolver(contexto);
     Jogo.pressagios?.registrarDecisao(contexto);
     calcularEconomia(contexto);
     if (contexto.sucessoCriticoDados && run.atributos.hp < contexto.antes.hp) {
@@ -2616,10 +2666,11 @@
 
     const leituraDano = calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo);
     const {
-      dano,
+      dano: danoSemVinculo,
       bloqueioPreparadoAtivo: bloqueioDisponivel,
       bacamarteAtivo: bacamarteDisponivel,
     } = leituraDano;
+    const dano = Jogo.sistemas?.proteger(run, danoSemVinculo) ?? danoSemVinculo;
     if (bloqueioDisponivel) pendente.bloqueioChefeUsado = true;
     if (bacamarteDisponivel) pendente.bacamarteChefeUsado = true;
     if (pendente.tracoInimigo === "saqueador" && !pendente.saqueAplicado) {
@@ -2638,6 +2689,15 @@
     }
 
     pendente.turnosChefe += 1;
+    if (dano < danoSemVinculo) Jogo.sistemas.proteger(run, danoSemVinculo, true);
+    pendente.protecaoConsumida =
+      dano < danoSemVinculo
+        ? "Cão de guarda: intervenção do vínculo usada."
+        : bloqueioDisponivel
+          ? "Amuleto de última guarda: proteção consumida."
+          : bacamarteDisponivel
+            ? "Bacamarte: uma carga consumida."
+            : "";
     pendente.posturaAnterior = pendente.postura;
     pendente.retaliacao = false;
     pendente.impaciencia = Math.min(3, (pendente.impaciencia || 0) + 1);
@@ -2648,7 +2708,7 @@
         ? "Sua proteção anula o golpe do chefe."
         : "O golpe do chefe não atravessa sua defesa.";
     pendente.vidaChefeAntes = vidaChefeAntes;
-    pendente.ultimaTrocaChefe = `Contra-ataque: ${danoTexto}`;
+    pendente.ultimaTrocaChefe = `Contra-ataque: ${danoTexto}${dano < danoSemVinculo ? ` ${run.sistemas.intervencao}` : ""}`;
     pendente.etapa = "preparacao";
     pendente.dadosHerdeiro = [];
     pendente.dadosInimigo = [];
@@ -3202,6 +3262,13 @@
   function concederItem(run, itemId) {
     const item = Jogo.itens.find((item) => item.id === itemId);
     if (!item) return false;
+    if (
+      ["selo_da_recusa", "estandarte_do_barao", "relicario_do_silencio", "lamina_da_lagoa"].includes(
+        itemId,
+      ) &&
+      temItem(run, itemId)
+    )
+      return false;
     if (itemId === "mascara_de_cervo" && temItem(run, itemId)) return false;
     if (item.dadosCombatePermanentes && temItem(run, itemId)) return false;
     registrarItemConquistado(run, itemId);
@@ -3564,6 +3631,7 @@
       return true;
     }
     const proximaRodada = run.rodada + 1;
+    Jogo.sistemas?.estado(run);
     const antesDoEfeito = { ...run.atributos };
     run.rodada = proximaRodada;
     run.estacao = Jogo.estacaoDaRodada(run.rodada, run);
@@ -3571,6 +3639,7 @@
     iniciarPassivaNordica(run);
     aplicarEfeitosTemporarios(run);
     aplicarEfeitoCondicaoRodada(run);
+    Jogo.sistemas?.rodada(run);
     const curaEnfermaria = run.construcoes.includes("enfermaria_ervateira") && run.atributos.hp < 60 ? 1 : 0;
     aplicarEfeitos(run, {
       hp:
@@ -3723,6 +3792,8 @@
 
   function registrarSorteio(run, evento) {
     if (!run || !evento) return false;
+    Jogo.sistemas?.atualizar(run);
+    Jogo.sistemas?.abrirCarta(run, evento);
     if (evento.id === "pressagio_preparativos" && run.pressagios?.atual)
       run.pressagios.atual.ultimaAuxilio = run.rodada;
     run.eventoId = evento.id;
@@ -3772,7 +3843,7 @@
       }
       run.opcoesSorteadas = sorteadas.map((opcao) => opcao.id);
     } else if (evento.tipo !== "mercador" && evento.opcoes?.length > 1) {
-      const ordem = evento.opcoes.filter((opcao) => cumpre(opcao.requisitos, run));
+      const ordem = catalogoOpcoes(evento, run).filter((opcao) => cumpre(opcao.requisitos, run));
       for (let i = ordem.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
@@ -3787,7 +3858,12 @@
       const ofertas = Jogo.itens.filter(
         (item) => item.mercador && Jogo.legado.disponivel(item, "itens", run.legadoDaRun),
       );
-      if (ofertas.length) run.ofertaMercador = ofertas[Math.floor(Math.random() * ofertas.length)].id;
+      if (ofertas.length)
+        run.ofertaMercador = (
+          Jogo.sistemas
+            ? Jogo.sistemas.mercador(run, ofertas)
+            : ofertas[Math.floor(Math.random() * ofertas.length)]
+        ).id;
     }
     Jogo.druida?.prepararEvento(run, evento);
     if (evento.especial) run.flags = { ...run.flags, [`especial_${evento.id}`]: true };

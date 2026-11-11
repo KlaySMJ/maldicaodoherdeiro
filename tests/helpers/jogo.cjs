@@ -72,6 +72,7 @@ function preparar() {
     "events-cult",
     "events-foundations",
     "events-entity",
+    "events-bosses",
     "events-supernatural",
     "events-grail",
     "events-druida",
@@ -87,10 +88,12 @@ function preparar() {
     "legacy",
     "conquistas",
     "druida",
+    "sistemas",
     "engine",
     "pressagios",
     "save",
     "ui",
+    "sistemas-ui",
   ])
     executar(nome);
   const J = window.Jogo;

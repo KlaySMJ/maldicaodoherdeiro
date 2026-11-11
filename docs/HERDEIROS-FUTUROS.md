@@ -1,6 +1,6 @@
 # Herdeiros futuros — especificação de implementação
 
-> Prioridade atual: implementar primeiro os herdeiros de [Culto, Leste e Norte](PLANO-HERDEIROS-PRIORITARIOS.md). Este documento contém referências antigas: o Conselheiro (`menino_cronista`) já está cadastrado, assim como a Heroína do povo, e os registros e números de linha abaixo precisam de conferência antes do uso.
+> Os herdeiros do Culto, do Leste e do Norte já estão cadastrados em `js/herdeiros.js`. Este documento contém referências antigas: o Conselheiro (`menino_cronista`) já está cadastrado, assim como a Heroína do povo, e os registros e números de linha abaixo precisam de conferência antes do uso.
 
 Especificação dos cinco herdeiros desbloqueáveis planejados. Cada um segue o modelo do **Druida-Herdeiro**, que já funciona de ponta a ponta.
 

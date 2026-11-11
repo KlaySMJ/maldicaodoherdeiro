@@ -124,6 +124,7 @@
     if (!Jogo.herdeiros.camposValidos(run)) return false;
     if (Jogo.pressagios && !Jogo.pressagios.camposValidos(run)) return false;
     if (!inteiro(run.rodada) || run.rodada < 1 || !objeto(run.atributos)) return false;
+    if (run.sistemas !== undefined && !Jogo.sistemas.valido(run.sistemas, run.rodada)) return false;
     if (
       !TRACOS_VALIDOS.includes(run.traco) ||
       !Jogo.estacoes.includes(run.estacao) ||
@@ -671,6 +672,7 @@
   }
 
   function normalizarRunV2(dados) {
+    if (!Object.hasOwn(dados, "sistemas")) Jogo.sistemas?.estado(dados);
     if (!Object.hasOwn(dados, "comprasMercador")) dados.comprasMercador = {};
     if (!Number.isSafeInteger(dados.batalhasVencidas) || dados.batalhasVencidas < 0)
       dados.batalhasVencidas = 0;

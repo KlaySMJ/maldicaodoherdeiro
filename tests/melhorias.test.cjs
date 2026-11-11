@@ -113,7 +113,7 @@ test("texto da carta mantém cópia acessível sem duplicá-la na leitura visual
   );
   assert.match(app.innerHTML, /data-atributo="gold"[^>]*data-tooltip="[^"]+"/);
   const gold = app.innerHTML.match(/<div data-atributo="gold"[\s\S]*?<\/div>/)?.[0] || "";
-  assert.match(gold, /<span class="leitor-de-tela">Gold<\/span><\/dt><dd>\d+<\/dd>/);
+  assert.match(gold, /<span class="leitor-de-tela">Gold<\/span><\/button><\/dt><dd>\d+<\/dd>/);
   assert.doesNotMatch(gold, /info-hover|>i</);
 });
 

@@ -10,7 +10,7 @@
   <!-- A escrita durante o parsing preserva defer e a ordem de execução em file://. -->
   <script>
     (() => {
-      const VERSAO_ASSETS = "20261108-69";
+      const VERSAO_ASSETS = "20261111-70";
       window.JOGO_VERSAO_ASSETS = VERSAO_ASSETS;
       const mostrarErroDeAbertura = () => {
         const app = document.getElementById("app");
@@ -55,11 +55,13 @@
         "js/legacy.js",
         "js/conquistas.js",
         "js/druida.js",
+        "js/sistemas.js",
         "js/engine.js",
         "js/pressagios.js",
         "js/save.js",
         "js/audio.js",
         "js/ui.js",
+        "js/sistemas-ui.js",
         "js/main.js"
       ];
       document.write(arquivos.map(arquivo =>

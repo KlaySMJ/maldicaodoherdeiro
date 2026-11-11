@@ -2,7 +2,7 @@
 
 Data: 8 de novembro de 2026.
 
-Estado: planejamento. Este documento não registra implementação das funcionalidades propostas.
+Estado: implementação em andamento. A checklist ao fim registra as entregas no código e as verificações pendentes; o plano ainda não está concluído.
 
 ## 1. Objetivo e escopo
 
@@ -311,23 +311,31 @@ O primeiro combate como gatilho e o botão “?” permanente nas lutas são req
 - [x] Definir a cobertura de persistência e o limite das simulações.
 - [x] Revisar o documento e sua referência no índice da documentação.
 - [x] Incorporar as aprovações posteriores de mercador, interface e combate, incluindo tutorial automático e acesso pelo “?”.
-- [ ] Selecionar os lotes e fechar seus efeitos e valores experimentais.
-- [ ] Implementar ritmo das cadeias e leitura da origem dos bônus.
-- [ ] Revisar eventos conforme situação da vila e estação.
+- [x] Selecionar os lotes e adotar valores experimentais para a primeira implementação.
+- [x] Implementar o piloto das continuações de farinha, bardo, prisioneiro e capela, com janela de 6 a 12 rodadas, fila persistida e intervalo entre continuações.
+- [x] Adicionar consulta aos atributos, preparos e modificadores conhecidos.
+- [ ] Concluir a conferência da origem dos bônus, incluindo efeitos limitados pelo mínimo do atributo e equipamentos de saves antigos.
+- [x] Acrescentar variantes de vila e estação às oito cartas selecionadas, mantendo até quatro respostas e salvando a situação da carta aberta.
 
-- [ ] Implementar consequências dos chefes e seus lendários.
-- [ ] Implementar especialização do moinho e vínculos com companheiros.
-- [ ] Implementar mercador contextual e vitrine com distinção entre compra imediata e item de mochila.
-- [ ] Implementar sinais de ação, consequência principal, requisitos e progresso dos presságios.
-- [ ] Implementar transição das estações, presença dos companheiros e animações de efeitos consumidos.
+- [x] Implementar recompensas dos chefes e encontros de obtenção futura para Barão e chefe abissal, preservando o Selo da Recusa existente.
+- [x] Implementar especialização comunitária ou comercial do moinho e vínculos com cão, corvo e gato.
+- [x] Implementar ponderação contextual do mercador, oferta persistida e indicação do destino das compras.
+- [x] Acrescentar sinais de ação, consequência principal e consulta do progresso dos presságios.
+- [ ] Conferir a apresentação dos requisitos em todos os caminhos previstos; a indicação de Gold faltante já entrou na vitrine.
+- [x] Adicionar aviso de estação, consulta dos companheiros e indicação de proteções consumidas.
 
-- [ ] Implementar velocidade de texto, proteção contra cliques entre telas, posição do inventário e fechamento por Escape.
-- [ ] Implementar regra de empate visível, rolagem separada do dano e última troca dos chefes.
-- [ ] Implementar tutorial no primeiro combate e “?” sempre disponível nas lutas.
-- [ ] Implementar apresentação dos encerramentos conforme a rota conquistada.
-- [ ] Executar testes e simulações dentro do limite da tarefa.
-- [ ] Conferir manualmente salvamento, fluxo e interface no computador e no celular.
+- [x] Implementar velocidades normal, rápida e imediata, bloqueio breve de cliques entre telas, restauração da posição do inventário e fechamento de painéis por Escape.
+- [x] Mostrar a regra de empate, separar vencedor e dano e preservar a última troca dos chefes.
+- [x] Implementar tutorial no primeiro combate, consulta pelo “?” e acesso pela ajuda geral, com preferência própria e restauração de foco.
+- [x] Diferenciar a apresentação dos encerramentos por rota, mantendo o estado real do salvamento.
+- [x] Executar os 15 testes novos de sistemas e uma conferência automatizada no Edge em desktop e celular emulado.
+- [ ] Concluir a revisão do código e executar novamente os testes, lint e formatação após os últimos ajustes.
+- [ ] Executar as simulações integradas e registrar os resultados, respeitando o limite total de 500 repetições.
+- [ ] Conferir em navegador os demais fluxos: fila, bônus, mercador, especialização, vínculos, chefes e encerramentos.
+- [ ] Avaliar o balanceamento em partidas completas e conferir um celular físico.
 
-**Resumo:** o plano reúne as sete melhorias originais e as aprovações posteriores de mercador, leitura e interação. O combate passa a ter ensino na primeira entrada e consulta permanente pelo “?”. A entrega desta etapa é documental; a implementação permanece pendente.
+**Valores adotados nesta implementação:** a vila pequena tem até 25 habitantes; o mutirão exige pelo menos 60 e custa 2 Gold. As variantes sazonais compartilham as oito cartas da vila. Especializar o moinho custa 3 Gold: a função comunitária acrescenta 1 Vida por dia, enquanto a comercial rende 1 Gold a cada 5 dias. O cão evita 8 pontos do primeiro golpe de combate que causaria pelo menos 12 após as proteções; o corvo abre uma busca por 4 Gold; o gato acrescenta 1 de cura diária abaixo da metade da Vida. Esses valores ainda precisam da avaliação de balanceamento. A seção 15 conserva as decisões que motivaram o plano; esta lista registra as escolhas feitas para executá-lo.
 
-**Validações:** revisão do texto, da estrutura do plano, das aprovações registradas na conversa e dos caminhos de documentação. Nenhum teste de jogo ou simulação foi executado nesta etapa. As decisões da seção 15 e todas as conferências manuais continuam em aberto.
+**Resumo:** a implementação já cobre os lotes de regras, conteúdo e interface listados acima. Restam a revisão integrada, as simulações e as conferências assinaladas. A checklist distingue implementação de validação; os itens marcados não representam aprovação final do equilíbrio.
+
+**Validações registradas:** os 15 testes novos passaram, assim como o lint na rodada anterior aos últimos ajustes. A comparação com o código anterior identificou 15 falhas preexistentes na suíte. O Edge verificou abertura automática da ajuda, persistência da preferência, restauração do foco, Escape e preservação do turno durante a consulta em 1366 × 768 e 390 × 844, com movimento reduzido. As capturas e o relatório dessa rodada estão em `.taste-skill/qa/sistemas/`. Os ajustes posteriores de apresentação ainda precisam de nova conferência; não houve simulação integrada nem teste em celular físico.

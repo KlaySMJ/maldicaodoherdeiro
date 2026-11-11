@@ -8008,4 +8008,4 @@ Cena: Uma mulher abre uma caixa de brasas e convida você ao templo.
   - Fechar a caixa e permanecer na vila.
     Efeitos diretos: {"honra":2}. Resultado: Você devolve as brasas. Os mantos se afastam da porta.
 
-As passivas, os atributos iniciais, as conquistas e o calendário dos novos herdeiros constam em PLANO-HERDEIROS-PRIORITARIOS.md. O catálogo nórdico possui 10 bênçãos e 10 maldições; Höðr mantém sua carta anterior. As imagens novas não fazem parte desta entrega.
+As passivas, os atributos iniciais, as conquistas e o calendário dos novos herdeiros estão implementados em js/herdeiros.js e js/conquistas.js. O catálogo nórdico possui 10 bênçãos e 10 maldições; Höðr mantém sua carta anterior. As imagens novas não fazem parte desta entrega.
