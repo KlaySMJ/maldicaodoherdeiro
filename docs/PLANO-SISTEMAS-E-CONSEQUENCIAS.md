@@ -2,7 +2,7 @@
 
 Data: 8 de novembro de 2026.
 
-Estado: implementação em andamento. A checklist ao fim registra as entregas no código e as verificações pendentes; o plano ainda não está concluído.
+Estado: sistemas e expansão das construções implementados, com conferência automatizada. A checklist ao fim separa as entregas das verificações de equilíbrio e uso em aparelho físico ainda pendentes.
 
 ## 1. Objetivo e escopo
 
@@ -20,7 +20,7 @@ O escopo original reúne os sete pontos escolhidos pelo autor:
 | Especialização de construção | Uma obra recebe uma escolha definitiva de função naquela crônica. |
 | Vínculo com companheiro | Um encontro próprio fortalece a relação com um animal permanente. |
 
-As aprovações posteriores acrescentam melhorias no mercador, na leitura dos resultados e na interação com os painéis, além de um tutorial próprio de combate. As seções 10 a 12 registram esses acréscimos; sugestões da conversa que não receberam aprovação não fazem parte desta entrega. Em 11 de novembro de 2026, o autor selecionou apenas a explicação das alternativas indisponíveis entre as 30 ideias do brainstorm. O registro abaixo acrescenta essa melhoria ao plano; a implementação aguarda autorização.
+As aprovações posteriores acrescentam melhorias no mercador, na leitura dos resultados e na interação com os painéis, além de um tutorial próprio de combate. As seções 10 a 12 registram esses acréscimos; sugestões da conversa que não receberam aprovação não fazem parte desta entrega. Em 11 de novembro de 2026, o autor selecionou a explicação das alternativas indisponíveis e depois pediu a execução do plano de sistemas e construções. Essa execução inclui a expansão da seção 16, com os valores adotados registrados abaixo.
 
 As regras abaixo formam a proposta de implementação. Os exemplos de recompensas e os valores experimentais ainda precisam de balanceamento; a escolha desses exemplos como base não define seus números finais.
 
@@ -305,9 +305,9 @@ Reservar cenários de interação para cliques repetidos nas transições, posi�
 
 O primeiro combate como gatilho e o botão “?” permanente nas lutas são requisitos definidos pelo autor, sem decisão pendente sobre sua inclusão. As escolhas de efeitos dos itens e de apresentação ainda abertas não impedem a especificação dos demais lotes.
 
-## 16. Expansão futura: mapa e evolução das construções
+## 16. Mapa e evolução das construções
 
-Esta seção reúne as escolhas do brainstorm para desenvolvimento posterior. O autor pediu o planejamento, não a implementação. As demais ideias apresentadas na conversa não entram no escopo sem escolha posterior.
+Esta seção reúne as escolhas do brainstorm cuja execução o autor pediu em 11 de novembro de 2026. As demais ideias apresentadas na conversa continuam fora do escopo.
 
 ### Direção escolhida
 
@@ -327,7 +327,35 @@ Eventos e batalhas malsucedidas podem danificar construções. Conforme o aconte
 
 O moinho já possui especialização comunitária ou comercial neste plano. Antes de implementar níveis, decidir como preservar essa escolha e evitar concessões duplicadas, inclusive em saves existentes. Também conferir as construções e efeitos reais no código: há efeitos em renda, desconto e combate, entre outros, que precisam respeitar o estado de dano.
 
-Estão em aberto: intervalo entre melhorias e se é por obra ou compartilhado; custo e benefício de cada nível; obras com caminhos no último nível e seus efeitos; relação entre compra e cadeia; desbloqueio e início das histórias; regras exatas de dano e reparo; comportamento das obras bloqueadas cujo requisito seja secreto; acontecimentos que deixam marcas e sua duração; aparência e navegação do mapa; e representação de construções já obtidas em saves antigos. Exemplos de localização, efeitos e escolhas debatidos são ilustrações, não regras fechadas.
+As regras adotadas abaixo fecham as decisões de funcionamento desta entrega. A revisão visual apresenta uma planta da vila com caminhos e ícones próprios em SVG, usando a arte existente da vila ao fundo. Selecionar um marco abre o painel daquela construção; no celular, os detalhes ficam abaixo da planta. Os estados escritos e os sinais de estação complementam a aparência. Os exemplos anteriores servem de direção, e os valores continuam sujeitos à avaliação em partidas completas.
+
+### Regras adotadas em 11 de novembro
+
+Cada obra tem nível 1, 2 ou 3. O intervalo de melhoria é individual: seis dias desde a construção ou a última melhoria/reparação. Saves anteriores entram no nível 1 e começam essa espera quando a obra passa a ter registro. Um moinho já especializado mantém a escolha e a passiva, sem ganhar níveis ao carregar; sua melhoria final conserva o mesmo caminho.
+
+O nível 2 custa 6 Gold e o nível 3 custa 10. Como alternativa, reunir os artesãos abre uma cena no próprio painel; após três dias comuns, o jogador conclui a obra no mapa, sem Gold. Iniciar e concluir essas cenas, comprar melhorias, consultar ou reparar não avançam o dia e não geram renda. Cartas extras do Leste, combate e resultados permitem consulta, mas bloqueiam os trabalhos. A construção inicial permanece nos eventos existentes, com suas regras de tempo e pagamento.
+
+| Obra | Benefício adicional por nível acima do primeiro |
+| --- | --- |
+| Ponte | +1 Gold a cada 3 dias com ao menos 20 habitantes. |
+| Moinho | +1 Vida por dia. A especialização soma sua passiva uma única vez. |
+| Capela | +1 Vida por dia; o Escudo concedido na construção permanece como ganho permanente. |
+| Forja | Mais 1 Gold de desconto na arma melhorada. |
+| Muralha e torre de vigia | Evitam mais 1 de dano de combate. |
+| Mercado coberto | +1 Gold a cada 5 dias. |
+| Cisterna comunitária | +1 Habitante a cada 3 dias do calendário. |
+| Entreposto comercial | +1 Gold a cada 2 dias do calendário. |
+| Enfermaria da ervateira | +1 Vida por dia enquanto a Vida estiver abaixo de 60. |
+| Praça da Forca | +1 Gold a cada 6 dias. |
+| Celeiro | Evita 1 de dano de combate; conserva a proteção original contra perdas de habitantes. |
+
+No nível 3, a ponte escolhe comércio (+1 Gold a cada 3 dias) ou guarda (evita 2 de dano). O moinho usa os caminhos comunitário e comercial já descritos neste plano. As escolhas são definitivas; a evolução e o encontro anterior de especialização compartilham o mesmo registro do moinho.
+
+Derrotas contra saqueadores ou desertores danificam uma obra, seguindo a ordem do catálogo, sem atingir uma obra já interrompida. O primeiro dano reduz em um nível a parcela das melhorias, preservando o benefício original; o segundo suspende as passivas da construção, inclusive especialização, renda e desconto. O Escudo já recebido ao construir a capela permanece. Um ataque também interrompe os trabalhos comunitários daquela obra.
+
+Reparar custa 4 Gold, ou o jogador organiza ajuda comunitária e espera três dias para concluir sem pagar. O reparo remove os danos e preserva nível e caminho. O mapa registra destroços durante cinco dias após um ataque; uma escolha de colheita com ganho explícito de Honra deixa enfeites pelo mesmo período. O calendário do jogo determina a estação do mapa, inclusive com o Druida.
+
+Todas as 12 construções aparecem no mapa. As não construídas informam que dependem de encontros; o painel não revela flags ou histórias secretas. O jogador abre detalhes por clique, toque ou teclado. Os painéis mostram custo, espera e motivo do bloqueio. Requisitos públicos das cartas usam consultas próprias, limitadas ao espaço restante entre as quatro respostas; requisitos secretos continuam ocultos. Compras sem saldo informam o Gold faltante e permitem abrir essa explicação sem comprar.
 
 Antes de criar ou avaliar a arte, consultar `docs/MEMORIA-ILUSTRACOES.md` por inteiro. Definir como o mapa atende computador e celular, sem depender apenas de cor ou hover. Consultar o mapa não deve consumir dias; o custo de tempo de construir, melhorar e reparar ainda precisa de decisão, respeitando a regra já escolhida para os eventos de evolução.
 
@@ -352,21 +380,24 @@ Antes de criar ou avaliar a arte, consultar `docs/MEMORIA-ILUSTRACOES.md` por in
 - [x] Selecionar os lotes e adotar valores experimentais para a primeira implementação.
 - [x] Implementar o piloto das continuações de farinha, bardo, prisioneiro e capela, com janela de 6 a 12 rodadas, fila persistida e intervalo entre continuações.
 - [x] Adicionar consulta aos atributos, preparos e modificadores conhecidos.
-- [ ] Concluir a conferência da origem dos bônus, incluindo efeitos limitados pelo mínimo do atributo e equipamentos de saves antigos.
+- [x] Conferir a origem dos bônus temporários pelo valor efetivamente aplicado, inclusive perdas limitadas pelo mínimo; equipamentos antigos permanecem no valor permanente acumulado, sem atribuição inventada.
 - [x] Acrescentar variantes de vila e estação às oito cartas selecionadas, mantendo até quatro respostas e salvando a situação da carta aberta.
 
 - [x] Implementar recompensas dos chefes e encontros de obtenção futura para Barão e chefe abissal, preservando o Selo da Recusa existente.
 - [x] Implementar especialização comunitária ou comercial do moinho e vínculos com cão, corvo e gato.
 - [x] Implementar ponderação contextual do mercador, oferta persistida e indicação do destino das compras.
 - [x] Acrescentar sinais de ação, consequência principal e consulta do progresso dos presságios.
-- [ ] Conferir a apresentação dos requisitos em todos os caminhos previstos; a indicação de Gold faltante já entrou na vitrine.
+- [x] Exibir requisitos públicos, alternativas com “ou”, limites máximos, estações e itens, mantendo condições secretas ocultas; mostrar o saldo faltante na vitrine.
 - [x] Registrar a seleção de 11 de novembro de 2026: explicação das alternativas indisponíveis por clique ou hover, sem aprovar as demais ideias do brainstorm.
-- [ ] Após autorização para implementar, acrescentar o informativo das alternativas indisponíveis e conferir clique, hover, toque e teclado, sem executar a opção nem avançar a rodada durante a consulta.
+- [x] Acrescentar o informativo das alternativas indisponíveis e conferir clique, hover, toque emulado e teclado, sem executar a opção nem avançar a rodada durante a consulta.
 - [x] Registrar a proposta do mapa, os três níveis, a evolução por Gold ou história, os danos e as cinco melhorias de experiência escolhidas.
 - [x] Registrar caminhos definitivos no último nível de algumas obras, marcas das estações e detalhes temporários de acontecimentos no mapa.
-- [ ] Definir quais obras terão caminhos diferentes, seus efeitos e quais acontecimentos deixarão marcas temporárias.
-- [ ] Fechar as decisões da seção 16 e especificar o funcionamento de cada construção, incluindo a integração com o moinho existente.
-- [ ] Após autorização, implementar e validar o mapa e a evolução das construções; conferir a arte e os controles em computador e celular.
+- [x] Definir caminhos para ponte e moinho, efeitos e marcas temporárias de ataques e colheita.
+- [x] Registrar as regras de cada construção, incluindo a integração com o moinho existente e a entrada dos saves antigos.
+- [x] Implementar o mapa em HTML/CSS, níveis, cenas dos artesãos, danos e reparos; conferir controles no Edge em computador e celular emulado.
+- [x] Revisar botões e campos com foco visível, distinguir conquistas obtidas e pendentes e reorganizar os avisos no canto da tela.
+- [x] Apresentar as quatro etapas da ajuda de combate com exemplos visuais; mostrar a obra selecionada em um painel junto à planta da vila.
+- [ ] Conferir os controles em celular físico; avaliar uma ilustração própria do mapa caso o autor a solicite.
 - [x] Adicionar aviso de estação, consulta dos companheiros e indicação de proteções consumidas.
 
 - [x] Implementar velocidades normal, rápida e imediata, bloqueio breve de cliques entre telas, restauração da posição do inventário e fechamento de painéis por Escape.
@@ -374,13 +405,20 @@ Antes de criar ou avaliar a arte, consultar `docs/MEMORIA-ILUSTRACOES.md` por in
 - [x] Implementar tutorial no primeiro combate, consulta pelo “?” e acesso pela ajuda geral, com preferência própria e restauração de foco.
 - [x] Diferenciar a apresentação dos encerramentos por rota, mantendo o estado real do salvamento.
 - [x] Executar os 15 testes novos de sistemas e uma conferência automatizada no Edge em desktop e celular emulado.
-- [ ] Concluir a revisão do código e executar novamente os testes, lint e formatação após os últimos ajustes.
-- [ ] Executar as simulações integradas e registrar os resultados, respeitando o limite total de 500 repetições.
+- [x] Revisar as alterações e executar testes, lint e formatação dos arquivos modificados após os ajustes; registrar separadamente as falhas anteriores da suíte e da formatação global.
+- [x] Simular as quatro filas com urgências, intervalo entre continuações e recarga em cada rodada, respeitando o limite total da tarefa.
+- [ ] Ampliar a simulação para partidas completas com todas as interações e avaliar o balanceamento, dentro do saldo do limite desta tarefa.
 - [ ] Conferir em navegador os demais fluxos: fila, bônus, mercador, especialização, vínculos, chefes e encerramentos.
 - [ ] Avaliar o balanceamento em partidas completas e conferir um celular físico.
 
 **Valores adotados nesta implementação:** a vila pequena tem até 25 habitantes; o mutirão exige pelo menos 60 e custa 2 Gold. As variantes sazonais compartilham as oito cartas da vila. Especializar o moinho custa 3 Gold: a função comunitária acrescenta 1 Vida por dia, enquanto a comercial rende 1 Gold a cada 5 dias. O cão evita 8 pontos do primeiro golpe de combate que causaria pelo menos 12 após as proteções; o corvo abre uma busca por 4 Gold; o gato acrescenta 1 de cura diária abaixo da metade da Vida. Esses valores ainda precisam da avaliação de balanceamento. A seção 15 conserva as decisões que motivaram o plano; esta lista registra as escolhas feitas para executá-lo.
 
-**Resumo:** a implementação já cobre os lotes de regras, conteúdo e interface listados acima. O mapa e a evolução das construções estão apenas planejados. Restam a revisão integrada, as simulações e as conferências assinaladas; os itens marcados não representam aprovação final do equilíbrio.
+**Resumo:** a implementação cobre os sistemas anteriores e acrescenta o mapa das 12 construções, níveis, caminhos definitivos, cenas dos artesãos e reparos sem Gold. O cálculo de renda, cura, proteção e desconto respeita as obras interrompidas; carregar preserva níveis e escolhas. As alternativas indisponíveis permitem consultar requisitos públicos sem decidir pela pessoa. Permanecem pendentes o balanceamento em partidas completas, os fluxos de navegador ainda assinalados e o celular físico.
 
-**Validações registradas:** os 15 testes novos passaram, assim como o lint na rodada anterior aos últimos ajustes. A comparação com o código anterior identificou 15 falhas preexistentes na suíte. O Edge verificou abertura automática da ajuda, persistência da preferência, restauração do foco, Escape e preservação do turno durante a consulta em 1366 × 768 e 390 × 844, com movimento reduzido. As capturas e o relatório dessa rodada estão em `.taste-skill/qa/sistemas/`. Os ajustes posteriores de apresentação ainda precisam de nova conferência; não houve simulação integrada nem teste em celular físico.
+**Validações registradas em 11 de novembro:** a suíte completa executou 262 testes: 225 passaram e 37 falharam. A execução com os arquivos JavaScript de `HEAD` reproduziu essas mesmas 37 falhas, sem falhas novas na comparação; as falhas não representam aprovação da suíte. Os 15 testes de sistemas e os 13 novos testes de construções passaram. O lint passou, assim como o Prettier dos arquivos modificados; a verificação global de formatação continua apontando 35 arquivos que esta tarefa não alterou.
+
+O Edge conferiu tutorial automático, preferência, foco, Escape e preservação do turno em 1366 × 768 e 390 × 844. Conferiu também as 12 obras no mapa, pagamento e dia preservados, ausência de rolagem horizontal, retorno do foco e consultas de requisitos por clique, hover, teclado e toque emulado, com movimento reduzido e sem exceções de JavaScript. As capturas e os relatórios estão em `.taste-skill/qa/sistemas/`.
+
+A revisão visual passou nos 45 testes direcionados de sistemas, construções, interface e controlador, além do lint. O navegador percorreu as quatro etapas da ajuda, selecionou obras sem alterar o save e verificou busca e limpeza dos filtros das conquistas. Os campos da coleção usam texto de 16 px no celular. As capturas incluem a coleção em computador e celular, os exemplos da ajuda e a nova planta da vila; a conferência em aparelho físico continua pendente.
+
+A simulação da fila concluiu 48 continuações em 12 cenários e 360 passos, com 14 adiamentos por urgências, intervalos de 12 a 20 rodadas, nenhuma duplicação e nenhuma das quatro filas restante. Duas tentativas interrompidas durante o ajuste do simulador percorreram 13 passos cada; o total acumulado desta tarefa é 386 passos de simulação, deixando 114 dentro do limite de 500. Esse levantamento verifica espera e persistência, sem comprovar o equilíbrio de partidas completas. Não houve teste em celular físico.

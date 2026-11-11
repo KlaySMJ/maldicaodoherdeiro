@@ -349,6 +349,10 @@
     run.efeitosTemporarios = ativos;
   }
 
+  function obraAtiva(run, id) {
+    return Jogo.sistemas ? Jogo.sistemas.ativa(run, id) : run.construcoes.includes(id);
+  }
+
   function cumpre(requisitos, run) {
     if (!requisitos) return true;
     if (requisitos.qualquer && !requisitos.qualquer.some((alternativa) => cumpre(alternativa, run)))
@@ -452,6 +456,29 @@
               Jogo.legado.disponivel(item, "itens", run.legadoDaRun),
           )),
     );
+  }
+
+  function opcoesIndisponiveis(evento, run) {
+    const publicos = new Set([
+      ...Jogo.atributos.flatMap((id) => [`${id}Min`, `${id}Max`]),
+      "qualquer",
+      "estacao",
+      "estacoes",
+      "rodadaMin",
+      "rodadaMax",
+      "itens",
+      "itensPermanentes",
+      "itensProntos",
+      "populacaoMinimo",
+      "seguidoresMin",
+      "seguidoresMax",
+    ]);
+    const revelavel = (r) =>
+      r && Object.keys(r).every((k) => publicos.has(k)) && (!r.qualquer || r.qualquer.every(revelavel));
+    const disponiveis = opcoes(evento, run);
+    return catalogoOpcoes(evento, run)
+      .filter((o) => revelavel(o.requisitos) && !cumpre(o.requisitos, run))
+      .slice(0, Math.max(0, 4 - disponiveis.length));
   }
 
   function curaCriticaDisponivel(run) {
@@ -1239,8 +1266,9 @@
     const reducaoPassiva = batalha.somenteEscudo
       ? 0
       : (temItem(run, "cao_companheiro") ? 2 : 0) +
-        (run.construcoes?.includes("muralha") ? 2 : 0) +
-        (run.construcoes?.includes("torre_vigia") ? 3 : 0);
+        (obraAtiva(run, "muralha") ? 2 : 0) +
+        (obraAtiva(run, "torre_vigia") ? 3 : 0) +
+        (Jogo.sistemas?.bonusObras(run, "defesa") || 0);
     const bloqueioPreparadoAtivo = Boolean(
       preparados.bloquearDanoProximaBatalha && !(pendente?.ehBoss && pendente.bloqueioChefeUsado),
     );
@@ -1796,7 +1824,7 @@
   function rendaNaRodada(run, rodada) {
     const habitantes = run.atributos.habitantes;
     const rendaHabitantes = rendaDaVila(habitantes);
-    const rendaPonte = run.construcoes.includes("ponte") && habitantes >= 20 ? 1 : 0;
+    const rendaPonte = obraAtiva(run, "ponte") && habitantes >= 20 ? 1 : 0;
     const base = rendaHabitantes + rendaPonte;
     const rendaRegular = base > 0 && rodada % Jogo.config.economia.intervaloRenda !== 0 ? 0 : base;
     const fontes = [];
@@ -1806,20 +1834,21 @@
         valor: rendaHabitantes,
       });
     if (rendaRegular && rendaPonte) fontes.push({ nome: "Ponte", valor: rendaPonte });
-    if (run.construcoes.includes("mercado_coberto") && rodada % 5 === 0)
+    if (obraAtiva(run, "mercado_coberto") && rodada % 5 === 0)
       fontes.push({ nome: "Mercado coberto", valor: 1 });
-    if (run.construcoes.includes("praca_forca") && rodada % 6 === 0)
-      fontes.push({ nome: "Praça da Forca", valor: 1 });
-    if (run.sistemas?.especializacao === "comercial" && rodada % 5 === 0)
+    if (obraAtiva(run, "praca_forca") && rodada % 6 === 0) fontes.push({ nome: "Praça da Forca", valor: 1 });
+    if (obraAtiva(run, "moinho") && run.sistemas?.especializacao === "comercial" && rodada % 5 === 0)
       fontes.push({ nome: "Moinho comercial", valor: 1 });
     const rodadaEntreposto = run.marcos?.entrepostoComercialRodada;
     if (
-      run.construcoes.includes("entreposto_comercial") &&
+      obraAtiva(run, "entreposto_comercial") &&
       Number.isSafeInteger(rodadaEntreposto) &&
       rodada - rodadaEntreposto >= 2 &&
       (rodada - rodadaEntreposto) % 2 === 0
     )
       fontes.push({ nome: "Entreposto comercial", valor: 1 });
+    const melhorias = Jogo.sistemas?.bonusObras(run, "renda", rodada) || 0;
+    if (melhorias) fontes.push({ nome: "Melhorias das construções", valor: melhorias });
     return { rodada, fontes, total: fontes.reduce((total, fonte) => total + fonte.valor, 0) };
   }
 
@@ -1837,7 +1866,10 @@
     const compras = Object.hasOwn(run.comprasMercador, mercadoria.id)
       ? run.comprasMercador[mercadoria.id]
       : 0;
-    const descontoForja = run.construcoes?.includes("forja") && mercadoria.id === "arma_melhor" ? 2 : 0;
+    const descontoForja =
+      obraAtiva(run, "forja") && mercadoria.id === "arma_melhor"
+        ? 2 + (Jogo.sistemas?.bonusObras(run, "desconto") || 0)
+        : 0;
     return Math.max(0, mercadoria.preco + (mercadoria.aumentoPreco || 0) * compras - descontoForja);
   }
 
@@ -1968,7 +2000,7 @@
       efeitosOpcao.seguidores = (efeitosOpcao.seguidores || 0) - perda;
       if (efeitosOpcao.habitantes === 0) delete efeitosOpcao.habitantes;
     }
-    const protecaoCeleiro = evento.protecaoCeleiro && run.construcoes?.includes("celeiro");
+    const protecaoCeleiro = evento.protecaoCeleiro && obraAtiva(run, "celeiro");
     if (run.traco === "herdeiro_culto" && Number.isSafeInteger(opcao.definir?.honra)) {
       delete efeitosOpcao.honra;
     }
@@ -2313,14 +2345,14 @@
     // A renda usa a população após a decisão e só é aplicada nesta resolução.
     const rendaBase =
       rendaDaVila(run.atributos.habitantes) +
-      (run.construcoes.includes("ponte") && run.atributos.habitantes >= 20 ? 1 : 0);
+      (obraAtiva(run, "ponte") && run.atributos.habitantes >= 20 ? 1 : 0);
     const rendaRegular =
       rendaBase > 0 && run.rodada % Jogo.config.economia.intervaloRenda !== 0 ? 0 : rendaBase;
-    const rendaMercado = run.construcoes.includes("mercado_coberto") && run.rodada % 5 === 0 ? 1 : 0;
-    const rendaPraca = run.construcoes.includes("praca_forca") && run.rodada % 6 === 0 ? 1 : 0;
+    const rendaMercado = obraAtiva(run, "mercado_coberto") && run.rodada % 5 === 0 ? 1 : 0;
+    const rendaPraca = obraAtiva(run, "praca_forca") && run.rodada % 6 === 0 ? 1 : 0;
     const rodadaEntreposto = run.marcos?.entrepostoComercialRodada;
     const rendaEntreposto =
-      run.construcoes.includes("entreposto_comercial") &&
+      obraAtiva(run, "entreposto_comercial") &&
       Number.isSafeInteger(rodadaEntreposto) &&
       run.rodada - rodadaEntreposto >= 2 &&
       (run.rodada - rodadaEntreposto) % 2 === 0
@@ -2328,26 +2360,31 @@
         : 0;
     const extra = Boolean(run.encontroLeste);
     const rendaMoinho = Jogo.sistemas?.renda(run) || 0;
-    const renda = extra ? 0 : rendaRegular + rendaMercado + rendaPraca + rendaEntreposto + rendaMoinho;
+    const rendaMelhorias = Jogo.sistemas?.bonusObras(run, "renda") || 0;
+    const renda = extra
+      ? 0
+      : rendaRegular + rendaMercado + rendaPraca + rendaEntreposto + rendaMoinho + rendaMelhorias;
     const saldoAntesDaRenda = run.atributos.gold;
     aplicarEfeitos(run, { gold: renda });
+    if (!extra && rendaMelhorias) resultado.texto += ` As melhorias das obras rendem ${rendaMelhorias} Gold.`;
     if (!extra && rendaMercado) resultado.texto += " O Mercado coberto rende 1 Gold.";
     if (!extra && rendaPraca) resultado.texto += " A Praça da Forca rende 1 Gold.";
     if (!extra && rendaEntreposto) resultado.texto += " O Entreposto comercial rende 1 Gold.";
     if (!extra && rendaMoinho) resultado.texto += " O moinho comercial rende 1 Gold.";
     const rodadaCisterna = run.marcos?.cisternaConstruidaRodada;
     const habitanteCisterna =
-      run.construcoes.includes("cisterna_comunitaria") &&
+      obraAtiva(run, "cisterna_comunitaria") &&
       Number.isSafeInteger(rodadaCisterna) &&
       run.rodada - rodadaCisterna >= 3 &&
       (run.rodada - rodadaCisterna) % 3 === 0
         ? 1
         : 0;
+    if (!extra) aplicarEfeitos(run, { habitantes: Jogo.sistemas?.bonusObras(run, "habitantes") || 0 });
     if (!extra && habitanteCisterna) {
       aplicarEfeitos(run, { habitantes: habitanteCisterna });
       resultado.texto += " A Cisterna comunitária acrescenta 1 Habitante.";
     }
-    if (!extra && run.construcoes.includes("praca_forca") && run.rodada % 10 === 0) {
+    if (!extra && obraAtiva(run, "praca_forca") && run.rodada % 10 === 0) {
       if (!temItem(run, "espada_da_verdade")) {
         aplicarEfeitos(run, { honra: -1 });
         resultado.texto += " A Praça da Forca reduz sua Honra em 1.";
@@ -3640,12 +3677,9 @@
     aplicarEfeitosTemporarios(run);
     aplicarEfeitoCondicaoRodada(run);
     Jogo.sistemas?.rodada(run);
-    const curaEnfermaria = run.construcoes.includes("enfermaria_ervateira") && run.atributos.hp < 60 ? 1 : 0;
+    const curaEnfermaria = obraAtiva(run, "enfermaria_ervateira") && run.atributos.hp < 60 ? 1 : 0;
     aplicarEfeitos(run, {
-      hp:
-        (temItem(run, "gato_companheiro") ? 1 : 0) +
-        (run.construcoes.includes("moinho") ? 1 : 0) +
-        curaEnfermaria,
+      hp: (temItem(run, "gato_companheiro") ? 1 : 0) + (obraAtiva(run, "moinho") ? 1 : 0) + curaEnfermaria,
     });
     if (run.cultoAtivo && run.cultoRendaPorRodada > 0) {
       const dobro = temItem(run, "afogados_abencoados") && run.atributos.honra <= -90 ? 2 : 1;
@@ -3930,6 +3964,7 @@
     pools,
     eventoDisponivel,
     opcoes,
+    opcoesIndisponiveis,
     peso,
     sortear,
     escolher,

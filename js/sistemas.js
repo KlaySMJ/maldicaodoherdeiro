@@ -16,6 +16,218 @@
     abissal: "lamina_da_lagoa",
   };
   const posse = (run, id) => run.inventario.includes(id) || run.itensConquistados.includes(id);
+  const obras = {
+    ponte: ["Ponte", "+1 Gold na renda regular com 20 habitantes"],
+    moinho: ["Moinho", "+1 Vida por dia"],
+    capela: ["Capela", "+1 Escudo ao construir (ganho permanente)"],
+    forja: ["Forja", "Desconto de 2 Gold na arma melhorada"],
+    muralha: ["Muralha", "Evita 2 de dano de combate"],
+    mercado_coberto: ["Mercado coberto", "+1 Gold a cada 5 dias"],
+    cisterna_comunitaria: ["Cisterna comunitária", "+1 Habitante a cada 3 dias após a construção"],
+    entreposto_comercial: ["Entreposto comercial", "+1 Gold a cada 2 dias após a construção"],
+    torre_vigia: ["Torre de vigia", "Evita 3 de dano de combate"],
+    enfermaria_ervateira: ["Enfermaria da ervateira", "+1 Vida por dia abaixo de 60 Vida"],
+    praca_forca: ["Praça da Forca", "+1 Gold a cada 6 dias; −1 Honra e +2 Seguidores com culto a cada 10"],
+    celeiro: ["Celeiro", "Reduz pela metade as perdas de habitantes na fome e seca"],
+  };
+  const historiasObras = {
+    ponte: "Os carpinteiros descem até os pilares. A correnteza expôs as juntas que precisam de reforço.",
+    moinho:
+      "O moleiro desmonta uma engrenagem gasta. Os aprendizes se revezam para manter a farinha chegando às casas.",
+    capela:
+      "Os pedreiros encontram uma parede úmida junto ao abrigo. O padre cede o pátio aos trabalhadores.",
+    forja:
+      "O ferreiro apaga um dos fornos e marca onde assentará a nova bancada. Seus ajudantes recolhem o ferro aproveitável.",
+    muralha:
+      "Os guardas mostram as pedras soltas. Os moradores trazem argamassa enquanto os pedreiros sobem nos andaimes.",
+    mercado_coberto:
+      "Os vendedores afastam as bancas. Sob as telhas, os carpinteiros marcam os apoios do novo corredor.",
+    cisterna_comunitaria:
+      "Os moradores guardam água em barris enquanto os pedreiros trabalham no reservatório.",
+    entreposto_comercial:
+      "Os carroceiros descarregam no pátio. Há espaço para novos depósitos, mas será preciso refazer os apoios.",
+    torre_vigia:
+      "A sentinela desce para mostrar a escada aos carpinteiros. Outro guarda assume a ronda no chão.",
+    enfermaria_ervateira:
+      "A ervateira transfere as camas para uma sala seca. Os moradores limpam o espaço onde os artesãos vão trabalhar.",
+    praca_forca:
+      "Os trabalhadores isolam o piso da praça. Alguns moradores ajudam em silêncio; outros evitam passar por ali.",
+    celeiro:
+      "O responsável pelo grão afasta os sacos das paredes. Os carpinteiros procuram frestas e madeira apodrecida.",
+  };
+  function vila(run) {
+    const v = (run.vila ||= { obras: {}, marcas: [] });
+    for (const id of run.construcoes)
+      if (Object.hasOwn(obras, id) && !Object.hasOwn(v.obras, id))
+        v.obras[id] = { nivel: 1, rodada: run.rodada, dano: 0, caminho: null, projeto: null };
+    // A escolha anterior permanece; carregar não concede melhorias.
+    if (v.obras.moinho && run.sistemas?.especializacao) {
+      v.obras.moinho.caminho = run.sistemas.especializacao;
+    }
+    return v;
+  }
+  function vilaValida(v, run) {
+    if (
+      !Array.isArray(run.construcoes) ||
+      !v ||
+      !v.obras ||
+      typeof v.obras !== "object" ||
+      Array.isArray(v.obras) ||
+      !Array.isArray(v.marcas) ||
+      (v.relato !== undefined && (typeof v.relato !== "string" || v.relato.length > 1000))
+    )
+      return false;
+    return (
+      Object.entries(v.obras).every(
+        ([id, o]) =>
+          Object.hasOwn(obras, id) &&
+          run.construcoes.includes(id) &&
+          o &&
+          [1, 2, 3].includes(o.nivel) &&
+          [0, 1, 2].includes(o.dano) &&
+          Number.isSafeInteger(o.rodada) &&
+          o.rodada >= 1 &&
+          o.rodada <= run.rodada &&
+          [
+            null,
+            ...(id === "moinho"
+              ? ["comunitario", "comercial"]
+              : id === "ponte"
+                ? ["comercio", "guarda"]
+                : []),
+          ].includes(o.caminho) &&
+          (id !== "ponte" || o.nivel === 3 || o.caminho === null) &&
+          (id !== "moinho" || o.caminho === (run.sistemas?.especializacao || null)) &&
+          (o.projeto === null ||
+            (o.projeto &&
+              (o.projeto.tipo !== "melhorar" || (o.nivel < 3 && o.dano === 0)) &&
+              (o.projeto.tipo !== "reparar" || o.dano > 0) &&
+              ["melhorar", "reparar"].includes(o.projeto.tipo) &&
+              Number.isSafeInteger(o.projeto.inicio) &&
+              o.projeto.inicio >= 1 &&
+              o.projeto.inicio <= run.rodada)),
+      ) &&
+      v.marcas.every(
+        (m) =>
+          m &&
+          ["festa", "destrocos"].includes(m.tipo) &&
+          Number.isSafeInteger(m.fim) &&
+          m.fim >= 1 &&
+          m.fim <= run.rodada + 5,
+      )
+    );
+  }
+  function ativa(run, id) {
+    return run.construcoes.includes(id) && (run.vila?.obras?.[id]?.dano || 0) < 2;
+  }
+  function nivelObra(run, id) {
+    if (!ativa(run, id)) return 0;
+    const o = run.vila?.obras?.[id];
+    return Math.max(1, (o?.nivel || 1) - (o?.dano || 0));
+  }
+  function bonusObras(run, tipo, rodada = run.rodada) {
+    const n = (id) => Math.max(0, nivelObra(run, id) - 1);
+    if (tipo === "cura")
+      return n("moinho") + n("capela") + (run.atributos.hp < 60 ? n("enfermaria_ervateira") : 0);
+    if (tipo === "defesa")
+      return (
+        n("muralha") +
+        n("torre_vigia") +
+        n("celeiro") +
+        (ativa(run, "ponte") && run.vila?.obras.ponte?.caminho === "guarda" ? 2 : 0)
+      );
+    if (tipo === "desconto") return n("forja");
+    if (tipo === "habitantes") return rodada % 3 === 0 ? n("cisterna_comunitaria") : 0;
+    if (tipo === "renda")
+      return (
+        (rodada % 5 === 0 ? n("mercado_coberto") : 0) +
+        (rodada % 2 === 0 ? n("entreposto_comercial") : 0) +
+        (rodada % 6 === 0 ? n("praca_forca") : 0) +
+        (rodada % 3 === 0 && run.atributos.habitantes >= 20 ? n("ponte") : 0) +
+        (rodada % 3 === 0 && ativa(run, "ponte") && run.vila?.obras.ponte?.caminho === "comercio" ? 1 : 0)
+      );
+    return 0;
+  }
+  function custoObra(o) {
+    return o.nivel === 1 ? 6 : 10;
+  }
+  function faltaObra(run, id, acao) {
+    const o = vila(run).obras[id];
+    if (!o) return "A construção aparece em encontros da vila; ainda não foi erguida.";
+    if (run.status !== "ativa" || run.fase !== "escolha" || run.encontroLeste)
+      return "Retome uma carta comum antes de iniciar uma obra.";
+    if (acao === "concluir")
+      return !o.projeto
+        ? "Nenhum trabalho em andamento."
+        : o.projeto.tipo === "melhorar" && o.dano
+          ? "O ataque interrompeu os trabalhos. Organize um reparo."
+          : run.rodada - o.projeto.inicio < 3
+            ? `Faltam ${3 - run.rodada + o.projeto.inicio} dias de trabalho.`
+            : "";
+    if (o.projeto) return "Conclua o trabalho em andamento.";
+    if (acao === "reparar" || acao === "mutirao")
+      return !o.dano
+        ? "Esta obra não precisa de reparo."
+        : acao === "reparar" && run.atributos.gold < 4
+          ? `Faltam ${4 - run.atributos.gold} Gold.`
+          : "";
+    if (o.dano) return "Repare os danos antes de melhorar.";
+    if (o.nivel >= 3) return "Esta obra já chegou ao nível 3.";
+    if (run.rodada - o.rodada < 6) return `Faltam ${6 - run.rodada + o.rodada} dias para melhorar.`;
+    if (acao === "melhorar" && run.atributos.gold < custoObra(o))
+      return `Faltam ${custoObra(o) - run.atributos.gold} Gold.`;
+    return "";
+  }
+  function executarObra(run, id, acao, caminho = null) {
+    if (
+      !Object.hasOwn(obras, id) ||
+      !["melhorar", "historia", "reparar", "mutirao", "concluir"].includes(acao) ||
+      faltaObra(run, id, acao)
+    )
+      return false;
+    const o = vila(run).obras[id];
+    if (acao === "historia" || acao === "mutirao") {
+      o.projeto = { tipo: acao === "historia" ? "melhorar" : "reparar", inicio: run.rodada };
+      vila(run).relato =
+        `${historiasObras[id]} O trabalho fica pronto em três dias; volte ao mapa para concluí-lo.`;
+      return true;
+    }
+    const melhorar = acao === "melhorar" || (acao === "concluir" && o.projeto.tipo === "melhorar");
+    if (melhorar && o.nivel === 2 && ["ponte", "moinho"].includes(id)) {
+      if (!(id === "ponte" ? ["comercio", "guarda"] : ["comunitario", "comercial"]).includes(caminho))
+        return false;
+      if (o.caminho && o.caminho !== caminho) return false;
+      o.caminho = caminho;
+      if (id === "moinho") {
+        estado(run).especializacao = caminho;
+        if (!estado(run).concluidas.includes("moinho_especializacao"))
+          estado(run).concluidas.push("moinho_especializacao");
+        delete estado(run).esperas.moinho_especializacao;
+      }
+    }
+    if (acao === "melhorar") run.atributos.gold -= custoObra(o);
+    if (acao === "reparar") run.atributos.gold -= 4;
+    if (melhorar) o.nivel++;
+    else o.dano = 0;
+    o.rodada = run.rodada;
+    o.projeto = null;
+    vila(run).relato =
+      `Obra concluída: ${obras[id][0]}. ${melhorar ? `Agora está no nível ${o.nivel}.` : "Os benefícios voltam a funcionar."}`;
+    return true;
+  }
+  function danificar(run) {
+    const v = vila(run);
+    const id = Object.keys(obras).find((id) => v.obras[id] && v.obras[id].dano < 2);
+    if (!id) return null;
+    v.obras[id].dano++;
+    v.obras[id].projeto = null;
+    v.relato = `${obras[id][0]} sofreu danos. Os trabalhos em andamento pararam; o mapa oferece reparo com Gold ou ajuda dos moradores.`;
+    v.marcas = [
+      ...v.marcas.filter((m) => m.tipo !== "destrocos"),
+      { tipo: "destrocos", fim: run.rodada + 5 },
+    ];
+    return id;
+  }
   function estado(run) {
     return (run.sistemas ||= {
       esperas: {},
@@ -228,11 +440,12 @@
     const e = J.eventoPorId(id),
       s = estado(run);
     if (!e || s.concluidas.includes(id) || !J.engine.cumpre(e.requisitos, run)) return false;
-    if (id === "moinho_especializacao") return run.construcoes.includes("moinho");
+    if (id === "moinho_especializacao") return ativa(run, "moinho") && !s.especializacao;
     return !run.flags[`${id}_visto`];
   }
   function atualizar(run) {
     const s = estado(run);
+    vila(run);
     for (const id of animais) if (posse(run, id) && !s.obtidos[id]) s.obtidos[id] = run.rodada;
     if (run.construcoes.includes("moinho") && !s.obtidos.moinho) s.obtidos.moinho = run.rodada;
     for (const id of piloto) {
@@ -330,7 +543,7 @@
               estacao: run.estacao,
               habitantes: run.atributos.habitantes,
               gold: run.atributos.gold,
-              obra: run.construcoes.includes(lote.obra),
+              obra: ativa(run, lote.obra),
             };
       const sazonal = v.estacao === lote.estacao;
       if (v.obra)
@@ -360,7 +573,7 @@
         resultado: `A vila reúne ${lote.recurso}${sazonal ? "; a estação favorece o trabalho" : ""}.`,
         ...extra,
       };
-      if (evento.id === "colheita" && s.especializacao === "comercial")
+      if (evento.id === "colheita" && ativa(run, "moinho") && s.especializacao === "comercial")
         extra = {
           id: "sistema_vila",
           texto: "Vender a farinha pela rota do moinho comercial · +5 Gold.",
@@ -430,10 +643,22 @@
       else if (evento.bossId === "culto")
         resultado.texto += ` Você recebe ${item.nome}. Os moradores voltam a circular junto ao antigo altar; os efeitos do culto já ativos permanecem.`;
     }
+    if (resultado.combate && !resultado.combate.venceu && ["saqueadores", "desertores"].includes(evento.id)) {
+      const id = danificar(run);
+      if (id)
+        resultado.texto +=
+          " A retirada danifica a construção: " + obras[id][0] + ". Consulte o mapa para reparar.";
+    }
+    if (evento.id === "colheita" && (opcao.efeitos?.honra || 0) > 0)
+      vila(run).marcas = [
+        ...vila(run).marcas.filter((m) => m.tipo !== "festa"),
+        { tipo: "festa", fim: run.rodada + 5 },
+      ];
     atualizar(run);
   }
   function rodada(run) {
     const s = estado(run);
+    vila(run).marcas = vila(run).marcas.filter((m) => m.fim >= run.rodada);
     const chave = `${J.anoDaRodada(run.rodada)}:${run.estacao}`;
     s.transicao =
       chave !== s.estacaoVista
@@ -447,7 +672,8 @@
     s.estacaoVista = chave;
     J.engine.aplicarEfeitos(run, {
       hp:
-        (s.especializacao === "comunitario" ? 1 : 0) +
+        (ativa(run, "moinho") && s.especializacao === "comunitario" ? 1 : 0) +
+        bonusObras(run, "cura") +
         (posse(run, "gato_companheiro") &&
         s.vinculos.gato_companheiro === "ativo" &&
         run.atributos.hp * 2 < run.hpMax
@@ -456,7 +682,7 @@
     });
   }
   function renda(run) {
-    return estado(run).especializacao === "comercial" && run.rodada % 5 === 0 ? 1 : 0;
+    return ativa(run, "moinho") && estado(run).especializacao === "comercial" && run.rodada % 5 === 0 ? 1 : 0;
   }
   function pesoMercador(run, item) {
     if (run.atributos.hp * 2 < run.hpMax && (item.uso?.efeitos?.hp || item.aoReceber?.hp)) return 3;
@@ -486,7 +712,10 @@
     const conhecidos = [];
     for (const e of run.efeitosTemporarios || [])
       if (e.aplicado && e.atributo === atributo)
-        conhecidos.push({ nome: `Efeito temporário até o dia ${e.fimRodada}`, valor: e.valor });
+        conhecidos.push({
+          nome: `Efeito temporário até o dia ${e.fimRodada}`,
+          valor: e.valorAplicado ?? e.valor,
+        });
     for (const [nome, e] of [
       ["Favor do Norte", run.efeitoDivino],
       ["Passiva nórdica", run.passivaNordica],
@@ -513,11 +742,11 @@
     }
     if (atributo === "escudo")
       linhas.push(
-        `Preparo: ${run.efeitosPreparados.bonusEscudoProximaBatalha || 0}. Reduções de dano: cão ${posse(run, "cao_companheiro") ? 2 : 0}, muralha ${run.construcoes.includes("muralha") ? 2 : 0}, torre ${run.construcoes.includes("torre_vigia") ? 3 : 0}. Margem, postura e Escudo entram antes dessas reduções.`,
+        `Preparo: ${run.efeitosPreparados.bonusEscudoProximaBatalha || 0}. Reduções de dano: cão ${posse(run, "cao_companheiro") ? 2 : 0}, muralha ${ativa(run, "muralha") ? 2 : 0}, torre ${ativa(run, "torre_vigia") ? 3 : 0}; melhorias das obras ${bonusObras(run, "defesa")}. Margem, postura e Escudo entram antes dessas reduções.`,
       );
     if (atributo === "hp")
       linhas.push(
-        `Cura diária: moinho ${run.construcoes.includes("moinho") ? 1 : 0}; gato ${run.inventario.includes("gato_companheiro") ? 1 : 0}; especialização comunitária ${estado(run).especializacao === "comunitario" ? 1 : 0}. Enfermaria: +1 abaixo de 60 Vida; vínculo do gato: +1 abaixo da metade. Maldições de cura aplicam sua redução depois.`,
+        `Cura diária: moinho ${ativa(run, "moinho") ? 1 : 0}; gato ${run.inventario.includes("gato_companheiro") ? 1 : 0}; especialização comunitária ${ativa(run, "moinho") && estado(run).especializacao === "comunitario" ? 1 : 0}. Melhorias das obras: +${bonusObras(run, "cura")}. Enfermaria ativa: +${ativa(run, "enfermaria_ervateira") && run.atributos.hp < 60 ? 1 : 0}; vínculo do gato: +1 abaixo da metade. Maldições de cura aplicam sua redução depois.`,
       );
     if (atributo === "gold")
       linhas.push(
@@ -534,7 +763,7 @@
         estacao: run.estacao,
         habitantes: run.atributos.habitantes,
         gold: run.atributos.gold,
-        obra: run.construcoes.includes(lote.obra),
+        obra: ativa(run, lote.obra),
       };
   }
   function descricaoVinculo(run, id) {
@@ -551,6 +780,16 @@
     }[id];
   }
   J.sistemas = {
+    obras,
+    vila,
+    vilaValida,
+    ativa,
+    nivelObra,
+    bonusObras,
+    custoObra,
+    faltaObra,
+    executarObra,
+    danificar,
     estado,
     valido,
     atualizar,

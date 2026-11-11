@@ -367,7 +367,7 @@
     painel.innerHTML = `<button type="button" class="conquista-aviso conquista-aviso-fechar" data-conquista="${esc(conquista.id)}" aria-label="${conquista.previa ? "Prévia de conquista" : "Conquista desbloqueada"}: ${esc(conquista.nome)}. Dispensar aviso.">
       <span class="conquista-aviso-luz" aria-hidden="true"></span>
       <span class="conquista-aviso-selo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 14.8 8.5 22 9l-5.5 4.8 1.7 7.2-6.2-3.8-6.2 3.8 1.7-7.2L2 9l7.2-.5L12 2Z"/></svg></span>
-      <span class="conquista-aviso-texto"><strong>${esc(conquista.nome)}</strong></span>
+      <span class="conquista-aviso-texto"><small>${conquista.previa ? "Prévia de conquista" : "Conquista desbloqueada"}</small><strong>${esc(conquista.nome)}</strong><span>${conquista.previa ? "Exemplo de aviso" : "Registrada na memória da linhagem"}</span></span><span class="conquista-aviso-dispensar" aria-hidden="true">×</span>
     </button>`;
     const cartao = painel.querySelector(".conquista-aviso");
     let temporizador = 0;
@@ -450,6 +450,7 @@
     const moldura = app.querySelector(".carta-herdeiro");
     if (!identificacao || !moldura) return;
     identificacao.style.removeProperty("transform");
+    if (!moldura.getClientRects().length) return;
     const deslocamento = moldura.getBoundingClientRect().left - identificacao.getBoundingClientRect().left;
     identificacao.style.transform = `translateX(${deslocamento}px)`;
   }
@@ -973,6 +974,7 @@
       filtrar();
     }
     document.getElementById("painel-legado")?.focus({ preventScroll: true });
+    window.scrollTo?.(0, 0);
   }
   function escolherHerdeiro(legado) {
     const disponiveis = new Set(Jogo.estado.tracosDisponiveis(legado));
@@ -1170,7 +1172,7 @@
       .filter((item) => Jogo.engine.cumpre(item.requisitos, run))
       .map(
         (item) =>
-          `<button class="escolha mercadoria${item.raridade ? ` item-raridade-${esc(item.raridade)}` : ""}" data-mercadoria="${esc(item.id)}" ${Jogo.engine.podePagar(run, item) ? "" : `disabled title="${esc(Jogo.sistemasUI?.requisitos(run, { goldMin: Jogo.engine.precoMercadoria(run, item) }) || "Gold insuficiente")}"`}><span>${esc(item.texto)}<small>${item.tipo === "uso" ? "Vai para a mochila" : "Efeito aplicado ao comprar"}${Jogo.sistemas?.pesoMercador(run, item) > 1 ? " · favorecido pelas necessidades atuais" : ""}</small>${item.raridade ? `<small class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</small>` : ""}</span><span class="preco">${numero(Jogo.engine.precoMercadoria(run, item))} gold</span></button>`,
+          `<button class="escolha mercadoria${item.raridade ? ` item-raridade-${esc(item.raridade)}` : ""}" data-mercadoria="${esc(item.id)}" ${Jogo.engine.podePagar(run, item) ? "" : `aria-disabled="true" title="${esc(Jogo.sistemasUI?.requisitos(run, { goldMin: Jogo.engine.precoMercadoria(run, item) }) || "Gold insuficiente")}"`}><span>${esc(item.texto)}<small>${item.tipo === "uso" ? "Vai para a mochila" : "Efeito aplicado ao comprar"}${Jogo.sistemas?.pesoMercador(run, item) > 1 ? " · favorecido pelas necessidades atuais" : ""}</small>${item.raridade ? `<small class="nome-raridade raridade-${esc(item.raridade)}"> (${esc(nomesRaridade[item.raridade])})</small>` : ""}</span><span class="preco">${numero(Jogo.engine.precoMercadoria(run, item))} gold${Jogo.engine.podePagar(run, item) ? "" : `<small>${esc(Jogo.sistemasUI.requisitos(run, { goldMin: Jogo.engine.precoMercadoria(run, item) }))}</small>`}</span></button>`,
       )
       .join("")}</div>`;
   }
@@ -2503,12 +2505,12 @@
                           : "";
                         return `<button class="escolha${opcao.id === "juntar" && evento.id === "ultimo_habitante" ? " escolha-chamado" : ""}${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 9 ? `aria-keyshortcuts="${indice + 1}"` : ""}><span class="escolha-conteudo">${opcao.combate ? '<span class="acao-simbolo" aria-label="Combate">&#9876;</span> ' : opcao.consumirItens?.length ? '<span class="acao-simbolo" aria-label="Uso de item">&#9671;</span> ' : ""}${textoComNomesEspeciais(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}</span><span aria-hidden="true">→</span></button>`;
                       })
-                      .join("")}</div></div>`
+                      .join("")}${Jogo.sistemasUI.indisponiveis(evento, run)}</div></div>`
             }
             ${emCombate ? "" : inventario(run)}${emCombate ? "" : historicoCronica(run)}
             <section id="painel-construcoes" class="construcoes-painel" aria-labelledby="titulo-construcoes">
               <header class="construcoes-painel-cabecalho"><h2 id="titulo-construcoes">Construções da vila</h2><button class="painel-voltar-link construcoes-voltar" type="button" data-acao="fechar-construcoes" aria-label="Voltar à crônica">← Voltar</button></header>
-              ${construcoesRun.length ? `<ul>${construcoesRun.map((construcao) => `<li><strong>${esc(construcao.nome)}</strong><span>${esc(construcao.bonus)}${construcao.id === "moinho" && run.sistemas?.especializacao ? ` · Função ${esc(run.sistemas.especializacao)}: ${run.sistemas.especializacao === "comunitario" ? "+1 Vida por dia" : "+1 Gold a cada 5 dias"}` : ""}</span></li>`).join("")}</ul>` : `<p>Nenhuma construção feita ainda.</p>`}
+              ${Jogo.sistemasUI.mapa(run)}
             </section>
           </section>
         </div>
@@ -2705,6 +2707,7 @@
     document
       .querySelector('#app [data-acao="alternar-construcoes"]')
       ?.setAttribute("aria-expanded", String(aberta));
+    if (aberta) document.querySelector('#painel-construcoes [data-acao="fechar-construcoes"]')?.focus();
     ajustarTela();
   }
 

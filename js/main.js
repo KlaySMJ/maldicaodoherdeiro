@@ -401,6 +401,20 @@
       case "alternar-progresso":
         document.querySelector("#app #painel-progresso > summary")?.click();
         break;
+      case "obra-vila":
+        if (
+          Jogo.sistemas.executarObra(
+            run,
+            botao.dataset.obra,
+            botao.dataset.trabalho,
+            botao.dataset.caminho || null,
+          )
+        ) {
+          Jogo.save.gravarRun(run);
+          Jogo.ui.jogo(run, { textoCompleto: true });
+          Jogo.sistemasUI.selecionarObra(botao.dataset.obra, true);
+        }
+        break;
       case "alternar-construcoes":
         Jogo.ui.alternarConstrucoes(run);
         break;
@@ -441,7 +455,11 @@
       botao.focus({ preventScroll: true });
       return;
     }
-    if (botao.getAttribute("aria-disabled") === "true" || botao.getAttribute("role") === "tab") return;
+    if (botao.getAttribute("aria-disabled") === "true") {
+      if (botao.dataset.mercadoria) Jogo.ui.consultarRequisito(botao.title);
+      return;
+    }
+    if (botao.getAttribute("role") === "tab") return;
     const honraAntesDaEscolha = run?.atributos.honra;
     Jogo.audio?.interagir();
     if (botao.dataset.opcao) {
@@ -531,6 +549,7 @@
       evento.altKey ||
       evento.ctrlKey ||
       evento.metaKey ||
+      run?.construcoesAbertas ||
       document.querySelector("dialog[open]") ||
       evento.target.closest?.("input, textarea, select, [contenteditable='true'], button, a, summary")
     )

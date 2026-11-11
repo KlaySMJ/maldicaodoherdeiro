@@ -124,6 +124,7 @@
     if (!Jogo.herdeiros.camposValidos(run)) return false;
     if (Jogo.pressagios && !Jogo.pressagios.camposValidos(run)) return false;
     if (!inteiro(run.rodada) || run.rodada < 1 || !objeto(run.atributos)) return false;
+    if (run.vila !== undefined && !Jogo.sistemas.vilaValida(run.vila, run)) return false;
     if (run.sistemas !== undefined && !Jogo.sistemas.valido(run.sistemas, run.rodada)) return false;
     if (
       !TRACOS_VALIDOS.includes(run.traco) ||
