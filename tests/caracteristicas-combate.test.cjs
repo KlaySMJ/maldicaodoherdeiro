@@ -1,17 +1,11 @@
 "use strict";
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const path = require("node:path");
-const vm = require("node:vm");
 const { preparar } = require("./helpers/jogo.cjs");
 
 function criar(traco, chefe = false) {
   const contexto = preparar();
   const { J } = contexto;
-  vm.runInNewContext(fs.readFileSync(path.join(__dirname, "../js/events-bosses.js"), "utf8"), {
-    window: { Jogo: J },
-  });
   const run = J.estado.novo(J.legado.vazio(), "avarento");
   const evento = J.eventoPorId(chefe ? "embate_barao" : "saqueadores");
   evento.batalha.semAjuste = true;

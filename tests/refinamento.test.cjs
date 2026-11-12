@@ -1,17 +1,7 @@
 "use strict";
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { preparar: prepararBase } = require("./helpers/jogo.cjs");
-const fs = require("node:fs");
-const path = require("node:path");
-const vm = require("node:vm");
-function preparar() {
-  const jogo = prepararBase();
-  vm.runInNewContext(fs.readFileSync(path.join(__dirname, "../js/events-bosses.js"), "utf8"), {
-    window: { Jogo: jogo.J },
-  });
-  return jogo;
-}
+const { preparar } = require("./helpers/jogo.cjs");
 
 test("bloqueios de recursos aparecem uma vez; honra continua como requisito narrativo", () => {
   const { J, novaRun, app } = preparar();

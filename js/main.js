@@ -9,6 +9,7 @@
   }
   let run = Jogo.save.lerRun();
   let ocupado = false;
+  let transicaoBloqueadaAte = 0;
 
   function mostrarJogo(textoCompleto = false) {
     if (run?.status === "ativa") Jogo.ui.jogo(run, { textoCompleto });
@@ -83,6 +84,7 @@
   }
 
   async function acionar(acao, botao = null) {
+    if (Jogo.ui.ajudaCombateAberta?.()) return;
     if (
       Jogo.pressagios?.bloqueia(run) &&
       ![
@@ -98,6 +100,17 @@
     )
       return;
     switch (acao) {
+      case "ajuda-combate":
+        Jogo.ui.tutorialCombate(run);
+        break;
+      case "detalhes-atributo":
+        Jogo.ui.detalhesAtributo(run, botao.dataset.atributo);
+        break;
+      case "velocidade-texto":
+        Jogo.ui.completarTextoEvento();
+        Jogo.ui.alternarVelocidadeTexto();
+        mostrarJogo(true);
+        break;
       case "pressagio-confirmar": {
         const resposta = Jogo.pressagios.confirmar(run);
         if (!resposta) break;
@@ -406,6 +419,7 @@
       if (evento.target.closest?.("button, a, input, select, textarea, summary, dialog, [role='button']"))
         return;
       if (Jogo.ui.completarTextoEvento()) {
+        if (evento.detail > 0) transicaoBloqueadaAte = Date.now() + 180;
         evento.preventDefault();
         evento.stopPropagation();
       }
@@ -415,7 +429,10 @@
 
   document.getElementById("app").addEventListener("click", async (evento) => {
     const botao = evento.target.closest("button");
-    if (!botao || botao.disabled || ocupado) return;
+    if (!botao || botao.disabled || ocupado || Jogo.ui.ajudaCombateAberta?.()) return;
+    if (evento.detail > 1) return;
+    if (evento.detail > 0 && Date.now() < transicaoBloqueadaAte) return;
+    const telaAntes = document.getElementById("app").firstElementChild;
     if (botao.getAttribute("aria-disabled") === "true" || botao.getAttribute("role") === "tab") return;
     const honraAntesDaEscolha = run?.atributos.honra;
     Jogo.audio?.interagir();
@@ -465,6 +482,8 @@
         }
       } else if (botao.dataset.acao) await acionar(botao.dataset.acao, botao);
     } finally {
+      if (evento.detail > 0 && telaAntes !== document.getElementById("app").firstElementChild)
+        transicaoBloqueadaAte = Date.now() + 180;
       ocupado = false;
     }
   });
