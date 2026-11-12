@@ -73,6 +73,8 @@ Algumas artes PNG de evento têm correção de cor na exibição por meio da cla
 
 ## Fluxo para novas artes
 
+O mapa das construções recebeu em 12 de novembro de 2026 um cenário em SVG gerado por `js/sistemas-ui.js`, com estilos em `css/mapa-vila.css`. Usa preto e marfim, edifícios que mudam por nível, rachaduras, ruínas e marcas sazonais ou temporárias conforme o save. O autor pediu a retirada da lista inferior de obras e do rodapé mostrado na captura; a seleção fica nos edifícios e os benefícios permanecem no painel contextual. Esse cenário não altera as artes de cartas nem os retratos existentes.
+
 1. Identifique a categoria e leia esta memória.
 2. Escolha uma referência de composição/identidade da mesma categoria e uma referência de acabamento. Para eventos, a cor da referência `assets/vila.png` prevalece, salvo a exceção de paleta dos Maus Presságios; os deuses nórdicos servem como referência de riqueza de traço.
 3. Ao editar personagem existente, passe o retrato atual como referência de identidade e descreva quais traços devem permanecer.

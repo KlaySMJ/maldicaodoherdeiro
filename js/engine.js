@@ -471,7 +471,7 @@
 
   function opcoesIndisponiveis(evento, run) {
     const publicos = new Set([
-      ...Jogo.atributos.flatMap((id) => [`${id}Min`, `${id}Max`]),
+      ...Jogo.atributos.filter((id) => id !== "honra").flatMap((id) => [`${id}Min`, `${id}Max`]),
       "qualquer",
       "estacao",
       "estacoes",
@@ -488,7 +488,12 @@
       r && Object.keys(r).every((k) => publicos.has(k)) && (!r.qualquer || r.qualquer.every(revelavel));
     const disponiveis = opcoes(evento, run);
     return catalogoOpcoes(evento, run)
-      .filter((o) => revelavel(o.requisitos) && !cumpre(o.requisitos, run))
+      .filter(
+        (o) =>
+          (!evento.poolOpcoes || !run.opcoesSorteadas?.length || run.opcoesSorteadas.includes(o.id)) &&
+          revelavel(o.requisitos) &&
+          !cumpre(o.requisitos, run),
+      )
       .slice(0, Math.max(0, 4 - disponiveis.length));
   }
 

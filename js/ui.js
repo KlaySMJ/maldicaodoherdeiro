@@ -324,7 +324,7 @@
       seletor: ".evento-leitura",
       titulo: "Leia antes de escolher",
       texto:
-        "Em batalhas, compare os totais dos dados com Ataque e Defesa. A Bruxa força o inimigo a ficar com a menor face; o Bufão recebe um efeito de d6. Itens e habilidades podem liberar rerrolagens.",
+        "Leia o acontecimento antes de responder. Você pode concluir a escrita com um toque ou mudar a velocidade pelo controle Aa.",
     },
     {
       seletor: ".coluna-escolhas",
@@ -349,6 +349,12 @@
       titulo: "Administre a vila",
       texto:
         "Habitantes mostram o tamanho da vila. Você usa Gold em compras e construções; algumas escolhas mudam esses valores.",
+    },
+    {
+      seletor: '[data-acao="alternar-construcoes"]',
+      titulo: "Acompanhe as obras",
+      texto:
+        "Abra o mapa para consultar e selecionar uma construção. Melhorias exigem seis dias de intervalo; você pode pagar Gold ou reunir artesãos. A ajuda comunitária fica pronta após três dias. Consultar e concluir trabalhos não passa o dia.",
     },
     {
       seletor: '[data-acao="alternar-inventario"]',
@@ -1176,11 +1182,12 @@
 
   function alteracoes(resultado) {
     const mudancas = Object.entries(resultado.alteracoes).filter(
-      ([id, valor]) => valor !== 0 && !(resultado.combate && id === "hp"),
+      ([id, valor]) =>
+        valor !== 0 && !(resultado.combate && id === "hp" && valor === -resultado.combate.dano),
     );
     if (!mudancas.length) return "";
     const principal = !resultado.combate && Jogo.sistemasUI?.atributoPrincipal(resultado);
-    return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li${id === principal ? ' class="consequencia-principal"' : ""}><span>${nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("")}</ul>`;
+    return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li${id === principal ? ' class="consequencia-principal"' : ""}><span>${resultado.combate && id === "hp" ? "Saldo de Vida" : nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("")}</ul>`;
   }
 
   function bonusDivino(efeito, rotulo = "") {
@@ -1250,7 +1257,7 @@
   }
 
   function escolhaDesabilitada(texto, motivo, detalhe = "") {
-    return `<button type="button" class="escolha escolha-desabilitada" disabled><span class="escolha-conteudo">${esc(texto)}${detalhe ? `<small>${esc(detalhe)}</small>` : ""}<small>${esc(motivo)}</small></span></button>`;
+    return Jogo.sistemasUI.escolhaIndisponivel(texto, motivo, detalhe);
   }
 
   function escolhaConstrucao(opcao) {
@@ -2159,6 +2166,9 @@
         : !perfil.batalha.forcarDerrota && (lancaAtiva || adagaAtiva || venceuNaRolagem));
     const leituraDano =
       resultado && !venceu ? Jogo.engine.calcularDanoDerrota(run, perfil, totalHerdeiro, totalInimigo) : null;
+    if (leituraDano) {
+      leituraDano.dano = Jogo.sistemas.proteger(run, leituraDano.dano);
+    }
     const detalhesDano = !leituraDano
       ? ""
       : `<p class="disputa-dano-final">${leituraDano.danoAnulado ? "Golpe anulado" : `Dano recebido: <strong>${numero(leituraDano.dano)}</strong>`}</p>`;
@@ -2590,14 +2600,7 @@
                           : "";
                         return `<button class="escolha${opcao.id === "juntar" && evento.id === "ultimo_habitante" ? " escolha-chamado" : ""}${itemPremio?.raridade ? ` item-raridade-${esc(itemPremio.raridade)}` : ""}" data-opcao="${esc(opcao.id)}" ${indice < 9 ? `aria-keyshortcuts="${indice + 1}"` : ""}><span class="escolha-conteudo">${opcao.combate ? iconesDisputa.espada : opcao.consumirItens?.length ? '<span class="acao-simbolo" aria-label="Uso de item">&#9671;</span> ' : ""}${textoComNomesEspeciais(opcao.texto)}${raridadePremio}${previaHonra ? `<small class="honra-revelada">${esc(previaHonra)}</small>` : ""}${leituraProbabilidades(run, opcao)}</span></button>`;
                       })
-                      .join("")}${Jogo.engine
-                      .opcoesBloqueadas(evento, run)
-                      .map((opcao) =>
-                        evento.id === "construcoes_da_vila" && opcao.construcoes?.length
-                          ? escolhaConstrucao(opcao)
-                          : escolhaDesabilitada(opcao.texto, opcao.motivoBloqueio),
-                      )
-                      .join("")}</div></div>`
+                      .join("")}${Jogo.sistemasUI.indisponiveis(evento, run)}</div></div>`
             }
             ${emCombate ? "" : inventario(run)}${emCombate ? "" : historicoCronica(run)}
             <section id="painel-construcoes" class="construcoes-painel" aria-labelledby="titulo-construcoes">
@@ -2729,6 +2732,10 @@
     const venceu = run.fim.tipo.startsWith("vitoria");
     const tituloFim = titulosFim[run.fim.tipo] || (venceu ? "Uma crônica cumprida." : "Um herdeiro se vai.");
     const melhoresRuns = Jogo.save.lerLegado().melhoresRuns || [];
+    const trofeuId = { vitoria_barao: "estandarte_do_barao", vitoria_abissal: "lamina_da_lagoa" }[
+      run.fim.tipo
+    ];
+    const trofeu = trofeuId && Jogo.itens.find((item) => item.id === trofeuId);
     mostrar(
       `<section class="fim fim--${esc(run.fim.tipo)}" aria-labelledby="titulo-fim">
       <div class="fim-retrato">${retrato(run.traco || "corajoso", faixaRetrato(run.atributos.honra || 0), null, Boolean(run.cultoAtivo))}</div>
@@ -2736,6 +2743,7 @@
       <h2 class="fim-nome">${esc(tituloHerdeiro(run.traco))}</h2>
       <p class="subtitulo">${esc(run.fim.motivo)}</p>
       ${legadoSalvo ? '<p class="fim-salvo" role="status">Esta crônica foi registrada no legado.</p>' : ""}
+      ${trofeu ? `<section class="fim-recompensa"><h2>Troféu: ${esc(trofeu.nome)}</h2><p>${legadoSalvo ? "Encontro de obtenção desbloqueado para outra crônica." : "Ao salvar o legado, você desbloqueia seu encontro de obtenção."} O próximo herdeiro deverá conquistá-lo; não começa com o item.</p></section>` : ""}
       <dl class="resumo-fim"><div><dt>Rodadas</dt><dd>${numero(run.rodada)}</dd></div><div><dt>Habitantes</dt><dd>${numero(run.atributos.habitantes)}</dd></div></dl>
       ${historicoCronica(run, { id: "historico-fim", titulo: "Histórico da crônica", recentesPrimeiro: false, expandido: false })}
       ${

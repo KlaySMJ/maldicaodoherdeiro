@@ -165,8 +165,11 @@
         break;
       case "tutorial":
         if (run?.status === "ativa") {
-          if (document.body.dataset.tela === "jogo") Jogo.ui.tutorial();
-          else {
+          if (document.body.dataset.tela === "jogo" && run.fase === "combate") Jogo.ui.tutorialCombate(run);
+          else if (document.body.dataset.tela === "jogo") {
+            if (run.construcoesAbertas) Jogo.ui.alternarConstrucoes(run, false);
+            Jogo.ui.tutorial();
+          } else {
             Jogo.ui.tutorial();
             mostrarJogo();
           }

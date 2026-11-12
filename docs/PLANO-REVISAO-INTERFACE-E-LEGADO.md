@@ -1,5 +1,7 @@
 # Plano: revisão da interface e do encerramento
 
+Atualização de 11 de novembro de 2026: a [auditoria da interface e das construções](AUDITORIA-INTERFACE-E-CONSTRUCOES.md) confere a base `2f39e3c` e registra as pendências atuais. Os bloqueios de captura do Opera e os prints citados abaixo pertencem à revisão de 6 de novembro; o Edge atual já gerou capturas. Isso não conclui automaticamente os critérios ainda abertos deste documento nem aprova o desenho do mapa, que o autor rejeitou como entrega do plano.
+
 ## Objetivo
 
 Verificar se as decisões durante a partida são fáceis de acompanhar, se o fim da crônica explica o desfecho e se a linguagem visual permanece clara e coerente.

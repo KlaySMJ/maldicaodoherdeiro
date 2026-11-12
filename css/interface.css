@@ -2,15 +2,15 @@
 :root {
   --metal: #a68b5d;
   --metal-claro: #d2bd8e;
-  --linha-controle: #655640;
-  --superficie-controle: #17140f;
+  --linha-controle: var(--tinta);
+  --superficie-controle: var(--papel);
 }
 .botao,
 .escolha {
   border-width: 1px;
   border-color: var(--linha-controle);
   background: var(--superficie-controle);
-  box-shadow: inset 0 1px rgb(230 213 181 / 5%);
+  box-shadow: none;
   transition:
     border-color 140ms,
     background-color 140ms,
@@ -20,22 +20,23 @@
 .botao {
   justify-content: center;
   padding: 10px 16px;
+  background: transparent;
 }
 .botao:not(:disabled):hover,
 .escolha:not(:disabled):not([aria-disabled="true"]):hover {
-  border-color: var(--metal-claro);
-  background: #292217;
+  border-color: var(--tinta);
+  background: var(--papel-claro);
   color: var(--tinta);
 }
 .botao.primario {
-  border-color: #c6ae7a;
-  background: #d0bc90;
-  color: #17120a;
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: var(--papel);
 }
 .botao.primario:not(:disabled):hover {
-  background: #e2cfa7;
-  border-color: #ead8b3;
-  color: #17120a;
+  background: var(--secundaria);
+  border-color: var(--tinta);
+  color: var(--papel);
 }
 .botao.discreto {
   background: transparent;
@@ -43,8 +44,8 @@
   padding: 8px 12px;
 }
 .botao.discreto:not(:disabled):hover {
-  background: #201c15;
-  color: var(--metal-claro);
+  background: var(--papel-claro);
+  color: var(--tinta);
 }
 button:focus-visible,
 a:focus-visible,
@@ -56,11 +57,11 @@ textarea:focus-visible {
   outline-offset: 3px;
 }
 .escolha {
-  border-left: 2px solid #8d7855;
+  border-left-width: 1px;
   padding: 12px 14px;
 }
 .escolha > span:last-child {
-  color: var(--metal-claro);
+  color: inherit;
 }
 .escolha[aria-disabled="true"] {
   opacity: 1;
@@ -80,24 +81,24 @@ textarea:focus-visible {
 }
 .disputa-posturas-opcoes button {
   border-color: var(--linha-controle);
-  background: #15120e;
+  background: var(--papel);
 }
 .disputa-posturas-opcoes button:hover:not(:disabled) {
-  background: #292217;
-  border-color: var(--metal);
+  background: var(--papel-claro);
+  border-color: var(--tinta);
 }
 .disputa-posturas-opcoes button[aria-pressed="true"] {
-  border-color: var(--metal-claro);
-  background: #302718;
-  color: #e4d1aa;
-  box-shadow: inset 0 -2px var(--metal);
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: var(--papel);
+  box-shadow: none;
 }
 :where(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]), select, textarea) {
   min-height: 44px;
   border: 1px solid var(--linha-controle);
   border-radius: 2px;
   padding: 10px 12px;
-  background-color: #100e0b;
+  background-color: var(--papel);
   color: var(--tinta);
   font: inherit;
   accent-color: var(--metal-claro);
@@ -118,7 +119,7 @@ input[type="search"]::-webkit-search-cancel-button {
   min-height: 46px;
   border-color: var(--linha-controle);
   border-radius: 2px;
-  background-color: #100e0b;
+  background-color: var(--papel);
   font-size: 16px;
 }
 .legado-filtros label {
@@ -536,337 +537,6 @@ input[type="search"]::-webkit-search-cancel-button {
   justify-content: space-between;
   margin: 12px 0 0;
 }
-/* Planta da vila e inspeção de uma obra por vez. */
-.mapa-vila {
-  border: 1px solid #635035;
-  padding: 0;
-  background: #12110d;
-  color: #d6cab6;
-}
-.mapa-cabecalho {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 22px 24px;
-}
-.mapa-vila .mapa-sobretitulo {
-  color: #ad9a77;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  margin-bottom: 6px;
-}
-.mapa-cabecalho h3 {
-  font-size: 28px;
-}
-.mapa-estacao {
-  border: 1px solid #594a32;
-  padding: 6px 12px;
-  font-size: 13px;
-  color: #cbb58b;
-}
-.mapa-resumo {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-  padding: 12px 24px;
-  border-block: 1px solid #3e3424;
-  font-size: 12px;
-  color: #afa085;
-}
-.mapa-resumo strong {
-  color: #ddd0b7;
-  font-size: 17px;
-  padding-right: 4px;
-}
-.mapa-resumo > span:last-child {
-  margin-left: auto;
-  align-self: center;
-}
-.mapa-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
-  min-height: 520px;
-}
-.mapa-planta {
-  position: relative;
-  min-width: 0;
-  min-height: 520px;
-  overflow: hidden;
-  isolation: isolate;
-  background: #1b1a12;
-}
-.mapa-planta::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background: url("../assets/vila.webp") center / cover;
-  opacity: 0.07;
-  filter: grayscale(1);
-  pointer-events: none;
-}
-.mapa-planta::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 12px;
-  border: 1px solid #6e603633;
-  pointer-events: none;
-}
-.mapa-vila--inverno .mapa-planta {
-  background: #22221d;
-}
-.mapa-vila--outono .mapa-planta {
-  background: #241c12;
-}
-.mapa-vila--primavera .mapa-planta {
-  background: #1a1d14;
-}
-.mapa-caminhos {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-  fill: none;
-  stroke: #b69e6f;
-  stroke-width: 3;
-  stroke-dasharray: 2 5;
-  opacity: 0.25;
-  pointer-events: none;
-}
-.mapa-caminhos .mapa-rio {
-  stroke: #9b9a87;
-  stroke-width: 22;
-  stroke-dasharray: none;
-  opacity: 0.4;
-}
-.mapa-caminhos .mapa-contorno {
-  stroke-width: 1;
-  stroke-dasharray: none;
-}
-.mapa-norte {
-  position: absolute;
-  top: 14px;
-  left: 18px;
-  color: #a3916b;
-  font-size: 10px;
-  text-align: center;
-}
-.mapa-norte > span {
-  display: block;
-  font-size: 24px;
-  line-height: 1;
-}
-.mapa-planta-nota {
-  position: absolute;
-  bottom: 12px;
-  right: 18px;
-  color: #a3916b;
-  font-size: 11px;
-  font-style: italic;
-}
-.mapa-marco {
-  position: absolute;
-  top: var(--y);
-  left: var(--x);
-  transform: translate(-50%, -38%);
-  display: grid;
-  justify-items: center;
-  align-content: start;
-  gap: 5px;
-  width: 108px;
-  min-height: 98px;
-  padding: 7px 4px;
-  border: 1px solid transparent;
-  background: #17180fd9;
-  color: #d2bf97;
-  text-align: center;
-}
-.mapa-marco:not(:disabled):active {
-  transform: translate(-50%, -38%);
-}
-.mapa-marco:hover,
-.mapa-marco[aria-pressed="true"] {
-  background: #2b2619;
-  border-color: #a88e5c;
-}
-.mapa-marco[aria-pressed="true"] {
-  box-shadow: 0 0 0 3px #a88e5c22;
-}
-.mapa-marco strong {
-  font-size: 12px;
-  line-height: 1.15;
-  text-wrap: balance;
-}
-.mapa-marco-desenho {
-  display: block;
-  height: 36px;
-  width: 36px;
-}
-.mapa-marco-desenho svg {
-  width: 100%;
-  height: 100%;
-}
-.mapa-marco--bloqueado {
-  color: #a4977d;
-  background: #15150e9c;
-}
-.mapa-marco--bloqueado .mapa-marco-desenho {
-  opacity: 0.6;
-}
-.mapa-marco--dano {
-  color: #d1a38a;
-  border-bottom: 2px dashed #a87d62;
-}
-.mapa-marco-estado {
-  font-size: 9px;
-  color: #ab9c7f;
-}
-.mapa-niveis {
-  display: flex;
-  gap: 4px;
-}
-.mapa-niveis i {
-  width: 10px;
-  height: 2px;
-  background: #4e4432;
-}
-.mapa-niveis .preenchido {
-  background: #c1a16b;
-}
-.mapa-inspecao {
-  min-width: 0;
-  padding: 22px;
-  background: #15120d;
-  border-left: 1px solid #635035;
-}
-.mapa-inspecao .mapa-obra {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-.mapa-inspecao summary {
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
-  gap: 5px 12px;
-  list-style: none;
-  padding-bottom: 18px;
-  border-bottom: 1px solid #493c29;
-}
-.mapa-inspecao summary::-webkit-details-marker {
-  display: none;
-}
-.mapa-inspecao summary strong {
-  align-self: end;
-  font-size: 24px;
-  line-height: 1.1;
-}
-.mapa-inspecao .mapa-casa {
-  grid-row: 1 / span 2;
-  width: 40px;
-  height: 44px;
-  font-size: 0;
-  border: 0;
-  color: #c9b185;
-}
-.mapa-casa svg {
-  width: 40px;
-  height: 40px;
-}
-.mapa-inspecao .mapa-estado {
-  grid-column: 2;
-  color: #b9a784;
-  font-size: 12px;
-}
-.mapa-efeito {
-  margin-top: 18px;
-}
-.mapa-efeito > span,
-.mapa-proxima > span {
-  display: block;
-  color: #aa9671;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.mapa-efeito p {
-  color: #d0c1a5;
-  line-height: 1.5;
-}
-.mapa-proxima {
-  padding: 16px 0;
-  margin-top: 18px;
-  border-block: 1px solid #493c29;
-}
-.mapa-proxima > strong {
-  display: block;
-  font-size: 20px;
-  margin-bottom: 8px;
-}
-.mapa-proxima > p {
-  color: #af9f83;
-  font-size: 13px;
-}
-.mapa-motivo:empty {
-  display: none;
-}
-.mapa-motivo {
-  margin: 16px 0 12px;
-  padding: 10px 12px;
-  border-left: 2px solid #91774c;
-  background: #231d13;
-  color: #c6b490;
-}
-.mapa-acoes {
-  margin-top: 16px;
-  gap: 10px;
-}
-.mapa-acoes .botao {
-  min-height: 46px;
-  justify-content: flex-start;
-  text-align: left;
-  font-size: 13px;
-  padding: 11px 12px;
-}
-.mapa-acoes .botao:disabled {
-  opacity: 1;
-  color: #a59983;
-  border-color: #4b4131;
-  background: #19160f;
-  border-style: dashed;
-  cursor: not-allowed;
-}
-.mapa-marca,
-.mapa-relato,
-.mapa-vila .mapa-legenda {
-  margin: 0;
-  padding: 12px 24px;
-  border-top: 1px solid #3e3424;
-  font-size: 12px;
-  color: #b6a687;
-}
-.mapa-relato {
-  background: #1c1810;
-  color: #d3c3a3;
-}
-.construcoes-painel-cabecalho {
-  margin-bottom: 16px;
-}
-@media (max-width: 900px) {
-  .mapa-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .mapa-inspecao {
-    border-left: 0;
-    border-top: 1px solid #635035;
-  }
-  .mapa-planta {
-    min-height: 460px;
-  }
-}
 @media (max-width: 600px) {
   .legado-progresso {
     padding: 18px;
@@ -963,61 +633,10 @@ input[type="search"]::-webkit-search-cancel-button {
     padding: 10px 12px;
     font-size: 14px;
   }
-  .mapa-cabecalho {
-    padding: 18px 14px;
-    gap: 8px;
-  }
-  .mapa-cabecalho h3 {
-    font-size: 24px;
-  }
-  .mapa-estacao {
-    padding: 5px 8px;
-    font-size: 11px;
-  }
-  .mapa-resumo {
-    padding: 10px 14px;
-    gap: 8px 18px;
-  }
-  .mapa-resumo > span:last-child {
-    margin-left: 0;
-    flex-basis: 100%;
-  }
-  .mapa-marco {
-    width: 72px;
-    min-height: 100px;
-    padding: 6px 2px;
-    gap: 5px;
-  }
-  .mapa-marco strong {
-    font-size: 11px;
-  }
-  .mapa-marco-desenho {
-    width: 32px;
-    height: 32px;
-  }
-  .mapa-marco-estado {
-    font-size: 8px;
-  }
-  .mapa-planta {
-    min-height: 420px;
-  }
-  .mapa-norte {
-    top: 10px;
-    left: 8px;
-  }
-  .mapa-inspecao {
-    padding: 20px 16px;
-  }
-  .mapa-marca,
-  .mapa-relato,
-  .mapa-vila .mapa-legenda {
-    padding: 12px 14px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .botao,
-  .escolha,
-  .mapa-marco {
+  .escolha {
     transition: none;
   }
 }

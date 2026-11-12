@@ -12,7 +12,11 @@ test("bloqueios de recursos aparecem uma vez; honra continua como requisito narr
   assert.equal(J.engine.opcoesBloqueadas(evento, run)[0].id, "consertar");
   assert.equal(J.engine.escolher(run, "consertar"), false);
   J.ui.jogo(run, { textoCompleto: true });
-  assert.equal((app.innerHTML.match(/Gold insuficiente/g) || []).length, 1);
+  assert.equal(
+    (app.innerHTML.match(/class="escolha escolha-desabilitada requisito-consulta"/g) || []).length,
+    1,
+  );
+  assert.match(app.innerHTML, /Faltam 4 Gold/);
   const honra = { id: "teste", opcoes: [{ id: "honra", requisitos: { honraMin: 90, goldMin: 4 } }] };
   assert.equal(J.engine.opcoesBloqueadas(honra, run).length, 0);
   run.atributos.gold = 4;

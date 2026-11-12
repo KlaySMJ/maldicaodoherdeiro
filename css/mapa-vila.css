@@ -1,0 +1,400 @@
+/* A vila compartilha o preto e o marfim das cartas; o save determina o cenário. */
+.cronica.construcoes-aberto .mesa {
+  grid-template-columns: minmax(0, 1fr);
+}
+.cronica.construcoes-aberto .coluna-herdeiro,
+.cronica.construcoes-aberto .coluna-evento {
+  display: none;
+}
+.cronica.construcoes-aberto .coluna-escolhas {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+}
+.mapa-vila {
+  background: #000;
+  color: var(--tinta);
+  padding: 0;
+}
+.mapa-cabecalho {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+}
+.mapa-cabecalho h3 {
+  font-size: 24px;
+}
+.mapa-estacao {
+  color: var(--secundaria);
+  font-size: 14px;
+}
+.mapa-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+  gap: 24px;
+  align-items: start;
+}
+.mapa-territorio {
+  min-width: 0;
+}
+.mapa-planta {
+  background: #000;
+}
+.vila-cenario {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.vila-cenario path,
+.vila-cenario polygon {
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.vila-terreno {
+  fill: none;
+  stroke: #716b5f;
+  stroke-width: 1;
+}
+.vila-rio {
+  stroke: #a49a85;
+  stroke-width: 2;
+}
+.vila-agua {
+  stroke: #817663;
+  stroke-width: 1;
+}
+.vila-copa {
+  fill: #000;
+  stroke: #b6ab94;
+}
+.vila-campos,
+.vila-brotos {
+  stroke: #9e9178;
+  fill: none;
+}
+.mapa-vila--outono .vila-copa {
+  fill: url(#vila-hachura);
+}
+.vila-folhas {
+  stroke: #d6cab6;
+  fill: #a3916b;
+}
+.vila-arvore {
+  stroke-width: 1.4;
+}
+.vila-rede-caminhos {
+  fill: none;
+  stroke: #b4a68c;
+  stroke-width: 9;
+  opacity: 0.32;
+}
+.vila-caminho {
+  stroke-dasharray: 2 4;
+}
+.vila-construcao {
+  color: #d6cab6;
+  fill: #000;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  cursor: pointer;
+  text-decoration: none;
+}
+.vila-alvo {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+.vila-construcao:hover .vila-alvo,
+.vila-construcao:focus-visible .vila-alvo {
+  stroke: var(--tinta);
+  stroke-dasharray: 3 5;
+}
+.vila-construcao[aria-pressed="true"] {
+  color: #e7d8b8;
+}
+.vila-construcao[aria-pressed="true"] .vila-alvo {
+  stroke: #a68b5d;
+  stroke-width: 1;
+}
+.vila-construcao:focus-visible {
+  outline: none;
+}
+.vila-paredes > path:first-child {
+  fill: #d6cab6;
+  stroke: #000;
+  stroke-width: 2.5;
+}
+.vila-paredes > path:not(:first-child) {
+  stroke: #000;
+  fill: none;
+}
+.vila-paredes .vila-telhado {
+  fill: url(#vila-hachura);
+  stroke: #000;
+}
+#vila-hachura path,
+#vila-pedra path {
+  stroke: #2f2c25;
+  stroke-width: 1;
+}
+.vila-paredes .vila-pedra {
+  fill: url(#vila-pedra);
+}
+.vila-paredes .vila-oficio {
+  stroke: #d6cab6;
+}
+.vila-moinho-velas {
+  fill: #d6cab6;
+  stroke: #000;
+  stroke-width: 2;
+}
+.vila-construcao--futura {
+  color: #837b6c;
+  stroke-dasharray: 3 4;
+}
+.vila-construcao--futura .vila-paredes > path,
+.vila-construcao--futura .vila-moinho-velas {
+  fill: #000;
+  stroke: #837b6c;
+  stroke-width: 1;
+}
+.vila-construcao--futura .vila-paredes > path:not(:first-child) {
+  opacity: 0.4;
+}
+.vila-neve {
+  stroke: #eee1c8;
+  stroke-width: 4;
+  fill: none;
+}
+.vila-construcao--futura .vila-neve {
+  display: none;
+}
+.vila-quebra {
+  fill: #000;
+  stroke: #000;
+  stroke-width: 4;
+}
+.vila-quebra path {
+  fill: #000;
+}
+.vila-ruina {
+  fill: #38332b;
+  stroke: #d6cab6;
+  stroke-width: 1.6;
+}
+.vila-acento {
+  fill: #000;
+  stroke: #baa675;
+  stroke-width: 1.7;
+}
+.vila-andaime {
+  fill: none;
+  stroke: #baaa86;
+  stroke-width: 1.7;
+}
+.vila-festa {
+  stroke: #d6cab6;
+  fill: #a68b5d;
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.vila-destrocos {
+  fill: #5a5140;
+  stroke: #bcb099;
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.vila-nome {
+  fill: var(--tinta);
+  stroke: #000;
+  stroke-width: 5px;
+  paint-order: stroke;
+  font:
+    17px Georgia,
+    serif;
+}
+.mapa-inspecao {
+  position: sticky;
+  top: 16px;
+  min-width: 0;
+  background: #0a0908;
+  padding: 18px;
+}
+.mapa-obra {
+  min-width: 0;
+}
+.mapa-obra summary {
+  cursor: pointer;
+  list-style: none;
+}
+.mapa-obra summary::-webkit-details-marker {
+  display: none;
+}
+.mapa-obra summary strong {
+  display: block;
+  font-size: 24px;
+}
+.mapa-estado {
+  display: block;
+  margin: 5px 0 18px;
+  font-size: 14px;
+  color: var(--secundaria);
+}
+.mapa-efeito > span,
+.mapa-proxima > span {
+  display: block;
+  margin: 16px 0 6px;
+  color: var(--secundaria);
+  font-size: 13px;
+}
+.mapa-proxima p,
+.mapa-caminho,
+.mapa-motivo {
+  font-size: 14px;
+  line-height: 1.45;
+}
+.mapa-caminho {
+  margin-top: 12px;
+}
+.mapa-motivo {
+  margin: 14px 0;
+}
+.mapa-motivo:empty {
+  display: none;
+}
+.mapa-acoes {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+.mapa-acoes .botao {
+  width: 100%;
+  min-height: 44px;
+  white-space: normal;
+  text-align: left;
+  justify-content: flex-start;
+  font-size: 14px;
+  padding: 9px 12px;
+}
+.mapa-acao > small {
+  display: block;
+  color: var(--secundaria);
+  font-size: 13px;
+  margin: 5px 0 0;
+}
+.mapa-acoes .botao:disabled {
+  opacity: 1;
+  color: var(--secundaria);
+  border-color: #71695b;
+}
+.fim-recompensa {
+  max-width: 48ch;
+  margin: 18px auto;
+}
+.fim-recompensa h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.fim-recompensa p {
+  color: var(--secundaria);
+  font-size: 14px;
+}
+.requisito-consulta.escolha {
+  display: block;
+  position: relative;
+  padding: 0;
+  opacity: 1;
+  color: var(--secundaria);
+}
+.requisito-consulta > summary {
+  min-height: 52px;
+  padding: 12px 14px;
+  list-style: none;
+  cursor: help;
+}
+.requisito-consulta > summary::-webkit-details-marker {
+  display: none;
+}
+.requisito-consulta > summary:hover {
+  background: var(--papel-claro);
+}
+.requisito-consulta .requisito-dica {
+  padding: 12px 14px;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #71695b;
+  background: #000;
+  font-size: 14px;
+}
+.requisito-consulta .requisito-hover {
+  background: #000;
+  border-color: var(--secundaria);
+  color: var(--tinta);
+}
+.ajuda-etapas small {
+  font-size: 12px;
+}
+.ajuda-etapas li > span {
+  display: none;
+}
+.ajuda-conteudo h3 {
+  font-size: 24px;
+}
+.ajuda-conteudo > p {
+  font-size: 16px;
+}
+.ajuda-rodape {
+  background: #000;
+}
+.sistemas-dialogo {
+  background: #0a0908;
+  color: var(--tinta);
+}
+@media (max-width: 900px) {
+  .mapa-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .mapa-inspecao {
+    position: static;
+    scroll-margin-block: 16px;
+  }
+}
+@media (max-width: 600px) {
+  .mapa-cabecalho {
+    display: block;
+  }
+  .mapa-cabecalho h3 {
+    font-size: 22px;
+  }
+  .mapa-estacao {
+    display: block;
+    margin-top: 4px;
+  }
+  .mapa-planta {
+    overflow: auto;
+    max-height: 360px;
+  }
+  .vila-cenario {
+    width: 760px;
+    max-width: none;
+  }
+  .mapa-inspecao {
+    padding: 16px;
+  }
+  .ajuda-etapas {
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ajuda-etapas small {
+    font-size: 12px;
+  }
+  .ajuda-etapas li {
+    padding-top: 6px;
+    gap: 0;
+  }
+}

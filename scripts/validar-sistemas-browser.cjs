@@ -203,14 +203,18 @@ async function main() {
   );
   assert.equal(await avaliar("document.documentElement.scrollWidth <= innerWidth + 1"), true);
   const antesMapa = await avaliar("JSON.stringify(Jogo.save.lerRun())");
-  await avaliar("document.querySelector('[data-mapa-obra=celeiro]').click()");
+  await avaliar(
+    "document.querySelector('[data-mapa-obra=celeiro]').dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}))",
+  );
   assert.equal(await avaliar("document.querySelectorAll('[data-obra-id]:not([hidden])').length"), 1);
   assert.equal(
     await avaliar("document.querySelector('[data-mapa-obra=celeiro]').getAttribute('aria-pressed')"),
     "true",
   );
   assert.equal(await avaliar("JSON.stringify(Jogo.save.lerRun())"), antesMapa);
-  await avaliar("document.querySelector('[data-mapa-obra=moinho]').click()");
+  await avaliar(
+    "document.querySelector('[data-mapa-obra=moinho]').dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}))",
+  );
   await capturar("mapa-mobile");
   await cdp("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape" });
   await cdp("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape" });
@@ -230,7 +234,8 @@ async function main() {
   })()`);
   const antesConsulta = await avaliar("JSON.stringify(window.__consultaRun)");
   assert.equal(await avaliar("document.querySelectorAll('.escolha-desabilitada').length"), 2);
-  await avaliar("document.querySelector('.escolha-desabilitada').click()");
+  await avaliar("document.querySelector('.requisito-consulta > summary').click()");
+  assert.equal(await avaliar("document.querySelector('.requisito-consulta').open"), true);
   assert.equal(await avaliar("JSON.stringify(window.__consultaRun)"), antesConsulta);
   await capturar("requisitos-desktop");
   await cdp("Emulation.setDeviceMetricsOverride", {
@@ -242,11 +247,36 @@ async function main() {
   assert.equal(await avaliar("document.documentElement.scrollWidth <= innerWidth + 1"), true);
   assert.equal(
     await avaliar(
-      "[...document.querySelectorAll('.escolha-desabilitada')].every(e=>e.disabled && e.textContent.includes('Gold'))",
+      "[...document.querySelectorAll('.escolha-desabilitada')].every(e=>e.tagName==='DETAILS' && e.textContent.includes('Faltam 3 Gold') && !e.querySelector('[data-opcao]'))",
     ),
     true,
   );
   await capturar("requisitos-mobile");
+  await avaliar(
+    "document.querySelector('.requisito-consulta').open=false; document.querySelector('.requisito-consulta > summary').focus()",
+  );
+  await cdp("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", text: "\r" });
+  await cdp("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter" });
+  assert.equal(await avaliar("document.querySelector('.requisito-consulta').open"), true);
+  assert.equal(await avaliar("JSON.stringify(window.__consultaRun)"), antesConsulta);
+  await avaliar("document.querySelector('.requisito-consulta').open=false");
+  const pontoConsulta = await avaliar(
+    "(() => {const e=document.querySelector('.requisito-consulta > summary'); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()",
+  );
+  await cdp("Input.dispatchMouseEvent", { type: "mouseMoved", ...pontoConsulta });
+  assert.equal(
+    await avaliar("getComputedStyle(document.querySelector('.requisito-hover')).display"),
+    "block",
+  );
+  await cdp("Emulation.setTouchEmulationEnabled", { enabled: true });
+  await cdp("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ ...pontoConsulta, radiusX: 1, radiusY: 1, force: 1 }],
+  });
+  await cdp("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await aguardar("document.querySelector('.requisito-consulta').open");
+  assert.equal(await avaliar("JSON.stringify(window.__consultaRun)"), antesConsulta);
+  await cdp("Emulation.setTouchEmulationEnabled", { enabled: false });
   await cdp("Emulation.setDeviceMetricsOverride", {
     width: 1366,
     height: 768,
@@ -329,8 +359,125 @@ async function main() {
     await cdp("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
     await aguardar("document.body.dataset.tela === 'intro'");
   }
+  await cdp("Emulation.setTouchEmulationEnabled", { enabled: false });
+  const conferirCena = async (width, estacao, nivel) => {
+    await cdp("Emulation.setDeviceMetricsOverride", {
+      width,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: width === 390,
+    });
+    await avaliar(`(() => {
+      const J=window.Jogo,r=J.estado.novo(J.legado.vazio(),'corajoso');
+      r.rodada=20;r.estacao=${JSON.stringify(estacao)};r.construcoes=Object.keys(J.sistemas.obras);J.sistemas.vila(r);
+      for(const o of Object.values(r.vila.obras)){o.nivel=${nivel};}
+      if(${nivel}===3){r.vila.obras.ponte.caminho='guarda';r.sistemas.especializacao='comercial';r.vila.obras.moinho.caminho='comercial';}
+      r.vila.obras.forja.dano=1;r.vila.obras.celeiro.dano=2;r.vila.marcas=[{tipo:'festa',fim:25},{tipo:'destrocos',fim:25}];
+      J.engine.registrarSorteio(r,J.eventoPorId('colheita'));r.construcoesAbertas=true;window.__mapaRun=r;
+      J.ui.jogo(r,{textoCompleto:true});return true;
+    })()`);
+    assert.equal(await avaliar("document.querySelectorAll('[data-mapa-obra]').length"), 12);
+    assert.equal(
+      await avaliar("document.querySelectorAll('.mapa-obras,.mapa-relato,.mapa-legenda').length"),
+      0,
+    );
+    assert.equal(await avaliar("document.querySelectorAll('[data-marca-visual]').length"), 2);
+    assert.equal(await avaliar("document.documentElement.scrollWidth<=innerWidth+1"), true);
+    const snapshot = await avaliar("JSON.stringify(window.__mapaRun)");
+    await avaliar("document.querySelector('[data-mapa-obra=capela]').focus()");
+    await cdp("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", text: "\r" });
+    await cdp("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter" });
+    assert.equal(await avaliar("document.querySelector('[data-obra-id=capela]').open"), true);
+    assert.equal(await avaliar("JSON.stringify(window.__mapaRun)"), snapshot);
+    await avaliar(
+      "document.querySelector('[data-mapa-obra=capela]').scrollIntoView({block:'nearest',inline:'center'})",
+    );
+    await capturar(`vila-${width}-${estacao}-nivel-${nivel}`);
+  };
+  await conferirCena(1440, "primavera", 1);
+  await conferirCena(1440, "inverno", 3);
+  await conferirCena(768, "outono", 3);
+  await conferirCena(390, "verao", 2);
+  await avaliar(
+    "document.querySelector('[data-mapa-obra=moinho]').scrollIntoView({block:'nearest',inline:'center'})",
+  );
+  await cdp("Emulation.setTouchEmulationEnabled", { enabled: true });
+  const casaToque = await avaliar(
+    "(() => {const e=document.querySelector('[data-mapa-obra=moinho] .vila-alvo');const r=e.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()",
+  );
+  await cdp("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ ...casaToque, radiusX: 1, radiusY: 1, force: 1 }],
+  });
+  await cdp("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await aguardar("document.querySelector('[data-obra-id=moinho]').open");
+  await capturar("vila-mobile-final");
+  await cdp("Emulation.setTouchEmulationEnabled", { enabled: false });
+  // Largura CSS correspondente a 1440 px com ampliação de 150%.
+  await cdp("Emulation.setDeviceMetricsOverride", {
+    width: 960,
+    height: 600,
+    deviceScaleFactor: 1.5,
+    mobile: false,
+  });
+  assert.equal(await avaliar("document.documentElement.scrollWidth<=innerWidth+1"), true);
+  await capturar("vila-zoom-150");
+  assert.equal(await avaliar("getComputedStyle(document.body,'::before').animationName"), "none");
+  assert.equal(await avaliar("getComputedStyle(document.body,'::after').animationName"), "none");
+  const fluxos = await avaliar(`(() => {
+    const J=window.Jogo,r=J.estado.novo(J.legado.vazio(),'corajoso');
+    r.flags.bardo_cantou=true;r.rodada=10;J.engine.registrarSorteio(r,J.eventoPorId('colheita'));J.sistemas.atualizar(r);J.save.gravarRun(r);
+    const fila=J.save.lerRun();fila.rodada=22;
+    const continua=J.sistemas.filtrar(fila,[J.eventoPorId('cancao_que_corre'),J.eventoPorId('colheita')])[0].id==='cancao_que_corre';
+    J.engine.registrarSorteio(r,J.eventoPorId('mercador'));const oferta=J.engine.ofertaMercador(r,J.eventoPorId('mercador'));
+    J.save.gravarRun(r);const recarga=J.save.lerRun();const mesmaOferta=oferta.id===J.engine.ofertaMercador(recarga,J.eventoPorId('mercador')).id;
+    r.construcoes.push('moinho');r.atributos.gold=20;J.engine.registrarSorteio(r,J.eventoPorId('moinho_especializacao'));
+    const especializou=J.engine.escolher(r,'comercial');J.save.gravarRun(r);
+    const escolhaMantida=J.save.lerRun().sistemas.especializacao==='comercial';
+    const animal=J.estado.novo(J.legado.vazio(),'corajoso');J.engine.concederItem(animal,'cao_companheiro');
+    J.engine.registrarSorteio(animal,J.eventoPorId('vinculo_cao_companheiro'));
+    const escolha=J.engine.opcoes(J.eventoPorId(animal.eventoId),animal).find(o=>o.sistemaVinculo);
+    J.engine.escolher(animal,escolha.id);J.save.gravarRun(animal);
+    const vinculo=J.save.lerRun().sistemas.vinculos.cao_companheiro==='ativo';
+    return {fila:continua,oferta:mesmaOferta,especializacao:especializou&&escolhaMantida,vinculo};
+  })()`);
+  assert.ok(Object.values(fluxos).every(Boolean), JSON.stringify(fluxos));
+  await avaliar("Jogo.ui.detalhesAtributo(window.__mapaRun,'ataque')");
+  assert.ok(await avaliar("document.querySelector('dialog').textContent.includes('Permanente acumulado')"));
+  await avaliar("document.querySelector('[data-sistema-fechar]').click()");
+  // Extremos reais do catálogo: a página pode rolar verticalmente, mas não deve cortar escolhas.
+  for (const longo of [false, true]) {
+    await avaliar(`(() => {const J=window.Jogo;const r=J.estado.novo(J.legado.vazio(),'corajoso');
+      const es=J.eventos.filter(e=>!e.bossId&&!e.especial&&!e.batalha&&e.texto&&e.opcoes?.length).sort((a,b)=>a.texto.length-b.texto.length);
+      J.engine.registrarSorteio(r,${longo} ? es.at(-1):es[0]);J.ui.jogo(r,{textoCompleto:true});return true;})()`);
+    assert.equal(await avaliar("document.documentElement.scrollWidth<=innerWidth+1"), true);
+    await capturar(longo ? "carta-longa-zoom" : "carta-curta-zoom");
+  }
+  const chefe = await avaliar(`(() => {
+    const J=window.Jogo,r=J.estado.novo(J.legado.vazio(),'corajoso');r.debugTracoInimigo='nenhum';r.atributos.ataque=100;
+    const e=J.eventoPorId('embate_barao');J.engine.registrarSorteio(r,e);J.engine.escolher(r,e.opcoes.find(o=>o.combate).id);
+    for(let i=0;i<4;i++){J.engine.rolarCombate(r);r.combatePendente.dadosHerdeiro.fill(20);r.combatePendente.dadosInimigo.fill(1);J.engine.continuarCombate(r);}
+    J.engine.continuarCombate(r);window.__fimRun=r;J.ui.fim(r,true);return r.fim.tipo;
+  })()`);
+  assert.equal(chefe, "vitoria_barao");
+  assert.ok(
+    await avaliar("document.querySelector('.fim-recompensa').textContent.includes('Estandarte do Barão')"),
+  );
+  await capturar("fim-barao-trofeu");
+  await avaliar("Jogo.ui.fim(window.__fimRun,false)");
+  assert.ok(
+    await avaliar("document.querySelector('.fim-recompensa').textContent.includes('Ao salvar o legado')"),
+  );
+  const encerramentos = await avaliar(`(() => {
+    const rotas=['vitoria','vitoria_culto','vitoria_honra','vitoria_abissal','derrota'];
+    return rotas.every(tipo=>{const r=JSON.parse(JSON.stringify(window.__fimRun));r.fim.tipo=tipo;Jogo.ui.fim(r,true);return document.querySelector('.fim').classList.contains('fim--'+tipo)&&!!document.querySelector('.fim-salvo');});
+  })()`);
+  assert.equal(encerramentos, true);
   assert.equal(erros.length, 0, JSON.stringify(erros));
   const relatorio = {
+    data: "2026-11-12",
+    base: "2f39e3c",
+    incluiAlteracoesLocais: true,
     desktop: "1366x768",
     mobile: "390x844",
     ajudaAutomatica: true,
@@ -348,9 +495,23 @@ async function main() {
       diaPreservado: true,
       focoRestaurado: true,
       selecaoSemEfeito: true,
+      cenarios: ["1440 primavera nível 1", "1440 inverno nível 3", "768 outono nível 3", "390 verão nível 2"],
+      tecladoEToque: true,
+      listaERodapeRemovidos: true,
+      zoomEquivalente150: true,
     },
+    fluxos,
+    chefe: { vitoriaBarao: true, trofeu: true, estadoDoSalvamento: true, rotasRenderizadas: 5 },
     design: { etapasAjuda: 4, conquistas: true, buscaELimpeza: true, entradaMobile: "16px" },
-    requisitos: { consultaSemEfeito: true, alternativas: 2, motivosVisiveis: true },
+    requisitos: {
+      consultaSemEfeito: true,
+      alternativas: 2,
+      motivosVisiveis: true,
+      clique: true,
+      hover: true,
+      teclado: true,
+      toque: true,
+    },
     erros: [],
   };
   fs.writeFileSync(path.join(saida, "relatorio.json"), JSON.stringify(relatorio, null, 2));

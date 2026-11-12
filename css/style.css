@@ -1219,43 +1219,6 @@ button.disputa-traco-inimigo { background: transparent; border: 0; padding: 0; f
 @keyframes estacao-chega { from { opacity: .4; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .transicao-estacao, .efeito-consumido { animation: none; } }
 @media (hover: none) { .atributo-consulta { min-width: 44px; min-height: 44px; } }
-.mapa-vila {
-  padding: 1rem;
-  border: 1px solid #74654b;
-  background: #16140f;
-  color: #d6cab6;
-}
-.cronica.construcoes-aberto .mesa { grid-template-columns: minmax(0, 1fr); }
-.cronica.construcoes-aberto .coluna-herdeiro,
-.cronica.construcoes-aberto .coluna-evento { display: none; }
-.cronica.construcoes-aberto .coluna-escolhas { grid-column: 1; grid-row: 1; align-self: start; }
-.mapa-terrenos { align-items: start; }
-.mapa-vila--inverno { background: #20201e; }
-.mapa-vila--outono { background: #241b12; }
-.mapa-vila--primavera { background: #1b2018; }
-.mapa-terrenos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-  gap: 1rem;
-  padding: 1rem 0;
-  background-image: repeating-linear-gradient(25deg, transparent 0 95px, rgb(116 101 75 / calc(var(--obras, 0) / 16)) 96px 100px, transparent 101px 180px);
-}
-.mapa-obra { padding: .8rem; border: 1px dashed #74654b; background: #171510; min-width: 0; }
-.mapa-obra--erguida { border-style: solid; border-color: #b29b69; }
-.mapa-obra--dano { border: 2px dashed #bc896d; }
-.mapa-obra summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
-.mapa-obra summary > span:last-child { width: 100%; font-size: .85rem; }
-.mapa-obra summary:focus-visible { outline: 2px solid #d6cab6; outline-offset: 4px; }
-.mapa-casa { font-size: 2rem; }
-.mapa-obra--nivel-2 .mapa-casa { border-bottom: 2px solid #b29b69; }
-.mapa-obra--nivel-3 .mapa-casa { border-bottom: 4px double #b29b69; color: #b29b69; }
-.mapa-vila--inverno .mapa-casa { border-top: 3px solid #d6cab6; }
-.mapa-vila--outono .mapa-casa { border-bottom: 3px dotted #a68552; }
-.mapa-obra--dano .mapa-casa { text-decoration: line-through; }
-.mapa-obra--bloqueada .mapa-casa { opacity: .4; }
-.mapa-acoes { display: grid; gap: .5rem; }
-.mapa-acoes .botao { white-space: normal; width: 100%; }
-.mapa-legenda, .mapa-marca { margin: 0 0 .7rem; }
 .escolha[aria-disabled="true"] { opacity: .65; cursor: help; }
 .requisito-consulta { position: relative; }
 .requisito-consulta summary { cursor: help; padding: .7rem; }

@@ -1,0 +1,65 @@
+{
+  "base": "2f39e3c",
+  "data": "2026-11-12",
+  "incluiAlteracoesLocais": true,
+  "cenarios": 6,
+  "simulacoesAleatorias": 0,
+  "resultados": [
+    {
+      "id": "fontes_minimo",
+      "atendido": true,
+      "escudoAtual": 0,
+      "valorDefinido": -5,
+      "valorAplicado": -2,
+      "permanenteEsperado": 2,
+      "texto": "escudo: 0. Permanente acumulado: 2 (inclui equipamentos já aplicados). Efeito temporário até o dia 4: -2. Preparo: 0. Reduções de dano: cão 0, muralha 0, torre 0; melhorias das obras 0. Margem, postura e Escudo entram antes dessas reduções."
+    },
+    {
+      "id": "previsao_moinho",
+      "atendido": true,
+      "previsao": {
+        "rodada": 5,
+        "fontes": [
+          {
+            "nome": "Moinho comercial",
+            "valor": 1
+          }
+        ],
+        "total": 1
+      },
+      "rendaReal": 1
+    },
+    {
+      "id": "previa_cao",
+      "atendido": true,
+      "danoExibido": 14,
+      "danoReal": 14,
+      "vidaPrevista": 106,
+      "vidaReal": 106,
+      "perdaReal": 14
+    },
+    {
+      "id": "perda_total_vida",
+      "evento": "javalis",
+      "atendido": true,
+      "danoExibido": 20,
+      "saldoExibido": -24,
+      "perdaReal": 24,
+      "variacaoRegistrada": -24,
+      "penalidadeAdicional": -4
+    },
+    {
+      "id": "trofeu_final",
+      "atendido": true,
+      "trofeuNoResultado": true,
+      "trofeuForaDoHistorico": true,
+      "fim": "vitoria_barao"
+    },
+    {
+      "id": "velocidade_sem_storage",
+      "atendido": true,
+      "retorno": "rapido",
+      "estado": "rapido"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "data": "2026-11-12",
+  "base": "2f39e3c",
+  "incluiAlteracoesLocais": true,
+  "desktop": "1366x768",
+  "mobile": "390x844",
+  "ajudaAutomatica": true,
+  "persistenciaDaAjuda": true,
+  "focoRestaurado": true,
+  "escape": true,
+  "semRolagemOuConsumoDuranteAjuda": true,
+  "movimentoReduzido": true,
+  "escolhaNoPrimeiroClique": true,
+  "bloqueioDeCliqueDuplo": true,
+  "herdeiroNoPrimeiroToque": true,
+  "mapa": {
+    "obras": 12,
+    "pagamentoUnico": true,
+    "diaPreservado": true,
+    "focoRestaurado": true,
+    "selecaoSemEfeito": true,
+    "cenarios": [
+      "1440 primavera nível 1",
+      "1440 inverno nível 3",
+      "768 outono nível 3",
+      "390 verão nível 2"
+    ],
+    "tecladoEToque": true,
+    "listaERodapeRemovidos": true,
+    "zoomEquivalente150": true
+  },
+  "fluxos": {
+    "fila": true,
+    "oferta": true,
+    "especializacao": true,
+    "vinculo": true
+  },
+  "chefe": {
+    "vitoriaBarao": true,
+    "trofeu": true,
+    "estadoDoSalvamento": true,
+    "rotasRenderizadas": 5
+  },
+  "design": {
+    "etapasAjuda": 4,
+    "conquistas": true,
+    "buscaELimpeza": true,
+    "entradaMobile": "16px"
+  },
+  "requisitos": {
+    "consultaSemEfeito": true,
+    "alternativas": 2,
+    "motivosVisiveis": true,
+    "clique": true,
+    "hover": true,
+    "teclado": true,
+    "toque": true
+  },
+  "erros": []
+}

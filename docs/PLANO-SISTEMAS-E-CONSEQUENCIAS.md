@@ -2,7 +2,7 @@
 
 Data: 8 de novembro de 2026.
 
-Estado: sistemas e expansão das construções implementados, com conferência automatizada. A checklist ao fim separa as entregas das verificações de equilíbrio e uso em aparelho físico ainda pendentes.
+Estado: correções da auditoria implementadas em 12 de novembro de 2026. O cenário mostra evolução, danos e estações; os controles preservam as cores anteriores e as consultas de requisitos estão integradas. A seção 19 registra a execução, a retirada da lista inferior pedida pelo autor e as verificações ainda pendentes.
 
 ## 1. Objetivo e escopo
 
@@ -286,7 +286,7 @@ Nas simulações repetidas, somar todos os cenários e rodadas de verificação 
 
 A conferência manual deve percorrer uma cadeia do piloto, consultar bônus no computador e no celular, atravessar uma mudança de estação e verificar uma recompensa de chefe. Também deve concluir uma especialização e um vínculo, incluindo recarga após a decisão. Conferir a vitrine contextual, indicadores de presságios e as rotas de encerramento, além de velocidade dos textos e movimento reduzido.
 
-Reservar cenários de interação para cliques repetidos nas transições, posição do inventário e fechamento por Escape. No combate, verificar a primeira abertura automática, a consulta pelo “?” em uma luta posterior e a separação entre rolagem e dano, incluindo uma luta de chefe retomada do save. Todas essas verificações práticas continuam pendentes.
+Reservar cenários de interação para cliques repetidos nas transições, posição do inventário e fechamento por Escape. No combate, verificar a primeira abertura automática, a consulta pelo “?” em uma luta posterior e a separação entre rolagem e dano, incluindo uma luta de chefe retomada do save. As validações registradas ao fim cobrem parte desses casos; a auditoria da seção 18 registra seus limites e as divergências atuais.
 
 ## 15. Decisões em aberto
 
@@ -327,7 +327,7 @@ Eventos e batalhas malsucedidas podem danificar construções. Conforme o aconte
 
 O moinho já possui especialização comunitária ou comercial neste plano. Antes de implementar níveis, decidir como preservar essa escolha e evitar concessões duplicadas, inclusive em saves existentes. Também conferir as construções e efeitos reais no código: há efeitos em renda, desconto e combate, entre outros, que precisam respeitar o estado de dano.
 
-As regras adotadas abaixo fecham as decisões de funcionamento desta entrega. A revisão visual apresenta uma planta da vila com caminhos e ícones próprios em SVG, usando a arte existente da vila ao fundo. Selecionar um marco abre o painel daquela construção; no celular, os detalhes ficam abaixo da planta. Os estados escritos e os sinais de estação complementam a aparência. Os exemplos anteriores servem de direção, e os valores continuam sujeitos à avaliação em partidas completas.
+As regras adotadas abaixo fecham as decisões de funcionamento. A versão auditada em 11 de novembro usava caminhos fixos e ícones sobre a arte da vila; o autor rejeitou esse desenho como conclusão da proposta. A execução de 12 de novembro substituiu essa planta pelo cenário descrito na seção 19. A avaliação dos valores em partidas completas continua pendente.
 
 ### Regras adotadas em 11 de novembro
 
@@ -357,7 +357,7 @@ Reparar custa 4 Gold, ou o jogador organiza ajuda comunitária e espera três di
 
 Todas as 12 construções aparecem no mapa. As não construídas informam que dependem de encontros; o painel não revela flags ou histórias secretas. O jogador abre detalhes por clique, toque ou teclado. Os painéis mostram custo, espera e motivo do bloqueio. Requisitos públicos das cartas usam consultas próprias, limitadas ao espaço restante entre as quatro respostas; requisitos secretos continuam ocultos. Compras sem saldo informam o Gold faltante e permitem abrir essa explicação sem comprar.
 
-Antes de criar ou avaliar a arte, consultar `docs/MEMORIA-ILUSTRACOES.md` por inteiro. Definir como o mapa atende computador e celular, sem depender apenas de cor ou hover. Consultar o mapa não deve consumir dias; o custo de tempo de construir, melhorar e reparar ainda precisa de decisão, respeitando a regra já escolhida para os eventos de evolução.
+Antes de criar ou avaliar a arte, consultar `docs/MEMORIA-ILUSTRACOES.md` por inteiro. O mapa deve atender computador e celular sem depender apenas de cor ou hover. As regras adotadas acima definem o tempo: consultar, melhorar, reparar e concluir trabalhos não avança o dia; a obtenção inicial conserva o tempo de seu evento.
 
 ### Sequência e verificações previstas
 
@@ -387,14 +387,15 @@ Antes de criar ou avaliar a arte, consultar `docs/MEMORIA-ILUSTRACOES.md` por in
 - [x] Implementar especialização comunitária ou comercial do moinho e vínculos com cão, corvo e gato.
 - [x] Implementar ponderação contextual do mercador, oferta persistida e indicação do destino das compras.
 - [x] Acrescentar sinais de ação, consequência principal e consulta do progresso dos presságios.
-- [x] Exibir requisitos públicos, alternativas com “ou”, limites máximos, estações e itens, mantendo condições secretas ocultas; mostrar o saldo faltante na vitrine.
+- [x] Integrar os requisitos públicos à tela, incluindo alternativas com “ou”, limites, estações e itens; manter Honra e flags narrativas ocultas e mostrar o saldo faltante na vitrine.
 - [x] Registrar a seleção de 11 de novembro de 2026: explicação das alternativas indisponíveis por clique ou hover, sem aprovar as demais ideias do brainstorm.
-- [x] Acrescentar o informativo das alternativas indisponíveis e conferir clique, hover, toque emulado e teclado, sem executar a opção nem avançar a rodada durante a consulta.
+- [x] Conectar o informativo das alternativas indisponíveis e conferir sua abertura por clique, hover, toque emulado e teclado, sem executar a opção ou avançar a rodada.
 - [x] Registrar a proposta do mapa, os três níveis, a evolução por Gold ou história, os danos e as cinco melhorias de experiência escolhidas.
 - [x] Registrar caminhos definitivos no último nível de algumas obras, marcas das estações e detalhes temporários de acontecimentos no mapa.
 - [x] Definir caminhos para ponte e moinho, efeitos e marcas temporárias de ataques e colheita.
 - [x] Registrar as regras de cada construção, incluindo a integração com o moinho existente e a entrada dos saves antigos.
-- [x] Implementar o mapa em HTML/CSS, níveis, cenas dos artesãos, danos e reparos; conferir controles no Edge em computador e celular emulado.
+- [x] Implementar a consulta das 12 obras e as regras de níveis, cenas dos artesãos, danos e reparos; conferir os controles no Edge em computador e celular emulado.
+- [x] Implementar o cenário da vila com caminhos conforme as obras surgem, aparência por nível, danos, estações e marcas temporárias. A seleção acontece nas próprias construções; a lista inferior e o rodapé foram retirados por pedido posterior do autor.
 - [x] Revisar botões e campos com foco visível, distinguir conquistas obtidas e pendentes e reorganizar os avisos no canto da tela.
 - [x] Apresentar as quatro etapas da ajuda de combate com exemplos visuais; mostrar a obra selecionada em um painel junto à planta da vila.
 - [ ] Conferir os controles em celular físico; avaliar uma ilustração própria do mapa caso o autor a solicite.
@@ -408,12 +409,12 @@ Antes de criar ou avaliar a arte, consultar `docs/MEMORIA-ILUSTRACOES.md` por in
 - [x] Revisar as alterações e executar testes, lint e formatação dos arquivos modificados após os ajustes; registrar separadamente as falhas anteriores da suíte e da formatação global.
 - [x] Simular as quatro filas com urgências, intervalo entre continuações e recarga em cada rodada, respeitando o limite total da tarefa.
 - [ ] Ampliar a simulação para partidas completas com todas as interações e avaliar o balanceamento, dentro do saldo do limite desta tarefa.
-- [ ] Conferir em navegador os demais fluxos: fila, bônus, mercador, especialização, vínculos, chefes e encerramentos.
+- [x] Conferir cenários de navegador para fila, bônus, oferta persistida do mercador, especialização, vínculo, vitória contra o Barão e apresentação dos encerramentos. A avaliação de partidas completas continua pendente.
 - [ ] Avaliar o balanceamento em partidas completas e conferir um celular físico.
 
 **Valores adotados nesta implementação:** a vila pequena tem até 25 habitantes; o mutirão exige pelo menos 60 e custa 2 Gold. As variantes sazonais compartilham as oito cartas da vila. Especializar o moinho custa 3 Gold: a função comunitária acrescenta 1 Vida por dia, enquanto a comercial rende 1 Gold a cada 5 dias. O cão evita 8 pontos do primeiro golpe de combate que causaria pelo menos 12 após as proteções; o corvo abre uma busca por 4 Gold; o gato acrescenta 1 de cura diária abaixo da metade da Vida. Esses valores ainda precisam da avaliação de balanceamento. A seção 15 conserva as decisões que motivaram o plano; esta lista registra as escolhas feitas para executá-lo.
 
-**Resumo:** a implementação cobre os sistemas anteriores e acrescenta o mapa das 12 construções, níveis, caminhos definitivos, cenas dos artesãos e reparos sem Gold. O cálculo de renda, cura, proteção e desconto respeita as obras interrompidas; carregar preserva níveis e escolhas. As alternativas indisponíveis permitem consultar requisitos públicos sem decidir pela pessoa. Permanecem pendentes o balanceamento em partidas completas, os fluxos de navegador ainda assinalados e o celular físico.
+**Resumo:** a implementação cobre os sistemas, as regras das 12 obras e as correções de apresentação descritas na seção 19. A conferência automática cobre os fluxos registrados; balanceamento de partidas completas e uso em celular físico continuam pendentes.
 
 **Validações registradas em 11 de novembro:** a suíte completa executou 262 testes: 225 passaram e 37 falharam. A execução com os arquivos JavaScript de `HEAD` reproduziu essas mesmas 37 falhas, sem falhas novas na comparação; as falhas não representam aprovação da suíte. Os 15 testes de sistemas e os 13 novos testes de construções passaram. O lint passou, assim como o Prettier dos arquivos modificados; a verificação global de formatação continua apontando 35 arquivos que esta tarefa não alterou.
 
@@ -422,3 +423,34 @@ O Edge conferiu tutorial automático, preferência, foco, Escape e preservação
 A revisão visual passou nos 45 testes direcionados de sistemas, construções, interface e controlador, além do lint. O navegador percorreu as quatro etapas da ajuda, selecionou obras sem alterar o save e verificou busca e limpeza dos filtros das conquistas. Os campos da coleção usam texto de 16 px no celular. As capturas incluem a coleção em computador e celular, os exemplos da ajuda e a nova planta da vila; a conferência em aparelho físico continua pendente.
 
 A simulação da fila concluiu 48 continuações em 12 cenários e 360 passos, com 14 adiamentos por urgências, intervalos de 12 a 20 rodadas, nenhuma duplicação e nenhuma das quatro filas restante. Duas tentativas interrompidas durante o ajuste do simulador percorreram 13 passos cada; o total acumulado desta tarefa é 386 passos de simulação, deixando 114 dentro do limite de 500. Esse levantamento verifica espera e persistência, sem comprovar o equilíbrio de partidas completas. Não houve teste em celular físico.
+
+## 18. Auditoria dos arquivos atuais, após a integração
+
+Base conferida: commit `2f39e3c`, em 11 de novembro de 2026. A [auditoria da interface](AUDITORIA-INTERFACE-E-CONSTRUCOES.md) compara este plano e o pedido mestre com o código e capturas atuais. O mapa recebeu implementação funcional, mas o autor rejeitou sua apresentação como conclusão da direção visual.
+
+- [x] Conferir os arquivos atuais e executar os 40 testes direcionados de sistemas, construções, integração de interface e controlador: todos passaram.
+- [x] Conferir no Edge o tutorial de combate, os campos e as construções; medir a planta em 1440, 768 e 390 px, sem rolagem horizontal nesses cenários.
+- [x] Refazer a apresentação do mapa com fundo preto, construções desenhadas e detalhes sob seleção. Em 12 de novembro, o autor pediu a retirada da lista de benefícios abaixo do cenário; o painel selecionado conserva essas informações. O celular permite mover o mapa sem reduzir os nomes a 8 px.
+- [x] Preservar as cores originais dos controles, retirar a seta decorativa e reduzir as repetições da ajuda.
+- [x] Integrar os informativos sem duplicar escolhas nem expor requisitos narrativos de Honra; conferir a consulta real por clique, hover, toque e teclado.
+- [x] Relacionar a falta de Gold somente à ação paga, manter a alternativa gratuita disponível e priorizar o reparo de obras danificadas.
+- [x] Corrigir a prévia do cão, exibir saldo de Vida quando houver outras consequências, apresentar o troféu no encerramento e manter a velocidade na sessão sem armazenamento.
+- [ ] Concluir os fluxos de navegador restantes, comparar cartas curtas e longas, verificar zoom e movimento do fundo, avaliar partidas completas e conferir celular físico. As artes dos herdeiros continuam adiadas; a fórmula proporcional anterior de dano continua sem referência localizada.
+
+**Resultado e validações:** a auditoria confirmou as regras das obras e o funcionamento básico da ajuda, mas reabriu entregas que a checklist tratava como completas. Os 40 testes passaram; o roteiro existente do Edge terminou sem exceções. A conferência adicional verificou os três tamanhos da planta, estados danificado e interrompido, campos de 16 px e ajuda com armazenamento bloqueado. Seis cenários determinísticos confirmaram duas condições corretas e quatro divergências de apresentação ou preferência. Não executei novas simulações aleatórias nem alterei a implementação nesta auditoria. A validação visual final do mapa e as verificações manuais assinaladas continuam pendentes.
+
+## 19. Execução das pendências em 12 de novembro
+
+O [registro da execução](EXECUCAO-PENDENCIAS-INTERFACE.md) descreve as alterações posteriores à auditoria. O novo mapa usa SVG no próprio código: obras construídas abrem caminhos, níveis acrescentam partes aos edifícios e danos produzem rachaduras ou ruínas. Neve, vegetação e folhas acompanham as estações; enfeites e destroços respeitam o prazo salvo. A lista inferior, o relato de conclusão e o rodapé saíram conforme a captura indicada pelo autor. As histórias dos artesãos aparecem somente no painel da obra em andamento.
+
+As consultas de requisitos usam um único componente com motivo legível e abertura por clique, hover, toque e teclado. O tutorial geral inclui obras e espera; em combate, o acesso abre a ajuda própria. A prévia do cão usa a proteção sem consumir o vínculo. Resultados que combinam golpe com outra alteração de Vida mostram o saldo; troféus de finais explicam seu encontro futuro, inclusive quando o legado ainda não salvou.
+
+- [x] Implementar a apresentação do mapa e retirar a seção apontada pelo autor.
+- [x] Corrigir controles, consultas, tutoriais e motivos dos trabalhos.
+- [x] Corrigir prévia de dano, saldo de Vida, troféus e preferência sem armazenamento.
+- [x] Executar 55 testes direcionados, lint e formatação dos arquivos alterados.
+- [x] Conferir o Edge em 1440, 768 e 390 px, estados sazonais, teclado, toque, redução de movimento e largura equivalente ao zoom de 150%.
+- [ ] Concluir balanceamento em partidas completas, teste em celular físico e observação prolongada de animações; localizar a fórmula proporcional anterior antes de alterar esse cálculo. Os retratos dos herdeiros permanecem adiados.
+- [ ] Resolver as 13 falhas anteriores da suíte completa, que esta execução reproduziu com os fontes de `HEAD`; não fazem parte da aprovação dos testes direcionados.
+
+**Resultado e validações:** as correções de implementação estão entregues e os 55 testes direcionados passaram. O roteiro do Edge passou sem exceções de JavaScript, incluindo os fluxos registrados e a retirada da lista. A execução completa inicial contou 281 testes: 267 passaram e 14 falharam; uma falha correspondia à expectativa antiga do componente de bloqueio e passou após sua atualização. As outras 13 falhas também ocorreram com os fontes anteriores. O lint e a formatação dos arquivos alterados passaram. O inspetor genérico da skill falhou em `Page.enable`; a conferência visual usou o roteiro próprio do projeto. Não executei novas simulações aleatórias, e não houve teste em aparelho físico.

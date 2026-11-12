@@ -781,6 +781,7 @@
   }
   J.sistemas = {
     obras,
+    historiasObras,
     vila,
     vilaValida,
     ativa,

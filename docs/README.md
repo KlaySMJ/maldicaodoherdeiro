@@ -12,7 +12,9 @@ Os caminhos de código, imagens e scripts citados nestes arquivos partem da raiz
 
 - [Maus Presságios](PRD-MAUS-PRESSAGIOS.md): dez ameaças raras implementadas, com anúncio fora da rodada, preparação, salvamento e debug; balanceamento jogável pendente.
 - [Plano de melhorias](PLANO-MELHORIAS.md).
-- [Plano de sistemas e consequências](PLANO-SISTEMAS-E-CONSEQUENCIAS.md): melhorias dos sistemas, mercador contextual, interface e tutorial de combate com acesso pelo “?”; implementação pendente.
+- [Plano de sistemas e consequências](PLANO-SISTEMAS-E-CONSEQUENCIAS.md): sistemas, mapa e correções da auditoria implementados; balanceamento e uso em aparelho físico pendentes.
+- [Auditoria da interface e das construções](AUDITORIA-INTERFACE-E-CONSTRUCOES.md): comparação dos arquivos atuais com o plano e o pedido mestre, com evidências e pendências por frente.
+- [Execução das pendências da interface](EXECUCAO-PENDENCIAS-INTERFACE.md): novo cenário da vila, controles, tutorial, informações de combate e resultados das validações.
 - [Revisão da interface e do legado](PLANO-REVISAO-INTERFACE-E-LEGADO.md).
 - [Balanceamento e mobile](PRD-BALANCEAMENTO-E-MOBILE.md).
 - [Revisão dos textos de eventos](PRD-REVISAO-TEXTOS-EVENTOS.md).
