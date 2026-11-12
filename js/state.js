@@ -16,6 +16,7 @@
       proporcaoAtaque: 0.2,
     },
     memoriaEventos: 25,
+    chefesRodadaMinima: 26,
     memoriaCronica: 15,
     rodadasVitoria: 300,
     intervaloEntidade: 24,

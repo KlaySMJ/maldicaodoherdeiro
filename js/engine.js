@@ -424,11 +424,22 @@
   }
 
   function opcoes(evento, run, usarOpcoesSorteadas = true) {
+    if (evento.id === "lider_culto" && run.traco === "herdeiro_culto")
+      return evento.opcoes
+        .filter((opcao) => opcao.id === "aceitar")
+        .map((opcao) => ({ ...opcao, texto: "Aceitar a vontade do seu mestre" }));
     const catalogo = catalogoOpcoes(evento, run);
     const selecionadas =
       usarOpcoesSorteadas && run.opcoesSorteadas?.length
         ? run.opcoesSorteadas.map((id) => catalogo.find((opcao) => opcao.id === id)).filter(Boolean)
         : catalogo;
+    if (
+      usarOpcoesSorteadas &&
+      run.opcoesSorteadas?.length &&
+      !evento.poolOpcoes &&
+      run.recompensasBau?.eventoId !== evento.id
+    )
+      selecionadas.push(...catalogo.filter((opcao) => !run.opcoesSorteadas.includes(opcao.id)));
     return selecionadas.filter(
       (opcao) =>
         cumpre(opcao.requisitos, run) &&
@@ -460,7 +471,35 @@
     );
   }
 
+  function opcoesBloqueadas(evento, run) {
+    if (evento.id === "lider_culto" && run.traco === "herdeiro_culto") return [];
+    const campos = {
+      goldMin: "Gold insuficiente",
+      hpMin: "Vida insuficiente",
+      habitantesMin: "Habitantes insuficientes",
+      seguidoresMin: "Seguidores insuficientes",
+      populacaoMinimo: "População insuficiente",
+    };
+    const catalogo = catalogoOpcoes(evento, run);
+    return catalogo
+      .filter(
+        (opcao) =>
+          !evento.poolOpcoes || !run.opcoesSorteadas?.length || run.opcoesSorteadas.includes(opcao.id),
+      )
+      .flatMap((opcao) => {
+        const requisitos = { ...opcao.requisitos };
+        const motivos = Object.keys(campos)
+          .filter((campo) => requisitos[campo] !== undefined && !cumpre({ [campo]: requisitos[campo] }, run))
+          .map((campo) => campos[campo]);
+        for (const campo of Object.keys(campos)) delete requisitos[campo];
+        return motivos.length && cumpre(requisitos, run)
+          ? [{ ...opcao, motivoBloqueio: motivos.join(" · ") }]
+          : [];
+      });
+  }
+
   function eventoDisponivel(evento, run, aleatorio = Math.random) {
+    if (evento.bossId && run.rodada < Jogo.config.chefesRodadaMinima) return false;
     if (evento.id === "cura_critica" && !curaCriticaDisponivel(run)) return false;
     if (evento.letal && run.rodada < 6) return false;
     if (run.traco === "menino_cronista" && evento.conselheiro) return false;
@@ -688,7 +727,12 @@
         (run.flags?.orfao_acolhido && !run.flags?.retorno_do_menino_visto),
     );
     const agendada = run.consequenciasAgendadas
-      .filter((item) => Number.isSafeInteger(item.rodada) && item.rodada <= run.rodada)
+      .filter(
+        (item) =>
+          Number.isSafeInteger(item.rodada) &&
+          item.rodada <= run.rodada &&
+          (!Jogo.eventoPorId(item.eventoId)?.bossId || run.rodada >= Jogo.config.chefesRodadaMinima),
+      )
       .sort((a, b) => a.rodada - b.rodada)[0];
     if (agendada) {
       const eventoAgendado = Jogo.eventoPorId(agendada.eventoId);
@@ -1077,6 +1121,27 @@
     const desfecho =
       face === 20 ? "sucesso" : face === 1 ? "falha" : face > totalOponente ? "sucesso" : "falha";
     return { face, faceOponente, bonusOponente, totalOponente, desfecho };
+  }
+
+  function probabilidadesOpcao(run, opcao) {
+    if (!run.flags?.mao_do_destino_ativa || !opcao) return null;
+    if (opcao.testeSorte && !opcao.testeDados && !opcao.dueloDados) {
+      const chance = opcao.testeSorte.fatalidadeAleatoria ? 100 : opcao.testeSorte.chance;
+      return chance > 0 && chance < 100 ? { sucesso: chance / 100, falha: 1 - chance / 100 } : null;
+    }
+    if (!opcao.testeDados && !opcao.dueloDados) return null;
+    const minimo = temItem(run, "dado_viciado") ? 5 : 1;
+    const quantidade = quantidadeDadosTesteDados(run);
+    const totais = { sucesso: 0, sucessoComCusto: 0, falha: 0 };
+    for (let face = minimo; face <= 20; face++) {
+      const chanceFace =
+        ((face - minimo + 1) / (21 - minimo)) ** quantidade - ((face - minimo) / (21 - minimo)) ** quantidade;
+      if (opcao.testeDados) totais[calcularTesteDados(opcao.testeDados, face).desfecho] += chanceFace;
+      else
+        for (let oponente = 1; oponente <= 20; oponente++)
+          totais[calcularDueloDados(opcao.dueloDados, face, oponente).desfecho] += chanceFace / 20;
+    }
+    return totais;
   }
 
   function rolarDadoHerdeiro(run) {
@@ -2802,6 +2867,17 @@
     if (opcao?.entidadeXRecusa && evento.id === run.marcos.entidadeXRecusaFatalId) {
       const confronto = Jogo.eventoPorId("entidade_x_confronto");
       if (!confronto) return false;
+      if (run.rodada < Jogo.config.chefesRodadaMinima) {
+        run.consequenciasAgendadas ||= [];
+        if (!run.consequenciasAgendadas.some((item) => item.eventoId === confronto.id))
+          run.consequenciasAgendadas.push({
+            id: `${run.id}:${confronto.id}:${run.rodada}`,
+            eventoId: confronto.id,
+            rodada: Jogo.config.chefesRodadaMinima,
+            origem: evento.id,
+          });
+        return resolverOpcao(run, evento, opcao);
+      }
       registrarSorteio(run, confronto);
       return iniciarCombate(run, confronto, confronto.opcoes[0]);
     }
@@ -3854,6 +3930,8 @@
     pools,
     eventoDisponivel,
     opcoes,
+    opcoesBloqueadas,
+    probabilidadesOpcao,
     peso,
     sortear,
     escolher,

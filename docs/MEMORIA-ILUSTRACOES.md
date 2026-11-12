@@ -66,8 +66,12 @@ Algumas artes PNG de evento têm correção de cor na exibição por meio da cla
 
 - O Menino da Crônica mantém o rosto sardento, cabelo cacheado, coroa dourada e recorte aprovados. A túnica e a gola alta usam laranja queimado perto de `#B9753F`; a capa drapeada permanece marfim `#F9EEDD`. As honras negativas desbotam em etapas: baixa `#C38A5E`, baixa-2 `#CEA17E` e baixíssima `#D3AE91`, ainda reconhecível como laranja pálido. Preservar contornos, hachura, detalhes dourados, remendos e transparência. O culto permanece inalterado. As variantes estão em `docs/previas/menino-cronista.html`, com os prompts em `assets/prompts/menino-cronista-estados.json`.
 
-## Fluxo para novas artes
+- Em 11 de novembro de 2026, o usuário adiou as imagens dos herdeiros. As propostas do Bufão e da Bruxa ficam em `docs/previas/herdeiros-adiados/`, sem integração; os retratos anteriores continuam em uso. Essas propostas não definem a identidade final das personagens.
+- Os chefes Barão, líder do culto e Abissal têm bustos em `assets/chefes/`. A Entidade permanece inalterada. O usuário pediu uma aparência mais maníaca para o líder: olhos arregalados, sobrancelhas assimétricas e sorriso com dentes visíveis, preservando o capuz, o manto e o broche de chama. A revisão está em `assets/chefes/lider-culto.png` e no WebP correspondente; os prompts ficam em `assets/prompts/refinamento-elenco.json`.
 
+- O usuário rejeitou o líder de rosto feio e corpo magro e pediu outra aparência: ele deve ser atraente e maníaco, com constituição normal. Também rejeitou a proposta seguinte de jovem de cabelo cacheado e sorriso largo. A reconstrução atual usa um homem maduro de barba curta, cabelo escuro sob um capuz mais fechado, ombros firmes, olhar fanático e sorriso contido. Preservar as cores do culto: capuz e manto vermelho-escuros, túnica preta e chama marfim no peito, tomando `assets/herdeiros/herdeiro-culto-culto.png` como referência de paleta. A versão atual está em `assets/chefes/lider-culto.png` e `.webp`; o prompt está em `assets/prompts/lider-culto-refeito.json`. Essa direção substitui a orientação anterior de emagrecer o personagem; não tratar as propostas rejeitadas como identidade aprovada.
+
+## Fluxo para novas artes
 
 1. Identifique a categoria e leia esta memória.
 2. Escolha uma referência de composição/identidade da mesma categoria e uma referência de acabamento. Para eventos, a cor da referência `assets/vila.png` prevalece, salvo a exceção de paleta dos Maus Presságios; os deuses nórdicos servem como referência de riqueza de traço.

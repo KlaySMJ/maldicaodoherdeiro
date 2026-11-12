@@ -10,7 +10,7 @@
   <!-- A escrita durante o parsing preserva defer e a ordem de execução em file://. -->
   <script>
     (() => {
-      const VERSAO_ASSETS = "20261108-69";
+      const VERSAO_ASSETS = "20261111-72";
       window.JOGO_VERSAO_ASSETS = VERSAO_ASSETS;
       const mostrarErroDeAbertura = () => {
         const app = document.getElementById("app");
@@ -79,6 +79,7 @@
   <div class="livro">
     <header class="cabecalho">
       <a class="marca" href="index.html" aria-label="A maldição do Herdeiro — início"><img src="assets/selo.svg" width="32" height="36" alt="">A maldição do Herdeiro</a>
+      <button id="alternar-texto-automatico" class="controle-texto" type="button" aria-pressed="true">Texto automático: ativo</button>
       <details id="controles-audio" class="menu-audio">
         <summary class="controle-audio" aria-label="Abrir controles de música" title="Controles de música">
           <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>

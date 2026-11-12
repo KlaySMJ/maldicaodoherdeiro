@@ -403,6 +403,8 @@
   document.addEventListener(
     "click",
     (evento) => {
+      if (evento.target.closest?.("button, a, input, select, textarea, summary, dialog, [role='button']"))
+        return;
       if (Jogo.ui.completarTextoEvento()) {
         evento.preventDefault();
         evento.stopPropagation();
@@ -414,16 +416,6 @@
   document.getElementById("app").addEventListener("click", async (evento) => {
     const botao = evento.target.closest("button");
     if (!botao || botao.disabled || ocupado) return;
-    const toqueSemHover = window.matchMedia?.("(hover: none)").matches && evento.detail > 0;
-    if (
-      botao.dataset.acao === "selecionar-herdeiro" &&
-      toqueSemHover &&
-      botao.dataset.infoRevelada !== "true"
-    ) {
-      botao.dataset.infoRevelada = "true";
-      botao.focus({ preventScroll: true });
-      return;
-    }
     if (botao.getAttribute("aria-disabled") === "true" || botao.getAttribute("role") === "tab") return;
     const honraAntesDaEscolha = run?.atributos.honra;
     Jogo.audio?.interagir();

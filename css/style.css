@@ -393,7 +393,6 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .impacto-dano { position: absolute; z-index: 3; inset: 0; background: #9f3028; opacity: 0; pointer-events: none; animation: clarao-dano 420ms ease-out; }
 .vida-perdida { position: relative; }
 .vida-perdida dd { animation: vida-sofre-dano 700ms ease-out; }
-.vida-perdida::after { content: "−" attr(data-dano); position: absolute; top: -14px; left: 50%; color: #efa394; font-size: 15px; line-height: 1; opacity: 0; pointer-events: none; animation: valor-dano 900ms ease-out; }
 @keyframes recuo-dano { 0%, 100% { transform: translateX(0); } 18% { transform: translateX(-6px) rotate(-.6deg); } 44% { transform: translateX(4px) rotate(.35deg); } 70% { transform: translateX(-2px); } }
 @keyframes clarao-dano { 0%, 100% { opacity: 0; } 18% { opacity: .24; } }
 @keyframes vida-sofre-dano { 0%, 100% { color: inherit; transform: scale(1); } 22% { color: #efa394; transform: scale(1.08); } }
@@ -402,7 +401,6 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .atributo[data-atributo="honra"].honra-mudou { animation: realce-honra 760ms ease-out; }
 .atributo[data-atributo="honra"].honra-mudou dd { animation: numero-honra 720ms cubic-bezier(.2,.75,.3,1); }
 .atributo[data-atributo="honra"][data-mudanca-honra="subiu"] { z-index: 2; animation: pulso-ganho-honra 900ms ease-out; }
-.atributo[data-atributo="honra"][data-mudanca-honra="subiu"]::before { content: "+" attr(data-ganho-honra) " Honra"; position: absolute; z-index: 2; top: -8px; left: 50%; padding: 2px 6px; border-bottom: 1px solid #8f7137; background: rgba(0,0,0,.94); color: #f1d796; font-size: 12px; line-height: 1.2; white-space: nowrap; pointer-events: none; animation: texto-ganho-honra 1250ms cubic-bezier(.2,.72,.25,1) both; }
 .atributo[data-atributo="honra"][data-mudanca-honra="subiu"] dd { animation: numero-ganho-honra 900ms cubic-bezier(.16,.8,.25,1); }
 .carta-herdeiro.honra-alta { border-color: var(--azul); outline: 2px solid var(--azul); outline-offset: 4px; }
 .carta-herdeiro.honra-baixa { border-color: var(--vermelho); outline: 2px solid var(--vermelho); outline-offset: 4px; }
@@ -1115,3 +1113,80 @@ body[data-tela="intro"] .marca { visibility: hidden; }
 button.disputa-traco-inimigo { background: transparent; border: 0; padding: 0; font-family: inherit; }
 .disputa-traco-inimigo:focus::after { opacity: 1; visibility: visible; }
 .disputa-caracteristica-resumo { color: var(--secundaria); font-size: 14px; }
+
+/* Controles e registros da crônica. */
+.controle-texto { margin-left: auto; padding: 8px; border: 0; background: transparent; color: var(--secundaria); font: 12px/1.3 var(--fonte); cursor: pointer; }
+.controle-texto:focus-visible { outline: 1px solid var(--tinta); }
+.controle-texto[aria-pressed="false"] { color: var(--tinta); }
+.escolha { align-items: center; border-width: 1px; }
+.escolha-conteudo:has(> svg) { display: block; }
+.escolha-conteudo > svg { width: 18px; height: 18px; margin-right: 8px; vertical-align: middle; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.escolha-conteudo > small { display: block; margin-top: 4px; }
+.escolha.escolha-desabilitada { opacity: 1; color: var(--secundaria); border-color: #555; }
+.escolha-desabilitada small { color: var(--secundaria); font-size: 12px; }
+.destino-probabilidades { display: block; color: #e8cf8b; font-size: 12px; font-variant-numeric: tabular-nums; }
+.evento-leitura { margin-bottom: 12px; }
+.decisao-evento > h2 { margin-bottom: 10px; font-size: 16px; }
+.alteracoes { gap: 8px; margin: 12px 0; font-size: 15px; }
+.alteracoes strong { font-size: 23px; font-variant-numeric: tabular-nums; }
+.construcoes-painel { background: #000; padding: 12px; }
+.construcoes-painel summary { display: grid; grid-template-columns: minmax(110px, 1fr) minmax(0, 1.5fr); gap: 12px; align-items: baseline; min-height: 44px; padding: 8px 0; cursor: pointer; list-style: none; }
+.construcoes-painel summary::-webkit-details-marker { display: none; }
+.construcoes-painel details p { margin: 0 0 12px; padding-left: 12px; border-left: 1px solid #555; color: var(--secundaria); }
+.obra-opcao { padding: 8px 0; border-bottom: 1px solid #35312b; background: #000; }
+.obra-opcao summary { display: grid; gap: 4px; min-height: 44px; padding: 6px 10px; cursor: pointer; list-style: none; }
+.obra-opcao summary::-webkit-details-marker { display: none; }
+.obra-opcao summary span, .obra-opcao p { color: var(--secundaria); font-size: 13px; }
+.obra-opcao p { padding: 0 10px 8px; }
+.obra-opcao .escolha { font-size: 14px; }
+.cronica--obras-vila .decisao-evento > .escolhas { gap: 4px; }
+.historico-cronica ol { list-style: none; padding-left: 0; gap: 16px; }
+.historico-cronica li { padding-bottom: 16px; }
+.historico-cronica li h3 { margin: 3px 0 6px; color: var(--tinta); font-size: 17px; font-weight: 400; }
+.historico-cronica li strong { font-style: italic; font-size: 14px; }
+.historico-cronica li p { margin-top: 6px; font-size: 13px; }
+.bonus-divino { margin: 0 4px 8px; font-size: 13px; }
+.bonus-divino summary { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; cursor: pointer; list-style: none; }
+.bonus-divino summary::-webkit-details-marker { display: none; }
+.bonus-divino summary img { object-fit: contain; }
+.bonus-divino strong { color: #e8cf8b; font-variant-numeric: tabular-nums; }
+.bonus-divino small, .bonus-divino p { color: var(--secundaria); }
+.bonus-divino p { margin-top: 8px; max-width: 70ch; }
+.disputa-titulo { display: flex; gap: 8px; align-items: baseline; }
+.disputa-titulo h1 { flex: 1; }
+.ajuda-combate { position: relative; flex: 0 0 28px; }
+.ajuda-combate > summary { display: grid; place-items: center; width: 28px; height: 32px; padding: 0; border: 0; cursor: pointer; list-style: none; font-size: 22px; color: var(--secundaria); }
+.ajuda-combate > summary::-webkit-details-marker { display: none; }
+.ajuda-combate > div { position: absolute; z-index: 30; top: 36px; right: 0; width: min(340px, calc(100vw - 40px)); padding: 16px; background: #000; border: 1px solid #555; color: var(--tinta); font-size: 14px; }
+.ajuda-combate p { margin-top: 12px; }
+.intro-texto { width: 100%; margin-inline: auto; text-align: center; }
+.chamado-tremendo { font-size: clamp(23px, 3vw, 32px); line-height: 1.35; animation: tensao-chamado 170ms steps(2, end) infinite; }
+@keyframes tensao-chamado { 0%, 100% { transform: translate(0); } 25% { transform: translate(-1.5px, .5px) rotate(-.15deg); } 75% { transform: translate(1.5px, -1px) rotate(.15deg); } }
+.fim { display: flex; flex-direction: column; align-items: center; max-width: 680px; gap: 12px; text-align: center; overflow-y: auto; }
+.fim-retrato { width: min(240px, 40vh); height: min(240px, 40vh); flex: 0 0 auto; }
+.fim-retrato .retrato-area { position: relative; width: 100%; height: 100%; }
+.fim-retrato .retrato { width: 100%; height: 100%; object-fit: contain; filter: grayscale(.75); }
+.fim h1 { font-size: 18px; color: var(--secundaria); }
+.fim-nome { font-size: clamp(24px, 4vw, 34px); font-weight: 400; }
+.fim > p, .fim .subtitulo { margin: 0; }
+.fim .resumo-fim { margin: 8px 0; width: 100%; }
+.fim .historico-cronica { width: 100%; text-align: left; }
+.fim .acoes-menu { justify-content: center; margin-top: 4px; }
+.fim-memoria { text-align: center; color: var(--secundaria); font-size: 14px; }
+@media (hover: none) {
+  .herdeiro-opcao-info { opacity: 1; visibility: visible; transform: none; overflow-y: auto; }
+}
+@media (max-width: 600px) {
+  .controle-texto { max-width: 115px; padding: 6px; font-size: 11px; }
+  .construcoes-painel summary { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+  .fim-retrato { width: 180px; height: 180px; }
+}
+@media (max-width: 900px) {
+  .cronica:not(.cronica--combate):not(.evento-detalhes-abertos) .coluna-escolhas { grid-row: 3; }
+  .cronica:not(.evento-detalhes-abertos):not(.cronica--chefe) .evento-detalhes { display: none; }
+  .cronica--chefe .evento-detalhes { display: block; grid-row: 3; }
+  .cronica--chefe:not(.cronica--combate) .coluna-escolhas { grid-row: 4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chamado-tremendo { animation: none; }
+}
