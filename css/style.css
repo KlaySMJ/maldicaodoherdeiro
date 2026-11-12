@@ -533,6 +533,14 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .raridade-epico { color: #5e347d; }
 .raridade-lendario { color: #874300; }
 .raridade-pacto { color: #8b2028; }
+.item-nome { font-weight: bold; cursor: help; }
+.item-nome.raridade-raro { color: #79b8ff; }
+.item-nome.raridade-epico { color: #ce9aff; }
+.item-nome.raridade-lendario { color: #ffb45b; }
+.item-nome.raridade-pacto { color: #ff858c; }
+.item-nome:focus-visible { outline: 1px solid currentColor; outline-offset: 2px; }
+.item-info-tooltip { position: fixed; z-index: 10000; width: max-content; max-width: min(320px, calc(100vw - 16px)); max-height: calc(100dvh - 16px); overflow-y: auto; box-sizing: border-box; padding: 10px 12px; border: 1px solid #aaa; background: #100e0c; color: #fff; font: 14px/1.4 var(--fonte); pointer-events: none; }
+.item-efeito:has(.item-nome) .item-efeito-tooltip { display: none; }
 .usar-item { min-height: 28px; padding: 3px 8px; font-size: .9em; }
 .efeitos-preparados { font-style: italic; }
 .registro-itens { margin-top: 8px; color: var(--secundaria); font-size: 12px; }

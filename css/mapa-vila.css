@@ -226,6 +226,12 @@
 }
 .mapa-obra {
   min-width: 0;
+  color: #fff;
+}
+.construcoes-painel .mapa-obra p {
+  padding-left: 0;
+  border-left: 0;
+  color: #fff;
 }
 .mapa-obra summary {
   cursor: pointer;
@@ -242,13 +248,13 @@
   display: block;
   margin: 5px 0 18px;
   font-size: 14px;
-  color: var(--secundaria);
+  color: #fff;
 }
 .mapa-efeito > span,
 .mapa-proxima > span {
   display: block;
   margin: 16px 0 6px;
-  color: var(--secundaria);
+  color: #fff;
   font-size: 13px;
 }
 .mapa-proxima p,
