@@ -10,7 +10,7 @@ test("peso efetivo da Entidade fica baixo e a pausa entre cartas aumenta para 24
   const { J, novaRun } = preparar();
   const run = novaRun();
   const entidade = J.eventos.filter((evento) => evento.entidadeX || evento.entidadeXInicio);
-  const abissais = J.eventos.filter((evento) => evento.abissal);
+  const abissais = J.eventos.filter((evento) => evento.abissal && !evento.bossId);
   const pesosEntidade = entidade.map((evento) => J.engine.peso(evento, run));
   const pesosAbissais = abissais.map((evento) => J.engine.peso(evento, run));
 
@@ -21,6 +21,7 @@ test("peso efetivo da Entidade fica baixo e a pausa entre cartas aumenta para 24
   assert.equal(J.config.intervaloEntidade, 24);
   assert.ok(pesosEntidade.reduce((total, peso) => total + peso, 0) <= 1.75);
   assert.ok(pesosAbissais.reduce((total, peso) => total + peso, 0) >= 3.3);
+  assert.equal(J.engine.peso(J.eventoPorId("senhor_do_abismo_confronto"), run), 0);
 });
 
 test("vampirismo soma consumo em partes, concede Ataque por cinco e salva o progresso parcial", () => {

@@ -229,30 +229,8 @@ async function main() {
     J.ui.jogo(r,{textoCompleto:true}); window.__consultaRun=r; return true;
   })()`);
   const antesConsulta = await avaliar("JSON.stringify(window.__consultaRun)");
-  assert.equal(await avaliar("document.querySelectorAll('.requisito-consulta').length"), 2);
-  const alvo = await avaliar(
-    "(() => {const e=document.querySelector('.requisito-consulta summary');e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()",
-  );
-  await cdp("Input.dispatchMouseEvent", { type: "mouseMoved", x: alvo.x, y: alvo.y });
-  assert.equal(
-    await avaliar("getComputedStyle(document.querySelector('.requisito-hover')).display"),
-    "block",
-  );
-  await avaliar("document.querySelector('.requisito-consulta summary').click()");
-  assert.equal(await avaliar("JSON.stringify(window.__consultaRun)"), antesConsulta);
-  await avaliar("document.querySelector('.requisito-consulta summary').focus()");
-  await cdp("Input.dispatchKeyEvent", {
-    type: "keyDown",
-    key: "Enter",
-    code: "Enter",
-    windowsVirtualKeyCode: 13,
-  });
-  await cdp("Input.dispatchKeyEvent", {
-    type: "keyUp",
-    key: "Enter",
-    code: "Enter",
-    windowsVirtualKeyCode: 13,
-  });
+  assert.equal(await avaliar("document.querySelectorAll('.escolha-desabilitada').length"), 2);
+  await avaliar("document.querySelector('.escolha-desabilitada').click()");
   assert.equal(await avaliar("JSON.stringify(window.__consultaRun)"), antesConsulta);
   await capturar("requisitos-desktop");
   await cdp("Emulation.setDeviceMetricsOverride", {
@@ -262,13 +240,12 @@ async function main() {
     mobile: true,
   });
   assert.equal(await avaliar("document.documentElement.scrollWidth <= innerWidth + 1"), true);
-  const toque = await avaliar(
-    "(() => {const d=document.querySelector('.requisito-consulta');d.open=false;const e=d.querySelector('summary');e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()",
+  assert.equal(
+    await avaliar(
+      "[...document.querySelectorAll('.escolha-desabilitada')].every(e=>e.disabled && e.textContent.includes('Gold'))",
+    ),
+    true,
   );
-  await cdp("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: toque.x, y: toque.y }] });
-  await cdp("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
-  await aguardar("document.querySelector('.requisito-consulta').open");
-  assert.equal(await avaliar("JSON.stringify(window.__consultaRun)"), antesConsulta);
   await capturar("requisitos-mobile");
   await cdp("Emulation.setDeviceMetricsOverride", {
     width: 1366,
@@ -308,6 +285,50 @@ async function main() {
   await avaliar("if (!Jogo.ui.modoDebug()) Jogo.ui.alternarDebug(); Jogo.ui.preverConquista()");
   await aguardar("!!document.querySelector('.conquista-aviso')");
   await capturar("conquista-aviso-mobile");
+  {
+    // Exercita gestos reais no controlador combinado, incluindo a proteção contra clique duplo.
+    await avaliar(`(() => {
+    const J = window.Jogo;
+    const r = J.estado.novo(J.legado.vazio(), 'corajoso');
+    r.atributos.gold = 0;
+    J.engine.registrarSorteio(r, J.eventoPorId('moinho_parado'));
+    J.save.gravarRun(r);
+    return true;
+  })()`);
+    await cdp("Page.reload");
+    await aguardar("!!document.querySelector('[data-acao=carregar]')");
+    await avaliar("document.querySelector('[data-acao=carregar]').click()");
+    const clicar = async (seletor, clickCount = 1) => {
+      const ponto = await avaliar(`(() => {
+      const elemento = document.querySelector(${JSON.stringify(seletor)});
+      elemento.scrollIntoView({block:'center'});
+      const r = elemento.getBoundingClientRect();
+      return {x:r.x+r.width/2,y:r.y+r.height/2};
+    })()`);
+      for (const type of ["mousePressed", "mouseReleased"])
+        await cdp("Input.dispatchMouseEvent", { type, ...ponto, button: "left", clickCount });
+    };
+    await clicar('[data-opcao="canal"]');
+    assert.equal(await avaliar("Jogo.save.lerRun().fase"), "resultado");
+    const aposEscolha = await avaliar("JSON.stringify(Jogo.save.lerRun())");
+    await clicar('[data-acao="continuar"]', 2);
+    assert.equal(await avaliar("JSON.stringify(Jogo.save.lerRun())"), aposEscolha);
+    await avaliar("Jogo.ui.escolherHerdeiro(Jogo.legado.vazio())");
+    await esperar(220);
+    await cdp("Emulation.setTouchEmulationEnabled", { enabled: true });
+    const toque = await avaliar(`(() => {
+    const elemento = document.querySelector('[data-traco="corajoso"]');
+    elemento.scrollIntoView({block:'center'});
+    const r = elemento.getBoundingClientRect();
+    return {x:r.x+r.width/2,y:r.y+r.height/2};
+  })()`);
+    await cdp("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ ...toque, radiusX: 1, radiusY: 1, force: 1 }],
+    });
+    await cdp("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await aguardar("document.body.dataset.tela === 'intro'");
+  }
   assert.equal(erros.length, 0, JSON.stringify(erros));
   const relatorio = {
     desktop: "1366x768",
@@ -318,6 +339,9 @@ async function main() {
     escape: true,
     semRolagemOuConsumoDuranteAjuda: true,
     movimentoReduzido: true,
+    escolhaNoPrimeiroClique: true,
+    bloqueioDeCliqueDuplo: true,
+    herdeiroNoPrimeiroToque: true,
     mapa: {
       obras: 12,
       pagamentoUnico: true,
@@ -326,7 +350,7 @@ async function main() {
       selecaoSemEfeito: true,
     },
     design: { etapasAjuda: 4, conquistas: true, buscaELimpeza: true, entradaMobile: "16px" },
-    requisitos: { consultaSemEfeito: true, alternativas: 2, hover: true, teclado: true, toque: true },
+    requisitos: { consultaSemEfeito: true, alternativas: 2, motivosVisiveis: true },
     erros: [],
   };
   fs.writeFileSync(path.join(saida, "relatorio.json"), JSON.stringify(relatorio, null, 2));

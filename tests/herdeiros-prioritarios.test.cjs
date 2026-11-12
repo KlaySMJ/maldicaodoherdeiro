@@ -68,7 +68,7 @@ test("Coringa e Bruxo têm atributos corretos e desbloqueios por run", () => {
   assert.equal(bruxo.atributos.hp, 70);
   assert.equal(bruxo.hpMax, 70);
   assert.equal(bruxo.atributos.ataque, 2);
-  assert.equal(bruxo.atributos.escudo, 4);
+  assert.equal(bruxo.atributos.escudo, -1);
   bruxo.batalhasVencidas = 7;
   assert.equal(J.herdeiros.condicoes.bruxo(bruxo), false);
   bruxo.batalhasVencidas = 8;
@@ -477,7 +477,7 @@ test("os novos herdeiros exibem retratos próprios na seleção e nos quadros de
     }
     assert.ok(app.innerHTML.includes(J.herdeiros.novos[id].nome));
     if (id === "herdeiro_culto") assert.match(app.innerHTML, /Seguidores em reserva/);
-    if (id === "herdeiro_nordico") assert.match(app.innerHTML, /Passiva do dia/);
+    if (id === "herdeiro_nordico") assert.match(app.innerHTML, /Hoje:/);
     run.cultoAtivo = true;
     J.ui.jogo(run);
     const imagemCulto = `assets/herdeiros/${arquivo}-culto.webp`;
@@ -487,7 +487,7 @@ test("os novos herdeiros exibem retratos próprios na seleção e nos quadros de
   }
 });
 
-test("Coringa e Bruxo usam o selo existente enquanto os retratos não existem", () => {
+test("Bufão e Bruxa preservam os retratos provisórios na seleção e na crônica", () => {
   const { J, app, window } = preparar();
   window.JOGO_VERSAO_ASSETS = "sem-artes";
   J.ui.escolherHerdeiro(J.legado.vazio());
@@ -495,15 +495,17 @@ test("Coringa e Bruxo usam o selo existente enquanto os retratos não existem", 
   assert.match(app.innerHTML, /Começa com 90 Vida, 3 Escudo e 30 Honra/);
   assert.doesNotMatch(app.innerHTML, /Começa com 70 Vida/);
   const selecao = app.innerHTML;
-  for (const id of ["coringa", "bruxo"]) {
+  for (const [id, arquivo] of [
+    ["coringa", "mensageiro-sem-carta"],
+    ["bruxo", "bruxa"],
+  ]) {
     assert.ok(selecao.includes(`data-traco="${id}"`));
     const run = criar(J, id);
     J.engine.registrarSorteio(run, J.eventoPorId("caixas_suspeitas"));
     J.ui.jogo(run);
-    assert.match(app.innerHTML, /src="assets\/selo\.svg\?v=sem-artes"/);
-    assert.doesNotMatch(app.innerHTML, /assets\/herdeiros\/(coringa|bruxo)-/);
+    assert.ok(app.innerHTML.includes(`assets/eventos-pessoas/${arquivo}.webp?v=sem-artes`));
   }
-  assert.equal((selecao.match(/assets\/selo\.svg\?v=sem-artes/g) || []).length, 2);
+  assert.doesNotMatch(selecao, /assets\/herdeiros\/(bufao|bruxa)-/);
 });
 
 test("uma transição ao culto durante a visita extra permite salvar e retomar a carta normal", () => {

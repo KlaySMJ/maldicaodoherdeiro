@@ -430,6 +430,8 @@
   document.addEventListener(
     "click",
     (evento) => {
+      if (evento.target.closest?.("button, a, input, select, textarea, summary, dialog, [role='button']"))
+        return;
       if (Jogo.ui.completarTextoEvento()) {
         if (evento.detail > 0) transicaoBloqueadaAte = Date.now() + 180;
         evento.preventDefault();
@@ -445,21 +447,7 @@
     if (evento.detail > 1) return;
     if (evento.detail > 0 && Date.now() < transicaoBloqueadaAte) return;
     const telaAntes = document.getElementById("app").firstElementChild;
-    const toqueSemHover = window.matchMedia?.("(hover: none)").matches && evento.detail > 0;
-    if (
-      botao.dataset.acao === "selecionar-herdeiro" &&
-      toqueSemHover &&
-      botao.dataset.infoRevelada !== "true"
-    ) {
-      botao.dataset.infoRevelada = "true";
-      botao.focus({ preventScroll: true });
-      return;
-    }
-    if (botao.getAttribute("aria-disabled") === "true") {
-      if (botao.dataset.mercadoria) Jogo.ui.consultarRequisito(botao.title);
-      return;
-    }
-    if (botao.getAttribute("role") === "tab") return;
+    if (botao.getAttribute("aria-disabled") === "true" || botao.getAttribute("role") === "tab") return;
     const honraAntesDaEscolha = run?.atributos.honra;
     Jogo.audio?.interagir();
     if (botao.dataset.opcao) {

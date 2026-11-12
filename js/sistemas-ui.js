@@ -167,10 +167,15 @@
           .join("")}</details>`
       : "";
   }
+  function atributoPrincipal(resultado) {
+    const ordem = ["hp", "habitantes", "gold", "ataque", "escudo", "honra", "hpMax"];
+    return (
+      ordem.find((id) => resultado.alteracoes?.[id] < 0) || ordem.find((id) => resultado.alteracoes?.[id])
+    );
+  }
   function principal(run) {
     const r = run.ultimoResultado;
     if (!r) return "";
-    const ordem = ["hp", "habitantes", "gold", "ataque", "escudo", "honra", "hpMax"];
     const chave =
       run.status === "encerrada"
         ? "Encerramento da crônica"
@@ -178,7 +183,7 @@
           ? r.combate.venceu
             ? "Vitória no confronto"
             : "Derrota no confronto"
-          : ordem.find((id) => r.alteracoes?.[id] < 0) || ordem.find((id) => r.alteracoes?.[id]);
+          : atributoPrincipal(r);
     const nomes = {
       hp: "Vida",
       habitantes: "Habitantes",
@@ -538,5 +543,14 @@
     }
     return valor;
   };
-  J.sistemasUI = { companheiros, principal, requisitos, regraEmpate, mapa, indisponiveis, selecionarObra };
+  J.sistemasUI = {
+    companheiros,
+    principal,
+    atributoPrincipal,
+    requisitos,
+    regraEmpate,
+    mapa,
+    indisponiveis,
+    selecionarObra,
+  };
 })();

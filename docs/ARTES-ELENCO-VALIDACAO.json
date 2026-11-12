@@ -1,0 +1,52 @@
+[
+  {
+    "arquivo": "docs/previas/herdeiros-adiados/bufao-neutra.webp",
+    "largura": 1263,
+    "altura": 1246,
+    "alfa": true,
+    "integrado": false,
+    "alfaMinimo": 0,
+    "bytes": 200428,
+    "qualidade": 90
+  },
+  {
+    "arquivo": "docs/previas/herdeiros-adiados/bruxa-neutra.webp",
+    "largura": 1278,
+    "altura": 1230,
+    "alfa": true,
+    "integrado": false,
+    "alfaMinimo": 0,
+    "bytes": 268426,
+    "qualidade": 90
+  },
+  {
+    "arquivo": "assets/chefes/barao.webp",
+    "largura": 800,
+    "altura": 731,
+    "alfa": true,
+    "integrado": true,
+    "alfaMinimo": 0,
+    "bytes": 213452,
+    "qualidade": 90
+  },
+  {
+    "arquivo": "assets/chefes/lider-culto.webp",
+    "largura": 800,
+    "altura": 800,
+    "alfa": true,
+    "integrado": true,
+    "alfaMinimo": 0,
+    "bytes": 163976,
+    "qualidade": 90
+  },
+  {
+    "arquivo": "assets/chefes/abissal.webp",
+    "largura": 800,
+    "altura": 791,
+    "alfa": true,
+    "integrado": true,
+    "alfaMinimo": 0,
+    "bytes": 225864,
+    "qualidade": 90
+  }
+]

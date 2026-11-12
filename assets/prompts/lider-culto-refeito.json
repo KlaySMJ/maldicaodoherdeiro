@@ -1,0 +1,15 @@
+{
+  "ferramenta": "image_gen integrado",
+  "direcaoAtual": "Líder maduro e atraente, barba curta, constituição normal com ombros firmes, olhar fanático e sorriso contido. Vermelho escuro, preto e chama marfim.",
+  "referencias": [
+    "assets/herdeiros/herdeiro-culto-culto.png",
+    "assets/chefes/barao.webp"
+  ],
+  "etapas": [
+    {
+      "nome": "Reconstrução completa após rejeição dos rostos anteriores",
+      "prompt": "Use case: stylized-concept. Create a completely NEW cult leader boss portrait for this medieval dark fantasy game. Previous designs were rejected: do NOT reuse a smiling young curly-haired prince or a gaunt ugly bald old man. New character concept: a HANDSOME MATURE CHARISMATIC PREACHER around 40–45 years old, strong healthy average build with normal substantial shoulders and neck, neither thin nor bodybuilder. DISTINCT face: long oval face with balanced masculine features, straight aquiline but proportional nose, defined jaw softened by a neatly trimmed short BLACK BEARD AND MOUSTACHE, shoulder-length STRAIGHT dark hair tucked mostly under his hood, natural full cheeks without hollowing. Expression: chilling obsessive religious mania conveyed by a penetrating unblinking gaze, raised tense inner eyebrows and a SMALL asymmetric half-smile with only a hint of teeth. He looks dangerously convinced of his divine authority. Attractive, composed and sinister; no broad advertising smile, no bulging cartoon eyes, no goofy villain laugh. Pose almost frontal, chin slightly lowered, gaze directed at the viewer. Clothing is a NEW tailored religious robe composition: deep wine-red CLOSE-FITTING rounded hood pulled low above the brows, casting one side of the face into dark ink shadow while leaving both eyes readable; heavy deep red mantle draped DIAGONALLY over one shoulder with a plain restrained fold, black high-neck inner robe, a small warm ivory cult flame embroidered on the CENTER CHEST and one tiny aged brass clasp. No voluminous triangular cape or giant shoulder pads; keep normal shoulder width and a complete balanced bust. Image 1 is a COLOR AND FLAME reference only: use its dark aged red, charcoal black, warm ivory skin and localized gold; do NOT copy that heir's face or long loose hairstyle. Image 2 is a LINEWORK AND BUST reference only: handmade medieval ink woodcut, thick irregular black outlines, simplified readable facial anatomy, flat fills and controlled hatching; do NOT copy the Baron's crown, obesity or costume. No photorealism, 3D, anime, childish cartoon or modern costume. Dark medieval religious authority, not a wizard or heroic prince. Complete centered bust with clear transparent margins, no scenery, no decorative frame, no text, no watermark, no magic glow. Genuine alpha transparent background."
+    }
+  ],
+  "arquivoFinal": "assets/chefes/lider-culto.webp"
+}
