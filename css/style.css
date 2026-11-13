@@ -488,8 +488,9 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .escolha { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; text-align: left; min-height: 52px; height: auto; max-height: none; overflow: visible; white-space: normal; width: 100%; background: var(--papel); border: var(--borda); padding: 10px 12px; line-height: 1.35; font-size: calc(16px * var(--fator-texto)); }
 .escolha kbd { display: grid; flex: 0 0 22px; width: 22px; height: 22px; place-items: center; border: 1px solid #514a40; color: var(--secundaria); font: 12px/1 var(--fonte); }
 .escolha:not(:disabled):hover { background: var(--tinta); color: var(--papel); }
-.escolha > span:last-child { flex-shrink: 0; align-self: center; }
-.escolha-conteudo { display: grid; min-width: 0; gap: 4px; overflow-wrap: anywhere; hyphens: auto; }
+.escolha > span { min-width: 0; overflow-wrap: anywhere; }
+.escolha > span:last-child:not(:only-child):not(.escolha-conteudo) { flex-shrink: 0; align-self: center; }
+.escolha-conteudo { display: grid; flex: 1; min-width: 0; gap: 4px; overflow-wrap: anywhere; hyphens: auto; }
 .honra-revelada { color: var(--secundaria); font-size: .78em; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .escolha:not(:disabled):hover .honra-revelada { color: inherit; }
 .coluna-escolhas > .nota { margin-top: 14px; }
@@ -744,7 +745,7 @@ body[data-tela="intro"] .marca { visibility: hidden; }
   .informacoes p { font-size: calc(13px * var(--fator-texto)); }
   .escolhas { gap: 8px; }
   .cronica--quatro-escolhas .coluna-escolhas > .escolhas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cronica--quatro-escolhas .escolha > span:last-child { display: none; }
+  .cronica--quatro-escolhas .escolha > span:last-child:not(:only-child):not(.escolha-conteudo) { display: none; }
   .escolha { font-size: calc(14px * var(--fator-texto)); }
   .resultado h2 { font-size: 20px; margin-bottom: 8px; }
   .resultado p + p { margin-top: 8px; }

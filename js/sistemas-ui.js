@@ -26,9 +26,7 @@
   function preferenciaTexto() {
     if (velocidadeSessao) return velocidadeSessao;
     try {
-      return ["imediato", "rapido", "normal"].includes(window.localStorage.getItem(chaveTexto))
-        ? window.localStorage.getItem(chaveTexto)
-        : "normal";
+      return window.localStorage.getItem(chaveTexto) === "imediato" ? "imediato" : "normal";
     } catch {
       return "normal";
     }
@@ -644,15 +642,18 @@
   };
   J.ui.preferenciaTexto = preferenciaTexto;
   J.ui.alternarVelocidadeTexto = () => {
-    const valor = { normal: "rapido", rapido: "imediato", imediato: "normal" }[preferenciaTexto()];
+    const valor = preferenciaTexto() === "imediato" ? "normal" : "imediato";
     velocidadeSessao = valor;
     try {
       window.localStorage.setItem(chaveTexto, valor);
     } catch {
       /* A partida continua sem armazenamento. */
     }
+    if (valor === "imediato") J.ui.completarTextoEvento();
+    J.ui.atualizarControleTexto();
     return valor;
   };
+  J.ui.atualizarControleTexto();
   J.sistemasUI = {
     companheiros,
     principal,

@@ -487,32 +487,22 @@
   let temporizadorTextoEvento = 0;
   let completarTextoAtivo = null;
   let retomarTextoAtivo = null;
-  let textoAutomatico = true;
-  try {
-    textoAutomatico = window.localStorage.getItem("herdeiro_texto_automatico") !== "false";
-  } catch {
-    /* Preferência da sessão. */
-  }
-
   function alternarTextoAutomatico() {
-    textoAutomatico = !textoAutomatico;
-    try {
-      window.localStorage.setItem("herdeiro_texto_automatico", String(textoAutomatico));
-    } catch {
-      /* Preferência da sessão. */
-    }
-    if (!textoAutomatico && temporizadorTextoEvento) window.clearInterval(temporizadorTextoEvento);
-    temporizadorTextoEvento = 0;
-    if (textoAutomatico) retomarTextoAtivo?.();
-    atualizarControleTexto();
-    return textoAutomatico;
+    return Jogo.ui.alternarVelocidadeTexto() !== "imediato";
   }
-
   function atualizarControleTexto() {
+    const animado = Jogo.ui?.preferenciaTexto?.() !== "imediato";
+    const rotulo = animado ? "Texto com animação de escrita" : "Texto direto na tela";
     const controle = document.querySelector("#alternar-texto-automatico");
-    if (!controle) return;
-    controle.setAttribute("aria-pressed", String(textoAutomatico));
-    controle.textContent = `Texto automático: ${textoAutomatico ? "ativo" : "pausado"}`;
+    if (controle) {
+      controle.setAttribute("aria-pressed", String(animado));
+      controle.textContent = rotulo;
+    }
+    for (const botao of document.querySelectorAll('[data-acao="velocidade-texto"]')) {
+      botao.setAttribute("aria-pressed", String(animado));
+      botao.setAttribute("aria-label", rotulo);
+      botao.title = rotulo;
+    }
   }
   document.querySelector("#alternar-texto-automatico")?.addEventListener("click", alternarTextoAutomatico);
   atualizarControleTexto();
@@ -676,10 +666,10 @@
           visual.textContent = caracteres.slice(0, indice).join("");
           if (indice >= caracteres.length) completar();
         },
-        Jogo.ui.preferenciaTexto?.() === "rapido" ? 8 : Math.min(30, 4000 / Math.max(1, caracteres.length)),
+        Math.min(30, 4000 / Math.max(1, caracteres.length)),
       );
     };
-    if (textoAutomatico) retomarTextoAtivo();
+    retomarTextoAtivo();
   }
 
   function tutorialFoiConcluido() {
@@ -2561,7 +2551,7 @@
       !emCombate &&
       !textoCompleto &&
       !movimentoReduzido &&
-      (Jogo.ui.preferenciaTexto?.() !== "imediato" || !textoAutomatico);
+      Jogo.ui.preferenciaTexto?.() !== "imediato";
     const escolhas = Jogo.engine.opcoes(evento, run);
     const escudoPrevisto =
       run.atributos.escudo +
@@ -2642,7 +2632,7 @@
               </details>
             </dd></div>
           </dl>
-          <nav class="titulo-run-acoes" aria-label="Ações da crônica"><button class="botao botao-icone velocidade-texto" type="button" data-acao="velocidade-texto" aria-label="Velocidade do texto: ${esc(Jogo.ui.preferenciaTexto?.() || "normal")}" title="Texto: ${esc(Jogo.ui.preferenciaTexto?.() || "normal")}">Aa</button>
+          <nav class="titulo-run-acoes" aria-label="Ações da crônica"><button class="botao botao-icone velocidade-texto" type="button" data-acao="velocidade-texto" aria-label="${Jogo.ui.preferenciaTexto?.() === "imediato" ? "Texto direto na tela" : "Texto com animação de escrita"}" title="${Jogo.ui.preferenciaTexto?.() === "imediato" ? "Texto direto na tela" : "Texto com animação de escrita"}" aria-pressed="${Jogo.ui.preferenciaTexto?.() !== "imediato"}">Aa</button>
             ${run.pressagios?.atual ? `<button type="button" class="botao botao-icone pressagio-indicador" data-acao="pressagio-detalhes" aria-label="Mau presságio: ${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}. Ver condição e prazo" title="${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}"><span aria-hidden="true">☾</span><small>${Math.max(0, run.pressagios.atual.fim - run.rodada)}</small></button>` : ""}
             <button class="botao botao-icone botao-construcoes" data-acao="alternar-construcoes" aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila" title="Construções da vila" aria-controls="painel-construcoes" aria-expanded="${Boolean(run.construcoesAbertas)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg><span aria-hidden="true">${numero(construcoesRun.length)}</span></button>
             <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(totalItensInventario)}</span></button>
@@ -2964,5 +2954,6 @@
     tutorial,
     completarTextoEvento,
     alternarTextoAutomatico,
+    atualizarControleTexto,
   };
 })();
