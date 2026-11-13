@@ -138,7 +138,7 @@
     ataque: "Ataque",
     honra: "Honra",
     habitantes: "Habitantes",
-    gold: "Gold",
+    gold: "Ouro",
   };
   const esc = (valor) =>
     String(valor).replace(
@@ -146,6 +146,116 @@
       (letra) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[letra],
     );
   const nomesEspeciais = ["A Entidade", "Entidade"];
+  function destacarItens(raiz = app) {
+    const itens = (Jogo.itens || []).filter((item) => item.nome && item.raridade);
+    if (!itens.length) return;
+    const porNome = new Map(itens.map((item) => [item.nome.toLocaleLowerCase("pt-BR"), item]));
+    const nomes = itens
+      .map((item) => item.nome)
+      .sort((a, b) => b.length - a.length)
+      .map((nome) => nome.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    const padrao = new RegExp(`(?<![\\p{L}\\p{N}_])(?:${nomes.join("|")})(?![\\p{L}\\p{N}_])`, "giu");
+    const walker = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+    const textos = [];
+    while (walker.nextNode()) textos.push(walker.currentNode);
+    for (const texto of textos) {
+      if (
+        texto.parentElement.closest(
+          "[data-item-info], .item-info-tooltip, .item-efeito-tooltip, .leitor-de-tela, script, style, textarea, option, svg",
+        )
+      )
+        continue;
+      if (temporizadorTextoEvento && texto.parentElement.closest("[data-texto-visual]")) continue;
+      const fragmento = document.createDocumentFragment();
+      let inicio = 0;
+      for (const trecho of texto.textContent.matchAll(padrao)) {
+        const item = porNome.get(trecho[0].toLocaleLowerCase("pt-BR"));
+        fragmento.append(texto.textContent.slice(inicio, trecho.index));
+        const nome = document.createElement("span");
+        nome.className = `item-nome raridade-${item.raridade}`;
+        nome.dataset.itemInfo = item.id;
+        nome.tabIndex = 0;
+        nome.textContent = trecho[0];
+        const descricao = texto.parentElement
+          .closest(".item-efeito")
+          ?.querySelector(".item-efeito-tooltip")?.textContent;
+        nome.dataset.itemDescricao = descricao || [item.texto, item.descricao].filter(Boolean).join(". ");
+        nome.setAttribute("aria-description", nome.dataset.itemDescricao);
+        fragmento.append(nome);
+        inicio = trecho.index + trecho[0].length;
+      }
+      if (inicio) {
+        fragmento.append(texto.textContent.slice(inicio));
+        texto.replaceWith(fragmento);
+      }
+    }
+  }
+  let dicaItem = null;
+  function fecharDicaItem() {
+    dicaItem?.remove();
+    dicaItem = null;
+  }
+  function mostrarDicaItem(alvo) {
+    fecharDicaItem();
+    dicaItem = document.createElement("div");
+    dicaItem.className = "item-info-tooltip";
+    dicaItem.setAttribute("role", "tooltip");
+    dicaItem.textContent = alvo.dataset.itemDescricao;
+    (alvo.closest("dialog[open]") || document.body).append(dicaItem);
+    const rect = alvo.getBoundingClientRect();
+    const largura = dicaItem.getBoundingClientRect().width;
+    dicaItem.style.left = `${Math.max(8, Math.min(rect.left, window.innerWidth - largura - 8))}px`;
+    const altura = dicaItem.getBoundingClientRect().height;
+    dicaItem.style.top = `${Math.max(8, rect.top >= altura + 12 ? rect.top - altura - 8 : Math.min(rect.bottom + 8, window.innerHeight - altura - 8))}px`;
+  }
+  document.addEventListener("pointerover", (evento) => {
+    const alvo = evento.target.closest?.("[data-item-info]");
+    if (alvo) mostrarDicaItem(alvo);
+  });
+  document.addEventListener("pointerout", (evento) => {
+    if (evento.target.closest?.("[data-item-info]")) fecharDicaItem();
+  });
+  document.addEventListener("focusin", (evento) => {
+    const alvo = evento.target.closest?.("[data-item-info]");
+    if (alvo) mostrarDicaItem(alvo);
+  });
+  document.addEventListener("focusout", fecharDicaItem);
+  document.addEventListener(
+    "click",
+    (evento) => {
+      const alvo = evento.target.closest?.("[data-item-info]");
+      if (!alvo) return fecharDicaItem();
+      evento.preventDefault();
+      evento.stopImmediatePropagation();
+      mostrarDicaItem(alvo);
+    },
+    true,
+  );
+  document.addEventListener(
+    "keydown",
+    (evento) => {
+      if (evento.key === "Escape") fecharDicaItem();
+      const alvo = evento.target.closest?.("[data-item-info]");
+      if (alvo && (evento.key === "Enter" || evento.key === " ")) {
+        evento.preventDefault();
+        evento.stopImmediatePropagation();
+        mostrarDicaItem(alvo);
+      }
+    },
+    true,
+  );
+  window.addEventListener("resize", fecharDicaItem);
+  window.addEventListener("scroll", fecharDicaItem, true);
+  new MutationObserver((mudancas) => {
+    const raizes = new Set();
+    for (const mudanca of mudancas) {
+      for (const node of mudanca.addedNodes) {
+        const raiz = node.nodeType === Node.TEXT_NODE ? node.parentElement : node;
+        if (raiz?.nodeType === Node.ELEMENT_NODE && raiz.isConnected) raizes.add(raiz);
+      }
+    }
+    for (const raiz of raizes) destacarItens(raiz);
+  }).observe(document.body, { childList: true, subtree: true });
   const textoComNomesEspeciais = (valor) => {
     const nomes = nomesEspeciais.map((nome) => nome.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
     return esc(valor).replace(
@@ -302,7 +412,7 @@
     ataque: "Ataque",
     honra: "Honra",
     habitantes: "Habitantes",
-    gold: "Gold",
+    gold: "Ouro",
   };
   const beneficiosConstrucoes = {
     ponte: "+1 Gold na renda",
@@ -377,32 +487,22 @@
   let temporizadorTextoEvento = 0;
   let completarTextoAtivo = null;
   let retomarTextoAtivo = null;
-  let textoAutomatico = true;
-  try {
-    textoAutomatico = window.localStorage.getItem("herdeiro_texto_automatico") !== "false";
-  } catch {
-    /* Preferência da sessão. */
-  }
-
   function alternarTextoAutomatico() {
-    textoAutomatico = !textoAutomatico;
-    try {
-      window.localStorage.setItem("herdeiro_texto_automatico", String(textoAutomatico));
-    } catch {
-      /* Preferência da sessão. */
-    }
-    if (!textoAutomatico && temporizadorTextoEvento) window.clearInterval(temporizadorTextoEvento);
-    temporizadorTextoEvento = 0;
-    if (textoAutomatico) retomarTextoAtivo?.();
-    atualizarControleTexto();
-    return textoAutomatico;
+    return Jogo.ui.alternarVelocidadeTexto() !== "imediato";
   }
-
   function atualizarControleTexto() {
+    const animado = Jogo.ui?.preferenciaTexto?.() !== "imediato";
+    const rotulo = animado ? "Texto com animação de escrita" : "Texto direto na tela";
     const controle = document.querySelector("#alternar-texto-automatico");
-    if (!controle) return;
-    controle.setAttribute("aria-pressed", String(textoAutomatico));
-    controle.textContent = `Texto automático: ${textoAutomatico ? "ativo" : "pausado"}`;
+    if (controle) {
+      controle.setAttribute("aria-pressed", String(animado));
+      controle.textContent = rotulo;
+    }
+    for (const botao of document.querySelectorAll('[data-acao="velocidade-texto"]')) {
+      botao.setAttribute("aria-pressed", String(animado));
+      botao.setAttribute("aria-label", rotulo);
+      botao.title = rotulo;
+    }
   }
   document.querySelector("#alternar-texto-automatico")?.addEventListener("click", alternarTextoAutomatico);
   atualizarControleTexto();
@@ -512,6 +612,8 @@
     retomarTextoAtivo = null;
     if (tela !== "jogo") retratoExibido = null;
     app.innerHTML = html;
+    fecharDicaItem();
+    destacarItens();
     document.body.dataset.tela = tela;
     if (tela !== "jogo") Jogo.audio?.definirDucking(false);
     Jogo.audio?.definirContexto(contextoMusica);
@@ -544,6 +646,7 @@
       if (temporizadorTextoEvento) window.clearInterval(temporizadorTextoEvento);
       temporizadorTextoEvento = 0;
       visual.textContent = texto;
+      destacarItens(visual);
       decisao.hidden = false;
       decisao.classList.add("decisao-evento--pronta");
       if (aviso) aviso.hidden = false;
@@ -563,10 +666,10 @@
           visual.textContent = caracteres.slice(0, indice).join("");
           if (indice >= caracteres.length) completar();
         },
-        Jogo.ui.preferenciaTexto?.() === "rapido" ? 8 : Math.min(30, 4000 / Math.max(1, caracteres.length)),
+        Math.min(30, 4000 / Math.max(1, caracteres.length)),
       );
     };
-    if (textoAutomatico) retomarTextoAtivo();
+    retomarTextoAtivo();
   }
 
   function tutorialFoiConcluido() {
@@ -1186,8 +1289,7 @@
         valor !== 0 && !(resultado.combate && id === "hp" && valor === -resultado.combate.dano),
     );
     if (!mudancas.length) return "";
-    const principal = !resultado.combate && Jogo.sistemasUI?.atributoPrincipal(resultado);
-    return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li${id === principal ? ' class="consequencia-principal"' : ""}><span>${resultado.combate && id === "hp" ? "Saldo de Vida" : nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("")}</ul>`;
+    return `<ul class="alteracoes" aria-label="Consequências da decisão">${mudancas.map(([id, valor]) => `<li><span>${resultado.combate && id === "hp" ? "Saldo de Vida" : nomes[id]}</span><strong>${assinado(valor)}</strong></li>`).join("")}</ul>`;
   }
 
   function bonusDivino(efeito, rotulo = "") {
@@ -2449,7 +2551,7 @@
       !emCombate &&
       !textoCompleto &&
       !movimentoReduzido &&
-      (Jogo.ui.preferenciaTexto?.() !== "imediato" || !textoAutomatico);
+      Jogo.ui.preferenciaTexto?.() !== "imediato";
     const escolhas = Jogo.engine.opcoes(evento, run);
     const escudoPrevisto =
       run.atributos.escudo +
@@ -2530,7 +2632,7 @@
               </details>
             </dd></div>
           </dl>
-          <nav class="titulo-run-acoes" aria-label="Ações da crônica"><button class="botao botao-icone velocidade-texto" type="button" data-acao="velocidade-texto" aria-label="Velocidade do texto: ${esc(Jogo.ui.preferenciaTexto?.() || "normal")}" title="Texto: ${esc(Jogo.ui.preferenciaTexto?.() || "normal")}">Aa</button>
+          <nav class="titulo-run-acoes" aria-label="Ações da crônica"><button class="botao botao-icone velocidade-texto" type="button" data-acao="velocidade-texto" aria-label="${Jogo.ui.preferenciaTexto?.() === "imediato" ? "Texto direto na tela" : "Texto com animação de escrita"}" title="${Jogo.ui.preferenciaTexto?.() === "imediato" ? "Texto direto na tela" : "Texto com animação de escrita"}" aria-pressed="${Jogo.ui.preferenciaTexto?.() !== "imediato"}">Aa</button>
             ${run.pressagios?.atual ? `<button type="button" class="botao botao-icone pressagio-indicador" data-acao="pressagio-detalhes" aria-label="Mau presságio: ${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}. Ver condição e prazo" title="${esc(Jogo.pressagios.porId(run.pressagios.atual.id).nome)}"><span aria-hidden="true">☾</span><small>${Math.max(0, run.pressagios.atual.fim - run.rodada)}</small></button>` : ""}
             <button class="botao botao-icone botao-construcoes" data-acao="alternar-construcoes" aria-label="Ver ${numero(construcoesRun.length)} ${construcoesRun.length === 1 ? "construção" : "construções"} da vila" title="Construções da vila" aria-controls="painel-construcoes" aria-expanded="${Boolean(run.construcoesAbertas)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2.5 11 5.5-5 5.5 5v8.5H2.5V11Zm11 1.5 4.5-4 4.5 4v7H14"/><path d="M6 14h3v5.5H6zm11-1h2v2h-2zm-8-4h2v2H9z"/></svg><span aria-hidden="true">${numero(construcoesRun.length)}</span></button>
             <button class="botao botao-icone botao-inventario" data-acao="alternar-inventario" aria-label="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" title="Inventário: ${numero(totalItensInventario)} ${totalItensInventario === 1 ? "item" : "itens"}" aria-controls="painel-inventario" aria-expanded="${run.inventarioAberto}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16l1 13H3l1-13Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2M9 12v1m6-1v1"/></svg><span aria-hidden="true">${numero(totalItensInventario)}</span></button>
@@ -2852,5 +2954,6 @@
     tutorial,
     completarTextoEvento,
     alternarTextoAutomatico,
+    atualizarControleTexto,
   };
 })();
