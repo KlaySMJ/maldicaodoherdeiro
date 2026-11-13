@@ -485,10 +485,11 @@ button.painel-voltar-link:hover { color: var(--tinta); }
 .escolhas { display: grid; gap: 10px; }
 .cronica--obras-vila .coluna-escolhas > .escolhas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 .cronica--obras-vila .escolha { min-height: 44px; padding: 6px 8px; font-size: 13px; }
-.escolha { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; text-align: left; min-height: 52px; height: auto; max-height: none; overflow: visible; white-space: normal; width: 100%; background: var(--papel); border: var(--borda); padding: 10px 12px; line-height: 1.35; font-size: calc(16px * var(--fator-texto)); }
+.escolha { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; text-align: left; min-width: 0; max-width: 100%; min-height: 52px; height: auto; max-height: none; overflow: visible; overflow-wrap: anywhere; white-space: normal; width: 100%; background: var(--papel); border: var(--borda); padding: 10px 12px; line-height: 1.35; font-size: calc(16px * var(--fator-texto)); }
 .escolha kbd { display: grid; flex: 0 0 22px; width: 22px; height: 22px; place-items: center; border: 1px solid #514a40; color: var(--secundaria); font: 12px/1 var(--fonte); }
 .escolha:not(:disabled):hover { background: var(--tinta); color: var(--papel); }
-.escolha > span:last-child { flex-shrink: 0; align-self: center; }
+.escolha > span:first-child { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.escolha > .preco { flex: 0 0 auto; align-self: center; }
 .escolha-conteudo { display: grid; min-width: 0; gap: 4px; overflow-wrap: anywhere; hyphens: auto; }
 .honra-revelada { color: var(--secundaria); font-size: .78em; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .escolha:not(:disabled):hover .honra-revelada { color: inherit; }

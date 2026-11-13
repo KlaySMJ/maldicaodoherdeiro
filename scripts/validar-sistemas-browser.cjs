@@ -453,6 +453,35 @@ async function main() {
     assert.equal(await avaliar("document.documentElement.scrollWidth<=innerWidth+1"), true);
     await capturar(longo ? "carta-longa-zoom" : "carta-curta-zoom");
   }
+  // Textos longos precisam caber na escolha, incluindo o espaço reservado ao preço.
+  let cenariosRespostas = 0;
+  for (const width of [1440, 1024, 768, 390, 320]) {
+    await cdp("Emulation.setDeviceMetricsOverride", {
+      width,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: width <= 390,
+    });
+    for (const id of ["a_viuva_do_moleiro", "celeiro_comunitario", "mercador"]) {
+      const fora = await avaliar(`(() => {
+        const J=window.Jogo,r=J.estado.novo(J.legado.vazio(),'corajoso');r.rodada=80;r.atributos.gold=100;r.atributos.habitantes=60;
+        J.engine.registrarSorteio(r,J.eventoPorId(${JSON.stringify(id)}));J.ui.jogo(r,{textoCompleto:true});
+        const fora=[];
+        for(const e of document.querySelectorAll('button.escolha,.requisito-consulta > summary')) {
+          const b=e.getBoundingClientRect();if(!b.width||!b.height)continue;
+          const walker=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);
+          while(walker.nextNode()) {
+            const n=walker.currentNode;if(!n.textContent.trim()||n.parentElement.closest('.requisito-hover'))continue;
+            const range=document.createRange();range.selectNodeContents(n);
+            if([...range.getClientRects()].some(t=>t.width&&t.height&&(t.left<b.left-1||t.right>b.right+1||t.top<b.top-1||t.bottom>b.bottom+1)))fora.push(n.textContent.trim());
+          }
+        }
+        return fora;
+      })()`);
+      assert.deepEqual(fora, [], JSON.stringify({ width, evento: id, textos: fora }));
+      cenariosRespostas++;
+    }
+  }
   const chefe = await avaliar(`(() => {
     const J=window.Jogo,r=J.estado.novo(J.legado.vazio(),'corajoso');r.debugTracoInimigo='nenhum';r.atributos.ataque=100;
     const e=J.eventoPorId('embate_barao');J.engine.registrarSorteio(r,e);J.engine.escolher(r,e.opcoes.find(o=>o.combate).id);
@@ -501,6 +530,7 @@ async function main() {
       zoomEquivalente150: true,
     },
     fluxos,
+    respostas: { cenarios: cenariosRespostas, textoDentroDaEscolha: true },
     chefe: { vitoriaBarao: true, trofeu: true, estadoDoSalvamento: true, rotasRenderizadas: 5 },
     design: { etapasAjuda: 4, conquistas: true, buscaELimpeza: true, entradaMobile: "16px" },
     requisitos: {

@@ -52,3 +52,13 @@ Não executei novas simulações aleatórias. O balanceamento em partidas comple
 - [ ] Resolver as 13 falhas anteriores e localizar a fórmula proporcional antes de rever esse cálculo; as artes dos herdeiros seguem adiadas.
 
 Resultado: correções de implementação entregues, com 55 testes direcionados aprovados e os cenários de navegador descritos acima. Permanecem abertas as verificações manuais e as pendências anteriores listadas na checklist.
+
+## Texto das respostas dentro dos botões
+
+O autor relatou respostas ultrapassando os botões. A regra `.escolha > span:last-child` impedia o conteúdo de encolher quando o botão tinha somente um `span`. A correção permite reduzir a largura e quebrar linhas; somente o preço do mercador mantém espaço reservado. A altura acompanha o texto, sem corte ou redução de fonte. A versão dos recursos passou para `20261112-76`.
+
+- [x] Reproduzir o excesso de texto em eventos existentes e corrigir a regra de dimensionamento.
+- [x] Medir 470 opções renderizadas em 135 cenários, nas larguras 1440, 1024, 768, 390 e 320 px: nenhum texto fora do controle após a correção.
+- [x] Acrescentar 15 cenários de regressão ao roteiro do Edge, incluindo respostas longas e mercadorias; conferir lint e formatação do roteiro.
+
+Resultado: respostas contidas nos botões nas resoluções verificadas. A correção altera o layout; os textos e as regras dos eventos permanecem iguais.
