@@ -15,8 +15,8 @@
     herdeiro_culto: "#000000",
     herdeira_leste: "#B23A30",
     herdeiro_nordico: "#59656F",
-    coringa: "#70484E",
-    bruxo: "#4C5C4D",
+    coringa: "#8B3048",
+    bruxo: "#665078",
   };
   const iconesDisputa = {
     espada:
@@ -340,14 +340,12 @@
     herdeira_leste: { arquivo: "herdeira-leste", descricao: "Busto da Herdeira do Leste" },
     herdeiro_nordico: { arquivo: "herdeiro-nordico", descricao: "Busto do Herdeiro Nórdico" },
     coringa: {
-      arquivo: null,
-      placeholder: "assets/eventos-pessoas/mensageiro-sem-carta.webp",
-      descricao: "Retrato temporário do Coringa",
+      arquivo: "bufao",
+      descricao: "Busto do Bufão com maquiagem de arlequim",
     },
     bruxo: {
-      arquivo: null,
-      placeholder: "assets/eventos-pessoas/bruxa.webp",
-      descricao: "Retrato temporário da Bruxa",
+      arquivo: "bruxa",
+      descricao: "Busto da Bruxa",
     },
   };
   const fasesRetrato = {

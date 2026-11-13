@@ -30,12 +30,17 @@ function preparar() {
   };
   const contexto = vm.createContext({
     window,
+    MutationObserver: class {
+      observe() {}
+    },
+    NodeFilter: { SHOW_TEXT: 4 },
     Image: class {
       decode() {
         return Promise.resolve();
       }
     },
     document: {
+      createTreeWalker: () => ({ nextNode: () => false }),
       getElementById: () => app,
       querySelector: () => null,
       querySelectorAll: () => [],

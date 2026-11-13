@@ -102,17 +102,28 @@ test("texto automático pausa e retoma imediatamente, e clicar conclui o texto p
   assert.equal(decisao.hidden, false);
 });
 
-test("adiar as artes preserva os retratos provisórios inclusive no culto", () => {
+test("Bufão e Bruxa mantêm os retratos do culto ao mudar a honra", () => {
   const { J, app, novaRun } = preparar();
   const run = novaRun();
   run.traco = "coringa";
   run.cultoAtivo = true;
   J.ui.jogo(run, { textoCompleto: true });
-  assert.match(app.innerHTML, /assets\/eventos-pessoas\/mensageiro-sem-carta.webp/);
-  assert.doesNotMatch(app.innerHTML, /assets\/herdeiros\/bufao-/);
+  assert.match(
+    app.innerHTML,
+    /class="retrato retrato-atual[^"]*" src="assets\/herdeiros\/bufao-culto\.webp"/,
+  );
+  run.atributos.honra = 90;
+  J.ui.jogo(run, { textoCompleto: true });
+  assert.match(
+    app.innerHTML,
+    /class="retrato retrato-atual[^"]*" src="assets\/herdeiros\/bufao-culto\.webp"/,
+  );
   run.traco = "bruxo";
   J.ui.jogo(run, { textoCompleto: true });
-  assert.match(app.innerHTML, /assets\/eventos-pessoas\/bruxa.webp/);
+  assert.match(
+    app.innerHTML,
+    /class="retrato retrato-atual[^"]*" src="assets\/herdeiros\/bruxa-culto\.webp"/,
+  );
 });
 
 test("obras exibem benefício antes da ação e preservam custo e construção", () => {

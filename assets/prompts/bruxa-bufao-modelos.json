@@ -1,0 +1,28 @@
+{
+  "ferramenta": "image_gen integrado",
+  "data": "2026-11-13",
+  "modelos": [
+    {
+      "personagem": "bruxa",
+      "referencias": [
+        "docs/previas/herdeiros-adiados/bruxa-neutra.png",
+        "assets/herdeiros/corajoso-neutra.png",
+        "assets/herdeiros/avarento-neutra.png",
+        "assets/herdeiros/doente-neutra.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset: neutral heir bust portrait for an existing medieval narrative RPG. Image 1 is the EDIT TARGET, the witch design approved by the user. Images 2–4 are supporting linework and warm ivory palette references only. Preserve EXACTLY the witch's existing identity, elderly face, hooked nose, narrowed knowing eyes, closed smile, wrinkles, wispy tangled ivory hair, headscarf knot, patches, stitches, bone talismans, ragged shawl outline, original pose and complete bust silhouette. Change ONLY the fabric palette: recolor the headscarf and main dress to aged muted PURPLE around #665078, with darker plum ink shadows. Keep the ragged shoulder shawl warm ivory #F9EEDD, with restrained purple fabric edging where natural. Preserve black hand-ink contours and hatching without recoloring ink, skin, hair, bone or ivory cloth. Match thick irregular handmade black outlines, simple flat fills and economical hatching of the existing game heirs; no increased realism, no extra ornaments. Maintain original square portrait framing, complete centered bust and transparent margins around silhouette. No background, frame, text, watermark, glow, additional props or characters. Genuine transparent alpha background.",
+      "arquivo": "docs/previas/bruxa-neutra-roxa.png"
+    },
+    {
+      "personagem": "bufao",
+      "referencias": [
+        "docs/previas/herdeiros-adiados/bufao-neutra.png",
+        "assets/herdeiros/corajoso-neutra.png",
+        "assets/herdeiros/avarento-neutra.png",
+        "assets/herdeiros/doente-neutra.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset: neutral heir bust portrait, O Bufão, for an existing dark medieval narrative RPG. Image 1 is the EDIT TARGET. Images 2–4 are mandatory supporting STYLE references: thick irregular hand-ink contours, simplified readable face shapes, economical hatching, flat color, subtle caricature, warm ivory #F9EEDD. Preserve the medieval court jester identity, original three-point floppy hat, tiny aged gold bells, pointed collar, shoulder silhouette, full centered bust crop. REPLACE THE ENTIRE FACE DESIGN: the rejected broad natural man's face must become a narrow elegant theatrical MASK-LIKE face. Warm ivory matte face paint covering a smooth elongated oval face with sharply modeled cheek planes, slim straight nose, arched black eyebrows, black elongated harlequin DIAMONDS centered on BOTH eyes extending above and below them, small dark eyes visible within the diamonds, thin dark carmine painted lips forming a restrained fixed closed-mouth enigmatic smile. The face should read immediately like a hand-painted medieval theatre mask, with clean stylized planes and minimal skin creases, rather than a realistic unpainted man. Not a held mask: it is his own face with mask-like makeup. Keep a natural neck, short dark hair beneath cap, no beard, no stubble. Fabric palette: muted cool deep CARMINE RED around #8B3048 on the hat's and tunic's formerly charcoal fabric panels, contrasted with warm ivory alternating panels, black outlines and localized aged gold bells. This red should clearly differ from orange scarlet #B23A30 and the cult's dark wine-red. Retain the patched simple medieval costume; avoid extra jewelry and fussy detail. Bold simplified engraving-like ink illustration matching the three heir references, NOT photographic, not 3D, not anime, not superhero/Joker makeup, not a modern circus clown, no red clown nose, no wide teeth grin, no blood, no horror cracks. Genuine transparent alpha background, no scene, no frame, no text or watermark. Square framing with full hat tips and bells inside transparent margins.",
+      "arquivo": "docs/previas/bufao-neutra-arlequim.png"
+    }
+  ]
+}

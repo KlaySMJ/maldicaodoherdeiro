@@ -447,6 +447,8 @@ test("os novos herdeiros exibem retratos próprios na seleção e nos quadros de
     herdeiro_culto: "herdeiro-culto",
     herdeira_leste: "herdeira-leste",
     herdeiro_nordico: "herdeiro-nordico",
+    coringa: "bufao",
+    bruxo: "bruxa",
   };
   const faixas = [
     [0, "neutra"],
@@ -487,25 +489,37 @@ test("os novos herdeiros exibem retratos próprios na seleção e nos quadros de
   }
 });
 
-test("Bufão e Bruxa preservam os retratos provisórios na seleção e na crônica", () => {
+test("Bufão e Bruxa usam seus retratos na seleção e mantêm a faixa ao carregar a crônica", () => {
   const { J, app, window } = preparar();
-  window.JOGO_VERSAO_ASSETS = "sem-artes";
+  window.JOGO_VERSAO_ASSETS = "retratos-novos";
   J.ui.escolherHerdeiro(J.legado.vazio());
   assert.match(app.innerHTML, /Começa com 90 Vida e 4 Escudo/);
   assert.match(app.innerHTML, /Começa com 90 Vida, 3 Escudo e 30 Honra/);
   assert.doesNotMatch(app.innerHTML, /Começa com 70 Vida/);
   const selecao = app.innerHTML;
   for (const [id, arquivo] of [
-    ["coringa", "mensageiro-sem-carta"],
+    ["coringa", "bufao"],
     ["bruxo", "bruxa"],
   ]) {
-    assert.ok(selecao.includes(`data-traco="${id}"`));
+    const botao = selecao.match(new RegExp(`<button[^>]*data-traco="${id}"[\\s\\S]*?<\\/button>`))?.[0];
+    assert.ok(botao?.includes(`assets/herdeiros/${arquivo}-neutra.webp?v=retratos-novos`));
     const run = criar(J, id);
     J.engine.registrarSorteio(run, J.eventoPorId("caixas_suspeitas"));
-    J.ui.jogo(run);
-    assert.ok(app.innerHTML.includes(`assets/eventos-pessoas/${arquivo}.webp?v=sem-artes`));
+    run.atributos.honra = -60;
+    J.save.gravarRun(run);
+    const carregada = J.save.lerRun();
+    assert.ok(carregada);
+    J.ui.jogo(carregada);
+    assert.match(
+      app.innerHTML,
+      new RegExp(
+        `class="retrato retrato-atual[^"]*" src="assets/herdeiros/${arquivo}-baixa-2.webp\\?v=retratos-novos"`,
+      ),
+    );
+    J.ui.fim({ ...carregada, fim: { tipo: "derrota", motivo: "Fim da crônica." } }, true);
+    assert.ok(app.innerHTML.includes(`assets/herdeiros/${arquivo}-baixa-2.webp?v=retratos-novos`));
   }
-  assert.doesNotMatch(selecao, /assets\/herdeiros\/(bufao|bruxa)-/);
+  assert.doesNotMatch(selecao, /assets\/eventos-pessoas\/(mensageiro-sem-carta|bruxa)\.webp/);
 });
 
 test("uma transição ao culto durante a visita extra permite salvar e retomar a carta normal", () => {
